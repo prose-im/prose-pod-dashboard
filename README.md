@@ -4,6 +4,8 @@
 
 **Prose Pod dashboard. Static Web application used to interact with the Prose Pod API.**
 
+_Tested at NodeJS version: `v14.19.3`_
+
 ## License
 
 Licensing information can be found in the [LICENSE.md](./LICENSE.md) document.
