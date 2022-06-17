@@ -6,6 +6,8 @@
 
 _Tested at NodeJS version: `v14.19.3`_
 
+Copyright 2022, Prose Foundation.
+
 ## License
 
 Licensing information can be found in the [LICENSE.md](./LICENSE.md) document.
