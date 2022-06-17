@@ -1,0 +1,24 @@
+{
+  "name": "prose-pod-dashboard",
+  "description": "Prose Pod dashboard",
+  "version": "1.0.0",
+  "homepage": "https://github.com/prose-im/prose-pod-dashboard",
+  "license": "MPL-2.0",
+  "private": true,
+  "engineStrict": true,
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prose-im/prose-pod-dashboard.git"
+  },
+  "author": {
+    "name": "Prose Foundation",
+    "email": "dev@prose.org",
+    "url": "https://prose.org/"
+  },
+  "scripts": {
+    "test": "echo 'No tests!'"
+  }
+}
