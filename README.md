@@ -4,9 +4,9 @@
 
 **Prose Pod dashboard. Static Web application used to interact with the Prose Pod API.**
 
-_Tested at NodeJS version: `v14.19.3`_
-
 Copyright 2022, Prose Foundation.
+
+_Tested at NodeJS version: `v14.19.3`_
 
 ## License
 
