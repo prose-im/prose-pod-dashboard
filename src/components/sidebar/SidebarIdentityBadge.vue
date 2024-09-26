@@ -1,0 +1,144 @@
+<!--
+ * This file is part of prose-app-web
+ *
+ * Copyright 2024, Prose Foundation
+ -->
+
+<!-- **********************************************************************
+  TEMPLATE
+  ********************************************************************** -->
+
+<template lang="pug">
+.c-sidebar-identity-badge 
+  base-icon(
+    name="fake.logo"
+    size="44px"
+  )
+
+  .c-sidebar-identity-badge__server
+    .c-sidebar-identity-badge__server-title
+      p(
+        :class=`[
+          "c-sidebar-identity-badge__server-name",
+          "c-sidebar-identity-badge--semibold"
+        ]`
+      ) Crisp 
+      
+      p(
+        :class=`[
+          "c-sidebar-identity-badge__server-description",
+          "c-sidebar-identity-badge--light"
+        ]`
+      ) &nbsp; | &nbsp;crisp.chat
+    .c-sidebar-identity-badge__details
+      span Server 
+      span.c-sidebar-identity-badge--light v0.12.1 
+      span + Pod 
+      span.c-sidebar-identity-badge--light v0.1.3
+  
+</template>
+      
+  <!-- **********************************************************************
+    SCRIPT
+    ********************************************************************** -->
+    
+  <script lang="ts">
+  //COMPINENTS
+  import BaseIcon from '../base/BaseIcon.vue'
+  
+  export default {
+  name: "SidebarAccordion",
+  
+  components: {
+    BaseIcon 
+  },
+  
+  props: {
+  },
+  
+  data() {
+    return {
+      // --> STATE <--
+  
+    };
+  },
+  
+  computed: {
+  
+  },
+  
+  watch: {
+  
+  },
+  
+  created() {
+    
+  },
+  
+  methods: {
+    // --> HELPERS <--
+  }
+  };
+  </script>
+      
+  <!-- **********************************************************************
+       STYLE
+       ********************************************************************** -->
+  
+<style lang="scss">
+$c: ".c-sidebar-identity-badge";
+
+#{$c} {
+  display:flex;
+  align-items:center;
+  font-family: $font-family-default;
+  padding-left: 6px;
+  padding-block:6px;
+  margin-top: 28px;
+  margin-left: -6.5px;
+  border-radius: 30px;
+  border: solid 1px $color-border-secondary;
+  box-shadow: 0 4px 4px 0 rgba($color-black, 0.01);
+
+  #{$c}__server {
+    height: fit-content;
+    margin-left: 12px;
+
+    &-title{
+      display: flex;
+      align-items: center;
+    }
+
+    &-name{
+      font-size: $font-size-baseline + 1px,
+    }
+
+    &-description{
+      color: $color-text-secondary;
+      font-size: $font-size-baseline - 2px,
+    }
+
+    p{
+      margin: 0px
+    }
+
+    span{
+      font-size: $font-size-baseline - 1.5px,
+    }
+
+  }
+  // --> WEIGHTS <--
+  &--extra-light{
+    font-weight: $font-weight-extra-light;
+  }
+
+    &--light{
+    font-weight: $font-weight-light;
+  }
+
+  &--semibold{
+    font-weight:$font-weight-medium;
+  }
+}
+
+</style>

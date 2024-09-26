@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="44px" viewBox="0 0 44 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Badge / Identity / Logo</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#29CAFB" offset="0%"></stop>
+            <stop stop-color="#096ADF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Badge-/-Identity-/-Logo">
+            <rect id="Background" fill="url(#linearGradient-1)" x="0" y="0" width="44" height="44" rx="22"></rect>
+            <path d="M32.8887528,12.373469 L34.2715571,26.7404313 L26.0957446,27.677469 L23.0346456,32.6670901 L19.0617446,28.485469 L10.6465489,29.4519751 L9.26374461,15.0850128 L32.8887528,12.373469 Z" id="Icon" fill="#FFFFFF" transform="translate(21.7677, 22.5203) rotate(0.25) translate(-21.7677, -22.5203)"></path>
+        </g>
+    </g>
+</svg>
