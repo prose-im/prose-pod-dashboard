@@ -24,6 +24,8 @@
       //- page - 2
       members-invites-dashboard
 
+      //-page-3
+      emojis-reactions-dashboard
 </template>
   
 <!-- **********************************************************************
@@ -35,6 +37,7 @@
 import BaseSectionBackground from '../base/BaseSectionBackground.vue';
 import BaseSubsection from '../base/BaseSubsection.vue';
 import Breadcrumb from '../breadcrumb/Breadcrumb.vue';
+import EmojisReactionsDashboard from '../emojis-reactions/EmojisReactionsDashboard.vue'
 import MembersInvitesDashboard from '../members-invites/MembersInvitesDashboard.vue';
 
 export default {
@@ -44,6 +47,7 @@ export default {
     BaseSectionBackground,
     BaseSubsection,
     Breadcrumb,
+    EmojisReactionsDashboard,
     MembersInvitesDashboard
   },
 

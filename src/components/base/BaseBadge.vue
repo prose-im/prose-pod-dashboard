@@ -82,7 +82,8 @@ $badge-padding-inline: 7px;
 
   // --> SIZES <--
   &--long {
-    padding-inline: ($badge-padding-inline +2px);
+    text-align: center;
+    min-width: 36px;
   }
 
   // --> BOOLEANS <--

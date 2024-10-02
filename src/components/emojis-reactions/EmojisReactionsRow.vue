@@ -9,20 +9,19 @@ TEMPLATE
 ********************************************************************** -->
 
 <template lang="pug">
-.c-members-invites-row(
+.c-emojis-reactions-row(
   :class=`[
     {
-      "c-members-invites-row--yellow" : (!userData.name && !tableHeaders),
-      "c-members-invites-row--header" : tableHeaders
+      "c-emojis-reactions-row--header" : tableHeaders
     }
   ]`
 )
     <!--  1st column -->
     form-checkbox(
       :class=`[
-        "c-members-invites-row__checkbox",
+        "c-emojis-reactions-row__checkbox",
         {
-          "c-members-invites-row--hidden" : !userData.name
+          "c-emojis-reactions-row--hidden" : !emojiData.imageUrl
         }
       ]`
     )
@@ -30,98 +29,63 @@ TEMPLATE
     <!-- 2nd column -->
     base-avatar(
       :class=`[
-        "c-members-invites-row__avatar",
+        "c-emojis-reactions-row__image",
         {
-          "c-members-invites-row--hidden" : !userData.name
+          "c-emojis-reactions-row--hidden" : !emojiData.imageUrl
         }
       ]`
-      :avatarDataUrl="userData.picture"
+      :avatarDataUrl="emojiData.imageUrl"
+      size="30px"
+      borderRadius="0px"
     )
     
     <!-- 3rd column -->
-    .c-members-invites-row__user 
-        p.c-members-invites-row--main {{ userData.name }}
-        p.c-members-invites-row--submain {{ userData.email }}
+    .c-emojis-reactions-row__shortcut 
+        p.c-emojis-reactions-row--bold {{ emojiData.shortcut }}
 
         p(
           v-if="tableHeaders"
         )
-          | {{tableHeaders[0]}}
+          | {{tableHeaders[1]}}
 
     <!-- 4th column -->
-    base-badge(
-      v-if="!tableHeaders"
-      :class=`[
-        "c-members-invites-row__badge",
-        {
-          "c-members-invites-row--hidden" : !userData.name,
-        }
-      ]`
-      :admin="userData.admin"
-      size="long"
-    )
-
-    p(
-      v-else
-      :class=`[
-        "c-members-invites-row__badge",
-        "c-members-invites-row__badge--header"
-      ]`
-    )
-      | {{tableHeaders[1]}}
-
-    <!-- 5th column -->
-    .c-members-invites-row__status
-        p(
-          :class=`[
-            "c-members-invites-row--main",
-            {
-              "c-members-invites-row--none" : !userData.name
-            }
-          ]` 
-        ) {{ userData.status}}
-        p(
-          v-if="!tableHeaders"
-          class="c-members-invites-row--submain"
-        )
-          |{{ !userData.name? 'Invited' :userData.status === 'Active'? 'Prose ' + userData.os: 'Last active'}}
-        
-        p(
-          v-else
-        )
-          | {{tableHeaders[2]}}
-
-    <!-- 6th column -->
-    .c-members-invites-row__encryption(
-      :class=`[
-        {
-          "c-members-invites-row__encryption--hidden" : !userData.name && !tableHeaders
-        }
-      ]`
-    )
-      .c-members-invites-row__encryption--badge(
+    .c-emojis-reactions-row__date
+      p(
         v-if="!tableHeaders"
         :class=`[
-          {
-            "c-members-invites-row--hidden" : !userData.name
-          }
+          "c-emojis-reactions-row--grey",
         ]`
       )
-        base-icon(
-          class="c-members-invites-row__encryption--icon"
-          name="padlock"
-          fill="#05c02b"
-          size="16px"
-        )    
-        p Enabled
+        | {{ emojiData.date }}
 
       p(
-        v-if="tableHeaders"
+        v-else
+        :class=`[
+          "c-emojis-reactions-row__date--header"
+        ]`
       )
-        | {{tableHeaders[3]}}
+        | {{tableHeaders[2]}}
 
-    <!-- 7th column -->
-    .c-members-invites-row__parameters
+    <!-- 5th column -->
+    .c-emojis-reactions-row__contributor(
+      v-if="!tableHeaders"
+    )
+      base-avatar(
+        :class=`[
+          "c-emojis-reactions-row__contributor--avatar",
+        ]`
+        :avatarDataUrl="emojiData.contributorAvatar"
+        size="22px"
+      )
+      |{{ emojiData.contributor}}
+        
+    p(
+      v-else
+    )
+      | {{tableHeaders[3]}}
+
+    <!-- 6th column -->
+    .c-emojis-reactions-row__parameters
       base-button(
         v-if="!tableHeaders"
         size="medium"
@@ -129,15 +93,11 @@ TEMPLATE
         :square="true"
       )
         base-icon(
-          v-if="userData.name"
           name="gear"
           size="10px"
         )
         
-        p(
-          v-else
-          class="c-members-invites-row__parameters--button"
-        ) Cancel invite
+
 </template>
   
 <!-- **********************************************************************
@@ -153,7 +113,7 @@ import BaseIcon from '../base/BaseIcon.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
 
 export default {
-  name: "MembersInvitesRow",
+  name: "EmojisReactionsRow",
 
   components: {
     BaseAvatar,
@@ -164,12 +124,8 @@ export default {
   },
 
   props: {
-    avatarUrl:{
-      type:String,
-      default:"../../assets/icons/missing.avatar.svg"
-    },
 
-    userData:{
+    emojiData:{
       type: Object ,
       required: true
     },
@@ -206,7 +162,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-members-invites-row";
+$c: ".c-emojis-reactions-row";
 
 #{$c} {
   display: flex;
@@ -217,55 +173,42 @@ $c: ".c-members-invites-row";
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
+  font-size: ($font-size-baseline - 2.5px);
 
   #{$c}__checkbox {
     margin-right: 28px;
   }
 
-  #{$c}__avatar {
-    margin-right: 17px;
-    min-width: 34px;
+  #{$c}__image {
+    margin-right: 67px;
+    min-width: 30px;
   }
 
-  #{$c}__user {
-    min-width: 220px;
-    margin-right: 10px;
+  #{$c}__shortcut {
+    min-width: 152px;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
   }
 
-  #{$c}__badge {
-    margin-right: 40px;
+  #{$c}__date {
+    min-width: 210px;
 
     &--header{
-      min-width: 50px;
+      min-width: 210px;
     }
   }
 
-  #{$c}__status {
+  #{$c}__contributor {
+    display: flex;
+    align-items: center;
     min-width: 16.3%;
+
+    &--avatar {
+      margin-right: 9px;
+    }
   }
 
-  #{$c}__encryption {
-    margin-right: 24%;
-    &--badge{
-      display: flex;
-      align-items: center;
-      font-size: ($font-size-baseline - 2px);
-      color: $color-base-green-normal;
-    }
-
-    &--icon {
-      margin-right: 6.3px;
-    }
-
-    &--hidden {
-      margin-right: 14.95%;
-      height: 0 !important;
-    }
-
-  }
 
   #{$c}__parameters {
     &--button {
@@ -275,19 +218,18 @@ $c: ".c-members-invites-row";
   }
 
   //STYLE
-  &--main {
+  &--bold {
     color: $color-text-primary;
     font-weight: $font-weight-bolder;
-    font-size: ($font-size-baseline - 1px);
+    font-size: ($font-size-baseline - 2px);
     margin-top: 0;
     margin-bottom: 5.5px;
   }
 
-  &--submain {
+  &--grey {
     color: $color-text-secondary;
-    font-size: ($font-size-baseline - 2px);
-    margin-block: 0;
   }
+
 
   &--header {
     color: $color-text-secondary; 

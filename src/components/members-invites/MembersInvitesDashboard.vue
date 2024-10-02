@@ -97,14 +97,26 @@ export default {
         {
           name:"Baptiste Jamin",
           email:"baptiste@crisp.chat",
+          picture:"https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=400&default=retro&rating=g",
+          admin: true,
           status:"Active",
           os:"mac OS"
         },
         {
           name:"Valerian Saliou",
           email:"valerian.saliou@crisp.chat",
+          picture:"https://avatars.githubusercontent.com/u/1451907?v=4",
+          admin: true,
           status:"Active",
           os:"mac OS"
+        },
+        {
+          name:"Eliott Vincent",
+          email:"eliott@crisp.chat",
+          picture:"https://eliottvincent.com/assets/img/profile-pic.webp",
+          admin: false,
+          status:"Inactive",
+          os:"Last seen active 12 days ago"
         }
       ],
 
