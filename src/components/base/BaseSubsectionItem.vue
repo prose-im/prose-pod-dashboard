@@ -22,10 +22,18 @@
 
       base-button(
         v-if="type === 'button'"
-      )
+        :size="item.typeProps?.size"
+        tint="white"
+      )  
+        | {{item.typeProps?.label}}
 
       form-select(
         v-if="type === 'select'"
+        placeholder="1 year"
+        :search="false"
+        size="medium"
+        :options="item.typeProps?.options"
+        position="bottom"
       )
 
         
@@ -95,9 +103,14 @@ $c: ".c-base-subsection-item";
 
 #{$c} {
   display: flex;
+  align-items: center;
   font-family: $font-family-default;
   padding-inline: 22px;
   padding-block: 11.5px;
+
+  #{$c}__left {
+    width: 100%;
+  }
 
   #{$c}__subtitle {
     margin: 0;
@@ -107,6 +120,7 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__description {
+    max-width: 70%;
     margin: 0;
     color: $color-text-secondary;
     font-size: $font-size-baseline - 1px;

@@ -30,7 +30,7 @@ $size-spotlight-browse-padding-block-end: 50px;
 
 // --> BASE BUTTON <--
 
-$size-base-button-border-radius: 10px;
+$size-base-button-border-radius: 7px;
 
 // --> BASE ACTION <--
 
@@ -80,7 +80,7 @@ $size-form-field-medium-input-line-height: 25px;
 $size-form-field-mid-medium-input-line-height: 32px;
 $size-form-field-large-input-line-height: 42px;
 $size-form-field-mid-large-input-line-height: 48px;
-$size-form-field-ultra-large-input-line-height: 58px;
+$size-form-field-ultra-large-input-line-height: 60px;
 
 // --> FORM SELECT <--
 
@@ -91,12 +91,19 @@ $size-form-select-search-height: 32px;
 $size-form-select-search-icon-offset: 21px;
 $size-form-select-options-padding-block: 0px;
 $size-form-select-options-padding-inline: 14px;
+$size-form-select-options-menu-padding-block: 5px;
+$size-form-select-options-menu-padding-inline: 15px;
 
-$size-form-select-medium-padding-sides: $size-form-field-medium-padding-sides;
-$size-form-select-mid-medium-padding-sides: $size-form-field-mid-medium-padding-sides;
-$size-form-select-large-padding-sides: $size-form-field-large-padding-sides;
-$size-form-select-mid-large-padding-sides: $size-form-field-mid-large-padding-sides;
-$size-form-select-ultra-large-padding-sides: $size-form-field-ultra-large-padding-sides;
+$size-form-select-medium-padding-start: 19px;
+$size-form-select-medium-padding-end: 10px;
+$size-form-select-mid-medium-padding-start: 25px;
+$size-form-select-mid-medium-padding-start: 11px;
+$size-form-select-large-padding-start: 26.5px;
+$size-form-select-large-padding-end: 12px;
+$size-form-select-mid-large-padding-start:36.5px;
+$size-form-select-mid-large-padding-end:15px;
+$size-form-select-ultra-large-padding-start:46px;
+$size-form-select-ultra-large-padding-end:16px;
 
 $size-form-select-medium-line-height: $size-form-field-medium-input-line-height;
 $size-form-select-mid-medium-line-height: $size-form-field-mid-medium-input-line-height;

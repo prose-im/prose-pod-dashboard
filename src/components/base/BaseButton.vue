@@ -29,7 +29,8 @@ div(
     :class=`[
       "c-base-button__inner",
       {
-        [buttonClass]: buttonClass
+        [buttonClass]: buttonClass,
+        "c-base-button__inner--square":square
       }
     ]`
   )
@@ -55,7 +56,8 @@ div(
           "c-base-button__label",
           {
             "u-medium": !bolder,
-            "u-bold": bolder
+            "u-bold": bolder,
+            "c-base-button__label--square":square
           }
         ]`
       )
@@ -72,13 +74,6 @@ import BaseIcon from './BaseIcon.vue';
 
 // CONSTANTS
 const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
-  small: {
-    icon: "11px"
-  },
-
-  "mid-small": {
-    icon: "12px"
-  },
 
   medium: {
     icon: "13px"
@@ -118,16 +113,16 @@ export default {
 
     tint: {
       type: String,
-      default: "dark",
+      default: "light",
 
       validator(x: string) {
-        return ["light", "dark", "red"].includes(x);
+        return ["light", "dark", "purple", "grey", "white", "red"].includes(x);
       }
     },
 
     size: {
       type: String,
-      default: "large",
+      default: "medium",
 
       validator(x: string) {
         const sizes = Object.keys(AVAILABLE_SIZES);
@@ -149,6 +144,11 @@ export default {
     },
 
     round: {
+      type: Boolean,
+      default: false
+    },
+
+    square: {
       type: Boolean,
       default: false
     },
@@ -226,19 +226,19 @@ $color-button-light-reverse: var($color-black);
 $color-button-red-normal: var($color-base-red-normal);
 $color-button-red-reverse: var($color-white);
 
-$size-small-padding-sides: 10px;
 $size-mid-small-padding-sides: 12px;
-$size-medium-padding-sides: 14px;
-$size-mid-medium-padding-sides: 20px;
-$size-large-padding-sides: 24px;
-$size-mid-large-padding-sides: 34px;
-$size-ultra-large-padding-sides: 44px;
+$size-medium-padding-sides: 19px;
+$size-mid-medium-padding-sides: 33.5px;
+$size-large-padding-sides: 26.5px;
+$size-mid-large-padding-sides: 36px;
+$size-ultra-large-padding-sides: 45.5px;
 
 #{$c} {
   display: inline-block;
 
   #{$c}__inner {
-    border: 1px solid rgba(var(--color-black), 0.25);
+    font-weight: $font-weight-medium;
+    border: 1px solid rgba($color-black, 0.25);
     outline: 2px solid transparent;
     text-align: center;
     user-select: none;
@@ -271,16 +271,24 @@ $size-ultra-large-padding-sides: 44px;
       text-overflow: ellipsis;
       white-space: nowrap;
       flex: 1;
+
+      &--square{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
+
+
   }
 
   // --> TINTS <--
 
-  &--dark,
+  &--purple,
   &--red {
     #{$c}__inner {
-      box-shadow: 0 2px 3px 0 rgba($color-button-dark-normal, 0.04),
-        inset 0 1px 0 0 rgba(var(--color-white), 0.15);
+      box-shadow: 0 2px 3px 0 rgba($color-base-purple-normal, 0.04),
+        inset 0 1px 0 0 rgba($color-white, 0.15);
 
       #{$c}__icon {
         fill: $color-white;
@@ -291,12 +299,12 @@ $size-ultra-large-padding-sides: 44px;
       }
 
       &:active {
-        box-shadow: 0 1px 1px 0 rgba($color-button-dark-normal, 0.1);
+        box-shadow: 0 1px 1px 0 rgba($color-base-purple-normal, 0.1);
       }
     }
   }
 
-  &--dark {
+  &--purple {
     #{$c}__inner {
       background-color: $color-base-purple-normal;
 
@@ -310,10 +318,11 @@ $size-ultra-large-padding-sides: 44px;
     }
   }
 
-  &--light {
+  &--white {
     #{$c}__inner {
-      background-color: rgb($color-button-light-normal);
-      border-color: rgba(var(--color-black), 0.15);
+      background-color: $color-white;
+      border-color: $color-border-secondary;
+      box-shadow: 0 0px 0px 0 $color-border-secondary;
 
       #{$c}__icon {
         fill: $color-black;
@@ -325,14 +334,35 @@ $size-ultra-large-padding-sides: 44px;
 
       &:hover,
       &:active {
-        border-color: rgba(var(--color-black), 0.2);
+        border-color: rgba($color-black, 0.2);
+      }
+    }
+  }
+
+  &--grey {
+    #{$c}__inner {
+      background-color: $color-base-purple-ultra-light;
+      border-color: $color-border-secondary;
+      box-shadow: 0 0px 0px 0 rgba($color-black, 0.01);
+
+      #{$c}__icon {
+        fill: $color-black;
+      }
+
+      #{$c}__label {
+        color: $color-black;
+      }
+
+      &:hover,
+      &:active {
+        border-color: rgba($color-black, 0.2);
       }
     }
   }
 
   &--red {
     #{$c}__inner {
-      background-color: rgb($color-button-red-normal);
+      background-color: $color-base-red-normal;
 
       &:hover {
         background-color: lighten($color-base-red-normal, 6%);
@@ -346,39 +376,31 @@ $size-ultra-large-padding-sides: 44px;
 
   // --> SIZES <--
 
-  &--small {
-    #{$c}__inner {
-      font-size: ($font-size-baseline - 5.5px);
-      line-height: 20px;
-      padding-inline-start: $size-small-padding-sides;
-      padding-inline-end: $size-small-padding-sides;
-    }
-  }
-
-  &--mid-small {
-    #{$c}__inner {
-      font-size: ($font-size-baseline - 4.5px);
-      line-height: 22px;
-      padding-inline-start: $size-mid-small-padding-sides;
-      padding-inline-end: $size-mid-small-padding-sides;
-    }
-  }
-
   &--medium {
     #{$c}__inner {
+      border-radius: ($size-base-button-border-radius - 2px);
       font-size: ($font-size-baseline - 4px);
       line-height: 25px;
       padding-inline-start: $size-medium-padding-sides;
       padding-inline-end: $size-medium-padding-sides;
+
+      &--square {
+        padding-inline: 0px;
+        min-height: 25px;
+        min-width: 25px;
+      }
     }
   }
 
   &--mid-medium {
     #{$c}__inner {
-      font-size: ($font-size-baseline - 2px);
+      font-size: ($font-size-baseline - 4px);
       line-height: 32px;
       padding-inline-start: $size-mid-medium-padding-sides;
       padding-inline-end: $size-mid-medium-padding-sides;
+      &--square {
+        padding-inline: 0px;
+      }
     }
   }
 
@@ -388,6 +410,11 @@ $size-ultra-large-padding-sides: 44px;
       line-height: 42px;
       padding-inline-start: $size-large-padding-sides;
       padding-inline-end: $size-large-padding-sides;
+      &--square {
+        width:44px;
+        height:44px;
+        padding-inline: 0px;
+      }
     }
   }
 
@@ -402,7 +429,7 @@ $size-ultra-large-padding-sides: 44px;
 
   &--ultra-large {
     #{$c}__inner {
-      font-size: ($font-size-baseline + 2px);
+      font-size: ($font-size-baseline + 3px);
       line-height: 58px;
       padding-inline-start: $size-ultra-large-padding-sides;
       padding-inline-end: $size-ultra-large-padding-sides;
@@ -412,10 +439,10 @@ $size-ultra-large-padding-sides: 44px;
   // --> BOOLEANS <--
 
   &--reverse {
-    &#{$c}--dark {
+    &#{$c}--purple {
       #{$c}__inner {
-        background-color: rgb($color-button-dark-reverse);
-        border-color: rgb($color-button-dark-normal);
+        background-color: $color-white;
+        border-color: $color-base-purple-normal;
 
         #{$c}__icon {
           fill: $color-base-purple-normal;
@@ -423,13 +450,16 @@ $size-ultra-large-padding-sides: 44px;
 
         #{$c}__label {
           color: $color-base-purple-normal;
+          &--square {
+            padding-inline: 0px;
+          }
         }
       }
     }
 
     &#{$c}--light {
       #{$c}__inner {
-        background-color: rgba($color-button-light-reverse, 0.15);
+        background-color: rgba($color-black, 0.15);
 
         #{$c}__icon {
           fill: $color-black;
@@ -440,26 +470,26 @@ $size-ultra-large-padding-sides: 44px;
         }
 
         &:hover {
-          background-color: rgba($color-button-light-reverse, 0.11);
+          background-color: rgba($color-black, 0.11);
         }
 
         &:active {
-          background-color: rgba($color-button-light-reverse, 0.125);
+          background-color: rgba($color-black, 0.125);
         }
       }
     }
 
     &#{$c}--red {
       #{$c}__inner {
-        background-color: rgb($color-button-red-reverse);
-        border-color: rgb($color-button-red-normal);
+        background-color: $color-white;
+        border-color: $color-base-red-normal;
 
         #{$c}__icon {
           fill: $color-base-red-normal;
         }
 
         #{$c}__label {
-          color: rgb($color-button-red-normal);
+          color: $color-base-red-normal;
         }
       }
     }

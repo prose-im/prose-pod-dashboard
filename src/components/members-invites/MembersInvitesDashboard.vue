@@ -1,28 +1,34 @@
 <!--
- * This file is part of prose-app-web
- *
- * Copyright 2024, Prose Foundation
- -->
+* This file is part of prose-app-web
+*
+* Copyright 2024, Prose Foundation
+-->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+TEMPLATE
+********************************************************************** -->
 
 <template lang="pug">
-.c-dashboard-main
-  .c-dashboard-main__content
-    breadcrumb
-    base-section-background
+  .c-members-invites-dashboard
+    search-bar(
+      buttonLabel="Add Custom Emoji"
+    )
 
-      //- page 1
-      base-subsection(
-        title="Messaging"
-        :items="messagingItems"
-        :restoreOption="true"
-      )
+    members-invites-row(
+      :userData="{}"
+      :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
+    )
 
-      //- page - 2
-      members-invites-dashboard
+    members-invites-row(
+      :userData="invited"
+    )
+
+    members-invites-row(
+      v-for="(user, index) in users"
+      :key="user.name"
+      :userData="user"
+      class="c-members-invites-dashboard__users"
+    )
 
 </template>
   
@@ -32,19 +38,15 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSectionBackground from '../base/BaseSectionBackground.vue';
-import BaseSubsection from '../base/BaseSubsection.vue';
-import Breadcrumb from '../breadcrumb/Breadcrumb.vue';
-import MembersInvitesDashboard from '../members-invites/MembersInvitesDashboard.vue';
+import MembersInvitesRow from './MembersInvitesRow.vue';
+import SearchBar from '@/components/search/SearchBar.vue';
 
 export default {
-  name: "DashboardMain",
+  name: "MembersInvitesDashboard",
 
   components: {
-    BaseSectionBackground,
-    BaseSubsection,
-    Breadcrumb,
-    MembersInvitesDashboard
+    MembersInvitesRow,
+    SearchBar,
   },
 
   props: {
@@ -71,7 +73,7 @@ export default {
             size:"medium"
           }
         },
-                {
+        {
           subtitle: "Message archive retention time",
           description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
           type:"select",
@@ -89,7 +91,29 @@ export default {
             size:"medium"
           }
         }
-      ]
+      ],
+
+      users:[
+        {
+          name:"Baptiste Jamin",
+          email:"baptiste@crisp.chat",
+          status:"Active",
+          os:"mac OS"
+        },
+        {
+          name:"Valerian Saliou",
+          email:"valerian.saliou@crisp.chat",
+          status:"Active",
+          os:"mac OS"
+        }
+      ],
+
+      invited:{
+        name:"",
+        email:"valerian.saliou@crisp.chat",
+        status:"Active",
+        os:"mac OS"
+      }
     };
   },
 
@@ -110,15 +134,15 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-dashboard-main";
+$c: ".c-members-invites-dashboard";
 
 #{$c} {
-  width:80%;
 
-  #{$c}__content {
-    height: 100%;
-    padding-top: 50px;
-    padding-inline: 100px;
+  #{$c}__users {
+
+    &:nth-child(even) {
+      background-color: $color-base-purple-ultra-light;
+    }
   }
 }
 </style>

@@ -22,7 +22,7 @@
 
     .c-sidebar-footer__right
       base-button(
-        tint="light"
+        tint="white"
         size="medium"
       )
         | Logout

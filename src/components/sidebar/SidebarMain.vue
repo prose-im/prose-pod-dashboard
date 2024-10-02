@@ -11,11 +11,12 @@
 <template lang="pug">
   .c-sidebar-main
     .c-sidebar-main__content
-      sidebar-header
+      .c-sidebar-main__upper
+        sidebar-header
 
-      sidebar-accordion(
-        :items="items"
-      )
+        sidebar-accordion(
+          :items="items"
+        )
 
       sidebar-footer
 </template>
@@ -125,15 +126,18 @@ export default {
 $c: ".c-sidebar-main";
 
 #{$c} {
-  height: 100vh;
+  height: 93vh;   ///Verifier
   border-right: solid 1px $color-border-secondary;
 
   #{$c}__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding-top: 40px;
     padding-bottom: 30px;
     padding-left: 34px;
     padding-right: 32px;
-    height: 100vh;
+    height: 100%;
   }
 }
 </style>

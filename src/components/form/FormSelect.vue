@@ -34,8 +34,19 @@ div(
 
   .c-form-select__field(
     @click="onFieldClick"
+    :class=`[
+      {
+        "c-form-select__field--menu":!accordion,
+      }
+    ]`
   )
-    .c-form-select__inner
+    .c-form-select__inner(
+      :class=`[
+        {
+          "c-form-select__inner--menu":!accordion,
+        }
+      ]`
+    )
       component(
         v-if="icon && value"
         v-bind="icon.properties(value)"
@@ -60,8 +71,14 @@ div(
         class="c-form-select__arrow"
       )
 
-  .c-form-select__dropdown(
+  div(
     v-if="visible && !disabled"
+    :class=`[
+      "c-form-select__dropdown",
+      {
+        "c-form-select__dropdown--menu":!accordion,
+      }
+    ]`
 
   )
     .c-form-select__search(
@@ -92,6 +109,11 @@ div(
 
     ul.c-form-select__options(
       ref="options"
+      :class=`[
+        {
+          "c-form-select__options--menu":!accordion,
+        }
+      ]`
     )
       li(
         v-for="(option, index) in filteredOptions"
@@ -110,6 +132,7 @@ div(
           @click="onOptionClick(option)"
         )
           base-icon(
+            v-if="option.icon"
             :name="option.icon"
             size="11px"
             class="c-form-select__search-icon"
@@ -205,6 +228,11 @@ export default {
       validator(x: string) {
         return Object.keys(AVAILABLE_SIZES).includes(x);
       }
+    },
+
+    accordion:{
+      type: Boolean,
+      default:false
     },
 
     align: {
@@ -533,35 +561,40 @@ $sizes: (
   "medium": (
     "font-size": $font-size-baseline - 2.5px,
     "line-height": $size-form-select-medium-line-height,
-    "padding-sides": $size-form-select-medium-padding-sides,
+    "padding-start": $size-form-select-medium-padding-start,
+    "padding-end": $size-form-select-medium-padding-end,
     "option-retract": 2px
   ),
 
   "mid-medium": (
     "font-size": $font-size-baseline - 1.5px,
     "line-height": $size-form-select-mid-medium-line-height,
-    "padding-sides": $size-form-select-mid-medium-padding-sides,
+    "padding-start": $size-form-select-medium-padding-start,
+    "padding-end": $size-form-select-medium-padding-end,
     "option-retract": 4px
   ),
 
   "large": (
     "font-size": $font-size-baseline,
     "line-height": $size-form-select-large-line-height,
-    "padding-sides": $size-form-select-large-padding-sides,
+    "padding-start": $size-form-select-medium-padding-start,
+    "padding-end": $size-form-select-medium-padding-end,
     "option-retract": 6px
   ),
 
   "mid-large": (
     "font-size": $font-size-baseline + 1.5px,
     "line-height": $size-form-select-mid-large-line-height,
-    "padding-sides": $size-form-select-mid-large-padding-sides,
+    "padding-start": $size-form-select-medium-padding-start,
+    "padding-end": $size-form-select-medium-padding-end,
     "option-retract": 8px
   ),
 
   "ultra-large": (
     "font-size": $font-size-baseline + 2.5px,
     "line-height": $size-form-select-ultra-large-line-height,
-    "padding-sides": $size-form-select-ultra-large-padding-sides,
+    "padding-start": $size-form-select-medium-padding-start,
+    "padding-end": $size-form-select-medium-padding-end,
     "option-retract": 10px
   )
 );
@@ -571,9 +604,13 @@ $sizes: (
 
   #{$c}__field,
   #{$c}__dropdown {
-    background-color: rgb(var(--color-white));
-    border: $size-form-select-border-width solid rgba(var(--color-black), 0.1);
-    box-shadow: 0 2px 3px 0 rgba(var(--color-shadow-primary), 0.01);
+    background-color: $color-white;
+
+    &--menu{
+      border: $size-form-select-border-width solid rgba($color-black, 0.1);
+      box-shadow: 0 2px 3px 0 rgba(var(--color-shadow-primary), 0.01);
+      width:max-content;
+    }
   }
 
   #{$c}__field,
@@ -603,11 +640,11 @@ $sizes: (
     position: relative;
 
     &:hover {
-      border-color: rgba(var(--color-black), 0.15);
+      border-color: rgba($color-black, 0.15);
     }
 
     &:active {
-      border-color: rgba(var(--color-black), 0.2);
+      border-color: rgba($color-black, 0.2);
     }
 
     #{$c}__inner {
@@ -616,28 +653,35 @@ $sizes: (
     }
 
     #{$c}__value {
-      color: rgb(var(--color-text-primary));
+      color: $color-text-primary;
 
       &--empty {
-        color: rgb(var(--color-text-secondary));
+        color: $color-text-secondary;
       }
     }
 
     #{$c}__arrow {
-      fill: rgb(var(--color-text-tertiary));
-      margin-inline-start: 5px;
+      fill: $color-text-tertiary;
+      margin-inline-start: 12.5px;
       flex: 0 0 auto;
+    }
+
+    &--menu{
+      width:max-content;
     }
   }
 
   #{$c}__dropdown {
     overflow: hidden;
-    //- position: absolute;
-    inset-inline: 0;
+
+    &--menu{
+      position: absolute;
+      inset-inline: 0;
+    }
   }
 
   #{$c}__search {
-    background-color: rgba(var(--color-background-primary), 0.94);
+    background-color: rgba($color-background-primary, 0.94);
     position: absolute;
     inset-block-start: 0;
     inset-inline: 0;
@@ -649,22 +693,22 @@ $sizes: (
     }
 
     &-icon {
-      fill: rgb(var(--color-base-grey-normal));
+      fill: $color-base-grey-normal;
       margin-right: 7px;
     }
 
     input {
       background-color: transparent;
       border: 0 none;
-      border-block-end: 1px solid rgb(var(--color-border-tertiary));
-      color: rgb(var(--color-text-primary));
+      border-block-end: 1px solid $color-border-secondary;
+      color: $color-text-primary;
       outline: 0 none;
       font-size: ($font-size-baseline - 3px);
       letter-spacing: 0.05px;
       width: 100%;
 
       &::placeholder {
-        color: rgb(var(--color-text-tertiary));
+        color: $color-text-tertiary;
         opacity: 1;
       }
     }
@@ -672,10 +716,15 @@ $sizes: (
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: $size-form-select-options-padding-block;
+    padding-block: $size-form-select-options-padding-block; 
     padding-inline: $size-form-select-options-padding-inline;
     overflow-x: hidden;
     overflow-y: auto;
+
+    &--menu {
+      padding-block: $size-form-select-options-menu-padding-block; 
+      padding-inline: $size-form-select-options-menu-padding-inline; 
+    }
 
     #{$c}__option {
       display: block;
@@ -688,13 +737,13 @@ $sizes: (
         padding:0;
 
         #{$c}__value {
-          color: rgb(var(--color-text-primary));
+          color: $color-text-primary;
         }
       }
 
       &--hovered {
         a {
-          background-color: rgb(var(--color-base-purple-normal));
+          background-color: $color-base-purple-normal;
 
           &,
           &:active {
@@ -721,7 +770,7 @@ $sizes: (
             &,
             &:active {
               #{$c}__value {
-                color: rgb(var(--color-text-primary));
+                color: $color-text-primary;
               }
             }
 
@@ -742,13 +791,13 @@ $sizes: (
           pointer-events: none;
 
           #{$c}__value {
-            color: rgb(var(--color-text-tertiary));
+            color: $color-text-tertiary;
           }
         }
 
         &#{$c}__option--hovered {
           a {
-            background-color: darken-var(var(--color-background-secondary), 1%);
+            background-color: darken($color-background-primary, 1%);
           }
         }
       }
@@ -766,8 +815,11 @@ $sizes: (
 
       #{$c}__field #{$c}__inner,
       #{$c}__options #{$c}__option a {
-        padding-inline-start: map-get($size, "padding-sides");
-        padding-inline-end: map-get($size, "padding-sides");
+        &--menu{
+          padding-inline-start: map-get($size, "padding-start");
+          padding-inline-end: map-get($size, "padding-end");
+        }
+
       }
 
       #{$c}__field {
@@ -871,7 +923,7 @@ $sizes: (
       &,
       &:hover,
       &:active {
-        border-color: rgba(var(--color-black), 0.125);
+        border-color: rgba($color-black, 0.125);
       }
     }
 
@@ -904,14 +956,14 @@ $sizes: (
     }
 
     #{$c}__field {
-      background-color: rgba(var(--color-base-grey-light), 0.6);
+      background-color: rgba($color-base-grey-light, 0.6);
 
       #{$c}__icon {
         opacity: 0.6;
       }
 
       #{$c}__value {
-        color: rgb(var(--color-text-secondary));
+        color: $color-text-primary;
       }
     }
   }

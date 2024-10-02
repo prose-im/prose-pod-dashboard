@@ -12,7 +12,9 @@
     .c-base-subsection
       .c-base-subsection__label 
         h2 {{ title}}
-        .c-base-subsection__restore 
+        .c-base-subsection__restore(
+          v-if="restoreOption"
+        )
           base-icon(
             class="c-base-subsection__restore--icon"
             name="restore"
@@ -52,9 +54,15 @@
         type: String,
         required:true
       },
+
       items:{
         type: Array,
         required: true
+      },
+
+      restoreOption:{
+        type:Boolean,
+        default: false
       }
   
     },

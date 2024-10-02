@@ -139,8 +139,8 @@ $c: ".c-form-checkbox";
 
     &:before {
       content: "";
-      background-color: rgb(var(--color-white));
-      border: 1px solid rgb(var(--color-border-primary));
+      background-color: $color-white;
+      border: 1px solid $color-border-primary;
       outline: 2px solid transparent;
       position: absolute;
       inset: 0;
@@ -164,14 +164,14 @@ $c: ".c-form-checkbox";
     &:hover {
       &:checked {
         &:before {
-          border-color: darken(var(--color-base-purple-normal), 8%);
-          background: darken(var(--color-base-purple-normal), 8%);
+          border-color: darken($color-base-purple-normal, 8%);
+          background: darken($color-base-purple-normal, 8%);
         }
       }
 
       &:not(:checked) {
         &:before {
-          border-color: rgba(var(--color-base-purple-normal), 0.75);
+          border-color: rgba($color-base-purple-normal, 0.75);
           border-width: 2px;
         }
       }
@@ -180,29 +180,29 @@ $c: ".c-form-checkbox";
     &:active {
       &:checked {
         &:before {
-          border-color: darken(var(--color-base-purple-normal), 14%);
-          background: darken(var(--color-base-purple-normal), 14%);
+          border-color: darken($color-base-purple-normal, 14%);
+          background: darken($color-base-purple-normal, 14%);
         }
       }
 
       &:not(:checked) {
         &:before {
-          border-color: darken(var(--color-base-purple-normal), 8%);
+          border-color: darken($color-base-purple-normal, 8%);
         }
       }
     }
 
     &:focus-visible {
       &:before {
-        outline-color: rgba(var(--color-base-purple-normal), 0.3);
+        outline-color: rgba($color-base-purple-normal, 0.3);
         outline-offset: 1px;
       }
     }
 
     &:checked {
       &:before {
-        border-color: rgb(var(--color-base-purple-normal));
-        background: rgb(var(--color-base-purple-normal));
+        border-color: $color-base-purple-normal;
+        background: $color-base-purple-normal;
         transition: none;
       }
 
@@ -213,7 +213,7 @@ $c: ".c-form-checkbox";
   }
 
   #{$c}__label {
-    color: rgb(var(--color-text-primary));
+    color: $color-text-primary;
     flex: 1;
 
     &:hover {
@@ -268,7 +268,7 @@ $c: ".c-form-checkbox";
     }
 
     #{$c}__label {
-      color: rgb(var(--color-text-secondary));
+      color: $color-text-secondary;
     }
   }
 }

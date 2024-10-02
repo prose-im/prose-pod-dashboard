@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Avatar</title>
+    <defs>
+        <pattern id="pattern-1" patternUnits="objectBoundingBox" x="-2.61228947e-15%" width="100%" height="100%">
+            <use xlink:href="#image-2" transform="scale(0.708333333,0.708333333)"></use>
+        </pattern>
+        <image id="image-2" width="48" height="48" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAMKADAAQAAAABAAAAMAAAAADbN2wMAAAAs0lEQVRoBe2YQQrDMAwE4/7J/3+AH9XS4x7FkG0Dk5vAkuIZC4zX3vt9Db5zzhosv+6u/5r8zD+udQO/tqIBDUACHiEIEKdrACOEBR5vYHSv+cK6+24zrf94A24AziBO1wBGCAtoAALE6RrACGEBDUCAOH1N7x6+C2HmWcAZSB79SAN95tlRA8mjH2mgzzw7aiB59CPfhfrMs6MzkDz6kQb6zLOjBpJHP9JAn3l21EDy6EcfG0kbmWsMNT0AAAAASUVORK5CYII="></image>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Table-/-Row-/-User" transform="translate(-81, -18)" fill="url(#pattern-1)">
+            <g id="Content" transform="translate(29, 18)">
+                <g id="User" transform="translate(52, 0)">
+                    <rect id="Avatar" x="0" y="0" width="34" height="34" rx="7"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

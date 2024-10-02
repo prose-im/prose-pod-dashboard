@@ -1,22 +1,18 @@
 <!--
- * This file is part of prose-app-web
- *
- * Copyright 2024, Prose Foundation
- -->
+* This file is part of prose-app-web
+*
+* Copyright 2024, Prose Foundation
+-->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+TEMPLATE
+********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-accordion
-    form-select(
-      v-for="item in items"
-      :options="item.subcategories"
-      :search="false"
-      :placeholder="item.value"
-      :accordion="true"
-    )
+.c-table-row
+  .c-table-row__content
+    slot
+
 
 </template>
     
@@ -25,24 +21,21 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import FormSelect from '../form/FormSelect.vue';
+import BaseButton from '../base/BaseButton.vue';
+import BaseIcon from '../base/BaseIcon.vue';
+import FormField from '../form/FormField.vue';
 
 export default {
-  name: "SidebarAccordion",
+  name: "TableRow",
 
   components: {
-    FormSelect
+    BaseButton,
+    BaseIcon,
+    FormField
   },
 
   props: {
-    items: {
-      type: Array,
-      required: true
-    },
-    disclosureListClass: {
-      type: String,
-      default: null
-    }
+
   },
 
   emits: ["addContact"],
@@ -77,16 +70,12 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-sidebar-accordion";
+$c: ".c-table-row";
 
 #{$c} {
-  font-family: $font-family-default;
-
-  > * {
-
-    &:last-child {
-      margin-block-end: 0;
-    }
+  #{$c}__content {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

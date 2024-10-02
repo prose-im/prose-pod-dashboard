@@ -12,8 +12,9 @@
 div(
   :class=`[
     "c-base-badge",
+    "c-base-badge--" + size,
     {
-      "c-base-badge--admin": admin
+      "c-base-badge--admin": admin,
     }
   ]`
 )
@@ -36,7 +37,7 @@ export default {
 
     size: {
       type: String,
-      default: "sm"
+      default: "short"
     }
   },
 
@@ -69,6 +70,7 @@ $badge-padding-inline: 7px;
 
 #{$c} {
   width: fit-content;
+  height: fit-content;
   padding-block: $badge-padding-block;
   padding-inline: $badge-padding-inline;
   background-color: $color-base-blue-ultra-dark;
@@ -78,10 +80,15 @@ $badge-padding-inline: 7px;
   border-radius: 5px;
   font-family: $font-family-default;
 
-  // --> BOOLEANS <--
+  // --> SIZES <--
+  &--long {
+    padding-inline: ($badge-padding-inline +2px);
+  }
 
+  // --> BOOLEANS <--
   &--admin {
     background-color: $color-base-blue-normal;
   }
+  
 }
 </style>
