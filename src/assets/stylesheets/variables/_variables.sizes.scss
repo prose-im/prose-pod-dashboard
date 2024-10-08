@@ -72,7 +72,7 @@ $size-form-field-suggest-block-origin-offset: 5px;
 
 $size-form-field-medium-padding-sides: 10px;
 $size-form-field-mid-medium-padding-sides: 14px;
-$size-form-field-large-padding-sides: 0px;
+$size-form-field-large-padding-sides: 48.5px;
 $size-form-field-mid-large-padding-sides: 22px;
 $size-form-field-ultra-large-padding-sides: 24px;
 
@@ -84,7 +84,7 @@ $size-form-field-ultra-large-input-line-height: 60px;
 
 // --> FORM SELECT <--
 
-$size-form-select-padding-block: $size-form-field-padding-block;
+$size-form-select-padding-block: 0px;
 $size-form-select-border-width: 1px;
 $size-form-select-border-radius: ($size-form-field-border-radius - 3px);
 $size-form-select-search-height: 32px;

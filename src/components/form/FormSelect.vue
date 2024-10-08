@@ -14,7 +14,7 @@ div(
     "c-form-select",
     "c-form-select--" + size,
     "c-form-select--" + align,
-    "c-form-select--" + position,
+    accordion ? "c-form-select--accordion": "c-form-select--" + position,
     {
       "c-form-select--visible": visible && !disabled,
       "c-form-select--search": search,
@@ -23,15 +23,6 @@ div(
     }
   ]`
 )
-  input(
-    @change="onInputChange"
-    :name="name"
-    :value="value"
-    type="text"
-    ref="input"
-    class="c-form-select__input"
-  )
-
   .c-form-select__field(
     @click="onFieldClick"
     :class=`[
@@ -59,7 +50,8 @@ div(
           "c-form-select__value",
           "u-ellipsis",
           {
-            "c-form-select__value--empty": !value
+            "c-form-select__value--empty": !value,
+            "c-form-select__value--menu":!accordion
           }
         ]`
       )
@@ -77,36 +69,11 @@ div(
       "c-form-select__dropdown",
       {
         "c-form-select__dropdown--menu":!accordion,
+        "c-form-select__dropdown--accordion":accordion
       }
     ]`
 
   )
-    .c-form-select__search(
-      v-if="search"
-    )
-      base-icon(
-        name="magnifyingglass"
-        size="11px"
-        class="c-form-select__search-icon"
-      )
-
-      input(
-        v-model.trim="searchQuery"
-        @keypress.stop
-        @keydown.stop="onSearchInputKeyDown"
-        @keyup.stop
-        :name="name ? (name + '_search') : null"
-        :disabled="disabled"
-        :class=`[
-          {
-            "u-medium": searchQuery
-          }
-        ]`
-        type="search"
-        placeholder="Search…"
-        ref="search"
-      )
-
     ul.c-form-select__options(
       ref="options"
       :class=`[
@@ -129,6 +96,11 @@ div(
         ]`
       )
         a(
+          :class=`[
+            {
+              "c-form-select__option--link": accordion,
+            }
+          ]`
           @click="onOptionClick(option)"
         )
           base-icon(
@@ -654,9 +626,15 @@ $sizes: (
 
     #{$c}__value {
       color: $color-text-primary;
+      font-weight: $font-weight-medium;
+      font-size: ($font-size-baseline + 1px);
 
-      &--empty {
-        color: $color-text-secondary;
+      //- &--empty {
+      //-   color: $color-text-secondary;
+      //- }
+
+      &--menu {
+        font-size: ($font-size-baseline - 4px);
       }
     }
 
@@ -678,6 +656,11 @@ $sizes: (
       position: absolute;
       inset-inline: 0;
     }
+
+    a{
+      border-radius: 10px;
+    }
+
   }
 
   #{$c}__search {
@@ -717,13 +700,13 @@ $sizes: (
   #{$c}__options {
     max-height: 240px;
     padding-block: $size-form-select-options-padding-block; 
-    padding-inline: $size-form-select-options-padding-inline;
+    padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
 
     &--menu {
       padding-block: $size-form-select-options-menu-padding-block; 
-      padding-inline: $size-form-select-options-menu-padding-inline; 
+      padding-inline: $size-form-select-options-padding-inline;
     }
 
     #{$c}__option {
@@ -734,16 +717,19 @@ $sizes: (
         display: flex;
         align-items: center;
         transition: none;
-        padding:0;
 
         #{$c}__value {
           color: $color-text-primary;
         }
       }
 
+      &--link {
+        padding-left:14px;
+      }
+
       &--hovered {
         a {
-          background-color: $color-base-purple-normal;
+          background-color: $color-base-grey-ultra-light;
 
           &,
           &:active {
@@ -753,7 +739,7 @@ $sizes: (
           }
 
           &:active {
-            background-color: darken($color-base-purple-normal, 8%);
+            background-color: darken($color-base-grey-ultra-light, 8%);
           }
         }
       }
@@ -765,7 +751,7 @@ $sizes: (
 
         &#{$c}__option--hovered {
           a {
-            background-color: darken($color-background-primary, 8%);
+            background-color: $color-base-grey-ultra-light;
 
             &,
             &:active {
@@ -775,10 +761,7 @@ $sizes: (
             }
 
             &:active {
-              background-color: darken(
-                $color-background-primary,
-                10%
-              );
+              background-color: $color-base-grey-ultra-light;
             }
           }
         }
@@ -801,6 +784,7 @@ $sizes: (
           }
         }
       }
+
     }
   }
 

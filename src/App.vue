@@ -1,13 +1,16 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import DashboardMain from "./components/dashboard/DashboardMain.vue";
+import Modal from "./components/modals/Modal.vue";
 import SidebarMain from "./components/sidebar/SidebarMain.vue";
+
 
 export default {
 
   components: {
     DashboardMain,
-    SidebarMain
+    SidebarMain,
+    Modal
   },
 }
 </script>
@@ -21,6 +24,9 @@ export default {
   )
     sidebar-main
     dashboard-main
+
+    //- modal 
+    <!-- modal -->
 
 </template>
 <!-- **********************************************************************

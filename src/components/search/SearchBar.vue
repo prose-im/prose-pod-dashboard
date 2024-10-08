@@ -11,11 +11,18 @@ TEMPLATE
 <template lang="pug">
   .c-search-bar
     .c-search-bar__content
-      form-field(
-        type="text"
-        placeholder="Search for"
-        align="left"
-      )
+      .c-search-bar__left
+        base-icon(
+          name="magnifying.glass"
+          fill="#949eb1"
+          class="c-search-bar__magnifying"
+        )
+        form-field(
+          type="text"
+          placeholder="Search for"
+          align="left"
+          class="c-search-bar__field"
+        )
 
       .c-search-bar__right
         base-button(
@@ -104,6 +111,22 @@ $c: ".c-search-bar";
     padding: 22px 29px;
   }
 
+  #{$c}__left {
+    position: relative;
+  }
+
+  #{$c}__magnifying{
+    position: absolute;
+    left: 21px;
+    top:30%;
+    z-index: 10;
+  }
+
+  #{$c}__field {
+    position: relative;
+    z-index: 0;
+  }
+
   #{$c}__right {
     display: flex;
   }
@@ -111,5 +134,7 @@ $c: ".c-search-bar";
   #{$c}__more {
     margin-left:8px ;
   }
+
+
 }
 </style>

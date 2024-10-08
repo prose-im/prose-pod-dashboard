@@ -25,19 +25,21 @@ TEMPLATE
         }
       ]`
     )
+    
 
     <!-- 2nd column -->
     base-avatar(
-      :class=`[
-        "c-emojis-reactions-row__image",
-        {
-          "c-emojis-reactions-row--hidden" : !emojiData.imageUrl
-        }
-      ]`
+      v-if="!tableHeaders"
+      class="c-emojis-reactions-row__image"
       :avatarDataUrl="emojiData.imageUrl"
       size="30px"
       borderRadius="0px"
     )
+    p(
+      v-else
+      class="c-emojis-reactions-row__image"
+    )
+      | {{tableHeaders[0]}}
     
     <!-- 3rd column -->
     .c-emojis-reactions-row__shortcut 
@@ -202,7 +204,8 @@ $c: ".c-emojis-reactions-row";
   #{$c}__contributor {
     display: flex;
     align-items: center;
-    min-width: 16.3%;
+    min-width: 27%;
+    margin-right: 10%;
 
     &--avatar {
       margin-right: 9px;

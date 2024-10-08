@@ -113,7 +113,7 @@ export default {
 
     tint: {
       type: String,
-      default: "light",
+      default: "grey",
 
       validator(x: string) {
         return ["light", "dark", "purple", "grey", "white", "red"].includes(x);
