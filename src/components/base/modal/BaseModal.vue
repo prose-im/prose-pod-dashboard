@@ -8,13 +8,18 @@
  TEMPLATE
  ********************************************************************** -->
 <template lang="pug">
-.c-modal
-  modal-background
-    modal-container(
-      title="Add a custom emoji"
-      buttonColor="purple"
-      buttonLabel="Add Custom Emoji"
+.c-base-modal
+  base-modal-background(
+    @closeModal="onClose"
+  )
+    base-modal-container(
+      :title="title"
+      :buttonColor="buttonColor"
+      :buttonLabel="buttonLabel"
+      @closeModal="onClose"
+      @confirmAction="onConfirm"
     )
+      slot
 </template>
  
  <!-- **********************************************************************
@@ -22,21 +27,21 @@
       ********************************************************************** -->
  
  <script lang="ts">
-import ModalBackground from './ModalBackground.vue';
-import ModalContainer from './ModalContainer.vue';
+import BaseModalBackground from './BaseModalBackground.vue';
+import BaseModalContainer from './BaseModalContainer.vue';
 
 export default {
   name: "Modal",
 
   components:{
-    ModalBackground,
-    ModalContainer
+    BaseModalBackground,
+    BaseModalContainer
   },
 
   props: {
     title:{
       type:String,
-      required:false
+      required:true
     },
 
     buttonColor:{
@@ -50,7 +55,7 @@ export default {
   
     buttonLabel:{
       type:  String,
-      default: ""
+      required:true
     },
   },
 
@@ -64,7 +69,16 @@ export default {
 
   },
 
+  emits: ["close", "confirm"],
+
   methods: {
+    onClose(event: Event){
+      this.$emit("close", event);
+    },
+
+    onConfirm(event: Event){
+      this.$emit("confirm", event);
+    },
   }  
  };
  </script>
@@ -74,7 +88,7 @@ export default {
    ********************************************************************** -->
  
 <style lang="scss">
-$c: ".c-modal";
+$c: ".c-base-modal";
 
 // VARIABLES
 $badge-padding-block: 3.5px;

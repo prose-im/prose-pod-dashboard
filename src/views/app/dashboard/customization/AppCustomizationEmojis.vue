@@ -9,14 +9,8 @@
   ********************************************************************** -->
 
 <template lang="pug">
-.c-dashboard-main
-  .c-dashboard-main__content
-    breadcrumb(
-      class="c-dashboard-main__breadcrumb"
-    )
-
-    base-section-background
-      slot
+.v-app-customization-emojis
+  emojis-reactions-dashboard
 
 </template>
   
@@ -26,15 +20,13 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSectionBackground from '../base/BaseSectionBackground.vue';
-import Breadcrumb from '../breadcrumb/Breadcrumb.vue';
+import EmojisReactionsDashboard from '@/components/emojis-reactions/EmojisReactionsDashboard.vue';
 
 export default {
-  name: "DashboardMain",
+  name: "AppCustomizationEmojis",
 
   components: {
-    BaseSectionBackground,
-    Breadcrumb,
+    EmojisReactionsDashboard
   },
 
   props: {
@@ -100,21 +92,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-dashboard-main";
+$c: ".v-app-customization-emojis";
 
-#{$c} {
-  width:100%;
-  background-color: $color-background-primary;
 
-  #{$c}__breadcrumb {
-    max-width: 918px;
-    margin-inline: auto;
-  }
-
-  #{$c}__content {
-    height: 100%;
-    padding-top: 50px;
-    padding-inline: 100px;
-  }
-}
 </style>

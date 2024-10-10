@@ -22,7 +22,7 @@ TEMPLATE
       :class=`[
         "c-members-invites-row__checkbox",
         {
-          "c-members-invites-row--hidden" : !userData.name
+          "c-members-invites-row--hidden" : tableHeaders
         }
       ]`
     )
@@ -185,7 +185,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-
     };
   },
 
@@ -196,7 +195,7 @@ export default {
   created() {},
 
   methods: {
-    // --> HELPERS <--
+
   },
 };
 </script>

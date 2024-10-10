@@ -11,7 +11,24 @@
 <template lang="pug">
     .c-base-subsection-item
       .c-base-subsection-item__left
-        h3.c-base-subsection-item__subtitle {{ item.subtitle }}
+        h3(
+          :class=`[
+            "c-base-subsection-item__subtitle",
+            {
+              "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
+            }
+          ]`
+        )
+          | {{ item.subtitle }}
+
+          base-icon(
+            v-if="item.restoreSubtitle"
+            class="c-base-subsection-item__subtitle--icon"
+            name="restore"
+            size="8px"
+            fill="#2490f0"
+          )
+
         p.c-base-subsection-item__description {{ item.description}}
 
       slot 
@@ -46,6 +63,7 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseButton from "./BaseButton.vue";
+import BaseIcon from "./BaseIcon.vue";
 import FormSelect from "../form/FormSelect.vue";
 import FormToggle from "../form/FormToggle.vue";
 
@@ -54,6 +72,7 @@ export default {
 
   components: {
     BaseButton,
+    BaseIcon,
     FormSelect,
     FormToggle,
   },
@@ -117,6 +136,14 @@ $c: ".c-base-subsection-item";
     margin-bottom: 8px;
     font-size: $font-size-baseline;
     font-weight: $font-weight-medium;
+
+    &--restore {
+      color:$color-base-blue-normal;
+    }
+
+    &--icon {
+      margin-left: 3.5px;
+    }
   }
 
   #{$c}__description {

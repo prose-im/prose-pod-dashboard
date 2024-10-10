@@ -28,6 +28,7 @@ TEMPLATE
         base-button(
           tint="purple"
           size="large"
+          @click="clickHandle"
         )
           | {{buttonLabel}}
 
@@ -65,6 +66,11 @@ export default {
   props: {
     buttonLabel:{
       type:String,
+      required:true
+    },
+
+    clickHandle:{
+      type: Function,
       required:true
     }
   },

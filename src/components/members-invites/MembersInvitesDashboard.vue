@@ -9,27 +9,33 @@ TEMPLATE
 ********************************************************************** -->
 
 <template lang="pug">
-  .c-members-invites-dashboard
-    search-bar(
-      buttonLabel="Add Custom Emoji"
-    )
+.c-members-invites-dashboard
+  search-bar(
+    :buttonLabel="label"
+    :clickHandle="onParametersClick"
+  )
 
-    members-invites-row(
-      :userData="{}"
-      :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
-    )
+  members-invites-row(
+    :userData="{}"
+    :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
+  )
 
-    members-invites-row(
-      :userData="invited"
-    )
+  members-invites-row(
+    :userData="invited"
+  )
 
-    members-invites-row(
-      v-for="(user, index) in users"
-      :key="user.name"
-      :userData="user"
-      class="c-members-invites-dashboard__users"
-    )
+  members-invites-row(
+    v-for="(user, index) in users"
+    :key="user.name"
+    :userData="user"
+    class="c-members-invites-dashboard__users"
+  )
 
+invite-team-member(
+  v-if="modalIsVisible"
+  @close="toggleModalVisible"
+  @confirm=""
+)   
 </template>
   
 <!-- **********************************************************************
@@ -38,6 +44,7 @@ TEMPLATE
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import InviteTeamMember from '@/assemblies/modals/members/InviteTeamMember.vue';
 import MembersInvitesRow from './MembersInvitesRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 
@@ -45,12 +52,16 @@ export default {
   name: "MembersInvitesDashboard",
 
   components: {
+    InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
   },
 
   props: {
-
+    label:{
+      type:String,
+      required: true
+    }
   },
 
   emits: [],
@@ -58,6 +69,8 @@ export default {
   data() {
     return {
       // --> STATE <--
+      modalIsVisible: false,
+
       messagingItems:[
         {
           subtitle:"Store archives of all messages",
@@ -136,7 +149,15 @@ export default {
   created() {},
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
+    toggleModalVisible(){
+      this.modalIsVisible = !this.modalIsVisible;
+    },
+
+    // --> EVENT LISTENERS <--
+    onParametersClick(event: Event): void {
+      this.toggleModalVisible()
+    }
   },
 };
 </script>

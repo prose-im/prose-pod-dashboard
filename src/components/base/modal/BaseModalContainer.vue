@@ -9,25 +9,27 @@
  ********************************************************************** -->
 
 <template lang="pug">
-.c-modal-container
-  .c-modal-container__title
+.c-base-modal-container
+  .c-base-modal-container__title
     | {{ title }}
 
-  .c-modal-container__body
+  .c-base-modal-container__body
     slot
   
-  .c-modal-container__footer
+  .c-base-modal-container__footer
     base-button(
       size="mid-large"
       tint="grey"
+      @click="onClose"
     )
       | {{ buttonColor === 'grey' ? 'Close' : 'Cancel' }}
 
     base-button(
       v-if="buttonColor !== 'grey'"
-      class="c-modal-container__footer--extra-button"
+      class="c-base-modal-container__footer--extra-button"
       size="mid-large"
       :tint="buttonColor"
+      @click="onConfirm"
     )
       | {{ buttonLabel }}
 
@@ -38,10 +40,10 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from '../base/BaseButton.vue';
+import BaseButton from '../BaseButton.vue';
 
 export default {
-  name: "ModalContainer",
+  name: "BaseModalContainer",
 
   components:{
     BaseButton
@@ -79,8 +81,17 @@ export default {
 
   },
 
+  emits: ["closeModal", "confirmAction"],
+
   methods: {
-  }  
+    onClose(event: Event){
+      this.$emit("closeModal", event);
+    },
+
+    onConfirm(event: Event){
+      this.$emit("confirmAction", event);
+    },
+   }  
 };
 </script>
 
@@ -89,7 +100,7 @@ export default {
   ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-modal-container";
+$c: ".c-base-modal-container";
 
 #{$c} {
   height: 100%;

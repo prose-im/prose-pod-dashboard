@@ -9,7 +9,9 @@
  ********************************************************************** -->
 
  <template lang="pug">
-  .c-modal-background
+  .c-base-modal-background(
+    @click.self="onClickAway"
+  )
     slot
  
  </template>
@@ -21,7 +23,7 @@
  <script lang="ts">
 
  export default {
-   name: "ModalBackground",
+   name: "BaseModalBackground",
  
    components:{
    },
@@ -40,8 +42,13 @@
    watch: {
  
    },
+
+  emits: ["closeModal"],
  
    methods: {
+    onClickAway(event: Event){
+      this.$emit("closeModal", event);
+    }
    }  
  };
  </script>
@@ -51,7 +58,7 @@
    ********************************************************************** -->
  
  <style lang="scss">
- $c: ".c-modal-background";
+ $c: ".c-base-modal-background";
  
  // VARIABLES
  

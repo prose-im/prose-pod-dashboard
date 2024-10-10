@@ -12,16 +12,25 @@
 import "@/assets/stylesheets/all.scss";
 
 
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
 import App from './App.vue';
-// import Router from "@/router";
-import 'virtual:svg-icons-register'
+import Router from "@/router";
+import 'virtual:svg-icons-register';
 
 createApp(App).mount('#app')
+
+/**************************************************************************
+ * INSTANCES
+ * ************************************************************************* */
+
+const app = createApp(App)
+
 
 /**************************************************************************
  * PLUGINS
  * ************************************************************************* */
 
-// Router.bind(App);
+Router.bind(app);
+
+app.mount('#app');

@@ -1,16 +1,12 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import DashboardMain from "./components/dashboard/DashboardMain.vue";
-import Modal from "./components/modals/Modal.vue";
-import SidebarMain from "./components/sidebar/SidebarMain.vue";
 
 
 export default {
 
   components: {
     DashboardMain,
-    SidebarMain,
-    Modal
   },
 }
 </script>
@@ -22,11 +18,7 @@ export default {
     @drop.prevent.stop
     class="s-app"
   )
-    sidebar-main
-    dashboard-main
-
-    //- modal 
-    <!-- modal -->
+    router-view
 
 </template>
 <!-- **********************************************************************
@@ -54,3 +46,5 @@ $c: ".s-app";
  }
 }
 </style>
+    <!-- sidebar-main
+    dashboard-main -->

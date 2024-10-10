@@ -9,84 +9,79 @@
   ********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-accordion
-    form-select-accordion(
-      v-for="item in items"
-      :options="item.subcategories"
-      :search="false"
-      :placeholder="item.value"
-      :accordion="true"
-    )
+base-modal(
+  @close="$emit('close')"
+  @confirm="$emit('proceed')"
+  title="Invite a team member"
+  buttonColor="purple"
+  buttonLabel="Invite Team Member"
+)
+  p
+    | Email to Invite
+    
+  form-field(
+    type="email"
+  )
+
+  base-icon(
+    name="help"
+  )
+  p
+  | An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes.
 
 </template>
-    
+  
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
-import FormSelectAccordion from '../form/FormSelectAccordion.vue';
+// PROJECT: COMPONENTS
+import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseModal from '@/components/base/modal/BaseModal.vue';
+import FormField from '@/components/form/FormField.vue';
 
 export default {
-  name: "SidebarAccordion",
+  name: "AppAdvancedNetwork",
 
   components: {
-    FormSelectAccordion
+    BaseIcon,
+    BaseModal,
+    FormField
   },
 
   props: {
-    items: {
-      type: Array,
-      required: true
-    },
-    disclosureListClass: {
-      type: String,
-      default: null
-    }
+
   },
 
-  emits: ["addContact"],
+  emits: ["close", "proceed"],
 
   data() {
     return {
       // --> STATE <--
-
+      
     };
   },
 
-  computed: {
+  computed: {},
 
-  },
+  watch: {},
 
-  watch: {
-
-  },
-
-  created() {
-    
-  },
+  created() {},
 
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-sidebar-accordion";
+$c: ".v-app-advanced-network";
 
-#{$c} {
-  font-family: $font-family-default;
 
-  > * {
-
-    &:last-child {
-      margin-block-end: 0;
-    }
-  }
-}
 </style>
+        
