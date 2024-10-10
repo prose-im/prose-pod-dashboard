@@ -12,7 +12,7 @@
     "@types/node": "^22.5.5",
     "keycode": "^2.2.1",
     "vue": "3.4.37",
-    "vue-router": "4.4.5"
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "5.1.2",
