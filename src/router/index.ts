@@ -8,17 +8,23 @@
 //  * IMPORTS
 //  * ************************************************************************* */
 
-// // NPM
-// import { App } from "vue";
-// import {
-//   Router as VueRouter,
-//   createRouter,
-//   createWebHistory 
-// } from "vue-router";
-// import { JID } from "@prose-im/prose-sdk-js";
+// NPM
+import { App } from "vue";
+import {
+  Router as VueRouter,
+  createRouter,
+  createWebHistory 
+} from "vue-router";
+import { JID } from "@prose-im/prose-sdk-js";
 
-// // PROJECT: VIEWS
-// import AppBase from "@/views/app/AppBase.vue";
+// PROJECT: VIEWS
+import AppBase from "@/views/app/AppBase.vue";
+import AppAdvancedNetwork from "@/views/app/dashboard/advanced/AppAdvancedNetwork.vue";
+import AppAdvancedSecurity from "@/views/app/dashboard/advanced/AppAdvancedSecurity.vue";
+import AppCustomizationEmojis from "@/views/app/dashboard/customization/AppCustomizationEmojis.vue";
+import AppCustomizationWorkspace from "@/assemblies/customization/AppCustomizationWorkspace.vue";
+import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
+import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 // import AppIndex from "@/views/app/AppIndex.vue";
 // import AppSpotlightUnread from "@/views/app/spotlight/AppSpotlightUnread.vue";
 // import AppSpotlightBrowseBase from "@/views/app/spotlight/AppSpotlightBrowseBase.vue";
@@ -46,29 +52,29 @@
 //  * ENUMERATIONS
 //  * ************************************************************************* */
 
-// enum NavigateState {
-//   // Forwards direction.
-//   Forwards = "forwards",
-//   // Backwards direction.
-//   Backwards = "backwards"
-// }
+enum NavigateState {
+  // Forwards direction.
+  Forwards = "forwards",
+  // Backwards direction.
+  Backwards = "backwards"
+}
 
 // /**************************************************************************
 //  * ROUTER
 //  * ************************************************************************* */
 
-// class Router {
-//   private readonly __router: VueRouter;
+class Router {
+  private readonly __router: VueRouter;
 
-//   private __lastNavigateStatePosition = 0;
-//   private __pendingNavigateState: NavigateState | null = null;
+  private __lastNavigateStatePosition = 0;
+  private __pendingNavigateState: NavigateState | null = null;
 
-//   constructor() {
-//     // Create router
-//     this.__router = createRouter({
-//       history: createWebHistory(CONFIG.context.basePath),
+  constructor() {
+    // Create router
+    this.__router = createRouter({
+      history: createWebHistory(),
 
-//       routes: [
+      routes: [
 //         // --> START <--
 
 //         { path: "/start/", redirect: { name: "start.login" } },
@@ -89,118 +95,142 @@
 //           }
 //         },
 
-//         // --> APP <--
+        // --> APP <--
 
-//         {
-//           path: "/",
-//           name: "app",
-//           component: AppBase as object,
+        {
+          path: "/",
+          name: "app",
+          component: AppBase as object,
 
-//           beforeEnter: async () => {
-//             try {
-//               await this.__guardAuthenticated();
-//             } catch (_) {
-//               logger.warn("Cannot route to the app, user not logged in");
-//             }
+          // beforeEnter: async () => {
+          //   try {
+          //     await this.__guardAuthenticated();
+          //   } catch (_) {
+          //     logger.warn("Cannot route to the app, user not logged in");
+          //   }
 
-//             // Important: do not await here, as this would block routing while \
-//             //   the broker client is connecting to the network. We want this \
-//             //   to be done in the background while the app is already showing \
-//             //   on screen for the user.
-//             this.__setupBrokerClient();
-//           },
+            // // Important: do not await here, as this would block routing while \
+            // //   the broker client is connecting to the network. We want this \
+            // //   to be done in the background while the app is already showing \
+            // //   on screen for the user.
+            // this.__setupBrokerClient();
+          // },
 
-//           children: [
-//             {
-//               path: "",
-//               name: "app.index",
-//               component: AppIndex as object,
+          children: [
+            {
+              path: "/members",
+              name: "app.members",
+              component: AppTeamMembers as object,
 
-//               beforeEnter: async (_to, from) => {
-//                 // Redirect to last used room?
-//                 // Notice: only do so when the application just loaded, ie. we \
-//                 //   are not navigating from anywhere.
-//                 const lastRoomId = Store.$navigation.inbox.lastRoomId;
+          //     beforeEnter: async (_to, from) => {
+          //       // Redirect to last used room?
+          //       // Notice: only do so when the application just loaded, ie. we \
+          //       //   are not navigating from anywhere.
+          //       const lastRoomId = Store.$navigation.inbox.lastRoomId;
 
-//                 if (!from.name && lastRoomId !== null) {
-//                   logger.info(`Restoring last used room: ${lastRoomId}`);
+          //       if (!from.name && lastRoomId !== null) {
+          //         logger.info(`Restoring last used room: ${lastRoomId}`);
 
-//                   // Restore last used room instead
-//                   return {
-//                     name: "app.inbox",
+          //         // Restore last used room instead
+          //         return {
+          //           name: "app.inbox",
 
-//                     params: {
-//                       roomId: lastRoomId
-//                     }
-//                   };
-//                 }
-//               }
-//             },
+          //           params: {
+          //             roomId: lastRoomId
+          //           }
+          //         };
+          //       }
+          //     }
+            },
 
-//             {
-//               path: "spotlight/unread/",
-//               name: "app.spotlight.unread",
-//               component: AppSpotlightUnread as object
-//             },
+            {
+              path: "/server",
+              name: "app.server",
+              component: AppServerConfiguration as object,
+            },
 
-//             {
-//               path: "spotlight/browse/",
-//               name: "app.spotlight.browse",
-//               component: AppSpotlightBrowseBase as object,
+            {
+              path: "/customization/workspace",
+              name: "app.customization.workspace",
+              component: AppCustomizationWorkspace as object,
+            },
 
-//               children: [
-//                 {
-//                   path: "people/",
-//                   name: "app.spotlight.browse.people",
-//                   component: AppSpotlightBrowsePeople as object
-//                 },
+            {
+              path: "/customization/emojis",
+              name: "app.customization.emojis",
+              component: AppCustomizationEmojis as object,
+            },
 
-//                 {
-//                   path: "channels/",
-//                   name: "app.spotlight.browse.channels",
-//                   component: AppSpotlightBrowseChannels as object
-//                 },
+            {
+              path: "/advanced/security",
+              name: "app.advanced.security",
+              component: AppAdvancedSecurity as object,
+            },
 
-//                 {
-//                   path: "invites/",
-//                   name: "app.spotlight.browse.invites",
-//                   component: AppSpotlightBrowseInvites as object
-//                 },
+            {
+              path: "/advanced/network",
+              name: "app.advanced.network",
+              component: AppAdvancedNetwork as object,
+            },
 
-//                 {
-//                   path: "blocked/",
-//                   name: "app.spotlight.browse.blocked",
-//                   component: AppSpotlightBrowseBlocked as object
-//                 }
-//               ]
-//             },
+          //   {
+          //     path: "spotlight/browse/",
+          //     name: "app.spotlight.browse",
+          //     component: AppSpotlightBrowseBase as object,
 
-//             {
-//               path: "inbox/:roomId/",
-//               name: "app.inbox",
-//               component: AppInboxBase as object
-//             }
-//           ]
-//         },
+          //     children: [
+          //       {
+          //         path: "people/",
+          //         name: "app.spotlight.browse.people",
+          //         component: AppSpotlightBrowsePeople as object
+          //       },
+
+          //       {
+          //         path: "channels/",
+          //         name: "app.spotlight.browse.channels",
+          //         component: AppSpotlightBrowseChannels as object
+          //       },
+
+          //       {
+          //         path: "invites/",
+          //         name: "app.spotlight.browse.invites",
+          //         component: AppSpotlightBrowseInvites as object
+          //       },
+
+          //       {
+          //         path: "blocked/",
+          //         name: "app.spotlight.browse.blocked",
+          //         component: AppSpotlightBrowseBlocked as object
+          //       }
+          //     ]
+          //   },
+
+          //   {
+          //     path: "inbox/:roomId/",
+          //     name: "app.inbox",
+          //     component: AppInboxBase as object
+          //   }
+          ]
+        },
 
 //         // --> REDIRECT <--
 
 //         { path: "/:path(.*)*", redirect: "/" }
-//       ]
-//     });
+      ]
+    });
 
 //     // Bind router events
 //     this.__bindEvents(this.__router);
-//   }
+  }
 
-//   bind(app: App): void {
-//     // Bind to app
-//     app.use(this.__router);
-//   }
+  bind(app: App): void {
+    // Bind to app
+    app.use(this.__router);
+  }
 
-//   instance(): VueRouter {
-//     return this.__router;
-//   }
+  instance(): VueRouter {
+    return this.__router;
+  }
 
 //   private async __guardAuthenticated(): Promise<void> {
 //     // Ensure that user is logged in (redirect to base if not)
@@ -328,10 +358,10 @@
 //       this.__pendingNavigateState = null;
 //     });
 //   }
-// }
+}
 
-// /**************************************************************************
-//  * EXPORTS
-//  * ************************************************************************* */
+/**************************************************************************
+ * EXPORTS
+ * ************************************************************************* */
 
-// export default new Router();
+export default new Router();
