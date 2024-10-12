@@ -32,7 +32,7 @@
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
 
 export default {
-  name: "AppCustomizationEmojis",
+  name: "AppServerConfiguration",
 
   components: {
     BaseSubsection
@@ -65,6 +65,7 @@ export default {
         {
           subtitle: "Message archive retention time",
           description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+          restoreSubtitle:true,
           type:"select",
           typeProps:{
             options:[
