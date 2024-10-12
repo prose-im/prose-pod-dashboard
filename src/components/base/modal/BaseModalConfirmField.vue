@@ -70,7 +70,7 @@ $c: ".c-base-modal-confirm-field";
 #{$c} {  
   display: flex;
   align-items: center;
-  font-weight: $font-weight-light;
+  font-weight: $font-weight-medium;
   margin-top: 28px;
   margin-bottom: 42px;
   margin-left: 9px;
@@ -78,7 +78,8 @@ $c: ".c-base-modal-confirm-field";
   font-size: ($font-size-baseline - 1px);
 
   p{
-    margin: 0;
+    margin-block: 0;
+    margin-inline-start: 11px;
   }
 
   &--icon{

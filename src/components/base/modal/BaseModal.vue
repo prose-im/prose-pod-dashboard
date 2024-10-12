@@ -16,6 +16,7 @@
       :title="title"
       :buttonColor="buttonColor"
       :buttonLabel="buttonLabel"
+      :flexBody="flexContainer"
       @closeModal="onClose"
       @confirmAction="onConfirm"
     )
@@ -57,6 +58,11 @@ export default {
       type:  String,
       required:true
     },
+
+    flexContainer: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {

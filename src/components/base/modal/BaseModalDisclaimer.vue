@@ -93,7 +93,7 @@ $c: ".c-base-modal-disclaimer";
 
   #{$c}__warning {
     color: $color-base-red-normal;
-    font-size: ($font-size-baseline - 1px);
+    font-size: ($font-size-baseline - 2px);
     font-weight: $font-weight-medium;
     margin-bottom: 7px;
     display: flex;

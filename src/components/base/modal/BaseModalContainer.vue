@@ -13,7 +13,13 @@
   .c-base-modal-container__title
     | {{ title }}
 
-  .c-base-modal-container__body
+  .c-base-modal-container__body(
+    :class=`[
+      {
+        "c-base-modal-container--flex": flexBody
+      }
+    ]`
+  )
     slot
   
   .c-base-modal-container__footer
@@ -68,6 +74,11 @@ export default {
       type:  String,
       default: ""
     },
+
+    flexBody: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data() {
@@ -138,6 +149,11 @@ $c: ".c-base-modal-container";
     &--extra-button{
       margin-left: 12px;
     }
+  }
+
+  &--flex {
+    display: flex;
+    flex-direction: column;
   }
 
 }
