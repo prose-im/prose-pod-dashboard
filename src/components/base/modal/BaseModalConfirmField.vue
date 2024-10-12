@@ -12,7 +12,11 @@ TEMPLATE
 .c-base-modal-confirm-field
   form-checkbox
 
-  p
+  p(
+    :class=`[
+      "c-base-modal-confirm-field--" + color
+    ]`
+  )
     | {{ text }}
   
 </template>
@@ -36,6 +40,15 @@ export default {
     text: {
       type: String,
       required: true
+    },
+
+    color: {
+      type: String,
+      default:"black",
+
+      validator(x: string) {
+        return ["black", "red"].includes(x);
+      }
     },
   },
 
@@ -71,9 +84,8 @@ $c: ".c-base-modal-confirm-field";
   display: flex;
   align-items: center;
   font-weight: $font-weight-medium;
-  margin-top: 28px;
-  margin-bottom: 42px;
   margin-left: 9px;
+  margin-bottom: 8px;
   font-family: $font-family-default;
   font-size: ($font-size-baseline - 1px);
 
@@ -84,6 +96,12 @@ $c: ".c-base-modal-confirm-field";
 
   &--icon{
     margin-right: 13px;
+  }
+
+  //<!-- COLORS -->
+
+  &--red{
+    color: $color-base-red-normal;
   }
 }
 

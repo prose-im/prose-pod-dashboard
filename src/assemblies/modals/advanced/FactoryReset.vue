@@ -15,6 +15,7 @@ base-modal(
   title="Factory reset this Pod"
   buttonColor="red"
   buttonLabel="Run Factory Reset"
+  :flexContainer="true"
 )
   .a-factory-reset
     .a-factory-reset__top
@@ -36,6 +37,7 @@ base-modal(
 
       base-modal-confirm-field(
         text="I confirm that I am aware that all data will be erased"
+        color="red"
       )
 </template>
   
@@ -93,12 +95,19 @@ export default {
 $c: ".a-factory-reset";
 
 #{$c} {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
   margin-inline: 48px;
   font-family: $font-family-default;
 
   #{$c}__disclaimer{
     margin-top: 4px;
     margin-bottom: 31px;
+  }
+
+  #{$c}__confirm{
   }
 
 }

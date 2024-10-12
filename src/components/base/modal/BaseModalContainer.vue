@@ -135,6 +135,7 @@ $c: ".c-base-modal-container";
   #{$c}__body{
     min-height: 75%;
     padding-top: 35.5px;
+    padding-bottom: 18.5px;
     margin-inline: auto;
     border-block: 1px solid $color-border-primary;
   }
