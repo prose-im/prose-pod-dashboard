@@ -12,7 +12,7 @@ TEMPLATE
 .c-members-invites-dashboard
   search-bar(
     :buttonLabel="label"
-    :clickHandle="onParametersClick"
+    :clickHandle="onInviteMemberClick"
   )
 
   members-invites-row(
@@ -155,7 +155,7 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
-    onParametersClick(event: Event): void {
+    onInviteMemberClick(event: Event): void {
       this.toggleModalVisible()
     }
   },

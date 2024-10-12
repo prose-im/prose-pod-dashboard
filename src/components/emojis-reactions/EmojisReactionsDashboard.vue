@@ -9,23 +9,29 @@ TEMPLATE
 ********************************************************************** -->
 
 <template lang="pug">
-  .c-emojis-reactions-dashboard
-    search-bar(
-      buttonLabel="Add Custom Emoji"
-    )
+.c-emojis-reactions-dashboard
+  search-bar(
+    buttonLabel="Add Custom Emoji"
+    :clickHandle="onInvitePeopleClick"
+  )
 
-    emojis-reactions-row(
-      :emojiData="{}"
-      :tableHeaders="['Image', 'Shortcut', 'Date added', 'Added by']"
-    )
+  emojis-reactions-row(
+    :emojiData="{}"
+    :tableHeaders="['Image', 'Shortcut', 'Date added', 'Added by']"
+  )
 
-    emojis-reactions-row(
-      v-for="(emoji, index) in emojis"
-      :key="emoji.shortcut"
-      :emojiData="emoji"
-      class="c-emojis-reactions-dashboard__users"
-    )
+  emojis-reactions-row(
+    v-for="(emoji, index) in emojis"
+    :key="emoji.shortcut"
+    :emojiData="emoji"
+    class="c-emojis-reactions-dashboard__users"
+  )
 
+add-custom-emoji(
+  v-if="isModalVisible"
+  @close="toggleModalVisible"
+  @confirm=""
+)
 </template>
   
 <!-- **********************************************************************
@@ -34,13 +40,15 @@ TEMPLATE
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import AddCustomEmoji from '@/assemblies/modals/customization/AddCustomEmoji.vue';
 import EmojisReactionsRow from './EmojisReactionsRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 
 export default {
-  name: "MembersInvitesDashboard",
+  name: "EmojisReactionDashboard",
 
   components: {
+    AddCustomEmoji,
     EmojisReactionsRow,
     SearchBar
   },
@@ -54,7 +62,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-
+      isModalVisible:false,
       
       emojis:[
         {
@@ -89,8 +97,16 @@ export default {
   created() {},
 
   methods: {
-    // --> HELPERS <--
-  },
+    // --> EVENT LISTENERS <--
+    toggleModalVisible(){
+      this.isModalVisible = !this.isModalVisible;
+    },
+
+    // --> EVENT LISTENERS <--
+    onInvitePeopleClick(event: Event): void {
+      this.toggleModalVisible()
+    },
+  }
 };
 </script>
 
