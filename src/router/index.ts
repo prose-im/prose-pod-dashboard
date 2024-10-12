@@ -19,6 +19,7 @@ import { JID } from "@prose-im/prose-sdk-js";
 
 // PROJECT: VIEWS
 import AppBase from "@/views/app/AppBase.vue";
+import AppAdvancedBackup from "@/views/app/dashboard/advanced/AppAdvancedBackup.vue";
 import AppAdvancedNetwork from "@/views/app/dashboard/advanced/AppAdvancedNetwork.vue";
 import AppAdvancedSecurity from "@/views/app/dashboard/advanced/AppAdvancedSecurity.vue";
 import AppCustomizationEmojis from "@/views/app/dashboard/customization/AppCustomizationEmojis.vue";
@@ -173,6 +174,11 @@ class Router {
               component: AppAdvancedNetwork as object,
             },
 
+            {
+              path: "/advanced/backup",
+              name: "app.advanced.backup",
+              component: AppAdvancedBackup as object,
+            },
           //   {
           //     path: "spotlight/browse/",
           //     name: "app.spotlight.browse",
