@@ -84,6 +84,7 @@
   
   #{$c} {
     height: 100%;
+    background-color: white;
     border-radius: 8px;
     border: 1px solid $color-border-secondary;
     box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);

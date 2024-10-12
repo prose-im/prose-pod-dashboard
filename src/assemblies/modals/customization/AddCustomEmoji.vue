@@ -12,32 +12,46 @@
 base-modal(
   @close="$emit('close')"
   @confirm="$emit('proceed')"
-  title="Invite a team member"
+  title="Add a custom emoji"
   buttonColor="purple"
-  buttonLabel="Invite Team Member"
+  buttonLabel="Add custom Emoji"
 )
-  .a-invite-team-member
+  .a-add-custom-emoji
     h4
-      | Email to Invite
+      | Emoji image
+
+    .a-add-custom-emoji__upload
+      base-avatar(
+        class="a-add-custom-emoji__upload--avatar"
+        size="60px"
+        borderRadius="7px"
+      )
+
+      base-button(
+        tint="white"
+      )
+        | Upload image...
+
+    h4
+      | Emoji shortcut
       
     form-field(
-      type="email"
+      type="text"
       size="mid-large"
       align="left"
-      placeholder="Enter e-mail address to invite..."
+      placeholder="Enter a :shortcut: for the emoji..."
     )
 
-    .a-invite-team-member__info
+    .a-add-custom-emoji__info
       base-icon(
-        class="a-invite-team-member__info--icon"
+        class="a-add-custom-emoji__info--icon"
         name="information"
         height="20px"
         width="21.5px"
       )
 
       p
-        | An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes.
-
+        | The emoji shortcut is what users can enter in the message field to insert the emoji, in text form. We recommend to keep it short and memorable.
 </template>
   
 <!-- **********************************************************************
@@ -46,14 +60,18 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAvatar from '@/components/base/BaseAvatar.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import BaseModal from '@/components/base/modal/BaseModal.vue';
 import FormField from '@/components/form/FormField.vue';
 
 export default {
-  name: "InviteTeamMember",
+  name: "AddCustomEmoji",
 
   components: {
+    BaseAvatar,
+    BaseButton,
     BaseIcon,
     BaseModal,
     FormField
@@ -89,7 +107,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".a-invite-team-member";
+$c: ".a-add-custom-emoji";
 
 #{$c} {
   margin-inline: 48px;
@@ -101,6 +119,22 @@ $c: ".a-invite-team-member";
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
+  }
+
+  #{$c}__upload{
+    display: flex;
+    align-items: center;
+    padding-block: 13.5px;
+    padding-left: 33px;
+    margin-bottom: 30px;
+    border: 1px solid $color-border-secondary;
+    border-radius: 7px;
+
+    &--avatar{
+      outline: 1px solid $color-border-secondary;
+      outline-offset: 1.5px;
+      margin-right: 21.5px;
+    }
   }
 
   #{$c}__info{

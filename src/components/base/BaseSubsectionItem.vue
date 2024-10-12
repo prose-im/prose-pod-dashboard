@@ -9,52 +9,67 @@
   ********************************************************************** -->
 
 <template lang="pug">
-    .c-base-subsection-item
-      .c-base-subsection-item__left
-        h3(
-          :class=`[
-            "c-base-subsection-item__subtitle",
-            {
-              "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
-            }
-          ]`
-        )
-          | {{ item.subtitle }}
+div(
+  :class=`[
+    "c-base-subsection-item",
+    "c-base-subsection-item--" + color
+  ]`
+)
+  .c-base-subsection-item__left
+    h3(
+      :class=`[
+        "c-base-subsection-item__subtitle",
+        {
+          "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
+        }
+      ]`
+    )
+      | {{ item.subtitle }}
 
-          base-icon(
-            v-if="item.restoreSubtitle"
-            class="c-base-subsection-item__subtitle--icon"
-            name="restore"
-            size="8px"
-            fill="#2490f0"
-          )
-
-        p.c-base-subsection-item__description {{ item.description}}
-
-      slot 
-
-      form-toggle(
-        v-if="type === 'toggle'"
+      base-icon(
+        v-if="item.restoreSubtitle"
+        class="c-base-subsection-item__subtitle--icon"
+        name="restore"
+        size="8px"
+        fill="#2490f0"
       )
 
-      base-button(
-        v-if="type === 'button'"
-        :size="item.typeProps?.size"
-        tint="white"
-      )  
-        | {{item.typeProps?.label}}
+    p.c-base-subsection-item__description 
+      | {{ item.description}}
 
-      form-select(
-        v-if="type === 'select'"
-        placeholder="1 year"
-        :search="false"
-        size="medium"
-        :options="item.typeProps?.options"
-        position="bottom"
-      )
+  slot 
 
-        
-  </template>
+  form-toggle(
+    v-if="type === 'toggle'"
+  )
+
+  base-button(
+    v-if="type === 'button'"
+    :size="item.typeProps?.size"
+    :tint="buttonColor"
+    @click="$emit('click')"
+  )  
+    | {{item.typeProps?.label}}
+
+  form-select(
+    v-if="(type === 'select') || type === 'doubleSelect'"
+    placeholder="1 year"
+    :search="false"
+    size="medium"
+    :options="item.typeProps?.options"
+    position="bottom"
+  )
+
+  form-select(
+    v-if="type === 'doubleSelect'"
+    placeholder="1 year"
+    :search="false"
+    size="medium"
+    :options="item.typeProps?.secondOptions"
+    position="bottom"
+  )
+    
+</template>
 
 <!-- **********************************************************************
        SCRIPT
@@ -85,15 +100,24 @@ export default {
 
     type: {
       type: String,
-      default: "",
+      required:true,
 
       validator(x: string) {
         return ["toggle", "button", "select"].includes(x);
       }
     },
+
+    color: {
+      type: String,
+      default: "bw",
+
+      validator(x: string) {
+        return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
+      }
+    },
   },
 
-  emits: [],
+  emits: ["click"],
 
   data() {
     return {
@@ -101,7 +125,23 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    buttonColor() {
+      switch (this.color) {
+        case 'bw':
+          return 'white';
+        case 'bwPurple':
+          return 'purple';
+        case 'redBackground':
+          return 'red';
+        case 'redShell':
+          return 'red';
+        default:
+          return 'white';
+      }
+    }
+
+  },
 
   watch: {},
 
@@ -147,10 +187,28 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__description {
-    max-width: 70%;
+    max-width: 78%;
     margin: 0;
     color: $color-text-secondary;
     font-size: $font-size-baseline - 1px;
   }
+
+  // <!-- COLORS -->
+  &--redBackground {
+    background-color: rgba($color-base-red-normal, 0.06);
+    #{$c}__subtitle {
+      color: $color-base-red-normal;
+    }
+  }
+
+  &--redShell {
+    color: $color-base-red-normal;
+
+    #{$c}__description {
+      color: $color-base-red-normal;
+    }
+  }
+
+
 }
 </style>

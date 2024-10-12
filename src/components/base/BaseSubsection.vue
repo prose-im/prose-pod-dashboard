@@ -10,7 +10,7 @@
 
 <template lang="pug">
   .c-base-subsection
-    .c-base-subsection__title-- 
+    .c-base-subsection__title 
       h2(
         :class=`[
           "c-base-subsection__title--" + titleColor
@@ -34,6 +34,8 @@
       v-for="item in items"
       :item="item"
       :type="item.type"
+      :color="item.color?item.color:'bw'"
+      @click="item.action"
     )
 
 </template>
@@ -98,6 +100,9 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
+
+
   },
 };
 </script>

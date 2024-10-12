@@ -59,6 +59,7 @@
             {
               subtitle: "Minimum SSL/TLS version",
               description: "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered less secure. It is recommended to configure the minimum version to TLS 1.2.",
+              restoreSubtitle:true,
               type:"select",
               typeProps:{
                 options:[

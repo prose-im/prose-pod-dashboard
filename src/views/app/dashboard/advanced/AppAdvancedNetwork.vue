@@ -21,6 +21,12 @@
     :items="toolsItems"
   )
 
+dns-setup(
+  v-if="isDnsInstructionsVisible"
+  @close="toggleDnsInstructionsVisible"
+  @proceed=""
+)
+
 </template>
   
 <!-- **********************************************************************
@@ -30,12 +36,14 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+import DnsSetup from '@/assemblies/modals/advanced/DnsSetup.vue';
 
 export default {
   name: "AppAdvancedNetwork",
 
   components: {
-    BaseSubsection
+    BaseSubsection,
+    DnsSetup
   },
 
   props: {
@@ -47,6 +55,8 @@ export default {
   data() {
     return {
       // --> STATE <--
+      isDnsInstructionsVisible: false,
+
       federationItems:[
         {
           subtitle:"Allow other servers to connect with this server",
@@ -71,6 +81,7 @@ export default {
           subtitle: "DNS setup instructions",
           description: "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
           type:"button",
+          action: this.onShowDnsInstructions,
           typeProps:{
             label:"Show DNS instructions...",
             size:"medium"
@@ -81,6 +92,7 @@ export default {
           subtitle: "Network configuration checker",
           description: "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
           type:"button",
+          color:"redBackground",
           typeProps:{
             label:"Start network check...",
             size:"medium"
@@ -98,6 +110,15 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    toggleDnsInstructionsVisible(){
+      this.isDnsInstructionsVisible = !this.isDnsInstructionsVisible;
+    },
+
+    // --> EVENT LISTENERS <--
+    onShowDnsInstructions(event: Event): void {
+      // Re-emit click event
+      this.toggleDnsInstructionsVisible()
+    }
   },
 };
 </script>

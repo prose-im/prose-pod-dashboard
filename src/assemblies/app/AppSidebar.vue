@@ -104,7 +104,7 @@
               {
                 icon: "archive",
                 label: "Backup & Reset",
-                link:"/advanced/team",
+                link:"/advanced/backup",
               },
             ],
           },
