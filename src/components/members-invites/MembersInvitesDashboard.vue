@@ -10,26 +10,29 @@ TEMPLATE
 
 <template lang="pug">
 .c-members-invites-dashboard
-  search-bar(
-    :buttonLabel="label"
-    :clickHandle="onInviteMemberClick"
-  )
+  .c-members-invites-dashboard__upper
+    search-bar(
+      :buttonLabel="label"
+      :clickHandle="onInviteMemberClick"
+    )
 
-  members-invites-row(
-    :userData="{}"
-    :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
-  )
+    members-invites-row(
+      :userData="{}"
+      :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
+    )
 
-  members-invites-row(
-    :userData="invited"
-  )
+    members-invites-row(
+      :userData="invited"
+    )
 
-  members-invites-row(
-    v-for="(user, index) in users"
-    :key="user.name"
-    :userData="user"
-    class="c-members-invites-dashboard__users"
-  )
+    members-invites-row(
+      v-for="(user, index) in users"
+      :key="user.name"
+      :userData="user"
+      class="c-members-invites-dashboard__users"
+    )
+
+  base-navigation-footer
 
 invite-team-member(
   v-if="modalIsVisible"
@@ -44,6 +47,7 @@ invite-team-member(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseNavigationFooter from '../base/BaseNavigationFooter.vue';
 import InviteTeamMember from '@/assemblies/modals/members/InviteTeamMember.vue';
 import MembersInvitesRow from './MembersInvitesRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
@@ -52,6 +56,7 @@ export default {
   name: "MembersInvitesDashboard",
 
   components: {
+    BaseNavigationFooter,
     InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
@@ -170,6 +175,10 @@ export default {
 $c: ".c-members-invites-dashboard";
 
 #{$c} {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 
   #{$c}__users {
 

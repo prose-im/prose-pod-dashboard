@@ -86,7 +86,7 @@
       $c: ".c-base-icon";
       
       // VARIABLES
-      $icon-fill-default: rgb(var(--color-black));
+      $icon-fill-default: $color-black;
       
       #{$c} {
         fill: $icon-fill-default;

@@ -734,7 +734,7 @@ $sizes: (
           &,
           &:active {
             #{$c}__value {
-              color: rgb(var(--color-text-reverse));
+              color: $color-white;
             }
           }
 

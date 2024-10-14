@@ -398,8 +398,11 @@ $size-ultra-large-padding-sides: 45.5px;
       line-height: 32px;
       padding-inline-start: $size-mid-medium-padding-sides;
       padding-inline-end: $size-mid-medium-padding-sides;
+
       &--square {
         padding-inline: 0px;
+        min-height: 32px;
+        min-width: 32px;
       }
     }
   }

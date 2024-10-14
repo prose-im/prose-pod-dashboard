@@ -10,22 +10,25 @@ TEMPLATE
 
 <template lang="pug">
 .c-emojis-reactions-dashboard
-  search-bar(
-    buttonLabel="Add Custom Emoji"
-    :clickHandle="onInvitePeopleClick"
-  )
+  .c-emojis-reactions-dashboard__upper
+    search-bar(
+      buttonLabel="Add Custom Emoji"
+      :clickHandle="onInvitePeopleClick"
+    )
 
-  emojis-reactions-row(
-    :emojiData="{}"
-    :tableHeaders="['Image', 'Shortcut', 'Date added', 'Added by']"
-  )
+    emojis-reactions-row(
+      :emojiData="{}"
+      :tableHeaders="['Image', 'Shortcut', 'Date added', 'Added by']"
+    )
 
-  emojis-reactions-row(
-    v-for="(emoji, index) in emojis"
-    :key="emoji.shortcut"
-    :emojiData="emoji"
-    class="c-emojis-reactions-dashboard__users"
-  )
+    emojis-reactions-row(
+      v-for="(emoji, index) in emojis"
+      :key="emoji.shortcut"
+      :emojiData="emoji"
+      class="c-emojis-reactions-dashboard__users"
+    )
+
+  base-navigation-footer
 
 add-custom-emoji(
   v-if="isModalVisible"
@@ -41,6 +44,7 @@ add-custom-emoji(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import AddCustomEmoji from '@/assemblies/modals/customization/AddCustomEmoji.vue';
+import BaseNavigationFooter from '../base/BaseNavigationFooter.vue';
 import EmojisReactionsRow from './EmojisReactionsRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 
@@ -49,6 +53,7 @@ export default {
 
   components: {
     AddCustomEmoji,
+    BaseNavigationFooter,
     EmojisReactionsRow,
     SearchBar
   },
@@ -118,9 +123,13 @@ export default {
 $c: ".c-emojis-reactions-dashboard";
 
 #{$c} {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  height: 100%;
 
   #{$c}__users {
-
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }

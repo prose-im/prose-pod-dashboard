@@ -94,5 +94,7 @@ export default {
 <style lang="scss">
 $c: ".v-app-customization-emojis";
 
-
+#{$c} {
+  height: 100%;
+}
 </style>

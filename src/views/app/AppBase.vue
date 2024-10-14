@@ -57,8 +57,8 @@ $c: ".v-app-base";
   }
 
   #{$c}__content {
-    background-color: rgb(var(--color-background-primary));
     flex: 1;
+    height: 85vh;   /// Verificar
   }
 }
 </style>

@@ -266,8 +266,8 @@ $suggest-sizes: (
 );
 
 #{$c} {
-  background-color: rgb(var(--color-background-secondary));
-  border: 1px solid rgb(var(--color-border-primary));
+  background-color: $color-background-secondary;
+  border: 1px solid $color-border-primary;
   padding: 4px;
   overflow-x: hidden;
   overflow-y: auto;
