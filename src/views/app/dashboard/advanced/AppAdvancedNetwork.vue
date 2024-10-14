@@ -23,7 +23,7 @@
 
 dns-setup(
   v-if="isDnsInstructionsModalVisible"
-  @close="toggleDnsInstructionsModalciVisible"
+  @close="toggleDnsInstructionsModalVisible"
   @proceed=""
 )
 

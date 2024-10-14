@@ -37,7 +37,22 @@ div(
     p.c-base-subsection-item__description 
       | {{ item.description}}
 
-  slot 
+  p(
+    v-if="item.slot === 'text'"
+    class="c-base-subsection-item__slot"
+  )
+    | {{ item.slotData }}
+
+  base-avatar(
+    v-if="item.slot === 'avatar'"
+    :avatarDataUrl="item.slotData"
+    size="40px"
+    borderRadius="20px"
+    :class=`[
+      "c-base-subsection-item__slot",
+      "c-base-subsection-item__slot--avatar"
+    ]`
+  )
 
   form-toggle(
     v-if="type === 'toggle'"
@@ -76,6 +91,7 @@ div(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAvatar from "./BaseAvatar.vue";
 import BaseButton from "./BaseButton.vue";
 import BaseIcon from "./BaseIcon.vue";
 import FormSelect from "../form/FormSelect.vue";
@@ -85,6 +101,7 @@ export default {
   name: "BaseSubsectionItem",
 
   components: {
+    BaseAvatar,
     BaseButton,
     BaseIcon,
     FormSelect,
@@ -210,6 +227,17 @@ $c: ".c-base-subsection-item";
     color: $color-text-secondary;
     font-size: $font-size-baseline - 1px;
   }
+
+  #{$c}__slot { 
+    font-size: ($font-size-baseline - 4px);
+    font-weight: $font-weight-medium;
+    margin-inline-end: 20px;
+
+    &--avatar{
+      outline: 1px solid $color-border-primary;
+      outline-offset: 1px;
+    }
+  }  
 
   // <!-- COLORS -->
   &--redBackground {

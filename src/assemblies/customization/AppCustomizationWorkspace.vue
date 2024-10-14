@@ -54,7 +54,9 @@ export default {
           typeProps:{
             label:"Edit name...",
             size:"medium"
-          }
+          },
+          slot:'text',
+          slotData: 'Crisp'
         },
         {
           subtitle:"Icon for workspace",
@@ -63,7 +65,9 @@ export default {
           typeProps:{
             label:"Edit logo...",
             size:"medium"
-          }
+          },
+          slot:'avatar',
+          slotData: 'https://cdn.cmsfly.com/635bcad9b8a74e0091632998/cerp-GR1YU2.png'
         },
         {
           subtitle:"Server details card",
