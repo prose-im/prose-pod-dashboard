@@ -16,7 +16,13 @@ TEMPLATE
     buttonLabel="Add custom Emoji"
   )
     .a-dns-setup
-      base-modal-network-check-block
+      base-modal-network-check-block(
+        status="pending"
+        label="dns"
+        subtitle="DNS records"
+        description="Checks that all DNS records are properly configured."
+        :checkList="checkList"
+      )
       
   </template>
     
@@ -46,7 +52,32 @@ TEMPLATE
     data() {
       return {
         // --> STATE <--
-        
+        checkList : [
+          {
+            checkpoint: "IPv4 record for xmpp.crisp.chat",
+            status:"sucess"
+          },
+
+          {
+            checkpoint: "IPv6 record for xmpp.crisp.chat",
+            status:"sucess"
+          },
+
+          {
+            checkpoint: "SRV record for client-to-server connections",
+            status:"pending"
+          },
+
+          {
+            checkpoint: "Server-to-server port at TCP 5269",
+            status:"warning"
+          },
+
+          {
+            checkpoint: "SRV record for client-to-server connections",
+            status:"failed"
+          }
+        ]
       };
     },
   

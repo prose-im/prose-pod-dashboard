@@ -41,6 +41,7 @@ div(
 
   form-toggle(
     v-if="type === 'toggle'"
+    v-model="state"
   )
 
   base-button(
@@ -53,7 +54,6 @@ div(
 
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
-    placeholder="1 year"
     :search="false"
     size="medium"
     :options="item.typeProps?.options"
@@ -62,7 +62,6 @@ div(
 
   form-select(
     v-if="type === 'doubleSelect'"
-    placeholder="1 year"
     :search="false"
     size="medium"
     :options="item.typeProps?.secondOptions"
@@ -93,6 +92,11 @@ export default {
   },
 
   props: {
+    modelValue: {
+      type: String || Boolean,
+      default: null
+    },
+
     item: {
       type: Object,
       required: true,
@@ -117,7 +121,7 @@ export default {
     },
   },
 
-  emits: ["click"],
+  emits: ["click", "update:modelValue"],
 
   data() {
     return {
@@ -139,16 +143,30 @@ export default {
         default:
           return 'white';
       }
+    },
+
+    state: {
+      get() {
+        return this.modelValue;
+      },
+
+      set(nextValue: string) {
+        console.log(this.modelValue)
+        this.$emit("update:modelValue", nextValue);
+      },
     }
 
   },
 
-  watch: {},
+  watch: {
+
+  },
 
   created() {},
 
   methods: {
     // --> HELPERS <--
+    
   },
 };
 </script>

@@ -14,10 +14,9 @@ div(
     "c-form-select",
     "c-form-select--" + size,
     "c-form-select--" + align,
-    accordion ? "c-form-select--accordion": "c-form-select--" + position,
+    "c-form-select--" + position,
     {
       "c-form-select--visible": visible && !disabled,
-      "c-form-select--search": search,
       "c-form-select--disabled": disabled,
       "c-form-select--loading": loading
     }
@@ -26,32 +25,22 @@ div(
   .c-form-select__field(
     @click="onFieldClick"
     :class=`[
-      {
-        "c-form-select__field--menu":!accordion,
-      }
+      "c-form-select__field--menu"
     ]`
   )
     .c-form-select__inner(
       :class=`[
-        {
-          "c-form-select__inner--menu":!accordion,
-        }
+        "c-form-select__inner--menu"
       ]`
     )
-      component(
-        v-if="icon && value"
-        v-bind="icon.properties(value)"
-        :is="icon.component"
-        class="c-form-select__icon"
-      )
 
       span(
         :class=`[
           "c-form-select__value",
           "u-ellipsis",
+          "c-form-select__value--menu",
           {
             "c-form-select__value--empty": !value,
-            "c-form-select__value--menu":!accordion
           }
         ]`
       )
@@ -67,23 +56,18 @@ div(
     v-if="visible && !disabled"
     :class=`[
       "c-form-select__dropdown",
-      {
-        "c-form-select__dropdown--menu":!accordion,
-        "c-form-select__dropdown--accordion":accordion
-      }
+      "c-form-select__dropdown--menu"
     ]`
 
   )
     ul.c-form-select__options(
       ref="options"
       :class=`[
-        {
-          "c-form-select__options--menu":!accordion,
-        }
+        "c-form-select__options--menu"
       ]`
     )
       li(
-        v-for="(option, index) in filteredOptions"
+        v-for="(option, index) in options"
         @mouseenter="onOptionMouseEnter(index)"
         :class=`[
           "c-form-select__option",
@@ -97,9 +81,7 @@ div(
       )
         a(
           :class=`[
-            {
-              "c-form-select__option--link": accordion,
-            }
+            "c-form-select__option--link"
           ]`
           @click="onOptionClick(option)"
         )
@@ -170,7 +152,7 @@ export default {
   },
   props: {
     modelValue: {
-      type: String,
+      type: String || Boolean,
       default: null
     },
 
@@ -200,11 +182,6 @@ export default {
       validator(x: string) {
         return Object.keys(AVAILABLE_SIZES).includes(x);
       }
-    },
-
-    accordion:{
-      type: Boolean,
-      default:false
     },
 
     align: {
@@ -240,10 +217,7 @@ export default {
       default: false
     },
 
-    search: {
-      type: Boolean,
-      default: true
-    }
+
   },
 
   emits: ["update:modelValue", "change"],
@@ -262,35 +236,19 @@ export default {
   },
 
   computed: {
-    filteredOptions(): Array<Option> {
-      // Any search query? Filter options.
-      if (this.search === true && this.searchQuery) {
-        const searchQueryLower = this.searchQuery.toLowerCase();
-
-        return this.options.filter(option => {
-          const optionLabelLower = option.label.toLowerCase();
-
-          // Perform prefix search, or include search?
-          if (searchQueryLower.length <= SEARCH_QUERY_PREFIX_LENGTH_MAXIMUM) {
-            return optionLabelLower.startsWith(searchQueryLower);
-          }
-
-          return optionLabelLower.includes(searchQueryLower);
-        });
-      }
-
-      // No search query, return identity.
-      return this.options;
-    },
 
     hasOptions(): boolean {
-      return this.filteredOptions.length > 0;
+      return this.options.length > 0;
     },
 
     valueLabel(): string {
       const option = this.options.find(option => {
+        console.log('option', option.value)
+
         return this.value === option.value;
       });
+
+      console.log('value', this.value)
 
       // Return inner label from corresponding option?
       if (option && option.label) {
@@ -332,23 +290,12 @@ export default {
       }
     },
 
-    searchQuery: {
-      handler(value) {
-        // Reset hovered index (as search query changed)
-        this.hoveredIndex = value ? 0 : -1;
-      }
-    },
-
     visible: {
       handler(value) {
         // Now invisible? Reset values (as needed)
         if (value === false) {
           if (this.hoveredIndex >= 0) {
             this.hoveredIndex = -1;
-          }
-
-          if (this.searchQuery) {
-            this.searchQuery = "";
           }
         }
       }
@@ -357,7 +304,7 @@ export default {
 
   mounted() {
     // Apply focus on search input (as needed)
-    this.autoFocusDropdownSearch();
+    // this.autoFocusDropdownSearch();
   },
 
   methods: {
@@ -365,12 +312,9 @@ export default {
 
     selectOption(option: Option): void {
       if (option.disabled !== true) {
-        const inputElement = this.$refs.input as HTMLInputElement;
 
         // Assign new value, and dispatch change event
-        inputElement.value = option.value;
-
-        inputElement.dispatchEvent(new Event("change"));
+        // inputElement.value = option.value;
 
         // Hide dropdown selector
         this.hideDropdown();
@@ -379,17 +323,6 @@ export default {
 
     hideDropdown(): void {
       this.visible = false;
-    },
-
-    autoFocusDropdownSearch(): void {
-      // Apply auto-focus?
-      if (this.search === true && this.visible === true) {
-        const searchElement = (this.$refs.search as HTMLElement) || null;
-
-        if (searchElement !== null) {
-          searchElement.focus();
-        }
-      }
     },
 
     scrollToOptionIndex(index: number): void {
@@ -418,7 +351,7 @@ export default {
       this.eventOverrides(event);
 
       if (this.hasOptions === true && this.hoveredIndex >= 0) {
-        const selectedOption = this.filteredOptions[this.hoveredIndex] || null;
+        const selectedOption = this.options[this.hoveredIndex] || null;
 
         if (selectedOption !== null) {
           this.selectOption(selectedOption);
@@ -445,7 +378,7 @@ export default {
       if (this.hasOptions === true) {
         const nextHoveredIndex = this.hoveredIndex + 1;
 
-        if (nextHoveredIndex < this.filteredOptions.length) {
+        if (nextHoveredIndex < this.options.length) {
           this.hoveredIndex = nextHoveredIndex;
         } else {
           this.hoveredIndex = 0;
@@ -464,7 +397,7 @@ export default {
         if (previousHoveredIndex >= 0) {
           this.hoveredIndex = previousHoveredIndex;
         } else {
-          this.hoveredIndex = this.filteredOptions.length - 1;
+          this.hoveredIndex = this.options.length - 1;
         }
 
         this.scrollToOptionIndex(this.hoveredIndex);
@@ -474,9 +407,6 @@ export default {
     onFieldClick(): void {
       // Toggle dropdown visibility
       this.visible = !this.visible;
-
-      // Apply focus on search input (as needed)
-      this.$nextTick(this.autoFocusDropdownSearch);
     },
 
     onDropdownClickAway(): void {

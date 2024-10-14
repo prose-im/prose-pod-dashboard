@@ -32,6 +32,7 @@
     base-subsection-item(
       class="c-base-subsection__list"
       v-for="item in items"
+      v-model="state"
       :item="item"
       :type="item.type"
       :color="item.color?item.color:'bw'"
@@ -58,6 +59,11 @@ export default {
   },
 
   props: {
+    modelValue: {
+      type: Object,
+      default: null
+    },
+
     title:{
       type: String,
       required:true
@@ -84,15 +90,18 @@ export default {
 
   },
 
-  emits: [],
+  emits: ["update:modelValue"],
 
   data() {
     return {
       // --> STATE <--
+      parameter: true
     };
   },
 
-  computed: {},
+  computed: {
+    
+  },
 
   watch: {},
 
@@ -100,9 +109,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-
-
-
+    
   },
 };
 </script>

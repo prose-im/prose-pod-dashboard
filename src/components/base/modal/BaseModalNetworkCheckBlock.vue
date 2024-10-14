@@ -12,31 +12,52 @@
   .c-base-modal-network-check-block__top
     .c-base-modal-network-check-block__top--left
       .c-base-modal-network-check-block__label
-        | DNS
+        | {{ label.toUpperCase() }}
 
       .c-base-modal-network-check-block__header
-        h4
-          | DNS records
+        h4(
+          :class=`[
+            {
+              "c-base-modal-network-check-block--blue": status === 'pending',
+              "c-base-modal-network-check-block--green": status === 'sucess',
+              "c-base-modal-network-check-block--yellow": status === 'warning',
+              "c-base-modal-network-check-block--red": status === 'failed',
+
+            }
+          ]`
+        )
+          | {{ subtitle }}
 
         p
-          | Checks that all DNS records are properly configured.
+          | {{ description }}
     
     base-modal-status(
-      status="verified"
+      status="sucess"
+      :color="globalIconColor"
+      :iconName="globalIconName"
     )
 
   .c-base-modal-network-check-block__details
-      .c-base-modal-network-check-block--flex
+    .c-base-modal-network-check-block__details--row(
+      v-for="row in checkList"
+      :class=`[
+        "c-base-modal-network-check-block--" + colorCode(row.status, true)
+      ]`
+    )
+      .c-base-modal-network-check-block__left(
+        class="c-base-modal-network-check-block--flex"
+      )
         base-icon(
-          name="check.circle"
+          :name="getIconName(row.status)"
           class="c-base-modal-network-check-block__icon"
+          :fill="colorCode(row.status)"
         )
 
         p
-          | IPv4 record for xmpp.crisp.chat
+          | {{ row['checkpoint'] }}
 
       p
-        | Record is valid
+        | {{ getStatusDisplay(row.status) }}
 
 </template>
  
@@ -59,12 +80,32 @@ export default {
   props: {
     status:{
       type: String,
-      default:"checking",
+      default:"sucess",
 
       validator(x: string) {
-        return ["cheking", "verified", "warning", "issue"].includes(x);
+        return ["sucess", "pending", "failed", "warning"].includes(x);
       }
     },
+
+    label: {
+      type: String,
+      required: true,
+    },
+
+    subtitle: {
+      type: String,
+      required: true,
+    },
+
+    description: {
+      type: String,
+      required: true,
+    },
+
+    checkList: {
+      type: Array,
+      required: true
+    }
   },
 
   data() {
@@ -74,6 +115,15 @@ export default {
   },
 
   computed: {
+    globalIconColor(){
+      return this.colorCode(this.status)
+    },
+
+    globalIconName(){
+      console.log('icon name', this.getIconName(this.status))
+      return this.getIconName(this.status)
+    },
+
 
   },
 
@@ -85,8 +135,73 @@ export default {
     // <-- HELPERS -->
     capitalizeFirst(word: string){
       return word.charAt(0).toUpperCase() + word.slice(1)
-    }  
+    },
+    
+    colorCode(status: string, isString = false){
+      let result = "";
+
+      switch (status) {
+        case "pending":
+          result = isString ? "blue" : "#2490f0";
+          break;
+        case "sucess":
+          result = isString ? "green" : "#05c02b";
+          break;
+        case "failed":
+          result = isString ? "red" : "#dd2f2f";
+          break;
+        case "warning":
+          result = isString ? "orange" : "#fc8227";
+          break;
+      }
+      return result;
+    },
+
+    getIconName(status: string){
+      let result = "";
+
+      switch (status) {
+        case "pending":
+          return result = "archive";
+        case "sucess":
+          return result = "check.circle";
+        case "failed":
+          return result = "warning";
+        case "warning":
+          return result = "exclamation.circle";
+        default:
+          break;
+      }
+      return result;
+
+    },
+
+    getStatusDisplay(status: string){
+      switch (status) {
+        case "pending":
+          return "Pending";
+          
+        case "sucess":
+          if(this.label === "dns") {
+            return "Record is valid";
+          } else if (this.label === "tcp") {
+            return "Port is open";
+          } else {
+            return "Connectivity is OK"
+          }
+
+        case "failed":
+          if(this.label === "dns") {
+            return "Record is not valid";
+          } else if (this.label === "tcp") {
+            return "Port is closed";
+          } 
+
+        case "warning":
+          return "No address available";
+      }
     }
+  }
   }
  
  </script>
@@ -140,15 +255,20 @@ $badge-padding-inline: 7px;
   }
 
   #{$c}__details {
-    display: flex;
-    justify-content: space-between;
+
     border-radius: 2px;
     border: 1px solid $color-border-primary;
     padding-block-start: 11px;
-    padding-block-end: 14px;
+    padding-block-end: 5px;
     padding-inline-start: 20.5px;
     padding-inline-end: 28.5px;
     margin-left: 58px;
+
+    &--row {
+      display: flex;
+      justify-content: space-between;
+      margin-block-end: 9px;
+    }
   }
 
   #{$c}__icon {
@@ -158,6 +278,56 @@ $badge-padding-inline: 7px;
   &--flex {
     display: flex;
   }
+
+  //<!-- WEIGHTS -->
+
+
+  //<!-- COLORS -->
+  &--blue {
+    color: $color-base-blue-normal;
+    font-size: ($font-size-baseline - 2px);
+
+    #{$c}__left {
+      color: $color-text-secondary;
+      font-size: $font-size-baseline;
+    }
+  }
+
+  &--green {
+    color: $color-base-green-normal;
+    font-size: ($font-size-baseline - 2px);
+    
+    #{$c}__left {
+      color: $color-black;
+      font-size: $font-size-baseline;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &--red {
+    color: $color-base-red-normal;
+    font-size: ($font-size-baseline - 2px);
+    font-weight: $font-weight-medium;
+
+    
+    #{$c}__left {
+      color: $color-base-red-normal;
+      font-size: $font-size-baseline;
+
+    }
+  }
+
+  &--orange {
+    color: $color-base-orange-normal;
+    font-size: ($font-size-baseline - 2px);
+
+    #{$c}__left {
+      color: $color-text-secondary;
+      font-size: $font-size-baseline;
+
+    }
+  }
+
 }
 </style>
  

@@ -11,13 +11,13 @@
   .c-base-modal-status
     base-icon(
       :name="iconName"
-      :fill="iconColor"
+      :fill="color"
       class="c-base-modal-status__icon"
     )
 
     p(
       :style=`{
-        color: iconColor,
+        color: color,
       }`
     )
       | {{ label }}
@@ -40,12 +40,22 @@ export default {
   props: {
     status:{
       type: String,
-      default:"checking",
+      default:"pending",
 
       validator(x: string) {
-        return ["cheking", "verified", "warning", "issue"].includes(x);
+        return ["pending", "sucess", "warning", "failed"].includes(x);
       }
     },
+
+    color: {
+      type: String,
+      required: true
+    },
+
+    iconName:{
+      type: String,
+      required: true
+    }
   },
 
   data() {
@@ -55,44 +65,18 @@ export default {
   },
 
   computed: {
-    iconName(){
-      switch (this.status) {
-        case "checking":
-          return "";
-        case "verified":
-          return "check.circle";
-        case "warning":
-          return "exclamation.circle";
-        case "issue":
-          return "warning";
-        default:
-          break;
-      }
-    },
-
-    iconColor(){
-      switch (this.status) {
-        case "checking":
-          return "#2490f0";
-        case "verified":
-          return "#05c02b";
-        case "warning":
-          return "#fc8227";
-        case "issue":
-          return "#dd2f2f";
-        default:
-          break;
-      }
-    },
-
     label(x:string){
-      if (this.status === 'checking') {
-        const result = this.capitalizeFirst(this.status) + '...';
-        return result;
-
-      } else {
-        const result = this.capitalizeFirst(this.status);
-        return result;
+      switch (this.status) {
+        case "pending":
+          return "Checking...";
+        case "sucess":
+          return "Verified";
+        case "failed":
+          return "Issue";
+        case "warning":
+          return "Warning";
+        default:
+          break;
       }
 
     }
