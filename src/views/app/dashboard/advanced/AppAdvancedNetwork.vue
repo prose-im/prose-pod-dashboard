@@ -22,8 +22,14 @@
   )
 
 dns-setup(
-  v-if="isDnsInstructionsVisible"
-  @close="toggleDnsInstructionsVisible"
+  v-if="isDnsInstructionsModalVisible"
+  @close="toggleDnsInstructionsModalciVisible"
+  @proceed=""
+)
+
+configuration-checker(
+  v-if="isNetworkCheckModalVisible"
+  @close="toggleNetworkCheckModalVisible"
   @proceed=""
 )
 
@@ -36,6 +42,7 @@ dns-setup(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+import ConfigurationChecker from '@/assemblies/modals/advanced/ConfigurationChecker.vue';
 import DnsSetup from '@/assemblies/modals/advanced/DnsSetup.vue';
 
 export default {
@@ -43,6 +50,7 @@ export default {
 
   components: {
     BaseSubsection,
+    ConfigurationChecker,
     DnsSetup
   },
 
@@ -55,7 +63,9 @@ export default {
   data() {
     return {
       // --> STATE <--
-      isDnsInstructionsVisible: false,
+      isDnsInstructionsModalVisible: false,
+
+      isNetworkCheckModalVisible: false,
 
       federationItems:[
         {
@@ -93,6 +103,7 @@ export default {
           description: "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
           type:"button",
           color:"redBackground",
+          action: this.toggleNetworkCheckModalVisible,
           typeProps:{
             label:"Start network check...",
             size:"medium"
@@ -110,14 +121,18 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    toggleDnsInstructionsVisible(){
-      this.isDnsInstructionsVisible = !this.isDnsInstructionsVisible;
+    toggleDnsInstructionsModalVisible(){
+      this.isDnsInstructionsModalVisible = !this.isDnsInstructionsModalVisible;
+    },
+
+    toggleNetworkCheckModalVisible(){
+      this.isNetworkCheckModalVisible = !this.isNetworkCheckModalVisible;
     },
 
     // --> EVENT LISTENERS <--
     onShowDnsInstructions(event: Event): void {
       // Re-emit click event
-      this.toggleDnsInstructionsVisible()
+      this.toggleDnsInstructionsModalVisible()
     }
   },
 };
