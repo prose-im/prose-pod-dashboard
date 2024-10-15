@@ -9,24 +9,24 @@ TEMPLATE
 ********************************************************************** -->
 
 <template lang="pug">
-.c-advanced-dns-table-row
-  .c-advanced-dns-table-row__content(
+.c-advanced-network-dns-table-row
+  .c-advanced-network-dns-table-row__content(
     :class=`[
       {
-        "c-advanced-dns-table-row__content--header": header
+        "c-advanced-network-dns-table-row__content--header": header
       }
     ]`
   )
-    .c-advanced-dns-table-row__slot(
-      class="c-advanced-dns-table-row--flex"
+    .c-advanced-network-dns-table-row__slot(
+      class="c-advanced-network-dns-table-row--flex"
     )
       slot
 
-    .c-advanced-dns-table-row__icon(
+    .c-advanced-network-dns-table-row__icon(
       :class=`[
-        "c-advanced-dns-table-row--flex",
+        "c-advanced-network-dns-table-row--flex",
         {
-          "c-advanced-dns-table-row__icon--hidden":header
+          "c-advanced-network-dns-table-row__icon--hidden":header
         }
       ]`
     )
@@ -50,10 +50,10 @@ TEMPLATE
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseIcon from '../base/BaseIcon.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 
 export default {
-  name: "AdvancedDnsTableFirst",
+  name: "AdvancedNetworkDnsTableFirst",
 
   components: {
     BaseIcon
@@ -94,7 +94,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-advanced-dns-table-row";
+$c: ".c-advanced-network-dns-table-row";
 
 #{$c} {
   font-family: $font-family-default;

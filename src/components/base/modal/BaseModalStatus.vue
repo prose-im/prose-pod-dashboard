@@ -9,7 +9,13 @@
  ********************************************************************** -->
  <template lang="pug">
   .c-base-modal-status
+    base-pulse-icon(
+      v-if="status === 'pending'"
+      class="c-base-modal-status__icon"
+    )
+
     base-icon(
+      v-else
       :name="iconName"
       :fill="color"
       class="c-base-modal-status__icon"
@@ -29,12 +35,14 @@
  
 <script lang="ts">
 import BaseIcon from '../BaseIcon.vue';
+import BasePulseIcon from '../BasePulseIcon.vue';
 
 export default {
   name: "Modal",
 
   components:{
-    BaseIcon
+    BaseIcon,
+    BasePulseIcon
   },
 
   props: {
@@ -105,6 +113,7 @@ $c: ".c-base-modal-status";
 
 #{$c} {
   display: flex;
+  align-items: center;
 
   #{$c}__icon {
     margin-inline-end: 5px;

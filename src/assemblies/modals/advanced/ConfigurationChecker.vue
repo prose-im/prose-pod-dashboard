@@ -33,7 +33,7 @@ TEMPLATE
   <script lang="ts">
   // PROJECT: COMPONENTS
   import BaseModal from '@/components/base/modal/BaseModal.vue';
-  import BaseModalNetworkCheckBlock from '@/components/base/modal/BaseModalNetworkCheckBlock.vue';
+  import BaseModalNetworkCheckBlock from '@/components/advanced/network/BaseModalNetworkCheckBlock.vue';
   
   export default {
     name: "DnsSetup",

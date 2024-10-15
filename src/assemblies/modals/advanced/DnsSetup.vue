@@ -32,7 +32,7 @@ base-modal(
       | 1️⃣  Add those records to specify your server IP address:
 
     .a-dns-setup__table
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         :header="true"
         class="a-dns-setup__table--one--row"
       )
@@ -41,7 +41,7 @@ base-modal(
         p TTL
         p Value
 
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         class="a-dns-setup__table--one--row"
       )
         p xmpp.crisp.chat
@@ -49,7 +49,7 @@ base-modal(
         p 600
         p 90.105.205.180
 
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         class="a-dns-setup__table--one--row"
       )
         p xmpp.crisp.chat
@@ -61,7 +61,7 @@ base-modal(
       | 2️⃣  Add the records that let clients connect to your server:
 
     .a-dns-setup__table
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         :header="true"
         class="a-dns-setup__table--two--row"
       )
@@ -73,7 +73,7 @@ base-modal(
         p Port
         p Target
 
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         class="a-dns-setup__table--two--row"
       )
         p crisp.chat
@@ -87,7 +87,7 @@ base-modal(
     p.a-dns-setup__step
       | 3️⃣  Add the records that let servers connect to your server:
     .a-dns-setup__table
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         :header="true"
         class="a-dns-setup__table--two--row"
       )
@@ -99,7 +99,7 @@ base-modal(
         p Port
         p Target
 
-      advanced-dns-table-row(
+      advanced-network-dns-table-row(
         class="a-dns-setup__table--two--row"
       )
         p crisp.chat
@@ -124,13 +124,13 @@ base-modal(
 import BaseModal from '@/components/base/modal/BaseModal.vue';
 import BaseModalInformation from '@/components/base/modal/BaseModalInformation.vue';
 import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
-import AdvancedDnsTableRow from '@/components/advanced/AdvancedDnsTableRow.vue';
+import AdvancedNetworkDnsTableRow from '@/components/advanced/network/AdvancedNetworkDnsTableRow.vue';
 
 export default {
   name: "DnsSetup",
 
   components: {
-    AdvancedDnsTableRow,
+    AdvancedNetworkDnsTableRow,
     BaseModal,
     BaseModalInformation,
     BaseModalInputBlock,

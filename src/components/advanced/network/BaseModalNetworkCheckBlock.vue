@@ -32,7 +32,7 @@
           | {{ description }}
     
     base-modal-status(
-      status="sucess"
+      :status="status"
       :color="globalIconColor"
       :iconName="globalIconName"
     )
@@ -47,7 +47,13 @@
       .c-base-modal-network-check-block__left(
         class="c-base-modal-network-check-block--flex"
       )
+        base-pulse-icon(
+          v-if="row.status === 'pending'"
+          class="c-base-modal-network-check-block__icon"
+        )     
+
         base-icon(
+          v-else
           :name="getIconName(row.status)"
           class="c-base-modal-network-check-block__icon"
           :fill="colorCode(row.status)"
@@ -66,15 +72,17 @@
       ********************************************************************** -->
  
 <script lang="ts">
-import BaseIcon from '../BaseIcon.vue';
-import BaseModalStatus from './BaseModalStatus.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseModalStatus from '@/components/base/modal/BaseModalStatus.vue';
+import BasePulseIcon from '@/components/base/BasePulseIcon.vue';
 
 export default {
   name: "Modal",
 
   components:{
     BaseIcon,
-    BaseModalStatus
+    BaseModalStatus,
+    BasePulseIcon
   },
 
   props: {
