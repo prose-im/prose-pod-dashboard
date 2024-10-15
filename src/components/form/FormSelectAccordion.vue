@@ -225,7 +225,7 @@ export default {
 
       hoveredIndex: -1,
 
-      visible: false
+      visible: true
     };
   },
 
@@ -240,15 +240,6 @@ export default {
     },
 
     valueLabel(): void {
-      // const option = this.options.find(option => {
-      //   return this.value === option.value;
-      // });
-
-      // // Return inner label from corresponding option?
-      // if (option && option.label) {
-      //   return option.label;
-      // }
-
       // // Fallback on raw value
       // return this.value;
     },
@@ -304,7 +295,6 @@ export default {
   methods: {
     // --> HELPERS <--
     selectOption(option: Option): void {
-
       //   // Hide dropdown selector
       //   this.hideDropdown();`
       // }
@@ -320,16 +310,16 @@ export default {
     scrollToOptionIndex(index: number): void {
       const optionsElement = (this.$refs.options as HTMLElement) || null;
 
-      if (optionsElement !== null) {
-        const optionElement = optionsElement.children[index] || null;
+      // if (optionsElement !== null) {
+      //   const optionElement = optionsElement.children[index] || null;
 
-        if (optionElement !== null) {
-          optionElement.scrollIntoView({
-            behavior: "auto",
-            block: "nearest"
-          });
-        }
-      }
+      //   if (optionElement !== null) {
+      //     optionElement.scrollIntoView({
+      //       behavior: "auto",
+      //       block: "nearest"
+      //     });
+      //   }
+      // }
     },
 
     eventOverrides(event: Event): void {
