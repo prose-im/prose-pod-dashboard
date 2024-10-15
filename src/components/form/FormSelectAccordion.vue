@@ -14,10 +14,8 @@ div(
     "c-form-select-accordion",
     "c-form-select-accordion--" + size,
     "c-form-select-accordion--" + align,
-    "c-form-select-accordion--accordion",
     {
       "c-form-select-accordion--visible": visible && !disabled,
-      "c-form-select-accordion--search": search,
       "c-form-select-accordion--disabled": disabled,
       "c-form-select-accordion--loading": loading
     }
@@ -45,7 +43,7 @@ div(
           }
         ]`
       )
-        | {{ valueLabel || placeholder || "" }}
+        | {{ placeholder || "" }}
 
       base-icon(
         :size="arrowSize"
@@ -57,7 +55,6 @@ div(
     v-if="visible && !disabled"
     :class=`[
       "c-form-select-accordion__dropdown",
-      "c-form-select-accordion__dropdown--accordion"
     ]`
 
   )
@@ -67,6 +64,8 @@ div(
       li(
         v-for="(option, index) in filteredOptions"
         @mouseenter="onOptionMouseEnter(index)"
+        @mouseleave="onOptionMouseLeave(index)"
+        @click="onDropDownClick"
         :class=`[
           "c-form-select-accordion__option",
           {
@@ -80,6 +79,7 @@ div(
         router-link(
           :to="option.link"
           class="c-form-select-accordion__link"
+          @click="onOptionClick(option)"
         )
           base-icon(
             v-if="option.icon"
@@ -88,7 +88,7 @@ div(
             class="c-form-select-accordion__link--icon"
           )
           span.c-form-select-accordion__value.u-ellipsis
-            | {{ option.label }}
+            | {{ option.value }}
 </template>
   
 <!-- **********************************************************************
@@ -212,11 +212,6 @@ export default {
       type: Boolean,
       default: false
     },
-
-    search: {
-      type: Boolean,
-      default: true
-    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -236,22 +231,6 @@ export default {
 
   computed: {
     filteredOptions(): Array<Option> {
-      // Any search query? Filter options.
-      if (this.search === true && this.searchQuery) {
-        const searchQueryLower = this.searchQuery.toLowerCase();
-
-        return this.options.filter(option => {
-          const optionLabelLower = option.label.toLowerCase();
-
-          // Perform prefix search, or include search?
-          if (searchQueryLower.length <= SEARCH_QUERY_PREFIX_LENGTH_MAXIMUM) {
-            return optionLabelLower.startsWith(searchQueryLower);
-          }
-
-          return optionLabelLower.includes(searchQueryLower);
-        });
-      }
-
       // No search query, return identity.
       return this.options;
     },
@@ -260,18 +239,18 @@ export default {
       return this.filteredOptions.length > 0;
     },
 
-    valueLabel(): string {
-      const option = this.options.find(option => {
-        return this.value === option.value;
-      });
+    valueLabel(): void {
+      // const option = this.options.find(option => {
+      //   return this.value === option.value;
+      // });
 
-      // Return inner label from corresponding option?
-      if (option && option.label) {
-        return option.label;
-      }
+      // // Return inner label from corresponding option?
+      // if (option && option.label) {
+      //   return option.label;
+      // }
 
-      // Fallback on raw value
-      return this.value;
+      // // Fallback on raw value
+      // return this.value;
     },
 
     arrowSize(): string {
@@ -305,23 +284,12 @@ export default {
       }
     },
 
-    searchQuery: {
-      handler(value) {
-        // Reset hovered index (as search query changed)
-        this.hoveredIndex = value ? 0 : -1;
-      }
-    },
-
     visible: {
       handler(value) {
         // Now invisible? Reset values (as needed)
         if (value === false) {
           if (this.hoveredIndex >= 0) {
             this.hoveredIndex = -1;
-          }
-
-          if (this.searchQuery) {
-            this.searchQuery = "";
           }
         }
       }
@@ -336,16 +304,9 @@ export default {
   methods: {
     // --> HELPERS <--
     selectOption(option: Option): void {
-      // if (option.disabled !== true) {
-      //   const inputElement = this.$refs.input as HTMLInputElement;
-
-      //   // Assign new value, and dispatch change event
-      //   inputElement.value = option.value;
-
-      //   inputElement.dispatchEvent(new Event("change"));
 
       //   // Hide dropdown selector
-      //   this.hideDropdown();
+      //   this.hideDropdown();`
       // }
     },
 
@@ -354,14 +315,6 @@ export default {
     },
 
     autoFocusDropdownSearch(): void {
-      // Apply auto-focus?
-      if (this.search === true && this.visible === true) {
-        const searchElement = (this.$refs.search as HTMLElement) || null;
-
-        if (searchElement !== null) {
-          searchElement.focus();
-        }
-      }
     },
 
     scrollToOptionIndex(index: number): void {
@@ -400,15 +353,9 @@ export default {
 
     onHotkeyEscape(event: Event): void {
       this.eventOverrides(event);
-
-      // Stepped escape handling (1st hit resets search, 2nd hit closes)
-      if (this.searchQuery) {
-        // Reset search query
-        this.searchQuery = "";
-      } else {
         // Hide dropdown selector
         this.hideDropdown();
-      }
+      
     },
 
     onHotkeyDown(event: Event): void {
@@ -462,8 +409,15 @@ export default {
       }
     },
 
-    onOptionClick(option: Option): void {
-      this.selectOption(option);
+    onOptionMouseLeave(index: number): void {
+      // if (this.hoveredIndex !== index) {
+        this.hoveredIndex = -1;
+      // }
+    },
+
+    onOptionClick(event: Event): void {
+      console.log('event', event);
+      this.$emit("update:modelValue", event?.value);
     },
 
   }

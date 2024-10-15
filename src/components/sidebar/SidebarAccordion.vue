@@ -12,12 +12,12 @@
   .c-sidebar-accordion
     form-select-accordion(
       v-for="item in items"
+      v-model="activeCategory"
       :options="item.subcategories"
       :search="false"
       :placeholder="item.value"
       :accordion="true"
     )
-
 </template>
     
 <!-- **********************************************************************
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-
+      activeCategory: "Members & Invites"
     };
   },
 

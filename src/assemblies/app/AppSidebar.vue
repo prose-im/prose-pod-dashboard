@@ -58,7 +58,7 @@
             subcategories: [
               {
                 icon: "two.people",
-                label: "Members & Invites",
+                value: "Members & Invites",
                 link:"/members",
               },
             ],
@@ -68,7 +68,7 @@
             subcategories: [
               {
                 icon: "gear",
-                label: "Configuration",
+                value: "Configuration",
                 link:"/server",
               },
             ],
@@ -78,12 +78,12 @@
             subcategories: [
               {
                 icon: "stack",
-                label: "Workspace",
+                value: "Workspace",
                 link:"/customization/workspace",
               },
               {
                 icon: "gift",
-                label: "Emojis & Reactions",
+                value: "Emojis & Reactions",
                 link:"/customization/emojis",
               },
             ],
@@ -93,17 +93,17 @@
             subcategories: [
               {
                 icon: "key",
-                label: "Security & Encryption",
+                value: "Security & Encryption",
                 link:"/advanced/security",
               },
               {
                 icon: "world",
-                label: "Network Setup",
+                value: "Network Setup",
                 link:"/advanced/network",
               },
               {
                 icon: "archive",
-                label: "Backup & Reset",
+                value: "Backup & Reset",
                 link:"/advanced/backup",
               },
             ],
