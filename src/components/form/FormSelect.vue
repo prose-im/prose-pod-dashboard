@@ -243,13 +243,10 @@ export default {
 
     valueLabel(): string {
       const option = this.options.find(option => {
-        console.log('option', option.value)
 
         return this.value === option.value;
       });
-
-      console.log('value', this.value)
-
+      
       // Return inner label from corresponding option?
       if (option && option.label) {
         return option.label;
@@ -311,14 +308,12 @@ export default {
     // --> HELPERS <--
 
     selectOption(option: Option): void {
-      if (option.disabled !== true) {
+      console.log(option.value)
+      this.$emit("update:modelValue", option.value);
 
-        // Assign new value, and dispatch change event
-        // inputElement.value = option.value;
-
-        // Hide dropdown selector
-        this.hideDropdown();
-      }
+      // Hide dropdown selector
+      this.hideDropdown();
+      
     },
 
     hideDropdown(): void {

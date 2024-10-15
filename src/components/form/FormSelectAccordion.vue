@@ -406,7 +406,6 @@ export default {
     },
 
     onOptionClick(event: Event): void {
-      console.log('event', event);
       this.$emit("update:modelValue", event?.value);
     },
 

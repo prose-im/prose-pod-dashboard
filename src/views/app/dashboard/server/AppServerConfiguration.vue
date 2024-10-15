@@ -48,19 +48,19 @@ export default {
   data() {
     return {
       // --> STATE <--
-      // messagesForm: {
-        storeArchives: true,
+      messagesForm: {
+        storeArchives: false,
         messagesRetentionTime: "2 years",
         // userAuthorization: true,
         // encryption: "",
         // filesRetentionTime: "",
-      // },
+      },
 
       messagingItems:[
         {
           subtitle:"Store archives of all messages",
           description: "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          modelValue: this.storeArchives,
+          // modelValue: this.storeArchives,
           type:"toggle"
         },
 
@@ -68,7 +68,7 @@ export default {
           subtitle: "Message archive retention time",
           description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
           restoreSubtitle: true,
-          modelValue: this.messagesRetentionTime,
+          // modelValue: this.messagesRetentionTime,
           type: "select",
           typeProps: {
             options: [
@@ -92,14 +92,14 @@ export default {
         {
           subtitle:"Users can upload and share files",
           description: "File sharing is a must-have feature. It is recommended that file uploading is enabled. If however you’d like to prevent users from sharing files eg. for secrecy reasons, you can do so from there.",
-          modelValue: this.userAuthorization,
+          // modelValue: this.userAuthorization,
           type:"toggle"
         },
 
         {
           subtitle: "File storage encryption",
           description: "Files are encrypted when stored on the server. Only the file recipients can decrypt the files. It is heavily recommended to keep file storage encryption enabled.",
-          modelValue: this.encryption,
+          // modelValue: this.encryption,
           type:"select",
           typeProps:{
             options:[
@@ -119,7 +119,7 @@ export default {
         {
           subtitle: "Files retention time",
           description: "Files can be automatically removed from the server after a certain time, in order to free some space. Most of old files are never accessed again, therefore it is recommended to enable this policy.",
-          modelValue: this.filesRetentionTime,
+          // modelValue: this.filesRetentionTime,
           type:"select",
           typeProps:{
             options:[

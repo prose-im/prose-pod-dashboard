@@ -31,13 +31,18 @@
 
     base-subsection-item(
       class="c-base-subsection__list"
-      v-for="item in items"
-      v-model="state"
+      v-for="(item, index) in items"
+      v-model="myVal[index]"
+      :ket="item.subtitle"
       :item="item"
       :type="item.type"
       :color="item.color?item.color:'bw'"
+      :index="index"
       @click="item.action"
+      @update:modelValue="updateValue"
     )
+
+    p {{ myVal }}
 
 </template>
   
@@ -61,7 +66,7 @@ export default {
   props: {
     modelValue: {
       type: Object,
-      default: null
+      default: () => ({})
     },
 
     title:{
@@ -90,26 +95,60 @@ export default {
 
   },
 
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
 
   data() {
     return {
       // --> STATE <--
-      parameter: true
+      parameter: true,
     };
   },
 
   computed: {
-    
+    myVal: {  
+      get() {  
+        if(Object.keys(this.modelValue).length){
+          // console.log(Object.values(this.modelValue))
+          // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
+          return this.items.map((_, index) => Object.values(this.modelValue)[index] );
+        } else {
+          return this.items.map((_) => '');
+        }
+      },
+
+      set(nextValue: any[]) { 
+        console.log('nextValue', nextValue) 
+        const updatedModel = { ...this.modelValue };
+        nextValue.forEach((value, index) => {
+          updatedModel[index] = value;
+        });
+
+        // this.$emit("update:modelValue", updatedModel);  
+      }
+    }  
   },
 
-  watch: {},
+  watch: {    
+    myVal: {
+      handler(value){
+        console.log(value) 
+      }
+    }
+  },
 
   created() {},
 
   methods: {
     // --> HELPERS <--
-    
+    updateValue(newValue: boolean | string, index: number): void {
+      console.log('hearding', newValue, index)
+
+      const updatedModel = { ...this.modelValue };
+      const key = Object.keys(this.modelValue)[index]
+      updatedModel[key] = newValue
+
+      this.$emit("update:modelValue", updatedModel);
+    }
   },
 };
 </script>

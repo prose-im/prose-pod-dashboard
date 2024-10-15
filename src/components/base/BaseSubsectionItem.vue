@@ -57,6 +57,7 @@ div(
   form-toggle(
     v-if="type === 'toggle'"
     v-model="state"
+    @update:modelValue="updateValue"
   )
 
   base-button(
@@ -69,10 +70,12 @@ div(
 
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
+    v-model="state"
     :search="false"
     size="medium"
     :options="item.typeProps?.options"
     position="bottom"
+    @update:modelValue="updateValue"
   )
 
   form-select(
@@ -110,7 +113,7 @@ export default {
 
   props: {
     modelValue: {
-      type: String || Boolean,
+      type: [String, Boolean],
       default: null
     },
 
@@ -136,13 +139,19 @@ export default {
         return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
       }
     },
+
+    index:{
+      type: Number,
+      default: 0
+    }
   },
 
-  emits: ["click", "update:modelValue"],
+  emits: ["change", "update:modelValue"],
 
   data() {
     return {
       // --> STATE <--
+      state: null
     };
   },
 
@@ -162,20 +171,27 @@ export default {
       }
     },
 
-    state: {
-      get() {
-        return this.modelValue;
-      },
+    // state: {
+    //   get() {
+    //     return this.modelValue;
+    //   },
 
-      set(nextValue: string) {
-        console.log(this.modelValue)
-        this.$emit("update:modelValue", nextValue);
-      },
-    }
+    //   set(nextValue: string) {
+    //     // console.log('nextValue', nextValue)
+    //     this.$emit("update:modelValue", nextValue);
+    //   },
+    // }
 
   },
 
   watch: {
+    modelValue: {
+      immediate: true,
+
+      handler(value) {
+        this.state = value;
+      }
+    },
 
   },
 
@@ -183,8 +199,11 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    
-  },
+    updateValue(newValue: boolean | string): void {
+      this.$emit("update:modelValue", newValue, this.index);
+      this.$emit("change", newValue);
+    }
+  }, 
 };
 </script>
 
