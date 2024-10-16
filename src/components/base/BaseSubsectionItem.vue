@@ -80,6 +80,7 @@ div(
 
   form-select(
     v-if="type === 'doubleSelect'"
+    class="c-base-subsection-item__double-select"
     :search="false"
     size="medium"
     :options="item.typeProps?.secondOptions"
@@ -146,7 +147,7 @@ export default {
     }
   },
 
-  emits: ["change", "update:modelValue"],
+  emits: ["change", "update:modelValue", "click"],
 
   data() {
     return {
@@ -170,17 +171,6 @@ export default {
           return 'white';
       }
     },
-
-    // state: {
-    //   get() {
-    //     return this.modelValue;
-    //   },
-
-    //   set(nextValue: string) {
-    //     // console.log('nextValue', nextValue)
-    //     this.$emit("update:modelValue", nextValue);
-    //   },
-    // }
 
   },
 
@@ -241,7 +231,7 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__description {
-    max-width: 78%;
+    max-width: 580px;
     margin: 0;
     color: $color-text-secondary;
     font-size: $font-size-baseline - 1px;
@@ -257,6 +247,10 @@ $c: ".c-base-subsection-item";
       outline-offset: 1px;
     }
   }  
+
+  #{$c}__double-select {
+    margin-inline-start: 3px;
+  }
 
   // <!-- COLORS -->
   &--redBackground {

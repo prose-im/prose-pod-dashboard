@@ -16,6 +16,7 @@
   )
 
   base-subsection(
+    v-model="appearanceForm"
     title="Apps Appearance"
     :items="appearanceItems"
   )
@@ -46,6 +47,10 @@ export default {
   data() {
     return {
       // --> STATE <--
+      appearanceForm: {
+        accentColor: "Medium Blue"
+      },
+
       profileItems:[
         {
           subtitle:"Name for workspace",
@@ -89,11 +94,11 @@ export default {
             options:[
               {
                 icon:"",
-                label:"Medium Blue"
+                value:"Medium Blue"
               }, 
               {
                 icon:"",
-                label:"Dark Blue"
+                value:"Dark Blue"
               }
             ],
             size:"medium"

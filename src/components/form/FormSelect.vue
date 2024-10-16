@@ -69,6 +69,7 @@ div(
       li(
         v-for="(option, index) in options"
         @mouseenter="onOptionMouseEnter(index)"
+        @mouseleave="onOptionMouseLeave"
         :class=`[
           "c-form-select__option",
           {
@@ -92,7 +93,7 @@ div(
             class="c-form-select__search-icon"
           )
           span.c-form-select__value.u-ellipsis
-            | {{ option.label }}
+            | {{ option.value }}
 </template>
   
 <!-- **********************************************************************
@@ -186,7 +187,7 @@ export default {
 
     align: {
       type: String,
-      default: "left",
+      default: "center",
 
       validator(x: string) {
         return ["left", "center"].includes(x);
@@ -248,8 +249,8 @@ export default {
       });
       
       // Return inner label from corresponding option?
-      if (option && option.label) {
-        return option.label;
+      if (option && option.value) {
+        return option.value;
       }
 
       // Fallback on raw value
@@ -308,7 +309,7 @@ export default {
     // --> HELPERS <--
 
     selectOption(option: Option): void {
-      console.log(option.value)
+      console.log(option, option.value)
       this.$emit("update:modelValue", option.value);
 
       // Hide dropdown selector
@@ -426,6 +427,10 @@ export default {
       if (this.hoveredIndex !== index) {
         this.hoveredIndex = index;
       }
+    },
+
+    onOptionMouseLeave(): void {
+      this.hoveredIndex = -1;
     },
 
     onOptionClick(option: Option): void {
@@ -583,59 +588,23 @@ $sizes: (
     }
 
     a{
-      border-radius: 10px;
+      border-radius: 0px;
     }
 
   }
 
-  #{$c}__search {
-    background-color: rgba($color-background-primary, 0.94);
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
-    backdrop-filter: blur(8px);
 
-    &,
-    input {
-      height: $size-form-select-search-height;
-    }
-
-    &-icon {
-      fill: $color-base-grey-normal;
-      margin-right: 7px;
-    }
-
-    input {
-      background-color: transparent;
-      border: 0 none;
-      border-block-end: 1px solid $color-border-secondary;
-      color: $color-text-primary;
-      outline: 0 none;
-      font-size: ($font-size-baseline - 3px);
-      letter-spacing: 0.05px;
-      width: 100%;
-
-      &::placeholder {
-        color: $color-text-tertiary;
-        opacity: 1;
-      }
-    }
-  }
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: $size-form-select-options-padding-block; 
+    padding-block: $size-form-select-options-menu-padding-block; 
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
 
-    &--menu {
-      padding-block: $size-form-select-options-menu-padding-block; 
-      padding-inline: $size-form-select-options-padding-inline;
-    }
-
     #{$c}__option {
-      display: block;
+      display: flex;
+      justify-content: center;
 
       a {
         background-color: transparent;
@@ -649,7 +618,7 @@ $sizes: (
       }
 
       &--link {
-        padding-left:14px;
+        width: 100%;
       }
 
       &--hovered {
@@ -659,7 +628,7 @@ $sizes: (
           &,
           &:active {
             #{$c}__value {
-              color: $color-white;
+              color: $color-black;
             }
           }
 
@@ -723,7 +692,7 @@ $sizes: (
       }
 
       #{$c}__field #{$c}__inner,
-      #{$c}__options #{$c}__option a {
+      {
         &--menu{
           padding-inline-start: map-get($size, "padding-start");
           padding-inline-end: map-get($size, "padding-end");
@@ -821,6 +790,10 @@ $sizes: (
         border-end-start-radius: 0;
         border-end-end-radius: 0;
       }
+
+      #{$c}__dropdown{
+        width: initial;
+      }
     }
   }
 
@@ -840,15 +813,6 @@ $sizes: (
       #{$c}__arrow {
         transform: scaleY(-1);
       }
-    }
-  }
-
-  &--search {
-    #{$c}__options {
-      padding-block-start: (
-        $size-form-select-search-height +
-          $size-form-select-options-padding-block
-      );
     }
   }
 

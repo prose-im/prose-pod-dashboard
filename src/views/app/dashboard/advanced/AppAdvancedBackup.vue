@@ -11,6 +11,7 @@
 <template lang="pug">
 .v-app-advanced-backup
   base-subsection(
+    v-model="backupFrequencyForm"
     title="Backup Settings"
     :items="backupItems"
   )
@@ -72,6 +73,11 @@ export default {
 
       isResetModalVisible: false,
 
+      backupFrequencyForm: {
+        settingsBackupFrequency: "Daily",
+        userDataBackupFrequency: "Weekly"
+      },
+
       backupItems:[
         {
           subtitle: "Automatic backup of Pod settings",
@@ -81,21 +87,21 @@ export default {
             options:[
               {
                 icon:"",
-                label:"Daily"
+                value:"Daily"
               }, 
               {
                 icon:"",
-                label:"Weekly"
+                value:"Weekly"
               }
             ],
             secondOptions:[
               {
                 icon:"",
-                label:"at 1am"
+                value:"at 1am"
               }, 
               {
                 icon:"",
-                label:"at 2am"
+                value:"at 2am"
               }
             ],
             size:"medium"
@@ -103,28 +109,28 @@ export default {
         },
 
         {
-          subtitle: "Automatic backup of Pod settings",
+          subtitle: "Automatic backup of Pod user data",
           description: "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
           typeProps:{
             options:[
               {
                 icon:"",
-                label:"Daily"
+                value:"Daily"
               }, 
               {
                 icon:"",
-                label:"Weekly"
+                value:"Weekly"
               }
             ],
             secondOptions:[
               {
                 icon:"",
-                label:"at 1am"
+                value:"at 1am"
               }, 
               {
                 icon:"",
-                label:"at 2am"
+                value:"at 2am"
               }
             ],
             size:"medium"

@@ -11,11 +11,13 @@
   <template lang="pug">
     .v-app-advanced-security
       base-subsection(
+        v-model="securityForm"
         title="Account Security"
         :items="accountItems"
       )
     
       base-subsection(
+        v-model="encryptionForm"
         title="Network Encryption"
         :items="networkItems"
         :restoreOption="true"
@@ -47,6 +49,15 @@
       data() {
         return {
           // --> STATE <--
+          securityForm:{
+            twoFactor: true 
+          },
+
+          encryptionForm: {
+            version: "TLS 1.0+",
+            strength: "High strength"
+          },
+
           accountItems:[
             {
               subtitle:"Require Two Factor on all accounts",
@@ -65,11 +76,11 @@
                 options:[
                   {
                     icon:"",
-                    label:"TLS 1.0+"
+                    value:"TLS 1.0+",
                   }, 
                   {
                     icon:"",
-                    label:"None"
+                    value:"None",
                   }
                 ],
                 size:"medium"
@@ -83,11 +94,11 @@
                 options:[
                   {
                     icon:"",
-                    label:"High strength"
+                    value:"High strength"
                   }, 
                   {
                     icon:"",
-                    label:"Low strength"
+                    value:"Low strength"
                   }
                 ],
                 size:"medium"
