@@ -93,11 +93,11 @@ export default {
           typeProps:{
             options:[
               {
-                icon:"",
+                colorPrev: "#2490F0",
                 value:"Medium Blue"
               }, 
               {
-                icon:"",
+                colorPrev: "#1C293B",
                 value:"Dark Blue"
               }
             ],
