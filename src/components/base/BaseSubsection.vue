@@ -18,6 +18,11 @@
       )
         | {{ title}}
 
+        span.c-base-subsection__sup(
+          v-if="sup"
+        ) 
+          | {{ sup.toUpperCase() }}
+
       .c-base-subsection__restore(
         v-if="restoreOption"
       )
@@ -30,10 +35,10 @@
         | Restore defaults
 
     base-subsection-item(
-      class="c-base-subsection__list"
       v-for="(item, index) in items"
       v-model="myVal[index]"
-      :ket="item.subtitle"
+      class="c-base-subsection__list"
+      :key="item.subtitle"
       :item="item"
       :type="item.type"
       :color="item.color?item.color:'bw'"
@@ -83,6 +88,11 @@ export default {
       }
     },
 
+    sup: {
+      type: String,
+      default: null,
+    },
+
     items:{
       type: Array,
       required: true
@@ -100,7 +110,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-      parameter: true,
     };
   },
 
@@ -131,7 +140,7 @@ export default {
   watch: {    
     myVal: {
       handler(value){
-        console.log(value) 
+        // console.log('myVal', value) 
       }
     }
   },
@@ -140,12 +149,22 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    updateValue(newValue: boolean | string, index: number): void {
-      console.log('hearding', newValue, index)
+    updateValue(newValue: boolean | string, index: number, element? : number): void {
+      // console.log('hearding', newValue, index, element)
 
       const updatedModel = { ...this.modelValue };
-      const key = Object.keys(this.modelValue)[index]
-      updatedModel[key] = newValue
+
+      if(element === 0 || element === 1) {
+        const key1 = Object.keys(this.modelValue)[index];
+
+        const key2 = Object.keys(this.modelValue[key1])[element];
+
+        updatedModel[key1][key2] = newValue;
+
+      } else {
+        const key = Object.keys(this.modelValue)[index];
+        updatedModel[key] = newValue;
+      }
 
       this.$emit("update:modelValue", updatedModel);
     }
@@ -188,7 +207,16 @@ $c: ".c-base-subsection";
     &--red{
       color: $color-base-red-normal;
     }
+  }
 
+  #{$c}__sup {
+    position: relative;
+    font-size: 0.6em;
+    bottom: 0.5em;
+
+    &:before {
+      content: "\00a0";
+    }
   }
 
   #{$c}__restore {
