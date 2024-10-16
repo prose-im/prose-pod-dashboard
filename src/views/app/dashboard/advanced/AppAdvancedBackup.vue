@@ -23,6 +23,7 @@
 
   base-subsection(
     title="Danger Zone"
+    sup="tm"
     :items="dangerItems"
     titleColor="red"
   )
@@ -74,8 +75,14 @@ export default {
       isResetModalVisible: false,
 
       backupFrequencyForm: {
-        settingsBackupFrequency: "Daily",
-        userDataBackupFrequency: "Weekly"
+        settingsBackup:{
+          Frequency: "Daily",
+          Time: "at 1am",
+        }, 
+        userDataBackup:{
+          Frequency: "Weekly",
+          Time: "at 2pm"
+        }
       },
 
       backupItems:[

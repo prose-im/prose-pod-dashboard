@@ -24,15 +24,18 @@ div(
 )
   .c-form-select__field(
     @click="onFieldClick"
-    :class=`[
-      "c-form-select__field--menu"
-    ]`
   )
     .c-form-select__inner(
       :class=`[
         "c-form-select__inner--menu"
       ]`
     )
+      .c-form-select__color-prev(
+        v-if="colorPrev"
+        :style=`{
+          backgroundColor:colorPrev,
+        }`
+      )
 
       span(
         :class=`[
@@ -56,14 +59,16 @@ div(
     v-if="visible && !disabled"
     :class=`[
       "c-form-select__dropdown",
-      "c-form-select__dropdown--menu"
+      "c-form-select__dropdown--menu",
+      {
+        "c-form-select__dropdown--color": colorPrev
+      }
     ]`
 
   )
     ul.c-form-select__options(
       ref="options"
       :class=`[
-        "c-form-select__options--menu"
       ]`
     )
       li(
@@ -82,17 +87,25 @@ div(
       )
         a(
           :class=`[
-            "c-form-select__option--link"
+            "c-form-select__option--link",
           ]`
           @click="onOptionClick(option)"
         )
-          base-icon(
-            v-if="option.icon"
-            :name="option.icon"
-            size="11px"
-            class="c-form-select__search-icon"
+
+          .c-form-select__color-prev(
+            v-if="option.colorPrev"
+            :style=`{
+              backgroundColor: option.colorPrev,
+            }`
           )
-          span.c-form-select__value.u-ellipsis
+
+          span.u-ellipsis(
+            :class=`[
+              {
+                "c-form-select__value" : !option.colorPrev
+              }
+            ]`
+          )
             | {{ option.value }}
 </template>
   
@@ -102,7 +115,6 @@ div(
 
 <script lang="ts">
 // NPM
-import { PropType } from "vue";
 //- import { names as keyNames } from "keycode";
 
 //COMPONENTS
@@ -171,8 +183,8 @@ export default {
       default: null
     },
 
-    icon: {
-      type: Object as PropType<Icon>,
+    colorPrev: {
+      type: String,
       default: null
     },
 
@@ -507,20 +519,21 @@ $sizes: (
   #{$c}__field,
   #{$c}__dropdown {
     background-color: $color-white;
-
-    &--menu{
-      border: $size-form-select-border-width solid rgba($color-black, 0.1);
-      box-shadow: 0 2px 3px 0 rgba(var(--color-shadow-primary), 0.01);
-      width:max-content;
-    }
+    border: $size-form-select-border-width solid rgba($color-black, 0.1);
+    box-shadow: 0 2px 3px 0 rgba(var(--color-shadow-primary), 0.01);
+    width: max-content;
+    
   }
 
   #{$c}__field,
   #{$c}__options, #{$c}__option {
     margin:0px;
 
-    #{$c}__icon {
+    #{$c}__color-prev {
+      height: 11px;
+      width: 11px;
       margin-inline-end: 9px;
+      border-radius: 3px;
       flex: 0 0 auto;
     }
 
@@ -559,10 +572,6 @@ $sizes: (
       font-weight: $font-weight-medium;
       font-size: ($font-size-baseline + 1px);
 
-      //- &--empty {
-      //-   color: $color-text-secondary;
-      //- }
-
       &--menu {
         font-size: ($font-size-baseline - 4px);
       }
@@ -574,9 +583,8 @@ $sizes: (
       flex: 0 0 auto;
     }
 
-    &--menu{
-      width:max-content;
-    }
+    width:max-content;
+    
   }
 
   #{$c}__dropdown {
@@ -609,6 +617,7 @@ $sizes: (
       a {
         background-color: transparent;
         display: flex;
+        justify-content: center;
         align-items: center;
         transition: none;
 
@@ -691,7 +700,7 @@ $sizes: (
         font-size: map-get($size, "font-size");
       }
 
-      #{$c}__field #{$c}__inner,
+      #{$c}__field #{$c}__inner
       {
         &--menu{
           padding-inline-start: map-get($size, "padding-start");
@@ -703,21 +712,6 @@ $sizes: (
       #{$c}__field {
         #{$c}__value {
           line-height: map-get($size, "line-height");
-        }
-      }
-
-      #{$c}__search {
-        #{$c}__search-icon {
-          //- inset-inline-start: map-get($size, "padding-sides");
-     
-        }
-
-        input {
-          padding-inline-start: (
-            map-get($size, "padding-sides") +
-              $size-form-select-search-icon-offset
-          );
-          padding-inline-end: map-get($size, "padding-sides");
         }
       }
 
@@ -793,6 +787,7 @@ $sizes: (
 
       #{$c}__dropdown{
         width: initial;
+
       }
     }
   }
@@ -830,10 +825,6 @@ $sizes: (
 
     #{$c}__field {
       background-color: rgba($color-base-grey-light, 0.6);
-
-      #{$c}__icon {
-        opacity: 0.6;
-      }
 
       #{$c}__value {
         color: $color-text-primary;

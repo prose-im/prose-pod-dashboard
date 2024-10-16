@@ -71,20 +71,23 @@ div(
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
     v-model="state"
-    :search="false"
-    size="medium"
+    :colorPrev="squareColor"
     :options="item.typeProps?.options"
     position="bottom"
+    size="medium"
+    :search="false"
     @update:modelValue="updateValue"
   )
 
   form-select(
     v-if="type === 'doubleSelect'"
+    v-model="stateSecondSelect"
     class="c-base-subsection-item__double-select"
     :search="false"
     size="medium"
     :options="item.typeProps?.secondOptions"
     position="bottom"
+    @update:modelValue="updateExtraSelect"
   )
     
 </template>
@@ -118,6 +121,11 @@ export default {
       default: null
     },
 
+    secondaryData:{
+      type: String,
+      default: null
+    },
+
     item: {
       type: Object,
       required: true,
@@ -128,7 +136,7 @@ export default {
       required:true,
 
       validator(x: string) {
-        return ["toggle", "button", "select"].includes(x);
+        return ["toggle", "button", "select", "doubleSelect"].includes(x);
       }
     },
 
@@ -147,12 +155,16 @@ export default {
     }
   },
 
-  emits: ["change", "update:modelValue", "click"],
+  emits: ["change", "update:modelValue", "click", "updateExtraSelect"],
 
   data() {
     return {
       // --> STATE <--
-      state: null
+      state: null,
+
+      stateSecondSelect: null,
+
+      squareColor: null
     };
   },
 
@@ -179,7 +191,24 @@ export default {
       immediate: true,
 
       handler(value) {
-        this.state = value;
+        if(this.type !== 'doubleSelect') {
+          this.state = value;
+        } else {
+          this.state = Object.values(value)[0];
+          this.stateSecondSelect = Object.values(value)[1];
+        }
+
+        if(typeof value === 'string') {
+          const normalValue = value.toLowerCase();
+          switch (normalValue) {
+            case 'medium blue':
+              return this.squareColor = '#2490F0';
+            case 'dark blue':
+              return this.squareColor = '#1C293B';
+            default:
+              return null;
+          }
+        }
       }
     },
 
@@ -190,8 +219,17 @@ export default {
   methods: {
     // --> HELPERS <--
     updateValue(newValue: boolean | string): void {
-      this.$emit("update:modelValue", newValue, this.index);
-      this.$emit("change", newValue);
+
+      if(this.type === 'doubleSelect'){
+        this.$emit("update:modelValue", newValue, this.index, 0);
+      } else {
+        this.$emit("update:modelValue", newValue, this.index);
+      }
+
+    },
+
+    updateExtraSelect(newValue: boolean | string): void {
+      this.$emit("update:modelValue", newValue, this.index, 1);
     }
   }, 
 };

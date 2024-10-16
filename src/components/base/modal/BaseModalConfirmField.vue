@@ -10,7 +10,10 @@ TEMPLATE
 
 <template lang="pug">
 .c-base-modal-confirm-field
-  form-checkbox
+  form-checkbox(
+    v-model="checked"
+    @change="updateValue"
+  )
 
   p(
     :class=`[
@@ -37,6 +40,11 @@ export default {
   },
 
   props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    },
+
     text: {
       type: String,
       required: true
@@ -52,23 +60,34 @@ export default {
     },
   },
 
-  emits: ["close", "proceed"],
+  emits: ["update:modelValue"],
 
   data() {
     return {
       // --> STATE <--
-      
+      checked: false
     };
   },
 
   computed: {},
 
-  watch: {},
+  watch: {
+    modelValue: {
+      immediate: true,
+
+      handler(value) {
+        this.checked = value;
+      }
+    }
+  },
 
   created() {},
 
   methods: {
     // --> HELPERS <--
+    updateValue(enabled: boolean): void {
+      this.$emit("update:modelValue", enabled);
+    },
   },
 };
 </script>
