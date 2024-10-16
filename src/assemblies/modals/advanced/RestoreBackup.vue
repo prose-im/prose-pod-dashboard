@@ -64,9 +64,9 @@ base-modal(
       )
 
     base-modal-confirm-field(
+      v-model="dataLossConfirmed"
       text="I confirm that I am aware of the risks of data loss"
     )
-
 </template>
   
 <!-- **********************************************************************
@@ -102,7 +102,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
+      dataLossConfirmed: false
     };
   },
 

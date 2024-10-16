@@ -32,10 +32,12 @@ base-modal(
 
     .a-factory-reset__confirm
       base-modal-confirm-field(
+        v-model="downloadConfirmed"
         text="I have downloaded a recent backup of this Pod"
       )
 
       base-modal-confirm-field(
+        v-model="dataLossConfirmed"
         text="I confirm that I am aware that all data will be erased"
         color="red"
       )
@@ -71,13 +73,16 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
+      downloadConfirmed: false,
+      dataLossConfirmed: false
     };
   },
 
   computed: {},
 
-  watch: {},
+  watch: {
+
+  },
 
   created() {},
 
@@ -105,9 +110,6 @@ $c: ".a-factory-reset";
   #{$c}__disclaimer{
     margin-top: 4px;
     margin-bottom: 31px;
-  }
-
-  #{$c}__confirm{
   }
 
 }
