@@ -124,7 +124,7 @@ $badge-padding-block: 3.5px;
 $badge-padding-inline: 7px;
 
 #{$c} {
-  position: absolute;
+  position: fixed;
   z-index: 100;
   inset: 0;
   height: 100%;
