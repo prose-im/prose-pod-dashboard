@@ -48,7 +48,7 @@ $animate-toast-translate-vertical: 3px;
   // --> DELAYS <--
 
   &--delayed {
-    animation-delay: 4s;
+    animation-delay: 100ms;
   }
 
   // --> ANIMATIONS <--
@@ -95,6 +95,10 @@ $animate-toast-translate-vertical: 3px;
 
   &--slide-in {
     animation-name: slideIn;
+  }
+
+  &--slide-out {
+    animation-name: slideOut;
   }
 }
 
@@ -239,11 +243,23 @@ $animate-toast-translate-vertical: 3px;
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX($animate-toast-translate-vertical);
+    transform: translateX(100%);
   }
 
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
   }
 }

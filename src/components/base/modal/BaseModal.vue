@@ -13,7 +13,7 @@ teleport(
 )
   transition(
     enter-active-class="u-animate u-animate--fade-in u-animate--fast"
-    leave-active-class="u-animate u-animate--fade-out u-animate--fast"
+    leave-active-class="u-animate u-animate--fade-out u-animate--fast u-animate--delayed "
   )
     .c-base-modal(
       v-if="visible"
@@ -102,7 +102,8 @@ export default {
 
   methods: {
     onClose(event: Event){
-      this.$emit("close", event);
+      this.loaded = false
+      setTimeout(() => this.$emit("close", event), 400 )
     },
 
     onConfirm(event: Event){

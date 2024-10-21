@@ -10,8 +10,8 @@
 
 <template lang="pug">
 transition(
-  enter-active-class="u-animate u-animate--fade-in-out-expand-horizontal u-animate--slow "
-  leave-active-class="u-animate u-animate--fade-out u-animate--slow"
+  enter-active-class="u-animate u-animate--slide-in u-animate--slow "
+  leave-active-class="u-animate u-animate--slide-out u-animate--slow"
 )
   .c-base-modal-container(
     v-if="containerVisible"
@@ -99,6 +99,8 @@ export default {
   },
 
   computed: {
+
+
   },
 
   watch: {
