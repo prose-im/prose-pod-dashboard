@@ -112,7 +112,6 @@ $c: ".c-dashboard-main";
   }
 
   #{$c}__content {
-    height: 100%;
     padding-top: 50px;
     padding-inline: 100px;
   }

@@ -50,7 +50,6 @@ $c: ".v-app-base";
   height: 100%;
   width: 100%;
   display: flex;
-  overflow: clip;
 
   #{$c}__sidebar {
     flex: 0 0 auto;
@@ -60,5 +59,16 @@ $c: ".v-app-base";
     flex: 1;
     height: 85vh;   /// Verificar
   }
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  max-width: 100vw;
+  overflow: clip;
+}
+
+html {
+  height: 100%;
 }
 </style>

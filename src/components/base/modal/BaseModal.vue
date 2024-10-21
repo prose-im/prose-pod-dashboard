@@ -94,7 +94,6 @@ export default {
   watch: {
     visible(value){
       setTimeout(() => this.loaded = value, 40 )
-      console.log('loaded', value)
     }
   },
 

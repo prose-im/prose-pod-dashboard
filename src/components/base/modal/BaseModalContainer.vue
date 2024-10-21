@@ -159,7 +159,7 @@ $c: ".c-base-modal-container";
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
-    height: 10%;
+    height: 8%;
 
     &--extra-button{
       margin-left: 12px;

@@ -243,11 +243,13 @@ $animate-toast-translate-vertical: 3px;
 @keyframes slideIn {
   from {
     opacity: 0;
+    // width: 0%;
     transform: translateX(100%);
   }
 
   to {
     opacity: 1;
+    // width: 43%;
     transform: translateX(0);
   }
 }
@@ -255,11 +257,13 @@ $animate-toast-translate-vertical: 3px;
 @keyframes slideOut {
   from {
     opacity: 1;
+    // width: 43%;
     transform: translateX(0);
   }
 
   to {
     opacity: 0;
+    // width: 0%;
     transform: translateX(100%);
   }
 }

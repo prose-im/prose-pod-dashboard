@@ -34,10 +34,10 @@ $c: ".s-app";
  user-select: none;
  margin: 0;
  padding: 0;
- overflow: clip;
+ height: 100vh;
  display: flex;
- position: absolute;
  inset: 0;
+ overflow: clip;
 
  // --> BOOLEANS <--
 

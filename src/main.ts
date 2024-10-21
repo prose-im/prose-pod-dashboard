@@ -33,4 +33,4 @@ const app = createApp(App)
 
 Router.bind(app);
 
-app.mount('#app');
+app.mount("#runtime");
