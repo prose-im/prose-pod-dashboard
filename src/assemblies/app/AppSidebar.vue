@@ -132,8 +132,6 @@
   $c: ".a-app-sidebar";
   
   #{$c} {
-    height: 93vh;   ///Verifier
-  
     #{$c}__content {
       display: flex;
       flex-direction: column;
@@ -144,6 +142,7 @@
       padding-right: 32px;
       height: 100%;
       border-right: solid 1px $color-border-secondary;
+      box-sizing: border-box;
     }
   }
   </style>

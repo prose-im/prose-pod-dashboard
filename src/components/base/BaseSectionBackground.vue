@@ -83,13 +83,15 @@
   $c: ".c-base-section-background";
   
   #{$c} {
-    height: 100%;
+    // height: 100%; //verifierflex
+    flex: 1; //verifierflex
+    display: flex; //verifierflex
     background-color: white;
     border-radius: 8px;
     border: 1px solid $color-border-secondary;
     box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);
     max-width: 918px;
-    margin: 0 auto;
+    // margin: 0 auto; //verifierflex
 
     #{$c}__icon {
       margin-left:11.2px;

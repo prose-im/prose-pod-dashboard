@@ -244,8 +244,8 @@ $c: ".c-emojis-reactions-row";
 
   &--header {
     color: $color-text-secondary; 
-    font-size: ($font-size-baseline - 1.5px);
-    font-weight: $font-weight-medium;
+    font-size: ($font-size-baseline - 1px);
+    font-weight: $font-weight-mid;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 

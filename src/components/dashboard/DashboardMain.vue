@@ -19,15 +19,15 @@
       slot
 
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSectionBackground from '../base/BaseSectionBackground.vue';
-import Breadcrumb from '../breadcrumb/Breadcrumb.vue';
+import BaseSectionBackground from "../base/BaseSectionBackground.vue";
+import Breadcrumb from "../breadcrumb/Breadcrumb.vue";
 
 export default {
   name: "DashboardMain",
@@ -37,49 +37,50 @@ export default {
     Breadcrumb,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: [],
 
   data() {
     return {
       // --> STATE <--
-      messagingItems:[
+      messagingItems: [
         {
-          subtitle:"Store archives of all messages",
-          description: "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type:"toggle"
+          subtitle: "Store archives of all messages",
+          description:
+            "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
+          type: "toggle",
         },
         {
           subtitle: "Message archive retention time",
-          description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type:"button",
-          typeProps:{
-            label:"Edit details...",
-            size:"medium"
-          }
+          description:
+            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+          type: "button",
+          typeProps: {
+            label: "Edit details...",
+            size: "medium",
+          },
         },
-                {
+        {
           subtitle: "Message archive retention time",
-          description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type:"select",
-          typeProps:{
-            options:[
+          description:
+            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+          type: "select",
+          typeProps: {
+            options: [
               {
-                icon:"",
-                label:"1 year"
-              }, 
+                icon: "",
+                label: "1 year",
+              },
               {
-                icon:"",
-                label:"2 years"
-              }
+                icon: "",
+                label: "2 years",
+              },
             ],
-            size:"medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
@@ -103,17 +104,25 @@ export default {
 $c: ".c-dashboard-main";
 
 #{$c} {
-  width:100%;
+  display: flex; //verifierflex
+  flex-direction: column; //verifierflex
+  align-items: center;
+  width: 100%;
   background-color: $color-background-primary;
 
   #{$c}__breadcrumb {
     max-width: 918px;
-    margin-inline: auto;
+    // margin-inline: auto; //verifierflex
   }
 
   #{$c}__content {
+    // height: 100%; //verifierflex
+    flex: 1; //verifierflex
+    display: flex; //verifierflex
+    flex-direction: column; //verifierflex
     padding-top: 50px;
     padding-inline: 100px;
+    min-width: 918px;  //verifierflex
   }
 }
 </style>

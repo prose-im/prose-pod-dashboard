@@ -57,7 +57,7 @@ $c: ".v-app-base";
 
   #{$c}__content {
     flex: 1;
-    height: 85vh;   /// Verificar
+    //height: 100%;  //verifierflex
   }
 }
 
