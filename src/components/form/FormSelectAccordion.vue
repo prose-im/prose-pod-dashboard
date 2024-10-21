@@ -84,6 +84,7 @@ div(
           base-icon(
             v-if="option.icon"
             :name="option.icon"
+            fill= '#000000'
             size="11px"
             class="c-form-select-accordion__link--icon"
           )
@@ -514,10 +515,6 @@ $sizes: (
       color: $color-text-primary;
       font-weight: $font-weight-medium;
       font-size: ($font-size-baseline + 1px);
-
-      //- &--empty {
-      //-   color: $color-text-secondary;
-      //- }
     }
 
     #{$c}__arrow {
@@ -563,7 +560,7 @@ $sizes: (
         text-decoration: none;
 
         #{$c}__value {
-          color: $color-text-primary;
+          color: $color-text-secondary;
         }
       }
 
@@ -577,16 +574,16 @@ $sizes: (
               color: $color-text-primary;
             }
           }
-
-          &:active {
-            background-color: darken($color-base-grey-ultra-light, 8%);
-          }
         }
       }
 
       &--selected {
         a {
           background-color: darken($color-background-primary, 3%);
+
+          #{$c}__value {
+            color: $color-text-primary;
+          }
         }
 
         &#{$c}__option--hovered {

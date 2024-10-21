@@ -13,6 +13,7 @@ TEMPLATE
     .c-search-bar__content
       .c-search-bar__left
         base-icon(
+          size="14px"
           name="magnifying.glass"
           fill="#949eb1"
           class="c-search-bar__magnifying"
@@ -40,6 +41,7 @@ TEMPLATE
         )
           base-icon(
             name="more.dots"
+            fill="#949EB1"
           )
 
 
@@ -124,7 +126,7 @@ $c: ".c-search-bar";
   #{$c}__magnifying{
     position: absolute;
     left: 21px;
-    top:30%;
+    top:35.5%;
     z-index: 10;
   }
 

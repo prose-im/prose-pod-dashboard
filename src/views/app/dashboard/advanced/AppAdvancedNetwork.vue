@@ -20,15 +20,15 @@
     title="Network Setup Tools"
     :items="toolsItems"
   )
-
+  
 dns-setup(
-  v-if="isDnsInstructionsModalVisible"
+  :visible="isDnsInstructionsModalVisible"
   @close="toggleDnsInstructionsModalVisible"
   @proceed=""
 )
 
 configuration-checker(
-  v-if="isNetworkCheckModalVisible"
+  :visible="isNetworkCheckModalVisible"
   @close="toggleNetworkCheckModalVisible"
   @proceed=""
 )

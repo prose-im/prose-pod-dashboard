@@ -35,7 +35,7 @@ TEMPLATE
   base-navigation-footer
 
 invite-team-member(
-  v-if="modalIsVisible"
+  :visibility="modalIsVisible"
   @close="toggleModalVisible"
   @confirm=""
 )   

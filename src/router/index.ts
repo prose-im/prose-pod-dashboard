@@ -23,9 +23,11 @@ import AppAdvancedBackup from "@/views/app/dashboard/advanced/AppAdvancedBackup.
 import AppAdvancedNetwork from "@/views/app/dashboard/advanced/AppAdvancedNetwork.vue";
 import AppAdvancedSecurity from "@/views/app/dashboard/advanced/AppAdvancedSecurity.vue";
 import AppCustomizationEmojis from "@/views/app/dashboard/customization/AppCustomizationEmojis.vue";
-import AppCustomizationWorkspace from "@/assemblies/customization/AppCustomizationWorkspace.vue";
+import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCustomizationWorkspace.vue";
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
+import StartLogin from "@/views/start/StartLogin.vue";
+
 // import AppIndex from "@/views/app/AppIndex.vue";
 // import AppSpotlightUnread from "@/views/app/spotlight/AppSpotlightUnread.vue";
 // import AppSpotlightBrowseBase from "@/views/app/spotlight/AppSpotlightBrowseBase.vue";
@@ -34,7 +36,6 @@ import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 // import AppSpotlightBrowseInvites from "@/views/app/spotlight/AppSpotlightBrowseInvites.vue";
 // import AppSpotlightBrowseBlocked from "@/views/app/spotlight/AppSpotlightBrowseBlocked.vue";
 // import AppInboxBase from "@/views/app/inbox/AppInboxBase.vue";
-// import StartLogin from "@/views/start/StartLogin.vue";
 
 // // PROJECT: COMMONS
 // import CONFIG from "@/commons/config";
@@ -78,12 +79,12 @@ class Router {
       routes: [
 //         // --> START <--
 
-//         { path: "/start/", redirect: { name: "start.login" } },
+        { path: "/start/", redirect: { name: "start.login" } },
 
-//         {
-//           path: "/start/login/",
-//           name: "start.login",
-//           component: StartLogin as object,
+        {
+          path: "/start/login/",
+          name: "start.login",
+          component: StartLogin as object,
 
 //           beforeEnter: async () => {
 //             try {
@@ -94,7 +95,7 @@ class Router {
 //               );
 //             }
 //           }
-//         },
+        },
 
         // --> APP <--
 

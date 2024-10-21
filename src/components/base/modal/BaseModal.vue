@@ -8,19 +8,29 @@
  TEMPLATE
  ********************************************************************** -->
 <template lang="pug">
-.c-base-modal
-  base-modal-background(
-    @closeModal="onClose"
+teleport(
+  to="#app"
+)
+  transition(
+    enter-active-class="u-animate u-animate--fade-in u-animate--fast"
+    leave-active-class="u-animate u-animate--fade-out u-animate--fast"
   )
-    base-modal-container(
-      :title="title"
-      :buttonColor="buttonColor"
-      :buttonLabel="buttonLabel"
-      :flexBody="flexContainer"
-      @closeModal="onClose"
-      @confirmAction="onConfirm"
+    .c-base-modal(
+      v-if="visible"
     )
-      slot
+      base-modal-background(
+        @closeModal="onClose"
+      )
+        base-modal-container(
+          :containerVisible="loaded"
+          :title="title"
+          :buttonColor="buttonColor"
+          :buttonLabel="buttonLabel"
+          :flexBody="flexContainer"
+          @closeModal="onClose"
+          @confirmAction="onConfirm"
+        )
+          slot
 </template>
  
  <!-- **********************************************************************
@@ -62,17 +72,30 @@ export default {
     flexContainer: {
       type: Boolean,
       default: false
+    },
+
+    visible: {
+      type: Boolean,
+      default: false
     }
   },
 
   data() {
     return {
       // --> STATE <--
+      loaded: true
     };
   },
 
-  watch: {
+  computed: {
 
+  },
+
+  watch: {
+    visible(value){
+      setTimeout(() => this.loaded = value, 40 )
+      console.log('loaded', value)
+    }
   },
 
   emits: ["close", "confirm"],

@@ -256,8 +256,8 @@ $c: ".c-base-subsection-item";
   #{$c}__subtitle {
     margin: 0;
     margin-bottom: 8px;
-    font-size: $font-size-baseline;
-    font-weight: $font-weight-medium;
+    font-size: ($font-size-baseline + 0.5px);
+    font-weight: $font-weight-mid;
 
     &--restore {
       color:$color-base-blue-normal;
@@ -269,10 +269,11 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__description {
+    font-weight: $font-weight-light;
     max-width: 580px;
     margin: 0;
     color: $color-text-secondary;
-    font-size: $font-size-baseline - 1px;
+    font-size: ($font-size-baseline - 1px);
   }
 
   #{$c}__slot { 

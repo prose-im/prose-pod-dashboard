@@ -31,7 +31,7 @@ TEMPLATE
   base-navigation-footer
 
 add-custom-emoji(
-  v-if="isModalVisible"
+  :visible="isModalVisible"
   @close="toggleModalVisible"
   @confirm=""
 )

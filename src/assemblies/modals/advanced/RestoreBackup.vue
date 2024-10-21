@@ -90,7 +90,6 @@ export default {
     BaseModalConfirmField,
     BaseModalDisclaimer,
     BaseModalInputBlock,
-
   },
 
   props: {

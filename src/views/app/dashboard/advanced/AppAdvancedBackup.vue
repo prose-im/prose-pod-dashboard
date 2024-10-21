@@ -29,13 +29,13 @@
   )
 
 restore-backup(
-  v-if="isRestoreModalVisible"
+  :visible="isRestoreModalVisible"
   @close="toggleRestoreModalVisible"
   @proceed=""
 )
 
 factory-reset(
-  v-if="isResetModalVisible"
+  :visible="isResetModalVisible"
   @close="toggleResetModalVisible"
   @proceed=""
 )

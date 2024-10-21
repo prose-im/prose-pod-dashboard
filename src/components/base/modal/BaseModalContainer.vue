@@ -9,35 +9,41 @@
  ********************************************************************** -->
 
 <template lang="pug">
-.c-base-modal-container
-  .c-base-modal-container__title
-    | {{ title }}
-
-  .c-base-modal-container__body(
-    :class=`[
-      {
-        "c-base-modal-container--flex": flexBody
-      }
-    ]`
+transition(
+  enter-active-class="u-animate u-animate--fade-in-out-expand-horizontal u-animate--slow "
+  leave-active-class="u-animate u-animate--fade-out u-animate--slow"
+)
+  .c-base-modal-container(
+    v-if="containerVisible"
   )
-    slot
-  
-  .c-base-modal-container__footer
-    base-button(
-      size="mid-large"
-      tint="grey"
-      @click="onClose"
-    )
-      | {{ buttonColor === 'grey' ? 'Close' : 'Cancel' }}
+    .c-base-modal-container__title
+      | {{ title }}
 
-    base-button(
-      v-if="buttonColor !== 'grey'"
-      class="c-base-modal-container__footer--extra-button"
-      size="mid-large"
-      :tint="buttonColor"
-      @click="onConfirm"
+    .c-base-modal-container__body(
+      :class=`[
+        {
+          "c-base-modal-container--flex": flexBody
+        }
+      ]`
     )
-      | {{ buttonLabel }}
+      slot
+    
+    .c-base-modal-container__footer
+      base-button(
+        size="mid-large"
+        tint="grey"
+        @click="onClose"
+      )
+        | {{ buttonColor === 'grey' ? 'Close' : 'Cancel' }}
+
+      base-button(
+        v-if="buttonColor !== 'grey'"
+        class="c-base-modal-container__footer--extra-button"
+        size="mid-large"
+        :tint="buttonColor"
+        @click="onConfirm"
+      )
+        | {{ buttonLabel }}
 
 </template>
 
@@ -78,18 +84,24 @@ export default {
     flexBody: {
       type: Boolean,
       default: false
+    },
+
+    containerVisible: {
+      type: Boolean,
+      default: false
     }
   },
 
   data() {
     return {
       // --> STATE <--
-
     };
   },
 
-  watch: {
+  computed: {
+  },
 
+  watch: {
   },
 
   emits: ["closeModal", "confirmAction"],

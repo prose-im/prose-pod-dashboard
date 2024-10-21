@@ -8,13 +8,13 @@
  TEMPLATE
  ********************************************************************** -->
 
- <template lang="pug">
-  .c-base-modal-background(
-    @click.self="onClickAway"
-  )
-    slot
+<template lang="pug">
+.c-base-modal-background(
+  @click.self="onClickAway"
+)
+  slot
  
- </template>
+</template>
    
  <!-- **********************************************************************
       SCRIPT

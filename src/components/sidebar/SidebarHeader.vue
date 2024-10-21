@@ -17,7 +17,7 @@
       :rectangular="true"
     )
 
-    sidebar-identity-badge
+    base-identity-badge
 
 </template>
     
@@ -28,14 +28,14 @@
 <script lang="ts">
 //COMPINENTS
 import BaseIcon from '../base/BaseIcon.vue'
-import SidebarIdentityBadge from './SidebarIdentityBadge.vue'
+import BaseIdentityBadge from '../base/BaseIdentityBadge.vue';
 
 export default {
 name: "SidebarHeader",
 
 components: {
   BaseIcon,
-  SidebarIdentityBadge
+  BaseIdentityBadge
 },
 
 props: {

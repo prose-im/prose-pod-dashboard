@@ -195,7 +195,7 @@ $c: ".c-base-subsection";
 
     h2{
       font-size: $font-size-baseline + 6px;
-      font-weight: $font-weight-bolder;
+      font-weight: $font-weight-medium;
       padding-left: 10px;
       margin-block:0;
     }
@@ -222,8 +222,7 @@ $c: ".c-base-subsection";
   #{$c}__restore {
     height: fit-content;
     color:$color-base-blue-normal;
-    font-size: $font-size-baseline - 1px;
-    font-weight: $font-weight-medium;
+    font-size: $font-size-baseline - 2px;
     padding-top: 6px;
     padding-bottom: 3px;
     padding-right: 14.5px;

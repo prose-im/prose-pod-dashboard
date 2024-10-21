@@ -43,7 +43,7 @@ TEMPLATE
     
     <!-- 3rd column -->
     .c-emojis-reactions-row__shortcut 
-        p.c-emojis-reactions-row--bold {{ emojiData.shortcut }}
+        p.c-emojis-reactions-row--medium-bold {{ emojiData.shortcut }}
 
         p(
           v-if="tableHeaders"
@@ -79,7 +79,9 @@ TEMPLATE
         :avatarDataUrl="emojiData.contributorAvatar"
         size="22px"
       )
-      |{{ emojiData.contributor}}
+      
+      p
+        | {{ emojiData.contributor}}
         
     p(
       v-else
@@ -170,12 +172,12 @@ $c: ".c-emojis-reactions-row";
   display: flex;
   align-items: center;
   padding-inline: 29px;
-  padding-block: 18.5px;
+  padding-block: 14.5px;
   font-family: $font-family-default;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
-  font-size: ($font-size-baseline - 2.5px);
+  font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {
     margin-right: 28px;
@@ -195,8 +197,10 @@ $c: ".c-emojis-reactions-row";
 
   #{$c}__date {
     min-width: 210px;
+    font-weight: $font-weight-light;
 
     &--header{
+      font-weight: $font-weight-regular;
       min-width: 210px;
     }
   }
@@ -220,11 +224,15 @@ $c: ".c-emojis-reactions-row";
     }
   }
 
+  p{
+    margin-block: 0;
+  }
+
   //STYLE
-  &--bold {
+  &--medium-bold {
     color: $color-text-primary;
-    font-weight: $font-weight-bolder;
-    font-size: ($font-size-baseline - 2px);
+    font-weight: $font-weight-medium;
+    font-size: ($font-size-baseline - 1px);
     margin-top: 0;
     margin-bottom: 5.5px;
   }

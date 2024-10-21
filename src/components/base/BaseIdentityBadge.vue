@@ -9,32 +9,32 @@
   ********************************************************************** -->
 
 <template lang="pug">
-.c-sidebar-identity-badge 
+.c-base-identity-badge 
   base-icon(
     name="fake.logo"
     size="44px"
   )
 
-  .c-sidebar-identity-badge__server
-    .c-sidebar-identity-badge__server-title
+  .c-base-identity-badge__server
+    .c-base-identity-badge__server-title
       p(
         :class=`[
-          "c-sidebar-identity-badge__server-name",
-          "c-sidebar-identity-badge--semibold"
+          "c-base-identity-badge__server-name",
+          "c-base-identity-badge--semibold"
         ]`
       ) Crisp 
       
       p(
         :class=`[
-          "c-sidebar-identity-badge__server-description",
-          "c-sidebar-identity-badge--light"
+          "c-base-identity-badge__server-description",
+          "c-base-identity-badge--light"
         ]`
       ) &nbsp; | &nbsp;crisp.chat
-    .c-sidebar-identity-badge__details
+    .c-base-identity-badge__details
       span Server 
-      span.c-sidebar-identity-badge--light v0.12.1 
+      span.c-base-identity-badge--light v0.12.1 
       span + Pod 
-      span.c-sidebar-identity-badge--light v0.1.3
+      span.c-base-identity-badge--light v0.1.3
   
 </template>
       
@@ -47,7 +47,7 @@
   import BaseIcon from '../base/BaseIcon.vue'
   
   export default {
-  name: "SidebarAccordion",
+  name: "BaseIdentityBagde",
   
   components: {
     BaseIcon 
@@ -86,13 +86,14 @@
        ********************************************************************** -->
   
 <style lang="scss">
-$c: ".c-sidebar-identity-badge";
+$c: ".c-base-identity-badge";
 
 #{$c} {
   display:flex;
   align-items:center;
   font-family: $font-family-default;
-  padding-left: 6px;
+  padding-inline-start: 6px;
+  padding-inline-end: 31px;
   padding-block:6px;
   margin-top: 28px;
   margin-left: -6.5px;

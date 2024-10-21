@@ -409,7 +409,7 @@ $size-ultra-large-padding-sides: 45.5px;
 
   &--large {
     #{$c}__inner {
-      font-size: $font-size-baseline;
+      font-size: ($font-size-baseline - 1.5px);
       line-height: 42px;
       padding-inline-start: $size-large-padding-sides;
       padding-inline-end: $size-large-padding-sides;
@@ -423,7 +423,8 @@ $size-ultra-large-padding-sides: 45.5px;
 
   &--mid-large {
     #{$c}__inner {
-      font-size: ($font-size-baseline + 1px);
+      font-weight: $font-weight-mid;
+      font-size: ($font-size-baseline + 0px);
       line-height: 48px;
       padding-inline-start: $size-mid-large-padding-sides;
       padding-inline-end: $size-mid-large-padding-sides;
@@ -432,7 +433,9 @@ $size-ultra-large-padding-sides: 45.5px;
 
   &--ultra-large {
     #{$c}__inner {
-      font-size: ($font-size-baseline + 3px);
+      font-weight: $font-weight-mid;
+      border-radius: ($size-base-button-border-radius + 3px);
+      font-size: ($font-size-baseline + 1.5px);
       line-height: 58px;
       padding-inline-start: $size-ultra-large-padding-sides;
       padding-inline-end: $size-ultra-large-padding-sides;

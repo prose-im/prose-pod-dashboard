@@ -1,0 +1,249 @@
+/*
+ * This file is part of prose-app-web
+ *
+ * Copyright 2023, Prose Foundation
+ */
+
+/* *************************************************************************
+ * UTILITIES > ANIMATIONS
+ * **************************************************************************/
+
+// VARIABLES
+$animate-toast-translate-vertical: 3px;
+
+.u-animate {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+
+  // --> SPEEDS <--
+
+  &--infinite {
+    animation-iteration-count: infinite;
+  }
+
+  &--superfast {
+    animation-duration: 0.1s;
+  }
+
+  &--midfast {
+    animation-duration: 0.15s;
+  }
+
+  &--fast {
+    animation-duration: 0.4s;
+  }
+
+  &--slow {
+    animation-duration: 1s;
+  }
+
+  &--midslow {
+    animation-duration: 1.25s;
+  }
+
+  &--superslow {
+    animation-duration: 1.5s;
+  }
+
+  // --> DELAYS <--
+
+  &--delayed {
+    animation-delay: 4s;
+  }
+
+  // --> ANIMATIONS <--
+
+  &--fade-in {
+    animation-name: fadeIn;
+  }
+
+  &--fade-in-up-small {
+    animation-name: fadeInUpSmall;
+  }
+
+  &--fade-in-down-small {
+    animation-name: fadeInDownSmall;
+  }
+
+  &--fade-out {
+    animation-name: fadeOut;
+  }
+
+  &--fade-out-up-small {
+    animation-name: fadeOutUpSmall;
+  }
+
+  &--fade-out-down-small {
+    animation-name: fadeOutDownSmall;
+  }
+
+  &--fade-in-out {
+    animation-name: fadeInOut;
+  }
+
+  &--fade-in-out-expand-horizontal {
+    animation-name: fadeInOutExpandHorizontal;
+  }
+
+  &--rotate {
+    animation-name: rotate;
+  }
+
+  &--blink {
+    animation-name: blink;
+  }
+
+  &--slide-in {
+    animation-name: slideIn;
+  }
+}
+
+// --> KEYFRAMES <--
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+
+  to {
+    opacity: 1;
+    backdrop-filter: blur(10px);
+  }
+}
+
+@keyframes fadeInUpSmall {
+  from {
+    opacity: 0;
+    transform: translateY($animate-toast-translate-vertical);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDownSmall {
+  from {
+    opacity: 0;
+    transform: translateY(-$animate-toast-translate-vertical);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOutUpSmall {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-$animate-toast-translate-vertical);
+  }
+}
+
+@keyframes fadeOutDownSmall {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY($animate-toast-translate-vertical);
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInOutExpandHorizontal {
+  0% {
+    opacity: 0;
+    width: 0%;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    width: 100%;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX($animate-toast-translate-vertical);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

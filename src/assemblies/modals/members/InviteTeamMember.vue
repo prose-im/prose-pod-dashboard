@@ -10,6 +10,7 @@
 
 <template lang="pug">
 base-modal(
+  :visible="visibility"
   @close="$emit('close')"
   @confirm="$emit('proceed')"
   title="Invite a team member"
@@ -27,16 +28,10 @@ base-modal(
       placeholder="Enter e-mail address to invite..."
     )
 
-    .a-invite-team-member__info
-      base-icon(
-        class="a-invite-team-member__info--icon"
-        name="information"
-        height="20px"
-        width="21.5px"
-      )
-
-      p
-        | An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes.
+    base-modal-information(
+      class="a-invite-team-member__info"
+      text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
+    ) 
 
 </template>
   
@@ -48,6 +43,7 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import BaseModal from '@/components/base/modal/BaseModal.vue';
+import BaseModalInformation from '@/components/base/modal/BaseModalInformation.vue';
 import FormField from '@/components/form/FormField.vue';
 
 export default {
@@ -56,11 +52,15 @@ export default {
   components: {
     BaseIcon,
     BaseModal,
+    BaseModalInformation,
     FormField
   },
 
   props: {
-
+    visibility:{
+      type: Boolean,
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -109,15 +109,6 @@ $c: ".a-invite-team-member";
     font-weight: $font-weight-light;
     margin-top: 38px;
     margin-left: 9px;
-    font-size: ($font-size-baseline - 1px);
-
-    p{
-      margin: 0;
-    }
-
-    &--icon{
-      margin-right: 13px;
-    }
   }
   
 }

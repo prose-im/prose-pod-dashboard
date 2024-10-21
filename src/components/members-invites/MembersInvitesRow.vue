@@ -99,7 +99,7 @@ TEMPLATE
         }
       ]`
     )
-      .c-members-invites-row__encryption--badge(
+      .c-members-invites-row__encryption--block(
         v-if="!tableHeaders"
         :class=`[
           {
@@ -112,11 +112,16 @@ TEMPLATE
           name="padlock"
           fill="#05c02b"
           size="16px"
-        )    
-        p Enabled
+        ) 
+
+        p(
+          class="c-members-invites-row__encryption--light"
+        )
+          | Enabled
 
       p(
         v-if="tableHeaders"
+        class="c-members-invites-row__badge--header"
       )
         | {{tableHeaders[3]}}
 
@@ -130,6 +135,7 @@ TEMPLATE
       )
         base-icon(
           v-if="userData.name"
+          fill="#949EB1"
           name="gear"
           size="10px"
         )
@@ -248,7 +254,13 @@ $c: ".c-members-invites-row";
 
   #{$c}__encryption {
     margin-right: 24%;
-    &--badge{
+
+    p {
+      font-size: ($font-size-baseline - 1px);
+      margin: 0;
+    }
+
+    &--block {
       display: flex;
       align-items: center;
       font-size: ($font-size-baseline - 2px);
@@ -264,6 +276,10 @@ $c: ".c-members-invites-row";
       height: 0 !important;
     }
 
+    &--light {
+      font-weight: $font-weight-light;
+    }
+
   }
 
   #{$c}__parameters {
@@ -276,22 +292,25 @@ $c: ".c-members-invites-row";
   //STYLE
   &--main {
     color: $color-text-primary;
-    font-weight: $font-weight-bolder;
-    font-size: ($font-size-baseline - 1px);
+    font-weight: $font-weight-medium;
+    font-size: ($font-size-baseline - 0.5px);
+    line-height: ($font-size-baseline - 0.5px);
     margin-top: 0;
     margin-bottom: 5.5px;
   }
 
   &--submain {
     color: $color-text-secondary;
-    font-size: ($font-size-baseline - 2px);
+    font-weight: $font-weight-light;
+    font-size: ($font-size-baseline - 1px);
+    line-height: ($font-size-baseline - 1px);
     margin-block: 0;
   }
 
   &--header {
     color: $color-text-secondary; 
-    font-size: ($font-size-baseline - 1.5px);
-    font-weight: $font-weight-medium;
+    font-size: ($font-size-baseline - 0px);
+    font-weight: $font-weight-mid;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 

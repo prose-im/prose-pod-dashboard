@@ -582,6 +582,7 @@ $c: ".c-form-field";
 
     &::placeholder {
       color: $color-text-secondary;
+      font-weight: $font-weight-extra-light;
       opacity: 1;
     }
 

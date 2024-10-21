@@ -87,6 +87,7 @@ $c: ".c-base-modal-information";
   }
 
   &--icon{
+    flex: none;
     margin-right: 13px;
   }
 }
