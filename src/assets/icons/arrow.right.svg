@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="14px" height="10px" viewBox="0 0 14 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Icon</title>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <g id="Table-/-Footer-/-Navigation" transform="translate(-241, -11)" stroke="#000000" stroke-width="2">
+    <g id="Symbols" stroke="inherit" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Table-/-Footer-/-Navigation" transform="translate(-241, -11)" stroke="" stroke-width="2">
             <g id="Button" transform="translate(232, 0)">
                 <path d="M10.5,16 L21.1666667,16 M17.1666667,12 L21.1666667,16 L17.1666667,20" id="Icon"></path>
             </g>

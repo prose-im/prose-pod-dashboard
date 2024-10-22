@@ -59,6 +59,15 @@
             validator(x: string) {
               return (x.startsWith("rgb(") && x.endsWith(")")) || x.startsWith("#");
             }
+          },
+
+          stroke: {
+            type: String,
+            default: null,
+      
+            validator(x: string) {
+              return (x.startsWith("rgb(") && x.endsWith(")")) || x.startsWith("#");
+            }
           }
         },
       
@@ -70,6 +79,7 @@
           iconStyle(): { [property: string]: string | null } {
             return {
               fill: this.fill,
+              stroke: this.stroke,
               height: this.size,
               width: this.width ? this.width: this.size,
             };
