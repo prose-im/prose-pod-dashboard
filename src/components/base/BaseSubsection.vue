@@ -21,7 +21,7 @@
         span.c-base-subsection__sup(
           v-if="sup"
         ) 
-          | {{ sup.toUpperCase() }}
+          | {{ ' ' + sup.toUpperCase() }}
 
       .c-base-subsection__restore(
         v-if="restoreOption"
@@ -211,6 +211,7 @@ $c: ".c-base-subsection";
 
   #{$c}__sup {
     position: relative;
+    font-weight: $font-weight-bolder;
     font-size: 0.6em;
     bottom: 0.5em;
 

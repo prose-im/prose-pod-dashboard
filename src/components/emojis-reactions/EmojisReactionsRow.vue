@@ -99,6 +99,7 @@ TEMPLATE
         base-icon(
           name="gear"
           size="10px"
+          fill="#949EB1"
         )
         
 
@@ -218,6 +219,8 @@ $c: ".c-emojis-reactions-row";
 
 
   #{$c}__parameters {
+    margin-bottom: 1px;
+
     &--button {
       margin:0;
       padding-inline: 18px;

@@ -20,6 +20,7 @@
         name="arrow.left"
         size="10px"
         width="11px"
+        stroke="#0000ff"
       )
 
     p
@@ -34,6 +35,7 @@
         name="arrow.right"
         size="10px"
         width="11px"
+        stroke="#0000ff"
       )
 </template>
 
@@ -115,7 +117,7 @@ $c: ".c-base-navigation-footer";
   #{$c}__content {
     color: $color-text-tertiary;
     font-family: $font-family-default;
-    font-size: ($font-size-baseline - 2px);
+    font-size: ($font-size-baseline - 1px);
     display: flex;
     align-items: center;
     width: fit-content;

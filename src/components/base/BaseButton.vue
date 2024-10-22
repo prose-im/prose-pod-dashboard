@@ -16,7 +16,6 @@ div(
     "c-base-button--" + tint,
     {
       "c-base-button--reverse": reverse,
-      "c-base-button--round": round,
       "c-base-button--borderless": borderless,
       "c-base-button--disabled": disabled,
       "c-base-button--loading": loading
@@ -237,7 +236,7 @@ $size-ultra-large-padding-sides: 45.5px;
   display: inline-block;
 
   #{$c}__inner {
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-mid;
     border: 1px solid rgba($color-black, 0.25);
     outline: 2px solid transparent;
     text-align: center;
@@ -501,29 +500,6 @@ $size-ultra-large-padding-sides: 45.5px;
     }
   }
 
-  &--round {
-    #{$c}__inner {
-      border-radius: 100%;
-    }
-  }
 
-  &--borderless {
-    #{$c}__inner {
-      border-width: 0;
-    }
-  }
-
-  &--disabled {
-    cursor: not-allowed;
-
-    &#{$c}--loading {
-      cursor: wait;
-    }
-
-    #{$c}__inner {
-      pointer-events: none;
-      opacity: 0.6;
-    }
-  }
 }
 </style>
