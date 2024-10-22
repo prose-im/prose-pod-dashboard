@@ -111,7 +111,6 @@ $c: ".c-dashboard-main";
   background-color: $color-background-primary;
 
   #{$c}__breadcrumb {
-    max-width: 918px;
     // margin-inline: auto; //verifierflex
   }
 
@@ -122,7 +121,8 @@ $c: ".c-dashboard-main";
     flex-direction: column; //verifierflex
     padding-top: 50px;
     padding-inline: 100px;
-    min-width: 918px;  //verifierflex
+    max-width: 918px;  //verifierflex
+    width: 100%;
   }
 }
 </style>
