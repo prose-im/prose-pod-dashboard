@@ -140,7 +140,7 @@ $c: ".c-form-checkbox";
     &:before {
       content: "";
       background-color: $color-white;
-      border: 1px solid $color-border-primary;
+      border: 1.5px solid $color-border-primary;
       outline: 2px solid transparent;
       position: absolute;
       inset: 0;
