@@ -14,6 +14,7 @@ TEMPLATE
     search-bar(
       buttonLabel="Add Custom Emoji"
       :clickHandle="onInvitePeopleClick"
+      placeholderText="a custom emoji..."
     )
 
     emojis-reactions-row(

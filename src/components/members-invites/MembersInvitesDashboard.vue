@@ -14,6 +14,7 @@ TEMPLATE
     search-bar(
       :buttonLabel="label"
       :clickHandle="onInviteMemberClick"
+      placeholderText="team members..."
     )
 
     members-invites-row(

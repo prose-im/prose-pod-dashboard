@@ -20,7 +20,7 @@ TEMPLATE
         )
         form-field(
           type="text"
-          placeholder="Search for"
+          :placeholder="'Search for' + ' ' + placeholderText"
           align="left"
           class="c-search-bar__field"
         )
@@ -74,7 +74,12 @@ export default {
     clickHandle:{
       type: Function,
       required:true
-    }
+    },
+
+    placeholderText: {
+      type: String,
+      default: ''
+    },
   },
 
   emits: ["addContact"],
