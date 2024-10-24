@@ -12,9 +12,8 @@
 div(
   :class=`[
     "v-start-login",
-    "v-start-login--context-" + runtimeContext,
     {
-      "v-start-login--translucent": runtimeTranslucent
+
     }
   ]`
   data-tauri-drag-region
@@ -46,7 +45,7 @@ import StartLoginForm, {
 import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 
 // PROJECT: STORES
-
+import Store from "@/store";
 
 // PROJECT: UTILITIES
 
