@@ -16,23 +16,32 @@ div(
   ]`
 )
   .c-base-subsection-item__left
-    h3(
-      :class=`[
-        "c-base-subsection-item__subtitle",
-        {
-          "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
-        }
-      ]`
-    )
-      | {{ item.subtitle }}
-
+    .c-base-subsection-item__subtitle
       base-icon(
-        v-if="item.restoreSubtitle"
-        class="c-base-subsection-item__subtitle--icon"
-        name="restore"
-        size="8px"
-        fill="#2490f0"
+        v-if="item.subtitleLeftIcon"
+        class="c-base-subsection-item__subtitle--left-icon"
+        :name="item.subtitleLeftIcon"
+        size="14px"
       )
+
+      h3(
+        :class=`[
+          "c-base-subsection-item__subtitle--text",
+          {
+            "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
+          }
+        ]`
+      )
+
+        | {{ item.subtitle }}
+
+        base-icon(
+          v-if="item.restoreSubtitle"
+          class="c-base-subsection-item__subtitle--right-icon"
+          name="restore"
+          size="8px"
+          fill="#2490f0"
+        )
 
     p.c-base-subsection-item__description 
       | {{ item.description}}
@@ -270,16 +279,25 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__subtitle {
-    margin: 0;
+    display: flex;
+    align-items: center;
     margin-bottom: 8px;
-    font-size: ($font-size-baseline + 0.5px);
-    font-weight: $font-weight-mid;
+
+    &--left-icon {
+      margin-right: 7.5px;
+    }
+
+    &--text{
+      margin: 0;
+      font-size: ($font-size-baseline + 0.5px);
+      font-weight: $font-weight-mid;
+    }
 
     &--restore {
       color:$color-base-blue-normal;
     }
 
-    &--icon {
+    &--right-icon {
       margin-left: 3.5px;
     }
   }
@@ -343,6 +361,10 @@ $c: ".c-base-subsection-item";
   &--redBackground {
     background-color: rgba($color-base-red-normal, 0.06);
 
+    #{$c}__subtitle--left-icon {
+      fill: #dd2f2f;
+    }
+
     #{$c}__taglist,
     #{$c}__subtitle {
       color: $color-base-red-normal;
@@ -351,6 +373,10 @@ $c: ".c-base-subsection-item";
 
   &--redShell {
     color: $color-base-red-normal;
+
+    #{$c}__subtitle--left-icon {
+      fill: #dd2f2f;
+    }
 
     #{$c}__description {
       color: $color-base-red-normal;

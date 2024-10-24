@@ -101,6 +101,7 @@ export default {
 
         {
           subtitle: "Network configuration checker",
+          subtitleLeftIcon: "exclamationmark.triangle.fill",
           description: "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
           color:"redBackground",
           action: this.toggleNetworkCheckModalVisible,
