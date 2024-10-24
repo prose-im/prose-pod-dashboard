@@ -21,7 +21,7 @@
       )
         span(
         ) 
-          | {{ crumb.label }} 
+          | {{ crumb }} 
 
         base-icon(
           v-if="index !== breadcrumbs.length -1"
@@ -82,25 +82,54 @@ export default {
 
   computed: {
     breadcrumbs() {
+      let breadcrumbs: string[] = [];
       const route = this.$route || "/dashboard/settings";
-      const matchedRoutes = route.matched || "/dashboard/settings";
+      const matchedRoutes = route.path.split("/")
+      matchedRoutes.shift()
 
-      console.log(route)
+      console.log(matchedRoutes)
 
-      return [
-        {
-          label: "Team Members",
-          to: "/"
-        },
-        {
-          label: "Members & Invites",
-          to: "/"
-        },
-      ]
-      //- matchedRoutes.map((routeItem) => ({
-      //-   label: routeItem.meta.breadcrumb || routeItem.name,
-      //-   to: this.getRoutePath(route, routeItem),
-      //- }));
+      matchedRoutes.forEach((label, index) => {
+        if(index === 0) {
+          switch (label) {
+            case "team":
+              breadcrumbs.push("Team Members");
+              break;
+            case "server":
+              breadcrumbs.push("Server Features");
+              break;
+            case "advanced":
+              breadcrumbs.push("Advanced Settings");
+              break;
+            default:
+              breadcrumbs.push(this.capitalizeFirst(label));
+              break;
+          }
+        } else {
+          switch (label) {
+            case "members":
+              breadcrumbs.push("Members & Invites");
+              break;
+            case "emojis":
+              breadcrumbs.push("Emojis & Reactions");
+              break;
+            case "security":
+              breadcrumbs.push("Security & Encryption");
+              break;
+            case "network":
+              breadcrumbs.push("Network Setup");
+              break;
+            case "backup":
+              breadcrumbs.push("Backup & Reset");
+              break;
+            default:
+              breadcrumbs.push(this.capitalizeFirst(label));
+              break;
+          }
+        }
+      })
+
+      return breadcrumbs
     },
   },
 
@@ -110,10 +139,9 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    //- getRoutePath(route, routeItem) {
-    //-   const matchedSegments = route.matched.slice(0, route.matched.indexOf(routeItem) + 1);
-    //-   return matchedSegments.map((segment) => segment.path).join('/');
-    //- },
+    capitalizeFirst(word: string){
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    },
   },
 };
 </script>
@@ -146,6 +174,7 @@ $c: ".c-breadcrumb";
 
       li {
         color: $color-base-grey-normal;
+        font-weight: $font-weight-light;
 
             &:last-child {
               color: $color-black;
