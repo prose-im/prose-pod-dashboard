@@ -31,11 +31,19 @@
           width="6.35px"
           fill="#949eb1"
         )
-    base-icon(
-      name="help"
-      size="16px"
-      fill="#949eb1"
+
+    base-tooltip(
+      tooltip="hello"
+      align="center"
+      direction="bottom"
     )
+      base-icon(
+        name="questionmark.circle"
+        size="16px"
+        fill="#949eb1"
+      )
+
+
       
 </template>
 
@@ -46,12 +54,14 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseIcon from '../base/BaseIcon.vue'
+import BaseTooltip from '../base/BaseTooltip.vue';
 
 export default {
   name: "Breadcrumb",
 
   components: {
-    BaseIcon
+    BaseIcon,
+    BaseTooltip
   },
 
   props: {
