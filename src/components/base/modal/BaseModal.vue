@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      loaded: true
+      loaded: false
     };
   },
 

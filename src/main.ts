@@ -18,7 +18,7 @@ import App from './App.vue';
 import Router from "@/router";
 import 'virtual:svg-icons-register';
 
-createApp(App).mount('#app')
+createApp(App).mount('#runtime')
 
 /**************************************************************************
  * INSTANCES

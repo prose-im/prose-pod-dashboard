@@ -172,11 +172,11 @@ export default {
         case "pending":
           return result = "archive";
         case "sucess":
-          return result = "check.circle";
+          return result = "check.circle"; /// Change
         case "failed":
-          return result = "warning";
+          return result = "exclamationmark.triangle.fill";
         case "warning":
-          return result = "exclamation.circle";
+          return result = "exclamationmark.circle.fill";
         default:
           break;
       }
