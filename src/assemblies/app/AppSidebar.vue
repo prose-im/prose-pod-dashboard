@@ -59,7 +59,7 @@
               {
                 icon: "two.people",
                 value: "Members & Invites",
-                link:"/members",
+                link:"/team/members",
               },
             ],
           },
@@ -69,7 +69,7 @@
               {
                 icon: "gearshape",
                 value: "Configuration",
-                link:"/server",
+                link:"/server/configuration",
               },
             ],
           },

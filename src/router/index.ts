@@ -120,7 +120,7 @@ class Router {
 
           children: [
             {
-              path: "/members",
+              path: "/team/members",
               name: "app.members",
               component: AppTeamMembers as object,
 
@@ -146,7 +146,7 @@ class Router {
             },
 
             {
-              path: "/server",
+              path: "/server/configuration",
               name: "app.server",
               component: AppServerConfiguration as object,
             },
