@@ -63,6 +63,7 @@
       .a-start-login-form__options-right
         a.a-start-login-form__options-recover
           | Forgot password?
+
 </template>
 
 <!-- **********************************************************************
@@ -71,6 +72,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from '@/components/base/BaseAlert.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseProseLogo from '@/components/base/BaseProseLogo.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
@@ -126,9 +128,13 @@ export default {
     // --> EVENT LISTENERS <--
 
     onSubmit(): void {
-      this.$emit("submit", {
-        ...this.form
-      });
+      BaseAlert.error(
+        "Account credentials are invalid",
+        "Please check your password and try again"
+      );
+    //   this.$emit("submit", {
+    //     ...this.form
+    //   });
     }
   }
 };

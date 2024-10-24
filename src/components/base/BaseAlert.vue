@@ -15,7 +15,6 @@ transition(
 )
   div(
     v-if="title"
-    v-hotkey="hotkeys"
     @mouseover="onMouseOver"
     @mouseleave="onMouseLeave"
     :class=`[
@@ -29,11 +28,13 @@ transition(
     ]`
   )
     .c-base-alert__inner
-      base-icon(
-        :name="badgeIcon"
-        size="16px"
-        class="c-base-alert__badge"
-      )
+      .c-base-alert__badge
+        base-icon(
+          :name="badgeIcon"
+          :fill="badgeIconColor"
+          size="24px"
+          class="c-base-alert__badge-icon"
+        )
 
       .c-base-alert__text
         p.c-base-alert__text-title.u-medium
@@ -48,8 +49,8 @@ transition(
         @click="onCloseClick"
         class="c-base-alert__close"
         icon="xmark"
-        context="dark"
-        size="9px"
+        context="grey"
+        size="12px"
         auto-width
         auto-height
       )
@@ -60,6 +61,10 @@ transition(
      ********************************************************************** -->
 
 <script lang="ts">
+//PROJECT COMPONENTS
+import BaseAction from "./BaseAction.vue";
+import BaseIcon from "./BaseIcon.vue";
+
 // NPM
 import mitt, { Handler } from "mitt";
 
@@ -101,8 +106,8 @@ interface State {
 // CONSTANTS
 const ALERT_SHOW_AFTER_DELAY = 250; // 250 milliseconds
 
-const ALERT_EXPIRE_HIDE_DELAY_DEFAULT = 4000; // 4 seconds
-const ALERT_EXPIRE_HIDE_DELAY_SHORT = 2000; // 2 seconds
+const ALERT_EXPIRE_HIDE_DELAY_DEFAULT = 400000; // 4 seconds
+const ALERT_EXPIRE_HIDE_DELAY_SHORT = 200000; // 2 seconds
 
 const ALERT_VISIBILITY_DEFAULT = Visibility.AutoHide;
 
@@ -111,6 +116,11 @@ const EventBus = mitt();
 
 export default {
   name: "BaseAlert",
+
+  components: {
+    BaseAction,
+    BaseIcon
+  },
 
   data() {
     return {
@@ -186,16 +196,28 @@ export default {
       }
     },
 
+    badgeIconColor(): string {
+      switch (this.level) {
+        case "error": {
+          return "#dd2f2f";
+        }
+
+        default: {
+          return "#000000";
+        }
+      }
+    },
+
     hasToolbar(): boolean {
-      return this.session.interface.toolbar.mounted || false;
+      return false //this.session.interface.toolbar.mounted || false;
     },
 
     hasSidebar(): boolean {
-      return this.session.interface.sidebar.mounted || false;
+      return false //this.session.interface.sidebar.mounted || false;
     },
 
     hasInboxDetails(): boolean {
-      return this.session.interface.inboxDetails.mounted || false;
+      return false //this.session.interface.inboxDetails.mounted || false;
     },
 
     session(): typeof Store.$session {
@@ -357,52 +379,49 @@ $alert-padding-sides: 12px;
   z-index: $index-foreground-primary;
 
   #{$c}__inner {
-    background-color: rgba(var(--color-base-grey-dark), 0.95);
-    border: 1px solid rgba(var(--color-black), 0.15);
-    padding: 7px 10px;
+    background-color: $color-white;
+    border: 1px solid $color-border-secondary;
+    padding-block: 10px;
+    padding-inline: 10px 17px;
     backdrop-filter: blur(9px);
     pointer-events: initial;
     display: flex;
     align-items: center;
-    box-shadow: 0 4px 10px 0 rgba(var(--color-shadow-primary), 0.07),
-      inset 0 1px 0 0 rgba(var(--color-white), 0.2);
+    box-shadow: 0 2px 4px 0 rgba($color-black, 0.03),
+      inset 0 1px 0 0 rgba($color-white, 0.2);
     border-radius: 14px;
 
     #{$c}__badge {
-      fill: rgb(var(--color-white));
-      margin-inline-start: 8px;
+      height: 54px;
+      width: 54px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       flex: 0 0 auto;
     }
 
     #{$c}__text {
-      color: rgba(var(--color-white));
+      font-family: $font-family-default;
       line-height: 17px;
       margin-block-start: -1px;
-      padding-inline: 20px;
+      padding-inline: 26px 51px;
       flex: 1;
-      display: flex;
-      align-items: center;
 
       #{$c}__text-title {
-        font-size: $font-size-baseline;
+        font-size: ($font-size-baseline + 3px);
+        font-weight: $font-weight-medium;
+        margin-block: 0 10px;
         flex: 0 0 auto;
       }
 
       #{$c}__text-description {
-        font-size: ($font-size-baseline - 0.5px);
+        font-size: ($font-size-baseline + 1px);
+        font-weight: $font-weight-light;
+        margin-block: 0;
         flex: 1;
         display: flex;
         align-items: center;
-
-        &:before {
-          content: "";
-          background-color: rgba(var(--color-white), 0.15);
-          width: 1px;
-          height: 16px;
-          margin-inline: 12px;
-          margin-block-end: -1px;
-          flex: 0 0 auto;
-        }
       }
     }
   }
@@ -410,14 +429,18 @@ $alert-padding-sides: 12px;
   // --> LEVELS <--
 
   &--error {
-    #{$c}__inner {
-      background-color: rgba(var(--color-base-red-normal), 0.95);
+    #{$c}__badge {
+      background-color: rgba($color-base-red-normal, 0.15);
+    }
+
+    #{$c}__text-title {
+      color: $color-base-red-normal;
     }
   }
 
   &--warning {
     #{$c}__inner {
-      background-color: rgba(var(--color-base-orange-normal), 0.95);
+      background-color: rgba($color-base-orange-normal, 0.95);
     }
   }
 
