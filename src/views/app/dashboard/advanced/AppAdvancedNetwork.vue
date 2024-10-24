@@ -78,6 +78,7 @@ export default {
           subtitle:"Friendly servers whitelist",
           restoreSubtitle:true,
           description: "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
+          tags:['Allowed', 'prose.org', 'clever-cloud.com', 'bb.agency'],
           type:"button",
           typeProps:{
             label:"Edit servers...",
@@ -101,9 +102,10 @@ export default {
         {
           subtitle: "Network configuration checker",
           description: "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
-          type:"button",
           color:"redBackground",
           action: this.toggleNetworkCheckModalVisible,
+          tags:['Issues', 'DNS TXT record missing', 'IPv6 not working'],
+          type:"button",
           typeProps:{
             label:"Start network check...",
             size:"medium"
