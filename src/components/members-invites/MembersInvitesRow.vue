@@ -136,7 +136,7 @@ TEMPLATE
         base-icon(
           v-if="userData.name"
           fill="#949EB1"
-          name="gear"
+          name="gearshape.fill"
           size="10px"
         )
         

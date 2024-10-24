@@ -12,7 +12,7 @@ TEMPLATE
 .c-base-modal-information
   base-icon(
     class="c-base-modal-information--icon"
-    name="information"
+    name="info.circle"
     height="20px"
     width="21.5px"
   )

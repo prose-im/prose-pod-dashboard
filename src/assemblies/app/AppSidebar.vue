@@ -67,7 +67,7 @@
             value: "Server Features",
             subcategories: [
               {
-                icon: "cogs",
+                icon: "gearshape",
                 value: "Configuration",
                 link:"/server",
               },

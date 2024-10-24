@@ -13,7 +13,7 @@ TEMPLATE
   .c-base-modal-disclaimer__warning
     base-icon(
       class="c-base-modal-disclaimer--icon"
-      name="warning"
+      name="exclamationmark.triangle.fill"
       fill="#dd2f2f"
       height="14px"
       width="15.5px"

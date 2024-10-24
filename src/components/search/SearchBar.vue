@@ -40,7 +40,7 @@ TEMPLATE
           :square="true"
         )
           base-icon(
-            name="more.dots"
+            name="dots.vertical"
             fill="#949EB1"
           )
 

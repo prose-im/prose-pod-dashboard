@@ -97,7 +97,7 @@ TEMPLATE
         :square="true"
       )
         base-icon(
-          name="gear"
+          name="gearshape.fill"
           size="10px"
           fill="#949EB1"
         )
