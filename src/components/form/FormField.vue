@@ -78,15 +78,6 @@ div(
 
 </template>
 
-  <!-- form-field-suggest(
-    v-if="hasSuggestions"
-    @select="onSuggestSelect"
-    :size="size"
-    :suggestions="suggestions"
-    ref="suggest"
-    class="c-form-field__suggest"
-  ) -->
-
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
@@ -597,13 +588,6 @@ $c: ".c-form-field";
     }
   }
 
-  #{$c}__suggest {
-    max-height: 160px;
-    position: absolute;
-    inset-inline: 0;
-    z-index: 1;
-  }
-
   // --> TYPES <--
 
   &--input {
@@ -727,22 +711,6 @@ $c: ".c-form-field";
   }
 
   // --> DIRECTIONS <--
-
-  &--top {
-    #{$c}__suggest {
-      inset-block-end: calc(
-        100% + #{$size-form-field-suggest-block-origin-offset}
-      );
-    }
-  }
-
-  &--bottom {
-    #{$c}__suggest {
-      inset-block-start: calc(
-        100% + #{$size-form-field-suggest-block-origin-offset}
-      );
-    }
-  }
 
   // --> BOOLEANS <--
 

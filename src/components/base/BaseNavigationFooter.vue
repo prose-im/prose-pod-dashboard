@@ -82,10 +82,6 @@ export default {
           to: "/"
         },
       ]
-      //- matchedRoutes.map((routeItem) => ({
-      //-   label: routeItem.meta.breadcrumb || routeItem.name,
-      //-   to: this.getRoutePath(route, routeItem),
-      //- }));
     },
   },
 
@@ -95,10 +91,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    //- getRoutePath(route, routeItem) {
-    //-   const matchedSegments = route.matched.slice(0, route.matched.indexOf(routeItem) + 1);
-    //-   return matchedSegments.map((segment) => segment.path).join('/');
-    //- },
+
   },
 };
 </script>

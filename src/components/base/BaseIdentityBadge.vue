@@ -30,11 +30,19 @@
           "c-base-identity-badge--light"
         ]`
       ) &nbsp; | &nbsp;crisp.chat
+      
     .c-base-identity-badge__details
-      span Server 
-      span.c-base-identity-badge--light v0.12.1 
-      span + Pod 
-      span.c-base-identity-badge--light v0.1.3
+      span 
+        | Server 
+        
+      span.c-base-identity-badge--light 
+        | v0.12.1 
+
+      span 
+        | + Pod 
+
+      span.c-base-identity-badge--light 
+        | v0.1.3
   
 </template>
       

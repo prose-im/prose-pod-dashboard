@@ -11,10 +11,7 @@
 <template lang="pug">
   .c-base-pulse-icon
     .c-base-pulse-icon__inner
-
     .c-base-pulse-icon__outer
-
-
 </template>
   
 <!-- **********************************************************************
@@ -68,8 +65,8 @@ export default {
 $c: ".c-base-pulse-icon";
 
 #{$c} {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   position: relative;
   text-align: center;
   display: flex;
@@ -78,8 +75,8 @@ $c: ".c-base-pulse-icon";
 
   #{$c}__inner {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border: 1.5px solid $color-base-blue-normal;
     border-radius: 5px;
     animation: 1.5s ease-out infinite 0.75s pulse;
@@ -87,8 +84,8 @@ $c: ".c-base-pulse-icon";
 
   #{$c}__outer {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 3px;
+    height: 3px;
     border: 1.5px solid $color-base-blue-normal;
     border-radius: 5px;
     animation: 1.5s ease-out infinite pulse;
@@ -103,14 +100,9 @@ $c: ".c-base-pulse-icon";
     opacity: 1;
   }
   100% {
-    transform: scale(2.5, 2.5);
-    border-radius: 20px;
+    transform: scale(1.7, 1.7);
+    border-radius: 13px;
     opacity: 0.4;
   }
 }
-
-
 </style>
-
-  
-  <!--          -->

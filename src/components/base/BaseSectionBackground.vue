@@ -54,10 +54,7 @@
             to: "/"
           },
         ]
-        //- matchedRoutes.map((routeItem) => ({
-        //-   label: routeItem.meta.breadcrumb || routeItem.name,
-        //-   to: this.getRoutePath(route, routeItem),
-        //- }));
+
       },
     },
   
@@ -67,10 +64,6 @@
   
     methods: {
       // --> HELPERS <--
-      //- getRoutePath(route, routeItem) {
-      //-   const matchedSegments = route.matched.slice(0, route.matched.indexOf(routeItem) + 1);
-      //-   return matchedSegments.map((segment) => segment.path).join('/');
-      //- },
     },
   };
   </script>
@@ -83,14 +76,12 @@
   $c: ".c-base-section-background";
   
   #{$c} {
-    // height: 100%; //verifierflex
-    flex: 1; //verifierflex
-    display: flex; //verifierflex
+    flex: 1; 
+    display: flex; 
     background-color: white;
     border-radius: 8px;
     border: 1px solid $color-border-secondary;
     box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);
-    // margin: 0 auto; //verifierflex
 
     #{$c}__icon {
       margin-left:11.2px;

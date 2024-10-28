@@ -154,8 +154,8 @@ TEMPLATE
 // PROJECT: COMPONENTS
 import BaseAvatar from '@/components/base/BaseAvatar.vue';
 import BaseBadge from '@/components/base/BaseBadge.vue';
-import BaseButton from '../base/BaseButton.vue';
-import BaseIcon from '../base/BaseIcon.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
 
 export default {

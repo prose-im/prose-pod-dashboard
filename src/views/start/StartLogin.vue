@@ -47,9 +47,6 @@ import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 // PROJECT: STORES
 import Store from "@/store";
 
-// PROJECT: UTILITIES
-
-
 // CONSTANTS
 const INTERFACE_WIDTH = 600;
 const INTERFACE_HEIGHT = 620;

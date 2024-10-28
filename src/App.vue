@@ -1,3 +1,30 @@
+<!--
+* This file is part of prose-app-web
+*
+* Copyright 2024, Prose Foundation
+-->
+
+<!-- **********************************************************************
+     TEMPLATE
+     ********************************************************************** -->
+
+<template lang="pug">
+  #app(
+    @contextmenu.prevent
+    @dragover.prevent
+    @drop.prevent.stop
+    class="s-app"
+  )
+    base-alert
+
+    router-view
+
+</template>
+    
+<!-- **********************************************************************
+     SCRIPT
+     ********************************************************************** -->
+
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "./components/base/BaseAlert.vue";
@@ -12,18 +39,6 @@ export default {
 }
 </script>
 
-<template lang="pug">
-  #app(
-    @contextmenu.prevent
-    @dragover.prevent
-    @drop.prevent.stop
-    class="s-app"
-  )
-    base-alert
-
-    router-view
-
-</template>
 <!-- **********************************************************************
   STYLE
   ********************************************************************** -->
@@ -32,15 +47,15 @@ export default {
 $c: ".s-app";
 
 #{$c} {
- background-color: white;
- color: black;
+ background-color: $color-white;
+ color: $color-black;
  user-select: none;
  margin: 0;
  padding: 0;
- height: 100vh;
  display: flex;
- inset: 0;
  overflow: clip;
+ position: absolute;
+ inset: 0;
 
  // --> BOOLEANS <--
 
@@ -49,5 +64,3 @@ $c: ".s-app";
  }
 }
 </style>
-    <!-- sidebar-main
-    dashboard-main -->
