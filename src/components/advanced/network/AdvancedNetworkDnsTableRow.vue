@@ -67,6 +67,8 @@ export default {
     return {
       // --> STATE <--
       copied: false,
+
+      timer: null,
     };
   },
 
@@ -93,7 +95,11 @@ export default {
 
         this.copied= true;
 
-        setTimeout(() => {
+        if(this.timer) {
+          clearTimeout(this.timer);
+        }
+
+        this.timer = setTimeout(() => {
           this.copied= false;
         }, 5000)
 
@@ -106,6 +112,13 @@ export default {
       await this.copyText(this.$refs.rowText)
     }
   },
+
+  onBeforeUnmount(){
+    if(this.timer) {
+      clearTimeout(this.timer);
+    }
+  }
+
 };
 </script>
 

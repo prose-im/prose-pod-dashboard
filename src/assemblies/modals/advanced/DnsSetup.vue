@@ -28,8 +28,11 @@ base-modal(
     h3
       | DNS Records
     
-    p.a-dns-setup__step
-      | 1️⃣ &nbsp;Add those records to specify your server IP address:
+    .a-dns-setup__step
+      span
+        | 1️⃣ &nbsp;Add those records to 
+      span.a-dns-setup--semibold
+        | specify your server IP address:
 
     .a-dns-setup__table
       advanced-network-dns-table-row(
@@ -57,8 +60,11 @@ base-modal(
         p 600
         p 2a01:cb05:899c:c200::1
 
-    p.a-dns-setup__step
-      | 2️⃣ &nbsp;Add the records that let clients connect to your server:
+    .a-dns-setup__step
+      span
+        | 2️⃣ &nbsp;Add the records that let 
+      span.a-dns-setup--semibold
+        | clients connect to your server:
 
     .a-dns-setup__table
       advanced-network-dns-table-row(
@@ -84,8 +90,11 @@ base-modal(
         p 5222
         p xmpp.crisp.chat.
 
-    p.a-dns-setup__step
-      | 3️⃣ &nbsp;Add the records that let servers connect to your server:
+    .a-dns-setup__step
+      span
+        | 3️⃣ &nbsp;Add the records that let 
+      span.a-dns-setup--semibold  
+        | servers connect to your server:
     .a-dns-setup__table
       advanced-network-dns-table-row(
         :header="true"
@@ -110,9 +119,12 @@ base-modal(
         p 5269
         p xmpp.crisp.chat.
 
-    p
-      | 👉 Need help?  You can read the DNS setup guide here.
-
+    span.a-dns-setup--bold
+      | 👉 Need help?  
+    span
+      | You can read the 
+    span.a-dns-setup--link
+      | DNS setup guide here.
 </template>
   
 <!-- **********************************************************************
@@ -170,6 +182,7 @@ $c: ".a-dns-setup";
 #{$c} {
   margin-inline: 48px;
   font-family: $font-family-default;
+  font-weight: $font-weight-light;
 
   #{$c}__step{
     margin-top: 0;
@@ -180,10 +193,12 @@ $c: ".a-dns-setup";
   #{$c}__table{
     border: 1px solid $color-border-primary;
     margin-bottom: 27px;
+    font-weight: $font-weight-light;
 
     &--one--row{
       p:first-child{
         min-width: 79px;
+        font-weight: $font-weight-medium;
       }
 
       p:nth-child(2){
@@ -204,6 +219,7 @@ $c: ".a-dns-setup";
     &--two--row{
       p:first-child{
         min-width: 51px;
+        font-weight: $font-weight-medium;
       }
 
       p:nth-child(2){
@@ -244,6 +260,21 @@ $c: ".a-dns-setup";
     padding-bottom: 14px;
     border-bottom: 1px solid $color-border-secondary;
     margin-bottom: 19px;
+  }
+
+  //<!-- WEIGHTS -->
+
+  &--semibold {
+    font-weight: $font-weight-mid;
+  }
+
+  &--bold {
+    font-weight: $font-weight-medium;
+  }
+
+  &--link {
+    color: $color-base-blue-normal;
+    font-weight: $font-weight-regular;
   }
 }
 
