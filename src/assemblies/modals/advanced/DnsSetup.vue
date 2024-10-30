@@ -183,12 +183,11 @@ $c: ".a-dns-setup";
 
     &--one--row{
       p:first-child{
-        min-width: 15%;
-        margin-left: 0;
+        min-width: 79px;
       }
 
       p:nth-child(2){
-        min-width: 6%;
+        min-width: 30px;
         margin-left: 6.5%;
       }
 
@@ -204,32 +203,31 @@ $c: ".a-dns-setup";
 
     &--two--row{
       p:first-child{
-        min-width: 9%;
-        margin-left: 0;
+        min-width: 51px;
       }
 
       p:nth-child(2){
-        min-width: 4.5%;
+        min-width: 24px;
         margin-left: 7%;
       }
 
       p:nth-child(3){
-        min-width: 5%;
+        min-width: 27px;
         margin-left: 6.5%;
       }
 
       p:nth-child(4){
-        min-width: 4%;
+        min-width: 23px;
         margin-left: 4%;
       }
 
       p:nth-child(5){
-        min-width: 7%;
+        min-width: 35px;
         margin-left: 3%;
       }      
       
       p:nth-child(6){
-        min-width: 4.5%;
+        min-width: 24px;
         margin-left: 5%;
       }
 
