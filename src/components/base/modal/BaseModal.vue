@@ -39,8 +39,8 @@ teleport(
       ********************************************************************** -->
  
 <script lang="ts">
-import BaseModalBackground from './BaseModalBackground.vue';
-import BaseModalContainer from './BaseModalContainer.vue';
+import BaseModalBackground from '@/components/base/modal/BaseModalBackground.vue';
+import BaseModalContainer from '@/components/base/modal/BaseModalContainer.vue';
 
 export default {
   name: "Modal",

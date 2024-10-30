@@ -62,8 +62,8 @@ transition(
 
 <script lang="ts">
 //PROJECT COMPONENTS
-import BaseAction from "./BaseAction.vue";
-import BaseIcon from "./BaseIcon.vue";
+import BaseAction from "@/components/base/BaseAction.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 // NPM
 import mitt, { Handler } from "mitt";

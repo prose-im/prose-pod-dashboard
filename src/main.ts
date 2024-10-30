@@ -14,7 +14,7 @@ import "@/assets/stylesheets/all.scss";
 
 import { createApp } from 'vue';
 
-import App from './App.vue';
+import App from '@/App.vue';
 import Router from "@/router";
 import 'virtual:svg-icons-register';
 

@@ -171,9 +171,6 @@ $c: ".c-emojis-reactions-row";
   padding-inline: 29px;
   padding-block: 14.5px;
   font-family: $font-family-default;
-  //overflow: hidden !important;
-  //text-overflow: ellipsis !important;
-  //white-space: nowrap !important;
   font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {

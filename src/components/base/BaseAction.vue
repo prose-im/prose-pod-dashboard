@@ -70,7 +70,7 @@ div(
 
 <script lang="ts">
 //PROJECT COMPONENTS
-import BaseIcon from './BaseIcon.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 
 export default {
   name: "BaseAction",
