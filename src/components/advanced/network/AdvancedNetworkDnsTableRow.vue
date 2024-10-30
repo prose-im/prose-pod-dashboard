@@ -31,41 +31,10 @@
       ]`
       @click="copyRow"
     )
-      transition(
-        enter-active-class="u-animate u-animate--scale-up u-animate--semifast"
-        leave-active-class="u-animate u-animate--scale-down u-animate--semifast"
+      base-copy-icon(
+        :isCopied="copied"
       )
-        .c-advanced-network-dns-table-row__icon-copied(
-          v-if="copied"
-          class="c-advanced-network-dns-table-row--flex"
-        )
-          base-icon(
-            name="checkmark.circle.fill"
-            fill="#05c02b"
-            size="9.5px"
-            width="10.2px"
-          )
-            
-          p
-            | Copied
 
-      transition(
-        enter-active-class="u-animate u-animate--scale-up u-animate--semifast"
-        leave-active-class="u-animate u-animate--scale-down u-animate--semifast"
-      )
-        .c-advanced-network-dns-table-row__icon-copy(
-          v-if="!copied"
-          class="c-advanced-network-dns-table-row--flex"
-        )
-          base-icon(
-            name="copy"
-            fill="#2490f0"
-            size="9.5px"
-            width="10.2px"
-          )
-
-          p
-            | Copy
 </template>
   
 <!-- **********************************************************************
@@ -74,12 +43,14 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseCopyIcon from '@/components/base/BaseCopyIcon.vue';
 import BaseIcon from '@/components/base/BaseIcon.vue';
 
 export default {
   name: "AdvancedNetworkDnsTableRow",
 
   components: {
+    BaseCopyIcon,
     BaseIcon
   },
 
@@ -160,6 +131,7 @@ $c: ".c-advanced-network-dns-table-row";
     line-height: ($font-size-baseline + 2px);
     padding-block: 5.5px;
     padding-inline: 19.5px;
+    min-height: 16px;
 
     &--header{
       color: $color-text-secondary;
@@ -171,26 +143,13 @@ $c: ".c-advanced-network-dns-table-row";
 
   #{$c}__slot{
     width: 100%;
+    overflow: hidden;
   }
 
   #{$c}__icon{
-    position: relative;
-    min-width: 50px;
-    color: $color-base-blue-normal;
-    font-weight: $font-weight-light;
-    font-size: ($font-size-baseline - 2.5px);
-    cursor: pointer;
-
-    &-copied {
-      position: absolute;
-      color: $color-base-green-normal;
-    }
-
     &--hidden{
       visibility: hidden;
     }
-
-
   }
 
   p{
