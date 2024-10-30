@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
 .c-advanced-network-dns-table-row
@@ -18,30 +18,54 @@ TEMPLATE
     ]`
   )
     .c-advanced-network-dns-table-row__slot(
+      ref="rowText"
       class="c-advanced-network-dns-table-row--flex"
     )
       slot
 
     .c-advanced-network-dns-table-row__icon(
       :class=`[
-        "c-advanced-network-dns-table-row--flex",
         {
           "c-advanced-network-dns-table-row__icon--hidden":header
         }
       ]`
+      @click="copyRow"
     )
-      
-      base-icon(
-        name="copy"
-        fill="#2490f0"
-        size="9.5px"
-        width="10.2px"
+      transition(
+        enter-active-class="u-animate u-animate--scale-up u-animate--semifast"
+        leave-active-class="u-animate u-animate--scale-down u-animate--semifast"
       )
+        .c-advanced-network-dns-table-row__icon-copied(
+          v-if="copied"
+          class="c-advanced-network-dns-table-row--flex"
+        )
+          base-icon(
+            name="checkmark.circle.fill"
+            fill="#05c02b"
+            size="9.5px"
+            width="10.2px"
+          )
+            
+          p
+            | Copied
 
-      p
-        | Copy
+      transition(
+        enter-active-class="u-animate u-animate--scale-up u-animate--semifast"
+        leave-active-class="u-animate u-animate--scale-down u-animate--semifast"
+      )
+        .c-advanced-network-dns-table-row__icon-copy(
+          v-if="!copied"
+          class="c-advanced-network-dns-table-row--flex"
+        )
+          base-icon(
+            name="copy"
+            fill="#2490f0"
+            size="9.5px"
+            width="10.2px"
+          )
 
-
+          p
+            | Copy
 </template>
   
 <!-- **********************************************************************
@@ -53,7 +77,7 @@ TEMPLATE
 import BaseIcon from '@/components/base/BaseIcon.vue';
 
 export default {
-  name: "AdvancedNetworkDnsTableFirst",
+  name: "AdvancedNetworkDnsTableRow",
 
   components: {
     BaseIcon
@@ -64,16 +88,14 @@ export default {
       type: Boolean,
       default: false
     }
-
   },
 
-  emits: ["close", "proceed"],
+  emits: [],
 
   data() {
     return {
       // --> STATE <--
-
-      
+      copied: false,
     };
   },
 
@@ -85,6 +107,33 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    async copyText(htmlCollection : HTMLCollection) {
+      const textToCopyArray : string[] = [];
+      
+      for (let i = 0; i < htmlCollection.children.length; i++) {
+        textToCopyArray.push(htmlCollection.children[i].innerHTML);
+      }
+
+      const textToCopy = textToCopyArray.map(String).join(' ');
+      // console.log(textToCopy);
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+
+        this.copied= true;
+
+        setTimeout(() => {
+          this.copied= false;
+        }, 5000)
+
+      } catch($e) {
+        // alert('Cannot copy');
+      }
+    },
+
+    async copyRow() {
+      await this.copyText(this.$refs.rowText)
+    }
   },
 };
 </script>
@@ -125,24 +174,28 @@ $c: ".c-advanced-network-dns-table-row";
   }
 
   #{$c}__icon{
+    position: relative;
+    min-width: 50px;
     color: $color-base-blue-normal;
-    font-weight: $font-weight-medium;
-    font-size: ($font-size-baseline - 3.5px);
+    font-weight: $font-weight-light;
+    font-size: ($font-size-baseline - 2.5px);
+    cursor: pointer;
+
+    &-copied {
+      position: absolute;
+      color: $color-base-green-normal;
+    }
 
     &--hidden{
       visibility: hidden;
     }
 
-    p{
-      margin-left: 5.5px !important;
-    }
+
   }
 
   p{
     margin: 0;
-  }
-  
+  } 
 }
-
 </style>
         

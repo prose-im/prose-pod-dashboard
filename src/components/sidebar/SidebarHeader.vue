@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
   .c-sidebar-header 
@@ -27,8 +27,8 @@
   
 <script lang="ts">
 //COMPINENTS
-import BaseIcon from '../base/BaseIcon.vue'
-import BaseIdentityBadge from '../base/BaseIdentityBadge.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue'
+import BaseIdentityBadge from '@/components/base/BaseIdentityBadge.vue';
 
 export default {
 name: "SidebarHeader",
@@ -75,8 +75,6 @@ $c: ".c-sidebar-header";
 
 #{$c} {
   margin-bottom: 45px;
-
-
 }
 
 </style>

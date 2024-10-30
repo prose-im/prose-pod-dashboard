@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+  TEMPLATE
+  ********************************************************************** -->
 
 <template lang="pug">
   base-modal(
@@ -24,90 +24,85 @@ TEMPLATE
         :checkList="checkList"
       )
       
-  </template>
+</template>
     
-  <!-- **********************************************************************
-       SCRIPT
-       ********************************************************************** -->
-  
-  <script lang="ts">
-  // PROJECT: COMPONENTS
-  import BaseModal from '@/components/base/modal/BaseModal.vue';
-  import BaseModalNetworkCheckBlock from '@/components/advanced/network/BaseModalNetworkCheckBlock.vue';
-  
-  export default {
-    name: "DnsSetup",
-  
-    components: {
-      BaseModal,
-      BaseModalNetworkCheckBlock
-    },
-  
-    props: {
-  
-    },
-  
-    emits: ["close", "proceed"],
-  
-    data() {
-      return {
-        // --> STATE <--
-        checkList : [
-          {
-            checkpoint: "IPv4 record for xmpp.crisp.chat",
-            status:"sucess"
-          },
+<!-- **********************************************************************
+     SCRIPT
+     ********************************************************************** -->
 
-          {
-            checkpoint: "IPv6 record for xmpp.crisp.chat",
-            status:"sucess"
-          },
+<script lang="ts">
+// PROJECT: COMPONENTS
+import BaseModal from '@/components/base/modal/BaseModal.vue';
+import BaseModalNetworkCheckBlock from '@/components/advanced/network/BaseModalNetworkCheckBlock.vue';
 
-          {
-            checkpoint: "SRV record for client-to-server connections",
-            status:"pending"
-          },
+export default {
+  name: "DnsSetup",
 
-          {
-            checkpoint: "Server-to-server port at TCP 5269",
-            status:"warning"
-          },
+  components: {
+    BaseModal,
+    BaseModalNetworkCheckBlock
+  },
 
-          {
-            checkpoint: "SRV record for client-to-server connections",
-            status:"failed"
-          }
-        ]
-      };
-    },
-  
-    computed: {},
-  
-    watch: {},
-  
-    created() {},
-  
-    methods: {
-      // --> HELPERS <--
-    },
-  };
-  </script>
-  
-  <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
-  
-  <style lang="scss">
-  $c: ".a-dns-setup";
-  
-  #{$c} {
-    margin-inline: 48px;
-    font-family: $font-family-default;
-  
+  props: {
 
-    
-    
-  }
+  },
+
+  emits: ["close", "proceed"],
+
+  data() {
+    return {
+      // --> STATE <--
+      checkList : [
+        {
+          checkpoint: "IPv4 record for xmpp.crisp.chat",
+          status:"sucess"
+        },
+
+        {
+          checkpoint: "IPv6 record for xmpp.crisp.chat",
+          status:"sucess"
+        },
+
+        {
+          checkpoint: "SRV record for client-to-server connections",
+          status:"pending"
+        },
+
+        {
+          checkpoint: "Server-to-server port at TCP 5269",
+          status:"warning"
+        },
+
+        {
+          checkpoint: "SRV record for client-to-server connections",
+          status:"failed"
+        }
+      ]
+    };
+  },
+
+  computed: {},
+
+  watch: {},
+
+  created() {},
+
+  methods: {
+    // --> HELPERS <--
+  },
+};
+</script>
   
-  </style>
-          
+<!-- **********************************************************************
+     STYLE
+     ********************************************************************** -->
+
+<style lang="scss">
+$c: ".a-dns-setup";
+
+#{$c} {
+  margin-inline: 48px;
+  font-family: $font-family-default;
+}
+</style>
+        

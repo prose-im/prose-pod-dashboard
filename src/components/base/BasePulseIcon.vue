@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
   .c-base-pulse-icon
@@ -19,8 +19,6 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-
 export default {
 
   components: {
@@ -43,7 +41,6 @@ export default {
   },
 
   computed: {
-    
   },
 
   watch: {},
@@ -68,7 +65,6 @@ $c: ".c-base-pulse-icon";
   width: 14px;
   height: 14px;
   position: relative;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;

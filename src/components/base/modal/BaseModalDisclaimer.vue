@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-base-modal-disclaimer
@@ -25,8 +25,6 @@ TEMPLATE
   .c-base-modal-disclaimer__description
     p
       | {{ description }}
-  
-
   </template>
   
 <!-- **********************************************************************
@@ -56,7 +54,7 @@ export default {
     }
   },
 
-  emits: ["close", "proceed"],
+  emits: [],
 
   data() {
     return {
@@ -93,7 +91,7 @@ $c: ".c-base-modal-disclaimer";
 
   #{$c}__warning {
     color: $color-base-red-normal;
-    font-size: ($font-size-baseline - 2px);
+    font-size: ($font-size-baseline + 1px);
     font-weight: $font-weight-medium;
     margin-bottom: 7px;
     display: flex;
@@ -106,9 +104,9 @@ $c: ".c-base-modal-disclaimer";
   }
 
   #{$c}__description {
-    font-size: ($font-size-baseline - 2px);
+    font-weight: $font-weight-light;
+    font-size: ($font-size-baseline);
   }
-
 
   p{
     margin: 0;
@@ -118,6 +116,5 @@ $c: ".c-base-modal-disclaimer";
     margin-right: 13px;
   }
 }
-
 </style>
         

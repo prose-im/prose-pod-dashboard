@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+  TEMPLATE
+  ********************************************************************** -->
 
 <template lang="pug">
 base-modal(
@@ -30,9 +30,9 @@ base-modal(
             .a-restore-backup__subblock--content
 
               .a-restore-backup--flex
-                p 1️⃣  Please upload a 
+                p 1️⃣  Please upload a&nbsp;
                 p.a-restore-backup--blue .settings.backup 
-                p file:
+                p &nbsp;file:
               
               base-button(
                 tint="white"
@@ -43,9 +43,9 @@ base-modal(
             .a-restore-backup__subblock--content
 
               .a-restore-backup--flex
-                p 2️⃣  Please upload a 
+                p 2️⃣  Please upload a&nbsp;
                 p.a-restore-backup--blue .data.backup 
-                p archive:
+                p &nbsp;archive:
 
               base-button(
                 tint="white"
@@ -60,7 +60,7 @@ base-modal(
 
       base-modal-disclaimer(
         warning="Beware!  Restoring a backup may result in data loss."
-        description="`Whenever you hit restore, your server will be erased, similarly to doing a factory reset. \nOnce cleaned up, the settings will be restored. Then, the data archive will be imported.`"
+        description="Whenever you hit restore, your server will be erased, similarly to doing a factory reset. \nOnce cleaned up, the settings will be restored. Then, the data archive will be imported."
       )
 
     base-modal-confirm-field(
@@ -129,7 +129,6 @@ $c: ".a-restore-backup";
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
   margin-inline: 48px;
   font-family: $font-family-default;
 
@@ -143,7 +142,6 @@ $c: ".a-restore-backup";
     padding-block: 15.5px 19.5px;
     width: 50%;
     
-
     &--content {
       width: max-content;
       margin-inline: auto;
@@ -156,7 +154,6 @@ $c: ".a-restore-backup";
 
   #{$c}__upload {
     margin-bottom: 38px;
-
 
     h4{
       color:$color-text-secondary;
@@ -178,13 +175,7 @@ $c: ".a-restore-backup";
   &--blue {
     color: $color-base-purple-normal;
     font-weight: $font-weight-medium;
-
-    &:before,
-    &:after {
-      content: "\00a0";
-    }
   }
-
 }
 
 </style>

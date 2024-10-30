@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
   .c-search-bar
@@ -43,8 +43,6 @@ TEMPLATE
             name="dots.vertical"
             fill="#949EB1"
           )
-
-
 </template>
     
 <!-- **********************************************************************
@@ -52,9 +50,9 @@ TEMPLATE
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from '../base/BaseButton.vue';
-import BaseIcon from '../base/BaseIcon.vue';
-import FormField from '../form/FormField.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
+import FormField from '@/components/form/FormField.vue';
 
 export default {
   name: "SearchBar",

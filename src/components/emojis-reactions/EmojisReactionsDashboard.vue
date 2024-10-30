@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-emojis-reactions-dashboard
@@ -45,8 +45,8 @@ add-custom-emoji(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import AddCustomEmoji from '@/assemblies/modals/customization/AddCustomEmoji.vue';
-import BaseNavigationFooter from '../base/BaseNavigationFooter.vue';
-import EmojisReactionsRow from './EmojisReactionsRow.vue';
+import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
+import EmojisReactionsRow from '@/components/emojis-reactions/EmojisReactionsRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 
 export default {
@@ -60,7 +60,6 @@ export default {
   },
 
   props: {
-
   },
 
   emits: [],
@@ -108,7 +107,6 @@ export default {
       this.isModalVisible = !this.isModalVisible;
     },
 
-    // --> EVENT LISTENERS <--
     onInvitePeopleClick(event: Event): void {
       this.toggleModalVisible()
     },

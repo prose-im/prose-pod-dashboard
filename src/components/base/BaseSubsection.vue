@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
   .c-base-subsection
@@ -21,7 +21,7 @@
         span.c-base-subsection__sup(
           v-if="sup"
         ) 
-          | {{ ' ' + sup.toUpperCase() }}
+          | &nbsp; {{ sup.toUpperCase() }}
 
       .c-base-subsection__restore(
         v-if="restoreOption"
@@ -47,8 +47,8 @@
       @update:modelValue="updateValue"
     )
 
-    p {{ myVal }}
-
+    p 
+      | {{ myVal }}
 </template>
   
 <!-- **********************************************************************
@@ -57,8 +57,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseIcon from './BaseIcon.vue';
-import BaseSubsectionItem from './BaseSubsectionItem.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseSubsectionItem from '@/components/base/BaseSubsectionItem.vue';
 
 export default {
   name: "BaseSubsection",
@@ -105,7 +105,7 @@ export default {
 
   },
 
-  emits: ["update:modelValue", "change"],
+  emits: ["update:modelValue"],
 
   data() {
     return {
@@ -131,8 +131,6 @@ export default {
         nextValue.forEach((value, index) => {
           updatedModel[index] = value;
         });
-
-        // this.$emit("update:modelValue", updatedModel);  
       }
     }  
   },
@@ -214,10 +212,6 @@ $c: ".c-base-subsection";
     font-weight: $font-weight-bolder;
     font-size: 0.6em;
     bottom: 0.5em;
-
-    &:before {
-      content: "\00a0";
-    }
   }
 
   #{$c}__restore {
@@ -227,6 +221,7 @@ $c: ".c-base-subsection";
     padding-top: 6px;
     padding-bottom: 3px;
     padding-right: 14.5px;
+    cursor: pointer;
 
     &--icon{
       margin-right: 5px;
@@ -240,6 +235,3 @@ $c: ".c-base-subsection";
   }
 }
 </style>
-
-
-<!--          -->

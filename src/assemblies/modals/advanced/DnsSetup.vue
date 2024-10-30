@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
 base-modal(
@@ -29,7 +29,7 @@ base-modal(
       | DNS Records
     
     p.a-dns-setup__step
-      | 1️⃣  Add those records to specify your server IP address:
+      | 1️⃣ &nbsp;Add those records to specify your server IP address:
 
     .a-dns-setup__table
       advanced-network-dns-table-row(
@@ -58,7 +58,7 @@ base-modal(
         p 2a01:cb05:899c:c200::1
 
     p.a-dns-setup__step
-      | 2️⃣  Add the records that let clients connect to your server:
+      | 2️⃣ &nbsp;Add the records that let clients connect to your server:
 
     .a-dns-setup__table
       advanced-network-dns-table-row(
@@ -85,7 +85,7 @@ base-modal(
         p xmpp.crisp.chat.
 
     p.a-dns-setup__step
-      | 3️⃣  Add the records that let servers connect to your server:
+      | 3️⃣ &nbsp;Add the records that let servers connect to your server:
     .a-dns-setup__table
       advanced-network-dns-table-row(
         :header="true"
@@ -116,8 +116,8 @@ base-modal(
 </template>
   
 <!-- **********************************************************************
-     SCRIPT
-     ********************************************************************** -->
+      SCRIPT
+      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
@@ -145,7 +145,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
     };
   },
 
@@ -240,7 +239,7 @@ $c: ".a-dns-setup";
     }
   }
 
-  h3{
+  h3 {
     font-weight: $font-weight-bolder;
     font-size: ($font-size-baseline + 4px);
     padding-left: 10px;

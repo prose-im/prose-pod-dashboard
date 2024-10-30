@@ -161,7 +161,7 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
       height: $toggle-handle-size;
       border-radius: $toggle-height;
       display: block;
-      box-shadow: 0 1px 2px 0 rgba(var(--color-shadow-primary), 0.08);
+      box-shadow: 0 1px 2px 0 rgba($color-background-primary, 0.08);
       transition: all 150ms linear;
       transition-property: margin-inline-start, box-shadow;
     }
@@ -170,7 +170,7 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
       background-color: rgba($color-base-grey-normal, 0.27);
 
       &:after {
-        box-shadow: 0 1px 2px 0 rgba(var(--color-shadow-primary), 0.12);
+        box-shadow: 0 1px 2px 0 rgba($color-background-primary, 0.12);
       }
     }
 
@@ -178,7 +178,7 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
       background-color: rgba($color-base-grey-normal, 0.34);
 
       &:after {
-        box-shadow: 0 1px 2px 0 rgba(var(--color-shadow-primary), 0.1);
+        box-shadow: 0 1px 2px 0 rgba($color-background-primary, 0.1);
       }
     }
   }

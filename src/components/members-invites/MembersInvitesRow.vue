@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-members-invites-row(
@@ -46,7 +46,7 @@ TEMPLATE
         p(
           v-if="tableHeaders"
         )
-          | {{tableHeaders[0]}}
+          | {{ tableHeaders[0] }}
 
     <!-- 4th column -->
     base-badge(
@@ -68,7 +68,7 @@ TEMPLATE
         "c-members-invites-row__badge--header"
       ]`
     )
-      | {{tableHeaders[1]}}
+      | {{ tableHeaders[1] }}
 
     <!-- 5th column -->
     .c-members-invites-row__status
@@ -79,17 +79,17 @@ TEMPLATE
               "c-members-invites-row--none" : !userData.name
             }
           ]` 
-        ) {{ userData.status}}
+        ) {{ userData.status }}
         p(
           v-if="!tableHeaders"
           class="c-members-invites-row--submain"
         )
-          |{{ !userData.name? 'Invited' :userData.status === 'Active'? 'Prose ' + userData.os: 'Last active'}}
+          |{{ userStatusDetail }}
         
         p(
           v-else
         )
-          | {{tableHeaders[2]}}
+          | {{ tableHeaders[2] }}
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
@@ -123,7 +123,7 @@ TEMPLATE
         v-if="tableHeaders"
         class="c-members-invites-row__badge--header"
       )
-        | {{tableHeaders[3]}}
+        | {{ tableHeaders[3] }}
 
     <!-- 7th column -->
     .c-members-invites-row__parameters
@@ -143,7 +143,8 @@ TEMPLATE
         p(
           v-else
           class="c-members-invites-row__parameters--button"
-        ) Cancel invite
+        ) 
+          | Cancel invite
 </template>
   
 <!-- **********************************************************************
@@ -194,7 +195,17 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    userStatusDetail(){
+      if(!this.userData.name){
+        return 'Invited'
+      } else if (this.userData.status === 'Active') {
+        return 'Prose ' + this.userData.os
+      } else {
+        return 'Last active'
+      }
+    }
+  },
 
   watch: {},
 
@@ -219,9 +230,6 @@ $c: ".c-members-invites-row";
   padding-inline: 29px;
   padding-block: 18.5px;
   font-family: $font-family-default;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
 
   #{$c}__checkbox {
     margin-right: 28px;
@@ -235,9 +243,6 @@ $c: ".c-members-invites-row";
   #{$c}__user {
     min-width: 220px;
     margin-right: 10px;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
   }
 
   #{$c}__badge {
@@ -268,12 +273,11 @@ $c: ".c-members-invites-row";
     }
 
     &--icon {
-      margin-right: 6.3px;
+      margin-right: 6.5px;
     }
 
     &--hidden {
-      margin-right: 14.95%;
-      height: 0 !important;
+      margin-right: 15%;
     }
 
     &--light {
@@ -284,7 +288,7 @@ $c: ".c-members-invites-row";
 
   #{$c}__parameters {
     &--button {
-      margin:0;
+      margin: 0;
       padding-inline: 18px;
     }
   }
@@ -320,13 +324,15 @@ $c: ".c-members-invites-row";
     }
   }
 
-  //COLORS
+  //<!-- COLORS -->
+
   &--yellow{
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
   }
 
-  //INVITED STATUS
+  //<!-- INVISIBLE MANAGEMENT -->
+
   &--hidden {
     visibility: hidden;
     height: 0;

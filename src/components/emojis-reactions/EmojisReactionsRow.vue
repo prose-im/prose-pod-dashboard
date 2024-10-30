@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-emojis-reactions-row(
@@ -25,7 +25,6 @@ TEMPLATE
         }
       ]`
     )
-    
 
     <!-- 2nd column -->
     base-avatar(
@@ -39,7 +38,7 @@ TEMPLATE
       v-else
       class="c-emojis-reactions-row__image"
     )
-      | {{tableHeaders[0]}}
+      | {{ tableHeaders[0] }}
     
     <!-- 3rd column -->
     .c-emojis-reactions-row__shortcut 
@@ -48,7 +47,7 @@ TEMPLATE
         p(
           v-if="tableHeaders"
         )
-          | {{tableHeaders[1]}}
+          | {{ tableHeaders[1] }}
 
     <!-- 4th column -->
     .c-emojis-reactions-row__date
@@ -66,7 +65,7 @@ TEMPLATE
           "c-emojis-reactions-row__date--header"
         ]`
       )
-        | {{tableHeaders[2]}}
+        | {{ tableHeaders[2] }}
 
     <!-- 5th column -->
     .c-emojis-reactions-row__contributor(
@@ -81,12 +80,12 @@ TEMPLATE
       )
       
       p
-        | {{ emojiData.contributor}}
+        | {{ emojiData.contributor }}
         
     p(
       v-else
     )
-      | {{tableHeaders[3]}}
+      | {{ tableHeaders[3] }}
 
     <!-- 6th column -->
     .c-emojis-reactions-row__parameters
@@ -101,8 +100,6 @@ TEMPLATE
           size="10px"
           fill="#949EB1"
         )
-        
-
 </template>
   
 <!-- **********************************************************************
@@ -113,8 +110,8 @@ TEMPLATE
 // PROJECT: COMPONENTS
 import BaseAvatar from '@/components/base/BaseAvatar.vue';
 import BaseBadge from '@/components/base/BaseBadge.vue';
-import BaseButton from '../base/BaseButton.vue';
-import BaseIcon from '../base/BaseIcon.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
 
 export default {
@@ -146,7 +143,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-
     };
   },
 
@@ -175,9 +171,9 @@ $c: ".c-emojis-reactions-row";
   padding-inline: 29px;
   padding-block: 14.5px;
   font-family: $font-family-default;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+  //overflow: hidden !important;
+  //text-overflow: ellipsis !important;
+  //white-space: nowrap !important;
   font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {
@@ -191,9 +187,6 @@ $c: ".c-emojis-reactions-row";
 
   #{$c}__shortcut {
     min-width: 152px;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
   }
 
   #{$c}__date {
@@ -258,13 +251,13 @@ $c: ".c-emojis-reactions-row";
     }
   }
 
-  //COLORS
+  //<!-- COLORS -->
   &--yellow{
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
   }
 
-  //INVITED STATUS
+  //<!-- DISPLAYS -->
   &--hidden {
     visibility: hidden;
     height: 0;

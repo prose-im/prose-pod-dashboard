@@ -24,7 +24,7 @@ svg(
 
 <script lang="ts">
 // PROJECT: ICONS
-import icons from "../../commons/icons";
+import icons from "@/commons/icons";
 
 // CONSTANTS
 const ICON_PREFIX = "icon";

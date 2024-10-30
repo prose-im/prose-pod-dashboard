@@ -13,7 +13,7 @@ teleport(
 )
   transition(
     enter-active-class="u-animate u-animate--fade-in u-animate--fast"
-    leave-active-class="u-animate u-animate--fade-out u-animate--fast u-animate--delayed "
+    leave-active-class="u-animate u-animate--fade-out u-animate--fast"
   )
     .c-base-modal(
       v-if="visible"
@@ -24,6 +24,7 @@ teleport(
         base-modal-container(
           :containerVisible="loaded"
           :title="title"
+          :titleColor="titleColor"
           :buttonColor="buttonColor"
           :buttonLabel="buttonLabel"
           :flexBody="flexContainer"
@@ -37,7 +38,7 @@ teleport(
       SCRIPT
       ********************************************************************** -->
  
- <script lang="ts">
+<script lang="ts">
 import BaseModalBackground from './BaseModalBackground.vue';
 import BaseModalContainer from './BaseModalContainer.vue';
 
@@ -74,6 +75,15 @@ export default {
       default: false
     },
 
+    titleColor: {
+      type: String,
+      default:"black",
+
+      validator(x: string) {
+        return ["black", "red"].includes(x);
+      }
+    },
+
     visible: {
       type: Boolean,
       default: false
@@ -102,7 +112,7 @@ export default {
   methods: {
     onClose(event: Event){
       this.loaded = false
-      setTimeout(() => this.$emit("close", event), 400 )
+      setTimeout(() => this.$emit("close", event), 50 )
     },
 
     onConfirm(event: Event){
@@ -112,22 +122,17 @@ export default {
  };
  </script>
  
- <!-- **********************************************************************
+<!-- **********************************************************************
    STYLE
    ********************************************************************** -->
  
 <style lang="scss">
 $c: ".c-base-modal";
 
-// VARIABLES
-$badge-padding-block: 3.5px;
-$badge-padding-inline: 7px;
-
 #{$c} {
   position: fixed;
-  z-index: 100;
   inset: 0;
-  height: 100%;
+  z-index: $index-foreground-primary;
 }
 </style>
  

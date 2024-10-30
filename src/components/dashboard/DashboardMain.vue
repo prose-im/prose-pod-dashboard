@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-dashboard-main
@@ -26,8 +26,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSectionBackground from "../base/BaseSectionBackground.vue";
-import Breadcrumb from "../breadcrumb/Breadcrumb.vue";
+import BaseSectionBackground from "@/components/base/BaseSectionBackground.vue";
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
 
 export default {
   name: "DashboardMain",
@@ -44,43 +44,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-      messagingItems: [
-        {
-          subtitle: "Store archives of all messages",
-          description:
-            "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle",
-        },
-        {
-          subtitle: "Message archive retention time",
-          description:
-            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type: "button",
-          typeProps: {
-            label: "Edit details...",
-            size: "medium",
-          },
-        },
-        {
-          subtitle: "Message archive retention time",
-          description:
-            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type: "select",
-          typeProps: {
-            options: [
-              {
-                icon: "",
-                label: "1 year",
-              },
-              {
-                icon: "",
-                label: "2 years",
-              },
-            ],
-            size: "medium",
-          },
-        },
-      ],
     };
   },
 
@@ -104,24 +67,19 @@ export default {
 $c: ".c-dashboard-main";
 
 #{$c} {
-  display: flex; //verifierflex
-  flex-direction: column; //verifierflex
+  display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   background-color: $color-background-primary;
 
-  #{$c}__breadcrumb {
-    // margin-inline: auto; //verifierflex
-  }
-
   #{$c}__content {
-    // height: 100%; //verifierflex
-    flex: 1; //verifierflex
-    display: flex; //verifierflex
-    flex-direction: column; //verifierflex
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
     padding-top: 50px;
     padding-inline: 100px;
-    max-width: 918px;  //verifierflex
+    max-width: 918px;  
     width: 100%;
   }
 }

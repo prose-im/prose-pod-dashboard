@@ -123,11 +123,11 @@ div(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "./BaseAvatar.vue";
-import BaseButton from "./BaseButton.vue";
-import BaseIcon from "./BaseIcon.vue";
-import FormSelect from "../form/FormSelect.vue";
-import FormToggle from "../form/FormToggle.vue";
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import FormSelect from "@/components/form/FormSelect.vue";
+import FormToggle from "@/components/form/FormToggle.vue";
 
 export default {
   name: "BaseSubsectionItem",
@@ -142,7 +142,7 @@ export default {
 
   props: {
     modelValue: {
-      type: [String, Boolean],
+      type: [String, Boolean, Object],
       default: null
     },
 
@@ -180,7 +180,7 @@ export default {
     }
   },
 
-  emits: ["change", "update:modelValue", "click", "updateExtraSelect"],
+  emits: ["update:modelValue", "click", "updateExtraSelect"],
 
   data() {
     return {
@@ -196,16 +196,21 @@ export default {
   computed: {
     buttonColor() {
       switch (this.color) {
-        case 'bw':
+        case 'bw': {
           return 'white';
-        case 'bwPurple':
+        }
+        case 'bwPurple': {
           return 'purple';
-        case 'redBackground':
+        }
+        case 'redBackground': {
           return 'red';
-        case 'redShell':
+        }
+        case 'redShell': {
           return 'red';
-        default:
+        }
+        default: {
           return 'white';
+        }
       }
     },
 

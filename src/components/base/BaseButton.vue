@@ -16,7 +16,6 @@ div(
     "c-base-button--" + tint,
     {
       "c-base-button--reverse": reverse,
-      "c-base-button--borderless": borderless,
       "c-base-button--disabled": disabled,
       "c-base-button--loading": loading
     }
@@ -69,7 +68,7 @@ div(
 
 <script lang="ts">
 //COMPONENTS
-import BaseIcon from './BaseIcon.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 
 // CONSTANTS
 const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
@@ -97,6 +96,7 @@ const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
 
 export default {
   name: "BaseButton",
+  
   components: {
     BaseIcon
   },
@@ -115,7 +115,7 @@ export default {
       default: "grey",
 
       validator(x: string) {
-        return [ "purple", "grey", "white", "red"].includes(x);
+        return ["purple", "grey", "white", "red"].includes(x);
       }
     },
 
@@ -142,17 +142,7 @@ export default {
       default: false
     },
 
-    round: {
-      type: Boolean,
-      default: false
-    },
-
     square: {
-      type: Boolean,
-      default: false
-    },
-
-    borderless: {
       type: Boolean,
       default: false
     },
@@ -218,14 +208,7 @@ export default {
 $c: ".c-base-button";
 
 // VARIABLES
-$color-button-dark-normal: var($color-base-purple-normal);
-$color-button-dark-reverse: var($color-white);
-$color-button-light-normal: var($color-white);
-$color-button-light-reverse: var($color-black);
-$color-button-red-normal: var($color-base-red-normal);
-$color-button-red-reverse: var($color-white);
-
-$size-mid-small-padding-sides: 12px;
+$size-mid-small-padding-sides: 12px; ///erase
 $size-medium-padding-sides: 19px;
 $size-mid-medium-padding-sides: 33.5px;
 $size-large-padding-sides: 26.5px;
@@ -256,7 +239,7 @@ $size-ultra-large-padding-sides: 45.5px;
     }
 
     &:focus-visible {
-      outline-color: rgba(var(--color-base-purple-normal), 0.3);
+      outline-color: rgba($color-base-purple-normal, 0.3);
       outline-offset: 1px;
     }
 

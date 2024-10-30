@@ -18,7 +18,7 @@ div(
     }
   ]`
 )
-  | {{admin?"Admin":"Member"}}
+  | {{ label }}
 </template>
 
 <!-- **********************************************************************
@@ -48,8 +48,13 @@ export default {
     };
   },
 
-  watch: {
+  computed: {
+    label(){
+      return this.admin ? "Admin" : "Member"
+    }
+  },
 
+  watch: {
   },
 
   methods: {

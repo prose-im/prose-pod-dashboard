@@ -5,9 +5,9 @@
  -->
 
 <!-- **********************************************************************
- TEMPLATE
- ********************************************************************** -->
- <template lang="pug">
+     TEMPLATE
+     ********************************************************************** -->
+<template lang="pug">
 .c-base-modal-network-check-block
   .c-base-modal-network-check-block__top
     .c-base-modal-network-check-block__top--left
@@ -57,6 +57,7 @@
           :name="getIconName(row.status)"
           class="c-base-modal-network-check-block__icon"
           :fill="colorCode(row.status)"
+          size="14.5px"
         )
 
         p
@@ -67,7 +68,7 @@
 
 </template>
  
- <!-- **********************************************************************
+<!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
  
@@ -128,7 +129,7 @@ export default {
     },
 
     globalIconName(){
-      console.log('icon name', this.getIconName(this.status))
+      // console.log('icon name', this.getIconName(this.status))
       return this.getIconName(this.status)
     },
 
@@ -141,26 +142,26 @@ export default {
 
   methods: {
     // <-- HELPERS -->
-    capitalizeFirst(word: string){
-      return word.charAt(0).toUpperCase() + word.slice(1)
-    },
-    
     colorCode(status: string, isString = false){
       let result = "";
 
       switch (status) {
-        case "pending":
+        case "pending": {
           result = isString ? "blue" : "#2490f0";
           break;
-        case "sucess":
+        }
+        case "sucess": {
           result = isString ? "green" : "#05c02b";
           break;
-        case "failed":
+        }
+        case "failed": {
           result = isString ? "red" : "#dd2f2f";
           break;
-        case "warning":
+        }
+        case "warning": {
           result = isString ? "orange" : "#fc8227";
           break;
+        }
       }
       return result;
     },
@@ -169,14 +170,18 @@ export default {
       let result = "";
 
       switch (status) {
-        case "pending":
+        case "pending": {
           return result = "archive";
-        case "sucess":
-          return result = "check.circle"; /// Change
-        case "failed":
+        }
+        case "sucess": {
+          return result = "checkmark.circle.fill"; 
+        }
+        case "failed": {
           return result = "exclamationmark.triangle.fill";
-        case "warning":
+        }
+        case "warning": {
           return result = "exclamationmark.circle.fill";
+        }
         default:
           break;
       }
@@ -186,10 +191,10 @@ export default {
 
     getStatusDisplay(status: string){
       switch (status) {
-        case "pending":
+        case "pending": {
           return "Pending";
-          
-        case "sucess":
+        }
+        case "sucess": {
           if(this.label === "dns") {
             return "Record is valid";
           } else if (this.label === "tcp") {
@@ -197,33 +202,30 @@ export default {
           } else {
             return "Connectivity is OK"
           }
-
-        case "failed":
+        }
+        case "failed": {
           if(this.label === "dns") {
             return "Record is not valid";
           } else if (this.label === "tcp") {
             return "Port is closed";
           } 
-
-        case "warning":
+        }
+        case "warning": {
           return "No address available";
+        }
       }
     }
   }
   }
  
- </script>
+</script>
  
- <!-- **********************************************************************
-   STYLE
-   ********************************************************************** -->
+<!-- **********************************************************************
+     STYLE
+     ********************************************************************** -->
  
 <style lang="scss">
 $c: ".c-base-modal-network-check-block";
-
-// VARIABLES
-$badge-padding-block: 3.5px;
-$badge-padding-inline: 7px;
 
 #{$c} {
   p {
@@ -263,7 +265,6 @@ $badge-padding-inline: 7px;
   }
 
   #{$c}__details {
-
     border-radius: 2px;
     border: 1px solid $color-border-primary;
     padding-block-start: 11px;
@@ -273,6 +274,8 @@ $badge-padding-inline: 7px;
     margin-left: 58px;
 
     &--row {
+      font-size: ($font-size-baseline - 2px);
+      font-weight: $font-weight-light;
       display: flex;
       justify-content: space-between;
       margin-block-end: 9px;
@@ -285,15 +288,13 @@ $badge-padding-inline: 7px;
 
   &--flex {
     display: flex;
+    align-items: center;
   }
-
-  //<!-- WEIGHTS -->
 
 
   //<!-- COLORS -->
   &--blue {
     color: $color-base-blue-normal;
-    font-size: ($font-size-baseline - 2px);
 
     #{$c}__left {
       color: $color-text-secondary;
@@ -303,7 +304,6 @@ $badge-padding-inline: 7px;
 
   &--green {
     color: $color-base-green-normal;
-    font-size: ($font-size-baseline - 2px);
     
     #{$c}__left {
       color: $color-black;
@@ -314,20 +314,20 @@ $badge-padding-inline: 7px;
 
   &--red {
     color: $color-base-red-normal;
-    font-size: ($font-size-baseline - 2px);
-    font-weight: $font-weight-medium;
-
     
     #{$c}__left {
       color: $color-base-red-normal;
       font-size: $font-size-baseline;
+      font-weight: $font-weight-medium;
+    }
 
+    p {
+      font-weight: $font-weight-medium;
     }
   }
 
   &--orange {
     color: $color-base-orange-normal;
-    font-size: ($font-size-baseline - 2px);
 
     #{$c}__left {
       color: $color-text-secondary;

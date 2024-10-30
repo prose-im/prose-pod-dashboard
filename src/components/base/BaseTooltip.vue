@@ -35,7 +35,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseTooltipOverlay from './BaseTooltipOverlay.vue';
+import BaseTooltipOverlay from '@/components/base/BaseTooltipOverlay.vue';
 
 // CONSTANTS
 const AUTO_HIDE_DELAY = 20000; // 20 seconds

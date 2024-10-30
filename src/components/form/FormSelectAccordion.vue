@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
- TEMPLATE
- ********************************************************************** -->
+     TEMPLATE
+     ********************************************************************** -->
 
 <template lang="pug">
 div(
@@ -102,7 +102,7 @@ import { PropType } from "vue";
 //- import { names as keyNames } from "keycode";
 
 //COMPONENTS
-import BaseIcon from '../base/BaseIcon.vue'
+import BaseIcon from '@/components/base/BaseIcon.vue'
 
 // INTERFACES
 export interface Option {
@@ -133,8 +133,6 @@ const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
     arrow: "10px"
   }
 };
-
-const SEARCH_QUERY_PREFIX_LENGTH_MAXIMUM = 2;
 
 export interface Icon {
   component: object;
@@ -215,12 +213,11 @@ export default {
     },
   },
 
-  emits: ["update:modelValue", "change"],
+  emits: ["update:modelValue"],
 
   data() {
     return {
       // --> STATE <--
-
       value: "",
       searchQuery: "",
 

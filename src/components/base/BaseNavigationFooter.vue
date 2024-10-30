@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-base-navigation-footer
@@ -45,8 +45,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseButton from './BaseButton.vue';
-import BaseIcon from '../base/BaseIcon.vue'
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
 
 export default {
   name: "BaseNavigationFooter",
@@ -57,32 +57,15 @@ export default {
   },
 
   props: {
-
   },
 
   data() {
     return {
       // --> STATE <--
-      
     };
   },
 
   computed: {
-    breadcrumbs() {
-      const route = this.$route || "/dashboard/settings";
-      const matchedRoutes = route.matched || "/dashboard/settings";
-
-      return [
-        {
-          label: "Server Features",
-          to: "/"
-        },
-        {
-          label: "Configuration",
-          to: "/"
-        },
-      ]
-    },
   },
 
   watch: {},
@@ -91,7 +74,6 @@ export default {
 
   methods: {
     // --> HELPERS <--
-
   },
 };
 </script>

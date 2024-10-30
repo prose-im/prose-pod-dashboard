@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
 base-modal(
@@ -32,7 +32,6 @@ base-modal(
       class="a-invite-team-member__info"
       text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
     ) 
-
 </template>
   
 <!-- **********************************************************************
@@ -110,8 +109,6 @@ $c: ".a-invite-team-member";
     margin-top: 38px;
     margin-left: 9px;
   }
-  
 }
-
 </style>
         

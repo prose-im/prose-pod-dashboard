@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
- TEMPLATE
- ********************************************************************** -->
+     TEMPLATE
+     *************************************************************** -->
  <template lang="pug">
   .c-base-modal-status
     base-pulse-icon(
@@ -34,11 +34,11 @@
       ********************************************************************** -->
  
 <script lang="ts">
-import BaseIcon from '../BaseIcon.vue';
-import BasePulseIcon from '../BasePulseIcon.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue';
+import BasePulseIcon from '@/components/base/BasePulseIcon.vue';
 
 export default {
-  name: "Modal",
+  name: "BaseModalStatus",
 
   components:{
     BaseIcon,
@@ -75,23 +75,26 @@ export default {
   computed: {
     label(x:string){
       switch (this.status) {
-        case "pending":
+        case "pending": {
           return "Checking...";
-        case "sucess":
+        }
+        case "sucess": {
           return "Verified";
-        case "failed":
+        }
+        case "failed": {
           return "Issue";
-        case "warning":
+        }
+        case "warning": {
           return "Warning";
-        default:
+        }
+        default: {
           break;
+        }
       }
-
     }
   },
 
   watch: {
-
   },
 
   methods: {
@@ -99,8 +102,8 @@ export default {
     capitalizeFirst(word: string){
       return word.charAt(0).toUpperCase() + word.slice(1)
     }  
-    }
   }
+}
  
  </script>
  

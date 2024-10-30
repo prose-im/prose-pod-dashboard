@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-base-modal-input-block
@@ -19,7 +19,6 @@ TEMPLATE
     align="left"
     :placeholder="placeholder"
   )
-
 </template>
   
 <!-- **********************************************************************
@@ -31,7 +30,7 @@ TEMPLATE
 import FormField from '@/components/form/FormField.vue';
 
 export default {
-  name: "DnsSetup",
+  name: "BaseModalInputBlock",
 
   components: {
     FormField
@@ -50,12 +49,11 @@ export default {
 
   },
 
-  emits: ["close", "proceed"],
+  emits: [],
 
   data() {
     return {
       // --> STATE <--
-      
     };
   },
 
@@ -89,7 +87,4 @@ $c: ".c-base-modal-input-block";
     font-weight: $font-weight-medium;
   }
 }
-
 </style>
-  <!-- margin-inline: 48px; -->
-        

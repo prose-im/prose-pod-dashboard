@@ -98,7 +98,7 @@ export default {
     // --> EVENT LISTENERS <--
 
     onInputChange(event: Event): void {
-      // Update model value?
+      // Update model value
       if (event.target) {
         this.updateValue((event.target as HTMLInputElement).checked);
       }

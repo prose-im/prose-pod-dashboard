@@ -5,89 +5,67 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
-  <template lang="pug">
-    .c-base-section-background
-      slot
-  </template>
+<template lang="pug">
+  .c-base-section-background
+    slot
+</template>
   
-  <!-- **********************************************************************
-       SCRIPT
-       ********************************************************************** -->
+<!-- **********************************************************************
+     SCRIPT
+     ********************************************************************** -->
   
-  <script lang="ts">
-  // PROJECT: COMPONENTS
-  import BaseIcon from '../base/BaseIcon.vue'
-  
-  export default {
-    name: "BaseSectionBackground",
-  
-    components: {
-      BaseIcon
-    },
-  
-    props: {
+<script lang="ts">
 
-    },
-  
-    data() {
-      return {
-        // --> STATE <--
-        
-      };
-    },
-  
-    computed: {
-      breadcrumbs() {
-        const route = this.$route || "/dashboard/settings";
-        const matchedRoutes = route.matched || "/dashboard/settings";
 
-        return [
-          {
-            label: "Server Features",
-            to: "/"
-          },
-          {
-            label: "Configuration",
-            to: "/"
-          },
-        ]
+export default {
+  name: "BaseSectionBackground",
 
-      },
-    },
-  
-    watch: {},
-  
-    created() {},
-  
-    methods: {
-      // --> HELPERS <--
-    },
-  };
-  </script>
-  
-  <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
-  
-  <style lang="scss">
-  $c: ".c-base-section-background";
-  
-  #{$c} {
-    flex: 1; 
-    display: flex; 
-    background-color: white;
-    border-radius: 8px;
-    border: 1px solid $color-border-secondary;
-    box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);
+  components: {
+  },
 
-    #{$c}__icon {
-      margin-left:11.2px;
-      margin-right:11.9px;
-    }
-    
+  props: {
+  },
+
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
+
+  computed: {
+  },
+
+  watch: {},
+
+  created() {},
+
+  methods: {
+    // --> HELPERS <--
+  },
+};
+</script>
+  
+<!-- **********************************************************************
+     STYLE
+     ********************************************************************** -->
+
+<style lang="scss">
+$c: ".c-base-section-background";
+
+#{$c} {
+  flex: 1; 
+  display: flex; 
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid $color-border-secondary;
+  box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);
+
+  #{$c}__icon {
+    margin-left:11px;
+    margin-right:12px;
   }
-  </style>
-  
+}
+</style>

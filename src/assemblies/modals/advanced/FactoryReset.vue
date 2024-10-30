@@ -5,14 +5,15 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+  TEMPLATE
+  ********************************************************************** -->
 
 <template lang="pug">
 base-modal(
   @close="$emit('close')"
   @confirm="$emit('proceed')"
   title="Factory reset this Pod"
+  titleColor="red"
   buttonColor="red"
   buttonLabel="Run Factory Reset"
   :flexContainer="true"
@@ -111,8 +112,6 @@ $c: ".a-factory-reset";
     margin-top: 4px;
     margin-bottom: 31px;
   }
-
 }
-
 </style>
         

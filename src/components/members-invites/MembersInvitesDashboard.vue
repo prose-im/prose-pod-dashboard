@@ -5,8 +5,8 @@
 -->
 
 <!-- **********************************************************************
-TEMPLATE
-********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-members-invites-dashboard
@@ -48,9 +48,9 @@ invite-team-member(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseNavigationFooter from '../base/BaseNavigationFooter.vue';
+import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
 import InviteTeamMember from '@/assemblies/modals/members/InviteTeamMember.vue';
-import MembersInvitesRow from './MembersInvitesRow.vue';
+import MembersInvitesRow from '@/components/members-invites/MembersInvitesRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 
 export default {
@@ -160,7 +160,6 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
 
-    // --> EVENT LISTENERS <--
     onInviteMemberClick(event: Event): void {
       this.toggleModalVisible()
     }

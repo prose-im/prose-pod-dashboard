@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
 .c-breadcrumb
@@ -42,9 +42,6 @@
         size="16px"
         fill="#949eb1"
       )
-
-
-      
 </template>
 
 <!-- **********************************************************************
@@ -53,8 +50,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseIcon from '../base/BaseIcon.vue'
-import BaseTooltip from '../base/BaseTooltip.vue';
+import BaseIcon from '@/components/base/BaseIcon.vue'
+import BaseTooltip from '@/components/base/BaseTooltip.vue';
 
 export default {
   name: "Breadcrumb",
@@ -87,44 +84,52 @@ export default {
       const matchedRoutes = route.path.split("/")
       matchedRoutes.shift()
 
-      console.log(matchedRoutes)
-
       matchedRoutes.forEach((label, index) => {
         if(index === 0) {
           switch (label) {
-            case "team":
+            case "team": {
               breadcrumbs.push("Team Members");
               break;
-            case "server":
+            }
+            case "server": {
               breadcrumbs.push("Server Features");
               break;
-            case "advanced":
+            }
+            case "advanced": {
               breadcrumbs.push("Advanced Settings");
               break;
-            default:
+            }
+            default: {
               breadcrumbs.push(this.capitalizeFirst(label));
               break;
+            }
           }
         } else {
           switch (label) {
-            case "members":
+            case "members": {
               breadcrumbs.push("Members & Invites");
               break;
-            case "emojis":
+            }
+            case "emojis": {
               breadcrumbs.push("Emojis & Reactions");
               break;
-            case "security":
+            }
+            case "security": {
               breadcrumbs.push("Security & Encryption");
               break;
-            case "network":
+            }
+            case "network": {
               breadcrumbs.push("Network Setup");
               break;
-            case "backup":
+            }
+            case "backup": {
               breadcrumbs.push("Backup & Reset");
               break;
-            default:
+            }
+            default: {
               breadcrumbs.push(this.capitalizeFirst(label));
               break;
+            }
           }
         }
       })
@@ -185,9 +190,8 @@ $c: ".c-breadcrumb";
   }
 
   #{$c}__icon {
-    margin-left:11.2px;
-    margin-right:11.9px;
+    margin-left:11px;
+    margin-right:12px;
   }
-  
 }
 </style>

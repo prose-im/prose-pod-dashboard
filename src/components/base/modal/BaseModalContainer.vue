@@ -5,18 +5,22 @@
  -->
 
 <!-- **********************************************************************
- TEMPLATE
- ********************************************************************** -->
+   TEMPLATE
+   ********************************************************************** -->
 
 <template lang="pug">
 transition(
-  enter-active-class="u-animate u-animate--slide-in u-animate--slow "
-  leave-active-class="u-animate u-animate--slide-out u-animate--slow"
+  enter-active-class="u-animate u-animate--slide-in"
+  leave-active-class="u-animate u-animate--slide-out"
 )
   .c-base-modal-container(
     v-if="containerVisible"
   )
-    .c-base-modal-container__title
+    .c-base-modal-container__title(
+      :class=`[
+        "c-base-modal-container--" + titleColor
+      ]`
+    )
       | {{ title }}
 
     .c-base-modal-container__body(
@@ -34,7 +38,7 @@ transition(
         tint="grey"
         @click="onClose"
       )
-        | {{ buttonColor === 'grey' ? 'Close' : 'Cancel' }}
+        | {{ abortButtonText }}
 
       base-button(
         v-if="buttonColor !== 'grey'"
@@ -52,7 +56,7 @@ transition(
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from '../BaseButton.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 export default {
   name: "BaseModalContainer",
@@ -65,6 +69,15 @@ export default {
     title:{
       type:String,
       required:true
+    },
+
+    titleColor: {
+      type: String,
+      default:"black",
+
+      validator(x: string) {
+        return ["black", "red"].includes(x);
+      }
     },
 
     buttonColor:{
@@ -99,8 +112,9 @@ export default {
   },
 
   computed: {
-
-
+    abortButtonText() {
+      return this.buttonColor === 'grey' ? 'Close' : 'Cancel'
+    }
   },
 
   watch: {
@@ -166,13 +180,16 @@ $c: ".c-base-modal-container";
     }
   }
 
+  //<!-- DISPLAYS -->
+
   &--flex {
     display: flex;
     flex-direction: column;
   }
 
+  //<!-- COLORS -->
+  &--red {
+    color: $color-base-red-normal;
+  }
 }
 </style>
-    <!-- padding-top: 63px;
-
- -->

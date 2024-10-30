@@ -601,11 +601,9 @@ $sizes: (
 
   }
 
-
-
   #{$c}__options {
     max-height: 240px;
-    padding-block: $size-form-select-options-menu-padding-block; 
+    padding-block: 0; 
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;

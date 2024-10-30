@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
   .c-sidebar-footer
@@ -35,10 +35,10 @@
   
 <script lang="ts">
 //COMPINENTS
-import BaseAvatar from '../base/BaseAvatar.vue';
-import BaseButton from '../base/BaseButton.vue';
-import BaseBadge from '../base/BaseBadge.vue';
-import FormSelect from '../form/FormSelect.vue';
+import BaseAvatar from '@/components/base/BaseAvatar.vue';
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseBadge from '@/components/base/BaseBadge.vue';
+import FormSelect from '@/components/form/FormSelect.vue';
 
 export default {
 name: "SidebarAccordion",
@@ -106,5 +106,4 @@ $c: ".c-sidebar-footer";
     }
   }
 }
-
 </style>

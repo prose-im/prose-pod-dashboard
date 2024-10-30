@@ -87,10 +87,10 @@ div(
 import {keycode as keyCodes} from "keycode";
 
 // PROJECT: COMPONENTS
-import {
-  default as FormFieldSuggest,
-  Suggestion as FormFieldSuggestSuggestion
-} from "../form/FormFieldSuggest.vue";
+// import {
+//   default as FormFieldSuggest,
+//   Suggestion as FormFieldSuggestSuggestion
+// } from "@/components/form/FormFieldSuggest.vue";
 
 // INTERFACES
 interface Selection {
@@ -206,11 +206,6 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    },
-
-    suggestions: {
-      type: Array<FormFieldSuggestSuggestion>,
-      default: []
     },
 
     fieldClass: {
@@ -396,26 +391,26 @@ export default {
       this.areSuggestionsHidden = true;
     },
 
-    generateSuggestionModelValue(
-      suggestion: FormFieldSuggestSuggestion
-    ): string {
-      // Append suggestion value
-      const modelValueString = this.modelValue as string,
-        modelValueLower = modelValueString.toLowerCase(),
-        matchLower = suggestion.action.match.toLowerCase();
+    // generateSuggestionModelValue(
+    //   suggestion: FormFieldSuggestSuggestion
+    // ): string {
+    //   // Append suggestion value
+    //   const modelValueString = this.modelValue as string,
+    //     modelValueLower = modelValueString.toLowerCase(),
+    //     matchLower = suggestion.action.match.toLowerCase();
 
-      // Acquire intersection size
-      const intersectSize =
-        modelValueLower.endsWith(matchLower) === true
-          ? suggestion.action.match.length
-          : 0;
+    //   // Acquire intersection size
+    //   const intersectSize =
+    //     modelValueLower.endsWith(matchLower) === true
+    //       ? suggestion.action.match.length
+    //       : 0;
 
-      // Merge suggestion value with existing model value (intersect them)
-      return (
-        modelValueString.substring(0, modelValueString.length - intersectSize) +
-        suggestion.action.replacement
-      );
-    },
+    //   // Merge suggestion value with existing model value (intersect them)
+    //   return (
+    //     modelValueString.substring(0, modelValueString.length - intersectSize) +
+    //     suggestion.action.replacement
+    //   );
+    // },
 
     // --> EVENT LISTENERS <--
 
@@ -525,15 +520,15 @@ export default {
       this.$emit("focus", false);
     },
 
-    onSuggestSelect(suggestion: FormFieldSuggestSuggestion): void {
-      this.clearAllSuggestions();
+    // onSuggestSelect(suggestion: FormFieldSuggestSuggestion): void {
+    //   this.clearAllSuggestions();
 
-      // Generate model value for selected suggestion
-      let updatedModelValue = this.generateSuggestionModelValue(suggestion);
+    //   // Generate model value for selected suggestion
+    //   let updatedModelValue = this.generateSuggestionModelValue(suggestion);
 
-      // Update model value
-      this.updateModelValue(updatedModelValue);
-    }
+    //   // Update model value
+    //   this.updateModelValue(updatedModelValue);
+    // }
   }
 };
 </script>
@@ -561,7 +556,7 @@ $c: ".c-form-field";
     transition-timing-function: linear;
     border-radius: $size-form-field-border-radius;
     box-sizing: border-box;
-    box-shadow: 0 3px 4px 0 rgba(var(--color-shadow-primary), 0.01),
+    box-shadow: 0 3px 4px 0 rgba($color-border-primary, 0.01),
       inset 0 1px 2px 0 rgba($color-black, 0.04);
 
     &--textarea {
@@ -709,8 +704,6 @@ $c: ".c-form-field";
       text-align: right;
     }
   }
-
-  // --> DIRECTIONS <--
 
   // --> BOOLEANS <--
 

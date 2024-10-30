@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
   .c-sidebar-accordion
@@ -25,7 +25,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import FormSelectAccordion from '../form/FormSelectAccordion.vue';
+import FormSelectAccordion from '@/components/form/FormSelectAccordion.vue';
 
 export default {
   name: "SidebarAccordion",
@@ -83,7 +83,6 @@ $c: ".c-sidebar-accordion";
   font-family: $font-family-default;
 
   > * {
-
     &:last-child {
       margin-block-end: 0;
     }

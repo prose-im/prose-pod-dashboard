@@ -84,7 +84,7 @@ $size-widths: (
   }
 
   // --> TINTS <--
-
+  
   &--normal {
     background-color: rgb(var(--color-base-blue-normal));
     background-image: url("/images/components/base/BaseProseLogo/logo-tint-normal.webp");

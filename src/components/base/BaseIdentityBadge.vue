@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+    TEMPLATE
+    ********************************************************************** -->
 
 <template lang="pug">
 .c-base-identity-badge 
@@ -30,7 +30,7 @@
           "c-base-identity-badge--light"
         ]`
       ) &nbsp; | &nbsp;crisp.chat
-      
+
     .c-base-identity-badge__details
       span 
         | Server 
@@ -46,52 +46,51 @@
   
 </template>
       
-  <!-- **********************************************************************
+<!-- **********************************************************************
     SCRIPT
     ********************************************************************** -->
-    
-  <script lang="ts">
-  //COMPINENTS
-  import BaseIcon from '../base/BaseIcon.vue'
   
-  export default {
-  name: "BaseIdentityBagde",
-  
-  components: {
-    BaseIcon 
-  },
-  
-  props: {
-  },
-  
-  data() {
-    return {
-      // --> STATE <--
-  
-    };
-  },
-  
-  computed: {
-  
-  },
-  
-  watch: {
-  
-  },
-  
-  created() {
-    
-  },
-  
-  methods: {
-    // --> HELPERS <--
-  }
+<script lang="ts">
+//COMPINENTS
+import BaseIcon from '@/components/base/BaseIcon.vue'
+
+export default {
+name: "BaseIdentityBagde",
+
+components: {
+  BaseIcon 
+},
+
+props: {
+},
+
+data() {
+  return {
+    // --> STATE <--
   };
-  </script>
-      
-  <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
+},
+
+computed: {
+
+},
+
+watch: {
+
+},
+
+created() {
+  
+},
+
+methods: {
+  // --> HELPERS <--
+}
+};
+</script>
+    
+<!-- **********************************************************************
+     STYLE
+     ********************************************************************** -->
   
 <style lang="scss">
 $c: ".c-base-identity-badge";
@@ -102,7 +101,7 @@ $c: ".c-base-identity-badge";
   font-family: $font-family-default;
   padding-inline-start: 6px;
   padding-inline-end: 31px;
-  padding-block:6px;
+  padding-block: 6px;
   margin-top: 28px;
   margin-left: -6.5px;
   border-radius: 30px;
@@ -136,6 +135,7 @@ $c: ".c-base-identity-badge";
     }
 
   }
+  
   // --> WEIGHTS <--
   &--extra-light{
     font-weight: $font-weight-extra-light;
@@ -149,5 +149,4 @@ $c: ".c-base-identity-badge";
     font-weight:$font-weight-medium;
   }
 }
-
 </style>
