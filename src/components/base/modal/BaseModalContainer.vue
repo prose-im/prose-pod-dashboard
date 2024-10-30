@@ -142,7 +142,7 @@ export default {
 $c: ".c-base-modal-container";
 
 #{$c} {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   max-width: 750px;
   height: 100%;
   background-color: $color-white;
