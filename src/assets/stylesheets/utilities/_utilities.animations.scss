@@ -103,6 +103,7 @@ $animate-toast-translate-vertical: 3px;
 
   &--scale-up {
     animation-name: scaleUp;
+    transform-origin: center;
   }
 
   &--slide-in {
@@ -268,6 +269,10 @@ $animate-toast-translate-vertical: 3px;
 
 @keyframes scaleUp {
   0%  {
+    transform: scale(0);
+  }
+
+  30%  {
     transform: scale(0);
   }
 
