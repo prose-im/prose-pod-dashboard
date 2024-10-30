@@ -32,16 +32,21 @@ base-modal(
       )
 
     .a-factory-reset__confirm
-      base-modal-confirm-field(
+      form-checkbox(
         v-model="downloadConfirmed"
-        text="I have downloaded a recent backup of this Pod"
+        class="a-factory-reset__confirm--upper"
+        size="mid"
+        bold="semibold"
       )
+        | I have downloaded a recent backup of this Pod
 
-      base-modal-confirm-field(
+      form-checkbox(
         v-model="dataLossConfirmed"
-        text="I confirm that I am aware that all data will be erased"
-        color="red"
+        size="mid"
+        bold="semibold"
+        labelColor="red"
       )
+        |I confirm that I am aware that all data will be erased
 </template>
   
 <!-- **********************************************************************
@@ -51,18 +56,18 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalConfirmField from '@/components/base/modal/BaseModalConfirmField.vue';
 import BaseModalDisclaimer from '@/components/base/modal/BaseModalDisclaimer.vue';
 import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
+import FormCheckbox from '@/components/form/FormCheckbox.vue';
 
 export default {
   name: "FactoryReset",
 
   components: {
     BaseModal,
-    BaseModalConfirmField,
     BaseModalDisclaimer,
     BaseModalInputBlock,
+    FormCheckbox
   },
 
   props: {
@@ -111,6 +116,12 @@ $c: ".a-factory-reset";
   #{$c}__disclaimer{
     margin-top: 4px;
     margin-bottom: 31px;
+  }
+
+  #{$c}__confirm{
+    &--upper {
+      margin-bottom: 8px;
+    }
   }
 }
 </style>

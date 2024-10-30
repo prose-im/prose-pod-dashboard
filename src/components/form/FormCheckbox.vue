@@ -30,12 +30,14 @@ div(
   label.c-form-checkbox__label(
     v-if="$slots.default"
     @click="onLabelClick"
-    :class=[
+    :class=`[
+      "c-form-checkbox--" + bold,
+      "c-form-checkbox--" + labelColor,
       {
         "u-medium": hasLabelEmphasis,
         "u-regular": !hasLabelEmphasis
       }
-    ]
+    ]`
   )
     slot
 </template>
@@ -59,7 +61,7 @@ export default {
       default: "medium",
 
       validator(x: string) {
-        return ["small", "medium"].includes(x);
+        return ["small", "mid", "medium"].includes(x);
       }
     },
 
@@ -76,6 +78,24 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+
+    bold: {
+      type: String,
+      default: "normal",
+
+      validator(x: string) {
+        return ["normal", "semibold"].includes(x);
+      }
+    },
+
+    labelColor: {
+      type: String,
+      default: "black",
+
+      validator(x: string) {
+        return ["black", "red"].includes(x);
+      }
     }
   },
 
@@ -83,7 +103,7 @@ export default {
 
   computed: {
     hasLabelEmphasis(): boolean {
-      return this.size === "medium" ? true : false;
+      return (this.size === "medium") || (this.size === "mid") ? true : false;
     }
   },
 
@@ -213,7 +233,6 @@ $c: ".c-form-checkbox";
   }
 
   #{$c}__label {
-    color: $color-text-primary;
     flex: 1;
 
     &:hover {
@@ -235,6 +254,18 @@ $c: ".c-form-checkbox";
     }
   }
 
+  &--mid {
+    #{$c}__input {
+      width: $size-form-checkbox-medium-size;
+      height: $size-form-checkbox-medium-size;
+    }
+
+    #{$c}__label {
+      font-size: ($font-size-baseline - 1px);
+      padding-inline-start: 10px;
+    }
+  }
+
   &--medium {
     #{$c}__input {
       width: $size-form-checkbox-medium-size;
@@ -242,7 +273,7 @@ $c: ".c-form-checkbox";
     }
 
     #{$c}__label {
-      font-size: ($font-size-baseline + 1px);
+      font-size: ($font-size-baseline + 2px);
       padding-inline-start: 10px;
     }
   }
@@ -270,6 +301,21 @@ $c: ".c-form-checkbox";
     #{$c}__label {
       color: $color-text-secondary;
     }
+  }
+
+  // --> WEIGHTS <--
+
+  &--semibold {
+    font-weight: $font-weight-medium;
+  }
+
+  // --> COLORS <--
+  &--black {
+    color: $color-text-primary;
+  }
+
+  &--red {
+    color: $color-base-red-normal;
   }
 }
 </style>

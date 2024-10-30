@@ -63,10 +63,12 @@ base-modal(
         description="Whenever you hit restore, your server will be erased, similarly to doing a factory reset. \nOnce cleaned up, the settings will be restored. Then, the data archive will be imported."
       )
 
-    base-modal-confirm-field(
+    form-checkbox(
       v-model="dataLossConfirmed"
-      text="I confirm that I am aware of the risks of data loss"
+      size="mid"
+      bold="semibold"
     )
+      | I confirm that I am aware of the risks of data loss
 </template>
   
 <!-- **********************************************************************
@@ -77,9 +79,9 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalConfirmField from '@/components/base/modal/BaseModalConfirmField.vue';
 import BaseModalDisclaimer from '@/components/base/modal/BaseModalDisclaimer.vue';
 import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
+import FormCheckbox from '@/components/form/FormCheckbox.vue';
 
 export default {
   name: "RestoreBackup",
@@ -87,9 +89,9 @@ export default {
   components: {
     BaseButton,
     BaseModal,
-    BaseModalConfirmField,
     BaseModalDisclaimer,
     BaseModalInputBlock,
+    FormCheckbox
   },
 
   props: {

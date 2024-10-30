@@ -118,7 +118,7 @@ div(
 //- import { names as keyNames } from "keycode";
 
 //COMPONENTS
-import BaseIcon from '../base/BaseIcon.vue'
+import BaseIcon from '@/components/base/BaseIcon.vue'
 
 // INTERFACES
 export interface Option {

@@ -176,7 +176,7 @@ $c: ".a-start-login-form";
     }
 
     #{$c}__options {
-      font-size: ($font-size-baseline + 2px) !important;
+      font-size: ($font-size-baseline + 2px);
       margin-block-start: 37px;
       padding-block: 0;
       padding-inline: 12px;

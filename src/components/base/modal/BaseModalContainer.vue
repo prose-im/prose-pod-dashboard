@@ -161,9 +161,9 @@ $c: ".c-base-modal-container";
   }
 
   #{$c}__body{
-    min-height: 75%;
+    min-height: 73%;
     padding-top: 35.5px;
-    padding-bottom: 18.5px;
+    padding-bottom: 26.5px;
     margin-inline: auto;
     border-block: 1px solid $color-border-primary;
   }
@@ -173,7 +173,7 @@ $c: ".c-base-modal-container";
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
-    height: 8%;
+    height: 9%;
 
     &--extra-button{
       margin-left: 12px;
