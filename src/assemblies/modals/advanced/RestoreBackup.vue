@@ -29,28 +29,46 @@ base-modal(
           .a-restore-backup__subblock
             .a-restore-backup__subblock--content
 
-              .a-restore-backup--flex
-                p 1️⃣  Please upload a&nbsp;
-                p.a-restore-backup--blue .settings.backup 
-                p &nbsp;file:
+              .a-restore-backup--flex(
+                class="a-restore-backup__step"
+              )
+                p 
+                  | 1️⃣  Please upload a&nbsp;
+                p.a-restore-backup--blue 
+                  | .settings.backup 
+                p 
+                  | &nbsp;file:
               
               base-button(
                 tint="white"
               )
                 | Choose settings backup...
 
-          .a-restore-backup__subblock
+          .a-restore-backup__subblock(
+            :class=`[
+              {
+                "a-restore-backup--opaque" : noSettings
+              }
+            ]`
+          )
             .a-restore-backup__subblock--content
-
-              .a-restore-backup--flex
-                p 2️⃣  Please upload a&nbsp;
-                p.a-restore-backup--blue .data.backup 
-                p &nbsp;archive:
+              .a-restore-backup--flex(
+                class="a-restore-backup__step"
+              )
+                p 
+                  | 2️⃣  Please upload a&nbsp;
+                p.a-restore-backup--blue 
+                  | .data.backup 
+                p 
+                  | &nbsp;archive:
 
               base-button(
                 tint="white"
+                :disabled="noSettings"
               )
                 | Choose data backup...
+          
+            <!-- .a-restore-backup__filter -->
 
       base-modal-input-block(
         class="a-restore-backup__input-block"
@@ -103,6 +121,8 @@ export default {
   data() {
     return {
       // --> STATE <--
+      noSettings: true,
+
       dataLossConfirmed: false
     };
   },
@@ -140,19 +160,34 @@ $c: ".a-restore-backup";
   }
 
   #{$c}__subblock {
-    font-size: ($font-size-baseline - 3px);
+    position: relative;
+    font-size: ($font-size-baseline - 1.5px);
     padding-block: 15.5px 19.5px;
     width: 50%;
+
+    p{
+      margin-block: 0;
+    }
     
     &--content {
-      width: max-content;
+      max-width: max-content;
+      min-width: 151px;
       margin-inline: auto;
     }
 
-    &:first-child{
+    &:first-child {
       border-right: 1px solid $color-border-secondary;  
+      min-width: 168px;
+
     }
   }
+
+  #{$c}__step {
+    flex-flow: row wrap;
+    margin-bottom: 12px;
+  }
+
+
 
   #{$c}__upload {
     margin-bottom: 38px;
@@ -172,11 +207,16 @@ $c: ".a-restore-backup";
 
   &--flex {
     display: flex;
+    justify-content: center;
   }
 
   &--blue {
     color: $color-base-purple-normal;
     font-weight: $font-weight-medium;
+  }
+
+  &--opaque {
+    opacity: 0.4;
   }
 }
 

@@ -96,7 +96,7 @@ const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
 
 export default {
   name: "BaseButton",
-  
+
   components: {
     BaseIcon
   },
@@ -483,6 +483,16 @@ $size-ultra-large-padding-sides: 45.5px;
     }
   }
 
+  &--disabled {
+    cursor: not-allowed;
 
+    &#{$c}--loading {
+      cursor: wait;
+    }
+
+    #{$c}__inner {
+      pointer-events: none;
+    }
+  }
 }
 </style>
