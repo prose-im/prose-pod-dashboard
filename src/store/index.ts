@@ -14,19 +14,16 @@ import { Pinia, createPinia } from "pinia";
 // import { createPersistedState } from "pinia-plugin-persistedstate";
 
 // PROJECT: STORE
-// import $account from "@/store/tables/account";
-// import $activity from "@/store/tables/activity";
-// import $avatar from "@/store/tables/avatar";
-// import $channel from "@/store/tables/channel";
-// import $history from "@/store/tables/history";
-// import $inbox from "@/store/tables/inbox";
-// import $layout from "@/store/tables/layout";
-// import $navigation from "@/store/tables/navigation";
-// import $room from "@/store/tables/room";
-// import $presence from "@/store/tables/presence";
-// import $profile from "@/store/tables/profile";
-// import $roster from "@/store/tables/roster";
-import $session from "@/store/tables/session";
+import $account from "./tables/account";
+import $customizationEmojis from "./tables/customizationEmojis";
+import $customizationWorkspace from "./tables/customizationWorkspace";
+import $globalConfig from "./tables/globalConfig";
+import $serverConfiguration from "./tables/serverConfiguration";
+import $settingsBackup from "./tables/settingsBackup";
+import $settingsNetwork from "@/store/tables/settingsNetwork";
+import $settingsSecurity from "./tables/settingsSecurity";
+import $teamMembers from "./tables/teamMembers";
+import $session from "@/store/tables/settingsNetwork";
 // import $settings from "@/store/tables/settings";
 
 /**************************************************************************
@@ -48,22 +45,20 @@ class Store {
   private readonly __store: Pinia;
 
   // Transient stores
-  $session!: ReturnType<typeof $session>;
+  // $session!: ReturnType<typeof $session>;
   // $history!: ReturnType<typeof $history>;
 
   // Permanent stores
-  // $layout!: ReturnType<typeof $layout>;
-  // $navigation!: ReturnType<typeof $navigation>;
-  // $account!: ReturnType<typeof $account>;
-  // $avatar!: ReturnType<typeof $avatar>;
-  // $channel!: ReturnType<typeof $channel>;
-  // $profile!: ReturnType<typeof $profile>;
-  // $inbox!: ReturnType<typeof $inbox>;
-  // $roster!: ReturnType<typeof $roster>;
-  // $activity!: ReturnType<typeof $activity>;
-  // $presence!: ReturnType<typeof $presence>;
-  // $room!: ReturnType<typeof $room>;
-  // $settings!: ReturnType<typeof $settings>;
+  $account!: ReturnType<typeof $account>;
+  $customizationEmojis!: ReturnType<typeof $customizationEmojis>;
+  $customizationWorkspace!: ReturnType<typeof $customizationWorkspace>;
+  $globalConfig!: ReturnType<typeof $globalConfig>;
+  $serverConfiguration!: ReturnType<typeof $serverConfiguration>;
+  $settingsBackup!: ReturnType<typeof $settingsBackup>;
+  $settingsNetwork!: ReturnType<typeof $settingsNetwork>;
+  $settingsSecurity!: ReturnType<typeof $settingsSecurity>;
+  $teamMembers!: ReturnType<typeof $teamMembers>;
+  $session!: ReturnType<typeof $session>;
 
   constructor() {
     this.__store = createPinia();
@@ -78,7 +73,7 @@ class Store {
     app.use(this.__store);
 
     // #2. Bind all plugins
-    this.__applyPlugins();
+    // this.__applyPlugins();
 
     // #3. Load all tables
     this.__loadTables();
@@ -98,30 +93,26 @@ class Store {
     }
   }
 
-  private __applyPlugins(): void {
-    this.__store.use(
+  // private __applyPlugins(): void {
+  //   this.__store.use(
       // createPersistedState({
       //   key: id => [STORE_PERSIST_PREFIX, STORE_PERSIST_REVISION, id].join(":"),
       //   storage: localStorage
       // })
-    );
-  }
+    // );
+  // }
 
   private __loadTables(): void {
     this.$session = $session(this.__store);
-    // this.$history = $history(this.__store);
-    // this.$layout = $layout(this.__store);
-    // this.$navigation = $navigation(this.__store);
-    // this.$account = $account(this.__store);
-    // this.$avatar = $avatar(this.__store);
-    // this.$channel = $channel(this.__store);
-    // this.$profile = $profile(this.__store);
-    // this.$inbox = $inbox(this.__store);
-    // this.$roster = $roster(this.__store);
-    // this.$activity = $activity(this.__store);
-    // this.$presence = $presence(this.__store);
-    // this.$room = $room(this.__store);
-    // this.$settings = $settings(this.__store);
+    this.$account = $account(this.__store);
+    this.$customizationEmojis = $customizationEmojis(this.__store);
+    this.$customizationWorkspace = $customizationWorkspace(this.__store);
+    this.$globalConfig = $globalConfig(this.__store);
+    this.$serverConfiguration = $serverConfiguration(this.__store);
+    this.$settingsBackup = $settingsBackup(this.__store);
+    this.$settingsNetwork = $settingsNetwork(this.__store);
+    this.$settingsSecurity = $settingsSecurity(this.__store);
+    this.$teamMembers = $teamMembers(this.__store);
   }
 }
 
