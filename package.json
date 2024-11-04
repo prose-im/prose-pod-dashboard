@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "keycode": "2.2.1",
     "mitt": "3.0.1",
     "pinia": "2.2.4",
