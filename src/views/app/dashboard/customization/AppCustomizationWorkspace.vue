@@ -11,16 +11,17 @@
 <template lang="pug">
 .v-app-customization-emojis
   base-subsection(
+    v-model="config.workspaceProfile"
     title="Workspace Profile"
     :items="profileItems"
   )
 
   base-subsection(
-    v-model="appearanceForm"
+    v-model="config.appearance"
     title="Apps Appearance"
     :items="appearanceItems"
+    @update="onUpdate"
   )
-
 </template>
   
 <!-- **********************************************************************
@@ -30,6 +31,9 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+
+// STORE
+import store from '@/store';
 
 export default {
   name: "AppCustomizationWorkspace",
@@ -47,6 +51,8 @@ export default {
   data() {
     return {
       // --> STATE <--
+      store: {},
+
       appearanceForm: {
         accentColor: "Medium Blue"
       },
@@ -61,7 +67,6 @@ export default {
             size:"medium"
           },
           slot:'text',
-          slotData: 'Crisp'
         },
         {
           subtitle:"Icon for workspace",
@@ -72,7 +77,6 @@ export default {
             size:"medium"
           },
           slot:'avatar',
-          slotData: 'https://cdn.cmsfly.com/635bcad9b8a74e0091632998/cerp-GR1YU2.png'
         },
         {
           subtitle:"Server details card",
@@ -108,7 +112,11 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    config() {
+      return store.$customizationWorkspace.getConfig();
+    }
+  },
 
   watch: {},
 
@@ -116,7 +124,31 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+    onUpdate(newValue: boolean | string, changedKey: string){
+      console.log('newValue', newValue, changedKey)
+      if(this.config.appearance[changedKey] !== newValue) {
+        switch (changedKey) {
+          // Workspace Profile
+          case 'archiveEnabled': {
+            store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
+            break;
+          }
+          case 'messageRetentionTime': {
+            store.$serverConfiguration.changeMessageRetentionTime(newValue);
+            break;
+          }
+
+          // Appearance
+          case 'color': {
+            store.$customizationWorkspace.updateWorkspaceColor(newValue);//!this.config.messaging[key]);
+            break;
+          }
+          default:
+            break;
+        }
+      }
+    },
+  }
 };
 </script>
 

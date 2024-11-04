@@ -11,13 +11,13 @@
 <template lang="pug">
   .v-app-advanced-security
     base-subsection(
-      v-model="securityForm"
+      v-model="config.security"
       title="Account Security"
       :items="accountItems"
     )
   
     base-subsection(
-      v-model="encryptionForm"
+      v-model="config.encryption"
       title="Network Encryption"
       :items="networkItems"
       :restoreOption="true"
@@ -31,6 +31,7 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+import store from '@/store';
 
 export default {
   name: "AppAdvancedSecurity",
@@ -48,14 +49,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-      securityForm:{
-        twoFactor: true 
-      },
-
-      encryptionForm: {
-        version: "TLS 1.0+",
-        strength: "High strength"
-      },
 
       accountItems:[
         {
@@ -107,7 +100,11 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    config() {
+      return store.$settingsSecurity.getSettings();
+    }
+  },
 
   watch: {},
 
@@ -115,6 +112,32 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    onUpdate(newValue: boolean | string, changedKey: string){
+      // console.log('newValue', newValue, changedKey)
+      if(this.config.files[changedKey] !== newValue) {
+        switch (changedKey) {
+          // Security
+          case 'twoFactor': {
+            // store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
+            break;
+          }
+
+          // Encryption
+          case 'version': {
+            // store.$serverConfiguration.toggleFileUploadEnabled();//!this.config.messaging[key]);
+            break;
+          }
+          case 'strength': {
+            // store.$serverConfiguration.changeFileEncryption(newValue);
+            break;
+          }
+          default:
+            break;
+        }
+      }
+
+      /// Reload store /////
+    }
   },
 };
 </script>

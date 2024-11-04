@@ -39,7 +39,6 @@ factory-reset(
   @close="toggleResetModalVisible"
   @proceed=""
 )
-
 </template>
   
 <!-- **********************************************************************
@@ -199,7 +198,7 @@ export default {
     },
 
     toggleResetModalVisible() {
-      this.isResetModalVisible = !this.isResetModalVisible
+      console.log( Object.keys(api["paths"]) )
     }
   },
 };

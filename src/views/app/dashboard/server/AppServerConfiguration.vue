@@ -11,18 +11,19 @@
 <template lang="pug">
 .v-app-customization-emojis
   base-subsection(
-    v-model="messagesForm"
+    v-model="config.messaging"
     title="Messaging"
     :items="messagingItems"
     :restoreOption="true"
+    @update="onUpdate"
   )
 
   base-subsection(
-    v-model="filesForm"
+    v-model="config.files"
     title="Files"
     :items="filesItems"
+    @update="onUpdate"
   )
-
 </template>
   
 <!-- **********************************************************************
@@ -32,6 +33,9 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+
+// PROJECT: STORE
+import store from '@/store';
 
 export default {
   name: "AppServerConfiguration",
@@ -49,16 +53,6 @@ export default {
   data() {
     return {
       // --> STATE <--
-      messagesForm: {
-        storeArchives: false,
-        messagesRetentionTime: "2 years",
-      },
-
-      filesForm: {
-        userAuthorization: true,
-        encryption: "Encrypted (AES-256)",
-        filesRetentionTime: "1 year",
-      },
 
       messagingItems:[
         {
@@ -138,7 +132,11 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    config() {
+      return store.$serverConfiguration.getSettings();
+    }
+  },
 
   watch: {},
 
@@ -146,6 +144,41 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
+    onUpdate(newValue: boolean | string, changedKey: string){
+      // console.log('newValue', newValue, changedKey)
+      if(this.config.files[changedKey] !== newValue) {
+        switch (changedKey) {
+          // Messaging
+          case 'archiveEnabled': {
+            store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
+            break;
+          }
+          case 'messageRetentionTime': {
+            store.$serverConfiguration.changeMessageRetentionTime(newValue);
+            break;
+          }
+
+          // Files
+          case 'fileUploadEnabled': {
+            store.$serverConfiguration.toggleFileUploadEnabled();//!this.config.messaging[key]);
+            break;
+          }
+          case 'encryption': {
+            store.$serverConfiguration.changeFileEncryption(newValue);
+            break;
+          }
+          case 'fileRetentionTime': {
+            store.$serverConfiguration.changeFileRetentionTime(newValue);
+            break;
+          }
+          default:
+            break;
+        }
+      }
+
+      /// Reload store /////
+    }
   },
 };
 </script>
