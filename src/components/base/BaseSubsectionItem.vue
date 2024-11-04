@@ -32,7 +32,6 @@ div(
           }
         ]`
       )
-
         | {{ item.subtitle }}
 
         base-icon(
@@ -59,18 +58,20 @@ div(
       )
         p
           | {{ item.tags[index + 1] }}
+
         p.c-base-subsection-item--grey
           | {{ (index<item.tags.length-2) ? ',' : '' }}
 
+  <!-- OPTIONAL ELEMENT -->    
   p(
     v-if="item.slot === 'text'"
     class="c-base-subsection-item__slot"
   )
-    | {{ item.slotData }}
+    | {{ state }}
 
   base-avatar(
     v-if="item.slot === 'avatar'"
-    :avatarDataUrl="item.slotData"
+    :avatarDataUrl="state"
     size="40px"
     borderRadius="20px"
     :class=`[
@@ -79,6 +80,7 @@ div(
     ]`
   )
 
+  <!-- INTERACTIVE ELEMENT -->
   form-toggle(
     v-if="type === 'toggle'"
     v-model="state"
@@ -180,7 +182,7 @@ export default {
     }
   },
 
-  emits: ["update:modelValue", "click", "updateExtraSelect"],
+  emits: ["update", "click", "updateExtraSelect"],
 
   data() {
     return {
@@ -231,12 +233,15 @@ export default {
         if(typeof value === 'string') {
           const normalValue = value.toLowerCase();
           switch (normalValue) {
-            case 'medium blue':
+            case 'medium blue': {
               return this.squareColor = '#2490F0';
-            case 'dark blue':
+            }
+            case 'dark blue': {
               return this.squareColor = '#1C293B';
-            default:
+            }
+            default: {
               return null;
+            }
           }
         }
       }
@@ -251,15 +256,15 @@ export default {
     updateValue(newValue: boolean | string): void {
 
       if(this.type === 'doubleSelect'){
-        this.$emit("update:modelValue", newValue, this.index, 0);
+        this.$emit("update", newValue, this.index, 0);
       } else {
-        this.$emit("update:modelValue", newValue, this.index);
+        this.$emit("update", newValue, this.index);
       }
 
     },
 
     updateExtraSelect(newValue: boolean | string): void {
-      this.$emit("update:modelValue", newValue, this.index, 1);
+      this.$emit("update", newValue, this.index, 1);
     }
   }, 
 };

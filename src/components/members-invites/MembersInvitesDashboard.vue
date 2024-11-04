@@ -143,7 +143,6 @@ export default {
         name:"",
         email:"valerian.saliou@crisp.chat",
         status:"Active",
-        os:"mac OS"
       }
     };
   },

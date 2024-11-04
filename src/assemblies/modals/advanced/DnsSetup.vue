@@ -275,6 +275,7 @@ $c: ".a-dns-setup";
   &--link {
     color: $color-base-blue-normal;
     font-weight: $font-weight-regular;
+    cursor: pointer;
   }
 }
 

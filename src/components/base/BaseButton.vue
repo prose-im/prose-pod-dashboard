@@ -68,37 +68,36 @@ div(
 
 <script lang="ts">
 //COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 // CONSTANTS
 const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
-
   medium: {
-    icon: "13px"
+    icon: "13px",
   },
 
   "mid-medium": {
-    icon: "14px"
+    icon: "14px",
   },
 
   large: {
-    icon: "16px"
+    icon: "16px",
   },
 
   "mid-large": {
-    icon: "17px"
+    icon: "17px",
   },
 
   "ultra-large": {
-    icon: "18px"
-  }
+    icon: "18px",
+  },
 };
 
 export default {
   name: "BaseButton",
 
   components: {
-    BaseIcon
+    BaseIcon,
   },
   props: {
     type: {
@@ -107,7 +106,7 @@ export default {
 
       validator(x: string) {
         return ["button", "submit"].includes(x);
-      }
+      },
     },
 
     tint: {
@@ -116,7 +115,7 @@ export default {
 
       validator(x: string) {
         return ["purple", "grey", "white", "red"].includes(x);
-      }
+      },
     },
 
     size: {
@@ -129,43 +128,43 @@ export default {
         sizes.push("custom");
 
         return sizes.includes(x);
-      }
+      },
     },
 
     icon: {
       type: String,
-      default: null
+      default: null,
     },
 
     bolder: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     square: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     reverse: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     buttonClass: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   emits: ["click"],
@@ -186,7 +185,7 @@ export default {
 
       // No icon set (therefore no icon size)
       return null;
-    }
+    },
   },
 
   methods: {
@@ -195,8 +194,8 @@ export default {
     onInnerClick(event: Event): void {
       // Re-emit click event
       this.$emit("click", event);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -254,14 +253,12 @@ $size-ultra-large-padding-sides: 45.5px;
       white-space: nowrap;
       flex: 1;
 
-      &--square{
+      &--square {
         display: flex;
         justify-content: center;
         align-items: center;
       }
     }
-
-
   }
 
   // --> TINTS <--
@@ -396,8 +393,8 @@ $size-ultra-large-padding-sides: 45.5px;
       padding-inline-start: $size-large-padding-sides;
       padding-inline-end: $size-large-padding-sides;
       &--square {
-        width:44px;
-        height:44px;
+        width: 44px;
+        height: 44px;
         padding-inline: 0px;
       }
     }

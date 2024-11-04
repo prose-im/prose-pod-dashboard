@@ -31,7 +31,7 @@
           size="large"
           @click="clickHandle"
         )
-          | {{buttonLabel}}
+          | {{ buttonLabel }}
 
         base-button(
           class="c-search-bar__more"

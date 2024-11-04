@@ -44,7 +44,7 @@
       :color="item.color?item.color:'bw'"
       :index="index"
       @click="item.action"
-      @update:modelValue="updateValue"
+      @update="updateValue"
     )
 
     p 
@@ -102,10 +102,9 @@ export default {
       type:Boolean,
       default: false
     }
-
   },
 
-  emits: ["update:modelValue"],
+  emits: ["update"],
 
   data() {
     return {
@@ -151,20 +150,24 @@ export default {
       // console.log('hearding', newValue, index, element)
 
       const updatedModel = { ...this.modelValue };
+      const keys= Object.keys(this.modelValue);
 
       if(element === 0 || element === 1) {
-        const key1 = Object.keys(this.modelValue)[index];
+        const key1 = keys[index];
 
         const key2 = Object.keys(this.modelValue[key1])[element];
 
         updatedModel[key1][key2] = newValue;
 
       } else {
-        const key = Object.keys(this.modelValue)[index];
+        const key = keys[index];
         updatedModel[key] = newValue;
+        this.$emit("update", newValue, key);  
+        console.log('emitting', key)
       }
 
-      this.$emit("update:modelValue", updatedModel);
+      // this.$emit("update", updatedModel[key], newValue);
+      // this.$emit("update", updatedModel);
     }
   },
 };
