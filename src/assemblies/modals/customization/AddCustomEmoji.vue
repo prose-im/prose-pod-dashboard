@@ -10,8 +10,8 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  @close="onClose"
+  @confirm="onProceed"
   title="Add a custom emoji"
   buttonColor="purple"
   buttonLabel="Add custom Emoji"
@@ -22,6 +22,7 @@ base-modal(
 
     .a-add-custom-emoji__upload
       base-avatar(
+        :avatarDataUrl="imageUrl"
         class="a-add-custom-emoji__upload--avatar"
         size="60px"
         borderRadius="7px"
@@ -32,10 +33,19 @@ base-modal(
       )
         | Upload image...
 
+      input(
+        type="file"
+        class="a-add-custom-emoji__input"
+        ref="fileInput"
+        accept="image/*"
+        @change="onFilePicked"
+      )
+
     h4
       | Emoji shortcut
       
     form-field(
+      v-model="shortcut"
       type="text"
       size="mid-large"
       align="left"
@@ -45,7 +55,7 @@ base-modal(
     .a-add-custom-emoji__info
       base-icon(
         class="a-add-custom-emoji__info--icon"
-        name="information"
+        name="info.circle"
         height="20px"
         width="21.5px"
       )
@@ -65,6 +75,7 @@ import BaseButton from '@/components/base/BaseButton.vue';
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import BaseModal from '@/components/base/modal/BaseModal.vue';
 import FormField from '@/components/form/FormField.vue';
+import store from '@/store';
 
 export default {
   name: "AddCustomEmoji",
@@ -86,7 +97,12 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
+
+      imageUrl: '',
+
+      image: '',
+
+      shortcut: ''
     };
   },
 
@@ -98,7 +114,56 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    onPickFile () {
+      this.$refs.fileInput.click()
+    },
+
+    onFilePicked (event) {
+      console.log('hi');
+      const files = event.target.files
+      let filename = files[0].name
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.image = files[0]
+    },
+
+    onProceed () {
+      const date = new Date()
+      const options = { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      };
+
+      const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
+
+      const newReaction = {
+        id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
+        imageUrl: this.imageUrl,
+        shortcut: this.shortcut,
+        date: formattedDate,
+        contributor: 'Valerian Saliou',
+        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+      }
+
+      store.$customizationEmojis.addReaction(newReaction);
+      
+      this.imageUrl = '';
+      this.image = '';
+      this.$emit('close');
+    },
+
+    onClose () {
+      this.imageUrl = '';
+      this.image = '';
+      this.$emit('close');
+    }
+
   },
+
 };
 </script>
 
@@ -124,6 +189,7 @@ $c: ".a-add-custom-emoji";
   #{$c}__upload{
     display: flex;
     align-items: center;
+    position: relative;
     padding-block: 13.5px;
     padding-left: 33px;
     margin-bottom: 30px;
@@ -135,6 +201,14 @@ $c: ".a-add-custom-emoji";
       outline-offset: 1.5px;
       margin-right: 21.5px;
     }
+  }
+
+  #{$c}__input{
+    position: absolute;
+    cursor: pointer;
+    width: 120px;
+    left: 18%;
+    opacity: 0;
   }
 
   #{$c}__info{

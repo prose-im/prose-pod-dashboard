@@ -23,19 +23,22 @@ class CustomizationReactions {
   }
 
   async getReactionById(
-    reactionId: number
+    reactionId: string
   ): Promise<void> {
     await axios.get(`${REACTIONS_URL}/${reactionId}`);
   }  
 
   async updateReactionById(
-    reactionId: number
+    reactionId: string,
+    newReaction: EmojiListEntry
   ): Promise<void> {
-    await axios.put(`${REACTIONS_URL}/${reactionId}`);
+    await axios.put(`${REACTIONS_URL}/${reactionId}`,{
+      newReaction
+    });
   }  
 
   async deleteReactionById(
-    reactionId: number
+    reactionId: string
   ): Promise<void> {
     await axios.delete(`${REACTIONS_URL}/${reactionId}`);
   }  

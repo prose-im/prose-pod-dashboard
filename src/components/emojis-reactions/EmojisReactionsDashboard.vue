@@ -48,6 +48,7 @@ import AddCustomEmoji from '@/assemblies/modals/customization/AddCustomEmoji.vue
 import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
 import EmojisReactionsRow from '@/components/emojis-reactions/EmojisReactionsRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
+import store from '@/store';
 
 export default {
   name: "EmojisReactionDashboard",
@@ -68,34 +69,14 @@ export default {
     return {
       // --> STATE <--
       isModalVisible:false,
-      
-      emojis:[
-        {
-          imageUrl:"https://i.pinimg.com/736x/24/0d/22/240d22bf3aeda750fca5c00d2dfbf72a.jpg",
-          shortcut:":excellent:",
-          date:"11 November 2012",
-          contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-        },
-        {
-          imageUrl:"Baptiste Jamin",
-          shortcut:":excellent:",
-          date:"11 November 2012",
-          contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-        },
-        {
-          imageUrl:"Baptiste Jamin",
-          shortcut:":excellent:",
-          date:"11 November 2012",
-          contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-        },
-      ],
     };
   },
 
-  computed: {},
+  computed: {
+    emojis(){
+      return store.$customizationEmojis.getEmojiList();
+    }
+  },
 
   watch: {},
 

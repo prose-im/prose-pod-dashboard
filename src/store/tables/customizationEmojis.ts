@@ -17,6 +17,7 @@ import { defineStore } from "pinia";
 
 // PROJECT: STORES
 import Store from "@/store";
+import customizationReactions from "@/api/customizationReactions";
 
 /**************************************************************************
  * TYPES
@@ -29,6 +30,7 @@ type EmojiList = Array<EmojiListEntry>;
  * ************************************************************************* */
 
 interface EmojiListEntry {
+    id: string,
     imageUrl: string,
     shortcut: string,
     date: string,
@@ -55,25 +57,6 @@ const LOCAL_STATES = {
 };
 
 /**************************************************************************
- * METHODS
- * ************************************************************************* */
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const makeSidebarItemSorter = function (): IThenBy<any> {
-  // Sorting rules:
-  //  - #1. Rooms are ordered by their type, most private rooms come first
-  //  - #2. Rooms are ordered by name, alphabetically
-  //  - #3. Finally, order by room identifier for sort stability on 2 same names
-//   return firstBy((item: SidebarItem) => {
-//     return ROOM_TYPE_PRIORITIES[item.room.type];
-//   })
-//     .thenBy("name", { ignoreCase: true })
-//     .thenBy((item: SidebarItem) => {
-//       return item.room.id as string;
-//     });
-// };
-
-/**************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -82,7 +65,32 @@ const $customizationEmojis = defineStore("room", {
 
   state: (): Emojis => {
     return {
-      emojisList: []
+      emojisList: [
+        {
+          id: "29684b21-e799-4aa9-b475-d307493a7719",
+          imageUrl:"https://i.pinimg.com/736x/24/0d/22/240d22bf3aeda750fca5c00d2dfbf72a.jpg",
+          shortcut:":excellent:",
+          date:"11 November 2012",
+          contributor: "Valerian Saliou",
+          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+        },
+        {
+          id: "ec30d684-5d54-42fb-834e-cc0a192f021f",
+          imageUrl:"https://emojis.slackmojis.com/emojis/images/1693897448/68276/1000046743.jpg?1693897448",
+          shortcut:":excellent:",
+          date:"11 November 2012",
+          contributor: "Valerian Saliou",
+          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+        },
+        {
+          id: "2b74c4f2-7010-411d-bc42-4ca88b2495d2",
+          imageUrl:"https://emojis.slackmojis.com/emojis/images/1697828273/71257/1000057723q.gif?1697828273",
+          shortcut:":excellent:",
+          date:"11 November 2012",
+          contributor: "Valerian Saliou",
+          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+        },
+      ]
     };
   },
 
@@ -100,129 +108,33 @@ const $customizationEmojis = defineStore("room", {
       return EventBus;
     },
 
-    async load(reload = false): Promise<void> {
+    async loadReactions(reload = false): Promise<void> {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const all: Array<SidebarItem> = [],
-          favorites: Array<SidebarItem> = [],
-          directMessages: Array<SidebarItem> = [],
-          channels: Array<SidebarItem> = [],
-          itemsByRoomId = new Map<RoomID, SidebarItem>(),
-          roomsById = new Map<RoomID, CoreRoom>();
-
-        // Initialize total unread count
-        let totalUnreadCount = 0;
+        const allReactions: Array<EmojiListEntry> = []
 
         // Load rooms
-        const sidebarItems = await Broker.$room.sidebarItems();
-
-        sidebarItems.forEach(item => {
-          // Append item to list of all items
-          all.push(item);
-
-          // Append item in its section
-          switch (item.section) {
-            case SidebarSection.Favorites: {
-              favorites.push(item);
-
-              break;
-            }
-
-            case SidebarSection.DirectMessage: {
-              directMessages.push(item);
-
-              break;
-            }
-
-            case SidebarSection.Channel: {
-              channels.push(item);
-
-              break;
-            }
-          }
-
-          // Reference item by its identifier
-          itemsByRoomId.set(item.room.id, item);
-          roomsById.set(item.room.id, item.room);
-
-          // Increment unread count
-          totalUnreadCount += item.unreadCount;
-        });
-
-        // Append all rooms
-        this.$patch(state => {
-          // Store all items
-          state.items.all = all.sort(makeSidebarItemSorter());
-
-          // Store categorized items
-          state.items.favorites = favorites.sort(makeSidebarItemSorter());
-          state.items.directMessages = directMessages.sort(
-            makeSidebarItemSorter()
-          );
-          state.items.channels = channels.sort(makeSidebarItemSorter());
-
-          state.items.byRoomId = itemsByRoomId;
-
-          // Store rooms map
-          state.byId = roomsById;
-        });
-
-        // Refresh all room associated data
-        all.forEach(item => {
-          this.requestRefreshRoomAssociations(item.room.id);
-        });
-
-        // Update unread count (it might have changed)
-        // Notice: check if badges are allowed or not, otherwise reset back to \
-        //   zero.
-        UtilitiesRuntime.requestUnreadCountUpdate(
-          Store.$settings.notifications.action.notify.badge === true
-            ? totalUnreadCount
-            : 0
-        );
+        const sidebarItems = await customizationReactions.getAllReactions();
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
     },
 
-    updateRoom(roomID: RoomID, roomData: CoreRoom): CoreRoom | void {
-      // Assert room (update only if it exists)
-      // Notice: only update room if it exists in storage, by updating the \
-      //   whole Map entry, instead of using 'Object.assign()', which is \
-      //   known to cause issues due to wasm-bindgen pointers once they get \
-      //   garbage-collected. We want to replace the whole Room object with \
-      //   the new one, which may contain new memory references.
-      if (this.getRoom(roomID) !== undefined) {
-        this.byId.set(roomID, roomData);
-
-        // Refresh room associated data
-        this.requestRefreshRoomAssociations(roomID);
-
-        return roomData;
-      }
+    addReaction(reaction: EmojiListEntry): void {
+      console.log('hey hey')
+      this.emojisList.push(reaction);
+      // customizationReactions.addReaction(reaction);
+      // loadReactions(true):
     },
 
-    requestRefreshRoomAssociations(roomID: RoomID): void {
-      this.getRoom(roomID)?.participants.forEach(participant => {
-        // Refresh avatar for participant?
-        // Notice: this is a cross-store operation, for convenience.
-        if (participant.avatar !== undefined) {
-          // Notice: prefer using JID over abstract participant identifier, \
-          //   if JID is known.
-          const participantUserId =
-            participant.jid !== undefined
-              ? participant.jid.toString()
-              : participant.id.toString();
-
-          Store.$avatar.refresh(participantUserId, participant.avatar);
-        }
-      });
+    deleteReaction(reactionId: string): void {
+      customizationReactions.deleteReactionById(reactionId)
     },
 
-    markRoomsChanged(): void {
-      EventBus.emit("rooms:changed");
+    updateReaction(reactionId: string, newReaction: EmojiListEntry) {
+      customizationReactions.updateReactionById(reactionId, newReaction)
     }
   }
 });
