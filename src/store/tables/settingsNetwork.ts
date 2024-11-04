@@ -33,44 +33,14 @@ const EventBus = mitt();
  * TABLE
  * ************************************************************************* */
 
-const $session = defineStore("session", {
+const $settingsNetwork = defineStore("settingsNetwork", {
   // Important: DO NOT persist this store, as it contains session-related data.
   // persist: false,
 
   state: () => {
     return {
-      lastConnectedAt: null as number | null,
-
-      connected: false,
-      connecting: false,
-
-      visible: false,
-
-      protocol: "",
-
-      appearance: SessionAppearance.Light,
-
-      interface: {
-        toolbar: {
-          mounted: false
-        },
-
-        sidebar: {
-          mounted: false
-        },
-
-        inboxDetails: {
-          mounted: false
-        },
-
-        foreground: {
-          mounted: false
-        }
-      },
-
-      onboarding: {
-        welcome: false
-      }
+      externalServerPermission: true,
+      whitelist: []
     };
   },
 
@@ -169,4 +139,4 @@ const $session = defineStore("session", {
  * ************************************************************************* */
 
 export { SessionAppearance };
-export default $session;
+export default $settingsNetwork;

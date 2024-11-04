@@ -8,33 +8,38 @@
  * IMPORTS
  * ************************************************************************* */
 
-// PROJECT: STYLES
-import "@/assets/stylesheets/all.scss";
-
-
-import { createApp } from 'vue';
-
-// PROJECT: MAIN
-import App from '@/App.vue';
-import Router from "@/router";
-import Store from "@/store";
-
-import 'virtual:svg-icons-register';
-
-createApp(App).mount('#runtime')
+// NPM
+import { defineStore } from "pinia";
 
 /**************************************************************************
- * INSTANCES
+ * TABLE
  * ************************************************************************* */
 
-const app = createApp(App)
+const $navigation = defineStore("navigation", {
+  persist: true,
 
+  state: () => {
+    return {
+      inbox: {
+        lastRoomId: null as string | null
+      }
+    };
+  },
+
+  actions: {
+    setInboxLastRoomId(roomId: string | null) {
+      // Update value? (if changed)
+      if (roomId !== this.inbox.lastRoomId) {
+        this.$patch(state => {
+          state.inbox.lastRoomId = roomId;
+        });
+      }
+    }
+  }
+});
 
 /**************************************************************************
- * PLUGINS
+ * EXPORTS
  * ************************************************************************* */
 
-Store.bind(app);
-Router.bind(app);
-
-app.mount("#runtime");
+export default $navigation;
