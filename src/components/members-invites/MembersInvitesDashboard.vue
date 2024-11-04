@@ -13,7 +13,7 @@
   .c-members-invites-dashboard__upper
     search-bar(
       :buttonLabel="label"
-      :clickHandle="onInviteMemberClick"
+      :clickHandle="toggleModalVisible"
       placeholderText="team members..."
     )
 
@@ -23,11 +23,12 @@
     )
 
     members-invites-row(
-      :userData="invited"
+      v-for="(invite, index) in invites"
+      :userData="invite"
     )
 
     members-invites-row(
-      v-for="(user, index) in users"
+      v-for="(user, index) in members"
       :key="user.name"
       :userData="user"
       class="c-members-invites-dashboard__users"
@@ -38,7 +39,7 @@
 invite-team-member(
   :visibility="modalIsVisible"
   @close="toggleModalVisible"
-  @confirm=""
+  @proceed="onSendInvite"
 )   
 </template>
   
@@ -52,6 +53,7 @@ import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
 import InviteTeamMember from '@/assemblies/modals/members/InviteTeamMember.vue';
 import MembersInvitesRow from '@/components/members-invites/MembersInvitesRow.vue';
 import SearchBar from '@/components/search/SearchBar.vue';
+import store from '@/store';
 
 export default {
   name: "MembersInvitesDashboard",
@@ -112,42 +114,19 @@ export default {
         }
       ],
 
-      users:[
-        {
-          name:"Baptiste Jamin",
-          email:"baptiste@crisp.chat",
-          picture:"https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=400&default=retro&rating=g",
-          admin: true,
-          status:"Active",
-          os:"mac OS"
-        },
-        {
-          name:"Valerian Saliou",
-          email:"valerian.saliou@crisp.chat",
-          picture:"https://avatars.githubusercontent.com/u/1451907?v=4",
-          admin: true,
-          status:"Active",
-          os:"mac OS"
-        },
-        {
-          name:"Eliott Vincent",
-          email:"eliott@crisp.chat",
-          picture:"https://eliottvincent.com/assets/img/profile-pic.webp",
-          admin: false,
-          status:"Inactive",
-          os:"Last seen active 12 days ago"
-        }
-      ],
-
-      invited:{
-        name:"",
-        email:"valerian.saliou@crisp.chat",
-        status:"Active",
-      }
     };
   },
 
-  computed: {},
+  computed: {
+    members(){
+      return store.$teamMembers.getMemberList();
+    },
+
+    invites(){
+      return store.$teamMembers.getInviteList();
+    }
+
+  },
 
   watch: {},
 
@@ -159,9 +138,7 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
 
-    onInviteMemberClick(event: Event): void {
-      this.toggleModalVisible()
-    }
+
   },
 };
 </script>

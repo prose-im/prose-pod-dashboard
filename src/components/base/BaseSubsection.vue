@@ -125,7 +125,7 @@ export default {
       },
 
       set(nextValue: any[]) { 
-        console.log('nextValue', nextValue) 
+        // console.log('nextValue', nextValue) 
         const updatedModel = { ...this.modelValue };
         nextValue.forEach((value, index) => {
           updatedModel[index] = value;
@@ -135,11 +135,6 @@ export default {
   },
 
   watch: {    
-    myVal: {
-      handler(value){
-        // console.log('myVal', value) 
-      }
-    }
   },
 
   created() {},

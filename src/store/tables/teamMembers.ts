@@ -29,15 +29,18 @@ interface Members{
 }
 
 interface ActiveMemberEntry {
+  id: string,
   name: string,
   email: string,
-  avatarUrl: string,
+  picture: string,
   admin: boolean,
   status: string,
   os: string
 };
 
 interface InvitedMemberEntry {
+  id: string,
+  name: null,
   email: string,
   status: string
 };
@@ -59,10 +62,59 @@ const $teamMembers = defineStore("teamMembers", {
 
   state: (): Members => {
     return {
-      activeMembers: [],
+      activeMembers: [        
+        {
+          id: "028de0b0-2d6d-441c-884d-bfc80ee3d041",
+          name: "Baptiste Jamin",
+          email: "baptiste@crisp.chat",
+          picture: "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=400&default=retro&rating=g",
+          admin: true,
+          status: "Active",
+          os: "mac OS"
+        },
+        {
+          id: "9362d4f6-832c-4cca-83f1-8a3d1e82adc3",
+          name:"Valerian Saliou",
+          email:"valerian.saliou@crisp.chat",
+          picture:"https://avatars.githubusercontent.com/u/1451907?v=4",
+          admin: true,
+          status:"Active",
+          os:"mac OS"
+        },
+        {
+          id: "786b36b3-d0ad-44ab-8aa9-59688b4f7562",
+          name:"Eliott Vincent",
+          email:"eliott@crisp.chat",
+          picture:"https://eliottvincent.com/assets/img/profile-pic.webp",
+          admin: false,
+          status:"Inactive",
+          os:"Last seen active 12 days ago"
+        }
+      ],
 
-      invitedMembers: []
+      invitedMembers: [
+        {
+          id: "fbd3e8ab-3f31-49da-8474-f4d28649b559",
+          name: null,
+          email: "valerian.saliou@crisp.chat",
+          status: "Active",
+        }
+      ]
     };
+  },
+
+  getters: {
+    getMemberList: function () {
+      return (): Array<ActiveMemberEntry> => {
+        return this.activeMembers
+      };
+    },
+
+    getInviteList: function () {
+      return (): Array<InvitedMemberEntry> => {
+        return this.invitedMembers
+      };
+    },
   },
 
   actions: {
@@ -122,21 +174,23 @@ const $teamMembers = defineStore("teamMembers", {
       return this.list;
     },
 
-    getActiveMembers(): ActiveMembersList {
-      return this.activeMembers;
-    },
-
-    getInvitedMembers(): ActiveMembersList {
-      return this.activeMembers;
-    },
-
-    setInvitedMembers(newInviteEmail: string):void {
+    sendInvitation(newInviteEmail: string):void {
       const newInvite = {
+        id: "3ea40db6-ee83-406b-b735-17ecb89f26bd",
+        name: null,
         email: newInviteEmail,
         status: 'invited'
-      }
+      };
 
-      const newInvitedMembersList = {...this.invitedMembers, newInvite}
+      this.invitedMembers.push(newInvite);
+    },
+
+    cancelInvitation(inviteId: string):void {
+      const indexToRemove = this.invitedMembers.findIndex((invitedMember) => invitedMember["id"] === inviteId);
+
+      if(indexToRemove > -1) {
+        this.invitedMembers.splice(indexToRemove, 1);
+      } 
     }
   }
 });

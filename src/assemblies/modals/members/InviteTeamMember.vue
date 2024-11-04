@@ -12,7 +12,7 @@
 base-modal(
   :visible="visibility"
   @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  @confirm="onSendInvite"
   title="Invite a team member"
   buttonColor="purple"
   buttonLabel="Invite Team Member"
@@ -22,6 +22,7 @@ base-modal(
       | Email to Invite
       
     form-field(
+      v-model="inviteEmail"
       type="email"
       size="mid-large"
       align="left"
@@ -44,6 +45,7 @@ import BaseIcon from '@/components/base/BaseIcon.vue';
 import BaseModal from '@/components/base/modal/BaseModal.vue';
 import BaseModalInformation from '@/components/base/modal/BaseModalInformation.vue';
 import FormField from '@/components/form/FormField.vue';
+import store from '@/store';
 
 export default {
   name: "InviteTeamMember",
@@ -62,23 +64,40 @@ export default {
     }
   },
 
-  emits: ["close", "proceed"],
+  emits: ["close", "proceed", 'update'],
 
   data() {
     return {
       // --> STATE <--
-      
+      inviteEmail: ''
     };
   },
 
-  computed: {},
+  computed: {
+    
+  },
 
-  watch: {},
+  watch: {
+  },
 
   created() {},
 
   methods: {
     // --> HELPERS <--
+    onSendInvite(): void {
+      console.log(this.inviteEmail)
+      if(!this.inviteEmail) {
+        return
+      } else {
+        store.$teamMembers.sendInvitation(this.inviteEmail);
+        this.$emit('close')
+      }
+    }
+
+    // onChange(value) {
+    //   console.log(value)
+    //   this.$emit('update', value)
+    // }
   },
 };
 </script>

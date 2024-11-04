@@ -132,6 +132,7 @@
         size="medium"
         tint="white"
         :square="true"
+        @click="onActionOnMember"
       )
         base-icon(
           v-if="userData.name"
@@ -158,6 +159,7 @@ import BaseBadge from '@/components/base/BaseBadge.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseIcon from '@/components/base/BaseIcon.vue';
 import FormCheckbox from '@/components/form/FormCheckbox.vue';
+import store from '@/store';
 
 export default {
   name: "MembersInvitesRow",
@@ -212,7 +214,13 @@ export default {
   created() {},
 
   methods: {
+    onActionOnMember(): void {
+      this.userData.name?'': this.onCancelInvite(this.userData.id);
+    },
 
+    onCancelInvite(inviteId: string) {
+      store.$teamMembers.cancelInvitation(inviteId);
+    }
   },
 };
 </script>
