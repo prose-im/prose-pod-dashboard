@@ -11,7 +11,8 @@
 // NPM
 import { defineStore } from "pinia";
 
-// PROJECT: STORES
+// PROJECT: API
+import Api from "@/api";
 import APILogin from "@/api/providers/login";
 
 /**************************************************************************
@@ -19,7 +20,9 @@ import APILogin from "@/api/providers/login";
  * ************************************************************************* */
 
 interface Account {
-  token: string | null;
+  session: {
+    token: string | null;
+  };
 }
 
 /**************************************************************************
@@ -29,21 +32,41 @@ interface Account {
 const $account = defineStore("account", {
   state: (): Account => {
     return {
-      token: null
+      session: {
+        token: null
+      }
     };
+  },
+
+  getters: {
+    getSessionToken: function () {
+      return (): string | null => {
+        return this.session.token;
+      };
+    }
   },
 
   actions: {
     async login(username: string, password: string): Promise<void> {
       const { token } = await APILogin.login(username, password);
 
-      // TODO
-      console.error("==> got token = " + token);
+      // Save session token
+      this.setSessionToken(token);
     },
 
-    async logout(purge = false) {
-      // TODO: clear cookies et al
-      throw new Error("Not implemented");
+    async logout() {
+      // Clear session token
+      this.setSessionToken(null);
+    },
+
+    setSessionToken(token: string | null): void {
+      // Update saved token
+      this.$patch(() => {
+        this.session.token = token;
+      });
+
+      // Re-authenticate to API client (or de-authenticate)
+      Api.authenticate(token);
     }
   }
 });
