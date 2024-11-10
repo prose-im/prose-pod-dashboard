@@ -108,17 +108,14 @@ div(
           )
             | {{ option.value }}
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
-// NPM
-//- import { names as keyNames } from "keycode";
-
-//COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue'
+// COMPONENTS
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 // INTERFACES
 export interface Option {
@@ -149,8 +146,6 @@ const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
     arrow: "10px"
   }
 };
-
-const SEARCH_QUERY_PREFIX_LENGTH_MAXIMUM = 2;
 
 export interface Icon {
   component: object;
@@ -228,9 +223,7 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    },
-
-
+    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -249,17 +242,15 @@ export default {
   },
 
   computed: {
-
     hasOptions(): boolean {
       return this.options.length > 0;
     },
 
     valueLabel(): string {
       const option = this.options.find(option => {
-
         return this.value === option.value;
       });
-      
+
       // Return inner label from corresponding option?
       if (option && option.value) {
         return option.value;
@@ -312,21 +303,15 @@ export default {
     }
   },
 
-  mounted() {
-    // Apply focus on search input (as needed)
-    // this.autoFocusDropdownSearch();
-  },
-
   methods: {
     // --> HELPERS <--
 
     selectOption(option: Option): void {
-      console.log(option, option.value)
+      console.log(option, option.value);
       this.$emit("update:modelValue", option.value);
 
       // Hide dropdown selector
       this.hideDropdown();
-      
     },
 
     hideDropdown(): void {
@@ -522,12 +507,12 @@ $sizes: (
     border: $size-form-select-border-width solid rgba($color-black, 0.1);
     box-shadow: 0 2px 3px 0 rgba(var(--color-shadow-primary), 0.01);
     width: max-content;
-    
   }
 
   #{$c}__field,
-  #{$c}__options, #{$c}__option {
-    margin:0px;
+  #{$c}__options,
+  #{$c}__option {
+    margin: 0px;
 
     #{$c}__color-prev {
       height: 11px;
@@ -583,27 +568,25 @@ $sizes: (
       flex: 0 0 auto;
     }
 
-    width:max-content;
-    
+    width: max-content;
   }
 
   #{$c}__dropdown {
     overflow: hidden;
 
-    &--menu{
+    &--menu {
       position: absolute;
       inset-inline: 0;
     }
 
-    a{
+    a {
       border-radius: 0px;
     }
-
   }
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: 0; 
+    padding-block: 0;
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -685,7 +668,6 @@ $sizes: (
           }
         }
       }
-
     }
   }
 
@@ -698,13 +680,11 @@ $sizes: (
         font-size: map-get($size, "font-size");
       }
 
-      #{$c}__field #{$c}__inner
-      {
-        &--menu{
+      #{$c}__field #{$c}__inner {
+        &--menu {
           padding-inline-start: map-get($size, "padding-start");
           padding-inline-end: map-get($size, "padding-end");
         }
-
       }
 
       #{$c}__field {
@@ -783,9 +763,8 @@ $sizes: (
         border-end-end-radius: 0;
       }
 
-      #{$c}__dropdown{
+      #{$c}__dropdown {
         width: initial;
-
       }
     }
   }

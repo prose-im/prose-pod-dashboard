@@ -6,7 +6,7 @@
 
 import axios from "axios";
 
-class Connect {
+class APIConnect {
   /**  CONFIG  **/
 
   async initializeAccount(): Promise<void> {
@@ -39,4 +39,4 @@ class Connect {
   }
 }
 
-export default new Connect();
+export default new APIConnect();

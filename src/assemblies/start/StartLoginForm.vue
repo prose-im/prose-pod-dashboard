@@ -25,7 +25,7 @@
       class="a-start-login-form__field"
       type="email"
       name="jid"
-      placeholder="Enter your Prose address…"
+      placeholder="Enter your Prose admin address…"
       size="ultra-large"
       autofocus
     )
@@ -66,14 +66,10 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseProseLogo from "@/components/base/BaseProseLogo.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 import FormField from "@/components/form/FormField.vue";
-
-// PROJECT: STORES
-// import Store from "@/store";
 
 // INTERFACES
 export interface StateForm {
@@ -111,22 +107,13 @@ export default {
     };
   },
 
-  created() {
-    // Populate initial values
-    // this.form.jid = Store.$account.last.jid || "";
-  },
-
   methods: {
     // --> EVENT LISTENERS <--
 
     onSubmit(): void {
-      BaseAlert.error(
-        "Account credentials are invalid",
-        "Please check your password and try again"
-      );
-      //   this.$emit("submit", {
-      //     ...this.form
-      //   });
+      this.$emit("submit", {
+        ...this.form
+      });
     }
   }
 };

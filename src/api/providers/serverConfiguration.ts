@@ -12,7 +12,7 @@ import axios from "axios";
 
 const CONFIG_URL = "/server/config";
 
-class ServerConfiguration {
+class APIServerConfiguration {
   /**  MESSAGING  **/
 
   async resetMessagesConfig(): Promise<void> {
@@ -63,4 +63,4 @@ class ServerConfiguration {
   }
 }
 
-export default new ServerConfiguration();
+export default new APIServerConfiguration();

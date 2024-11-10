@@ -8,50 +8,40 @@
  * IMPORTS
  * ************************************************************************* */
 
-// NPM
-import { defineStore } from "pinia";
-
-// PROJECT: STORES
-import APILogin from "@/api/providers/login";
+// PROJECT: API
+import Api from "@/api";
 
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
-interface Account {
-  token: string | null;
+interface LoginResponse {
+  token: string;
 }
 
 /**************************************************************************
- * TABLE
+ * API
  * ************************************************************************* */
 
-const $account = defineStore("account", {
-  persist: true,
-
-  state: (): Account => {
-    return {
-      token: null
-    };
-  },
-
-  actions: {
-    async login(username: string, password: string): Promise<void> {
-      const { token } = await APILogin.login(username, password);
-
-      // TODO
-      console.error("==> got token = " + token);
-    },
-
-    async logout(purge = false) {
-      // TODO: clear cookies et al
-      throw new Error("Not implemented");
-    }
+class APILogin {
+  async login(username: string, password: string): Promise<LoginResponse> {
+    return (
+      await Api.client.post<LoginResponse>(
+        "/login",
+        {},
+        {
+          auth: {
+            username,
+            password
+          }
+        }
+      )
+    ).data;
   }
-});
+}
 
 /**************************************************************************
  * EXPORTS
  * ************************************************************************* */
 
-export default $account;
+export default new APILogin();

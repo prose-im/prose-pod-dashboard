@@ -6,7 +6,7 @@
 
 import axios from "axios";
 
-class Global {
+class APIGlobal {
   /**  CONFIG  **/
 
   async getServerConfig(): Promise<void> {
@@ -18,4 +18,4 @@ class Global {
   }
 }
 
-export default new Global();
+export default new APIGlobal();

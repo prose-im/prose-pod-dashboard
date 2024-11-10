@@ -13,7 +13,7 @@ import axios from "axios";
 
 const NETWORK_CHECK_URL = "/network/checks"; //// EFFACER ??
 
-class AdvancedNetwork {
+class APIAdvancedNetwork {
   /**  SERVER  **/
 
   /**  NETWORK  **/
@@ -26,4 +26,4 @@ class AdvancedNetwork {
   }
 }
 
-export default new AdvancedNetwork();
+export default new APIAdvancedNetwork();

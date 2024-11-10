@@ -6,7 +6,7 @@
 
 import axios from "axios";
 
-class TeamMembers {
+class APITeamMembers {
   /**  INVITATIONS  **/
 
   async getAllInvitations(): Promise<void> {
@@ -53,4 +53,4 @@ class TeamMembers {
   }
 }
 
-export default new TeamMembers();
+export default new APITeamMembers();

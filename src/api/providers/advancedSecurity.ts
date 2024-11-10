@@ -6,7 +6,7 @@
 
 import axios from "axios";
 
-export class CustomizationWorkspace {
+export class APIAdvancedSecurity {
   /**  CONFIG  **/
 
   async getWorkspaceConfig(): Promise<void> {
@@ -58,4 +58,4 @@ export class CustomizationWorkspace {
   }
 }
 
-export default new CustomizationWorkspace();
+export default new APIAdvancedSecurity();

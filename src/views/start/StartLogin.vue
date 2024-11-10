@@ -19,8 +19,6 @@
       :loading="isFormLoading"
       class="v-start-login__form"
     )
-
-  .v-start-login__background
 </template>
 
 <!-- **********************************************************************
@@ -34,6 +32,7 @@ import StartLoginForm, {
 } from "@/assemblies/start/StartLoginForm.vue";
 
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 
 // PROJECT: STORES
@@ -65,7 +64,17 @@ export default {
         // Mark as loading
         this.isFormLoading = true;
 
-        // TODO
+        try {
+          // Login to account
+          await Store.$account.login(form.jid, form.password);
+        } catch (error) {
+          BaseAlert.error(
+            "Could not log in",
+            "Check your credentials and try again"
+          );
+        } finally {
+          this.isFormLoading = false;
+        }
       }
     }
   }
@@ -95,14 +104,10 @@ $c: ".v-start-login";
     left: 46px;
   }
 
-  #{$c}__box,
-  #{$c}__background {
-    pointer-events: none;
-  }
-
   #{$c}__box {
     background-color: $color-white;
     border: 1px solid rgba($color-base-purple-light, 0.35);
+    pointer-events: none;
     border-radius: 18px;
     backdrop-filter: blur(20px);
     box-shadow: 0 2px 4px 0 rgba($color-black, 0.03);
@@ -124,17 +129,6 @@ $c: ".v-start-login";
     }
   }
 
-  #{$c}__background {
-    background-image: url("/images/views/start/StartLogin/background-wave.svg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.7;
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
   // --> CONTEXTS <--
 
   &--context-application {
@@ -142,10 +136,6 @@ $c: ".v-start-login";
       background-color: transparent;
       border-block: 0 none;
       backdrop-filter: none;
-    }
-
-    #{$c}__background {
-      background-image: none;
     }
   }
 

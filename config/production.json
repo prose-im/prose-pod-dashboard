@@ -1,3 +1,7 @@
 {
-  "environment": "production"
+  "environment": "production",
+
+  "api": {
+    "endpoint": "/api/v1/"
+  }
 }

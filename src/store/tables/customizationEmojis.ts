@@ -17,7 +17,7 @@ import { defineStore } from "pinia";
 
 // PROJECT: STORES
 import Store from "@/store";
-import customizationReactions from "@/api/customizationReactions";
+import customizationReactions from "@/api/providers/customizationReactions";
 
 /**************************************************************************
  * TYPES
@@ -30,16 +30,16 @@ type EmojiList = Array<EmojiListEntry>;
  * ************************************************************************* */
 
 interface EmojiListEntry {
-    id: string,
-    imageUrl: string,
-    shortcut: string,
-    date: string,
-    contributor: string,
-    contributorAvatar: string
-};
+  id: string;
+  imageUrl: string;
+  shortcut: string;
+  date: string;
+  contributor: string;
+  contributorAvatar: string;
+}
 
-interface Emojis{
-  emojisList: EmojiList
+interface Emojis {
+  emojisList: EmojiList;
 }
 
 /**************************************************************************
@@ -68,28 +68,34 @@ const $customizationEmojis = defineStore("room", {
       emojisList: [
         {
           id: "29684b21-e799-4aa9-b475-d307493a7719",
-          imageUrl:"https://i.pinimg.com/736x/24/0d/22/240d22bf3aeda750fca5c00d2dfbf72a.jpg",
-          shortcut:":excellent:",
-          date:"11 November 2012",
+          imageUrl:
+            "https://i.pinimg.com/736x/24/0d/22/240d22bf3aeda750fca5c00d2dfbf72a.jpg",
+          shortcut: ":excellent:",
+          date: "11 November 2012",
           contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+          contributorAvatar:
+            "https://avatars.githubusercontent.com/u/1451907?v=4"
         },
         {
           id: "ec30d684-5d54-42fb-834e-cc0a192f021f",
-          imageUrl:"https://emojis.slackmojis.com/emojis/images/1693897448/68276/1000046743.jpg?1693897448",
-          shortcut:":excellent:",
-          date:"11 November 2012",
+          imageUrl:
+            "https://emojis.slackmojis.com/emojis/images/1693897448/68276/1000046743.jpg?1693897448",
+          shortcut: ":excellent:",
+          date: "11 November 2012",
           contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
+          contributorAvatar:
+            "https://avatars.githubusercontent.com/u/1451907?v=4"
         },
         {
           id: "2b74c4f2-7010-411d-bc42-4ca88b2495d2",
-          imageUrl:"https://emojis.slackmojis.com/emojis/images/1697828273/71257/1000057723q.gif?1697828273",
-          shortcut:":excellent:",
-          date:"11 November 2012",
+          imageUrl:
+            "https://emojis.slackmojis.com/emojis/images/1697828273/71257/1000057723q.gif?1697828273",
+          shortcut: ":excellent:",
+          date: "11 November 2012",
           contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-        },
+          contributorAvatar:
+            "https://avatars.githubusercontent.com/u/1451907?v=4"
+        }
       ]
     };
   },
@@ -99,7 +105,7 @@ const $customizationEmojis = defineStore("room", {
       return (): Array<SidebarItem> => {
         return this.emojisList;
       };
-    },
+    }
   },
 
   actions: {
@@ -112,7 +118,7 @@ const $customizationEmojis = defineStore("room", {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions: Array<EmojiListEntry> = []
+        const allReactions: Array<EmojiListEntry> = [];
 
         // Load rooms
         const sidebarItems = await customizationReactions.getAllReactions();
@@ -123,18 +129,18 @@ const $customizationEmojis = defineStore("room", {
     },
 
     addReaction(reaction: EmojiListEntry): void {
-      console.log('hey hey')
+      console.log("hey hey");
       this.emojisList.push(reaction);
       // customizationReactions.addReaction(reaction);
       // loadReactions(true):
     },
 
     deleteReaction(reactionId: string): void {
-      customizationReactions.deleteReactionById(reactionId)
+      customizationReactions.deleteReactionById(reactionId);
     },
 
     updateReaction(reactionId: string, newReaction: EmojiListEntry) {
-      customizationReactions.updateReactionById(reactionId, newReaction)
+      customizationReactions.updateReactionById(reactionId, newReaction);
     }
   }
 });
@@ -142,5 +148,5 @@ const $customizationEmojis = defineStore("room", {
 /**************************************************************************
  * EXPORTS
  * ************************************************************************* */
-export type { EmojiListEntry }
+export type { EmojiListEntry };
 export default $customizationEmojis;

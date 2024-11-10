@@ -25,6 +25,10 @@ import productionConfig from "./config/production";
 
 interface Configuration {
   environment: string;
+
+  api: {
+    endpoint: string;
+  };
 }
 
 /**************************************************************************

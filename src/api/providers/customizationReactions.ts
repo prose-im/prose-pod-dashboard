@@ -13,7 +13,7 @@ import axios from "axios";
 
 const REACTIONS_URL = "/workspace/reactions";
 
-class CustomizationReactions {
+class APICustomizationReactions {
   /**  REACTIONS  **/
 
   async getAllReactions(): Promise<void> {
@@ -46,4 +46,4 @@ class CustomizationReactions {
   }
 }
 
-export default new CustomizationReactions();
+export default new APICustomizationReactions();
