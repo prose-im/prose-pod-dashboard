@@ -61,8 +61,6 @@ const LOCAL_STATES = {
  * ************************************************************************* */
 
 const $customizationEmojis = defineStore("room", {
-  persist: false,
-
   state: (): Emojis => {
     return {
       emojisList: [

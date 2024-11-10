@@ -64,9 +64,6 @@ const ADJACENT_ITEMS_THRESHOLD = 20;
  * ************************************************************************* */
 
 const $history = defineStore("history", {
-  // Important: DO NOT persist this store, as it contains history-related data.
-  persist: false,
-
   state: (): History => {
     return {
       current: {

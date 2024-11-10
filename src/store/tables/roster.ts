@@ -103,8 +103,6 @@ const EventBus = mitt();
  * ************************************************************************* */
 
 const $roster = defineStore("roster", {
-  persist: false,
-
   state: (): Roster => {
     return {
       contacts: {

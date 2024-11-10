@@ -34,9 +34,6 @@ const EventBus = mitt();
  * ************************************************************************* */
 
 const $settingsNetwork = defineStore("settingsNetwork", {
-  // Important: DO NOT persist this store, as it contains session-related data.
-  // persist: false,
-
   state: () => {
     return {
       externalServerPermission: true,

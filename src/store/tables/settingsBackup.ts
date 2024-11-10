@@ -28,13 +28,13 @@ import mitt from "mitt";
  * ************************************************************************* */
 
 interface Backup {
-  frequency: string,
-  time: string,
+  frequency: string;
+  time: string;
 }
 
 interface BackupSettings {
-  podBackup: Backup,
-  userDataBackup: Backup,
+  podBackup: Backup;
+  userDataBackup: Backup;
 }
 
 /**************************************************************************
@@ -56,18 +56,16 @@ const LOCAL_STATES = {
  * ************************************************************************* */
 
 const $settingsBackup = defineStore("settingsBackup", {
-  persist: false,
-
   state: (): BackupSettings => {
     return {
-      podBackup:{
-        frequency: '',
-        time: '',
+      podBackup: {
+        frequency: "",
+        time: ""
       },
 
-      userDataBackup:{
-        frequency: '',
-        time: '',
+      userDataBackup: {
+        frequency: "",
+        time: ""
       }
     };
   },

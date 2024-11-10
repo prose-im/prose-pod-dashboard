@@ -19,30 +19,28 @@ import ServerConfiguration from "@/api/serverConfiguration";
  * ENUMERATIONS
  * ************************************************************************* */
 
-
 /**************************************************************************
  * TYPES
  * ************************************************************************* */
-
 
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface ServerConfig {
-  messaging: MessagingConfig,
-  files: FilesConfig 
+  messaging: MessagingConfig;
+  files: FilesConfig;
 }
 
 interface MessagingConfig {
-  archiveEnabled: boolean,
-  messageRetentionTime: string,
+  archiveEnabled: boolean;
+  messageRetentionTime: string;
 }
 
 interface FilesConfig {
-  fileUploadEnabled: boolean,
-  encryption: string,
-  fileRetentionTime: string,
+  fileUploadEnabled: boolean;
+  encryption: string;
+  fileRetentionTime: string;
 }
 
 /**************************************************************************
@@ -52,31 +50,21 @@ interface FilesConfig {
 const EventBus = mitt();
 
 /**************************************************************************
- * CONSTANTS
- * ************************************************************************* */
-
-const LOCAL_STATES = {
-  loaded: false
-};
-
-/**************************************************************************
  * TABLE
  * ************************************************************************* */
 
 const $serverConfiguration = defineStore("serverConfiguration", {
-  persist: false,
-
   state: (): ServerConfig => {
     return {
       messaging: {
         archiveEnabled: false,
-        messageRetentionTime: "1 year",
+        messageRetentionTime: "1 year"
       },
 
       files: {
         fileUploadEnabled: true,
         encryption: "Encrypted (AES-256)",
-        fileRetentionTime: "1 year",
+        fileRetentionTime: "1 year"
       }
     };
   },
@@ -87,8 +75,8 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         return {
           messaging: this.messaging,
           files: this.files
-        }
-      }
+        };
+      };
     }
   },
 
@@ -98,31 +86,31 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       return EventBus;
     },
 
-    toggleMessageArchiveEnabled():void {
+    toggleMessageArchiveEnabled(): void {
       // ServerConfiguration.updateMessageArchiveEnabled(!this.messaging.archiveEnabled);
       this.messaging.archiveEnabled = !this.messaging.archiveEnabled;
     },
 
-    changeMessageRetentionTime(newTime: string):void {
+    changeMessageRetentionTime(newTime: string): void {
       // ServerConfiguration.updateMessageRetentionTime(newTime);
       this.messaging.messageRetentionTime = newTime;
     },
 
-    toggleFileUploadEnabled():void {
+    toggleFileUploadEnabled(): void {
       // ServerConfiguration.updateMessageArchiveEnabled(!this.messaging.archiveEnabled);
       this.files.fileUploadEnabled = !this.files.fileUploadEnabled;
     },
 
-    changeFileEncryption(newEncryption: string):void {
+    changeFileEncryption(newEncryption: string): void {
       // ServerConfiguration.updateMessageRetentionTime(newTime);
       this.files.encryption = newEncryption;
-      console.log('toggled');
+      console.log("toggled");
     },
 
-    changeFileRetentionTime(newTime: string):void {
+    changeFileRetentionTime(newTime: string): void {
       // ServerConfiguration.updateMessageRetentionTime(newTime);
       this.files.fileRetentionTime = newTime;
-    },
+    }
   }
 });
 
@@ -130,6 +118,6 @@ const $serverConfiguration = defineStore("serverConfiguration", {
  * EXPORTS
  * ************************************************************************* */
 
-export {  };
+export {};
 export type { ServerConfig, MessagingConfig, FilesConfig };
 export default $serverConfiguration;

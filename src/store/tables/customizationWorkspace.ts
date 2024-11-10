@@ -69,8 +69,6 @@ const LOCAL_STATES = {
  * ************************************************************************* */
 
 const $customizationWorkspace = defineStore("customizationWorkspace", {
-  persist: false,
-
   state: (): CustomizationWorkspaceConfig => {
     return {
       workspaceProfile: {

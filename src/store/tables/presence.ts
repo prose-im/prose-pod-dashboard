@@ -58,8 +58,6 @@ const EventBus = mitt();
  * ************************************************************************* */
 
 const $presence = defineStore("presence", {
-  persist: false,
-
   state: (): Presence => {
     return {
       requests: []
