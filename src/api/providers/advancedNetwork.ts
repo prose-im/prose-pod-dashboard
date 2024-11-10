@@ -4,26 +4,43 @@
  * Copyright 2024, Prose Foundation
  */
 
-import { EmojiListEntry } from "@/store/tables/customizationEmojis";
-import axios from "axios";
-
 /**************************************************************************
- * CONSTANTS
+ * IMPORTS
  * ************************************************************************* */
 
-const NETWORK_CHECK_URL = "/network/checks"; //// EFFACER ??
+// PROJECT: API
+import Api from "@/api";
+
+/**************************************************************************
+ * INTERFACES
+ * ************************************************************************* */
+
+interface DNSRecordsResponse {
+  /* TODO: fill me! */
+  _keyToReplace: string;
+}
+
+interface AllNetworkChecksResponse {
+  /* TODO: fill me! */
+  _keyToReplace: string;
+}
+
+/**************************************************************************
+ * API
+ * ************************************************************************* */
 
 class APIAdvancedNetwork {
-  /**  SERVER  **/
-
-  /**  NETWORK  **/
-  async getDnsRecords(): Promise<void> {
-    await axios.get(`/network/dns/records`);
+  async getDnsRecords(): Promise<DNSRecordsResponse> {
+    return (await Api.client.get(`/network/dns/records`)).data;
   }
 
-  async getAllNetworkChecks(): Promise<void> {
-    await axios.get(`/network/checks`);
+  async getAllNetworkChecks(): Promise<AllNetworkChecksResponse> {
+    return (await Api.client.get(`/network/checks`)).data;
   }
 }
+
+/**************************************************************************
+ * EXPORTS
+ * ************************************************************************* */
 
 export default new APIAdvancedNetwork();

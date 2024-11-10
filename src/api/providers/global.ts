@@ -4,18 +4,45 @@
  * Copyright 2024, Prose Foundation
  */
 
-import axios from "axios";
+/**************************************************************************
+ * IMPORTS
+ * ************************************************************************* */
+
+// PROJECT: API
+import Api from "@/api";
+
+/**************************************************************************
+ * INTERFACES
+ * ************************************************************************* */
+
+interface ServerConfigResponse {
+  /* TODO: fill me! */
+  _keyToReplace: string;
+}
+
+interface DefaultServerConfigResponse {
+  /* TODO: fill me! */
+  _keyToReplace: string;
+}
+
+/**************************************************************************
+ * API
+ * ************************************************************************* */
 
 class APIGlobal {
   /**  CONFIG  **/
 
-  async getServerConfig(): Promise<void> {
-    await axios.get(`/server/config`); // global config??
+  async getServerConfig(): Promise<ServerConfigResponse> {
+    return (await Api.client.get(`/server/config`)).data; // global config??
   }
 
-  async getDefaultServerConfig(): Promise<void> {
-    await axios.put(`/server/config`);
+  async getDefaultServerConfig(): Promise<DefaultServerConfigResponse> {
+    return (await Api.client.put(`/server/config`)).data;
   }
 }
+
+/**************************************************************************
+ * EXPORTS
+ * ************************************************************************* */
 
 export default new APIGlobal();
