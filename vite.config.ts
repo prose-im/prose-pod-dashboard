@@ -78,6 +78,20 @@ const CONFIG: Configuration = (function () {
  * ************************************************************************* */
 
 export default defineConfig({
+  logLevel: "info",
+
+  server: {
+    host: "localhost",
+    port: 3030,
+    strictPort: true
+  },
+
+  preview: {
+    host: "localhost",
+    port: 3040,
+    strictPort: true
+  },
+
   resolve: {
     alias: [{ find: "@/", replacement: path.join(__dirname, "src/") }]
   },
