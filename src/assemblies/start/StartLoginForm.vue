@@ -50,14 +50,6 @@
       tint="purple"
     )
       | Access Prose server dashboard
-
-    .a-start-login-form__options
-      .a-start-login-form__options-left
-
-      .a-start-login-form__options-right
-        a.a-start-login-form__options-recover
-          | Forgot password?
-
 </template>
 
 <!-- **********************************************************************
@@ -129,7 +121,6 @@ $c: ".a-start-login-form";
 #{$c} {
   font-family: $font-family-default;
   width: 100%;
-  max-width: 440px;
 
   #{$c}__logo {
     margin-block: 0;
@@ -152,34 +143,6 @@ $c: ".a-start-login-form";
 
     #{$c}__button {
       margin-block-start: 30px;
-    }
-
-    #{$c}__options {
-      font-size: ($font-size-baseline + 2px);
-      margin-block-start: 37px;
-      padding-block: 0;
-      padding-inline: 12px;
-      display: flex;
-      align-items: center;
-
-      #{$c}__options-left {
-        flex: 1;
-        padding-inline-end: 6px;
-        font-weight: $font-weight-medium;
-      }
-
-      #{$c}__options-right {
-        flex: 0 0 auto;
-      }
-
-      #{$c}__options-recover {
-        color: $color-text-primary;
-        pointer-events: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
     }
   }
 }
