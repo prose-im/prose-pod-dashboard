@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
     TEMPLATE
@@ -44,15 +44,15 @@
             fill="#949EB1"
           )
 </template>
-    
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import FormField from '@/components/form/FormField.vue';
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import FormField from "@/components/form/FormField.vue";
 
 export default {
   name: "SearchBar",
@@ -64,20 +64,20 @@ export default {
   },
 
   props: {
-    buttonLabel:{
-      type:String,
-      required:true
+    buttonLabel: {
+      type: String,
+      required: true
     },
 
-    clickHandle:{
+    clickHandle: {
       type: Function,
-      required:true
+      required: true
     },
 
     placeholderText: {
       type: String,
-      default: ''
-    },
+      default: ""
+    }
   },
 
   emits: ["addContact"],
@@ -85,28 +85,21 @@ export default {
   data() {
     return {
       // --> STATE <--
-
     };
   },
 
-  computed: {
+  computed: {},
 
-  },
+  watch: {},
 
-  watch: {
-
-  },
-
-  created() {
-    
-  },
+  created() {},
 
   methods: {
     // --> HELPERS <--
   }
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
@@ -126,10 +119,10 @@ $c: ".c-search-bar";
     position: relative;
   }
 
-  #{$c}__magnifying{
+  #{$c}__magnifying {
     position: absolute;
     left: 21px;
-    top:35.5%;
+    top: 35.5%;
     z-index: 10;
   }
 
@@ -143,9 +136,7 @@ $c: ".c-search-bar";
   }
 
   #{$c}__more {
-    margin-left:8px ;
+    margin-left: 8px;
   }
-
-
 }
 </style>

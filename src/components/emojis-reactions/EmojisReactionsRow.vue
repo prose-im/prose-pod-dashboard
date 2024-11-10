@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
     TEMPLATE
@@ -39,9 +39,9 @@
       class="c-emojis-reactions-row__image"
     )
       | {{ tableHeaders[0] }}
-    
+
     <!-- 3rd column -->
-    .c-emojis-reactions-row__shortcut 
+    .c-emojis-reactions-row__shortcut
         p.c-emojis-reactions-row--medium-bold {{ emojiData.shortcut }}
 
         p(
@@ -78,10 +78,10 @@
         :avatarDataUrl="emojiData.contributorAvatar"
         size="22px"
       )
-      
+
       p
         | {{ emojiData.contributor }}
-        
+
     p(
       v-else
     )
@@ -101,18 +101,18 @@
           fill="#949EB1"
         )
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from '@/components/base/BaseAvatar.vue';
-import BaseBadge from '@/components/base/BaseBadge.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import FormCheckbox from '@/components/form/FormCheckbox.vue';
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseBadge from "@/components/base/BaseBadge.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "EmojisReactionsRow",
@@ -122,17 +122,16 @@ export default {
     BaseBadge,
     BaseButton,
     BaseIcon,
-    FormCheckbox,
+    FormCheckbox
   },
 
   props: {
-
-    emojiData:{
-      type: Object ,
+    emojiData: {
+      type: Object,
       required: true
     },
 
-    tableHeaders:{
+    tableHeaders: {
       type: Array,
       default: null
     }
@@ -154,7 +153,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -190,7 +189,7 @@ $c: ".c-emojis-reactions-row";
     min-width: 210px;
     font-weight: $font-weight-light;
 
-    &--header{
+    &--header {
       font-weight: $font-weight-regular;
       min-width: 210px;
     }
@@ -207,17 +206,16 @@ $c: ".c-emojis-reactions-row";
     }
   }
 
-
   #{$c}__parameters {
     margin-bottom: 1px;
 
     &--button {
-      margin:0;
+      margin: 0;
       padding-inline: 18px;
     }
   }
 
-  p{
+  p {
     margin-block: 0;
   }
 
@@ -234,22 +232,21 @@ $c: ".c-emojis-reactions-row";
     color: $color-text-secondary;
   }
 
-
   &--header {
-    color: $color-text-secondary; 
+    color: $color-text-secondary;
     font-size: ($font-size-baseline - 1px);
     font-weight: $font-weight-mid;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 
-    p{
+    p {
       line-height: 13px;
       margin-block: 11px;
     }
   }
 
   //<!-- COLORS -->
-  &--yellow{
+  &--yellow {
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
   }

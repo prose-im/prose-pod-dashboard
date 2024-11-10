@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
     TEMPLATE
@@ -40,20 +40,20 @@ invite-team-member(
   :visibility="modalIsVisible"
   @close="toggleModalVisible"
   @proceed="onSendInvite"
-)   
+)
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
-import InviteTeamMember from '@/assemblies/modals/members/InviteTeamMember.vue';
-import MembersInvitesRow from '@/components/members-invites/MembersInvitesRow.vue';
-import SearchBar from '@/components/search/SearchBar.vue';
-import store from '@/store';
+import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
+import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
+import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
+import SearchBar from "@/components/search/SearchBar.vue";
+import store from "@/store";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -62,12 +62,12 @@ export default {
     BaseNavigationFooter,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar,
+    SearchBar
   },
 
   props: {
-    label:{
-      type:String,
+    label: {
+      type: String,
       required: true
     }
   },
@@ -79,53 +79,54 @@ export default {
       // --> STATE <--
       modalIsVisible: false,
 
-      messagingItems:[
+      messagingItems: [
         {
-          subtitle:"Store archives of all messages",
-          description: "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type:"toggle"
+          subtitle: "Store archives of all messages",
+          description:
+            "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
+          type: "toggle"
         },
         {
           subtitle: "Message archive retention time",
-          description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type:"button",
-          typeProps:{
-            label:"Edit details...",
-            size:"medium"
+          description:
+            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+          type: "button",
+          typeProps: {
+            label: "Edit details...",
+            size: "medium"
           }
         },
         {
           subtitle: "Message archive retention time",
-          description: "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
-          type:"select",
-          typeProps:{
-            options:[
+          description:
+            "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+          type: "select",
+          typeProps: {
+            options: [
               {
-                icon:"",
-                label:"1 year"
-              }, 
+                icon: "",
+                label: "1 year"
+              },
               {
-                icon:"",
-                label:"2 years"
+                icon: "",
+                label: "2 years"
               }
             ],
-            size:"medium"
+            size: "medium"
           }
         }
-      ],
-
+      ]
     };
   },
 
   computed: {
-    members(){
+    members() {
       return store.$teamMembers.getMemberList();
     },
 
-    invites(){
+    invites() {
       return store.$teamMembers.getInviteList();
     }
-
   },
 
   watch: {},
@@ -134,12 +135,10 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
-    toggleModalVisible(){
+    toggleModalVisible() {
       this.modalIsVisible = !this.modalIsVisible;
-    },
-
-
-  },
+    }
+  }
 };
 </script>
 
@@ -157,7 +156,6 @@ $c: ".c-members-invites-dashboard";
   justify-content: space-between;
 
   #{$c}__users {
-
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }

@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
      TEMPLATE
@@ -20,7 +20,7 @@
     router-view
 
 </template>
-    
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
@@ -31,12 +31,11 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import DashboardMain from "@/components/dashboard/DashboardMain.vue";
 
 export default {
-
   components: {
     BaseAlert,
-    DashboardMain,
-  },
-}
+    DashboardMain
+  }
+};
 </script>
 
 <!-- **********************************************************************
@@ -47,20 +46,20 @@ export default {
 $c: ".s-app";
 
 #{$c} {
- background-color: $color-white;
- color: $color-black;
- user-select: none;
- margin: 0;
- padding: 0;
- display: flex;
- overflow: clip;
- position: absolute;
- inset: 0;
+  background-color: $color-white;
+  color: $color-black;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  overflow: clip;
+  position: absolute;
+  inset: 0;
 
- // --> BOOLEANS <--
+  // --> BOOLEANS <--
 
- &--translucent {
-   background-color: transparent;
- }
+  &--translucent {
+    background-color: transparent;
+  }
 }
 </style>

@@ -1,15 +1,21 @@
-import axios from 'axios';
+/*
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ */
+
+import axios from "axios";
 
 class Global {
-  /**  CONFIG  **/ 
+  /**  CONFIG  **/
 
   async getServerConfig(): Promise<void> {
     await axios.get(`/server/config`); // global config??
   }
-  
+
   async getDefaultServerConfig(): Promise<void> {
-    await axios.put(`/server/config`); 
+    await axios.put(`/server/config`);
   }
 }
 
-export default new Global;
+export default new Global();

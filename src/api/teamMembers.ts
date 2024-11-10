@@ -1,65 +1,56 @@
-import axios from 'axios';
+/*
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ */
+
+import axios from "axios";
 
 class TeamMembers {
-  /**  INVITATIONS  **/ 
+  /**  INVITATIONS  **/
 
   async getAllInvitations(): Promise<void> {
     // Attempt connecting (this might fail, eg. wrong credentials)
-    await axios.get('/invitations');
+    await axios.get("/invitations");
   }
 
-  async sendInvitation(
-    email: string
-  ): Promise<void> {
+  async sendInvitation(email: string): Promise<void> {
     // Attempt connecting (this might fail, eg. wrong credentials)
-    await axios.post('/invitations', {
+    await axios.post("/invitations", {
       email
     });
   }
 
-  async resendInvitation(
-    invitationId: string
-  ): Promise<void> {
+  async resendInvitation(invitationId: string): Promise<void> {
     // Attempt connecting (this might fail, eg. wrong credentials)
     await axios.post(`/invitations/${invitationId}/resend`);
-
   }
 
-  async cancelInvitation(
-    invitationId: string
-  ): Promise<void> {
+  async cancelInvitation(invitationId: string): Promise<void> {
     await axios.delete(`/invitations/${invitationId}`);
   }
 
-  /**  MEMBERS  **/ 
+  /**  MEMBERS  **/
 
   async getAllMembers(): Promise<void> {
-    await axios.get('/members');
+    await axios.get("/members");
   }
 
-  async getMemberById(
-    memberId: number
-  ): Promise<void> {
+  async getMemberById(memberId: number): Promise<void> {
     await axios.get(`/members/${memberId}`);
-  }  
+  }
 
-  async updateMemberMfa(
-    memberId: number,
-    mfa: boolean
-  ): Promise<void> {
+  async updateMemberMfa(memberId: number, mfa: boolean): Promise<void> {
     await axios.put(`/members/${memberId}/mfa`, {
       mfa
     });
-  }  
+  }
 
-  async updateMemberRole(
-    memberId: number,
-    role: string
-  ): Promise<void> {
+  async updateMemberRole(memberId: number, role: string): Promise<void> {
     await axios.put(`/members/${memberId}/role`, {
       role
     });
-  }  
+  }
 }
 
 export default new TeamMembers();

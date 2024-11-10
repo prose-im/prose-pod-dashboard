@@ -1,18 +1,20 @@
-import axios from 'axios';
+/*
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ */
+
+import axios from "axios";
 
 class Login {
-
-  async authenticate(
-    password: string,
-    attemptOnceOnly = false
-  ): Promise<void> {
+  async authenticate(password: string, attemptOnceOnly = false): Promise<void> {
     // Incomplete parameters?
     if (!password) {
       throw new Error("Please provide a password");
     }
 
     // Attempt connecting (this might fail, eg. wrong credentials)
-    await axios.post('/login', {
+    await axios.post("/login", {
       password
     });
 
@@ -20,7 +22,7 @@ class Login {
     if (attemptOnceOnly === true) {
       // doStoreCredentials();
     }
-  
+
     // // Another connection active?
     // if (
     //   Store.$session.connected === true ||
@@ -44,7 +46,7 @@ class Login {
     // // Store credentials BEFORE attempting to connect? (this allows retries)
     // if (attemptOnceOnly !== true) {
     //   doStoreCredentials();
-    }
+  }
 }
 
 export default new Login();

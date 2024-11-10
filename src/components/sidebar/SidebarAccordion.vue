@@ -19,13 +19,13 @@
       :accordion="true"
     )
 </template>
-    
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
-import FormSelectAccordion from '@/components/form/FormSelectAccordion.vue';
+import FormSelectAccordion from "@/components/form/FormSelectAccordion.vue";
 
 export default {
   name: "SidebarAccordion",
@@ -54,24 +54,18 @@ export default {
     };
   },
 
-  computed: {
+  computed: {},
 
-  },
+  watch: {},
 
-  watch: {
-
-  },
-
-  created() {
-    
-  },
+  created() {},
 
   methods: {
     // --> HELPERS <--
   }
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->

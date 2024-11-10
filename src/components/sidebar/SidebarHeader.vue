@@ -9,7 +9,7 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-header 
+  .c-sidebar-header
     base-icon(
       name="logo"
       size="20.5px"
@@ -20,52 +20,44 @@
     base-identity-badge
 
 </template>
-    
+
 <!-- **********************************************************************
   SCRIPT
   ********************************************************************** -->
-  
+
 <script lang="ts">
 //COMPINENTS
-import BaseIcon from '@/components/base/BaseIcon.vue'
-import BaseIdentityBadge from '@/components/base/BaseIdentityBadge.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 
 export default {
-name: "SidebarHeader",
+  name: "SidebarHeader",
 
-components: {
-  BaseIcon,
-  BaseIdentityBadge
-},
+  components: {
+    BaseIcon,
+    BaseIdentityBadge
+  },
 
-props: {
-},
+  props: {},
 
-data() {
-  return {
-    // --> STATE <--
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
 
-  };
-},
+  computed: {},
 
-computed: {
+  watch: {},
 
-},
+  created() {},
 
-watch: {
-
-},
-
-created() {
-  
-},
-
-methods: {
-  // --> HELPERS <--
-}
+  methods: {
+    // --> HELPERS <--
+  }
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
@@ -76,5 +68,4 @@ $c: ".c-sidebar-header";
 #{$c} {
   margin-bottom: 45px;
 }
-
 </style>

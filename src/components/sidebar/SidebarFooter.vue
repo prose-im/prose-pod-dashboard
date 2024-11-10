@@ -28,56 +28,48 @@
         | Logout
 
 </template>
-    
+
 <!-- **********************************************************************
   SCRIPT
   ********************************************************************** -->
-  
+
 <script lang="ts">
 //COMPINENTS
-import BaseAvatar from '@/components/base/BaseAvatar.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseBadge from '@/components/base/BaseBadge.vue';
-import FormSelect from '@/components/form/FormSelect.vue';
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseBadge from "@/components/base/BaseBadge.vue";
+import FormSelect from "@/components/form/FormSelect.vue";
 
 export default {
-name: "SidebarAccordion",
+  name: "SidebarAccordion",
 
-components: {
-  BaseAvatar,
-  BaseBadge,
-  BaseButton,
-  FormSelect
-},
+  components: {
+    BaseAvatar,
+    BaseBadge,
+    BaseButton,
+    FormSelect
+  },
 
-props: {
-},
+  props: {},
 
-data() {
-  return {
-    // --> STATE <--
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
 
-  };
-},
+  computed: {},
 
-computed: {
+  watch: {},
 
-},
+  created() {},
 
-watch: {
-
-},
-
-created() {
-  
-},
-
-methods: {
-  // --> HELPERS <--
-}
+  methods: {
+    // --> HELPERS <--
+  }
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
@@ -94,15 +86,15 @@ $c: ".c-sidebar-footer";
   }
 
   #{$c}__center {
-    text-align:left;
-    margin-right:51px;
+    text-align: left;
+    margin-right: 51px;
     p {
       margin-top: 0px;
       margin-bottom: 5.5px;
       font-weight: $font-weight-medium;
       font-size: ($font-size-baseline - 1.5px);
       font-family: $font-family-default;
-      line-height:11px;
+      line-height: 11px;
     }
   }
 }

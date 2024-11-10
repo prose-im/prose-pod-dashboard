@@ -1,16 +1,22 @@
-import { EmojiListEntry } from '@/store/tables/customizationEmojis';
-import axios from 'axios';
+/*
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ */
+
+import { EmojiListEntry } from "@/store/tables/customizationEmojis";
+import axios from "axios";
 
 /**************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
-const NETWORK_CHECK_URL = '/network/checks'; //// EFFACER ??
+const NETWORK_CHECK_URL = "/network/checks"; //// EFFACER ??
 
 class AdvancedNetwork {
-  /**  SERVER  **/ 
+  /**  SERVER  **/
 
-  /**  NETWORK  **/ 
+  /**  NETWORK  **/
   async getDnsRecords(): Promise<void> {
     await axios.get(`/network/dns/records`);
   }

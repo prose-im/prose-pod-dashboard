@@ -1,14 +1,14 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
   TEMPLATE
   ********************************************************************** -->
 
-  <!-- v-click-away="onClickAway" -->
+<!-- v-click-away="onClickAway" -->
 
 <template lang="pug">
 div(
@@ -84,7 +84,7 @@ div(
 
 <script lang="ts">
 // NPM
-import {keycode as keyCodes} from "keycode";
+import { keycode as keyCodes } from "keycode";
 
 // PROJECT: COMPONENTS
 // import {
@@ -518,7 +518,7 @@ export default {
 
       // Propagate focus event
       this.$emit("focus", false);
-    },
+    }
 
     // onSuggestSelect(suggestion: FormFieldSuggestSuggestion): void {
     //   this.clearAllSuggestions();

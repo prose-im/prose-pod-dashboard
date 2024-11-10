@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
     TEMPLATE
@@ -37,18 +37,18 @@ add-custom-emoji(
   @confirm=""
 )
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import AddCustomEmoji from '@/assemblies/modals/customization/AddCustomEmoji.vue';
-import BaseNavigationFooter from '@/components/base/BaseNavigationFooter.vue';
-import EmojisReactionsRow from '@/components/emojis-reactions/EmojisReactionsRow.vue';
-import SearchBar from '@/components/search/SearchBar.vue';
-import store from '@/store';
+import AddCustomEmoji from "@/assemblies/modals/customization/AddCustomEmoji.vue";
+import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
+import EmojisReactionsRow from "@/components/emojis-reactions/EmojisReactionsRow.vue";
+import SearchBar from "@/components/search/SearchBar.vue";
+import store from "@/store";
 
 export default {
   name: "EmojisReactionDashboard",
@@ -60,20 +60,19 @@ export default {
     SearchBar
   },
 
-  props: {
-  },
+  props: {},
 
   emits: [],
 
   data() {
     return {
       // --> STATE <--
-      isModalVisible:false,
+      isModalVisible: false
     };
   },
 
   computed: {
-    emojis(){
+    emojis() {
       return store.$customizationEmojis.getEmojiList();
     }
   },
@@ -84,13 +83,13 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
-    toggleModalVisible(){
+    toggleModalVisible() {
       this.isModalVisible = !this.isModalVisible;
     },
 
     onInvitePeopleClick(event: Event): void {
-      this.toggleModalVisible()
-    },
+      this.toggleModalVisible();
+    }
   }
 };
 </script>

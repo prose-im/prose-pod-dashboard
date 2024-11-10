@@ -1,8 +1,8 @@
 <!--
-* This file is part of prose-pod-dashboard
-*
-* Copyright 2024, Prose Foundation
--->
+ * This file is part of prose-pod-dashboard
+ *
+ * Copyright 2024, Prose Foundation
+ -->
 
 <!-- **********************************************************************
     TEMPLATE
@@ -37,9 +37,9 @@
       ]`
       :avatarDataUrl="userData.picture"
     )
-    
+
     <!-- 3rd column -->
-    .c-members-invites-row__user 
+    .c-members-invites-row__user
         p.c-members-invites-row--main {{ userData.name }}
         p.c-members-invites-row--submain {{ userData.email }}
 
@@ -78,14 +78,14 @@
             {
               "c-members-invites-row--none" : !userData.name
             }
-          ]` 
+          ]`
         ) {{ userData.status }}
         p(
           v-if="!tableHeaders"
           class="c-members-invites-row--submain"
         )
           |{{ userStatusDetail }}
-        
+
         p(
           v-else
         )
@@ -112,7 +112,7 @@
           name="padlock"
           fill="#05c02b"
           size="16px"
-        ) 
+        )
 
         p(
           class="c-members-invites-row__encryption--light"
@@ -140,26 +140,26 @@
           name="gearshape.fill"
           size="10px"
         )
-        
+
         p(
           v-else
           class="c-members-invites-row__parameters--button"
-        ) 
+        )
           | Cancel invite
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from '@/components/base/BaseAvatar.vue';
-import BaseBadge from '@/components/base/BaseBadge.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import FormCheckbox from '@/components/form/FormCheckbox.vue';
-import store from '@/store';
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseBadge from "@/components/base/BaseBadge.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import FormCheckbox from "@/components/form/FormCheckbox.vue";
+import store from "@/store";
 
 export default {
   name: "MembersInvitesRow",
@@ -169,21 +169,21 @@ export default {
     BaseBadge,
     BaseButton,
     BaseIcon,
-    FormCheckbox,
+    FormCheckbox
   },
 
   props: {
-    avatarUrl:{
-      type:String,
-      default:"../../assets/icons/missing.avatar.svg"
+    avatarUrl: {
+      type: String,
+      default: "../../assets/icons/missing.avatar.svg"
     },
 
-    userData:{
-      type: Object ,
+    userData: {
+      type: Object,
       required: true
     },
 
-    tableHeaders:{
+    tableHeaders: {
       type: Array,
       default: null
     }
@@ -198,13 +198,13 @@ export default {
   },
 
   computed: {
-    userStatusDetail(){
-      if(!this.userData.name){
-        return 'Invited'
-      } else if (this.userData.status === 'Active') {
-        return 'Prose ' + this.userData.os
+    userStatusDetail() {
+      if (!this.userData.name) {
+        return "Invited";
+      } else if (this.userData.status === "Active") {
+        return "Prose " + this.userData.os;
       } else {
-        return 'Last active'
+        return "Last active";
       }
     }
   },
@@ -215,13 +215,13 @@ export default {
 
   methods: {
     onActionOnMember(): void {
-      this.userData.name?'': this.onCancelInvite(this.userData.id);
+      this.userData.name ? "" : this.onCancelInvite(this.userData.id);
     },
 
     onCancelInvite(inviteId: string) {
       store.$teamMembers.cancelInvitation(inviteId);
     }
-  },
+  }
 };
 </script>
 
@@ -256,7 +256,7 @@ $c: ".c-members-invites-row";
   #{$c}__badge {
     margin-right: 40px;
 
-    &--header{
+    &--header {
       min-width: 50px;
     }
   }
@@ -291,7 +291,6 @@ $c: ".c-members-invites-row";
     &--light {
       font-weight: $font-weight-light;
     }
-
   }
 
   #{$c}__parameters {
@@ -320,13 +319,13 @@ $c: ".c-members-invites-row";
   }
 
   &--header {
-    color: $color-text-secondary; 
+    color: $color-text-secondary;
     font-size: ($font-size-baseline - 0px);
     font-weight: $font-weight-mid;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 
-    p{
+    p {
       line-height: 13px;
       margin-block: 11px;
     }
@@ -334,7 +333,7 @@ $c: ".c-members-invites-row";
 
   //<!-- COLORS -->
 
-  &--yellow{
+  &--yellow {
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
   }
