@@ -53,12 +53,6 @@
 
     .a-start-login-form__options
       .a-start-login-form__options-left
-        form-checkbox(
-          v-model="form.remember"
-          :loading="loading"
-          name="remember"
-        )
-          | Remember me
 
       .a-start-login-form__options-right
         a.a-start-login-form__options-recover
@@ -72,11 +66,11 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from '@/components/base/BaseAlert.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseProseLogo from '@/components/base/BaseProseLogo.vue';
-import FormCheckbox from '@/components/form/FormCheckbox.vue';
-import FormField from '@/components/form/FormField.vue';
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseProseLogo from "@/components/base/BaseProseLogo.vue";
+import FormCheckbox from "@/components/form/FormCheckbox.vue";
+import FormField from "@/components/form/FormField.vue";
 
 // PROJECT: STORES
 // import Store from "@/store";
@@ -85,7 +79,6 @@ import FormField from '@/components/form/FormField.vue';
 export interface StateForm {
   jid: string;
   password: string;
-  remember: true;
 }
 
 export default {
@@ -113,8 +106,7 @@ export default {
 
       form: {
         jid: "",
-        password: "",
-        remember: true
+        password: ""
       } as StateForm
     };
   },
@@ -132,9 +124,9 @@ export default {
         "Account credentials are invalid",
         "Please check your password and try again"
       );
-    //   this.$emit("submit", {
-    //     ...this.form
-    //   });
+      //   this.$emit("submit", {
+      //     ...this.form
+      //   });
     }
   }
 };

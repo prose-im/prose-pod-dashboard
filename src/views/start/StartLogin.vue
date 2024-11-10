@@ -9,15 +9,7 @@
      ********************************************************************** -->
 
 <template lang="pug">
-div(
-  :class=`[
-    "v-start-login",
-    {
-
-    }
-  ]`
-  data-tauri-drag-region
-)
+.v-start-login
   .v-start-login__header
     base-identity-badge
 
@@ -47,14 +39,10 @@ import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 // PROJECT: STORES
 import Store from "@/store";
 
-// CONSTANTS
-const INTERFACE_WIDTH = 600;
-const INTERFACE_HEIGHT = 620;
-
 export default {
   name: "StartLogin",
 
-  components: { 
+  components: {
     BaseIdentityBadge,
     StartLoginForm
   },
@@ -77,29 +65,7 @@ export default {
         // Mark as loading
         this.isFormLoading = true;
 
-        // Attempt to authenticate
-        // try {
-        //   await Store.$account.login(form.jid, form.password, form.remember);
-
-        //   // Show success alert
-        //   BaseAlert.success("Authenticated", "Welcome back!");
-
-        //   // Redirect to dashboard
-        //   this.$router.push({
-        //     name: "app.index"
-        //   });
-        // } catch (error) {
-        //   // Show error alert
-        //   BaseAlert.error(
-        //     "Cannot authenticate",
-        //     error
-        //       ? (error as Error).message || (error as Error).toString()
-        //       : undefined
-        //   );
-
-          // Mark as not loading anymore
-        //   this.isFormLoading = false;
-        // }
+        // TODO
       }
     }
   }

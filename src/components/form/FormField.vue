@@ -8,8 +8,6 @@
   TEMPLATE
   ********************************************************************** -->
 
-<!-- v-click-away="onClickAway" -->
-
 <template lang="pug">
 div(
   :class=`[
@@ -84,25 +82,7 @@ div(
 
 <script lang="ts">
 // NPM
-import { keycode as keyCodes } from "keycode";
-
-// PROJECT: COMPONENTS
-// import {
-//   default as FormFieldSuggest,
-//   Suggestion as FormFieldSuggestSuggestion
-// } from "@/components/form/FormFieldSuggest.vue";
-
-// INTERFACES
-interface Selection {
-  value: string;
-  cursor?: SelectionCursor;
-}
-
-export interface SelectionCursor {
-  text: string;
-  start: number;
-  end: number;
-}
+import { codes as keyCodes } from "keycode";
 
 export default {
   name: "FormField",
@@ -183,11 +163,6 @@ export default {
       default: null
     },
 
-    autogrow: {
-      type: Boolean,
-      default: false
-    },
-
     submittable: {
       type: Boolean,
       default: false
@@ -220,8 +195,7 @@ export default {
     "keystroke",
     "focus",
     "change",
-    "submit",
-    "refresh"
+    "submit"
   ],
 
   data() {
@@ -229,16 +203,9 @@ export default {
       // --> STATE <--
 
       isFocused: false,
-      areSuggestionsHidden: false,
 
       value: ""
     };
-  },
-
-  computed: {
-    hasSuggestions(): boolean {
-      return this.suggestions.length > 0 && this.areSuggestionsHidden !== true;
-    }
   },
 
   watch: {
@@ -249,18 +216,10 @@ export default {
         // Update value in the state
         this.updateStateValue(value);
       }
-    },
-
-    suggestions() {
-      // Ensure suggestions are not hidden (when they change)
-      this.areSuggestionsHidden = false;
     }
   },
 
   mounted() {
-    // Refresh auto-grow (if enabled)
-    this.refreshAutogrow();
-
     // Apply auto-focus?
     // Notice: delay focus, otherwise the focus might not work in certain \
     //   circumstances.
@@ -279,16 +238,6 @@ export default {
       this.focusField();
     },
 
-    acquireFieldSelectionFromParent(): Selection | void {
-      // Alias field selection method
-      return this.acquireFieldSelection();
-    },
-
-    selectFieldRangeFromParent(start: number, end: number): void {
-      // Alias field range method
-      return this.selectFieldRange(start, end);
-    },
-
     // --> HELPERS <--
 
     focusField(): void {
@@ -302,53 +251,8 @@ export default {
       }
     },
 
-    acquireFieldSelection(): Selection | void {
-      const fieldElement = (this.$refs.field as HTMLInputElement) || null;
-
-      if (fieldElement !== null) {
-        // Acquire value from field
-        const fieldValue = fieldElement.value;
-
-        // Populate selection object
-        const selection: Selection = {
-          value: fieldValue
-        };
-
-        // Obtain the indexes of the selected characters (start and end)
-        const cursorStart = fieldElement.selectionStart,
-          cursorEnd = fieldElement.selectionEnd;
-
-        if (cursorStart !== null) {
-          selection.cursor = {
-            text:
-              cursorEnd !== null
-                ? fieldElement.value.substring(cursorStart, cursorEnd)
-                : "",
-
-            start: cursorStart,
-            end: cursorEnd !== null ? cursorEnd : cursorStart
-          };
-        }
-
-        return selection;
-      }
-
-      return undefined;
-    },
-
-    selectFieldRange(start: number, end: number): void {
-      const fieldElement = (this.$refs.field as HTMLInputElement) || null;
-
-      if (fieldElement !== null) {
-        fieldElement.setSelectionRange(start, end);
-      }
-    },
-
     updateStateValue(value: string): void {
       this.value = value;
-
-      // Refresh auto-grow (if enabled)
-      this.$nextTick(this.refreshAutogrow);
     },
 
     updateModelValue(value: string | number): void {
@@ -356,70 +260,7 @@ export default {
       this.$emit("change", value);
     },
 
-    refreshAutogrow(): void {
-      if (this.autogrow === true) {
-        const fieldElement = (this.$refs.field as HTMLElement) || null;
-
-        if (fieldElement !== null) {
-          // Reset height to default (so that later measured scroll height \
-          //   reports its real value)
-          fieldElement.style.height = "auto";
-
-          // Assign new field height
-          fieldElement.style.height = `${fieldElement.scrollHeight}px`;
-
-          // Trigger resize event? (height changed)
-          this.$emit("refresh");
-        }
-      }
-    },
-
-    selectActiveSuggestion(): void {
-      // Select active suggestion
-      (this.$refs.suggest as typeof FormFieldSuggest)?.selectFromParent();
-    },
-
-    navigateSuggestions(increment: number): void {
-      // Navigate forwards or backwards in suggestions
-      (this.$refs.suggest as typeof FormFieldSuggest)?.navigateFromParent(
-        increment
-      );
-    },
-
-    clearAllSuggestions(): void {
-      // Hide suggestions
-      this.areSuggestionsHidden = true;
-    },
-
-    // generateSuggestionModelValue(
-    //   suggestion: FormFieldSuggestSuggestion
-    // ): string {
-    //   // Append suggestion value
-    //   const modelValueString = this.modelValue as string,
-    //     modelValueLower = modelValueString.toLowerCase(),
-    //     matchLower = suggestion.action.match.toLowerCase();
-
-    //   // Acquire intersection size
-    //   const intersectSize =
-    //     modelValueLower.endsWith(matchLower) === true
-    //       ? suggestion.action.match.length
-    //       : 0;
-
-    //   // Merge suggestion value with existing model value (intersect them)
-    //   return (
-    //     modelValueString.substring(0, modelValueString.length - intersectSize) +
-    //     suggestion.action.replacement
-    //   );
-    // },
-
     // --> EVENT LISTENERS <--
-
-    onClickAway(): void {
-      // Clear suggestions?
-      if (this.hasSuggestions === true) {
-        this.clearAllSuggestions();
-      }
-    },
 
     onFieldKeyDown(event: KeyboardEvent): void {
       const keyCode = event.keyCode;
@@ -427,44 +268,12 @@ export default {
       switch (keyCode) {
         // Enter
         case keyCodes.enter: {
-          if (this.hasSuggestions === true) {
+          // Handle 'Enter' key press? (if not new line and submittable field)
+          if (event.shiftKey !== true && this.submittable === true) {
             event.preventDefault();
 
-            // Select active suggestion
-            this.selectActiveSuggestion();
-          } else {
-            // Handle 'Enter' key press? (if not new line and submittable field)
-            if (event.shiftKey !== true && this.submittable === true) {
-              event.preventDefault();
-
-              // Trigger field submit event
-              this.$emit("submit");
-            }
-          }
-
-          break;
-        }
-
-        // Escape
-        case keyCodes.esc: {
-          if (this.hasSuggestions === true) {
-            event.preventDefault();
-
-            // Hide suggestions
-            this.clearAllSuggestions();
-          }
-
-          break;
-        }
-
-        // Down + Up
-        case keyCodes.down:
-        case keyCodes.up: {
-          if (this.hasSuggestions === true) {
-            event.preventDefault();
-
-            // Navigate in suggestions
-            this.navigateSuggestions(keyCode === keyCodes.up ? -1 : 1);
+            // Trigger field submit event
+            this.$emit("submit");
           }
 
           break;
@@ -519,16 +328,6 @@ export default {
       // Propagate focus event
       this.$emit("focus", false);
     }
-
-    // onSuggestSelect(suggestion: FormFieldSuggestSuggestion): void {
-    //   this.clearAllSuggestions();
-
-    //   // Generate model value for selected suggestion
-    //   let updatedModelValue = this.generateSuggestionModelValue(suggestion);
-
-    //   // Update model value
-    //   this.updateModelValue(updatedModelValue);
-    // }
   }
 };
 </script>
