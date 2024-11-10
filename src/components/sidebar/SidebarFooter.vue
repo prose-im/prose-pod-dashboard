@@ -22,6 +22,7 @@
 
     .c-sidebar-footer__right
       base-button(
+        @click="onLogoutClick"
         tint="white"
         size="medium"
       )
@@ -34,11 +35,15 @@
   ********************************************************************** -->
 
 <script lang="ts">
-//COMPINENTS
+// PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseBadge from "@/components/base/BaseBadge.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
+
+// PROJECT: STORES
+import Store from "@/store";
 
 export default {
   name: "SidebarAccordion",
@@ -65,7 +70,24 @@ export default {
   created() {},
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
+
+    async onLogoutClick(): Promise<void> {
+      try {
+        // Logout from account
+        await Store.$account.logout();
+
+        // Redirect to login page
+        this.$router.push({
+          name: "start.login"
+        });
+
+        // Acknowledge logout success
+        BaseAlert.info("Logged out", "Logged out of your dashboard");
+      } catch (_) {
+        BaseAlert.error("Could not log out", "Maybe try again?");
+      }
+    }
   }
 };
 </script>

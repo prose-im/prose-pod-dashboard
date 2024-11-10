@@ -11,6 +11,7 @@
 // NPM
 import { App } from "vue";
 import { Pinia, createPinia } from "pinia";
+import { createPersistedState } from "pinia-plugin-persistedstate";
 
 // PROJECT: STORE
 import $account from "./tables/account";
@@ -24,9 +25,15 @@ import $settingsSecurity from "./tables/settingsSecurity";
 import $teamMembers from "./tables/teamMembers";
 import $session from "@/store/tables/settingsNetwork";
 
+// PROJECT: API
+import Api from "@/api";
+
 /**************************************************************************
  * CONSTANTS
  * ************************************************************************* */
+
+const STORE_PERSIST_PREFIX = "prose-pod-dashboard";
+const STORE_PERSIST_REVISION = "v1";
 
 const STORE_KEY_PREFIX = "$";
 
@@ -60,8 +67,14 @@ class Store {
     // #1. Bind to app
     app.use(this.__store);
 
-    // #2. Load all tables
+    // #2. Bind all plugins
+    this.__applyPlugins();
+
+    // #3. Load all tables
     this.__loadTables();
+
+    // #4. Execute restore hooks
+    this.__executeRestoreHooks();
   }
 
   reset(): void {
@@ -72,6 +85,15 @@ class Store {
         storeInstance.$reset();
       }
     }
+  }
+
+  private __applyPlugins(): void {
+    this.__store.use(
+      createPersistedState({
+        key: id => [STORE_PERSIST_PREFIX, STORE_PERSIST_REVISION, id].join(":"),
+        storage: localStorage
+      })
+    );
   }
 
   private __loadTables(): void {
@@ -85,6 +107,11 @@ class Store {
     this.$settingsNetwork = $settingsNetwork(this.__store);
     this.$settingsSecurity = $settingsSecurity(this.__store);
     this.$teamMembers = $teamMembers(this.__store);
+  }
+
+  private __executeRestoreHooks(): void {
+    // Re-authenticate to API client (or de-authenticate)
+    Api.authenticate(this.$account.session.token || null);
   }
 }
 

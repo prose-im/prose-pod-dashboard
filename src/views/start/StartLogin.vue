@@ -75,7 +75,7 @@ export default {
 
           // Acknowledge login success
           BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
-        } catch (error) {
+        } catch (_) {
           BaseAlert.error(
             "Could not log in",
             "Check your credentials and try again"

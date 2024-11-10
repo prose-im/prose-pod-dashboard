@@ -30,6 +30,9 @@ interface Account {
  * ************************************************************************* */
 
 const $account = defineStore("account", {
+  // Important: persist this store, since it retains account-level information.
+  persist: true,
+
   state: (): Account => {
     return {
       session: {
@@ -54,7 +57,7 @@ const $account = defineStore("account", {
       this.setSessionToken(token);
     },
 
-    async logout() {
+    async logout(): Promise<void> {
       // Clear session token
       this.setSessionToken(null);
     },

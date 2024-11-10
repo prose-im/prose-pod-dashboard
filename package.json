@@ -21,6 +21,7 @@
     "keycode": "2.2.1",
     "mitt": "3.0.1",
     "pinia": "2.2.4",
+    "pinia-plugin-persistedstate": "3.1.0",
     "vue": "3.4.37",
     "vue-router": "4.4.5"
   },

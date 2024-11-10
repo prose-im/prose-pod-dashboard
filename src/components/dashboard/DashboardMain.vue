@@ -34,7 +34,7 @@ export default {
 
   components: {
     BaseSectionBackground,
-    Breadcrumb,
+    Breadcrumb
   },
 
   props: {},
@@ -55,7 +55,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -67,19 +67,20 @@ export default {
 $c: ".c-dashboard-main";
 
 #{$c} {
+  background-color: $color-background-primary;
+  width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  background-color: $color-background-primary;
 
   #{$c}__content {
-    flex: 1; 
-    display: flex; 
-    flex-direction: column; 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding-top: 50px;
     padding-inline: 100px;
-    max-width: 918px;  
+    max-width: 918px;
     width: 100%;
   }
 }
