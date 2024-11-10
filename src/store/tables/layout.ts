@@ -16,8 +16,6 @@ import { defineStore } from "pinia";
  * ************************************************************************* */
 
 const $layout = defineStore("layout", {
-  persist: true,
-
   state: () => {
     return {
       sidebar: {

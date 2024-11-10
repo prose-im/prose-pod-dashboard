@@ -27,8 +27,6 @@ interface Account {
  * ************************************************************************* */
 
 const $account = defineStore("account", {
-  persist: true,
-
   state: (): Account => {
     return {
       token: null

@@ -27,48 +27,47 @@ import { ServerConfig } from "./serverConfiguration";
  * ************************************************************************* */
 
 interface GlobalConfig {
-  properties: ConfigProperties
+  properties: ConfigProperties;
 }
 
 interface ConfigProperties {
   domain: {
-    default: string,
-  },
+    default: string;
+  };
   message_archive_enabled: {
-    default: boolean
-  },
+    default: boolean;
+  };
   message_archive_retention: {
-    default: string
-  },
+    default: string;
+  };
   file_upload_allowed: {
-    default: boolean
-  },
+    default: boolean;
+  };
   file_storage_encryption_scheme: {
-    default: string
-  },
+    default: string;
+  };
   file_storage_retention: {
-    default: string
-  },
+    default: string;
+  };
   mfa_required: {
-    default: boolean
-  },
+    default: boolean;
+  };
   minimum_tls_version: {
-    default: string
-  },
+    default: string;
+  };
   minimum_cipher_suite: {
-    default: string
-  },
+    default: string;
+  };
   federation_enabled: {
-    default: boolean
-  },
+    default: boolean;
+  };
   settings_backup_interval: {
-    default: string
-  },
+    default: string;
+  };
   user_data_backup_interval: {
-    default: string
-  }
+    default: string;
+  };
 }
-
 
 /**************************************************************************
  * CONSTANTS
@@ -85,13 +84,11 @@ const LOCAL_STATES = {
  * ************************************************************************* */
 
 const $globalConfig = defineStore("globalConfig", {
-  persist: true,
-
   state: (): GlobalConfig => {
     return {
       properties: {
         domain: {
-            default: 'crisp.chat',
+          default: "crisp.chat"
         },
 
         // Server Config
@@ -99,16 +96,16 @@ const $globalConfig = defineStore("globalConfig", {
           default: true
         },
         message_archive_retention: {
-          default: 'infinite'
+          default: "infinite"
         },
         file_upload_allowed: {
           default: true
         },
         file_storage_encryption_scheme: {
-          default: 'AES-256'
+          default: "AES-256"
         },
         file_storage_retention: {
-          default: 'infinite'
+          default: "infinite"
         },
 
         // advanced Config
@@ -116,48 +113,46 @@ const $globalConfig = defineStore("globalConfig", {
           default: true
         },
         minimum_tls_version: {
-          default: '1.2'
+          default: "1.2"
         },
         minimum_cipher_suite: {
-          default: 'HIGH_STRENGTH'
+          default: "HIGH_STRENGTH"
         },
         federation_enabled: {
           default: true
         },
         settings_backup_interval: {
-          default: 'P1D'
+          default: "P1D"
         },
         user_data_backup_interval: {
           default: '"P1W"'
         }
       }
-    }
+    };
   },
 
   getters: {
     getGlobalConfig(): ConfigProperties {
-      return this.properties
-    },
+      return this.properties;
+    }
   },
 
   actions: {
-
     async loadGlobalConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.informationLoaded === false || reload === true) {
-
         // Load globalConfig configuration
-        const globalConfig = await PodApi.getServerConfig()
+        const globalConfig = await PodApi.getServerConfig();
 
         // Update stored config
         // Notice: this is a cross-store operation, for convenience.
         this.properties = globalConfig;
       }
 
-        // Mark as loaded
-        LOCAL_STATES.informationLoaded = true;
+      // Mark as loaded
+      LOCAL_STATES.informationLoaded = true;
     }
-  },
+  }
 });
 
 /**************************************************************************

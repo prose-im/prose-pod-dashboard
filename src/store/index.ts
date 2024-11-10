@@ -11,7 +11,6 @@
 // NPM
 import { App } from "vue";
 import { Pinia, createPinia } from "pinia";
-// import { createPersistedState } from "pinia-plugin-persistedstate";
 
 // PROJECT: STORE
 import $account from "./tables/account";
@@ -24,18 +23,12 @@ import $settingsNetwork from "@/store/tables/settingsNetwork";
 import $settingsSecurity from "./tables/settingsSecurity";
 import $teamMembers from "./tables/teamMembers";
 import $session from "@/store/tables/settingsNetwork";
-// import $settings from "@/store/tables/settings";
 
 /**************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
-const STORE_PERSIST_PREFIX = "prose";
-const STORE_PERSIST_REVISION = "v1";
-const STORE_PERSIST_BOOT = "boot";
-
 const STORE_KEY_PREFIX = "$";
-const STORE_RESET_IGNORES = ["account", "layout", "session", "settings"];
 
 /**************************************************************************
  * STORE
@@ -44,11 +37,6 @@ const STORE_RESET_IGNORES = ["account", "layout", "session", "settings"];
 class Store {
   private readonly __store: Pinia;
 
-  // Transient stores
-  // $session!: ReturnType<typeof $session>;
-  // $history!: ReturnType<typeof $history>;
-
-  // Permanent stores
   $account!: ReturnType<typeof $account>;
   $customizationEmojis!: ReturnType<typeof $customizationEmojis>;
   $customizationWorkspace!: ReturnType<typeof $customizationWorkspace>;
@@ -72,10 +60,7 @@ class Store {
     // #1. Bind to app
     app.use(this.__store);
 
-    // #2. Bind all plugins
-    // this.__applyPlugins();
-
-    // #3. Load all tables
+    // #2. Load all tables
     this.__loadTables();
   }
 
@@ -83,24 +68,11 @@ class Store {
     // Reset all stores
     for (const [storeName, storeInstance] of Object.entries(this)) {
       if (storeName.startsWith(STORE_KEY_PREFIX) === true) {
-        const storeNameNoPrefix = storeName.substring(STORE_KEY_PREFIX.length);
-
-        // Store not ignored? Can reset.
-        if (STORE_RESET_IGNORES.includes(storeNameNoPrefix) === false) {
-          storeInstance.$reset();
-        }
+        // Reset store
+        storeInstance.$reset();
       }
     }
   }
-
-  // private __applyPlugins(): void {
-  //   this.__store.use(
-      // createPersistedState({
-      //   key: id => [STORE_PERSIST_PREFIX, STORE_PERSIST_REVISION, id].join(":"),
-      //   storage: localStorage
-      // })
-    // );
-  // }
 
   private __loadTables(): void {
     this.$session = $session(this.__store);
@@ -120,5 +92,4 @@ class Store {
  * EXPORTS
  * ************************************************************************* */
 
-export { STORE_PERSIST_PREFIX, STORE_PERSIST_BOOT };
 export default new Store();

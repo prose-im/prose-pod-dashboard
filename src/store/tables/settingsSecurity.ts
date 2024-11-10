@@ -12,9 +12,6 @@
 import { defineStore } from "pinia";
 import mitt from "mitt";
 
-// PROJECT: STORES
-import { STORE_PERSIST_PREFIX, STORE_PERSIST_BOOT } from "@/store";
-
 // PROJECT: BROKER
 // import Broker from "@/broker";
 
@@ -29,8 +26,6 @@ const EventBus = mitt();
  * ************************************************************************* */
 
 const $settingsSecurity = defineStore("settingsSecurity", {
-  persist: true,
-
   state: () => {
     return {
       security: {
@@ -38,9 +33,9 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       },
 
       encryption: {
-        version: 'TLS 1.0+',
-        strength: 'High strength'
-      },
+        version: "TLS 1.0+",
+        strength: "High strength"
+      }
     };
   },
 
@@ -50,8 +45,8 @@ const $settingsSecurity = defineStore("settingsSecurity", {
         return {
           security: this.security,
           encryption: this.encryption
-        }
-      }
+        };
+      };
     }
   },
 
@@ -61,7 +56,6 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       return EventBus;
     },
 
-    
     setNotificationsConfigurationWhenDays(value: string): void {
       this.setGeneric(this.notifications.configuration.when, "days", value);
     },
@@ -81,8 +75,6 @@ const $settingsSecurity = defineStore("settingsSecurity", {
     setNotificationsActionNotifyBadge(value: boolean): void {
       this.setGeneric(this.notifications.action.notify, "badge", value);
     },
-
- 
 
     setNotificationsDevicesMobileAlertsAfter(value: string): void {
       this.setGeneric(this.notifications.devices.mobile.alerts, "after", value);
@@ -122,7 +114,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
 
     setCallSoundOutputSource(value: string): void {
       this.setGeneric(this.calls.sound, "outputSource", value);
-    },
+    }
   }
 });
 

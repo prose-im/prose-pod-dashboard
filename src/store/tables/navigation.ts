@@ -16,8 +16,6 @@ import { defineStore } from "pinia";
  * ************************************************************************* */
 
 const $navigation = defineStore("navigation", {
-  persist: true,
-
   state: () => {
     return {
       inbox: {
