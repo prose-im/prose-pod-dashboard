@@ -1,0 +1,22 @@
+# NPM
+npm-debug.log
+node_modules/
+.npm
+
+# Caches
+.cache
+.eslintcache
+
+# Builds
+dist
+
+# Editor
+.nova
+.idea
+.vscode
+
+# macOS
+.DS_Store
+
+# Misc.
+*.md

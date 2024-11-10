@@ -6,10 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf dist/",
+    "fix": "prettier --write .",
+    "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
+    "lint:ts": "vue-tsc",
+    "lint:prettier": "prettier --check src/ config/ *.*",
+    "lint": "npm run lint:js && npm run lint:ts && npm run lint:prettier",
+    "test": "npm run lint"
   },
   "dependencies": {
-    "axios": "^1.7.7",
+    "lodash.merge": "4.6.2",
+    "axios": "1.7.7",
     "keycode": "2.2.1",
     "mitt": "3.0.1",
     "pinia": "2.2.4",
@@ -17,13 +25,20 @@
     "vue-router": "4.4.5"
   },
   "devDependencies": {
-    "@types/node": "22.5.5",
-    "@vitejs/plugin-vue": "5.1.2",
-    "fast-glob": "3.3.2",
-    "sass": "1.79.3",
-    "typescript": "^5.6.2",
-    "vite": "5.4.1",
-    "vite-plugin-pug-transformer": "1.0.5",
-    "vite-plugin-svg-icons": "2.0.1"
+    "@types/lodash.merge": "4.6.x",
+    "@types/node": "22.5.x",
+    "@typescript-eslint/eslint-plugin": "5.48.x",
+    "@typescript-eslint/parser": "5.48.x",
+    "@vitejs/plugin-vue": "5.1.x",
+    "fast-glob": "3.3.x",
+    "eslint": "8.31.x",
+    "eslint-config-prettier": "8.6.x",
+    "eslint-plugin-vue": "9.8.x",
+    "prettier": "2.8.x",
+    "sass": "1.79.x",
+    "typescript": "4.9.x",
+    "vite": "5.4.x",
+    "vite-plugin-pug-transformer": "1.0.x",
+    "vite-plugin-svg-icons": "2.0.x"
   }
 }
