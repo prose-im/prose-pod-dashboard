@@ -28,7 +28,7 @@ class API {
 
   private __createClient(): AxiosInstance {
     return axios.create({
-      baseURL: CONFIG.api.endpoint,
+      baseURL: `${CONFIG.api.endpoint.local}/${CONFIG.api.version}`,
 
       headers: {
         "Content-Type": "application/json"

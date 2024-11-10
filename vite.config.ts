@@ -27,7 +27,12 @@ interface Configuration {
   environment: string;
 
   api: {
-    endpoint: string;
+    version: string;
+
+    endpoint: {
+      local: string;
+      remote: string;
+    };
   };
 }
 
@@ -87,7 +92,23 @@ export default defineConfig({
   server: {
     host: "localhost",
     port: 3030,
-    strictPort: true
+    strictPort: true,
+
+    proxy: {
+      [`${CONFIG.api.endpoint.local}/`]: {
+        target: CONFIG.api.endpoint.remote,
+
+        rewrite: targetUrl => {
+          const localUrl = CONFIG.api.endpoint.local;
+
+          if (targetUrl.startsWith(`${localUrl}/`) === true) {
+            return targetUrl.replace(localUrl, "");
+          }
+
+          return targetUrl;
+        }
+      }
+    }
   },
 
   preview: {
