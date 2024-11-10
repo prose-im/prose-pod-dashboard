@@ -8,27 +8,25 @@
  * IMPORTS
  * ************************************************************************* */
 
+// NPM
+import { createApp } from "vue";
+
 // PROJECT: STYLES
 import "@/assets/stylesheets/all.scss";
 
-
-import { createApp } from 'vue';
-
 // PROJECT: MAIN
-import App from '@/App.vue';
+import App from "@/App.vue";
 import Router from "@/router";
 import Store from "@/store";
 
-import 'virtual:svg-icons-register';
-
-createApp(App).mount('#runtime')
+// VIRTUAL
+import "virtual:svg-icons-register";
 
 /**************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
-const app = createApp(App)
-
+const app = createApp(App);
 
 /**************************************************************************
  * PLUGINS
@@ -36,5 +34,9 @@ const app = createApp(App)
 
 Store.bind(app);
 Router.bind(app);
+
+/**************************************************************************
+ * INITIALIZE
+ * ************************************************************************* */
 
 app.mount("#runtime");
