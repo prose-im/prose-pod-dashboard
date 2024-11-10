@@ -67,6 +67,14 @@ export default {
         try {
           // Login to account
           await Store.$account.login(form.jid, form.password);
+
+          // Redirect to dashboard
+          this.$router.push({
+            name: "app"
+          });
+
+          // Acknowledge login success
+          BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
         } catch (error) {
           BaseAlert.error(
             "Could not log in",
