@@ -14,42 +14,53 @@
     | {{ label }}
     
   form-field(
-    type="text"
+    v-model="fieldValue"
+    type="type"
     size="mid-large"
     align="left"
     :placeholder="placeholder"
+    v-bind="$attrs"
   )
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import FormField from '@/components/form/FormField.vue';
+import FormField from "@/components/form/FormField.vue";
 
 export default {
   name: "BaseModalInputBlock",
 
   components: {
-    FormField
+    FormField,
   },
 
   props: {
-    label:{
+    modelValue: {
       type: String,
-      required: true
+      required: true,
     },
 
-    placeholder:{
+    label: {
       type: String,
-      default:""
-    }
+      required: true,
+    },
 
+    placeholder: {
+      type: String,
+      default: "",
+    },
+
+    type: {
+      type: String,
+      default: "text",
+    },
   },
 
-  emits: [],
+  emits: ["update:modelValue"],
 
   data() {
     return {
@@ -57,11 +68,19 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    fieldValue: {
+      get() {
+        return this.modelValue;
+      },
+
+      set(value: string) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
 
   watch: {},
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
@@ -79,12 +98,14 @@ $c: ".c-base-modal-input-block";
 #{$c} {
   font-family: $font-family-default;
 
-  h4{
-    color:$color-text-secondary;
+  h4 {
+    color: $color-text-secondary;
     margin-top: 0;
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
   }
+
+  margin-bottom: 18px;
 }
 </style>
