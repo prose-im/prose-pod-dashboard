@@ -38,8 +38,7 @@
 
 invite-team-member(
   :visibility="modalIsVisible"
-  @close="toggleModalVisible"
-  @proceed="onSendInvite"
+  @close="onClose"
 )
 </template>
 
@@ -54,6 +53,7 @@ import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
 import SearchBar from "@/components/search/SearchBar.vue";
 import store from "@/store";
+import BaseAlert from "../base/BaseAlert.vue";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -62,20 +62,24 @@ export default {
     BaseNavigationFooter,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar
+    SearchBar,
   },
 
   props: {
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   emits: [],
 
   data() {
     return {
+      // --> STATES <--
+      isMembersLoading: false,
+      isInvitesLoading: false,
+
       // --> STATE <--
       modalIsVisible: false,
 
@@ -84,7 +88,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle"
+          type: "toggle",
         },
         {
           subtitle: "Message archive retention time",
@@ -93,8 +97,8 @@ export default {
           type: "button",
           typeProps: {
             label: "Edit details...",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
         {
           subtitle: "Message archive retention time",
@@ -105,17 +109,17 @@ export default {
             options: [
               {
                 icon: "",
-                label: "1 year"
+                label: "1 year",
               },
               {
                 icon: "",
-                label: "2 years"
-              }
+                label: "2 years",
+              },
             ],
-            size: "medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
@@ -126,19 +130,66 @@ export default {
 
     invites() {
       return store.$teamMembers.getInviteList();
-    }
+    },
   },
 
   watch: {},
 
-  created() {},
+  mounted() {
+    console.log(`Loading memebers`);
+    if (this.isMembersLoading !== true) {
+      // Mark as loading
+      this.isMembersLoading = true;
+
+      try {
+        // Login to account
+        store.$teamMembers.loadActiveMembers();
+      } catch (_) {
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
+      } finally {
+        this.isMembersLoading = false;
+      }
+    }
+
+    if (this.isInvitesLoading !== true) {
+      // Mark as loading
+      this.isInvitesLoading = true;
+
+      try {
+        // Login to account
+        store.$teamMembers.loadInvitedMembers();
+      } catch (_) {
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
+      } finally {
+        this.isInvitesLoading = false;
+      }
+    }
+  },
 
   methods: {
     // --> EVENT LISTENERS <--
     toggleModalVisible() {
       this.modalIsVisible = !this.modalIsVisible;
-    }
-  }
+    },
+
+    onClose(event, reloadInviteList?: boolean) {
+      this.toggleModalVisible();
+
+      if (reloadInviteList) {
+        console.log("reload invites", reloadInviteList);
+        this.isInvitesLoading = true;
+
+        try {
+          // Login to account
+          store.$teamMembers.loadInvitedMembers();
+        } catch (_) {
+          BaseAlert.error("Could not log in", "Check your credentials and try again");
+        } finally {
+          this.isInvitesLoading = false;
+        }
+      }
+    },
+  },
 };
 </script>
 
