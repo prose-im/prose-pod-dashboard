@@ -10,7 +10,10 @@
 
 // NPM
 import mitt from "mitt";
-import { defineStore } from "pinia";
+import { defineStore } from "pinia"; 
+
+import APIAdvancedNetwork from "@/api/providers/advancedNetwork";
+import store from "..";
 
 /**************************************************************************
  * ENUMERATIONS
@@ -30,15 +33,74 @@ enum SessionAppearance {
 const EventBus = mitt();
 
 /**************************************************************************
+ * CONSTANTS
+ * ************************************************************************* */
+
+const LOCAL_STATES = {
+  dnsRecordCheckLoading: false,
+  dnsRecordCheckLoaded: false,
+  dnsRecordCheckFailed: false,
+
+  portCheckLoading: false,
+  portCheckLoaded: false,
+  portCheckFailed: false,
+
+  ipCheckLoading: false,
+  ipCheckLoaded: false,
+  ipCheckFailed: false,
+
+};
+
+/**************************************************************************
  * TABLE
  * ************************************************************************* */
 
 const $settingsNetwork = defineStore("settingsNetwork", {
   state: () => {
     return {
-      externalServerPermission: true,
-      whitelist: []
+      federation:{
+        externalConnectAllowed: true,
+        whitelist: []
+      },
+
+      setupTools: {
+        dnsInstructions: {},
+        configChecker: {}
+      },
+
+      states: {
+        dnsCheckLoading: false,
+        dnsCheckLoaded: false,
+        dnsRecordCheckFailed: false,
+
+        portCheckLoading: false,
+        portCheckLoaded: false,
+        portCheckFailed: false,
+
+        ipCheckLoading: false,
+        ipCheckLoaded: false,
+        ipCheckFailed: false,
+      }
+
     };
+  },
+
+  getters: { 
+    getFederationConfig():object {
+      return this.federation;
+    },
+
+    getDnsInstructions: function(): object {
+      return () => {
+        return this.setupTools.dnsInstructions;
+      }
+    },
+
+    getStates: function(): object {
+      return () => {
+        return this.states;
+      }
+    },
   },
 
   actions: {
@@ -47,86 +109,80 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       return EventBus;
     },
 
-    setConnected(connected: boolean): void {
-      // Update last connected date marker?
-      if (connected !== this.connected) {
-        // Update value
-        this.$patch({
-          lastConnectedAt: Date.now()
-        });
-      }
+    async loadFederationConfiguration() {
+      await store.$globalConfig.loadGlobalConfig();
 
-      this.setGeneric("connected", this.connected, connected);
+      const response = await store.$globalConfig.getGlobalConfig();
+
+      this.$patch(() => {
+        this.federation.externalConnectAllowed = response.federation_enabled; 
+      })
     },
 
-    setConnecting(connecting: boolean): void {
-      this.setGeneric("connecting", this.connecting, connecting);
+    async loadDnsInstructions() {
+      this.setupTools.dnsInstructions = (await APIAdvancedNetwork.getDnsRecords()).steps
+      console.log('instructions');
     },
 
-    setVisible(visible: boolean): void {
-      this.setGeneric("visible", this.visible, visible);
+    async checkDnsRecords() {
+      if(!this.states.dnsCheckLoading){
+        this.states.dnsCheckLoaded = false
+        this.states.dnsCheckLoading = true;
+
+        try{
+          const response = await APIAdvancedNetwork.getDnsRecordsCheck();
+
+          console.log('dns', response);
+          this.states.dnsCheckLoaded = true;
+          this.states.dnsCheckLoading = false;
+        } catch (e) {
+          console.log('error dns', e);
+
+          this.states.dnsCheckLoading = false;
+          this.states.dnsRecordCheckFailed = true;
+        }
+
+      } 
     },
 
-    setProtocol(protocol = ""): void {
-      this.setGeneric("protocol", this.protocol, protocol);
-    },
+    async checkPortReachability() {
+      if(!this.states.portCheckLoading){
+        this.states.portCheckLoaded= false
+        this.states.portCheckLoading = true;
+        
+        try{
+          const response = await APIAdvancedNetwork.getPortsCheck();
 
-    setAppearance(appearance: SessionAppearance): void {
-      this.setGeneric("appearance", this.appearance, appearance);
-    },
+          console.log('ports', response);
+          this.states.portCheckLoaded = true;
+          this.states.portCheckLoading = false;
+        } catch (e) {
+          console.log('error ports', e);
 
-    setInterfaceToolbarMounted(mounted: boolean) {
-      this.$patch(state => {
-        state.interface.toolbar.mounted = mounted;
-      });
-    },
-
-    setInterfaceSidebarMounted(mounted: boolean) {
-      this.$patch(state => {
-        state.interface.sidebar.mounted = mounted;
-      });
-    },
-
-    setInterfaceInboxDetailsMounted(mounted: boolean) {
-      this.$patch(state => {
-        state.interface.inboxDetails.mounted = mounted;
-      });
-    },
-
-    setInterfaceForegroundMounted(mounted: boolean) {
-      this.$patch(state => {
-        state.interface.foreground.mounted = mounted;
-      });
-    },
-
-    setOnboardingWelcome(welcome: boolean) {
-      this.$patch(state => {
-        state.onboarding.welcome = welcome;
-      });
-    },
-
-    setGeneric<ValueType>(
-      key: string,
-      previousValue: ValueType,
-      nextValue: ValueType
-    ): void {
-      // Check if will change
-      const willChange = previousValue !== nextValue ? true : false;
-
-      if (willChange === true) {
-        // Update value
-        this.$patch({
-          [key]: nextValue
-        });
-
-        // Broadcast state change
-        EventBus.emit(key, nextValue);
+          this.states.portCheckLoading = false;
+          this.states.portCheckFailed = true;
+        }
       }
     },
 
-    dispatchRequest(key: string, payload?: object): void {
-      // Broadcast request event
-      EventBus.emit(`request:${key}`, payload);
+    async checkIPConnectivity() {
+      if(!this.states.ipCheckLoading){
+        this.states.ipCheckLoaded= false
+        this.states.ipCheckLoading = true;
+
+        try{
+          const response = await APIAdvancedNetwork.getIPConnectivityCheck();
+          
+          console.log('ip', response);
+          this.states.ipCheckLoaded= false
+          this.states.ipCheckLoading = true;
+        } catch (e) {
+          console.log('error ip', e);
+
+          this.states.ipCheckLoading = false;
+          this.states.ipCheckFailed= true;
+        }
+      }
     }
   }
 });

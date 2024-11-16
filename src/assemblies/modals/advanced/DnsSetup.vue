@@ -17,6 +17,7 @@ base-modal(
 )
   .a-dns-setup
     base-modal-input-block(
+      v-model="domain"
       label="Domain name"
       placeholder="prose.org"
     )
@@ -80,15 +81,16 @@ base-modal(
         p Target
 
       advanced-network-dns-table-row(
+        v-for="record in stepTwo"
         class="a-dns-setup__table--two--row"
       )
-        p crisp.chat
-        p SRV
-        p 3600
-        p 0
-        p 5
-        p 5222
-        p xmpp.crisp.chat.
+        p {{ record["hostname"] }}
+        p {{ record["type"] }}
+        p {{ record["ttl"] }}
+        p {{ record["priority"] }}
+        p {{ record["weight"] }}
+        p {{ record["port"] }}
+        p {{ record["target"] }}
 
     .a-dns-setup__step
       span
@@ -109,15 +111,16 @@ base-modal(
         p Target
 
       advanced-network-dns-table-row(
+        v-for="record in stepThree"
         class="a-dns-setup__table--two--row"
       )
-        p crisp.chat
-        p SRV
-        p 3600
-        p 0
-        p 5
-        p 5269
-        p xmpp.crisp.chat.
+        p {{ record["hostname"] }}
+        p {{ record["type"] }}
+        p {{ record["ttl"] }}
+        p {{ record["priority"] }}
+        p {{ record["weight"] }}
+        p {{ record["port"] }}
+        p {{ record["target"] }}
 
     span.a-dns-setup--bold
       | 👉 Need help?  
@@ -126,17 +129,18 @@ base-modal(
     span.a-dns-setup--link
       | DNS setup guide here.
 </template>
-  
+
 <!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalInformation from '@/components/base/modal/BaseModalInformation.vue';
-import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
-import AdvancedNetworkDnsTableRow from '@/components/advanced/network/AdvancedNetworkDnsTableRow.vue';
+import BaseModal from "@/components/base/modal/BaseModal.vue";
+import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
+import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
+import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
+import store from "@/store";
 
 export default {
   name: "DnsSetup",
@@ -148,9 +152,7 @@ export default {
     BaseModalInputBlock,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: ["close", "proceed"],
 
@@ -160,11 +162,31 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    domain() {
+      return store.$globalConfig.getDomain();
+    },
+
+    steps() {
+      return store.$settingsNetwork.getDnsInstructions();
+    },
+
+    stepTwo() {
+      const step = this.steps.filter((step) => step["purpose"].includes("clients"));
+      return step[0]["records"];
+    },
+
+    stepThree() {
+      const step = this.steps.filter((step) => step["purpose"].includes("servers"));
+      return step[0]["records"];
+    },
+  },
 
   watch: {},
 
-  created() {},
+  beforeUpdate() {
+    return store.$settingsNetwork.loadDnsInstructions();
+  },
 
   methods: {
     // --> HELPERS <--
@@ -184,70 +206,69 @@ $c: ".a-dns-setup";
   font-family: $font-family-default;
   font-weight: $font-weight-light;
 
-  #{$c}__step{
+  #{$c}__step {
     margin-top: 0;
     margin-bottom: 16px;
     margin-left: 10.5px;
   }
 
-  #{$c}__table{
+  #{$c}__table {
     border: 1px solid $color-border-primary;
     margin-bottom: 27px;
     font-weight: $font-weight-light;
 
-    &--one--row{
-      p:first-child{
+    &--one--row {
+      p:first-child {
         min-width: 79px;
         font-weight: $font-weight-medium;
       }
 
-      p:nth-child(2){
+      p:nth-child(2) {
         min-width: 30px;
         margin-left: 6.5%;
       }
 
-      p:nth-child(3){
+      p:nth-child(3) {
         margin-left: 4%;
       }
 
-      p:nth-child(4){
+      p:nth-child(4) {
         margin-left: 5%;
       }
-
     }
 
-    &--two--row{
-      p:first-child{
+    &--two--row {
+      p:first-child {
         min-width: 51px;
         font-weight: $font-weight-medium;
       }
 
-      p:nth-child(2){
+      p:nth-child(2) {
         min-width: 24px;
         margin-left: 7%;
       }
 
-      p:nth-child(3){
+      p:nth-child(3) {
         min-width: 27px;
         margin-left: 6.5%;
       }
 
-      p:nth-child(4){
+      p:nth-child(4) {
         min-width: 23px;
         margin-left: 4%;
       }
 
-      p:nth-child(5){
+      p:nth-child(5) {
         min-width: 35px;
         margin-left: 3%;
-      }      
-      
-      p:nth-child(6){
+      }
+
+      p:nth-child(6) {
         min-width: 24px;
         margin-left: 5%;
       }
 
-      p:nth-child(7){
+      p:nth-child(7) {
         margin-left: 4.5%;
       }
     }
@@ -278,6 +299,4 @@ $c: ".a-dns-setup";
     cursor: pointer;
   }
 }
-
 </style>
-        

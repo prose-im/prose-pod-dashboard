@@ -11,6 +11,7 @@
 <template lang="pug">
 .v-app-advanced-network
   base-subsection(
+    v-model="config"
     title="Server Federation"
     :items="federationItems"
     :restoreOption="true"
@@ -21,6 +22,8 @@
     :items="toolsItems"
   )
   
+<!-- Modals -->
+ 
 dns-setup(
   :visible="isDnsInstructionsModalVisible"
   @close="toggleDnsInstructionsModalVisible"
@@ -34,16 +37,17 @@ configuration-checker(
 )
 
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from '@/components/base/BaseSubsection.vue';  
-import ConfigurationChecker from '@/assemblies/modals/advanced/ConfigurationChecker.vue';
-import DnsSetup from '@/assemblies/modals/advanced/DnsSetup.vue';
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
+import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
+import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
+import store from "@/store";
 
 export default {
   name: "AppAdvancedNetwork",
@@ -51,12 +55,10 @@ export default {
   components: {
     BaseSubsection,
     ConfigurationChecker,
-    DnsSetup
+    DnsSetup,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: [],
 
@@ -67,76 +69,86 @@ export default {
 
       isNetworkCheckModalVisible: false,
 
-      federationItems:[
+      federationItems: [
         {
-          subtitle:"Allow other servers to connect with this server",
-          restoreSubtitle:true,
-          description: "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
-          type:"toggle",
+          subtitle: "Allow other servers to connect with this server",
+          restoreSubtitle: true,
+          description:
+            "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
+          type: "toggle",
         },
         {
-          subtitle:"Friendly servers whitelist",
-          restoreSubtitle:true,
-          description: "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
-          tags:['Allowed', 'prose.org', 'clever-cloud.com', 'bb.agency'],
-          type:"button",
-          typeProps:{
-            label:"Edit servers...",
-            size:"medium"
-          }
+          subtitle: "Friendly servers whitelist",
+          restoreSubtitle: true,
+          description:
+            "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
+          tags: ["Allowed", "prose.org", "clever-cloud.com", "bb.agency"],
+          type: "button",
+          typeProps: {
+            label: "Edit servers...",
+            size: "medium",
+          },
         },
       ],
 
-      toolsItems:[
+      toolsItems: [
         {
           subtitle: "DNS setup instructions",
-          description: "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
-          type:"button",
+          description:
+            "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
+          type: "button",
           action: this.onShowDnsInstructions,
-          typeProps:{
-            label:"Show DNS instructions...",
-            size:"medium"
-          }
+          typeProps: {
+            label: "Show DNS instructions...",
+            size: "medium",
+          },
         },
 
         {
           subtitle: "Network configuration checker",
           subtitleLeftIcon: "exclamationmark.triangle.fill",
-          description: "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
-          color:"redBackground",
+          description:
+            "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
+          color: "redBackground",
           action: this.toggleNetworkCheckModalVisible,
-          tags:['Issues', 'DNS TXT record missing', 'IPv6 not working'],
-          type:"button",
-          typeProps:{
-            label:"Start network check...",
-            size:"medium"
-          }
+          tags: ["Issues", "DNS TXT record missing", "IPv6 not working"],
+          type: "button",
+          typeProps: {
+            label: "Start network check...",
+            size: "medium",
+          },
         },
-      ]
+      ],
     };
   },
 
-  computed: {},
+  computed: {
+    config() {
+      return store.$settingsNetwork.getFederationConfig;
+    },
+  },
 
   watch: {},
 
-  created() {},
+  mounted() {
+    return store.$settingsNetwork.loadFederationConfiguration();
+  },
 
   methods: {
     // --> HELPERS <--
-    toggleDnsInstructionsModalVisible(){
+    toggleDnsInstructionsModalVisible() {
       this.isDnsInstructionsModalVisible = !this.isDnsInstructionsModalVisible;
     },
 
-    toggleNetworkCheckModalVisible(){
+    toggleNetworkCheckModalVisible() {
       this.isNetworkCheckModalVisible = !this.isNetworkCheckModalVisible;
     },
 
     // --> EVENT LISTENERS <--
     onShowDnsInstructions(event: Event): void {
       // Re-emit click event
-      this.toggleDnsInstructionsModalVisible()
-    }
+      this.toggleDnsInstructionsModalVisible();
+    },
   },
 };
 </script>
@@ -148,4 +160,3 @@ export default {
 <style lang="scss">
 $c: ".v-app-advanced-network";
 </style>
-    

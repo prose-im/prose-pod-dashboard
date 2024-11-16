@@ -67,33 +67,33 @@
         | {{ getStatusDisplay(row.status) }}
 
 </template>
- 
+
 <!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
- 
+
 <script lang="ts">
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import BaseModalStatus from '@/components/base/modal/BaseModalStatus.vue';
-import BasePulseIcon from '@/components/base/BasePulseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseModalStatus from "@/components/base/modal/BaseModalStatus.vue";
+import BasePulseIcon from "@/components/base/BasePulseIcon.vue";
 
 export default {
-  name: "Modal",
+  name: "BaseModalCheckBlock",
 
-  components:{
+  components: {
     BaseIcon,
     BaseModalStatus,
-    BasePulseIcon
+    BasePulseIcon,
   },
 
   props: {
-    status:{
+    status: {
       type: String,
-      default:"sucess",
+      default: "sucess",
 
       validator(x: string) {
         return ["sucess", "pending", "failed", "warning"].includes(x);
-      }
+      },
     },
 
     label: {
@@ -113,8 +113,8 @@ export default {
 
     checkList: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -124,25 +124,21 @@ export default {
   },
 
   computed: {
-    globalIconColor(){
-      return this.colorCode(this.status)
+    globalIconColor() {
+      return this.colorCode(this.status);
     },
 
-    globalIconName(){
+    globalIconName() {
       // console.log('icon name', this.getIconName(this.status))
-      return this.getIconName(this.status)
+      return this.getIconName(this.status);
     },
-
-
   },
 
-  watch: {
-
-  },
+  watch: {},
 
   methods: {
     // <-- HELPERS -->
-    colorCode(status: string, isString = false){
+    colorCode(status: string, isString = false) {
       let result = "";
 
       switch (status) {
@@ -166,64 +162,62 @@ export default {
       return result;
     },
 
-    getIconName(status: string){
+    getIconName(status: string) {
       let result = "";
 
       switch (status) {
         case "pending": {
-          return result = "archive";
+          return (result = "archive");
         }
         case "sucess": {
-          return result = "checkmark.circle.fill"; 
+          return (result = "checkmark.circle.fill");
         }
         case "failed": {
-          return result = "exclamationmark.triangle.fill";
+          return (result = "exclamationmark.triangle.fill");
         }
         case "warning": {
-          return result = "exclamationmark.circle.fill";
+          return (result = "exclamationmark.circle.fill");
         }
         default:
           break;
       }
       return result;
-
     },
 
-    getStatusDisplay(status: string){
+    getStatusDisplay(status: string) {
       switch (status) {
         case "pending": {
           return "Pending";
         }
         case "sucess": {
-          if(this.label === "dns") {
+          if (this.label === "dns") {
             return "Record is valid";
           } else if (this.label === "tcp") {
             return "Port is open";
           } else {
-            return "Connectivity is OK"
+            return "Connectivity is OK";
           }
         }
         case "failed": {
-          if(this.label === "dns") {
+          if (this.label === "dns") {
             return "Record is not valid";
           } else if (this.label === "tcp") {
             return "Port is closed";
-          } 
+          }
         }
         case "warning": {
           return "No address available";
         }
       }
-    }
-  }
-  }
- 
+    },
+  },
+};
 </script>
- 
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
- 
+
 <style lang="scss">
 $c: ".c-base-modal-network-check-block";
 
@@ -234,7 +228,7 @@ $c: ".c-base-modal-network-check-block";
 
   h4 {
     color: $color-base-blue-normal;
-    font-weight: $font-weight-bolder;
+    font-weight: $font-weight-medium;
     font-size: ($font-size-baseline + 2px);
     margin-left: 0;
     margin-block-start: 0;
@@ -264,6 +258,14 @@ $c: ".c-base-modal-network-check-block";
     height: fit-content;
   }
 
+  #{$c}__header {
+    p {
+      color: $color-text-secondary;
+      font-size: $font-size-baseline;
+      font-weight: $font-weight-light;
+    }
+  }
+
   #{$c}__details {
     border-radius: 2px;
     border: 1px solid $color-border-primary;
@@ -291,7 +293,6 @@ $c: ".c-base-modal-network-check-block";
     align-items: center;
   }
 
-
   //<!-- COLORS -->
   &--blue {
     color: $color-base-blue-normal;
@@ -304,7 +305,7 @@ $c: ".c-base-modal-network-check-block";
 
   &--green {
     color: $color-base-green-normal;
-    
+
     #{$c}__left {
       color: $color-black;
       font-size: $font-size-baseline;
@@ -314,7 +315,7 @@ $c: ".c-base-modal-network-check-block";
 
   &--red {
     color: $color-base-red-normal;
-    
+
     #{$c}__left {
       color: $color-base-red-normal;
       font-size: $font-size-baseline;
@@ -332,10 +333,7 @@ $c: ".c-base-modal-network-check-block";
     #{$c}__left {
       color: $color-text-secondary;
       font-size: $font-size-baseline;
-
     }
   }
-
 }
 </style>
- 
