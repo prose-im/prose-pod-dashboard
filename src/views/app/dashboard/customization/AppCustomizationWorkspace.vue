@@ -9,7 +9,7 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.v-app-customization-emojis
+.v-app-customization-workspace
   base-subsection(
     v-model="config.workspaceProfile"
     title="Workspace Profile"
@@ -22,6 +22,22 @@
     :items="appearanceItems"
     @update="onUpdate"
   )
+
+<!-- Modals -->
+edit-name(
+  :visible="isEditNameVisible"
+  @close="toggleEditNameModalVisible"
+)
+
+edit-logo(
+  :visible="isEditLogoVisible"
+  @close="toggleEditLogoModalVisible"
+)
+
+edit-detail-card(
+  :visible="isEditDetailCardVisible"
+  @close="toggleEditDetailCardModalVisible"
+)
 </template>
   
 <!-- **********************************************************************
@@ -30,7 +46,10 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from '@/components/base/BaseSubsection.vue';  
+import BaseSubsection from '@/components/base/BaseSubsection.vue'; 
+import EditDetailCard from '@/assemblies/modals/customization/EditDetailCard.vue';
+import EditLogo from '@/assemblies/modals/customization/EditLogo.vue'; 
+import EditName from '@/assemblies/modals/customization/EditName.vue';
 
 // STORE
 import store from '@/store';
@@ -39,7 +58,10 @@ export default {
   name: "AppCustomizationWorkspace",
 
   components: {
-    BaseSubsection
+    BaseSubsection,
+    EditDetailCard,
+    EditLogo,
+    EditName
   },
 
   props: {
@@ -51,17 +73,17 @@ export default {
   data() {
     return {
       // --> STATE <--
-      store: {},
 
-      appearanceForm: {
-        accentColor: "Medium Blue"
-      },
+      isEditNameVisible: false,
+      isEditLogoVisible: false,
+      isEditDetailCardVisible: false,
 
       profileItems:[
         {
           subtitle:"Name for workspace",
           description: "The name of your workspace, as seen by server users as well as other servers on the network. It is recommended to enter the name of your company or organization.",
           type:"button",
+          action: this.toggleEditNameModalVisible,
           typeProps:{
             label:"Edit name...",
             size:"medium"
@@ -72,6 +94,7 @@ export default {
           subtitle:"Icon for workspace",
           description: "Upload a logo for your workspace. This will be visible next to your workspace name in various spots of the Prose app. Other servers on the network will see it as well.",
           type:"button",
+          action: this.toggleEditLogoModalVisible,
           typeProps:{
             label:"Edit logo...",
             size:"medium"
@@ -82,6 +105,7 @@ export default {
           subtitle:"Server details card",
           description: "Configure extra details about your server, which is useful to other servers. This is especially useful if someone wants to obtain eg. the website of your organization and other details.",
           type:"button",
+          action: this.toggleEditDetailCardModalVisible,
           typeProps:{
             label:"Edit details...",
             size:"medium"
@@ -98,11 +122,13 @@ export default {
             options:[
               {
                 colorPrev: "#2490F0",
-                value:"Medium Blue"
+                label: "Medium Blue",
+                value: "#2490F0"
               }, 
               {
                 colorPrev: "#1C293B",
-                value:"Dark Blue"
+                label: "Dark Blue",
+                value: "#1C293B"
               }
             ],
             size:"medium"
@@ -120,10 +146,24 @@ export default {
 
   watch: {},
 
-  created() {},
+  mounted() {
+      store.$customizationWorkspace.loadWorkspaceConfig();
+  },
 
   methods: {
     // --> HELPERS <--
+    toggleEditNameModalVisible(){
+      this.isEditNameVisible = !this.isEditNameVisible;
+    },
+
+    toggleEditLogoModalVisible(){
+      this.isEditLogoVisible = !this.isEditLogoVisible;
+    },
+
+    toggleEditDetailCardModalVisible(){
+      this.isEditDetailCardVisible = !this.isEditDetailCardVisible;
+    },
+
     onUpdate(newValue: boolean | string, changedKey: string){
       console.log('newValue', newValue, changedKey)
       if(this.config.appearance[changedKey] !== newValue) {
@@ -140,7 +180,7 @@ export default {
 
           // Appearance
           case 'color': {
-            store.$customizationWorkspace.updateWorkspaceColor(newValue);//!this.config.messaging[key]);
+            store.$customizationWorkspace.updateWorkspaceColor(newValue);
             break;
           }
           default:
@@ -157,5 +197,5 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".v-app-customization-emojis";
+$c: ".v-app-customization-workspace";
 </style>
