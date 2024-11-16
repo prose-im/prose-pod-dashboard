@@ -31,6 +31,7 @@ div(
             "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
           }
         ]`
+        @click="onSubtitleClick"
       )
         | {{ item.subtitle }}
 
@@ -98,7 +99,7 @@ div(
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
     v-model="state"
-    :colorPrev="squareColor"
+    :colorPrev="colorSquare"
     :options="item.typeProps?.options"
     position="bottom"
     size="medium"
@@ -145,12 +146,12 @@ export default {
   props: {
     modelValue: {
       type: [String, Boolean, Object],
-      default: null
+      default: null,
     },
 
-    secondaryData:{
+    secondaryData: {
       type: String,
-      default: null
+      default: null,
     },
 
     item: {
@@ -160,11 +161,11 @@ export default {
 
     type: {
       type: String,
-      required:true,
+      required: true,
 
       validator(x: string) {
         return ["toggle", "button", "select", "doubleSelect"].includes(x);
-      }
+      },
     },
 
     color: {
@@ -173,13 +174,13 @@ export default {
 
       validator(x: string) {
         return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
-      }
+      },
     },
 
-    index:{
+    index: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
 
   emits: ["update", "click", "updateExtraSelect"],
@@ -191,31 +192,30 @@ export default {
 
       stateSecondSelect: null,
 
-      squareColor: null
+      colorSquare: null,
     };
   },
 
   computed: {
     buttonColor() {
       switch (this.color) {
-        case 'bw': {
-          return 'white';
+        case "bw": {
+          return "white";
         }
-        case 'bwPurple': {
-          return 'purple';
+        case "bwPurple": {
+          return "purple";
         }
-        case 'redBackground': {
-          return 'red';
+        case "redBackground": {
+          return "red";
         }
-        case 'redShell': {
-          return 'red';
+        case "redShell": {
+          return "red";
         }
         default: {
-          return 'white';
+          return "white";
         }
       }
     },
-
   },
 
   watch: {
@@ -223,50 +223,38 @@ export default {
       immediate: true,
 
       handler(value) {
-        if(this.type !== 'doubleSelect') {
+        if (this.type !== "doubleSelect") {
           this.state = value;
+
+          if (typeof value === "string" && value.startsWith("#")) {
+            this.colorSquare = value;
+          }
         } else {
           this.state = Object.values(value)[0];
           this.stateSecondSelect = Object.values(value)[1];
         }
-
-        if(typeof value === 'string') {
-          const normalValue = value.toLowerCase();
-          switch (normalValue) {
-            case 'medium blue': {
-              return this.squareColor = '#2490F0';
-            }
-            case 'dark blue': {
-              return this.squareColor = '#1C293B';
-            }
-            default: {
-              return null;
-            }
-          }
-        }
-      }
+      },
     },
-
   },
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
     updateValue(newValue: boolean | string): void {
-
-      if(this.type === 'doubleSelect'){
+      if (this.type === "doubleSelect") {
         this.$emit("update", newValue, this.index, 0);
       } else {
         this.$emit("update", newValue, this.index);
       }
-
     },
 
     updateExtraSelect(newValue: boolean | string): void {
       this.$emit("update", newValue, this.index, 1);
-    }
-  }, 
+    },
+
+    onSubtitleClick() {
+      this.item.restoreSubtitle ? this.item.restoreAction() : "";
+    },
+  },
 };
 </script>
 
@@ -297,14 +285,15 @@ $c: ".c-base-subsection-item";
       margin-right: 7.5px;
     }
 
-    &--text{
+    &--text {
       margin: 0;
       font-size: ($font-size-baseline + 0.5px);
       font-weight: $font-weight-mid;
     }
 
     &--restore {
-      color:$color-base-blue-normal;
+      color: $color-base-blue-normal;
+      cursor: pointer;
     }
 
     &--right-icon {
@@ -326,9 +315,9 @@ $c: ".c-base-subsection-item";
     font-weight: $font-weight-light;
     display: flex;
     color: $color-text-secondary;
-      p {
-        margin: 0;
-      }
+    p {
+      margin: 0;
+    }
   }
 
   #{$c}__taglist {
@@ -341,29 +330,29 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  #{$c}__slot { 
+  #{$c}__slot {
     font-size: ($font-size-baseline - 4px);
     font-weight: $font-weight-medium;
     margin-inline-end: 20px;
 
-    &--avatar{
+    &--avatar {
       outline: 1px solid $color-border-primary;
       outline-offset: 1px;
     }
-  }  
+  }
 
   #{$c}__double-select {
     margin-inline-start: 3px;
   }
 
   // <!-- SIMPLE COLORS -->
-  &--grey{
+  &--grey {
     color: $color-text-secondary;
   }
 
   // <!-- THEME COLORS -->
   &--bw {
-    #{$c}__taglist{
+    #{$c}__taglist {
       color: $color-base-blue-normal;
     }
   }
@@ -392,7 +381,5 @@ $c: ".c-base-subsection-item";
       color: $color-base-red-normal;
     }
   }
-
-
 }
 </style>
