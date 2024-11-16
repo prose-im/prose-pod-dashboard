@@ -37,6 +37,18 @@ class APIAdvancedNetwork {
   async getAllNetworkChecks(): Promise<AllNetworkChecksResponse> {
     return (await Api.client.get(`/network/checks`)).data;
   }
+
+  async getDnsRecordsCheck(): Promise<AllNetworkChecksResponse> {
+    return (await Api.client.get(`/network/checks/dns`)).data;
+  }
+
+  async getPortsCheck(): Promise<AllNetworkChecksResponse> {
+    return (await Api.client.get(`/network/checks/ports`)).data;
+  }
+
+  async getIPConnectivityCheck(): Promise<AllNetworkChecksResponse> {
+    return (await Api.client.get(`/network/checks/ip`)).data;
+  }
 }
 
 /**************************************************************************

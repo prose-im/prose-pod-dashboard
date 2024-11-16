@@ -32,14 +32,14 @@ interface DefaultServerConfigResponse {
 class APIGlobal {
   /**  CONFIG  **/
 
-  async getServerConfig(): Promise<ServerConfigResponse> {
-    return (await Api.client.get(`/server/config`)).data; // global config??
+  async getWholeServerConfig(): Promise<ServerConfigResponse> {
+    return (await Api.client.get(`/server/config`)).data; 
   }
 
   async getDefaultServerConfig(): Promise<DefaultServerConfigResponse> {
     return (await Api.client.put(`/server/config`)).data;
   }
-}
+} 
 
 /**************************************************************************
  * EXPORTS

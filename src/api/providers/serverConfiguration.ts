@@ -22,26 +22,32 @@ const CONFIG_URL = "/server/config";
  * ************************************************************************* */
 
 class APIServerConfiguration {
+  /**  WHOLE SERVER CONFIG  **/
+
+  async getServerConfig(): Promise<void> {
+    return await Api.client.get(`${CONFIG_URL}`);
+  }
+
   /**  MESSAGING  **/
 
   async resetMessagesConfig(): Promise<void> {
-    await Api.client.put(`${CONFIG_URL}/messaging/reset`);
+    return (await Api.client.put(`${CONFIG_URL}/messaging/reset`)).data;
   }
 
   async updateMessageArchiveEnabled(enableArchive: boolean): Promise<void> {
-    await Api.client.put(`${CONFIG_URL}/message-archive-enabled`, {
-      enableArchive
+    return await Api.client.put(`${CONFIG_URL}/message-archive-enabled`, {
+      message_archive_enabled: enableArchive
     });
   }
 
   async updateMessageRetentionTime(newRetentionTime: string): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/message-archive-retention`, {
-      newRetentionTime
+      message_archive_retention: newRetentionTime
     });
   }
 
   async resetMessageRetentionTime(): Promise<void> {
-    await Api.client.put(`${CONFIG_URL}/message-archive-retention/reset`);
+    return (await Api.client.put(`${CONFIG_URL}/message-archive-retention/reset`)).data;
   }
 
   /**  FILES  **/
@@ -51,15 +57,16 @@ class APIServerConfiguration {
   }
 
   async updateFileUploadPermission(
-    /// ?? get to update UI?
-    uploadAllowed: string
+    uploadAllowed: boolean
   ): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/file-upload-allowed`, {
-      uploadAllowed
+      file_upload_allowed: uploadAllowed
     });
   }
 
-  async updateFileEncryptionScheme(newEncryptionScheme: string): Promise<void> {
+  async updateFileEncryptionScheme(
+    newEncryptionScheme: string
+  ): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/file-storage-encryption-scheme`, {
       newEncryptionScheme
     });
@@ -67,7 +74,7 @@ class APIServerConfiguration {
 
   async updateFileRetentionTime(newRetentionTime: string): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/file-storage-retention`, {
-      newRetentionTime
+      file_storage_retention: newRetentionTime
     });
   }
 }

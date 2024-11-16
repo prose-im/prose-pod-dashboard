@@ -42,9 +42,9 @@ class API {
       baseURL: `${CONFIG.api.endpoint.local}/${CONFIG.api.version}`,
       timeout: HTTP_TIMEOUT,
 
-      headers: {
-        "Content-Type": "application/json"
-      }
+      // headers: {
+      //   "Content-Type": "application/json"
+      // }
     });
   }
 

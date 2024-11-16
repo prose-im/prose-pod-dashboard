@@ -12,7 +12,7 @@
 import Api from "@/api";
 
 /**************************************************************************
- * INTERFACES
+ * INTERFACES  
  * ************************************************************************* */
 
 interface WorkspaceConfigResponse {
@@ -48,7 +48,12 @@ export class APICustomizationWorkspace {
   /**  CONFIG  **/
 
   async getWorkspaceConfig(): Promise<WorkspaceConfigResponse> {
-    return (await Api.client.get("/workspace")).data; /// ??? put instead of get?
+    const name = await Api.client.get("/workspace/name");
+    const icon = await Api.client.get("/workspace/icon");
+    const color = await Api.client.get("/workspace/accent-color");
+
+    return [name.data, icon.data, color.data]
+    // return (await Api.client.get("/workspace")).data; /// ??? put instead of get?
   }
 
   /**  WORKSPACE PROFILE **/
@@ -57,9 +62,9 @@ export class APICustomizationWorkspace {
     return (await Api.client.get("/workspace/name")).data;
   }
 
-  async updateWorkspaceName(newName: string): Promise<void> {
+  async setWorkspaceName(newName: string): Promise<void> {
     await Api.client.put("/workspace/name", {
-      newName
+      name: newName
     });
   }
 
@@ -67,9 +72,9 @@ export class APICustomizationWorkspace {
     return (await Api.client.get("/workspace/icon")).data;
   }
 
-  async updateWorkspaceIcon(newIcon: string): Promise<void> {
+  async setWorkspaceIcon(newIcon: string): Promise<void> {
     await Api.client.put("/workspace/icon", {
-      newIcon
+      image: newIcon
     });
   }
 
@@ -77,7 +82,7 @@ export class APICustomizationWorkspace {
     return (await Api.client.get("/workspace/details-card")).data;
   }
 
-  async updateWorkspaceDetailsCard(newDetailsCard: string): Promise<void> {
+  async setWorkspaceDetailsCard(newDetailsCard: string): Promise<void> {
     await Api.client.put("/workspace/details-card", {
       newDetailsCard
     });
@@ -89,9 +94,9 @@ export class APICustomizationWorkspace {
     return (await Api.client.get("/workspace/accent-color")).data;
   }
 
-  async updateWorkspaceColor(newColor: string): Promise<void> {
+  async setWorkspaceColor(newColor: string): Promise<void> {
     await Api.client.put("/workspace/accent-color", {
-      newColor
+      color: newColor
     });
   }
 }
