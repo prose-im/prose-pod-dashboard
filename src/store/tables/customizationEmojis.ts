@@ -16,8 +16,7 @@ import { defineStore } from "pinia";
 // import UtilitiesRuntime from "@/utilities/runtime";
 
 // PROJECT: STORES
-import Store from "@/store";
-import customizationReactions from "@/api/providers/customizationReactions";
+import APICustomizationReactions from '@/api/providers/customizationReactions';
 
 /**************************************************************************
  * TYPES
@@ -112,14 +111,13 @@ const $customizationEmojis = defineStore("room", {
       return EventBus;
     },
 
-    async loadReactions(reload = false): Promise<void> {
+    async loadAllReactions(reload = false): Promise<void> {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions: Array<EmojiListEntry> = [];
+        const allReactions: Array<EmojiListEntry> = await APICustomizationReactions.getAllReactions();
 
-        // Load rooms
-        const sidebarItems = await customizationReactions.getAllReactions();
+        console.log('reactions', allReactions);
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;

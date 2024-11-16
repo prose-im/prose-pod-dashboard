@@ -11,9 +11,10 @@
 // NPM
 import { defineStore } from "pinia";
 import mitt from "mitt";
-
+ 
 // PROJECT: BROKER
-import ServerConfiguration from "@/api/serverConfiguration";
+import APIServerConfiguration from '@/api/providers/serverConfiguration';
+import store from "..";
 
 /**************************************************************************
  * ENUMERATIONS
@@ -28,6 +29,14 @@ import ServerConfiguration from "@/api/serverConfiguration";
  * ************************************************************************* */
 
 interface ServerConfig {
+  message_archive_enabled: boolean, 
+  message_archive_retention: string, 
+  file_upload_allowed: boolean, 
+  file_storage_encryption_scheme: string,
+  file_storage_retention: string,
+}
+
+interface ServerConfigUi {
   messaging: MessagingConfig;
   files: FilesConfig;
 }
@@ -56,25 +65,27 @@ const EventBus = mitt();
 const $serverConfiguration = defineStore("serverConfiguration", {
   state: (): ServerConfig => {
     return {
-      messaging: {
-        archiveEnabled: false,
-        messageRetentionTime: "1 year"
-      },
-
-      files: {
-        fileUploadEnabled: true,
-        encryption: "Encrypted (AES-256)",
-        fileRetentionTime: "1 year"
-      }
+      message_archive_enabled: false, 
+      message_archive_retention: "P1Y", 
+      file_upload_allowed: true, 
+      file_storage_encryption_scheme: "",
+      file_storage_retention: "infinite",
     };
   },
 
   getters: {
     getSettings: function () {
-      return (): ServerConfig => {
+      return (): ServerConfigUi => {
         return {
-          messaging: this.messaging,
-          files: this.files
+          messaging: {
+            archiveEnabled: this.message_archive_enabled,
+            messageRetentionTime: this.message_archive_retention
+          },
+          files: {
+            fileUploadEnabled: this.file_upload_allowed,
+            encryption: this.file_storage_encryption_scheme,
+            fileRetentionTime: this.file_storage_retention,
+          }
         };
       };
     }
@@ -86,30 +97,76 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       return EventBus;
     },
 
-    toggleMessageArchiveEnabled(): void {
-      // ServerConfiguration.updateMessageArchiveEnabled(!this.messaging.archiveEnabled);
-      this.messaging.archiveEnabled = !this.messaging.archiveEnabled;
+    async loadServerConfiguration() { 
+      await store.$globalConfig.loadGlobalConfig();
+
+      const response = await store.$globalConfig.getGlobalConfig();
+      // console.log('response', response)
+
+      this.$patch(() => {
+        this.message_archive_enabled = response.message_archive_enabled; 
+        this.message_archive_retention = response.message_archive_retention; 
+        this.file_upload_allowed = response.file_upload_allowed; 
+        this.file_storage_encryption_scheme = response.file_storage_encryption_scheme;
+        this.file_storage_retention = response.file_storage_retention;
+      })
     },
 
-    changeMessageRetentionTime(newTime: string): void {
-      // ServerConfiguration.updateMessageRetentionTime(newTime);
-      this.messaging.messageRetentionTime = newTime;
+    async toggleMessageArchiveEnabled(activated: boolean) {
+      await APIServerConfiguration.updateMessageArchiveEnabled(activated);
+
+      this.$patch(() => {
+        this.message_archive_enabled = activated;
+      })
     },
 
-    toggleFileUploadEnabled(): void {
-      // ServerConfiguration.updateMessageArchiveEnabled(!this.messaging.archiveEnabled);
-      this.files.fileUploadEnabled = !this.files.fileUploadEnabled;
+    async changeMessageRetentionTime(newTime: string): Promise<void> {
+      await APIServerConfiguration.updateMessageRetentionTime(newTime)
+
+      this.$patch(() => {
+        this.message_archive_retention = newTime;
+      })
     },
 
-    changeFileEncryption(newEncryption: string): void {
-      // ServerConfiguration.updateMessageRetentionTime(newTime);
-      this.files.encryption = newEncryption;
-      console.log("toggled");
+    async toggleFileUploadEnabled(allowed: boolean): Promise<void> {
+      await APIServerConfiguration.updateFileUploadPermission(allowed)
+
+      this.$patch(() => {
+        this.file_upload_allowed = allowed;
+      })
     },
 
-    changeFileRetentionTime(newTime: string): void {
-      // ServerConfiguration.updateMessageRetentionTime(newTime);
-      this.files.fileRetentionTime = newTime;
+    async changeFileEncryption(newEncryptionScheme: string): Promise<void> {
+      await APIServerConfiguration.updateFileEncryptionScheme(newEncryptionScheme)
+
+      this.$patch(() => {
+        this.file_storage_encryption_scheme = newEncryptionScheme;
+      })
+    },
+
+    async changeFileRetentionTime(newTime: string): Promise<void> {
+      await APIServerConfiguration.updateFileRetentionTime(newTime)
+
+      this.$patch(() => {
+        this.file_storage_retention = newTime;
+      })
+    },
+
+    async restoreMessaging(): Promise<void> {
+      const response = await APIServerConfiguration.resetMessagesConfig();
+
+      this.$patch(() => {
+        this.message_archive_enabled = response.message_archive_enabled;
+        this.message_archive_retention =response.message_archive_retention;
+      })
+    },
+
+    async restoreMessageArchiveRetention(): Promise<void> {
+      const response = await APIServerConfiguration.resetMessageRetentionTime();
+      
+      this.$patch(() => {
+        this.message_archive_retention =response.message_archive_retention;
+      })
     }
   }
 });

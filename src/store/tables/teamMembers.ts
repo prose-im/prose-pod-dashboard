@@ -9,7 +9,7 @@
  * ************************************************************************* */
 
 // NPM
-import { JID, UserStatus } from "@prose-im/prose-sdk-js";
+import APITeamMembers, { Roles } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
 
 /**************************************************************************
@@ -120,51 +120,39 @@ const $teamMembers = defineStore("teamMembers", {
     async loadActiveMembers(reload = false): Promise<ActiveMembersList> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
-        // Initialize entries
-        const entries: ActiveMembersList = [];
 
         // Load all public channels
-        const publicChannels = await Broker.$channel.loadPublicChannels();
+        const entries = await APITeamMembers.getAllMembers();
+        console.log('entries', entries)
 
-        publicChannels.forEach(publicChannel => {
-          entries.push({
-            type: ChannelType.Public,
-            jid: publicChannel.jid.toString(),
-            name: publicChannel.name
-          });
-        });
+        const jids = ['valerian@prose.org.local', 'remi@prose.org.local']
+        
+        // entries.forEach((member: object, index: number) => {
+        //   if(index === 0){
+        //     enrichUrl += 'jids=' + member.jid;
+        //   } else {
+        //     enrichUrl += '&jids=' + member.jid;
+        //   }
+        // })
+        console.log('url', jids);
+        const allMembers = await APITeamMembers.enrichMembers();
 
-        this.$patch(state => {
-          state.list = entries;
-        });
+        console.log('all members', allMembers)
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
 
-      return this.list;
+      // return this.list;
     },
 
     async loadInvitedMembers(reload = false): Promise<InvitedMembersList> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Initialize entries
-        const entries: InvitedMembersList = [];
+        this.invitedMembers = await APITeamMembers.getAllInvitations();
 
-        // Load all public channels
-        const publicChannels = await Broker.$channel.loadPublicChannels();
-
-        publicChannels.forEach(publicChannel => {
-          entries.push({
-            type: ChannelType.Public,
-            jid: publicChannel.jid.toString(),
-            name: publicChannel.name
-          });
-        });
-
-        this.$patch(state => {
-          state.list = entries;
-        });
+        console.log('invites', this.invitedMembers)
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
@@ -173,25 +161,20 @@ const $teamMembers = defineStore("teamMembers", {
       return this.list;
     },
 
-    sendInvitation(newInviteEmail: string): void {
+    async sendInvitation(newUsername: string, newRole:string, newInviteEmail: string): Promise<void> {
       const newInvite = {
-        id: "3ea40db6-ee83-406b-b735-17ecb89f26bd",
-        name: null,
-        email: newInviteEmail,
-        status: "invited"
+        username: newUsername,
+        pre_assigned_role: newRole.toUpperCase(),
+        channel: 'email',
+        email_address: newInviteEmail,
       };
 
-      this.invitedMembers.push(newInvite);
+      return await APITeamMembers.sendInvitation(newInvite);
+      // this.invitedMembers.push(newInvite);
     },
 
-    cancelInvitation(inviteId: string): void {
-      const indexToRemove = this.invitedMembers.findIndex(
-        invitedMember => invitedMember["id"] === inviteId
-      );
-
-      if (indexToRemove > -1) {
-        this.invitedMembers.splice(indexToRemove, 1);
-      }
+    async cancelInvitation(inviteId: string): Promise<void> {
+      return await APITeamMembers.cancelInvitation(inviteId);
     }
   }
 });

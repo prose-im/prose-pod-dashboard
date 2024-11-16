@@ -10,17 +10,9 @@
 
 // NPM
 import { defineStore } from "pinia";
-// import { Availability, JID } from "@prose-im/prose-sdk-js";
-
-// PROJECT: STORES
-import Store from "@/store";
-// import { InboxNameOrigin } from "@/store/tables/customizationWorkspace";
 
 // PROJECT: UTILITIES
-// import { PodApi } from "@/api/global";
-
-//TYPES
-import { ServerConfig } from "./serverConfiguration";
+import APIGlobal from "@/api/providers/global";
 
 /**************************************************************************
  * INTERFACES
@@ -132,9 +124,17 @@ const $globalConfig = defineStore("globalConfig", {
   },
 
   getters: {
-    getGlobalConfig(): ConfigProperties {
-      return this.properties;
-    }
+    getGlobalConfig: function (): ConfigProperties {
+      return () => {
+        return this.properties;
+      };
+    },
+
+    getDomain: function () {
+      return () => {
+        return this.properties.domain;
+      };
+    },
   },
 
   actions: {
@@ -142,7 +142,7 @@ const $globalConfig = defineStore("globalConfig", {
       // Load information? (or reload)
       if (LOCAL_STATES.informationLoaded === false || reload === true) {
         // Load globalConfig configuration
-        const globalConfig = await PodApi.getServerConfig();
+        const globalConfig = await APIGlobal.getWholeServerConfig();
 
         // Update stored config
         // Notice: this is a cross-store operation, for convenience.

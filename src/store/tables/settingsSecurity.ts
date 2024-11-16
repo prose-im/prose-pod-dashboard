@@ -12,14 +12,23 @@
 import { defineStore } from "pinia";
 import mitt from "mitt";
 
-// PROJECT: BROKER
-// import Broker from "@/broker";
+// PROJECT: UTILITIES
+import APIAdvancedSecurity  from "@/api/providers/advancedSecurity";
+import store from "..";
 
 /**************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
 const EventBus = mitt();
+
+/**************************************************************************
+ * CONSTANTS
+ * ************************************************************************* */
+
+const LOCAL_STATES = {
+  configLoaded: false
+};
 
 /**************************************************************************
  * TABLE
@@ -33,8 +42,8 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       },
 
       encryption: {
-        version: "TLS 1.0+",
-        strength: "High strength"
+        version: "",
+        strength: ""
       }
     };
   },
@@ -56,60 +65,16 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       return EventBus;
     },
 
-    setNotificationsConfigurationWhenDays(value: string): void {
-      this.setGeneric(this.notifications.configuration.when, "days", value);
-    },
+    async loadConfig(): Promise<void> {
+      await store.$globalConfig.loadGlobalConfig();
 
-    setNotificationsConfigurationWhenTimeFrom(value: string): void {
-      this.setGeneric(
-        this.notifications.configuration.when.time,
-        "from",
-        value
-      );
-    },
-
-    setNotificationsConfigurationWhenTimeTo(value: string): void {
-      this.setGeneric(this.notifications.configuration.when.time, "to", value);
-    },
-
-    setNotificationsActionNotifyBadge(value: boolean): void {
-      this.setGeneric(this.notifications.action.notify, "badge", value);
-    },
-
-    setNotificationsDevicesMobileAlertsAfter(value: string): void {
-      this.setGeneric(this.notifications.devices.mobile.alerts, "after", value);
-    },
-
-    setMessagesChatsChatstates(value: boolean): void {
-      this.setGeneric(this.messages.chats, "chatstates", value);
-    },
-
-    setMessagesChatsSpellcheck(value: boolean): void {
-      this.setGeneric(this.messages.chats, "spellcheck", value);
-    },
-
-    setMessagesChatsClock24h(value: boolean): void {
-      this.setGeneric(this.messages.chats, "clock24h", value);
-    },
-
-    setMessagesFilesUploadsOptimize(value: boolean): void {
-      this.setGeneric(this.messages.files.uploads, "optimize", value);
-    },
-
-    setMessagesFilesImagePreviewsEnabled(value: boolean): void {
-      this.setGeneric(this.messages.files.imagePreviews, "enabled", value);
-    },
-
-    setMessagesFilesImagePreviewsSize(value: string): void {
-      this.setGeneric(this.messages.files.imagePreviews, "size", value);
-    },
-
-    setCallsCameraInputSource(value: string): void {
-      this.setGeneric(this.calls.camera, "inputSource", value);
-    },
-
-    setCallsMicrophoneInputSource(value: string): void {
-      this.setGeneric(this.calls.microphone, "inputSource", value);
+      const response = await store.$globalConfig.getGlobalConfig();
+        
+      // Load globalConfig configuration
+      this.security.twoFactor = response.mfa_required;
+      this.encryption.strength = response.minimum_cipher_suite;
+      this.encryption.version = response.minimum_tls_version;
+      
     },
 
     setCallSoundOutputSource(value: string): void {

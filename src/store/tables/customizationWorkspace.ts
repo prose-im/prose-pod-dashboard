@@ -11,13 +11,9 @@
 // NPM
 import mitt from "mitt";
 import { defineStore } from "pinia";
-import { RoomID } from "@prose-im/prose-sdk-js";
-
-// PROJECT: STORES
-import Store from "@/store";
 
 // PROJECT: UTILITIES
-import { APICustomizationWorkspace } from "@/api/providers/customizationWorkspace";
+import APICustomizationWorkspace from "@/api/providers/customizationWorkspace";
 
 /**************************************************************************
  * ENUMERATIONS
@@ -72,9 +68,8 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
   state: (): CustomizationWorkspaceConfig => {
     return {
       workspaceProfile: {
-        name: "Crisp",
-        iconUrl:
-          "https://cdn.cmsfly.com/635bcad9b8a74e0091632998/cerp-GR1YU2.png",
+        name: "",
+        iconUrl: "https://cdn.cmsfly.com/635bcad9b8a74e0091632998/cerp-GR1YU2.png",
         detailsCard: ""
       },
 
@@ -108,12 +103,16 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
       // Return event bus
       return EventBus;
     },
-
-    async loadWorkspaceConfig(reload: boolean = false): Promise<void> {
+ 
+    async loadWorkspaceConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.configLoaded === false || reload === true) {
         // Load globalConfig configuration
-        await APICustomizationWorkspace.getWorkspaceConfig();
+        const [name, icon, color] = await APICustomizationWorkspace.getWorkspaceConfig();
+
+        this.workspaceProfile.name = name.name;
+        this.appearance.color = color.color;        
+        // this.workspaceProfile.iconUrl = icon.icon
       }
     },
 
@@ -122,7 +121,9 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
-      await APICustomizationWorkspace.updateWorkspaceName(newName);
+      await APICustomizationWorkspace.setWorkspaceName(newName);
+
+      this.workspaceProfile.name = newName;
     },
 
     async getWorkspaceIcon(): Promise<void> {
@@ -130,7 +131,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceIcon(newIcon: string): Promise<void> {
-      await APICustomizationWorkspace.updateWorkspaceIcon(newIcon);
+      await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
     },
 
     async getWorkspaceColor(reload = false): Promise<void> {
@@ -142,8 +143,11 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceColor(newColor: string): Promise<void> {
-      this.appearance.color = newColor;
-      //await APICustomizationWorkspace.updateWorkspaceColor(newColor)
+      await APICustomizationWorkspace.setWorkspaceColor(newColor)
+
+      this.$patch(() => {
+        this.appearance.color = newColor
+      });
     }
   }
 });
