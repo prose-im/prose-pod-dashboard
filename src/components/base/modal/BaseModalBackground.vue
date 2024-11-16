@@ -10,6 +10,9 @@
 
 <template lang="pug">
 .c-base-modal-background(
+  :class=`[
+    "c-base-modal-background--" + position
+  ]`
   @click.self="onClickAway"
 )
   slot
@@ -29,7 +32,14 @@
    },
 
    props: {
-     
+    position: {
+      type: String,
+      default:'left',
+
+      validator(x: string) {
+        return ["center", "left"].includes(x);
+      }
+    },
    },
  
    data() {
@@ -68,6 +78,11 @@
   display: flex;
   justify-content: flex-end;
   backdrop-filter: blur(1.5px);
+
+  &--center {
+    justify-content: center;
+    align-items: center;
+  }
  }
  </style>
  

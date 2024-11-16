@@ -15,6 +15,9 @@ transition(
 )
   .c-base-modal-container(
     v-if="containerVisible"
+    :class=`[
+      "c-base-modal-container--" + position
+    ]`
   )
     .c-base-modal-container__title(
       :class=`[
@@ -34,7 +37,7 @@ transition(
     
     .c-base-modal-container__footer
       base-button(
-        size="mid-large"
+        :size="buttonSize"
         tint="grey"
         @click="onClose"
       )
@@ -43,7 +46,7 @@ transition(
       base-button(
         v-if="buttonColor !== 'grey'"
         class="c-base-modal-container__footer--extra-button"
-        size="mid-large"
+        :size="buttonSize"
         :tint="buttonColor"
         @click="onConfirm"
       )
@@ -102,7 +105,16 @@ export default {
     containerVisible: {
       type: Boolean,
       default: false
-    }
+    },
+
+    position: {
+      type: String,
+      default:'left',
+
+      validator(x: string) {
+        return ["center", "left"].includes(x);
+      }
+    },
   },
 
   data() {
@@ -112,6 +124,10 @@ export default {
   },
 
   computed: {
+    buttonSize() {
+      return this.position === 'left' ? 'mid-large' :'large'
+    },
+
     abortButtonText() {
       return this.buttonColor === 'grey' ? 'Close' : 'Cancel'
     }
@@ -142,9 +158,8 @@ export default {
 $c: ".c-base-modal-container";
 
 #{$c} {
-  flex: 1 1 auto;
+  //flex: 1 1 auto;
   max-width: 750px;
-  height: 100%;
   background-color: $color-white;
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
@@ -178,6 +193,23 @@ $c: ".c-base-modal-container";
 
     &--extra-button{
       margin-left: 12px;
+    }
+  }
+
+  //<!-- POSITIONS -->
+
+  &--center {
+    min-width: 40%;
+    border-radius: 14px;
+    height: fit-content;
+
+
+    #{$c}__title{
+      padding-block-start: 27.5px;
+    }
+
+    #{$c}__footer{
+      padding-block: 20px;
     }
   }
 

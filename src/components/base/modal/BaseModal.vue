@@ -19,10 +19,12 @@ teleport(
       v-if="visible"
     )
       base-modal-background(
+        :position="position"
         @closeModal="onClose"
       )
         base-modal-container(
           :containerVisible="loaded"
+          :position="position"
           :title="title"
           :titleColor="titleColor"
           :buttonColor="buttonColor"
@@ -32,6 +34,8 @@ teleport(
           @confirmAction="onConfirm"
         )
           slot
+
+          
 </template>
  
  <!-- **********************************************************************
@@ -43,7 +47,7 @@ import BaseModalBackground from '@/components/base/modal/BaseModalBackground.vue
 import BaseModalContainer from '@/components/base/modal/BaseModalContainer.vue';
 
 export default {
-  name: "Modal",
+  name: "BaseModal",
 
   components:{
     BaseModalBackground,
@@ -73,6 +77,15 @@ export default {
     flexContainer: {
       type: Boolean,
       default: false
+    },
+
+    position: {
+      type: String,
+      default:'left',
+
+      validator(x: string) {
+        return ["center", "left"].includes(x);
+      }
     },
 
     titleColor: {
