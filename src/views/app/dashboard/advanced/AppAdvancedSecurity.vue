@@ -67,12 +67,12 @@ export default {
           typeProps:{
             options:[
               {
-                icon:"",
-                value:"TLS 1.0+",
+                label:"TLS 1.2",
+                value:"1.2",
               }, 
               {
-                icon:"",
-                value:"None",
+                label:"TLS 1.0+",
+                value:"1.0+",
               }
             ],
             size:"medium"
@@ -85,12 +85,12 @@ export default {
           typeProps:{
             options:[
               {
-                icon:"",
-                value:"High strength"
+                label:"High strength",
+                value:"HIGH_STRENGTH"
               }, 
               {
-                icon:"",
-                value:"Low strength"
+                label:"Low strength",
+                value:"LOW_STRENGTH"
               }
             ],
             size:"medium"
@@ -108,7 +108,9 @@ export default {
 
   watch: {},
 
-  created() {},
+  mounted() {
+      store.$settingsSecurity.loadConfig();
+  },
 
   methods: {
     // --> HELPERS <--
@@ -118,7 +120,7 @@ export default {
         switch (changedKey) {
           // Security
           case 'twoFactor': {
-            // store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
+            store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
             break;
           }
 
