@@ -31,6 +31,7 @@
 
   base-navigation-footer
 
+<!-- Modal -->
 add-custom-emoji(
   :visible="isModalVisible"
   @close="toggleModalVisible"
@@ -79,7 +80,9 @@ export default {
 
   watch: {},
 
-  created() {},
+  mounted() {
+      store.$customizationEmojis.loadAllReactions()
+  },
 
   methods: {
     // --> EVENT LISTENERS <--
