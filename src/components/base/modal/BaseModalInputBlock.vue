@@ -15,7 +15,7 @@
     
   form-field(
     v-model="fieldValue"
-    type="type"
+    :type="type"
     size="mid-large"
     align="left"
     :placeholder="placeholder"

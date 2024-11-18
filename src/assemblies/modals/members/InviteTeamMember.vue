@@ -29,6 +29,7 @@ base-modal(
     base-modal-input-block(
       v-model="inviteUserName"
       label="Username"
+      type="text"
     )
 
     h4
@@ -36,6 +37,7 @@ base-modal(
 
     form-select(
       v-model="inviteRole"
+      class="a-invite-team-member__select"
       position="bottom"
       :options="roleOptions"
     )
@@ -157,6 +159,10 @@ $c: ".a-invite-team-member";
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
+  }
+
+  #{$c}__select {
+    width: fit-content;
   }
 
   #{$c}__info {

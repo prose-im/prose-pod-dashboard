@@ -43,6 +43,10 @@ div(
           fill="#2490f0"
         )
 
+        base-coming-soon(
+          v-if="item.disabled"
+        )
+
     p.c-base-subsection-item__description 
       | {{ item.description}}
 
@@ -85,11 +89,13 @@ div(
   form-toggle(
     v-if="type === 'toggle'"
     v-model="state"
+    :disabled="item.disabled"
     @update:modelValue="updateValue"
   )
 
   base-button(
-    v-if="type === 'button'"
+    v-if="type === 'button'" 
+    :disabled="item.disabled"
     :size="item.typeProps?.size"
     :tint="buttonColor"
     @click="$emit('click')"
@@ -100,6 +106,7 @@ div(
     v-if="(type === 'select') || type === 'doubleSelect'"
     v-model="state"
     :colorPrev="colorSquare"
+    :disabled="item.disabled"
     :options="item.typeProps?.options"
     position="bottom"
     size="medium"
@@ -111,6 +118,7 @@ div(
     v-if="type === 'doubleSelect'"
     v-model="stateSecondSelect"
     class="c-base-subsection-item__double-select"
+    :disabled="item.disabled"
     :search="false"
     size="medium"
     :options="item.typeProps?.secondOptions"
@@ -128,6 +136,7 @@ div(
 // PROJECT: COMPONENTS
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseComingSoon from "./BaseComingSoon.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
 import FormToggle from "@/components/form/FormToggle.vue";
@@ -138,6 +147,7 @@ export default {
   components: {
     BaseAvatar,
     BaseButton,
+    BaseComingSoon,
     BaseIcon,
     FormSelect,
     FormToggle,
@@ -252,7 +262,9 @@ export default {
     },
 
     onSubtitleClick() {
-      this.item.restoreSubtitle ? this.item.restoreAction() : "";
+      this.item.restoreSubtitle && this.item.restoreAction
+        ? this.item.restoreAction()
+        : "";
     },
   },
 };

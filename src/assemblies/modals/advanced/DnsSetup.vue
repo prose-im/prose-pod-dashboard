@@ -18,8 +18,10 @@ base-modal(
   .a-dns-setup
     base-modal-input-block(
       v-model="domain"
+      :disabled="true"
       label="Domain name"
       placeholder="prose.org"
+      type="text"
     )
 
     base-modal-information(

@@ -47,7 +47,7 @@ base-modal(
           .a-restore-backup__subblock(
             :class=`[
               {
-                "a-restore-backup--opaque" : noSettings
+                "a-restore-backup--opaque" : missingSettings
               }
             ]`
           )
@@ -64,16 +64,18 @@ base-modal(
 
               base-button(
                 tint="white"
-                :disabled="noSettings"
+                :disabled="missingSettings"
               )
                 | Choose data backup...
           
             <!-- .a-restore-backup__filter -->
 
       base-modal-input-block(
+        v-model="password"
         class="a-restore-backup__input-block"
         label="Password verification"
         placeholder="Enter your account password..."
+        type="password"
       )
 
       base-modal-disclaimer(
@@ -88,18 +90,18 @@ base-modal(
     )
       | I confirm that I am aware of the risks of data loss
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalDisclaimer from '@/components/base/modal/BaseModalDisclaimer.vue';
-import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
-import FormCheckbox from '@/components/form/FormCheckbox.vue';
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseModal from "@/components/base/modal/BaseModal.vue";
+import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
+import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
+import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "RestoreBackup",
@@ -109,29 +111,27 @@ export default {
     BaseModal,
     BaseModalDisclaimer,
     BaseModalInputBlock,
-    FormCheckbox
+    FormCheckbox,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: ["close", "proceed"],
 
   data() {
     return {
       // --> STATE <--
-      noSettings: true,
+      dataLossConfirmed: false,
 
-      dataLossConfirmed: false
+      missingSettings: true,
+
+      password: "",
     };
   },
 
   computed: {},
 
   watch: {},
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
@@ -165,10 +165,10 @@ $c: ".a-restore-backup";
     padding-block: 15.5px 19.5px;
     width: 50%;
 
-    p{
+    p {
       margin-block: 0;
     }
-    
+
     &--content {
       max-width: max-content;
       min-width: 151px;
@@ -176,9 +176,8 @@ $c: ".a-restore-backup";
     }
 
     &:first-child {
-      border-right: 1px solid $color-border-secondary;  
+      border-right: 1px solid $color-border-secondary;
       min-width: 168px;
-
     }
   }
 
@@ -187,13 +186,11 @@ $c: ".a-restore-backup";
     margin-bottom: 12px;
   }
 
-
-
   #{$c}__upload {
     margin-bottom: 38px;
 
-    h4{
-      color:$color-text-secondary;
+    h4 {
+      color: $color-text-secondary;
       margin-top: 0;
       margin-bottom: 11px;
       margin-left: 8px;
@@ -219,6 +216,4 @@ $c: ".a-restore-backup";
     opacity: 0.4;
   }
 }
-
 </style>
-        

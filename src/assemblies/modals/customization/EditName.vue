@@ -22,22 +22,23 @@ base-modal(
       v-model="newName"
       label="New name"
       placeholder="ex: iCorp"
+      type="text"
     )
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from '@/components/base/BaseAvatar.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
-import FormField from '@/components/form/FormField.vue';
-import store from '@/store';
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseModal from "@/components/base/modal/BaseModal.vue";
+import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
+import FormField from "@/components/form/FormField.vue";
+import store from "@/store";
 
 export default {
   name: "AddCustomEmoji",
@@ -48,19 +49,17 @@ export default {
     BaseIcon,
     BaseModal,
     BaseModalInputBlock,
-    FormField
+    FormField,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: ["close", "proceed"],
 
   data() {
     return {
       // --> STATE <--
-      newName: ''
+      newName: "",
     };
   },
 
@@ -73,21 +72,18 @@ export default {
   methods: {
     // --> HELPERS <--
 
-    onProceed () {
+    onProceed() {
       store.$customizationWorkspace.updateWorkspaceName(this.newName);
-      
-      this.newName ='';
-      this.$emit('close');
+
+      this.newName = "";
+      this.$emit("close");
     },
 
-    onClose () {
-
-      this.newName = '';
-      this.$emit('close');
-    }
-
+    onClose() {
+      this.newName = "";
+      this.$emit("close");
+    },
   },
-
 };
 </script>
 
@@ -102,8 +98,5 @@ $c: ".a-edit-name";
   margin-inline: 48px;
   margin-block-end: 30px;
   font-family: $font-family-default;
-  
 }
-
 </style>
-            

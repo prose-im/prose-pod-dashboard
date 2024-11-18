@@ -27,8 +27,10 @@ base-modal(
       )
 
       base-modal-input-block(
+        v-model="password"
         label="Password verification"
         placeholder="Enter your account password..."
+        type="password"
       )
 
     .a-factory-reset__confirm
@@ -48,17 +50,17 @@ base-modal(
       )
         |I confirm that I am aware that all data will be erased
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseModal from '@/components/base/modal/BaseModal.vue';
-import BaseModalDisclaimer from '@/components/base/modal/BaseModalDisclaimer.vue';
-import BaseModalInputBlock from '@/components/base/modal/BaseModalInputBlock.vue';
-import FormCheckbox from '@/components/form/FormCheckbox.vue';
+import BaseModal from "@/components/base/modal/BaseModal.vue";
+import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
+import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
+import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "FactoryReset",
@@ -67,12 +69,10 @@ export default {
     BaseModal,
     BaseModalDisclaimer,
     BaseModalInputBlock,
-    FormCheckbox
+    FormCheckbox,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: ["close", "proceed"],
 
@@ -80,17 +80,16 @@ export default {
     return {
       // --> STATE <--
       downloadConfirmed: false,
-      dataLossConfirmed: false
+
+      dataLossConfirmed: false,
+
+      password: "",
     };
   },
 
   computed: {},
 
-  watch: {
-
-  },
-
-  created() {},
+  watch: {},
 
   methods: {
     // --> HELPERS <--
@@ -113,16 +112,15 @@ $c: ".a-factory-reset";
   margin-inline: 48px;
   font-family: $font-family-default;
 
-  #{$c}__disclaimer{
+  #{$c}__disclaimer {
     margin-top: 4px;
     margin-bottom: 31px;
   }
 
-  #{$c}__confirm{
+  #{$c}__confirm {
     &--upper {
       margin-bottom: 8px;
     }
   }
 }
 </style>
-        

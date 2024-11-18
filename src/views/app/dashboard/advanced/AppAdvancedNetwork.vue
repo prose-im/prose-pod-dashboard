@@ -84,6 +84,7 @@ export default {
             "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
           tags: ["Allowed", "prose.org", "clever-cloud.com", "bb.agency"],
           type: "button",
+          disabled: true,
           typeProps: {
             label: "Edit servers...",
             size: "medium",
