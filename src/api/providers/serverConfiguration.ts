@@ -53,7 +53,7 @@ class APIServerConfiguration {
   /**  FILES  **/
 
   async resetFilesConfig(): Promise<void> {
-    await Api.client.put(`${CONFIG_URL}/files/reset`);
+    return (await Api.client.put(`${CONFIG_URL}/files/reset`)).data;
   }
 
   async updateFileUploadPermission(
