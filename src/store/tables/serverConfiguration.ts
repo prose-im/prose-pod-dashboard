@@ -152,7 +152,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       })
     },
 
-    async restoreMessaging(): Promise<void> {
+    async restoreMessagingConfig(): Promise<void> {
       const response = await APIServerConfiguration.resetMessagesConfig();
 
       this.$patch(() => {
@@ -167,7 +167,18 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       this.$patch(() => {
         this.message_archive_retention =response.message_archive_retention;
       })
-    }
+    },
+
+    async restoreFileConfig(): Promise<void> {
+      const response = await APIServerConfiguration.resetFilesConfig();
+      console.log('files', response);
+
+      this.$patch(() => {
+        this.file_upload_allowed = response.file_upload_allowed;
+        this.file_storage_encryption_scheme = response.file_storage_encryption_scheme;
+        this.file_storage_retention = response.file_storage_retention;
+      })
+    },
   }
 });
 
