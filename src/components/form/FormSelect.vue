@@ -106,7 +106,7 @@ div(
               }
             ]`
           )
-            | {{ option.value }}
+            | {{ option.label }}
 </template>
 
 <!-- **********************************************************************
@@ -246,18 +246,13 @@ export default {
       return this.options.length > 0;
     },
 
-    valueLabel(): string {
+    valueLabel(): string | undefined {
       const option = this.options.find(option => {
         return this.value === option.value;
       });
 
-      // Return inner label from corresponding option?
-      if (option && option.value) {
-        return option.value;
-      }
-
       // Fallback on raw value
-      return this.value;
+      return option?.label;
     },
 
     arrowSize(): string {
@@ -307,7 +302,7 @@ export default {
     // --> HELPERS <--
 
     selectOption(option: Option): void {
-      console.log(option, option.value);
+      // console.log(option, option.value);
       this.$emit("update:modelValue", option.value);
 
       // Hide dropdown selector
@@ -459,43 +454,44 @@ $c: ".c-form-select";
 $sizes: (
   "medium": (
     "font-size": $font-size-baseline - 2.5px,
+    "value-font-size": $font-size-baseline - 2.5px,
     "line-height": $size-form-select-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 2px
+    "option-retract": 2px,
   ),
-
   "mid-medium": (
     "font-size": $font-size-baseline - 1.5px,
+    "value-font-size": $font-size-baseline - 2px,
     "line-height": $size-form-select-mid-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 4px
+    "option-retract": 4px,
   ),
-
   "large": (
     "font-size": $font-size-baseline,
+    "value-font-size": $font-size-baseline - 1px,
     "line-height": $size-form-select-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 6px
+    "option-retract": 6px,
   ),
-
   "mid-large": (
     "font-size": $font-size-baseline + 1.5px,
+    "value-font-size": $font-size-baseline,
     "line-height": $size-form-select-mid-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 8px
+    "option-retract": 8px,
   ),
-
   "ultra-large": (
     "font-size": $font-size-baseline + 2.5px,
+    "value-font-size": $font-size-baseline + 1px,
     "line-height": $size-form-select-ultra-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 10px
-  )
+    "option-retract": 10px,
+  ),
 );
 
 #{$c} {
@@ -555,11 +551,6 @@ $sizes: (
     #{$c}__value {
       color: $color-text-primary;
       font-weight: $font-weight-medium;
-      font-size: ($font-size-baseline + 1px);
-
-      &--menu {
-        font-size: ($font-size-baseline - 4px);
-      }
     }
 
     #{$c}__arrow {
@@ -690,14 +681,13 @@ $sizes: (
       #{$c}__field {
         #{$c}__value {
           line-height: map-get($size, "line-height");
+          font-size: map-get($size, "value-font-size");
         }
       }
 
       #{$c}__options {
         #{$c}__option {
-          line-height: (
-            map-get($size, "line-height") - map-get($size, "option-retract")
-          );
+          line-height: (map-get($size, "line-height") - map-get($size, "option-retract"));
         }
       }
     }
@@ -801,10 +791,10 @@ $sizes: (
     }
 
     #{$c}__field {
-      background-color: rgba($color-base-grey-light, 0.6);
+      background-color: darken($color-base-grey-ultra-light, 1%);
 
       #{$c}__value {
-        color: $color-text-primary;
+        opacity: 0.4;
       }
     }
   }
