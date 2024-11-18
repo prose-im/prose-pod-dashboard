@@ -43,23 +43,23 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     name: {
       type: String,
-      default: null
+      default: null,
     },
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["update:modelValue", "change"],
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      checked: false
+      checked: false,
     };
   },
 
@@ -77,8 +77,8 @@ export default {
 
       handler(value) {
         this.checked = value;
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -99,8 +99,8 @@ export default {
     onFieldClick(): void {
       // Toggle hidden input value
       (this.$refs.input as HTMLInputElement).click();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -136,6 +136,7 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
 
       &:hover {
         background-color: darken($color-base-purple-normal, 8%);
+        cursor: pointer;
       }
 
       &:active {
@@ -168,6 +169,7 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
 
     &:hover {
       background-color: rgba($color-base-grey-normal, 0.27);
+      cursor: pointer;
 
       &:after {
         box-shadow: 0 1px 2px 0 rgba($color-background-primary, 0.12);
