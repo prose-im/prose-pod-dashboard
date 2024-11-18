@@ -482,6 +482,18 @@ $size-ultra-large-padding-sides: 45.5px;
 
   &--disabled {
     cursor: not-allowed;
+    opacity: 0.5;
+
+    #{$c}__inner {
+      background-color: darken($color-base-grey-ultra-light, 4%);
+    }
+
+    &#{$c}--purple {
+      #{$c}__inner {
+        color: $color-base-purple-ultra-light;
+        background-color: rgba($color-base-purple-normal, 50%);
+      }
+    }
 
     &#{$c}--loading {
       cursor: wait;
