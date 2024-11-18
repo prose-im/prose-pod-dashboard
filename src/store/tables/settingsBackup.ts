@@ -11,6 +11,7 @@
 // NPM
 import { defineStore } from "pinia";
 import mitt from "mitt";
+import store from "..";
 
 // PROJECT: BROKER
 // import Broker from "@/broker";
@@ -73,7 +74,13 @@ const $settingsBackup = defineStore("settingsBackup", {
   getters: {
     getBackupSettings: function () {
       return (): BackupSettings => {
-        return this;
+
+        const backupFrequencyForm = {
+          settingsBackup: this.podBackup,
+          userDataBackup: this.userDataBackup,
+        };
+
+        return backupFrequencyForm;
       };
     }
   },
@@ -84,37 +91,20 @@ const $settingsBackup = defineStore("settingsBackup", {
       return EventBus;
     },
 
-    async load(reload = false): Promise<ChannelList> {
+    async loadConfig(reload = false): Promise<void> {
       // Load channels? (or reload)
-      if (LOCAL_STATES.loaded === false || reload === true) {
-        // Initialize entries
-        const entries: ChannelList = [];
+      await store.$globalConfig.loadGlobalConfig();
 
-        // Load all public channels
-        const publicChannels = await Broker.$channel.loadPublicChannels();
+      const response = await store.$globalConfig.getGlobalConfig();
 
-        publicChannels.forEach(publicChannel => {
-          entries.push({
-            type: ChannelType.Public,
-            jid: publicChannel.jid.toString(),
-            name: publicChannel.name
-          });
-        });
+      this.$patch(() => {
+        this.podBackup.frequency = response.settings_backup_interval;
+        this.userDataBackup = response.user_data_backup_interval;
+      })
 
-        this.$patch(state => {
-          state.list = entries;
-        });
-
-        // Mark as loaded
-        LOCAL_STATES.loaded = true;
-      }
-
-      return this.list;
+      // Mark as loaded
+      LOCAL_STATES.loaded = true;
     },
-
-    markChannelsChanged(): void {
-      EventBus.emit("channels:changed");
-    }
   }
 });
 
