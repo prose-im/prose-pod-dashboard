@@ -92,7 +92,7 @@ export default {
         {
           subtitle: "Users can upload and share files",
           description:
-            "File sharing is a must-have feature. It is recommended that file uploading is enabled. If however you’d like to prevent users from sharing files eg. for secrecy reasons, you can do so from there.",
+            "File sharing is a must-have feature. It is recommended that file uploading is enabled. If however you'd like to prevent users from sharing files eg. for secrecy reasons, you can do so from there.",
           type: "toggle",
         },
 
@@ -101,6 +101,7 @@ export default {
           description:
             "Files are encrypted when stored on the server. Only the file recipients can decrypt the files. It is heavily recommended to keep file storage encryption enabled.",
           type: "select",
+          disabled: true,
           typeProps: {
             options: [
               {
@@ -123,6 +124,10 @@ export default {
           type: "select",
           typeProps: {
             options: [
+              {
+                label: "Infinite",
+                value: "infinite",
+              },
               {
                 label: "1 year",
                 value: "P1Y",
@@ -203,7 +208,8 @@ export default {
     },
 
     onGlobalRestore() {
-      store.$serverConfiguration.restoreMessaging();
+      store.$serverConfiguration.restoreMessagingConfig();
+      store.$serverConfiguration.restoreFileConfig();
     },
 
     onRestoreMessageArchiveRetention() {

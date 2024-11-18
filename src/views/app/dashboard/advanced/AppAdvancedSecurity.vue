@@ -23,26 +23,24 @@
       :restoreOption="true"
     )
 </template>
-      
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
-    
+
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from '@/components/base/BaseSubsection.vue';  
-import store from '@/store';
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
+import store from "@/store";
 
 export default {
   name: "AppAdvancedSecurity",
 
   components: {
-    BaseSubsection
+    BaseSubsection,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: [],
 
@@ -50,86 +48,92 @@ export default {
     return {
       // --> STATE <--
 
-      accountItems:[
+      accountItems: [
         {
-          subtitle:"Require Two Factor on all accounts",
-          description: "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
-          type:"toggle"
+          subtitle: "Require Two Factor on all accounts",
+          description:
+            "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
+          type: "toggle",
+          disabled: true,
         },
       ],
 
-      networkItems:[
+      networkItems: [
         {
           subtitle: "Minimum SSL/TLS version",
-          description: "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered less secure. It is recommended to configure the minimum version to TLS 1.2.",
-          restoreSubtitle:true,
-          type:"select",
-          typeProps:{
-            options:[
+          description:
+            "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered less secure. It is recommended to configure the minimum version to TLS 1.2.",
+          restoreSubtitle: true,
+          type: "select",
+          disabled: true,
+          typeProps: {
+            options: [
               {
-                label:"TLS 1.2",
-                value:"1.2",
-              }, 
+                label: "TLS 1.2",
+                value: "1.2",
+              },
               {
-                label:"TLS 1.0+",
-                value:"1.0+",
-              }
+                label: "TLS 1.0+",
+                value: "1.0+",
+              },
             ],
-            size:"medium"
-          }
+            size: "medium",
+          },
         },
         {
           subtitle: "Minimum cipher suite (encryption strength)",
-          description: "Accepting lower-security encryption ciphers let older user devices and servers connect to your server, but is also much less secure. A minimum cipher suite of High strength is recommended.",
-          type:"select",
-          typeProps:{
-            options:[
+          description:
+            "Accepting lower-security encryption ciphers let older user devices and servers connect to your server, but is also much less secure. A minimum cipher suite of High strength is recommended.",
+          type: "select",
+          disabled: true,
+          typeProps: {
+            options: [
               {
-                label:"High strength",
-                value:"HIGH_STRENGTH"
-              }, 
+                label: "High strength",
+                value: "HIGH_STRENGTH",
+              },
               {
-                label:"Low strength",
-                value:"LOW_STRENGTH"
-              }
+                label: "Low strength",
+                value: "LOW_STRENGTH",
+              },
             ],
-            size:"medium"
-          }
+            size: "medium",
+          },
         },
-      ]
+      ],
     };
   },
 
   computed: {
     config() {
       return store.$settingsSecurity.getSettings();
-    }
+    },
   },
 
   watch: {},
 
   mounted() {
-      store.$settingsSecurity.loadConfig();
+    store.$settingsSecurity.loadConfig();
   },
 
   methods: {
     // --> HELPERS <--
-    onUpdate(newValue: boolean | string, changedKey: string){
+    onUpdate(newValue: boolean | string, changedKey: string) {
       // console.log('newValue', newValue, changedKey)
-      if(this.config.files[changedKey] !== newValue) {
+      if (this.config.files[changedKey] !== newValue) {
         switch (changedKey) {
           // Security
-          case 'twoFactor': {
-            store.$serverConfiguration.toggleMessageArchiveEnabled();//!this.config.messaging[key]);
+          case "twoFactor": {
+            store.$serverConfiguration.toggleMessageArchiveEnabled(); //!this.config.messaging[key]);
             break;
           }
 
           // Encryption
-          case 'version': {
+          case "version": {
             // store.$serverConfiguration.toggleFileUploadEnabled();//!this.config.messaging[key]);
             break;
           }
-          case 'strength': {
+          case "strength": {
             // store.$serverConfiguration.changeFileEncryption(newValue);
             break;
           }
@@ -139,11 +143,11 @@ export default {
       }
 
       /// Reload store /////
-    }
+    },
   },
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
@@ -151,4 +155,3 @@ export default {
 <style lang="scss">
 $c: ".v-app-advanced-security";
 </style>
-    

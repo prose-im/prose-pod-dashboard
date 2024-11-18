@@ -40,16 +40,17 @@ factory-reset(
   @proceed=""
 )
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from '@/components/base/BaseSubsection.vue';  
-import FactoryReset from '@/assemblies/modals/advanced/FactoryReset.vue';
-import RestoreBackup from '@/assemblies/modals/advanced/RestoreBackup.vue';
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
+import FactoryReset from "@/assemblies/modals/advanced/FactoryReset.vue";
+import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
+import store from "@/store";
 
 export default {
   name: "AppAdvancedSecurity",
@@ -57,12 +58,10 @@ export default {
   components: {
     BaseSubsection,
     FactoryReset,
-    RestoreBackup
+    RestoreBackup,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: [],
 
@@ -73,133 +72,135 @@ export default {
 
       isResetModalVisible: false,
 
-      backupFrequencyForm: {
-        settingsBackup:{
-          Frequency: "Daily",
-          Time: "at 1am",
-        }, 
-        userDataBackup:{
-          Frequency: "Weekly",
-          Time: "at 2pm"
-        }
-      },
-
-      backupItems:[
+      backupItems: [
         {
           subtitle: "Automatic backup of Pod settings",
-          description: "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
+          description:
+            "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
           type: "doubleSelect",
-          typeProps:{
-            options:[
+          disabled: true,
+          typeProps: {
+            options: [
               {
-                icon:"",
-                value:"Daily"
-              }, 
+                label: "Daily",
+                value: "P1D",
+              },
               {
-                icon:"",
-                value:"Weekly"
-              }
+                label: "Weekly",
+                value: "P1W",
+              },
             ],
-            secondOptions:[
+            secondOptions: [
               {
-                icon:"",
-                value:"at 1am"
-              }, 
+                label: "at 1am",
+                value: "at 1am",
+              },
               {
-                icon:"",
-                value:"at 2am"
-              }
+                label: "at 2am",
+                value: "at 2am",
+              },
             ],
-            size:"medium"
-          }
+            size: "medium",
+          },
         },
 
         {
           subtitle: "Automatic backup of Pod user data",
-          description: "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
+          description:
+            "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
-          typeProps:{
-            options:[
+          disabled: true,
+          typeProps: {
+            options: [
               {
-                icon:"",
-                value:"Daily"
-              }, 
+                label: "Daily",
+                value: "P1D",
+              },
               {
-                icon:"",
-                value:"Weekly"
-              }
+                label: "Weekly",
+                value: "P1W",
+              },
             ],
-            secondOptions:[
+            secondOptions: [
               {
-                icon:"",
-                value:"at 1am"
-              }, 
+                label: "at 1am",
+                value: "at 1am",
+              },
               {
-                icon:"",
-                value:"at 2am"
-              }
+                label: "at 2am",
+                value: "at 2am",
+              },
             ],
-            size:"medium"
-          }
+            size: "medium",
+          },
         },
       ],
 
-      exportItems:[
+      exportItems: [
         {
           subtitle: "Export full backup",
-          description: "A full backup, containing your Prose Pod settings and all user data, can be downloaded from there. This is a manual backup which contains everything. It can be quite heavy.",
+          description:
+            "A full backup, containing your Prose Pod settings and all user data, can be downloaded from there. This is a manual backup which contains everything. It can be quite heavy.",
           type: "button",
+          disabled: true,
           color: "bwPurple",
           typeProps: {
             label: "Download backup",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
       ],
 
-      dangerItems:[
+      dangerItems: [
         {
           subtitle: "Restore from backup",
-          description: "This will erase all data on your Pod (all settings and all user data), essentially performing a factory reset. It then imports everything back again from an automated or manual backup.",
+          description:
+            "This will erase all data on your Pod (all settings and all user data), essentially performing a factory reset. It then imports everything back again from an automated or manual backup.",
           type: "button",
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
 
         {
           subtitle: "Erase everything",
-          description: "This will erase all data on your Pod (all settings and all user data). Your Pod will then restart and show the initial setup process, as if it was never used before.",
+          description:
+            "This will erase all data on your Pod (all settings and all user data). Your Pod will then restart and show the initial setup process, as if it was never used before.",
           type: "button",
           action: this.toggleResetModalVisible,
           color: "redShell",
           typeProps: {
             label: "Start factory reset…",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
       ],
-
     };
   },
 
-  computed: {},
+  computed: {
+    config() {
+      return store.$settingsBackup.getBackupSettings();
+    },
+  },
 
   watch: {},
 
-  created() {},
+  mounted() {
+    return store.$settingsBackup.loadConfig();
+  },
 
   methods: {
     // --> HELPERS <--
     toggleRestoreModalVisible() {
-      this.isRestoreModalVisible = !this.isRestoreModalVisible
+      this.isRestoreModalVisible = !this.isRestoreModalVisible;
     },
 
     toggleResetModalVisible() {
-      console.log( Object.keys(api["paths"]) )
-    }
+      this.isResetModalVisible = !this.isResetModalVisible;
+    },
   },
 };
 </script>
