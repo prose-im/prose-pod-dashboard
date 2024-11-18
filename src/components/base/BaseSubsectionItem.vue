@@ -29,6 +29,7 @@ div(
           "c-base-subsection-item__subtitle--text",
           {
             "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
+            "c-base-subsection-item__subtitle--restore--disabled": item.restoreSubtitle && item.disabled,
           }
         ]`
         @click="onSubtitleClick"
@@ -43,9 +44,9 @@ div(
           fill="#2490f0"
         )
 
-        base-coming-soon(
-          v-if="item.disabled"
-        )
+      base-coming-soon(
+        v-if="item.disabled"
+      )
 
     p.c-base-subsection-item__description 
       | {{ item.description}}
@@ -72,11 +73,11 @@ div(
     v-if="item.slot === 'text'"
     class="c-base-subsection-item__slot"
   )
-    | {{ state }}
+    | {{ calculatedValue }}
 
   base-avatar(
     v-if="item.slot === 'avatar'"
-    :avatarDataUrl="state"
+    :avatarDataUrl="calculatedValue"
     size="40px"
     borderRadius="20px"
     :class=`[
@@ -88,7 +89,7 @@ div(
   <!-- INTERACTIVE ELEMENT -->
   form-toggle(
     v-if="type === 'toggle'"
-    v-model="state"
+    v-model="calculatedValue"
     :disabled="item.disabled"
     @update:modelValue="updateValue"
   )
@@ -104,7 +105,7 @@ div(
 
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
-    v-model="state"
+    v-model="calculatedValue"
     :colorPrev="colorSquare"
     :disabled="item.disabled"
     :options="item.typeProps?.options"
@@ -207,6 +208,27 @@ export default {
   },
 
   computed: {
+    calculatedValue: {
+      get() {
+        if (this.type !== "doubleSelect") {
+          if (typeof this.modelValue === "string" && this.modelValue.startsWith("#")) {
+            this.colorSquare = this.modelValue;
+          }
+          return this.modelValue;
+        } else {
+          const valueArray = Object.values(this.modelValue);
+
+          this.stateSecondSelect = valueArray[1];
+
+          return valueArray[0];
+        }
+      },
+
+      set(nextValue: any[]) {
+        console.log("nextValue", nextValue);
+      },
+    },
+
     buttonColor() {
       switch (this.color) {
         case "bw": {
@@ -228,24 +250,7 @@ export default {
     },
   },
 
-  watch: {
-    modelValue: {
-      immediate: true,
-
-      handler(value) {
-        if (this.type !== "doubleSelect") {
-          this.state = value;
-
-          if (typeof value === "string" && value.startsWith("#")) {
-            this.colorSquare = value;
-          }
-        } else {
-          this.state = Object.values(value)[0];
-          this.stateSecondSelect = Object.values(value)[1];
-        }
-      },
-    },
-  },
+  watch: {},
 
   methods: {
     // --> HELPERS <--
@@ -306,6 +311,10 @@ $c: ".c-base-subsection-item";
     &--restore {
       color: $color-base-blue-normal;
       cursor: pointer;
+
+      &--disabled {
+        cursor: not-allowed;
+      }
     }
 
     &--right-icon {
