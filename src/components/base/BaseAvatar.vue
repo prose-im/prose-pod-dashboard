@@ -33,32 +33,55 @@ export default {
   props: {
     size: {
       type: String,
-      default: "34px"
+      default: "34px",
     },
 
     avatarDataUrl: {
       type: String,
-      default: ""
+      default: "",
     },
 
-    borderRadius:{
+    borderRadius: {
       type: String,
-      default: "5px"
-    }
+      default: "5px",
+    },
+
+    type: {
+      type: String,
+      default: "person",
+
+      validator(x: string) {
+        return ["person", "image"].includes(x);
+      },
+    },
   },
 
   computed: {
     backgroundImage(): string | void {
-      return `url(${this.avatarDataUrl})`;
+      let imageUrl = "";
+
+      if (this.avatarDataUrl) {
+        imageUrl = `url(${this.avatarDataUrl})`;
+      } else {
+        switch (this.type) {
+          case "person":
+            imageUrl = `url(/images/components/base/BasePlaceholderImage/illustration-contact-empty.webp)`;
+            break;
+          case "image":
+            imageUrl = `url(/images/components/base/BaseServerLogo/logo-prose-org.png)`;
+            break;
+          default:
+            break;
+        }
+      }
+
+      return imageUrl;
     },
   },
 
-  watch: {
+  watch: {},
 
-  },
-
-  methods: {
-  }  
+  methods: {},
 };
 </script>
 
@@ -75,4 +98,3 @@ $c: ".c-base-avatar";
   background-repeat: no-repeat;
 }
 </style>
-  
