@@ -74,6 +74,7 @@ export class APICustomizationWorkspace {
 
   async setWorkspaceIcon(newIcon: string): Promise<void> {
     await Api.client.put("/workspace/icon", {
+      method: 'put',
       image: newIcon
     });
   }
