@@ -10,10 +10,11 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  :visible="visibility"
   title="DNS setup instructions"
   buttonLabel="Add custom Emoji"
+  @close="$emit('close')"
+  @load="onLoad"
 )
   .a-dns-setup
     base-modal-input-block(
@@ -83,6 +84,7 @@ base-modal(
         p Target
 
       advanced-network-dns-table-row(
+        v-if="stepTwo"
         v-for="record in stepTwo"
         class="a-dns-setup__table--two--row"
       )
@@ -113,6 +115,7 @@ base-modal(
         p Target
 
       advanced-network-dns-table-row(
+        v-if="stepThree"
         v-for="record in stepThree"
         class="a-dns-setup__table--two--row"
       )
@@ -154,19 +157,26 @@ export default {
     BaseModalInputBlock,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close", "proceed"],
 
   data() {
     return {
       // --> STATE <--
+      reload: true,
     };
   },
 
   computed: {
     domain() {
-      return store.$globalConfig.getDomain();
+      const dom = store.$globalConfig.getDomain();
+      return typeof dom === "string" ? dom : "Unavailable";
     },
 
     steps() {
@@ -174,24 +184,37 @@ export default {
     },
 
     stepTwo() {
-      const step = this.steps.filter((step) => step["purpose"].includes("clients"));
-      return step[0]["records"];
+      if (this.steps.length > 0) {
+        const step = this.steps.filter((step) => step["purpose"].includes("clients"));
+        return step[0]["records"];
+      } else {
+        return "";
+      }
     },
 
     stepThree() {
-      const step = this.steps.filter((step) => step["purpose"].includes("servers"));
-      return step[0]["records"];
+      if (this.steps.length > 0) {
+        const step = this.steps.filter((step) => step["purpose"].includes("servers"));
+        return step[0]["records"];
+      } else {
+        return "";
+      }
     },
   },
 
-  watch: {},
-
-  beforeUpdate() {
-    return store.$settingsNetwork.loadDnsInstructions();
+  watch: {
+    // visibility(newVisibility, oldVisibility) {
+    //   if (newVisibility === true && newVisibility !== oldVisibility) {
+    //     // this.reload = newVisibility;
+    //   }
+    // },
   },
 
   methods: {
     // --> HELPERS <--
+    onLoad() {
+      store.$settingsNetwork.loadDnsInstructions(true);
+    },
   },
 };
 </script>
