@@ -11,7 +11,7 @@
 <template lang="pug">
 .v-app-advanced-backup
   base-subsection(
-    v-model="backupFrequencyForm"
+    v-model="config"
     title="Backup Settings"
     :items="backupItems"
   )
@@ -29,13 +29,13 @@
   )
 
 restore-backup(
-  :visible="isRestoreModalVisible"
+  :visibility="isRestoreModalVisible"
   @close="toggleRestoreModalVisible"
   @proceed=""
 )
 
 factory-reset(
-  :visible="isResetModalVisible"
+  :visibility="isResetModalVisible"
   @close="toggleResetModalVisible"
   @proceed=""
 )
@@ -93,11 +93,11 @@ export default {
             secondOptions: [
               {
                 label: "at 1am",
-                value: "at 1am",
+                value: "01",
               },
               {
                 label: "at 2am",
-                value: "at 2am",
+                value: "02",
               },
             ],
             size: "medium",
@@ -124,11 +124,11 @@ export default {
             secondOptions: [
               {
                 label: "at 1am",
-                value: "at 1am",
+                value: "01",
               },
               {
                 label: "at 2am",
-                value: "at 2am",
+                value: "02",
               },
             ],
             size: "medium",
@@ -157,6 +157,7 @@ export default {
           description:
             "This will erase all data on your Pod (all settings and all user data), essentially performing a factory reset. It then imports everything back again from an automated or manual backup.",
           type: "button",
+          // disabled: true,
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
@@ -169,6 +170,7 @@ export default {
           description:
             "This will erase all data on your Pod (all settings and all user data). Your Pod will then restart and show the initial setup process, as if it was never used before.",
           type: "button",
+          disabled: true,
           action: this.toggleResetModalVisible,
           color: "redShell",
           typeProps: {

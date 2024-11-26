@@ -61,12 +61,12 @@ const $settingsBackup = defineStore("settingsBackup", {
     return {
       podBackup: {
         frequency: "",
-        time: ""
+        time: "01"
       },
 
       userDataBackup: {
         frequency: "",
-        time: ""
+        time: "02"
       }
     };
   },
@@ -74,13 +74,10 @@ const $settingsBackup = defineStore("settingsBackup", {
   getters: {
     getBackupSettings: function () {
       return (): BackupSettings => {
-
-        const backupFrequencyForm = {
-          settingsBackup: this.podBackup,
+        return {
+          podBackup: this.podBackup,
           userDataBackup: this.userDataBackup,
         };
-
-        return backupFrequencyForm;
       };
     }
   },
@@ -99,7 +96,7 @@ const $settingsBackup = defineStore("settingsBackup", {
 
       this.$patch(() => {
         this.podBackup.frequency = response.settings_backup_interval;
-        this.userDataBackup = response.user_data_backup_interval;
+        this.userDataBackup.frequency = response.user_data_backup_interval;
       })
 
       // Mark as loaded
