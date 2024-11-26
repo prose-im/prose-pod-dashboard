@@ -19,6 +19,7 @@
           class="c-search-bar__magnifying"
         )
         form-field(
+          v-model="term"
           type="text"
           :placeholder="'Search for' + ' ' + placeholderText"
           align="left"
@@ -60,27 +61,32 @@ export default {
   components: {
     BaseButton,
     BaseIcon,
-    FormField
+    FormField,
   },
 
   props: {
+    modelValue: {
+      type: String,
+      default: "",
+    },
+
     buttonLabel: {
       type: String,
-      required: true
+      required: true,
     },
 
     clickHandle: {
       type: Function,
-      required: true
+      required: true,
     },
 
     placeholderText: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
-  emits: ["addContact"],
+  emits: ["addContact", "update:modelValue"],
 
   data() {
     return {
@@ -88,7 +94,17 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    term: {
+      get() {
+        return this.modelValue;
+      },
+
+      set(value: string) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
 
   watch: {},
 
@@ -96,7 +112,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
 
