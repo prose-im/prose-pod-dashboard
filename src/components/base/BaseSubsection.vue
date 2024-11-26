@@ -25,6 +25,11 @@
 
       .c-base-subsection__restore(
         v-if="restoreOption"
+        :class=`[
+          {
+            "c-base-subsection__restore--disabled": isRestoreDisabled
+          }
+        ]`
         @click="restoreAction"
       )
         base-icon(
@@ -47,8 +52,10 @@
       @click="item.action"
       @update="updateValue"
     )
-
-    p 
+    
+    p(
+      class="c-base-subsection__erase"
+    )
       | {{ myVal }}
 </template>
 
@@ -106,7 +113,9 @@ export default {
 
     restoreAction: {
       type: Function,
-      default: () => {},
+      default: () => {
+        return;
+      },
     },
   },
 
@@ -122,7 +131,6 @@ export default {
     myVal: {
       get() {
         if (Object.keys(this.modelValue).length) {
-          // console.log(Object.values(this.modelValue))
           // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
           return this.items.map((_, index) => Object.values(this.modelValue)[index]);
         } else {
@@ -138,6 +146,14 @@ export default {
         });
       },
     },
+
+    isRestoreDisabled() {
+      const result = this.items.every((item) => {
+        return item.disabled === true;
+      });
+
+      return result;
+    },
   },
 
   watch: {},
@@ -145,12 +161,16 @@ export default {
   methods: {
     // --> HELPERS <--
     updateValue(newValue: boolean | string, index: number, element?: number): void {
-      // console.log('hearding', newValue, index, element)
+      // console.log("hearding", newValue, index, element);
 
+      // Creating a copy of the modelValueObject
       const updatedModel = { ...this.modelValue };
       const keys = Object.keys(this.modelValue);
 
       if (element === 0 || element === 1) {
+        console.log(this.modelValue);
+
+        // the
         const key1 = keys[index];
 
         const key2 = Object.keys(this.modelValue[key1])[element];
@@ -225,6 +245,11 @@ $c: ".c-base-subsection";
 
     &--icon {
       margin-right: 5px;
+    }
+
+    &--disabled {
+      color: rgba($color-base-blue-normal, 0.7);
+      cursor: not-allowed;
     }
   }
 
