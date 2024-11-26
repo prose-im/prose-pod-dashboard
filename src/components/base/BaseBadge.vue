@@ -14,7 +14,7 @@ div(
     "c-base-badge",
     "c-base-badge--" + size,
     {
-      "c-base-badge--admin": admin,
+      "c-base-badge--admin": admin === "ADMIN",
     }
   ]`
 )
@@ -31,34 +31,31 @@ export default {
 
   props: {
     admin: {
-      type: Boolean,
-      default: false
+      type: String,
+      default: "MEMBER",
     },
 
     size: {
       type: String,
-      default: "short"
-    }
+      default: "short",
+    },
   },
 
   data() {
     return {
       // --> STATE <--
-
     };
   },
 
   computed: {
-    label(){
-      return this.admin ? "Admin" : "Member"
-    }
+    label() {
+      return this.admin === "ADMIN" ? "Admin" : "Member";
+    },
   },
 
-  watch: {
-  },
+  watch: {},
 
-  methods: {
-  }  
+  methods: {},
 };
 </script>
 
@@ -79,8 +76,8 @@ $badge-padding-inline: 7px;
   padding-block: $badge-padding-block;
   padding-inline: $badge-padding-inline;
   background-color: $color-base-blue-ultra-dark;
-  color:$color-white;
-  font-weight:$font-weight-mid;
+  color: $color-white;
+  font-weight: $font-weight-mid;
   font-size: ($font-size-baseline - 5.5px);
   border-radius: 5px;
   font-family: $font-family-default;
@@ -97,6 +94,5 @@ $badge-padding-inline: 7px;
   &--admin {
     background-color: $color-base-blue-normal;
   }
-  
 }
 </style>
