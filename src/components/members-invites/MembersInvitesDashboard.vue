@@ -12,29 +12,42 @@
 .c-members-invites-dashboard
   .c-members-invites-dashboard__upper
     search-bar(
+      v-model="searchTerm"
       :buttonLabel="label"
       :clickHandle="toggleModalVisible"
-      placeholderText="team members..."
+      placeholder-text="team members..."
     )
 
+    <!-- HEADERS -->
     members-invites-row(
       :userData="{}"
-      :tableHeaders="['User', 'Role', 'Status', 'Two-Factor']"
+      :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
 
-    members-invites-row(
-      v-for="(invite, index) in invites"
-      :userData="invite"
-    )
+    .c-members-invites-dashboard__scroll
+    
+      <!-- INVITATIONS -->
+      members-invites-row(
+        v-if="pageNumber === 1"
+        v-for="(invite, index) in invites"
+        :user-data="invite"
+      )
 
-    members-invites-row(
-      v-for="(user, index) in members"
-      :key="user.name"
-      :userData="user"
-      class="c-members-invites-dashboard__users"
-    )
-
-  base-navigation-footer
+      <!-- MEMBERS -->
+      members-invites-row(
+        v-for="(user, index) in members"
+        class="c-members-invites-dashboard__users"
+        :key="user.jid"
+        :user-data="user"
+        :user-enriched-data="enrichedMembers[user.jid]"
+      )
+      
+  base-navigation-footer(
+    v-if="!searchTerm"
+    :page="pageNumber"
+    :total="totalMemberNumber"
+    @navFooterUpdate="onChangePage"
+  )
 
 invite-team-member(
   :visibility="modalIsVisible"
@@ -83,6 +96,10 @@ export default {
       // --> STATE <--
       modalIsVisible: false,
 
+      searchTerm: "",
+
+      pageNumber: 1,
+
       messagingItems: [
         {
           subtitle: "Store archives of all messages",
@@ -124,12 +141,32 @@ export default {
   },
 
   computed: {
+    allMembers() {
+      return store.$teamMembers.getAllMembers(this.pageNumber);
+    },
+
     members() {
-      return store.$teamMembers.getMemberList();
+      console.log("getting filtered memebres");
+
+      return this.searchTerm
+        ? store.$teamMembers.getFilteredMembers(this.searchTerm)
+        : store.$teamMembers.getFilteredMembers(this.pageNumber);
+    },
+
+    enrichedMembers() {
+      return store.$teamMembers.getEnrichedMemberList();
     },
 
     invites() {
       return store.$teamMembers.getInviteList();
+    },
+
+    mockMembers() {
+      return store.$teamMembers.getMockMemberList();
+    },
+
+    totalMemberNumber() {
+      return this.allMembers.length;
     },
   },
 
@@ -172,6 +209,20 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
 
+    onChangePage(type: string) {
+      if (type === "forth") {
+        this.pageNumber += 1;
+      } else if (type === "back") {
+        if (this.pageNumber === 1) {
+          return;
+        } else {
+          this.pageNumber -= 1;
+        }
+      }
+
+      return;
+    },
+
     onClose(event, reloadInviteList?: boolean) {
       this.toggleModalVisible();
 
@@ -206,6 +257,11 @@ $c: ".c-members-invites-dashboard";
   flex: 1;
   justify-content: space-between;
 
+  #{$c}__scroll {
+    max-height: 71vh;
+    overflow: scroll;
+  }
+
   #{$c}__users {
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
@@ -213,3 +269,7 @@ $c: ".c-members-invites-dashboard";
   }
 }
 </style>
+
+<!-- MOCK ROWS -->
+<!-- members-invites-row( v-for="(user, index) in mockMembers" :key="user.jid" :userData="user"
+class="c-members-invites-dashboard__users" ) -->
