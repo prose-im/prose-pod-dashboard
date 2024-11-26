@@ -81,25 +81,18 @@ class APITeamMembers {
     return (await Api.client.get("/members")).data;
   }
 
-  async enrichMembers(): Promise<AllMembersResponse> {
-    await Api.client.get(`enrich-members?jids=valerian%40prose.org.local`)
-      // %40prose.org.local&jids=remi%40prose.org.local
-      // params: {
-      //   jids: jids
-      // },
-      // paramsSerializer: params => {
-      //   // Custom serializer to encode array parameters correctly
-      //   return Object.keys(params).map(key => {
-      //     return params[key].map(value => `${key}=${encodeURIComponent(value)}`).join('&');
-      //   }).join('&');
-      // }
-    
-    .then(response => {
-      return response.data; // Handle the successful response
-    })
-    .catch(error => {
-      console.error('Error occurred:', error); // Handle any errors
-    })
+  async enrichMembers(jids: string[]): Promise<AllMembersResponse> {
+    return (await Api.client.get("enrich-members?jids=valerian%40prose.org.local",{
+      params: {
+        jids: jids
+      },
+      paramsSerializer: params => {
+        // Custom serializer to encode array parameters correctly
+        return Object.keys(params).map(key => {
+          return params[key].map(value => `${key}=${encodeURIComponent(value)}`).join('&');
+        }).join('&');
+      }
+    })).data
   }
 
   async getMemberById(memberId: number): Promise<MemberByIdResponse> {

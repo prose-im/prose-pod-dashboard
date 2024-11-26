@@ -12,7 +12,7 @@
 .c-members-invites-row(
   :class=`[
     {
-      "c-members-invites-row--yellow" : (!userData.name && !tableHeaders),
+      "c-members-invites-row--yellow" : (userData.invitation_id && !tableHeaders),
       "c-members-invites-row--header" : tableHeaders
     }
   ]`
@@ -32,16 +32,16 @@
       :class=`[
         "c-members-invites-row__avatar",
         {
-          "c-members-invites-row--hidden" : !userData.name
+          "c-members-invites-row--hidden" : (userData.invitation_id || tableHeaders)
         }
       ]`
-      :avatarDataUrl="userData.picture"
+      :avatarDataUrl="userEnrichedData?.avatar"
     )
 
     <!-- 3rd column -->
     .c-members-invites-row__user
-        p.c-members-invites-row--main {{ userData.name }}
-        p.c-members-invites-row--submain {{ userData.email }}
+        p.c-members-invites-row--main {{ userEnrichedData?.nickname }}
+        p.c-members-invites-row--submain {{ userData.jid }}
 
         p(
           v-if="tableHeaders"
@@ -54,10 +54,10 @@
       :class=`[
         "c-members-invites-row__badge",
         {
-          "c-members-invites-row--hidden" : !userData.name,
+          "c-members-invites-row--hidden" : userData.invitation_id,
         }
       ]`
-      :admin="userData.admin"
+      :admin="userData.role"
       size="long"
     )
 
@@ -76,10 +76,10 @@
           :class=`[
             "c-members-invites-row--main",
             {
-              "c-members-invites-row--none" : !userData.name
+              "c-members-invites-row--none" : userData.invitation_id
             }
           ]`
-        ) {{ userData.status }}
+        ) {{ userData.online }}
         p(
           v-if="!tableHeaders"
           class="c-members-invites-row--submain"
@@ -95,7 +95,7 @@
     .c-members-invites-row__encryption(
       :class=`[
         {
-          "c-members-invites-row__encryption--hidden" : !userData.name && !tableHeaders
+          "c-members-invites-row__encryption--hidden" : userData.invitation_id && !tableHeaders
         }
       ]`
     )
@@ -103,28 +103,26 @@
         v-if="!tableHeaders"
         :class=`[
           {
-            "c-members-invites-row--hidden" : !userData.name
+            "c-members-invites-row--hidden" : userData.invitation_id
           }
         ]`
       )
-        base-icon(
-          class="c-members-invites-row__encryption--icon"
-          name="padlock"
-          fill="#05c02b"
-          size="16px"
+        base-mfa-badge(
+          v-if="userData.mfa"
         )
 
         p(
-          class="c-members-invites-row__encryption--light"
+          v-else
+          class="c-members-invites-row__soon"
         )
-          | Enabled
+          | Coming soon
 
       p(
         v-if="tableHeaders"
         class="c-members-invites-row__badge--header"
       )
         | {{ tableHeaders[3] }}
-
+        
     <!-- 7th column -->
     .c-members-invites-row__parameters
       base-button(
@@ -135,7 +133,7 @@
         @click="onActionOnMember"
       )
         base-icon(
-          v-if="userData.name"
+          v-if="!userData.invitation_id"
           fill="#949EB1"
           name="gearshape.fill"
           size="10px"
@@ -146,6 +144,12 @@
           class="c-members-invites-row__parameters--button"
         )
           | Cancel invite
+
+      members-invites-menu(
+        v-if="isMenuOpen"
+        class="c-members-invites-row__parameters--menu"
+        :options="menuOptions"
+      )
 </template>
 
 <!-- **********************************************************************
@@ -157,8 +161,13 @@
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseBadge from "@/components/base/BaseBadge.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseComingSoon from "../base/BaseComingSoon.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseMfaBadge from "../base/BaseMfaBadge.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
+import MembersInvitesMenu from "./MembersInvitesMenu.vue";
+
+// STORE
 import store from "@/store";
 
 export default {
@@ -168,25 +177,33 @@ export default {
     BaseAvatar,
     BaseBadge,
     BaseButton,
+    BaseComingSoon,
     BaseIcon,
-    FormCheckbox
+    BaseMfaBadge,
+    FormCheckbox,
+    MembersInvitesMenu,
   },
 
   props: {
     avatarUrl: {
       type: String,
-      default: "../../assets/icons/missing.avatar.svg"
+      default: "../../assets/icons/missing.avatar.svg",
     },
 
     userData: {
       type: Object,
-      required: true
+      required: true,
+    },
+
+    userEnrichedData: {
+      type: Object,
+      default: null,
     },
 
     tableHeaders: {
       type: Array,
-      default: null
-    }
+      default: null,
+    },
   },
 
   emits: [],
@@ -194,34 +211,52 @@ export default {
   data() {
     return {
       // --> STATE <--
+      isMenuOpen: false,
+
+      menuOptions: [
+        {
+          value: "Security settings",
+        },
+        {
+          value: "Change role",
+        },
+        {
+          value: "Delete member",
+        },
+      ],
     };
   },
 
   computed: {
     userStatusDetail() {
-      if (!this.userData.name) {
+      if (!this.userEnrichedData?.nickname && this.userData.invitation_id) {
         return "Invited";
       } else if (this.userData.status === "Active") {
         return "Prose " + this.userData.os;
       } else {
-        return "Last active";
+        return "";
       }
-    }
+    },
   },
 
   watch: {},
 
-  created() {},
-
   methods: {
     onActionOnMember(): void {
-      this.userData.name ? "" : this.onCancelInvite(this.userData.id);
+      this.userData.invitation_id
+        ? this.onCancelInvite(this.userData.id)
+        : this.toggleMenuOpen();
     },
 
-    onCancelInvite(inviteId: string) {
-      store.$teamMembers.cancelInvitation(inviteId);
-    }
-  }
+    onCancelInvite() {
+      console.log("inviteId", this.userData.invitation_id);
+      store.$teamMembers.cancelInvitation(this.userData.invitation_id);
+    },
+
+    toggleMenuOpen() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+  },
 };
 </script>
 
@@ -266,10 +301,10 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__encryption {
+    position: relative;
     margin-right: 24%;
 
     p {
-      font-size: ($font-size-baseline - 1px);
       margin: 0;
     }
 
@@ -293,10 +328,24 @@ $c: ".c-members-invites-row";
     }
   }
 
+  #{$c}__soon {
+    font-size: ($font-size-baseline - 4px);
+    color: $color-base-grey-normal;
+    width: max-content;
+  }
+
   #{$c}__parameters {
+    position: relative;
+
     &--button {
       margin: 0;
       padding-inline: 18px;
+    }
+
+    &--menu {
+      position: absolute;
+      top: 0%;
+      right: -100%;
     }
   }
 
@@ -350,3 +399,15 @@ $c: ".c-members-invites-row";
   }
 }
 </style>
+
+<!--         base-icon(
+          class="c-members-invites-row__encryption--icon"
+          name="padlock"
+          fill="#05c02b"
+          size="16px"
+        )
+
+        p(
+          class="c-members-invites-row__encryption--light"
+        )
+          | Enabled -->
