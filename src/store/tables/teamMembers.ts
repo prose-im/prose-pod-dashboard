@@ -26,23 +26,27 @@ type InvitedMembersList = Array<InvitedMemberEntry>;
 interface Members {
   activeMembers: ActiveMembersList;
   invitedMembers: InvitedMembersList;
+  memberEntries: object;
 }
 
 interface ActiveMemberEntry {
-  id: string;
-  name: string;
-  email: string;
-  picture: string;
-  admin: boolean;
-  status: string;
+  nickname: string;
+  jid: string;
+  avatar: string;
+  role: string;
+  online: string;
   os: string;
 }
 
 interface InvitedMemberEntry {
-  id: string;
-  name: null;
-  email: string;
+  nickname: null;
+  jid: string;
   status: string;
+}
+
+interface memberEntry {
+  jid: string,
+  role: string
 }
 
 /**************************************************************************
@@ -60,50 +64,50 @@ const LOCAL_STATES = {
 const $teamMembers = defineStore("teamMembers", {
   state: (): Members => {
     return {
-      activeMembers: [
+      mockMembers: [
         {
-          id: "028de0b0-2d6d-441c-884d-bfc80ee3d041",
-          name: "Baptiste Jamin",
-          email: "baptiste@crisp.chat",
-          picture:
+          nickname: "Baptiste Jamin",
+          jid: "baptiste@crisp.chat",
+          avatar:
             "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=400&default=retro&rating=g",
-          admin: true,
-          status: "Active",
+          role: "ADMIN",
+          online: "Active",
           os: "mac OS"
         },
         {
-          id: "9362d4f6-832c-4cca-83f1-8a3d1e82adc3",
-          name: "Valerian Saliou",
-          email: "valerian.saliou@crisp.chat",
-          picture: "https://avatars.githubusercontent.com/u/1451907?v=4",
-          admin: true,
-          status: "Active",
+          nickname: "Valerian Saliou",
+          jid: "valerian.saliou@crisp.chat",
+          avatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
+          role: "ADMIN",
+          online: "Active",
           os: "mac OS"
         },
         {
-          id: "786b36b3-d0ad-44ab-8aa9-59688b4f7562",
-          name: "Eliott Vincent",
-          email: "eliott@crisp.chat",
-          picture: "https://eliottvincent.com/assets/img/profile-pic.webp",
-          admin: false,
-          status: "Inactive",
+          nickname: "Eliott Vincent",
+          jid: "eliott@crisp.chat",
+          avatar: "https://eliottvincent.com/assets/img/profile-pic.webp",
+          role: "MEMBER",
+          online: "Inactive",
           os: "Last seen active 12 days ago"
         }
       ],
 
-      invitedMembers: [
-        {
-          id: "fbd3e8ab-3f31-49da-8474-f4d28649b559",
-          name: null,
-          email: "valerian.saliou@crisp.chat",
-          status: "Active"
-        }
-      ]
+      invitedMembers: [],
+
+      activeMembers:[],
+
+      memberEntries:[]
     };
   },
 
   getters: {
-    getMemberList: function () {
+    getAllMembers: function (page: number) {
+      return (): memberEntry[] => {
+        return this.memberEntries;
+      };
+    },
+
+    getEnrichedMemberList: function () {
       return (): Array<ActiveMemberEntry> => {
         return this.activeMembers;
       };
@@ -113,7 +117,13 @@ const $teamMembers = defineStore("teamMembers", {
       return (): Array<InvitedMemberEntry> => {
         return this.invitedMembers;
       };
-    }
+    },
+
+    getMockMemberList: function () {
+      return (): Array<ActiveMemberEntry> => {
+        return this.mockMembers;
+      };
+    },
   },
 
   actions: {
@@ -122,28 +132,63 @@ const $teamMembers = defineStore("teamMembers", {
       if (LOCAL_STATES.loaded === false || reload === true) {
 
         // Load all public channels
-        const entries = await APITeamMembers.getAllMembers();
+        const entries: memberEntry[] = await APITeamMembers.getAllMembers();
+        this.memberEntries = entries;
         console.log('entries', entries)
 
-        const jids = ['valerian@prose.org.local', 'remi@prose.org.local']
+        const jids: string[] = []
         
-        // entries.forEach((member: object, index: number) => {
-        //   if(index === 0){
-        //     enrichUrl += 'jids=' + member.jid;
-        //   } else {
-        //     enrichUrl += '&jids=' + member.jid;
-        //   }
-        // })
-        console.log('url', jids);
-        const allMembers = await APITeamMembers.enrichMembers();
+        entries.forEach((member: memberEntry) => {
+          // this.memberEntries[member.jid] = {
+          //   role: member.role
+          // }
+          jids.push(member.jid);
+        });
 
-        console.log('all members', allMembers)
+        console.log('entriesChanged', this.memberEntries)
+        console.log('jids', jids);
+
+        setTimeout(async() => {
+          const allMembers = await APITeamMembers.enrichMembers(jids);
+          this.activeMembers = allMembers;
+  
+          console.log('enriched members', allMembers)
+        }, 4000 * (Math.random() + 0.5))
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
 
       // return this.list;
+    },
+
+    getFilteredMembers (filter: number | string) {
+      if(typeof filter === 'number'){
+        const startIndex = (filter - 1) * 10;
+        const endIndex = filter * 10 < this.memberEntries.length ? filter*10: this.memberEntries.length;
+        console.log('page', filter)
+        console.log('expected return ', this.memberEntries.slice(startIndex, endIndex));
+        return this.memberEntries.slice(startIndex, endIndex);
+
+      } else if(typeof filter === 'string') {
+        const memberArray = Object.values(this.activeMembers)
+
+        const response = memberArray.filter((member) => {
+          const filteredMeber = Object.values(member).filter((e) =>{
+            if(!e) {
+              return
+            } else {
+              return e.includes(filter)
+            }
+          });
+
+          return filteredMeber.length ? filteredMeber : false;
+        });
+
+        console.log('filtered', response)
+        return response;
+        
+      }
     },
 
     async loadInvitedMembers(reload = false): Promise<InvitedMembersList> {
