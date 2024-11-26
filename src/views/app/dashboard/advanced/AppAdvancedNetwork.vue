@@ -25,13 +25,13 @@
 <!-- Modals -->
  
 dns-setup(
-  :visible="isDnsInstructionsModalVisible"
+  :visibility="isDnsInstructionsModalVisible"
   @close="toggleDnsInstructionsModalVisible"
   @proceed=""
 )
 
 configuration-checker(
-  :visible="isNetworkCheckModalVisible"
+  :visibility="isNetworkCheckModalVisible"
   @close="toggleNetworkCheckModalVisible"
   @proceed=""
 )
@@ -76,6 +76,7 @@ export default {
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
           type: "toggle",
+          disabled: true,
         },
         {
           subtitle: "Friendly servers whitelist",
@@ -147,7 +148,6 @@ export default {
 
     // --> EVENT LISTENERS <--
     onShowDnsInstructions(event: Event): void {
-      // Re-emit click event
       this.toggleDnsInstructionsModalVisible();
     },
   },
