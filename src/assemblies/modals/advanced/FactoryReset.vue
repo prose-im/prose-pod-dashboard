@@ -10,13 +10,14 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  :visible="visibility"
   title="Factory reset this Pod"
   titleColor="red"
   buttonColor="red"
   buttonLabel="Run Factory Reset"
   :flexContainer="true"
+  @close="$emit('close')"
+  @confirm="onProceed"
 )
   .a-factory-reset
     .a-factory-reset__top
@@ -57,6 +58,7 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
@@ -72,7 +74,12 @@ export default {
     FormCheckbox,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close", "proceed"],
 
@@ -93,6 +100,24 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    onProceed() {
+      // Check if the whole form was filled
+      if (!this.password) {
+        BaseAlert.error("Please enter your password");
+      } else if (!this.downloadConfirmed || !this.dataLossConfirmed) {
+        BaseAlert.error(
+          "Please confirm that you have read and accept all the conditions"
+        );
+      } else {
+        // Reset state
+        this.password = "";
+        this.downloadConfirmed = false;
+        this.dataLossConfirmed = false;
+
+        // Close modal
+        this.$emit("close");
+      }
+    },
   },
 };
 </script>
