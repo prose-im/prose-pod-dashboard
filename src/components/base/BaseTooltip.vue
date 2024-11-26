@@ -35,7 +35,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseTooltipOverlay from '@/components/base/BaseTooltipOverlay.vue';
+import BaseTooltipOverlay from "@/components/base/BaseTooltipOverlay.vue";
 
 // CONSTANTS
 const AUTO_HIDE_DELAY = 20000; // 20 seconds
@@ -44,20 +44,20 @@ const MOUSE_ENTER_APPLY_DELAY = 250; // 250 milliseconds
 const CLICK_DIRECTIONS = {
   hide: "hide",
   show: "show",
-  both: "both"
+  both: "both",
 };
 
 export default {
   name: "BaseTooltip",
 
   components: {
-    BaseTooltipOverlay
+    BaseTooltipOverlay,
   },
 
   props: {
     tooltip: {
       type: String,
-      required: true
+      required: true,
     },
 
     align: {
@@ -66,7 +66,7 @@ export default {
 
       validator(x: string): boolean {
         return ["left", "center", "right"].includes(x);
-      }
+      },
     },
 
     direction: {
@@ -75,7 +75,7 @@ export default {
 
       validator(x: string): boolean {
         return ["top", "bottom"].includes(x);
-      }
+      },
     },
 
     click: {
@@ -86,15 +86,15 @@ export default {
         return [
           CLICK_DIRECTIONS.hide,
           CLICK_DIRECTIONS.show,
-          CLICK_DIRECTIONS.both
+          CLICK_DIRECTIONS.both,
         ].includes(x);
-      }
+      },
     },
 
     bypassed: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -107,7 +107,7 @@ export default {
       isVisible: false,
 
       overlayAnchor: [0, 0],
-      overlayOrigin: [0, 0]
+      overlayOrigin: [0, 0],
     };
   },
 
@@ -160,8 +160,7 @@ export default {
           //   a show or both directions)
           if (
             this.bypassed !== true &&
-            (this.click === CLICK_DIRECTIONS.show ||
-              this.click === CLICK_DIRECTIONS.both)
+            (this.click === CLICK_DIRECTIONS.show || this.click === CLICK_DIRECTIONS.both)
           ) {
             this.setVisible(true);
           }
@@ -205,8 +204,8 @@ export default {
       if (this.isVisible === true) {
         this.setVisible(false);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

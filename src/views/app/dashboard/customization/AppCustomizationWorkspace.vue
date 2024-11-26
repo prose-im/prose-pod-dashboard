@@ -73,7 +73,9 @@ export default {
       // --> STATE <--
 
       isEditNameVisible: false,
+
       isEditLogoVisible: false,
+
       isEditDetailCardVisible: false,
 
       profileItems: [
