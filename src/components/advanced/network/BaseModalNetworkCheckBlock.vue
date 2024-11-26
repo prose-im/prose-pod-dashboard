@@ -38,7 +38,13 @@
     )
 
   .c-base-modal-network-check-block__details
+    loader-network-check-row(
+      v-if="status === 'pending'"
+      v-for="row in [0, 1]"
+    )
+
     .c-base-modal-network-check-block__details--row(
+      v-else
       v-for="row in checkList"
       :class=`[
         "c-base-modal-network-check-block--" + colorCode(row.status, true)
