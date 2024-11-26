@@ -46,6 +46,7 @@ transition(
       base-button(
         v-if="buttonColor !== 'grey'"
         class="c-base-modal-container__footer--extra-button"
+        :disabled="disabled"
         :size="buttonSize"
         :tint="buttonColor"
         @click="onConfirm"
@@ -59,63 +60,70 @@ transition(
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from '@/components/base/BaseButton.vue';
+import BaseButton from "@/components/base/BaseButton.vue";
 
 export default {
   name: "BaseModalContainer",
 
-  components:{
-    BaseButton
+  components: {
+    BaseButton,
   },
 
   props: {
-    title:{
-      type:String,
-      required:true
+    title: {
+      type: String,
+      required: true,
     },
 
     titleColor: {
       type: String,
-      default:"black",
+      default: "black",
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      }
+      },
     },
 
-    buttonColor:{
+    buttonColor: {
       type: String,
-      default:"grey",
+      default: "grey",
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      }
+      },
     },
 
-    buttonLabel:{
-      type:  String,
-      default: ""
-    },
-
-    flexBody: {
-      type: Boolean,
-      default: false
+    buttonLabel: {
+      type: String,
+      default: "",
     },
 
     containerVisible: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    flexBody: {
+      type: Boolean,
+      default: false,
     },
 
     position: {
       type: String,
-      default:'left',
+      default: "left",
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      }
+      },
     },
   },
+
+  emits: ["closeModal", "confirmAction"],
 
   data() {
     return {
@@ -125,28 +133,25 @@ export default {
 
   computed: {
     buttonSize() {
-      return this.position === 'left' ? 'mid-large' :'large'
+      return this.position === "left" ? "mid-large" : "large";
     },
 
     abortButtonText() {
-      return this.buttonColor === 'grey' ? 'Close' : 'Cancel'
-    }
+      return this.buttonColor === "grey" ? "Close" : "Cancel";
+    },
   },
 
-  watch: {
-  },
-
-  emits: ["closeModal", "confirmAction"],
+  watch: {},
 
   methods: {
-    onClose(event: Event){
+    onClose(event: Event) {
       this.$emit("closeModal", event);
     },
 
-    onConfirm(event: Event){
+    onConfirm(event: Event) {
       this.$emit("confirmAction", event);
     },
-   }  
+  },
 };
 </script>
 
@@ -164,7 +169,7 @@ $c: ".c-base-modal-container";
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
 
-  #{$c}__title{
+  #{$c}__title {
     font-weight: $font-weight-bolder;
     font-family: $font-family-default;
     font-size: ($font-size-page + 6px);
@@ -176,22 +181,23 @@ $c: ".c-base-modal-container";
     padding-bottom: 27.5px;
   }
 
-  #{$c}__body{
-    min-height: 73%;
+  #{$c}__body {
+    overflow: scroll;
+    height: 73%;
     padding-top: 35.5px;
     padding-bottom: 26.5px;
     margin-inline: auto;
     border-block: 1px solid $color-border-primary;
   }
 
-  #{$c}__footer{
+  #{$c}__footer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
     height: 9%;
 
-    &--extra-button{
+    &--extra-button {
       margin-left: 12px;
     }
   }
@@ -203,12 +209,11 @@ $c: ".c-base-modal-container";
     border-radius: 14px;
     height: fit-content;
 
-
-    #{$c}__title{
+    #{$c}__title {
       padding-block-start: 27.5px;
     }
 
-    #{$c}__footer{
+    #{$c}__footer {
       padding-block: 20px;
     }
   }

@@ -30,6 +30,7 @@ teleport(
           :buttonColor="buttonColor"
           :buttonLabel="buttonLabel"
           :flexBody="flexContainer"
+          :disabled="disabled"
           @closeModal="onClose"
           @confirmAction="onConfirm"
         )
@@ -37,115 +38,121 @@ teleport(
 
           
 </template>
- 
- <!-- **********************************************************************
+
+<!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
- 
+
 <script lang="ts">
-import BaseModalBackground from '@/components/base/modal/BaseModalBackground.vue';
-import BaseModalContainer from '@/components/base/modal/BaseModalContainer.vue';
+import BaseModalBackground from "@/components/base/modal/BaseModalBackground.vue";
+import BaseModalContainer from "@/components/base/modal/BaseModalContainer.vue";
 
 export default {
   name: "BaseModal",
 
-  components:{
+  components: {
     BaseModalBackground,
-    BaseModalContainer
+    BaseModalContainer,
   },
 
   props: {
-    title:{
-      type:String,
-      required:true
+    title: {
+      type: String,
+      required: true,
     },
 
-    buttonColor:{
+    buttonColor: {
       type: String,
-      default:"grey",
+      default: "grey",
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      }
+      },
     },
-  
-    buttonLabel:{
-      type:  String,
-      required:true
+
+    buttonLabel: {
+      type: String,
+      required: true,
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false,
     },
 
     flexContainer: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     position: {
       type: String,
-      default:'left',
+      default: "left",
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      }
+      },
     },
 
     titleColor: {
       type: String,
-      default:"black",
+      default: "black",
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      }
+      },
     },
 
     visible: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
+
+  emits: ["close", "confirm", "load"],
 
   data() {
     return {
       // --> STATE <--
-      loaded: false
+      loaded: false,
     };
   },
 
-  computed: {
-
-  },
+  computed: {},
 
   watch: {
-    visible(value){
-      setTimeout(() => this.loaded = value, 40 )
-    }
+    visible(newVisibility, oldVisibility) {
+      setTimeout(() => (this.loaded = newVisibility), 10);
+
+      if (newVisibility === true && newVisibility !== oldVisibility) {
+        this.$emit("load");
+      }
+    },
   },
 
-  emits: ["close", "confirm"],
-
   methods: {
-    onClose(event: Event){
-      this.loaded = false
-      setTimeout(() => this.$emit("close", event), 50 )
+    onClose(event: Event) {
+      this.loaded = false;
+      setTimeout(() => this.$emit("close", event), 50);
     },
 
-    onConfirm(event: Event){
+    onConfirm(event: Event) {
       this.$emit("confirm", event);
     },
-  }  
- };
- </script>
- 
+  },
+};
+</script>
+
 <!-- **********************************************************************
    STYLE
    ********************************************************************** -->
- 
+
 <style lang="scss">
 $c: ".c-base-modal";
 
 #{$c} {
   position: fixed;
   inset: 0;
-  z-index: $index-foreground-primary;
+  z-index: $index-foreground-secondary;
 }
 </style>
- 
