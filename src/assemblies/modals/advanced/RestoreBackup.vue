@@ -10,12 +10,13 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  :visible="visibility"
   title="Restore this Pod from backup"
   buttonColor="red"
   buttonLabel="Restore This Backup"
   :flexContainer="true"
+  @close="$emit('close')"
+  @confirm="onProceed"
 )
   .a-restore-backup
     .a-restore-backup__top
@@ -97,6 +98,7 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
@@ -114,7 +116,12 @@ export default {
     FormCheckbox,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close", "proceed"],
 
@@ -135,6 +142,24 @@ export default {
 
   methods: {
     // --> HELPERS <--
+    onProceed() {
+      // Check if the whole form was filled
+      if (!this.password) {
+        BaseAlert.error("Please enter your password");
+      } else if (!this.dataLossConfirmed) {
+        BaseAlert.error(
+          "Please confirm that you have read and accept all the conditions"
+        );
+      }
+
+      // Reset state
+      this.password = "";
+      this.dataLossConfirmed = false;
+      this.missingSettings = true;
+
+      // Close modal
+      this.$emit("close");
+    },
   },
 };
 </script>
