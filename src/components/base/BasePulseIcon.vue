@@ -13,21 +13,19 @@
     .c-base-pulse-icon__inner
     .c-base-pulse-icon__outer
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 export default {
-
-  components: {
-  },
+  components: {},
 
   props: {
-    size:{
+    size: {
       type: String,
-      default: "15px"
+      default: "15px",
     },
   },
 
@@ -36,20 +34,16 @@ export default {
   data() {
     return {
       // --> STATE <--
-      parameter: true
+      parameter: true,
     };
   },
 
-  computed: {
-  },
+  computed: {},
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-    
   },
 };
 </script>
@@ -86,7 +80,6 @@ $c: ".c-base-pulse-icon";
     border-radius: 5px;
     animation: 1.5s ease-out infinite pulse;
   }
-
 }
 
 @keyframes pulse {
