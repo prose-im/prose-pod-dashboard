@@ -20,14 +20,14 @@
   p
     | {{ text }}
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
   name: "BaseModalInformation",
@@ -39,8 +39,8 @@ export default {
   props: {
     text: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   emits: [],
@@ -48,15 +48,12 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
     };
   },
 
   computed: {},
 
   watch: {},
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
@@ -71,7 +68,7 @@ export default {
 <style lang="scss">
 $c: ".c-base-modal-information";
 
-#{$c} {  
+#{$c} {
   display: flex;
   align-items: center;
   font-weight: $font-weight-light;
@@ -81,14 +78,13 @@ $c: ".c-base-modal-information";
   font-family: $font-family-default;
   font-size: ($font-size-baseline - 1px);
 
-  p{
+  p {
     margin: 0;
   }
 
-  &--icon{
+  &--icon {
     flex: none;
     margin-right: 13px;
   }
 }
 </style>
-        

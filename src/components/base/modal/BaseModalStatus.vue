@@ -7,7 +7,7 @@
 <!-- **********************************************************************
      TEMPLATE
      *************************************************************** -->
- <template lang="pug">
+<template lang="pug">
   .c-base-modal-status
     base-pulse-icon(
       v-if="status === 'pending'"
@@ -28,42 +28,42 @@
     )
       | {{ label }}
 </template>
- 
- <!-- **********************************************************************
+
+<!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
- 
+
 <script lang="ts">
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import BasePulseIcon from '@/components/base/BasePulseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BasePulseIcon from "@/components/base/BasePulseIcon.vue";
 
 export default {
   name: "BaseModalStatus",
 
-  components:{
+  components: {
     BaseIcon,
-    BasePulseIcon
+    BasePulseIcon,
   },
 
   props: {
-    status:{
+    status: {
       type: String,
-      default:"pending",
+      default: "pending",
 
       validator(x: string) {
-        return ["pending", "sucess", "warning", "failed"].includes(x);
-      }
+        return ["pending", "sucess", "warning", "INVALID", "CLOSED"].includes(x);
+      },
     },
 
     color: {
       type: String,
-      required: true
+      required: true,
     },
 
-    iconName:{
+    iconName: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -73,44 +73,54 @@ export default {
   },
 
   computed: {
-    label(x:string){
+    label(x: string) {
+      let label = "";
+
       switch (this.status) {
         case "pending": {
-          return "Checking...";
+          label = "Checking...";
+          break;
         }
         case "sucess": {
-          return "Verified";
+          label = "Verified";
+          break;
         }
-        case "failed": {
-          return "Issue";
+        case "INVALID": {
+          label = "Issue";
+          break;
         }
-        case "warning": {
-          return "Warning";
+        case "CLOSED": {
+          label = "Issue";
+          break;
+        }
+        case "FAILURE": {
+          label = "Warning";
+          break;
         }
         default: {
           break;
         }
       }
-    }
+
+      return label;
+    },
   },
 
-  watch: {
-  },
+  watch: {},
 
   methods: {
     // <-- HELPERS -->
-    capitalizeFirst(word: string){
-      return word.charAt(0).toUpperCase() + word.slice(1)
-    }  
-  }
-}
- 
- </script>
- 
- <!-- **********************************************************************
+    capitalizeFirst(word: string) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    },
+  },
+};
+</script>
+
+<!-- **********************************************************************
    STYLE
    ********************************************************************** -->
- 
+
 <style lang="scss">
 $c: ".c-base-modal-status";
 
@@ -123,4 +133,3 @@ $c: ".c-base-modal-status";
   }
 }
 </style>
- 

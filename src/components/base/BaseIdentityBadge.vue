@@ -45,59 +45,50 @@
         | v0.1.3
   
 </template>
-      
+
 <!-- **********************************************************************
     SCRIPT
     ********************************************************************** -->
-  
+
 <script lang="ts">
 //COMPINENTS
-import BaseIcon from '@/components/base/BaseIcon.vue'
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
-name: "BaseIdentityBagde",
+  name: "BaseIdentityBagde",
 
-components: {
-  BaseIcon 
-},
+  components: {
+    BaseIcon,
+  },
 
-props: {
-},
+  props: {},
 
-data() {
-  return {
-    // --> STATE <--
-  };
-},
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
 
-computed: {
+  computed: {},
 
-},
+  watch: {},
 
-watch: {
-
-},
-
-created() {
-  
-},
-
-methods: {
-  // --> HELPERS <--
-}
+  methods: {
+    // --> HELPERS <--
+  },
 };
 </script>
-    
+
 <!-- **********************************************************************
      STYLE
      ********************************************************************** -->
-  
+
 <style lang="scss">
 $c: ".c-base-identity-badge";
 
 #{$c} {
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   font-family: $font-family-default;
   padding-inline-start: 6px;
   padding-inline-end: 31px;
@@ -112,41 +103,40 @@ $c: ".c-base-identity-badge";
     height: fit-content;
     margin-left: 12px;
 
-    &-title{
+    &-title {
       display: flex;
       align-items: center;
     }
 
-    &-name{
-      font-size: $font-size-baseline + 1px,
+    &-name {
+      font-size: $font-size-baseline + 1px;
     }
 
-    &-description{
+    &-description {
       color: $color-text-secondary;
-      font-size: $font-size-baseline - 2px,
+      font-size: $font-size-baseline - 2px;
     }
 
-    p{
-      margin: 0px
+    p {
+      margin: 0px;
     }
 
-    span{
-      font-size: $font-size-baseline - 1.5px,
+    span {
+      font-size: $font-size-baseline - 1.5px;
     }
-
   }
-  
+
   // --> WEIGHTS <--
-  &--extra-light{
+  &--extra-light {
     font-weight: $font-weight-extra-light;
   }
 
-    &--light{
+  &--light {
     font-weight: $font-weight-light;
   }
 
-  &--semibold{
-    font-weight:$font-weight-medium;
+  &--semibold {
+    font-weight: $font-weight-medium;
   }
 }
 </style>

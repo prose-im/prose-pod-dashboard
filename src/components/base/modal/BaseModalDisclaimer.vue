@@ -26,14 +26,14 @@
     p
       | {{ description }}
   </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
   name: "BaseModalDisclaimer",
@@ -45,13 +45,13 @@ export default {
   props: {
     warning: {
       type: String,
-      required: true
+      required: true,
     },
 
     description: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
   emits: [],
@@ -59,15 +59,12 @@ export default {
   data() {
     return {
       // --> STATE <--
-      
     };
   },
 
   computed: {},
 
   watch: {},
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
@@ -82,7 +79,7 @@ export default {
 <style lang="scss">
 $c: ".c-base-modal-disclaimer";
 
-#{$c} {  
+#{$c} {
   font-family: $font-family-default;
   background-color: rgba($color-base-red-normal, 0.06);
   padding: 10px 19px 10.5px 21px;
@@ -100,7 +97,6 @@ $c: ".c-base-modal-disclaimer";
     &--icon {
       margin-right: 6px;
     }
-
   }
 
   #{$c}__description {
@@ -108,13 +104,12 @@ $c: ".c-base-modal-disclaimer";
     font-size: ($font-size-baseline);
   }
 
-  p{
+  p {
     margin: 0;
   }
 
-  &--icon{
+  &--icon {
     margin-right: 13px;
   }
 }
 </style>
-        
