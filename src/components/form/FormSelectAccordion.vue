@@ -91,7 +91,7 @@ div(
           span.c-form-select-accordion__value.u-ellipsis
             | {{ option.value }}
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
@@ -237,11 +237,6 @@ export default {
       return this.filteredOptions.length > 0;
     },
 
-    valueLabel(): void {
-      // // Fallback on raw value
-      // return this.value;
-    },
-
     arrowSize(): string {
       const sizeProperties = AVAILABLE_SIZES[this.size];
 
@@ -307,17 +302,6 @@ export default {
 
     scrollToOptionIndex(index: number): void {
       const optionsElement = (this.$refs.options as HTMLElement) || null;
-
-      // if (optionsElement !== null) {
-      //   const optionElement = optionsElement.children[index] || null;
-
-      //   if (optionElement !== null) {
-      //     optionElement.scrollIntoView({
-      //       behavior: "auto",
-      //       block: "nearest"
-      //     });
-      //   }
-      // }
     },
 
     eventOverrides(event: Event): void {
@@ -343,7 +327,7 @@ export default {
       this.eventOverrides(event);
         // Hide dropdown selector
         this.hideDropdown();
-      
+
     },
 
     onHotkeyDown(event: Event): void {
@@ -425,40 +409,36 @@ $sizes: (
     "line-height": $size-form-select-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 2px
+    "option-retract": 2px,
   ),
-
   "mid-medium": (
     "font-size": $font-size-baseline - 1.5px,
     "line-height": $size-form-select-mid-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 4px
+    "option-retract": 4px,
   ),
-
   "large": (
     "font-size": $font-size-baseline,
     "line-height": $size-form-select-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 6px
+    "option-retract": 6px,
   ),
-
   "mid-large": (
     "font-size": $font-size-baseline + 1.5px,
     "line-height": $size-form-select-mid-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 8px
+    "option-retract": 8px,
   ),
-
   "ultra-large": (
     "font-size": $font-size-baseline + 2.5px,
     "line-height": $size-form-select-ultra-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 10px
-  )
+    "option-retract": 10px,
+  ),
 );
 
 #{$c} {
@@ -470,8 +450,9 @@ $sizes: (
   }
 
   #{$c}__field,
-  #{$c}__options, #{$c}__option {
-    margin:0px;
+  #{$c}__options,
+  #{$c}__option {
+    margin: 0px;
 
     #{$c}__icon {
       margin-inline-end: 9px;
@@ -524,24 +505,23 @@ $sizes: (
   #{$c}__dropdown {
     overflow: hidden;
 
-    a{
+    a {
       border-radius: 7px;
     }
   }
 
   #{$c}__link {
-    padding-left:14px;
+    padding-left: 14px;
 
     &--icon {
       fill: $color-base-grey-normal;
       margin-right: 7px;
     }
-
   }
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: $size-form-select-options-padding-block; 
+    padding-block: $size-form-select-options-padding-block;
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -618,7 +598,6 @@ $sizes: (
           }
         }
       }
-
     }
   }
 
@@ -639,9 +618,7 @@ $sizes: (
 
       #{$c}__options {
         #{$c}__option {
-          line-height: (
-            map-get($size, "line-height") - map-get($size, "option-retract")
-          );
+          line-height: (map-get($size, "line-height") - map-get($size, "option-retract"));
         }
       }
     }
