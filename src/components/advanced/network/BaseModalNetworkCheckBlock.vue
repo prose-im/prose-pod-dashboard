@@ -17,11 +17,12 @@
       .c-base-modal-network-check-block__header
         h4(
           :class=`[
+            "c-base-modal-network-check-block__subtitle",
             {
               "c-base-modal-network-check-block--blue": status === 'pending',
               "c-base-modal-network-check-block--green": status === 'sucess',
-              "c-base-modal-network-check-block--yellow": status === 'warning',
-              "c-base-modal-network-check-block--red": status === 'failed',
+              "c-base-modal-network-check-block--orange": status === 'FAILURE',
+              "c-base-modal-network-check-block--red": status === 'INVALID' || status === 'CLOSED',
 
             }
           ]`
@@ -53,13 +54,7 @@
       .c-base-modal-network-check-block__left(
         class="c-base-modal-network-check-block--flex"
       )
-        base-pulse-icon(
-          v-if="row.status === 'pending'"
-          class="c-base-modal-network-check-block__icon"
-        )     
-
         base-icon(
-          v-else
           :name="getIconName(row.status)"
           class="c-base-modal-network-check-block__icon"
           :fill="colorCode(row.status)"
@@ -67,11 +62,10 @@
         )
 
         p
-          | {{ row['checkpoint'] }}
+          | {{ row['description'] }}
 
       p
         | {{ getStatusDisplay(row.status) }}
-
 </template>
 
 <!-- **********************************************************************
@@ -82,6 +76,7 @@
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModalStatus from "@/components/base/modal/BaseModalStatus.vue";
 import BasePulseIcon from "@/components/base/BasePulseIcon.vue";
+import LoaderNetworkCheckRow from "@/components/base/loader/LoaderNetworkCheckRow.vue";
 
 export default {
   name: "BaseModalCheckBlock",
@@ -90,6 +85,7 @@ export default {
     BaseIcon,
     BaseModalStatus,
     BasePulseIcon,
+    LoaderNetworkCheckRow,
   },
 
   props: {
@@ -98,7 +94,7 @@ export default {
       default: "sucess",
 
       validator(x: string) {
-        return ["sucess", "pending", "failed", "warning"].includes(x);
+        return ["sucess", "pending", "INVALID", "CLOSED", "warning"].includes(x);
       },
     },
 
@@ -156,11 +152,15 @@ export default {
           result = isString ? "green" : "#05c02b";
           break;
         }
-        case "failed": {
+        case "INVALID": {
           result = isString ? "red" : "#dd2f2f";
           break;
         }
-        case "warning": {
+        case "CLOSED": {
+          result = isString ? "red" : "#dd2f2f";
+          break;
+        }
+        case "FAILURE": {
           result = isString ? "orange" : "#fc8227";
           break;
         }
@@ -173,16 +173,24 @@ export default {
 
       switch (status) {
         case "pending": {
-          return (result = "archive");
+          result = "archive";
+          break;
         }
         case "sucess": {
-          return (result = "checkmark.circle.fill");
+          result = "checkmark.circle.fill";
+          break;
         }
-        case "failed": {
-          return (result = "exclamationmark.triangle.fill");
+        case "INVALID": {
+          result = "exclamationmark.triangle.fill";
+          break;
         }
-        case "warning": {
-          return (result = "exclamationmark.circle.fill");
+        case "CLOSED": {
+          result = "exclamationmark.triangle.fill";
+          break;
+        }
+        case "FAILURE": {
+          result = "exclamationmark.circle.fill";
+          break;
         }
         default:
           break;
@@ -204,14 +212,13 @@ export default {
             return "Connectivity is OK";
           }
         }
-        case "failed": {
-          if (this.label === "dns") {
-            return "Record is not valid";
-          } else if (this.label === "tcp") {
-            return "Port is closed";
-          }
+        case "INVALID": {
+          return "Record is not valid";
         }
-        case "warning": {
+        case "CLOSED": {
+          return "Port is closed";
+        }
+        case "FAILURE": {
           return "No address available";
         }
       }
@@ -232,8 +239,8 @@ $c: ".c-base-modal-network-check-block";
     margin: 0;
   }
 
-  h4 {
-    color: $color-base-blue-normal;
+  #{$c}__subtitle {
+    //color: $color-base-blue-normal;
     font-weight: $font-weight-medium;
     font-size: ($font-size-baseline + 2px);
     margin-left: 0;
@@ -343,3 +350,7 @@ $c: ".c-base-modal-network-check-block";
   }
 }
 </style>
+<!-- base-pulse-icon(
+  v-if="row.status === 'pending'"
+  class="c-base-modal-network-check-block__icon"
+)      -->
