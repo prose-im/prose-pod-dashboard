@@ -122,19 +122,19 @@ export default {
     BaseBadge,
     BaseButton,
     BaseIcon,
-    FormCheckbox
+    FormCheckbox,
   },
 
   props: {
     emojiData: {
       type: Object,
-      required: true
+      required: true,
     },
 
     tableHeaders: {
       type: Array,
-      default: null
-    }
+      default: null,
+    },
   },
 
   emits: [],
@@ -149,11 +149,9 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
 
