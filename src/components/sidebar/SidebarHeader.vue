@@ -35,7 +35,7 @@ export default {
 
   components: {
     BaseIcon,
-    BaseIdentityBadge
+    BaseIdentityBadge,
   },
 
   props: {},
@@ -50,11 +50,9 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
 

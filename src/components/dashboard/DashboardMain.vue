@@ -34,7 +34,7 @@ export default {
 
   components: {
     BaseSectionBackground,
-    Breadcrumb
+    Breadcrumb,
   },
 
   props: {},
@@ -51,11 +51,9 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
 

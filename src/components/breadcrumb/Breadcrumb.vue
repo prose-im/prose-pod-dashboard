@@ -33,7 +33,7 @@
         )
 
     base-tooltip(
-      tooltip="hello"
+      tooltip="hello If you hsve any questions, just ask"
       align="center"
       direction="bottom"
     )
@@ -138,8 +138,6 @@ export default {
   },
 
   watch: {},
-
-  created() {},
 
   methods: {
     // --> HELPERS <--
