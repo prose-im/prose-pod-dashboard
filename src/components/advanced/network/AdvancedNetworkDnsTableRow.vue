@@ -76,13 +76,11 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-    async copyText(htmlCollection : HTMLCollection) {
-      const textToCopyArray : string[] = [];
-      
+    async copyText(htmlCollection: HTMLCollection) {
+      const textToCopyArray: string[] = [];
+
       for (let i = 0; i < htmlCollection.children.length; i++) {
         textToCopyArray.push(htmlCollection.children[i].innerHTML);
       }

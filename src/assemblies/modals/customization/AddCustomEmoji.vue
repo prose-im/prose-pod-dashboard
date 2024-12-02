@@ -110,35 +110,33 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-    onPickFile () {
-      this.$refs.fileInput.click()
+    onPickFile() {
+      this.$refs.fileInput.click();
     },
 
-    onFilePicked (event) {
-      console.log('hi');
-      const files = event.target.files
-      let filename = files[0].name
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.imageUrl = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-      this.image = files[0]
+    onFilePicked(event) {
+      console.log("hi");
+      const files = event.target.files;
+      let filename = files[0].name;
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.image = files[0];
     },
 
-    onProceed () {
-      const date = new Date()
-      const options = { 
-        day: 'numeric', 
-        month: 'long', 
-        year: 'numeric' 
+    onProceed() {
+      const date = new Date();
+      const options = {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
       };
 
-      const formattedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
+      const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
 
       const newReaction = {
         id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
