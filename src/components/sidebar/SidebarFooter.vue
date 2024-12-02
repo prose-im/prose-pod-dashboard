@@ -52,7 +52,7 @@ export default {
     BaseAvatar,
     BaseBadge,
     BaseButton,
-    FormSelect
+    FormSelect,
   },
 
   props: {},
@@ -67,8 +67,6 @@ export default {
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> EVENT LISTENERS <--
 
@@ -79,7 +77,7 @@ export default {
 
         // Redirect to login page
         this.$router.push({
-          name: "start.login"
+          name: "start.login",
         });
 
         // Acknowledge logout success
@@ -87,8 +85,8 @@ export default {
       } catch (_) {
         BaseAlert.error("Could not log out", "Maybe try again?");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
