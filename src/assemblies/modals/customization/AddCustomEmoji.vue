@@ -63,19 +63,19 @@ base-modal(
       p
         | The emoji shortcut is what users can enter in the message field to insert the emoji, in text form. We recommend to keep it short and memorable.
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from '@/components/base/BaseAvatar.vue';
-import BaseButton from '@/components/base/BaseButton.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
-import BaseModal from '@/components/base/modal/BaseModal.vue';
-import FormField from '@/components/form/FormField.vue';
-import store from '@/store';
+import BaseAvatar from "@/components/base/BaseAvatar.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
+import BaseModal from "@/components/base/modal/BaseModal.vue";
+import FormField from "@/components/form/FormField.vue";
+import store from "@/store";
 
 export default {
   name: "AddCustomEmoji",
@@ -85,12 +85,10 @@ export default {
     BaseButton,
     BaseIcon,
     BaseModal,
-    FormField
+    FormField,
   },
 
-  props: {
-
-  },
+  props: {},
 
   emits: ["close", "proceed"],
 
@@ -98,11 +96,11 @@ export default {
     return {
       // --> STATE <--
 
-      imageUrl: '',
+      imageUrl: "",
 
-      image: '',
+      image: "",
 
-      shortcut: ''
+      shortcut: "",
     };
   },
 
@@ -143,25 +141,23 @@ export default {
         imageUrl: this.imageUrl,
         shortcut: this.shortcut,
         date: formattedDate,
-        contributor: 'Valerian Saliou',
-        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-      }
+        contributor: "Valerian Saliou",
+        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
+      };
 
       store.$customizationEmojis.addReaction(newReaction);
-      
-      this.imageUrl = '';
-      this.image = '';
-      this.$emit('close');
+
+      this.imageUrl = "";
+      this.image = "";
+      this.$emit("close");
     },
 
-    onClose () {
-      this.imageUrl = '';
-      this.image = '';
-      this.$emit('close');
-    }
-
+    onClose() {
+      this.imageUrl = "";
+      this.image = "";
+      this.$emit("close");
+    },
   },
-
 };
 </script>
 
@@ -176,15 +172,15 @@ $c: ".a-add-custom-emoji";
   margin-inline: 48px;
   font-family: $font-family-default;
 
-  h4{
-    color:$color-text-secondary;
+  h4 {
+    color: $color-text-secondary;
     margin-top: 0;
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
   }
 
-  #{$c}__upload{
+  #{$c}__upload {
     display: flex;
     align-items: center;
     position: relative;
@@ -194,14 +190,14 @@ $c: ".a-add-custom-emoji";
     border: 1px solid $color-border-secondary;
     border-radius: 7px;
 
-    &--avatar{
+    &--avatar {
       outline: 1px solid $color-border-secondary;
       outline-offset: 1.5px;
       margin-right: 21.5px;
     }
   }
 
-  #{$c}__input{
+  #{$c}__input {
     position: absolute;
     cursor: pointer;
     width: 120px;
@@ -209,7 +205,7 @@ $c: ".a-add-custom-emoji";
     opacity: 0;
   }
 
-  #{$c}__info{
+  #{$c}__info {
     display: flex;
     align-items: center;
     font-weight: $font-weight-light;
@@ -217,16 +213,13 @@ $c: ".a-add-custom-emoji";
     margin-left: 9px;
     font-size: ($font-size-baseline - 1px);
 
-    p{
+    p {
       margin: 0;
     }
 
-    &--icon{
+    &--icon {
       margin-right: 13px;
     }
   }
-  
 }
-
 </style>
-        
