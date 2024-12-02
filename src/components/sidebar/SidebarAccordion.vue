@@ -16,7 +16,6 @@
       :options="item.subcategories"
       :search="false"
       :placeholder="item.value"
-      :accordion="true"
     )
 </template>
 
@@ -31,18 +30,18 @@ export default {
   name: "SidebarAccordion",
 
   components: {
-    FormSelectAccordion
+    FormSelectAccordion,
   },
 
   props: {
     items: {
       type: Array,
-      required: true
+      required: true,
     },
     disclosureListClass: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   emits: ["addContact"],
@@ -50,19 +49,49 @@ export default {
   data() {
     return {
       // --> STATE <--
-      activeCategory: "Members & Invites"
     };
   },
 
-  computed: {},
+  computed: {
+    activeCategory() {
+      const route = this.$route;
+      let category = "";
+
+      switch (route.path) {
+        case "/team/members":
+          category = "Members & Invites";
+          break;
+        case "/server/configuration":
+          category = "Configuration";
+          break;
+        case "/customization/workspace":
+          category = "Workspace";
+          break;
+        case "/customization/emojis":
+          category = "Emojis & Reactions";
+          break;
+        case "/advanced/security":
+          category = "Security & Encryption";
+          break;
+        case "/advanced/network":
+          category = "Network Setup";
+          break;
+        case "/advanced/backup":
+          category = "Backup & Reset";
+          break;
+
+        default:
+          break;
+      }
+      return category;
+    },
+  },
 
   watch: {},
 
-  created() {},
-
   methods: {
     // --> HELPERS <--
-  }
+  },
 };
 </script>
 
