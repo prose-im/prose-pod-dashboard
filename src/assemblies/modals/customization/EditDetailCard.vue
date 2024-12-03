@@ -10,8 +10,6 @@
 
 <template lang="pug">
 base-modal(
-  @close="onClose"
-  @confirm="onProceed"
   title="Add a custom emoji"
   buttonColor="purple"
   buttonLabel="Add custom Emoji"
@@ -30,10 +28,12 @@ import BaseButton from "@/components/base/BaseButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormField from "@/components/form/FormField.vue";
+
+//STORE
 import store from "@/store";
 
 export default {
-  name: "AddCustomEmoji",
+  name: "EditDetailCard",
 
   components: {
     BaseAvatar,
@@ -70,8 +70,8 @@ export default {
 </script>
 
 <!-- **********************************************************************
-         STYLE
-         ********************************************************************** -->
+       STYLE
+       ********************************************************************** -->
 
 <style lang="scss">
 $c: ".a-add-custom-emoji";

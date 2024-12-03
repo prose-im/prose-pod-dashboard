@@ -68,7 +68,7 @@ import { fileToBase64 } from "file64";
 import imageCompression from "browser-image-compression";
 
 export default {
-  name: "AddCustomEmoji",
+  name: "EditLogo",
 
   components: {
     BaseAvatar,
