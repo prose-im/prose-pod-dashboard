@@ -145,6 +145,8 @@ import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
+
+//STORE
 import store from "@/store";
 
 export default {
@@ -202,16 +204,10 @@ export default {
     },
   },
 
-  watch: {
-    // visibility(newVisibility, oldVisibility) {
-    //   if (newVisibility === true && newVisibility !== oldVisibility) {
-    //     // this.reload = newVisibility;
-    //   }
-    // },
-  },
+  watch: {},
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
     },

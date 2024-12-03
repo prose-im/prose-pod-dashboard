@@ -44,7 +44,7 @@ export default {
     },
   },
 
-  emits: ["addContact"],
+  emits: [],
 
   data() {
     return {

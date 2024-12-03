@@ -13,14 +13,14 @@
   .c-members-invites-dashboard__upper
     search-bar(
       v-model="searchTerm"
-      :buttonLabel="label"
-      :clickHandle="toggleInviteModalVisible"
+      :button-label="label"
+      :click-handle="toggleInviteModalVisible"
       placeholder-text="team members..."
     )
 
     <!-- HEADERS -->
     members-invites-row(
-      :userData="{}"
+      :user-data="{}"
       :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
 
@@ -50,6 +50,7 @@
     @navFooterUpdate="onChangePage"
   )
 
+<!-- Modals -->
 invite-team-member(
   :visibility="isInviteModalVisible"
   @close="toggleInviteModalVisible"

@@ -11,10 +11,9 @@
 <template lang="pug">
 base-modal(
   title="Add a custom emoji"
-  buttonColor="purple"
-  buttonLabel="Add custom Emoji"
+  button-color="purple"
+  button-label="Add custom Emoji"
 )
-
 </template>
 
 <!-- **********************************************************************

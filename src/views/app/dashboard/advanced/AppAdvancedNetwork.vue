@@ -14,7 +14,7 @@
     v-model="config"
     title="Server Federation"
     :items="federationItems"
-    :restoreOption="true"
+    :restore-option="true"
   )
 
   base-subsection(
@@ -47,6 +47,8 @@ configuration-checker(
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
+
+// STORE
 import store from "@/store";
 
 export default {

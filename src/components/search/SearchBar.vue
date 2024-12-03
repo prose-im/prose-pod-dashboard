@@ -86,7 +86,7 @@ export default {
     },
   },
 
-  emits: ["addContact", "update:modelValue"],
+  emits: ["update:modelValue"],
 
   data() {
     return {

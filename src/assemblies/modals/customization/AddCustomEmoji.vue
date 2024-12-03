@@ -10,11 +10,11 @@
 
 <template lang="pug">
 base-modal(
+  title="Add a custom emoji"
+  button-color="purple"
+  button-label="Add custom Emoji"
   @close="onClose"
   @confirm="onProceed"
-  title="Add a custom emoji"
-  buttonColor="purple"
-  buttonLabel="Add custom Emoji"
 )
   .a-add-custom-emoji
     h4
@@ -22,7 +22,7 @@ base-modal(
 
     .a-add-custom-emoji__upload
       base-avatar(
-        :avatarDataUrl="imageUrl"
+        :avatar-data-url="imageUrl"
         class="a-add-custom-emoji__upload--avatar"
         size="60px"
         borderRadius="7px"

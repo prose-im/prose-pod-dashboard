@@ -14,8 +14,8 @@
     v-model="config.messaging"
     title="Messaging"
     :items="messagingItems"
-    :restoreOption="true"
-    :restoreAction="onGlobalRestore"
+    :restore-option="true"
+    :restore-action="onGlobalRestore"
     @update="onUpdate"
   )
 
@@ -157,7 +157,7 @@ export default {
   },
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
 
     onUpdate(newValue: boolean | string, changedKey: string) {
       // console.log('newValue', newValue, changedKey)
@@ -199,8 +199,9 @@ export default {
             store.$serverConfiguration.changeFileRetentionTime(newValue);
             break;
           }
-          default:
+          default: {
             break;
+          }
         }
       } else {
         return;

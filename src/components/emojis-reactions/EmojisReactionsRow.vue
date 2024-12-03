@@ -30,9 +30,9 @@
     base-avatar(
       v-if="!tableHeaders"
       class="c-emojis-reactions-row__image"
-      :avatarDataUrl="emojiData.imageUrl"
+      :avatar-data-url="emojiData.imageUrl"
       size="30px"
-      borderRadius="0px"
+      border-radius="0px"
     )
     p(
       v-else
@@ -75,7 +75,7 @@
         :class=`[
           "c-emojis-reactions-row__contributor--avatar",
         ]`
-        :avatarDataUrl="emojiData.contributorAvatar"
+        :avatar-data-url="emojiData.contributorAvatar"
         size="22px"
       )
 
@@ -109,7 +109,6 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseBadge from "@/components/base/BaseBadge.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
@@ -119,7 +118,6 @@ export default {
 
   components: {
     BaseAvatar,
-    BaseBadge,
     BaseButton,
     BaseIcon,
     FormCheckbox,

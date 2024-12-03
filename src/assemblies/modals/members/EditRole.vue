@@ -13,8 +13,8 @@ base-modal(
   :visible="visibility"
   position="center"
   title="Change member's role"
-  buttonColor="purple"
-  buttonLabel="Update role"
+  button-color="purple"
+  button-label="Update role"
   @close="onClose"
   @confirm="onProceed"
 )
@@ -31,6 +31,7 @@ base-modal(
 
       form-select(
         v-model="memberRole"
+        v-click-away="closeSelectOpen"
         class="a-edit-role__select"
         position="bottom"
         :options="roleOptions"
@@ -44,7 +45,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
 
@@ -123,8 +123,13 @@ export default {
       this.isSelectOpen = !this.isSelectOpen;
     },
 
+    closeSelectOpen() {
+      this.isSelectOpen = false;
+    },
+
     // --> EVENT LISTENERS <--
     onProceed() {
+      // update only if Role has changed
       if (this.newRole && this.user.role !== this.newRole.toUpperCase()) {
         store.$teamMembers.updateRoleByMemberId(
           this.user.jid,

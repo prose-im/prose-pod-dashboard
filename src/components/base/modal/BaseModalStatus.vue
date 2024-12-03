@@ -75,7 +75,7 @@ export default {
   },
 
   computed: {
-    label(x: string) {
+    label() {
       let label = "";
 
       switch (this.status) {

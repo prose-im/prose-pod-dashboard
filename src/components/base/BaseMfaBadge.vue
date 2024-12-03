@@ -28,7 +28,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseIcon from "./BaseIcon.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
   name: "BaseMfaBadge",

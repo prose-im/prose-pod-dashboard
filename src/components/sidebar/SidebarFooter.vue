@@ -40,7 +40,6 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseBadge from "@/components/base/BaseBadge.vue";
-import FormSelect from "@/components/form/FormSelect.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
@@ -52,7 +51,6 @@ export default {
     BaseAvatar,
     BaseBadge,
     BaseButton,
-    FormSelect,
   },
 
   props: {},

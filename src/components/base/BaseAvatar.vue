@@ -64,14 +64,17 @@ export default {
         imageUrl = `url(${this.avatarDataUrl})`;
       } else {
         switch (this.type) {
-          case "person":
+          case "person": {
             imageUrl = `url(/images/components/base/BasePlaceholderImage/illustration-contact-empty.webp)`;
             break;
-          case "image":
+          }
+          case "image": {
             imageUrl = `url(/images/components/base/BaseServerLogo/logo-prose-org.png)`;
             break;
-          default:
+          }
+          default: {
             break;
+          }
         }
       }
 

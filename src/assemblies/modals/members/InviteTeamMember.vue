@@ -11,11 +11,11 @@
 <template lang="pug">
 base-modal(
   :visible="visibility"
+  title="Invite a team member"
+  button-color="purple"
+  button-label="Invite Team Member"
   @close="$emit('close')"
   @confirm="onSendInvite"
-  title="Invite a team member"
-  buttonColor="purple"
-  buttonLabel="Invite Team Member"
 )
   .a-invite-team-member
     base-modal-input-block(
@@ -55,7 +55,6 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
@@ -71,7 +70,6 @@ export default {
   name: "InviteTeamMember",
 
   components: {
-    BaseIcon,
     BaseModal,
     BaseModalInformation,
     BaseModalInputBlock,
@@ -85,7 +83,7 @@ export default {
     },
   },
 
-  emits: ["close", "proceed", "update"],
+  emits: ["close"],
 
   data() {
     return {
@@ -114,32 +112,38 @@ export default {
   watch: {},
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
     async onSendInvite(): Promise<void> {
-      // console.log(this.inviteEmail)
+      // Check if all fields have been filled
       if (!this.inviteEmail || !this.inviteUserName) {
         BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
         return;
       } else {
+        // Send invitation
         await store.$teamMembers.sendInvitation(
           this.inviteUserName,
           this.inviteRole,
           this.inviteEmail
         );
 
+        // Reload invite list
         await store.$teamMembers.loadInvitedMembers(true);
 
+        // Let user know the invitaion was sent
         BaseAlert.success("An invitation has been sent", "");
 
+        // Reset values
         this.inviteEmail = "";
         this.inviteUserName = "";
         this.inviteRole = Roles.Member;
 
+        // Close modal
         this.$emit("close", true);
       }
     },
 
     onChange(value: string) {
+      // Auto fill nickname from e-mail
       if (value.includes("@") && !this.inviteUserName) {
         this.inviteUserName = value.split("@")[0];
       }

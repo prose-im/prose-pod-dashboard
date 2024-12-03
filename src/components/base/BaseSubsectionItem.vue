@@ -77,9 +77,9 @@ div(
 
   base-avatar(
     v-if="item.slot === 'avatar'"
-    :avatarDataUrl="calculatedValue"
+    :avatar-data-url="calculatedValue"
     size="40px"
-    borderRadius="20px"
+    border-radius="20px"
     :class=`[
       "c-base-subsection-item__slot",
       "c-base-subsection-item__slot--avatar"
@@ -91,7 +91,7 @@ div(
     v-if="type === 'toggle'"
     v-model="calculatedValue"
     :disabled="item.disabled"
-    @update:modelValue="updateValue"
+    @update:modelValue="onUpdateValue"
   )
 
   base-button(
@@ -106,13 +106,13 @@ div(
   form-select(
     v-if="(type === 'select') || type === 'doubleSelect'"
     v-model="calculatedValue"
-    :colorPrev="colorSquare"
+    :color-prev="colorSquare"
     :disabled="item.disabled"
     :options="item.typeProps?.options"
     position="bottom"
     size="medium"
     :search="false"
-    @update:modelValue="updateValue"
+    @update:modelValue="onUpdateValue"
   )
 
   form-select(
@@ -124,7 +124,7 @@ div(
     size="medium"
     :options="item.typeProps?.secondOptions"
     position="bottom"
-    @update:modelValue="updateExtraSelect"
+    @update:modelValue="onUpdateExtraSelect"
   )
     
 </template>
@@ -194,7 +194,7 @@ export default {
     },
   },
 
-  emits: ["update", "click", "updateExtraSelect"],
+  emits: ["update", "click"],
 
   data() {
     return {
@@ -203,7 +203,7 @@ export default {
 
       stateSecondSelect: null,
 
-      colorSquare: null,
+      colorSquare: null as string | null,
     };
   },
 
@@ -217,7 +217,6 @@ export default {
           return this.modelValue;
         } else {
           const valueArray = Object.values(this.modelValue);
-
           this.stateSecondSelect = valueArray[1];
 
           return valueArray[0];
@@ -253,8 +252,8 @@ export default {
   watch: {},
 
   methods: {
-    // --> HELPERS <--
-    updateValue(newValue: boolean | string): void {
+    // --> EVENT LISTENERS <--
+    onUpdateValue(newValue: boolean | string): void {
       if (this.type === "doubleSelect") {
         this.$emit("update", newValue, this.index, 0);
       } else {
@@ -262,7 +261,7 @@ export default {
       }
     },
 
-    updateExtraSelect(newValue: boolean | string): void {
+    onUpdateExtraSelect(newValue: boolean | string): void {
       this.$emit("update", newValue, this.index, 1);
     },
 
@@ -354,7 +353,8 @@ $c: ".c-base-subsection-item";
   #{$c}__slot {
     font-size: ($font-size-baseline - 4px);
     font-weight: $font-weight-medium;
-    margin-inline-end: 20px;
+    margin-inline-end: 10px;
+    min-width: 40px;
 
     &--avatar {
       outline: 1px solid $color-border-primary;

@@ -13,9 +13,9 @@ base-modal(
   :visible="visibility"
   position="center"
   title="Delete member"
-  buttonColor="red"
-  titleColor="red"
-  buttonLabel="Delete member"
+  button-color="red"
+  title-color="red"
+  button-label="Delete member"
   @close="onClose"
   @confirm="onProceed"
 )
@@ -46,7 +46,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 
 // STORE

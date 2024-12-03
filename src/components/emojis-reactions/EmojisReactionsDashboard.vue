@@ -12,20 +12,20 @@
 .c-emojis-reactions-dashboard
   .c-emojis-reactions-dashboard__upper
     search-bar(
-      buttonLabel="Add Custom Emoji"
-      :clickHandle="onInvitePeopleClick"
-      placeholderText="a custom emoji..."
+      button-label="Add Custom Emoji"
+      :click-handle="onInvitePeopleClick"
+      placeholder-text="a custom emoji..."
     )
 
     emojis-reactions-row(
-      :emojiData="{}"
-      :tableHeaders="['Image', 'Shortcut', 'Date added', 'Added by']"
+      :emoji-data="{}"
+      :table-headers="['Image', 'Shortcut', 'Date added', 'Added by']"
     )
 
     emojis-reactions-row(
       v-for="(emoji, index) in emojis"
       :key="emoji.shortcut"
-      :emojiData="emoji"
+      :emoji-data="emoji"
       class="c-emojis-reactions-dashboard__users"
     )
 
@@ -49,6 +49,8 @@ import AddCustomEmoji from "@/assemblies/modals/customization/AddCustomEmoji.vue
 import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
 import EmojisReactionsRow from "@/components/emojis-reactions/EmojisReactionsRow.vue";
 import SearchBar from "@/components/search/SearchBar.vue";
+
+// STORE
 import store from "@/store";
 
 export default {
@@ -58,7 +60,7 @@ export default {
     AddCustomEmoji,
     BaseNavigationFooter,
     EmojisReactionsRow,
-    SearchBar
+    SearchBar,
   },
 
   props: {},
@@ -68,20 +70,20 @@ export default {
   data() {
     return {
       // --> STATE <--
-      isModalVisible: false
+      isModalVisible: false,
     };
   },
 
   computed: {
     emojis() {
       return store.$customizationEmojis.getEmojiList();
-    }
+    },
   },
 
   watch: {},
 
   mounted() {
-      store.$customizationEmojis.loadAllReactions()
+    store.$customizationEmojis.loadAllReactions();
   },
 
   methods: {
@@ -90,10 +92,10 @@ export default {
       this.isModalVisible = !this.isModalVisible;
     },
 
-    onInvitePeopleClick(event: Event): void {
+    onInvitePeopleClick(): void {
       this.toggleModalVisible();
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -68,7 +68,7 @@ export default {
     },
   },
 
-  emits: ["invitePeople"],
+  emits: [],
 
   data() {
     return {

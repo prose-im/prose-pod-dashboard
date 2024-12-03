@@ -12,8 +12,8 @@
 base-modal(
   position="center"
   title="Select new icon"
-  buttonColor="purple"
-  buttonLabel="Change icon"
+  button-color="purple"
+  button-label="Change icon"
   :disabled="proceedDisabled"
   @close="onClose"
   @confirm="onProceed"
@@ -24,10 +24,10 @@ base-modal(
 
     .a-edit-logo__upload
       base-avatar(
-        :avatarDataUrl="imageUrl"
+        :avatar-data-url="imageUrl"
         class="a-edit-logo__upload--avatar"
         size="60px"
-        borderRadius="7px"
+        border-radius="7px"
         type="image"
       )
 
@@ -58,9 +58,9 @@ base-modal(
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
-import FormField from "@/components/form/FormField.vue";
+
+// STORE
 import store from "@/store";
 
 // PACKAGES
@@ -73,9 +73,7 @@ export default {
   components: {
     BaseAvatar,
     BaseButton,
-    BaseIcon,
     BaseModal,
-    FormField,
   },
 
   props: {},

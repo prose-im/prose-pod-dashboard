@@ -5,17 +5,17 @@
 -->
 
 <!-- **********************************************************************
-  TEMPLATE
-  ********************************************************************** -->
+      TEMPLATE
+      ********************************************************************** -->
 
 <template lang="pug">
 base-modal(
   :visible="visibility"
   title="Factory reset this Pod"
-  titleColor="red"
-  buttonColor="red"
-  buttonLabel="Run Factory Reset"
-  :flexContainer="true"
+  title-color="red"
+  button-color="red"
+  button-label="Run Factory Reset"
+  :flex-container="true"
   @close="$emit('close')"
   @confirm="onProceed"
 )
@@ -47,9 +47,9 @@ base-modal(
         v-model="dataLossConfirmed"
         size="mid"
         bold="semibold"
-        labelColor="red"
+        label-color="red"
       )
-        |I confirm that I am aware that all data will be erased
+        | I confirm that I am aware that all data will be erased
 </template>
 
 <!-- **********************************************************************
@@ -81,7 +81,7 @@ export default {
     },
   },
 
-  emits: ["close", "proceed"],
+  emits: ["close"],
 
   data() {
     return {

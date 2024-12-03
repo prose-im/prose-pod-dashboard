@@ -12,34 +12,33 @@
 base-modal(
   :visible="visibility"
   title="Network configuration checker"
-  buttonLabel="Add custom Emoji"
   @close="$emit('close')"
   @confirm="$emit('proceed')"
   @load="onLoad"
 )
   .a-configuration-checker
-    base-modal-network-check-block(
+    advanced-network-check-block(
       :status="dnsStatus"
       label="dns"
       subtitle="DNS records"
       description="Checks that all DNS records are properly configured."
-      :checkList="dnsCheckList"
+      :checklist="dnsCheckList"
     )
 
-    base-modal-network-check-block(
+    advanced-network-check-block(
       :status="portStatus"
       label="tcp"
       subtitle="Ports reachability"
       description="Ensures that all required ports are opened and reachable."
-      :checkList="portCheckList"
+      :checklist="portCheckList"
     )
 
-    base-modal-network-check-block(
+    advanced-network-check-block(
       :status="ipStatus"
       label="ip"
       subtitle="IP connectivity"
       description="Checks that your server has connection over all IP protocols."
-      :checkList="ipCheckList"
+      :checklist="ipCheckList"
     )
     
     p {{ states }}
@@ -52,15 +51,17 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalNetworkCheckBlock from "@/components/advanced/network/BaseModalNetworkCheckBlock.vue";
+import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNetworkCheckBlock.vue";
+
+// STORE
 import store from "@/store";
 
 export default {
   name: "ConfigurationChecker",
 
   components: {
+    AdvancedNetworkCheckBlock,
     BaseModal,
-    BaseModalNetworkCheckBlock,
   },
 
   props: {
@@ -84,15 +85,15 @@ export default {
     },
 
     dnsStatus() {
-      return this.getStatus("dns", this.dnsCheckList);
+      return this.getGlobalStatus("dns", this.dnsCheckList);
     },
 
     portStatus() {
-      return this.getStatus("port", this.portCheckList);
+      return this.getGlobalStatus("port", this.portCheckList);
     },
 
     ipStatus() {
-      return this.getStatus("ip", this.ipCheckList);
+      return this.getGlobalStatus("ip", this.ipCheckList);
     },
 
     dnsCheckList() {
@@ -112,12 +113,14 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    getStatus(block: string, checkList) {
-      if (this.states[`${block}Loading`]) {
-        return "pending";
-      } else if (this.states[`${block}Loaded`]) {
-        let checkListStatus = "";
+    getGlobalStatus(block: string, checkList) {
+      let checkListStatus = "";
 
+      if (this.states[`${block}Loading`]) {
+        // Block check is still running ({dns/ ip/ port}Loading === true)
+        checkListStatus = "pending";
+      } else if (this.states[`${block}Loaded`]) {
+        // Block check is done => check if all the checks in the block are OK
         for (let i = 0; i < checkList.length; i++) {
           if (checkList[i].status !== "sucess") {
             checkListStatus = checkList[i].status;
@@ -126,12 +129,15 @@ export default {
             checkListStatus = "sucess";
           }
         }
-        return checkListStatus;
       } else {
-        return "INVALID";
+        // Block check failed
+        checkListStatus = "INVALID";
       }
+
+      return checkListStatus;
     },
 
+    // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.checkAllRecords();
     },

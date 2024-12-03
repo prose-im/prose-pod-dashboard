@@ -26,6 +26,8 @@ div(
      ********************************************************************** -->
 
 <script lang="ts">
+import { Roles } from "@/api/providers/teamMembers";
+
 export default {
   name: "BaseBadge",
 
@@ -49,7 +51,7 @@ export default {
 
   computed: {
     label() {
-      return this.admin === "ADMIN" ? "Admin" : "Member";
+      return this.admin === "ADMIN" ? Roles.Admin : Roles.Member;
     },
   },
 

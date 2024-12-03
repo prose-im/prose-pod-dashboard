@@ -12,9 +12,9 @@
 base-modal(
   :visible="visibility"
   title="Restore this Pod from backup"
-  buttonColor="red"
-  buttonLabel="Restore This Backup"
-  :flexContainer="true"
+  button-color="red"
+  button-label="Restore This Backup"
+  :flex-container="true"
   @close="$emit('close')"
   @confirm="onProceed"
 )
@@ -125,7 +125,6 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
@@ -137,7 +136,6 @@ export default {
   name: "RestoreBackup",
 
   components: {
-    BaseButton,
     BaseIcon,
     BaseModal,
     BaseModalDisclaimer,

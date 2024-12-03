@@ -20,7 +20,7 @@
       v-model="config.encryption"
       title="Network Encryption"
       :items="networkItems"
-      :restoreOption="true"
+      :restore-option="true"
     )
 </template>
 
@@ -31,6 +31,8 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
+
+// STORE
 import store from "@/store";
 
 export default {

@@ -9,15 +9,15 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-header
-    base-icon(
-      name="logo"
-      size="20.5px"
-      width="77px"
-      :rectangular="true"
-    )
+.c-sidebar-header
+  base-icon(
+    name="logo"
+    size="20.5px"
+    width="77px"
+    :rectangular="true"
+  )
 
-    base-identity-badge
+  base-identity-badge
 
 </template>
 

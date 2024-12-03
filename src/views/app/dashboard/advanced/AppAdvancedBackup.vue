@@ -25,9 +25,10 @@
     title="Danger Zone"
     sup="tm"
     :items="dangerItems"
-    titleColor="red"
+    title-color="red"
   )
 
+<!-- Modals -->
 restore-backup(
   :visibility="isRestoreModalVisible"
   @close="toggleRestoreModalVisible"
@@ -37,7 +38,6 @@ restore-backup(
 factory-reset(
   :visibility="isResetModalVisible"
   @close="toggleResetModalVisible"
-  @proceed=""
 )
 </template>
 
@@ -50,10 +50,12 @@ factory-reset(
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import FactoryReset from "@/assemblies/modals/advanced/FactoryReset.vue";
 import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
+
+// STORE
 import store from "@/store";
 
 export default {
-  name: "AppAdvancedSecurity",
+  name: "AppAdvancedBackup",
 
   components: {
     BaseSubsection,

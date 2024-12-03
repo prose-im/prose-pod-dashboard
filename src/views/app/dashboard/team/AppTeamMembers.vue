@@ -13,7 +13,6 @@
   members-invites-dashboard(
     label="Invite People"
   )
-
 </template>
 
 <!-- **********************************************************************

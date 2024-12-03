@@ -12,8 +12,8 @@
 base-modal(
   position="center"
   title="Change your workspace name"
-  buttonColor="purple"
-  buttonLabel="Change name"
+  button-color="purple"
+  button-label="Change name"
   @close="onClose"
   @confirm="onProceed"
 )
@@ -33,29 +33,23 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
-import FormField from "@/components/form/FormField.vue";
+
+// STORE
 import store from "@/store";
 
 export default {
   name: "EditName",
 
   components: {
-    BaseAvatar,
-    BaseButton,
-    BaseIcon,
     BaseModal,
     BaseModalInputBlock,
-    FormField,
   },
 
   props: {},
 
-  emits: ["close", "proceed"],
+  emits: ["close"],
 
   data() {
     return {

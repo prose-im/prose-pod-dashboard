@@ -35,7 +35,7 @@
           "c-members-invites-row--hidden" : (userData.invitation_id || tableHeaders)
         }
       ]`
-      :avatarDataUrl="userEnrichedData?.avatar"
+      :avatar-data-url="userEnrichedData?.avatar"
     )
 
     <!-- 3rd column -->
@@ -175,12 +175,11 @@
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseBadge from "@/components/base/BaseBadge.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
-import BaseComingSoon from "../base/BaseComingSoon.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseMfaBadge from "../base/BaseMfaBadge.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
-import MembersInvitesMenu from "./MembersInvitesMenu.vue";
 import LoaderBase from "../base/loader/LoaderBase.vue";
+import MembersInvitesMenu from "./MembersInvitesMenu.vue";
 
 // STORE
 import store from "@/store";
@@ -192,7 +191,6 @@ export default {
     BaseAvatar,
     BaseBadge,
     BaseButton,
-    BaseComingSoon,
     BaseIcon,
     BaseMfaBadge,
     FormCheckbox,
