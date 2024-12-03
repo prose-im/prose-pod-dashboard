@@ -110,10 +110,12 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         // Load globalConfig configuration
         const [name, icon, color] = await APICustomizationWorkspace.getWorkspaceConfig();
 
-        this.workspaceProfile.name = name.name;
-        this.appearance.color = color.color;        
-        // this.workspaceProfile.iconUrl = icon.icon
-      }
+        this.$patch(() => {
+          this.workspaceProfile.name = name.name;
+          this.appearance.color = color.color;        
+          this.workspaceProfile.iconUrl = 'data:image/png;base64,' + icon.icon;
+        })
+      };
     },
 
     async getWorkspaceName(): Promise<void> {
@@ -131,7 +133,11 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceIcon(newIcon: string): Promise<void> {
-      await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
+        await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
+
+        this.$patch(() => {
+          this.workspaceProfile.iconUrl = 'data:image/png;base64,' + newIcon;
+        })
     },
 
     async getWorkspaceColor(reload = false): Promise<void> {
