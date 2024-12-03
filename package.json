@@ -25,7 +25,8 @@
     "pinia": "2.2.4",
     "pinia-plugin-persistedstate": "3.1.0",
     "vue": "3.4.37",
-    "vue-router": "4.4.5"
+    "vue-router": "4.4.5",
+    "vue3-click-away": "1.2.4"
   },
   "devDependencies": {
     "@types/lodash.merge": "4.6.x",
