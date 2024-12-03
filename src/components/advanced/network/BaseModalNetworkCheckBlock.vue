@@ -94,7 +94,7 @@ export default {
       default: "sucess",
 
       validator(x: string) {
-        return ["sucess", "pending", "INVALID", "CLOSED", "warning"].includes(x);
+        return ["sucess", "pending", "INVALID", "CLOSED", "FAILURE"].includes(x);
       },
     },
 
@@ -235,6 +235,8 @@ export default {
 $c: ".c-base-modal-network-check-block";
 
 #{$c} {
+  margin-block-end: 36px;
+
   p {
     margin: 0;
   }
@@ -257,10 +259,12 @@ $c: ".c-base-modal-network-check-block";
     &--left {
       display: flex;
       align-items: center;
+      position: relative;
     }
   }
 
   #{$c}__label {
+    position: absolute;
     color: $color-text-secondary;
     font-size: ($font-size-baseline - 2px);
     padding-block: 3.5px;
@@ -272,6 +276,8 @@ $c: ".c-base-modal-network-check-block";
   }
 
   #{$c}__header {
+    margin-inline-start: 58px;
+
     p {
       color: $color-text-secondary;
       font-size: $font-size-baseline;
@@ -350,7 +356,3 @@ $c: ".c-base-modal-network-check-block";
   }
 }
 </style>
-<!-- base-pulse-icon(
-  v-if="row.status === 'pending'"
-  class="c-base-modal-network-check-block__icon"
-)      -->
