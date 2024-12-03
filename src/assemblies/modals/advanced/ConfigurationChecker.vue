@@ -10,10 +10,12 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
-  @confirm="$emit('proceed')"
+  :visible="visibility"
   title="Network configuration checker"
   buttonLabel="Add custom Emoji"
+  @close="$emit('close')"
+  @confirm="$emit('proceed')"
+  @load="onLoad"
 )
   .a-configuration-checker
     base-modal-network-check-block(
@@ -21,23 +23,23 @@ base-modal(
       label="dns"
       subtitle="DNS records"
       description="Checks that all DNS records are properly configured."
-      :checkList="checkList"
+      :checkList="dnsCheckList"
     )
 
     base-modal-network-check-block(
-      status="failed"
+      :status="portStatus"
       label="tcp"
       subtitle="Ports reachability"
       description="Ensures that all required ports are opened and reachable."
-      :checkList="checkList"
+      :checkList="portCheckList"
     )
 
     base-modal-network-check-block(
-      status="warning"
+      :status="ipStatus"
       label="ip"
       subtitle="IP connectivity"
       description="Checks that your server has connection over all IP protocols."
-      :checkList="checkList"
+      :checkList="ipCheckList"
     )
     
     p {{ states }}
@@ -61,68 +63,78 @@ export default {
     BaseModalNetworkCheckBlock,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close", "proceed"],
 
   data() {
     return {
       // --> STATE <--
-      checkList: [
-        {
-          checkpoint: "IPv4 record for xmpp.crisp.chat",
-          status: "sucess",
-        },
-
-        {
-          checkpoint: "IPv6 record for xmpp.crisp.chat",
-          status: "sucess",
-        },
-
-        {
-          checkpoint: "SRV record for client-to-server connections",
-          status: "pending",
-        },
-
-        {
-          checkpoint: "Server-to-server port at TCP 5269",
-          status: "warning",
-        },
-
-        {
-          checkpoint: "SRV record for client-to-server connections",
-          status: "failed",
-        },
-      ],
     };
   },
 
   computed: {
     states() {
-      return store.$settingsNetwork.getStates();
+      return store.$settingsNetwork.getConfigCheckStates();
     },
 
     dnsStatus() {
-      if (this.states.dnsCheckLoading) {
-        return "pending";
-      } else if (this.states.dnsCheckLoaded) {
-        return "sucess";
-      } else {
-        return "failed";
-      }
+      return this.getStatus("dns", this.dnsCheckList);
+    },
+
+    portStatus() {
+      return this.getStatus("port", this.portCheckList);
+    },
+
+    ipStatus() {
+      return this.getStatus("ip", this.ipCheckList);
+    },
+
+    dnsCheckList() {
+      return store.$settingsNetwork.getDnsCheck() || [];
+    },
+
+    portCheckList() {
+      return store.$settingsNetwork.getPortCheck() || [];
+    },
+
+    ipCheckList() {
+      return store.$settingsNetwork.getIpCheck() || [];
     },
   },
 
   watch: {},
 
-  beforeUpdate() {
-    store.$settingsNetwork.checkDnsRecords();
-    store.$settingsNetwork.checkPortReachability();
-    store.$settingsNetwork.checkIPConnectivity();
-  },
-
   methods: {
     // --> HELPERS <--
+    getStatus(block: string, checkList) {
+      if (this.states[`${block}Loading`]) {
+        return "pending";
+      } else if (this.states[`${block}Loaded`]) {
+        let checkListStatus = "";
+
+        for (let i = 0; i < checkList.length; i++) {
+          if (checkList[i].status !== "sucess") {
+            checkListStatus = checkList[i].status;
+            break;
+          } else {
+            checkListStatus = "sucess";
+          }
+        }
+        return checkListStatus;
+      } else {
+        return "INVALID";
+      }
+    },
+
+    onLoad() {
+      store.$settingsNetwork.checkAllRecords();
+    },
   },
 };
 </script>
