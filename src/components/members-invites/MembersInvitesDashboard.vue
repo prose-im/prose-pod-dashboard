@@ -14,7 +14,7 @@
     search-bar(
       v-model="searchTerm"
       :buttonLabel="label"
-      :clickHandle="toggleModalVisible"
+      :clickHandle="toggleInviteModalVisible"
       placeholder-text="team members..."
     )
 
@@ -40,6 +40,7 @@
         :key="user.jid"
         :user-data="user"
         :user-enriched-data="enrichedMembers[user.jid]"
+        @menuAction="onMenuAction"
       )
       
   base-navigation-footer(
@@ -50,8 +51,20 @@
   )
 
 invite-team-member(
-  :visibility="modalIsVisible"
-  @close="onClose"
+  :visibility="isInviteModalVisible"
+  @close="toggleInviteModalVisible"
+)
+
+edit-role(
+  :visibility="isEditRoleModalVisible"
+  :user="userToUpdate"
+  @close="toggleEditRoleModalVisible"
+)
+
+delete-member(
+  :visibility="isDeleteMemberModalVisible" 
+  :jid="userToUpdate?.jid"
+  @close="toggleDeleteMemberModalVisible"
 )
 </template>
 
@@ -61,18 +74,24 @@ invite-team-member(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "../base/BaseAlert.vue";
 import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
+import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
+import EditRole from "@/assemblies/modals/members/EditRole.vue";
 import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
 import SearchBar from "@/components/search/SearchBar.vue";
+
+//STORE
 import store from "@/store";
-import BaseAlert from "../base/BaseAlert.vue";
 
 export default {
   name: "MembersInvitesDashboard",
 
   components: {
     BaseNavigationFooter,
+    DeleteMember,
+    EditRole,
     InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
@@ -94,7 +113,13 @@ export default {
       isInvitesLoading: false,
 
       // --> STATE <--
-      modalIsVisible: false,
+      isInviteModalVisible: false,
+
+      isEditRoleModalVisible: false,
+
+      isDeleteMemberModalVisible: false,
+
+      userToUpdate: null as object | null,
 
       searchTerm: "",
 
@@ -161,10 +186,6 @@ export default {
       return store.$teamMembers.getInviteList();
     },
 
-    mockMembers() {
-      return store.$teamMembers.getMockMemberList();
-    },
-
     totalMemberNumber() {
       return this.allMembers.length;
     },
@@ -204,10 +225,20 @@ export default {
   },
 
   methods: {
-    // --> EVENT LISTENERS <--
-    toggleModalVisible() {
-      this.modalIsVisible = !this.modalIsVisible;
+    // <-- HELPERS -->
+    toggleInviteModalVisible() {
+      this.isInviteModalVisible = !this.isInviteModalVisible;
     },
+
+    toggleDeleteMemberModalVisible() {
+      this.isDeleteMemberModalVisible = !this.isDeleteMemberModalVisible;
+    },
+
+    toggleEditRoleModalVisible() {
+      this.isEditRoleModalVisible = !this.isEditRoleModalVisible;
+    },
+
+    // --> EVENT LISTENERS <--
 
     onChangePage(type: string) {
       if (type === "forth") {
@@ -223,21 +254,22 @@ export default {
       return;
     },
 
-    onClose(event, reloadInviteList?: boolean) {
-      this.toggleModalVisible();
+    onMenuAction(action: string, user: object) {
+      console.log("action on dashboard", action, user);
+      this.userToUpdate = user;
 
-      if (reloadInviteList) {
-        console.log("reload invites", reloadInviteList);
-        this.isInvitesLoading = true;
-
-        try {
-          // Login to account
-          store.$teamMembers.loadInvitedMembers();
-        } catch (_) {
-          BaseAlert.error("Could not log in", "Check your credentials and try again");
-        } finally {
-          this.isInvitesLoading = false;
-        }
+      switch (action) {
+        case "Security settings":
+          this.isDeleteMemberModalVisible = true;
+          break;
+        case "Change role":
+          this.isEditRoleModalVisible = true;
+          break;
+        case "Delete member":
+          this.isDeleteMemberModalVisible = true;
+          break;
+        default:
+          break;
       }
     },
   },
@@ -269,7 +301,3 @@ $c: ".c-members-invites-dashboard";
   }
 }
 </style>
-
-<!-- MOCK ROWS -->
-<!-- members-invites-row( v-for="(user, index) in mockMembers" :key="user.jid" :userData="user"
-class="c-members-invites-dashboard__users" ) -->
