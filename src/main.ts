@@ -19,6 +19,9 @@ import App from "@/App.vue";
 import Router from "@/router";
 import Store from "@/store";
 
+// PROJECT: BOOTSTRAP
+import BootstrapPlugins from "@/bootstrap/plugins";
+
 // VIRTUAL
 import "virtual:svg-icons-register";
 
@@ -34,6 +37,12 @@ const app = createApp(App);
 
 Store.bind(app);
 Router.bind(app);
+
+/**************************************************************************
+ * BOOTSTRAP
+ * ************************************************************************* */
+
+BootstrapPlugins.init(app);
 
 /**************************************************************************
  * INITIALIZE
