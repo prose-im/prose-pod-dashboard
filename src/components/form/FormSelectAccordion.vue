@@ -280,24 +280,11 @@ export default {
     }
   },
 
-  mounted() {
-    // Apply focus on search input (as needed)
-    this.autoFocusDropdownSearch();
-  },
-
   methods: {
     // --> HELPERS <--
-    selectOption(option: Option): void {
-      //   // Hide dropdown selector
-      //   this.hideDropdown();`
-      // }
-    },
 
     hideDropdown(): void {
       this.visible = false;
-    },
-
-    autoFocusDropdownSearch(): void {
     },
 
     scrollToOptionIndex(index: number): void {
@@ -316,10 +303,6 @@ export default {
 
       if (this.hasOptions === true && this.hoveredIndex >= 0) {
         const selectedOption = this.filteredOptions[this.hoveredIndex] || null;
-
-        if (selectedOption !== null) {
-          this.selectOption(selectedOption);
-        }
       }
     },
 
@@ -365,9 +348,6 @@ export default {
     onFieldClick(): void {
       // Toggle dropdown visibility
       this.visible = !this.visible;
-
-      // Apply focus on search input (as needed)
-      this.$nextTick(this.autoFocusDropdownSearch);
     },
 
     onDropdownClickAway(): void {
@@ -381,10 +361,8 @@ export default {
       }
     },
 
-    onOptionMouseLeave(index: number): void {
-      // if (this.hoveredIndex !== index) {
-        this.hoveredIndex = -1;
-      // }
+    onOptionMouseLeave(): void {
+      this.hoveredIndex = -1;
     },
 
     onOptionClick(event: Event): void {
