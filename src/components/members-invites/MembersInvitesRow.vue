@@ -40,13 +40,25 @@
 
     <!-- 3rd column -->
     .c-members-invites-row__user
-        p.c-members-invites-row--main {{ userEnrichedData?.nickname }}
-        p.c-members-invites-row--submain {{ userData.jid }}
+      loader-base(
+        v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
+      )
+      
+      p(
+        v-else
+        class="c-members-invites-row--main"
+      )
+        | {{ userEnrichedData?.nickname }}
 
-        p(
-          v-if="tableHeaders"
-        )
-          | {{ tableHeaders[0] }}
+
+
+      p.c-members-invites-row--submain 
+        | {{ userData.jid }}
+
+      p(
+        v-if="tableHeaders"
+      )
+        | {{ tableHeaders[0] }}
 
     <!-- 4th column -->
     base-badge(
@@ -147,8 +159,10 @@
 
       members-invites-menu(
         v-if="isMenuOpen"
+        v-click-away="onMenuClickAway"
         class="c-members-invites-row__parameters--menu"
         :options="menuOptions"
+        @menuAction="onMenuAction"
       )
 </template>
 
@@ -166,6 +180,7 @@ import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseMfaBadge from "../base/BaseMfaBadge.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 import MembersInvitesMenu from "./MembersInvitesMenu.vue";
+import LoaderBase from "../base/loader/LoaderBase.vue";
 
 // STORE
 import store from "@/store";
@@ -182,6 +197,7 @@ export default {
     BaseMfaBadge,
     FormCheckbox,
     MembersInvitesMenu,
+    LoaderBase,
   },
 
   props: {
@@ -206,7 +222,7 @@ export default {
     },
   },
 
-  emits: [],
+  emits: ["menuAction"],
 
   data() {
     return {
@@ -216,12 +232,14 @@ export default {
       menuOptions: [
         {
           value: "Security settings",
+          disabled: true,
         },
         {
           value: "Change role",
         },
         {
           value: "Delete member",
+          color: "red",
         },
       ],
     };
@@ -242,10 +260,9 @@ export default {
   watch: {},
 
   methods: {
+    // <-- EVENT LISTENERS -->
     onActionOnMember(): void {
-      this.userData.invitation_id
-        ? this.onCancelInvite(this.userData.id)
-        : this.toggleMenuOpen();
+      this.userData.invitation_id ? this.onCancelInvite() : this.toggleMenuOpen();
     },
 
     onCancelInvite() {
@@ -255,6 +272,14 @@ export default {
 
     toggleMenuOpen() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+
+    onMenuAction(action: string) {
+      this.$emit("menuAction", action, this.userData);
+    },
+
+    onMenuClickAway() {
+      this.toggleMenuOpen();
     },
   },
 };
@@ -343,6 +368,7 @@ $c: ".c-members-invites-row";
     }
 
     &--menu {
+      z-index: $index-foreground-tertiary;
       position: absolute;
       top: 0%;
       right: -100%;
@@ -399,15 +425,3 @@ $c: ".c-members-invites-row";
   }
 }
 </style>
-
-<!--         base-icon(
-          class="c-members-invites-row__encryption--icon"
-          name="padlock"
-          fill="#05c02b"
-          size="16px"
-        )
-
-        p(
-          class="c-members-invites-row__encryption--light"
-        )
-          | Enabled -->
