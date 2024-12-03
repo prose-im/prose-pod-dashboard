@@ -51,7 +51,9 @@ export default {
       default: "pending",
 
       validator(x: string) {
-        return ["pending", "sucess", "warning", "INVALID", "CLOSED"].includes(x);
+        return ["pending", "sucess", "warning", "INVALID", "CLOSED", "FAILURE"].includes(
+          x
+        );
       },
     },
 
