@@ -32,6 +32,7 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
@@ -41,7 +42,7 @@ import FormField from "@/components/form/FormField.vue";
 import store from "@/store";
 
 export default {
-  name: "AddCustomEmoji",
+  name: "EditName",
 
   components: {
     BaseAvatar,
@@ -71,6 +72,11 @@ export default {
     // --> HELPERS <--
 
     onProceed() {
+      if (!this.newName) {
+        BaseAlert.error("Please enter a name for your workspace");
+        return;
+      }
+
       store.$customizationWorkspace.updateWorkspaceName(this.newName);
 
       this.newName = "";
