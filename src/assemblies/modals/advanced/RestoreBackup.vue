@@ -20,7 +20,7 @@ base-modal(
 )
   .a-restore-backup
     .a-restore-backup__top
-      .a-restore-backup__upload
+      .a-restore-backup__uploads
         h4
           | Upload backups
 
@@ -30,8 +30,8 @@ base-modal(
           .a-restore-backup__subblock
             .a-restore-backup__subblock--content
 
-              .a-restore-backup--flex(
-                class="a-restore-backup__step"
+              .a-restore-backup__step(
+                class="a-restore-backup--flex"
               )
                 p 
                   | 1️⃣  Please upload a&nbsp;
@@ -39,16 +39,30 @@ base-modal(
                   | .settings.backup 
                 p 
                   | &nbsp;file:
-              
-              base-button(
-                tint="white"
+
+              base-upload-button(
+                label="Choose settings backup..."
+                @filePicked="onSettingsFilePicked"
               )
-                | Choose settings backup...
+
+              .a-restore-backup__uploaded(
+                v-if="settingsBackupFileName"
+                class="a-restore-backup--flex"
+              )
+                p
+                  | {{ settingsBackupFileName }}
+
+                base-icon(
+                  class="a-restore-backup__uploaded--icon"
+                  name="checkmark.circle.fill"
+                  fill="#05c02b"
+                  size="12px"
+                )
 
           .a-restore-backup__subblock(
             :class=`[
               {
-                "a-restore-backup--opaque" : missingSettings
+                "a-restore-backup--opaque" : !settingsBackupFile
               }
             ]`
           )
@@ -63,13 +77,25 @@ base-modal(
                 p 
                   | &nbsp;archive:
 
-              base-button(
-                tint="white"
-                :disabled="missingSettings"
+              base-upload-button(
+                label="Choose data backup..."
+                :disabled="!settingsBackupFile"
+                @filePicked="onDataFilePicked"
               )
-                | Choose data backup...
-          
-            <!-- .a-restore-backup__filter -->
+              
+              .a-restore-backup__uploaded(
+                v-if="dataBackupFileName"
+                class="a-restore-backup--flex"
+              )
+                p
+                  | {{ dataBackupFileName }}
+
+                base-icon(
+                  class="a-restore-backup__uploaded--icon"
+                  name="checkmark.circle.fill"
+                  fill="#05c02b"
+                  size="12px"
+                )
 
       base-modal-input-block(
         v-model="password"
@@ -100,9 +126,11 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
+import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
@@ -110,9 +138,11 @@ export default {
 
   components: {
     BaseButton,
+    BaseIcon,
     BaseModal,
     BaseModalDisclaimer,
     BaseModalInputBlock,
+    BaseUploadButton,
     FormCheckbox,
   },
 
@@ -130,9 +160,15 @@ export default {
       // --> STATE <--
       dataLossConfirmed: false,
 
-      missingSettings: true,
-
       password: "",
+
+      settingsBackupFile: null,
+
+      settingsBackupFileName: "",
+
+      dataBackupFile: null,
+
+      dataBackupFileName: "",
     };
   },
 
@@ -141,24 +177,65 @@ export default {
   watch: {},
 
   methods: {
+    // --> EVENT LISTENERS <--
+
+    async onSettingsFilePicked(event) {
+      let file = event.target.files[0];
+      const fileType = file.type.split("/")[1];
+
+      console.log("file picked", file);
+
+      // if (fileType !== "settings.backup") {
+      if (fileType !== "jpeg") {
+        BaseAlert.error("Please choose a .settings.backup file");
+        return;
+      } else {
+        this.settingsBackupFile = file;
+        this.settingsBackupFileName = file.name;
+      }
+    },
+
+    async onDataFilePicked(event) {
+      // console.log("file picked", event);
+      let file = event.target.files[0];
+      const fileType = file.type.split("/")[1];
+
+      if (fileType !== "jpeg") {
+        // if (fileType !== "data.backup") {
+        BaseAlert.error("Please choose a .data.backup file");
+        return;
+      } else {
+        this.dataBackupFile = file;
+        this.dataBackupFileName = file.name;
+      }
+    },
+
     // --> HELPERS <--
+
     onProceed() {
       // Check if the whole form was filled
-      if (!this.password) {
+      if (!this.settingsBackupFile || !this.dataBackupFile) {
+        BaseAlert.error("Please upload your backup files");
+      } else if (!this.password) {
         BaseAlert.error("Please enter your password");
       } else if (!this.dataLossConfirmed) {
         BaseAlert.error(
           "Please confirm that you have read and accept all the conditions"
         );
+      } else {
+        // Reset state
+        this.dataBackupFile = null;
+        this.settingsBackupFile = null;
+
+        this.dataBackupFileName = "";
+        this.settingsBackupFileName = "";
+
+        this.password = "";
+        this.dataLossConfirmed = false;
+
+        // Close modal
+        this.$emit("close");
       }
-
-      // Reset state
-      this.password = "";
-      this.dataLossConfirmed = false;
-      this.missingSettings = true;
-
-      // Close modal
-      this.$emit("close");
     },
   },
 };
@@ -211,7 +288,7 @@ $c: ".a-restore-backup";
     margin-bottom: 12px;
   }
 
-  #{$c}__upload {
+  #{$c}__uploads {
     margin-bottom: 38px;
 
     h4 {
@@ -221,6 +298,24 @@ $c: ".a-restore-backup";
       margin-left: 8px;
       font-weight: $font-weight-medium;
     }
+  }
+
+  #{$c}__uploaded {
+    color: $color-base-green-normal;
+    font-weight: $font-weight-mid;
+    margin-block-start: 12px;
+
+    &--icon {
+      margin-inline-start: 5px;
+    }
+  }
+
+  #{$c}__file {
+    position: absolute;
+    cursor: pointer;
+    width: 120px;
+    left: 18%;
+    opacity: 0;
   }
 
   #{$c}__input-block {
