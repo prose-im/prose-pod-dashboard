@@ -54,13 +54,15 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import { Roles } from "@/api/providers/teamMembers";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
 import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
+
+// TYPES
+import { Roles } from "@/api/providers/teamMembers";
 
 //Store
 import store from "@/store";
@@ -113,17 +115,21 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    onSendInvite(): void {
+    async onSendInvite(): Promise<void> {
       // console.log(this.inviteEmail)
       if (!this.inviteEmail || !this.inviteUserName) {
         BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
         return;
       } else {
-        store.$teamMembers.sendInvitation(
+        await store.$teamMembers.sendInvitation(
           this.inviteUserName,
           this.inviteRole,
           this.inviteEmail
         );
+
+        await store.$teamMembers.loadInvitedMembers(true);
+
+        BaseAlert.success("An invitation has been sent", "");
 
         this.inviteEmail = "";
         this.inviteUserName = "";
