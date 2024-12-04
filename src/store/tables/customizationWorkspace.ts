@@ -16,10 +16,6 @@ import { defineStore } from "pinia";
 import APICustomizationWorkspace from "@/api/providers/customizationWorkspace";
 
 /**************************************************************************
- * ENUMERATIONS
- * ************************************************************************* */
-
-/**************************************************************************
  * TYPES
  * ************************************************************************* */
 
@@ -57,10 +53,6 @@ const LOCAL_STATES = {
 };
 
 /**************************************************************************
- * METHODS
- * ************************************************************************* */
-
-/**************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -69,27 +61,19 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     return {
       workspaceProfile: {
         name: "",
-        iconUrl: "https://cdn.cmsfly.com/635bcad9b8a74e0091632998/cerp-GR1YU2.png",
+        iconUrl: "",
         detailsCard: ""
       },
 
       appearance: {
-        color: "Dark Blue"
+        color: ""
       }
     };
   },
 
   getters: {
-    getWorkspaceProfileConfig(): Array<RoomID> {
-      return Object.keys(this.workspaceProfile);
-    },
-
-    getAppearanceConfig(): string[] {
-      return Object.keys(this.appearance);
-    },
-
     getConfig: function () {
-      return (): CustomizationWorkspaceConfig => {
+      return () => {
         return {
           workspaceProfile: this.workspaceProfile,
           appearance: this.appearance
@@ -99,11 +83,6 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
   },
 
   actions: {
-    events(): ReturnType<typeof mitt> {
-      // Return event bus
-      return EventBus;
-    },
- 
     async loadWorkspaceConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.configLoaded === false || reload === true) {
@@ -114,22 +93,16 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
           this.workspaceProfile.name = name.name;
           this.appearance.color = color.color;        
           this.workspaceProfile.iconUrl = 'data:image/png;base64,' + icon.icon;
-        })
+        });
       };
-    },
-
-    async getWorkspaceName(): Promise<void> {
-      await APICustomizationWorkspace.getWorkspaceName();
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
       await APICustomizationWorkspace.setWorkspaceName(newName);
 
-      this.workspaceProfile.name = newName;
-    },
-
-    async getWorkspaceIcon(): Promise<void> {
-      await APICustomizationWorkspace.getWorkspaceIcon();
+      this.$patch(() => {
+        this.workspaceProfile.name = newName;
+      });
     },
 
     async updateWorkspaceIcon(newIcon: string): Promise<void> {
@@ -138,14 +111,6 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         this.$patch(() => {
           this.workspaceProfile.iconUrl = 'data:image/png;base64,' + newIcon;
         })
-    },
-
-    async getWorkspaceColor(reload = false): Promise<void> {
-      // Load information? (or reload)
-      if (LOCAL_STATES.configLoaded === false || reload === true) {
-        // Load globalConfig configuration
-        await APICustomizationWorkspace.getWorkspaceColor();
-      }
     },
 
     async updateWorkspaceColor(newColor: string): Promise<void> {
