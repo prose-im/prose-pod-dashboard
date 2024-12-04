@@ -15,19 +15,12 @@ import Api from "@/api";
  * INTERFACES  
  * ************************************************************************* */
 
-interface WorkspaceConfigResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
-}
-
 interface WorkspaceNameResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  name: string
 }
 
 interface WorkspaceIconResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  icon: string
 }
 
 interface WorkspaceDetailsCardResponse {
@@ -36,9 +29,14 @@ interface WorkspaceDetailsCardResponse {
 }
 
 interface WorkspaceColorResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  color: string
 }
+
+/**************************************************************************
+ * TYPES  
+ * ************************************************************************* */
+
+type WorkspaceConfigResponse = [WorkspaceNameResponse, WorkspaceIconResponse, WorkspaceColorResponse]
 
 /**************************************************************************
  * API
@@ -48,12 +46,12 @@ export class APICustomizationWorkspace {
   /**  CONFIG  **/
 
   async getWorkspaceConfig(): Promise<WorkspaceConfigResponse> {
-    const name = await Api.client.get("/workspace/name");
-    const icon = await Api.client.get("/workspace/icon");
-    const color = await Api.client.get("/workspace/accent-color");
+    return await Promise.all([
+      this.getWorkspaceName(),
+      this.getWorkspaceIcon(),
+      this.getWorkspaceColor()
+    ]);
 
-    return [name.data, icon.data, color.data]
-    // return (await Api.client.get("/workspace")).data; /// ??? put instead of get?
   }
 
   /**  WORKSPACE PROFILE **/
@@ -89,7 +87,7 @@ export class APICustomizationWorkspace {
     });
   }
 
-  /**  APPEARANCE  **/
+  /**  APPEARANCE  **/ 
 
   async getWorkspaceColor(): Promise<WorkspaceColorResponse> {
     return (await Api.client.get("/workspace/accent-color")).data;

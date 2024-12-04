@@ -14,7 +14,12 @@ import mitt from "mitt";
  
 // PROJECT: BROKER
 import APIServerConfiguration from '@/api/providers/serverConfiguration';
+
+// STORE
 import store from "..";
+
+//TYPES
+import { ServerConfig } from "@/api/providers/global";
 
 /**************************************************************************
  * ENUMERATIONS
@@ -27,15 +32,6 @@ import store from "..";
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
-
-interface ServerConfig {
-  message_archive_enabled: boolean, 
-  message_archive_retention: string, 
-  file_upload_allowed: boolean, 
-  file_storage_encryption_scheme: string,
-  file_storage_retention: string,
-}
-
 interface ServerConfigUi {
   messaging: MessagingConfig;
   files: FilesConfig;
@@ -145,7 +141,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async changeFileRetentionTime(newTime: string): Promise<void> {
-      await APIServerConfiguration.updateFileRetentionTime(newTime)
+      await APIServerConfiguration.updateFileRetentionTime(newTime) 
 
       this.$patch(() => {
         this.file_storage_retention = newTime;
@@ -165,7 +161,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       const response = await APIServerConfiguration.resetMessageRetentionTime();
       
       this.$patch(() => {
-        this.message_archive_retention =response.message_archive_retention;
+        this.message_archive_retention = response.message_archive_retention;
       })
     },
 

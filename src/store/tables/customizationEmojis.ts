@@ -12,9 +12,6 @@
 import mitt from "mitt";
 import { defineStore } from "pinia";
 
-// PROJECT: UTILITIES
-// import UtilitiesRuntime from "@/utilities/runtime";
-
 // PROJECT: STORES
 import APICustomizationReactions from '@/api/providers/customizationReactions';
 
@@ -99,7 +96,7 @@ const $customizationEmojis = defineStore("room", {
 
   getters: {
     getEmojiList: function () {
-      return (): Array<SidebarItem> => {
+      return (): EmojiList => {
         return this.emojisList;
       };
     }

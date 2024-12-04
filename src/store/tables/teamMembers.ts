@@ -9,44 +9,22 @@
  * ************************************************************************* */
 
 // NPM
-import APITeamMembers, { Roles } from "@/api/providers/teamMembers";
-import { defineStore } from "pinia";
+import APITeamMembers, { AllInvitationsResponse, AllMembersResponse, EnrichMembersResponse, Roles } from "@/api/providers/teamMembers";
+import { defineStore } from "pinia"; 
 
 /**************************************************************************
  * TYPES
  * ************************************************************************* */
 
-type ActiveMembersList = Array<ActiveMemberEntry>;
 
-type InvitedMembersList = Array<InvitedMemberEntry>;
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Members {
-  activeMembers: ActiveMembersList;
-  invitedMembers: InvitedMembersList;
-  memberEntries: object;
-}
-
-interface ActiveMemberEntry {
-  nickname: string;
-  jid: string;
-  avatar: string;
-  role: string;
-  online: string;
-  os: string;
-}
-
-interface InvitedMemberEntry {
-  nickname: null;
-  jid: string;
-  status: string;
-}
-
-interface memberEntry {
-  jid: string,
-  role: string
+  enrichedMembers: EnrichMembersResponse;
+  invitedMembers: AllInvitationsResponse;
+  nonEnrichedMembers: AllMembersResponse;
 }
 
 /**************************************************************************
@@ -64,117 +42,87 @@ const LOCAL_STATES = {
 const $teamMembers = defineStore("teamMembers", {
   state: (): Members => {
     return {
-      mockMembers: [
-        {
-          nickname: "Baptiste Jamin",
-          jid: "baptiste@crisp.chat",
-          avatar:
-            "https://gravatar.com/avatar/5603c33823b047149d9996a1be53afd4?size=400&default=retro&rating=g",
-          role: "ADMIN",
-          online: "Active",
-          os: "mac OS"
-        },
-        {
-          nickname: "Valerian Saliou",
-          jid: "valerian.saliou@crisp.chat",
-          avatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
-          role: "ADMIN",
-          online: "Active",
-          os: "mac OS"
-        },
-        {
-          nickname: "Eliott Vincent",
-          jid: "eliott@crisp.chat",
-          avatar: "https://eliottvincent.com/assets/img/profile-pic.webp",
-          role: "MEMBER",
-          online: "Inactive",
-          os: "Last seen active 12 days ago"
-        }
-      ],
-
       invitedMembers: [],
 
-      activeMembers:[],
+      enrichedMembers:{},
 
-      memberEntries:[]
+      nonEnrichedMembers:[]
     };
   },
 
   getters: {
-    getAllMembers: function (page: number) {
-      return (): memberEntry[] => {
-        return this.memberEntries;
+    getAllMembers: function () {
+      return () => {
+        return this.nonEnrichedMembers;
       };
     },
 
     getEnrichedMemberList: function () {
-      return (): Array<ActiveMemberEntry> => {
-        return this.activeMembers;
+      return () => {
+        return this.enrichedMembers;
       };
     },
 
     getInviteList: function () {
-      return (): Array<InvitedMemberEntry> => {
+      return () => {
         return this.invitedMembers;
-      };
-    },
-
-    getMockMemberList: function () {
-      return (): Array<ActiveMemberEntry> => {
-        return this.mockMembers;
       };
     },
   },
 
   actions: {
-    async loadActiveMembers(reload = false): Promise<ActiveMembersList> {
+    // <-- ACTIVE MEMBERS --> 
+
+    async loadActiveMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
 
-        // Load all public channels
-        const entries: memberEntry[] = await APITeamMembers.getAllMembers();
-        this.memberEntries = entries;
-        console.log('entries', entries)
+        // Load all Members (non enriched)
+        const entries = await APITeamMembers.getAllMembers();
+        this.nonEnrichedMembers = entries;
+        console.log('non enriched entries', entries)
 
+        // Create a jid Array to ask enrichment
         const jids: string[] = []
         
-        entries.forEach((member: memberEntry) => {
-          // this.memberEntries[member.jid] = {
-          //   role: member.role
-          // }
+        entries.forEach((member) => {
           jids.push(member.jid);
         });
 
-        console.log('entriesChanged', this.memberEntries)
         console.log('jids', jids);
 
+        // Get enriched Members
         setTimeout(async() => {
           const allMembers = await APITeamMembers.enrichMembers(jids);
-          this.activeMembers = allMembers;
+          this.enrichedMembers = allMembers;
   
           console.log('enriched members', allMembers)
-        }, 4000 * (Math.random() + 0.5))
+        }, 14000 * (Math.random() + 0.5))
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
-
-      // return this.list;
     },
 
     getFilteredMembers (filter: number | string) {
       if(typeof filter === 'number'){
+  
+        /** Page filter */
         const startIndex = (filter - 1) * 10;
-        const endIndex = filter * 10 < this.memberEntries.length ? filter*10: this.memberEntries.length;
-        console.log('page', filter)
-        console.log('expected return ', this.memberEntries.slice(startIndex, endIndex));
-        return this.memberEntries.slice(startIndex, endIndex);
+        const endIndex = filter * 10 < this.nonEnrichedMembers.length ? filter * 10: this.nonEnrichedMembers.length;
+
+        return this.nonEnrichedMembers.slice(startIndex, endIndex);
 
       } else if(typeof filter === 'string') {
-        const memberArray = Object.values(this.activeMembers)
 
+        /** Searching bar filter */
+        const memberArray = Object.values(this.enrichedMembers)
+
+        // Loop through all members
         const response = memberArray.filter((member) => {
-          const filteredMeber = Object.values(member).filter((e) =>{
+
+          // Loop through all the values of a member
+          const filteredMember = Object.values(member).filter((e) =>{
             if(!e) {
               return
             } else {
@@ -182,16 +130,25 @@ const $teamMembers = defineStore("teamMembers", {
             }
           });
 
-          return filteredMeber.length ? filteredMeber : false;
+          return filteredMember.length ? filteredMember : false;
         });
 
         console.log('filtered', response)
         return response;
-        
       }
     },
 
-    async loadInvitedMembers(reload = false): Promise<InvitedMembersList> {
+    async updateRoleByMemberId(jid: string, newRole: [Roles]) {
+      return true;   ///// TODO
+    },
+
+    async deleteMemberById(jid: string) {
+      return true;   ///// TODO
+    },
+
+    // <-- INVITES --> 
+
+    async loadInvitedMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Initialize entries
@@ -202,8 +159,6 @@ const $teamMembers = defineStore("teamMembers", {
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
-
-      return this.list;
     },
 
     async sendInvitation(newUsername: string, newRole:string, newInviteEmail: string): Promise<void> {
@@ -215,7 +170,6 @@ const $teamMembers = defineStore("teamMembers", {
       };
 
       return await APITeamMembers.sendInvitation(newInvite);
-      // this.invitedMembers.push(newInvite);
     },
 
     async cancelInvitation(inviteId: string): Promise<void> {

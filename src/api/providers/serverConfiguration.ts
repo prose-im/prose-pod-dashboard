@@ -10,27 +10,27 @@
 
 // PROJECT: API
 import Api from "@/api";
+import { ServerConfigResponse } from "./global";
+
+/**************************************************************************
+ * INTERFACES  
+ * ************************************************************************* */
 
 /**************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
-const CONFIG_URL = "/server/config";
+const CONFIG_URL = "/server/config"; 
 
 /**************************************************************************
  * API
  * ************************************************************************* */
 
 class APIServerConfiguration {
-  /**  WHOLE SERVER CONFIG  **/
-
-  async getServerConfig(): Promise<void> {
-    return await Api.client.get(`${CONFIG_URL}`);
-  }
-
+ 
   /**  MESSAGING  **/
 
-  async resetMessagesConfig(): Promise<void> {
+  async resetMessagesConfig(): Promise<ServerConfigResponse> {
     return (await Api.client.put(`${CONFIG_URL}/messaging/reset`)).data;
   }
 
@@ -46,13 +46,13 @@ class APIServerConfiguration {
     });
   }
 
-  async resetMessageRetentionTime(): Promise<void> {
+  async resetMessageRetentionTime(): Promise<ServerConfigResponse> {
     return (await Api.client.put(`${CONFIG_URL}/message-archive-retention/reset`)).data;
   }
 
   /**  FILES  **/
 
-  async resetFilesConfig(): Promise<void> {
+  async resetFilesConfig(): Promise<ServerConfigResponse> {
     return (await Api.client.put(`${CONFIG_URL}/files/reset`)).data;
   }
 

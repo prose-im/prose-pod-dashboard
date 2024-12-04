@@ -12,7 +12,7 @@
 import mitt from "mitt";
 import { defineStore } from "pinia"; 
 
-import APIAdvancedNetwork from "@/api/providers/advancedNetwork";
+import APIAdvancedNetwork, { CheckData, DnsStep } from "@/api/providers/advancedNetwork";
 import store from "..";
 
 /**************************************************************************
@@ -33,25 +33,6 @@ enum SessionAppearance {
 const EventBus = mitt();
 
 /**************************************************************************
- * CONSTANTS
- * ************************************************************************* */
-
-const LOCAL_STATES = {
-  dnsRecordCheckLoading: false,
-  dnsRecordCheckLoaded: false,
-  dnsFailed: false,
-
-  portCheckLoading: false,
-  portCheckLoaded: false,
-  portCheckFailed: false,
-
-  ipLoading: false,
-  ipLoaded: false,
-  ipFailed: false,
-
-};
-
-/**************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -63,15 +44,12 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         whitelist: []
       },
 
-      setupTools: {
-        dnsInstructions: [],
-        configChecker: {}
-      },
+      dnsInstructions: [] as DnsStep[],
 
       checks:{
-        dns:[],
-        ports: [],
-        ip: []
+        dns:[] as CheckData[],
+        ports: [] as CheckData[],
+        ip: [] as CheckData[],
       },
 
       states: {
@@ -106,7 +84,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
     getDnsInstructions: function(): object {
       return () => {
-        return this.setupTools.dnsInstructions;
+        return this.dnsInstructions;
       }
     },
 
@@ -158,8 +136,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           this.states.dnsSteps.instructionsLoaded = false;
           this.states.dnsSteps.instructionsFailed = false;
 
-          this.setupTools.dnsInstructions = (await APIAdvancedNetwork.getDnsRecords()).steps
-          console.log('instructions', this.setupTools.dnsInstructions);
+          this.dnsInstructions = (await APIAdvancedNetwork.getDnsRecords()).steps
+          console.log('instructions', this.dnsInstructions);
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
@@ -181,7 +159,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     async checkDnsRecords() {
-      if(!this.states.configChecks.dnsLoading && this.checks.dns.length === 0){ 
+      if(!this.states.configChecks.dnsLoading){ 
         console.log('calling api')
         // initialize request progress
         this.states.configChecks.dnsLoaded = false

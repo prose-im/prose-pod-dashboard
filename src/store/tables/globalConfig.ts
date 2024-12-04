@@ -12,53 +12,14 @@
 import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
-import APIGlobal from "@/api/providers/global";
+import APIGlobal, { ServerConfigResponse } from "@/api/providers/global";
 
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface GlobalConfig {
-  properties: ConfigProperties;
-}
-
-interface ConfigProperties {
-  domain: {
-    default: string;
-  };
-  message_archive_enabled: {
-    default: boolean;
-  };
-  message_archive_retention: {
-    default: string;
-  };
-  file_upload_allowed: {
-    default: boolean;
-  };
-  file_storage_encryption_scheme: {
-    default: string;
-  };
-  file_storage_retention: {
-    default: string;
-  };
-  mfa_required: {
-    default: boolean;
-  };
-  minimum_tls_version: {
-    default: string;
-  };
-  minimum_cipher_suite: {
-    default: string;
-  };
-  federation_enabled: {
-    default: boolean;
-  };
-  settings_backup_interval: {
-    default: string;
-  };
-  user_data_backup_interval: {
-    default: string;
-  };
+  properties: ServerConfigResponse;
 }
 
 /**************************************************************************
@@ -79,52 +40,28 @@ const $globalConfig = defineStore("globalConfig", {
   state: (): GlobalConfig => {
     return {
       properties: {
-        domain: {
-          default: "crisp.chat"
-        },
+        domain: "crisp.chat",
 
         // Server Config
-        message_archive_enabled: {
-          default: true
-        },
-        message_archive_retention: {
-          default: "infinite"
-        },
-        file_upload_allowed: {
-          default: true
-        },
-        file_storage_encryption_scheme: {
-          default: "AES-256"
-        },
-        file_storage_retention: {
-          default: "infinite"
-        },
+        message_archive_enabled: true,
+        message_archive_retention: "infinite",
+        file_upload_allowed: true,
+        file_storage_encryption_scheme: "AES-256",
+        file_storage_retention: "infinite",
 
         // advanced Config
-        mfa_required: {
-          default: true
-        },
-        minimum_tls_version: {
-          default: "1.2"
-        },
-        minimum_cipher_suite: {
-          default: "HIGH_STRENGTH"
-        },
-        federation_enabled: {
-          default: true
-        },
-        settings_backup_interval: {
-          default: "P1D"
-        },
-        user_data_backup_interval: {
-          default: '"P1W"'
-        }
+        mfa_required: true,
+        minimum_tls_version: "1.2",
+        minimum_cipher_suite: "HIGH_STRENGTH",
+        federation_enabled: true,
+        settings_backup_interval: "P1D",
+        user_data_backup_interval: "P1W",
       }
     };
   },
 
   getters: {
-    getGlobalConfig: function (): ConfigProperties {
+    getGlobalConfig: function (): ServerConfigResponse {
       return () => {
         return this.properties;
       };

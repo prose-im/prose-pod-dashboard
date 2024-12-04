@@ -27,28 +27,54 @@ export enum Roles {
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
-
-interface Invite {
-  channel: 'email';
-  email_address: string;
-  pre_assigned_role: Roles;
-  username: string;
+interface Invitation {
+  username: string,
+  pre_assigned_role: [Roles],
+  channel: string,
+  email_address: string
 }
 
-interface AllInvitationsResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+interface InvitedMemberEntry {
+  invitation_id: number,
+  created_at: string,
+  status: string,
+  jid: string,
+  pre_assigned_role: [Roles],
+  contact: { 
+    channel: string,
+    email_address: string
+  },
+  accept_token_expires_at: string
 }
 
-interface AllMembersResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+interface MemberEntry {
+  jid: string,
+  role: string
 }
 
 interface MemberByIdResponse {
   /* TODO: fill me! */
   _keyToReplace: string;
 }
+
+interface EnrichedMember {
+  jid: string,
+  role: string,
+  online: boolean,
+  nickname: string,
+  avatar: string
+}
+
+export interface EnrichMembersResponse {
+  [key: string]: EnrichedMember; // The key is the `jid`, and the value conforms to the `User` interface.
+}
+
+/**************************************************************************
+ * TYPES
+ * ************************************************************************* */
+export type AllMembersResponse = MemberEntry[];
+
+export type AllInvitationsResponse = InvitedMemberEntry[];
 
 /**************************************************************************
  * API
@@ -61,7 +87,7 @@ class APITeamMembers {
     return (await Api.client.get("/invitations")).data;
   }
 
-  async sendInvitation(invite: Invite): Promise<void> {
+  async sendInvitation(invite: Invitation): Promise<void> {
     await Api.client.post("/invitations",
       invite
     );
@@ -81,15 +107,15 @@ class APITeamMembers {
     return (await Api.client.get("/members")).data;
   }
 
-  async enrichMembers(jids: string[]): Promise<AllMembersResponse> {
-    return (await Api.client.get("enrich-members?jids=valerian%40prose.org.local",{
+  async enrichMembers(jids: string[]): Promise<EnrichMembersResponse> {
+    return (await Api.client.get("enrich-members?",{
       params: {
         jids: jids
       },
       paramsSerializer: params => {
         // Custom serializer to encode array parameters correctly
         return Object.keys(params).map(key => {
-          return params[key].map(value => `${key}=${encodeURIComponent(value)}`).join('&');
+          return params[key].map((value: string )=> `${key}=${encodeURIComponent(value)}`).join('&');
         }).join('&');
       }
     })).data
