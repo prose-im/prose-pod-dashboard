@@ -90,7 +90,7 @@ export default {
     },
 
     notLastPage() {
-      return this.page * 10 <= this.total;
+      return this.page * 10 < this.total;
     },
 
     arrowColor() {
