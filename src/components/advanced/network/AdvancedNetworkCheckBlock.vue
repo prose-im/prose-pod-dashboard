@@ -146,18 +146,18 @@ export default {
           result = isString ? "blue" : "#2490f0";
           break;
         }
+
         case "sucess": {
           result = isString ? "green" : "#05c02b";
           break;
         }
-        case "INVALID": {
-          result = isString ? "red" : "#dd2f2f";
-          break;
-        }
+
+        case "INVALID":
         case "CLOSED": {
           result = isString ? "red" : "#dd2f2f";
           break;
         }
+
         case "FAILURE": {
           result = isString ? "orange" : "#fc8227";
           break;
@@ -174,18 +174,18 @@ export default {
           result = "archive";
           break;
         }
+
         case "sucess": {
           result = "checkmark.circle.fill";
           break;
         }
-        case "INVALID": {
-          result = "exclamationmark.triangle.fill";
-          break;
-        }
+
+        case "INVALID":
         case "CLOSED": {
           result = "exclamationmark.triangle.fill";
           break;
         }
+
         case "FAILURE": {
           result = "exclamationmark.circle.fill";
           break;
@@ -201,6 +201,7 @@ export default {
         case "pending": {
           return "Pending";
         }
+
         case "sucess": {
           if (this.label === "dns") {
             return "Record is valid";
@@ -210,12 +211,15 @@ export default {
             return "Connectivity is OK";
           }
         }
+
         case "INVALID": {
           return "Record is not valid";
         }
+
         case "CLOSED": {
           return "Port is closed";
         }
+
         case "FAILURE": {
           return "No address available";
         }

@@ -83,18 +83,18 @@ export default {
           label = "Checking...";
           break;
         }
+
         case "sucess": {
           label = "Verified";
           break;
         }
-        case "INVALID": {
-          label = "Issue";
-          break;
-        }
+
+        case "INVALID":
         case "CLOSED": {
           label = "Issue";
           break;
         }
+
         case "FAILURE": {
           label = "Warning";
           break;
