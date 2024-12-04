@@ -25,7 +25,7 @@
 
 <script lang="ts">
 export default {
-  name: "BaseBadge",
+  name: "BaseComingSoon",
 
   props: {
     cases: {
@@ -53,18 +53,23 @@ export default {
   computed: {
     text() {
       let comingSoon = "";
+
       switch (this.cases) {
-        case "lower":
+        case "lower": {
           comingSoon = "Coming soon";
           break;
-        case "upper":
+        }
+        case "upper": {
           comingSoon = this.label.toUpperCase();
           break;
-        case "mix":
+        }
+        case "mix": {
           comingSoon = this.label;
           break;
-        default:
+        }
+        default: {
           break;
+        }
       }
 
       return comingSoon;

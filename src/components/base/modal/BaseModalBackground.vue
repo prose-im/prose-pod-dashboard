@@ -18,61 +18,56 @@
   slot
  
 </template>
-   
- <!-- **********************************************************************
+
+<!-- **********************************************************************
       SCRIPT
       ********************************************************************** -->
- 
- <script lang="ts">
 
- export default {
-   name: "BaseModalBackground",
- 
-   components:{
-   },
+<script lang="ts">
+export default {
+  name: "BaseModalBackground",
 
-   props: {
+  components: {},
+
+  props: {
     position: {
       type: String,
-      default:'left',
+      default: "left",
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      }
+      },
     },
-   },
- 
-   data() {
-     return {
-       // --> STATE <--
- 
-     };
-   },
- 
-   watch: {
- 
-   },
+  },
 
   emits: ["closeModal"],
- 
-   methods: {
-    onClickAway(event: Event){
+
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
+
+  watch: {},
+
+  methods: {
+    onClickAway(event: Event) {
       this.$emit("closeModal", event);
-    }
-   }  
- };
- </script>
- 
- <!-- **********************************************************************
+    },
+  },
+};
+</script>
+
+<!-- **********************************************************************
    STYLE
    ********************************************************************** -->
- 
- <style lang="scss">
- $c: ".c-base-modal-background";
- 
- // VARIABLES
- 
- #{$c} {
+
+<style lang="scss">
+$c: ".c-base-modal-background";
+
+// VARIABLES
+
+#{$c} {
   background-color: rgba($color-base-grey-normal, 0.4);
   height: 100%;
   display: flex;
@@ -83,6 +78,5 @@
     justify-content: center;
     align-items: center;
   }
- }
- </style>
- 
+}
+</style>

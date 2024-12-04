@@ -260,17 +260,24 @@ export default {
       this.userToUpdate = user;
 
       switch (action) {
-        case "Security settings":
+        case "Security settings": {
           this.isDeleteMemberModalVisible = true;
           break;
-        case "Change role":
+        }
+
+        case "Change role": {
           this.isEditRoleModalVisible = true;
           break;
-        case "Delete member":
+        }
+
+        case "Delete member": {
           this.isDeleteMemberModalVisible = true;
           break;
-        default:
+        }
+
+        default: {
           break;
+        }
       }
     },
   },
