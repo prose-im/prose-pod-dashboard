@@ -149,7 +149,7 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
-    onShowDnsInstructions(event: Event): void {
+    onShowDnsInstructions() {
       this.toggleDnsInstructionsModalVisible();
     },
   },
