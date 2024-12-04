@@ -202,6 +202,14 @@ export default {
           return "#dd2f2f";
         }
 
+        case "success": {
+          return "#05c02b";
+        }
+
+        case "info": {
+          return "#fc8227";
+        }
+
         default: {
           return "#000000";
         }
@@ -441,6 +449,18 @@ $alert-padding-sides: 12px;
   &--warning {
     #{$c}__inner {
       background-color: rgba($color-base-orange-normal, 0.95);
+    }
+  }
+
+  &--info {
+    #{$c}__text-title {
+      color: $color-base-orange-normal;
+    }
+  }
+
+  &--success {
+    #{$c}__text-title {
+      color: $color-base-green-normal;
     }
   }
 
