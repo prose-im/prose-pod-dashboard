@@ -8,21 +8,21 @@
      TEMPLATE
      ********************************************************************** -->
 <template lang="pug">
-.c-base-modal-network-check-block
-  .c-base-modal-network-check-block__top
-    .c-base-modal-network-check-block__top--left
-      .c-base-modal-network-check-block__label
+.c-advanced-network-check-block
+  .c-advanced-network-check-block__top
+    .c-advanced-network-check-block__top--left
+      .c-advanced-network-check-block__label
         | {{ label.toUpperCase() }}
 
-      .c-base-modal-network-check-block__header
+      .c-advanced-network-check-block__header
         h4(
           :class=`[
-            "c-base-modal-network-check-block__subtitle",
+            "c-advanced-network-check-block__subtitle",
             {
-              "c-base-modal-network-check-block--blue": status === 'pending',
-              "c-base-modal-network-check-block--green": status === 'sucess',
-              "c-base-modal-network-check-block--orange": status === 'FAILURE',
-              "c-base-modal-network-check-block--red": status === 'INVALID' || status === 'CLOSED',
+              "c-advanced-network-check-block--blue": status === 'pending',
+              "c-advanced-network-check-block--green": status === 'sucess',
+              "c-advanced-network-check-block--orange": status === 'FAILURE',
+              "c-advanced-network-check-block--red": status === 'INVALID' || status === 'CLOSED',
 
             }
           ]`
@@ -35,28 +35,28 @@
     base-modal-status(
       :status="status"
       :color="globalIconColor"
-      :iconName="globalIconName"
+      :icon-name="globalIconName"
     )
 
-  .c-base-modal-network-check-block__details
+  .c-advanced-network-check-block__details
     loader-network-check-row(
       v-if="status === 'pending'"
       v-for="row in [0, 1]"
     )
 
-    .c-base-modal-network-check-block__details--row(
+    .c-advanced-network-check-block__details--row(
       v-else
-      v-for="row in checkList"
+      v-for="row in checklist"
       :class=`[
-        "c-base-modal-network-check-block--" + colorCode(row.status, true)
+        "c-advanced-network-check-block--" + colorCode(row.status, true)
       ]`
     )
-      .c-base-modal-network-check-block__left(
-        class="c-base-modal-network-check-block--flex"
+      .c-advanced-network-check-block__left(
+        class="c-advanced-network-check-block--flex"
       )
         base-icon(
           :name="getIconName(row.status)"
-          class="c-base-modal-network-check-block__icon"
+          class="c-advanced-network-check-block__icon"
           :fill="colorCode(row.status)"
           size="14.5px"
         )
@@ -75,16 +75,14 @@
 <script lang="ts">
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModalStatus from "@/components/base/modal/BaseModalStatus.vue";
-import BasePulseIcon from "@/components/base/BasePulseIcon.vue";
 import LoaderNetworkCheckRow from "@/components/base/loader/LoaderNetworkCheckRow.vue";
 
 export default {
-  name: "BaseModalCheckBlock",
+  name: "AdvancedNetworkCheckBlock",
 
   components: {
     BaseIcon,
     BaseModalStatus,
-    BasePulseIcon,
     LoaderNetworkCheckRow,
   },
 
@@ -113,7 +111,7 @@ export default {
       required: true,
     },
 
-    checkList: {
+    checklist: {
       type: Array,
       required: true,
     },
@@ -232,7 +230,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-base-modal-network-check-block";
+$c: ".c-advanced-network-check-block";
 
 #{$c} {
   margin-block-end: 36px;
@@ -242,7 +240,6 @@ $c: ".c-base-modal-network-check-block";
   }
 
   #{$c}__subtitle {
-    //color: $color-base-blue-normal;
     font-weight: $font-weight-medium;
     font-size: ($font-size-baseline + 2px);
     margin-left: 0;
