@@ -49,41 +49,67 @@ export default {
   data() {
     return {
       // --> STATE <--
+      category: "",
     };
   },
 
   computed: {
-    activeCategory() {
-      const route = this.$route;
-      let category = "";
+    activeCategory: {
+      get() {
+        if (!this.category) {
+          const route = this.$route;
+          let activeCategory = "";
 
-      switch (route.path) {
-        case "/team/members":
-          category = "Members & Invites";
-          break;
-        case "/server/configuration":
-          category = "Configuration";
-          break;
-        case "/customization/workspace":
-          category = "Workspace";
-          break;
-        case "/customization/emojis":
-          category = "Emojis & Reactions";
-          break;
-        case "/advanced/security":
-          category = "Security & Encryption";
-          break;
-        case "/advanced/network":
-          category = "Network Setup";
-          break;
-        case "/advanced/backup":
-          category = "Backup & Reset";
-          break;
+          switch (route.path) {
+            case "/team/members": {
+              activeCategory = "Members & Invites";
+              break;
+            }
 
-        default:
-          break;
-      }
-      return category;
+            case "/server/configuration": {
+              activeCategory = "Configuration";
+              break;
+            }
+
+            case "/customization/workspace": {
+              activeCategory = "Workspace";
+              break;
+            }
+
+            case "/customization/emojis": {
+              activeCategory = "Emojis & Reactions";
+              break;
+            }
+
+            case "/advanced/security": {
+              activeCategory = "Security & Encryption";
+              break;
+            }
+
+            case "/advanced/network": {
+              activeCategory = "Network Setup";
+              break;
+            }
+
+            case "/advanced/backup": {
+              activeCategory = "Backup & Reset";
+              break;
+            }
+
+            default: {
+              break;
+            }
+          }
+
+          return activeCategory;
+        } else {
+          return this.category;
+        }
+      },
+
+      set(value: string) {
+        this.category = value;
+      },
     },
   },
 
