@@ -14,6 +14,7 @@
       v-model="config.security"
       title="Account Security"
       :items="accountItems"
+      @update="onSecurityUpdate"
     )
   
     base-subsection(
@@ -21,6 +22,7 @@
       title="Network Encryption"
       :items="networkItems"
       :restore-option="true"
+      @update="onEncryptionUpdate"
     )
 </template>
 
@@ -34,6 +36,16 @@ import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // STORE
 import store from "@/store";
+
+// ENUMERATIONS
+enum SecurityKey {
+  TwoFactor = "twoFactor",
+}
+
+enum EncryptionKey {
+  Version = "version",
+  Strength = "strength",
+}
 
 export default {
   name: "AppAdvancedSecurity",
@@ -119,32 +131,48 @@ export default {
   },
 
   methods: {
-    // --> HELPERS <--
-    onUpdate(newValue: boolean | string, changedKey: string) {
+    // --> EVENT LISTENERS <--
+    onSecurityUpdate(newValue: boolean | string, changedKey: SecurityKey) {
       // console.log('newValue', newValue, changedKey)
-      if (this.config.files[changedKey] !== newValue) {
+      if (
+        this.config.security[changedKey] &&
+        this.config.security[changedKey] !== newValue
+      ) {
         switch (changedKey) {
-          // Security
           case "twoFactor": {
-            store.$serverConfiguration.toggleMessageArchiveEnabled(); //!this.config.messaging[key]);
+            // store.$serverConfiguration.toggleMessageArchiveEnabled();
             break;
           }
 
-          // Encryption
-          case "version": {
-            // store.$serverConfiguration.toggleFileUploadEnabled();//!this.config.messaging[key]);
+          default: {
             break;
           }
+        }
+      }
+    },
+
+    onEncryptionUpdate(newValue: boolean | string, changedKey: EncryptionKey) {
+      // console.log('newValue', newValue, changedKey)
+      if (
+        this.config.encryption[changedKey] &&
+        this.config.encryption[changedKey] !== newValue
+      ) {
+        switch (changedKey) {
+          case "version": {
+            // store.$serverConfiguration.toggleFileUploadEnabled();
+            break;
+          }
+
           case "strength": {
             // store.$serverConfiguration.changeFileEncryption(newValue);
             break;
           }
-          default:
+
+          default: {
             break;
+          }
         }
       }
-
-      /// Reload store /////
     },
   },
 };

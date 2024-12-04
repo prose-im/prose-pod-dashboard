@@ -20,7 +20,7 @@
     v-model="config.appearance"
     title="Apps Appearance"
     :items="appearanceItems"
-    @update="onUpdate"
+    @update="onAppearanceUpdate"
   )
 
 <!-- Modals -->
@@ -53,6 +53,11 @@ import EditName from "@/assemblies/modals/customization/EditName.vue";
 
 // STORE
 import store from "@/store";
+
+// ENUMERATIONS
+enum AppearanceKey {
+  Color = "color",
+}
 
 export default {
   name: "AppCustomizationWorkspace",
@@ -169,29 +174,22 @@ export default {
       this.isEditDetailCardVisible = !this.isEditDetailCardVisible;
     },
 
-    onUpdate(newValue: boolean | string, changedKey: string) {
-      console.log("newValue", newValue, changedKey);
+    // --> EVENT LISTENERS <--
+    onAppearanceUpdate(newValue: string, changedKey: AppearanceKey) {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
-          // Workspace Profile
-          case "archiveEnabled": {
-            store.$serverConfiguration.toggleMessageArchiveEnabled(); //!this.config.messaging[key]);
-            break;
-          }
-          case "messageRetentionTime": {
-            store.$serverConfiguration.changeMessageRetentionTime(newValue);
-            break;
-          }
-
-          // Appearance
           case "color": {
             store.$customizationWorkspace.updateWorkspaceColor(newValue);
             break;
           }
-          default:
+
+          default: {
             break;
+          }
         }
       }
+
+      return;
     },
   },
 };

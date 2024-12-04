@@ -16,14 +16,14 @@
     :items="messagingItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
-    @update="onUpdate"
+    @update="onMessagingUpdate"
   )
 
   base-subsection(
     v-model="config.files"
     title="Files"
     :items="filesItems"
-    @update="onUpdate"
+    @update="onFileUpdate"
   )
 </template>
 
@@ -37,6 +37,18 @@ import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // PROJECT: STORE
 import store from "@/store";
+
+// ENUMERATIONS
+enum MessagingKey {
+  Archive = "archiveEnabled",
+  RetentionTime = "messageRetentionTime",
+}
+
+enum FileKey {
+  UploadEnabled = "fileUploadEnabled",
+  Encryption = "encryption",
+  RetentionTime = "fileRetentionTime",
+}
 
 export default {
   name: "AppServerConfiguration",
@@ -159,18 +171,16 @@ export default {
   methods: {
     // --> EVENT LISTENERS <--
 
-    onUpdate(newValue: boolean | string, changedKey: string) {
-      // console.log('newValue', newValue, changedKey)
-      // console.log('condition', this.config.files[changedKey] )
-
-      // Messaging
+    onMessagingUpdate(newValue: boolean | string, changedKey: MessagingKey) {
       if (
         this.config.messaging[changedKey] !== undefined &&
         this.config.messaging[changedKey] !== newValue
       ) {
         switch (changedKey) {
           case "archiveEnabled": {
-            store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            if (typeof newValue === "boolean") {
+              store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            }
             break;
           }
           case "messageRetentionTime": {
@@ -181,22 +191,30 @@ export default {
           }
         }
       }
-      // Files
-      else if (
+    },
+
+    onFileUpdate(newValue: boolean | string, changedKey: FileKey) {
+      if (
         this.config.files[changedKey] !== undefined &&
         this.config.files[changedKey] !== newValue
       ) {
         switch (changedKey) {
           case "fileUploadEnabled": {
-            store.$serverConfiguration.toggleFileUploadEnabled(newValue);
+            if (typeof newValue === "boolean") {
+              store.$serverConfiguration.toggleFileUploadEnabled(newValue);
+            }
             break;
           }
           case "encryption": {
-            store.$serverConfiguration.changeFileEncryption(newValue);
+            if (typeof newValue === "string") {
+              store.$serverConfiguration.changeFileEncryption(newValue);
+            }
             break;
           }
           case "fileRetentionTime": {
-            store.$serverConfiguration.changeFileRetentionTime(newValue);
+            if (typeof newValue === "string") {
+              store.$serverConfiguration.changeFileRetentionTime(newValue);
+            }
             break;
           }
           default: {
