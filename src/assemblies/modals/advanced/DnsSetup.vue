@@ -12,7 +12,7 @@
 base-modal(
   :visible="visibility"
   title="DNS setup instructions"
-  buttonLabel="Add custom Emoji"
+  button-label="Add custom Emoji"
   @close="$emit('close')"
   @load="onLoad"
 )

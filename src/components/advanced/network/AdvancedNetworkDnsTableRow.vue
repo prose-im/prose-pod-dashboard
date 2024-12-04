@@ -36,29 +36,29 @@
       )
 
 </template>
-  
+
 <!-- **********************************************************************
      SCRIPT
      ********************************************************************** -->
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseCopyIcon from '@/components/base/BaseCopyIcon.vue';
-import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseCopyIcon from "@/components/base/BaseCopyIcon.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
   name: "AdvancedNetworkDnsTableRow",
 
   components: {
     BaseCopyIcon,
-    BaseIcon
+    BaseIcon,
   },
 
   props: {
-    header:{
+    header: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: [],
@@ -85,38 +85,36 @@ export default {
         textToCopyArray.push(htmlCollection.children[i].innerHTML);
       }
 
-      const textToCopy = textToCopyArray.map(String).join(' ');
+      const textToCopy = textToCopyArray.map(String).join(" ");
       // console.log(textToCopy);
 
       try {
         await navigator.clipboard.writeText(textToCopy);
 
-        this.copied= true;
+        this.copied = true;
 
-        if(this.timer) {
+        if (this.timer) {
           clearTimeout(this.timer);
         }
 
         this.timer = setTimeout(() => {
-          this.copied= false;
-        }, 5000)
-
-      } catch($e) {
+          this.copied = false;
+        }, 5000);
+      } catch ($e) {
         // alert('Cannot copy');
       }
     },
 
     async copyRow() {
-      await this.copyText(this.$refs.rowText)
-    }
+      await this.copyText(this.$refs.rowText);
+    },
   },
 
-  onBeforeUnmount(){
-    if(this.timer) {
+  onBeforeUnmount() {
+    if (this.timer) {
       clearTimeout(this.timer);
     }
-  }
-
+  },
 };
 </script>
 
@@ -131,12 +129,12 @@ $c: ".c-advanced-network-dns-table-row";
   font-family: $font-family-default;
   font-size: ($font-size-baseline - 3px);
 
-  &--flex{
+  &--flex {
     display: flex;
     align-items: center;
   }
 
-  #{$c}__content{
+  #{$c}__content {
     display: flex;
     justify-content: space-between;
     line-height: ($font-size-baseline + 2px);
@@ -144,7 +142,7 @@ $c: ".c-advanced-network-dns-table-row";
     padding-inline: 19.5px;
     min-height: 16px;
 
-    &--header{
+    &--header {
       color: $color-text-secondary;
       font-weight: $font-weight-medium;
       background-color: $color-base-grey-ultra-light;
@@ -152,20 +150,19 @@ $c: ".c-advanced-network-dns-table-row";
     }
   }
 
-  #{$c}__slot{
+  #{$c}__slot {
     width: 100%;
     overflow: hidden;
   }
 
-  #{$c}__icon{
-    &--hidden{
+  #{$c}__icon {
+    &--hidden {
       visibility: hidden;
     }
   }
 
-  p{
+  p {
     margin: 0;
-  } 
+  }
 }
 </style>
-        
