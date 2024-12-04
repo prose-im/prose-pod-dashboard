@@ -20,6 +20,7 @@
     align="left"
     :placeholder="placeholder"
     v-bind="$attrs"
+    @change="onChange"
   )
 </template>
 
@@ -60,7 +61,7 @@ export default {
     },
   },
 
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
 
   data() {
     return {
@@ -83,7 +84,10 @@ export default {
   watch: {},
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
+    onChange(value: string | number): void {
+      this.$emit("change", value);
+    },
   },
 };
 </script>
