@@ -57,6 +57,7 @@ div(
 
   div(
     v-if="visible && !disabled"
+    v-click-away="onDropdownClickAway"
     :class=`[
       "c-form-select__dropdown",
       "c-form-select__dropdown--menu",
