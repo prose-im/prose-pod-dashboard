@@ -23,20 +23,18 @@ teleport(
         @closeModal="onClose"
       )
         base-modal-container(
-          :containerVisible="loaded"
+          :container-visible="loaded"
           :position="position"
           :title="title"
-          :titleColor="titleColor"
-          :buttonColor="buttonColor"
-          :buttonLabel="buttonLabel"
-          :flexBody="flexContainer"
+          :title-color="titleColor"
+          :button-color="buttonColor"
+          :button-label="buttonLabel"
+          :flex-body="flexContainer"
           :disabled="disabled"
           @closeModal="onClose"
           @confirmAction="onConfirm"
         )
-          slot
-
-          
+          slot     
 </template>
 
 <!-- **********************************************************************
@@ -72,7 +70,7 @@ export default {
 
     buttonLabel: {
       type: String,
-      required: true,
+      default: "",
     },
 
     disabled: {

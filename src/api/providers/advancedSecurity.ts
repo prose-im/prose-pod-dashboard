@@ -45,11 +45,6 @@ interface WorkspaceColorResponse {
  * ************************************************************************* */
 
 export class APIAdvancedSecurity {
-  /**  CONFIG  **/
-
-  async getConfig(): Promise<WorkspaceConfigResponse> {
-    return (await Api.client.get("/server/config")).data;
-  }
 
   /**  WORKSPACE PROFILE **/
 
