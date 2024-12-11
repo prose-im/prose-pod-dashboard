@@ -258,5 +258,12 @@ $c: ".c-base-subsection";
       background-color: $color-base-purple-ultra-light;
     }
   }
+
+  //////ERASE
+  #{$c}__erase {
+    max-width: 600px;
+    max-height: 20px;
+    overflow: clip;
+  }
 }
 </style>
