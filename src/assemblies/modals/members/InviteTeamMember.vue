@@ -119,26 +119,38 @@ export default {
         BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
         return;
       } else {
-        // Send invitation
-        await store.$teamMembers.sendInvitation(
-          this.inviteUserName,
-          this.inviteRole,
-          this.inviteEmail
-        );
+        try {
+          // Send invitation
+          await store.$teamMembers.sendInvitation(
+            this.inviteUserName,
+            this.inviteRole,
+            this.inviteEmail
+          );
 
-        // Reload invite list
-        await store.$teamMembers.loadInvitedMembers(true);
+          // Reload invite list
+          await store.$teamMembers.loadInvitedMembers(true);
 
-        // Let user know the invitaion was sent
-        BaseAlert.success("An invitation has been sent", "");
+          // Let user know the invitaion was sent
+          BaseAlert.success("An invitation has been sent", "");
 
-        // Reset values
-        this.inviteEmail = "";
-        this.inviteUserName = "";
-        this.inviteRole = Roles.Member;
+          // Reset values
+          this.inviteEmail = "";
+          this.inviteUserName = "";
+          this.inviteRole = Roles.Member;
 
-        // Close modal
-        this.$emit("close", true);
+          // Close modal
+          this.$emit("close", true);
+        } catch (error) {
+          console.error("Invite Error", error.message);
+
+          // If member has already been invited
+          if (error.status === 409) {
+            BaseAlert.warning(
+              "This username is already in use",
+              "Please choose a different username"
+            );
+          }
+        }
       }
     },
 
