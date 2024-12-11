@@ -8,10 +8,10 @@
    TEMPLATE
    ********************************************************************** -->
 
-<template lang="pug">
+<template lang="pug"> 
 transition(
-  enter-active-class="u-animate u-animate--slide-in"
-  leave-active-class="u-animate u-animate--slide-out"
+  :enter-active-class="enterAnimation"
+  :leave-active-class="leaveAnimation"
 )
   .c-base-modal-container(
     v-if="containerVisible"
@@ -132,12 +132,24 @@ export default {
   },
 
   computed: {
+    abortButtonText() {
+      return this.buttonColor === "grey" ? "Close" : "Cancel";
+    },
+
     buttonSize() {
       return this.position === "left" ? "mid-large" : "large";
     },
 
-    abortButtonText() {
-      return this.buttonColor === "grey" ? "Close" : "Cancel";
+    enterAnimation() {
+      return this.position === "left"
+        ? "u-animate u-animate--slide-in"
+        : "u-animate u-animate--fade-in-up-small";
+    },
+
+    leaveAnimation() {
+      return this.position === "left"
+        ? "u-animate u-animate--slide-out"
+        : "u-animate u-animate--fade-out-down-small";
     },
   },
 
@@ -167,6 +179,8 @@ $c: ".c-base-modal-container";
   background-color: $color-white;
   border-top-left-radius: 14px;
   border-bottom-left-radius: 14px;
+  display: flex;
+  flex-direction: column;
 
   #{$c}__title {
     font-weight: $font-weight-bolder;
@@ -182,11 +196,11 @@ $c: ".c-base-modal-container";
 
   #{$c}__body {
     overflow: scroll;
-    height: 73%;
+    max-height: 73%;
     padding-top: 35.5px;
     padding-bottom: 26.5px;
-    margin-inline: auto;
     border-block: 1px solid $color-border-primary;
+    flex: 1 1 auto;
   }
 
   #{$c}__footer {
