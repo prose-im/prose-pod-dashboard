@@ -140,7 +140,7 @@ export interface Icon {
 }
 
 export default {
-  name: "FormSelect",
+  name: "FormSelectAccordion",
 
   components: {
     BaseIcon
@@ -440,10 +440,6 @@ $sizes: (
     #{$c}__value {
       flex: 1;
     }
-  }
-
-  #{$c}__input {
-    display: none;
   }
 
   #{$c}__field {
