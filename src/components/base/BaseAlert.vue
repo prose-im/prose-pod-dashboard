@@ -206,6 +206,7 @@ export default {
           return "#05c02b";
         }
 
+        case "warning":
         case "info": {
           return "#fc8227";
         }
@@ -447,8 +448,8 @@ $alert-padding-sides: 12px;
   }
 
   &--warning {
-    #{$c}__inner {
-      background-color: rgba($color-base-orange-normal, 0.95);
+    #{$c}__text-title {
+      color: $color-base-orange-normal;
     }
   }
 
