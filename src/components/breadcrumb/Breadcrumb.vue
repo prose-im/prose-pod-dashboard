@@ -79,6 +79,7 @@ export default {
   computed: {
     breadcrumbs() {
       let breadcrumbs: string[] = [];
+
       const route = this.$route || "/team/members";
       const matchedRoutes = route.path.split("/");
       matchedRoutes.shift();

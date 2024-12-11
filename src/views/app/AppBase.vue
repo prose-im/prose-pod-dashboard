@@ -26,16 +26,16 @@
 
 <script lang="ts">
 // PROJECT: ASSEMBLIES
-import AppSidebar from '@/assemblies/app/AppSidebar.vue';
-import DashboardMain from '@/components/dashboard/DashboardMain.vue';
+import AppSidebar from "@/assemblies/app/AppSidebar.vue";
+import DashboardMain from "@/components/dashboard/DashboardMain.vue";
 
 export default {
   name: "AppBase",
 
-  components: { 
-    AppSidebar, 
-    DashboardMain
-  }
+  components: {
+    AppSidebar,
+    DashboardMain,
+  },
 };
 </script>
 
