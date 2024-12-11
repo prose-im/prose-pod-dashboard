@@ -240,13 +240,16 @@ $c: ".a-dns-setup";
 
     &--one--row {
       p:first-child {
-        min-width: 79px;
+        min-width: 74px;
+        max-width: (74px + 35px);
+        width: fit-content;
+        flex: 1 1 0;
         font-weight: $font-weight-medium;
+        margin-right: 6.5%;
       }
 
       p:nth-child(2) {
         min-width: 30px;
-        margin-left: 6.5%;
       }
 
       p:nth-child(3) {
@@ -255,12 +258,16 @@ $c: ".a-dns-setup";
 
       p:nth-child(4) {
         margin-left: 5%;
+        flex: 1 1 0;
       }
     }
 
     &--two--row {
       p:first-child {
-        min-width: 51px;
+        min-width: 74px;
+        max-width: (74px + 35px);
+        width: fit-content;
+        flex: 1 1 0;
         font-weight: $font-weight-medium;
       }
 
@@ -291,6 +298,9 @@ $c: ".a-dns-setup";
 
       p:nth-child(7) {
         margin-left: 4.5%;
+        min-width: 74px;
+        max-width: (74px + 30px);
+        flex: 1 1 0;
       }
     }
   }

@@ -25,6 +25,7 @@
           "c-members-invites-row--hidden" : tableHeaders
         }
       ]`
+      :disabled="true"
     )
 
     <!-- 2nd column -->
@@ -50,8 +51,6 @@
       )
         | {{ userEnrichedData?.nickname }}
 
-
-
       p.c-members-invites-row--submain 
         | {{ userData.jid }}
 
@@ -61,37 +60,36 @@
         | {{ tableHeaders[0] }}
 
     <!-- 4th column -->
-    base-badge(
-      v-if="!tableHeaders"
-      :class=`[
-        "c-members-invites-row__badge",
-        {
-          "c-members-invites-row--hidden" : userData.invitation_id,
-        }
-      ]`
-      :admin="userData.role"
-      size="long"
-    )
+    .c-members-invites-row__badge
+      base-badge(
+        v-if="!tableHeaders"
+        :class=`[
+          {
+            "c-members-invites-row--hidden" : userData.invitation_id,
+          }
+        ]`
+        :admin="userData.role"
+        size="long"
+      )
 
-    p(
-      v-else
-      :class=`[
-        "c-members-invites-row__badge",
-        "c-members-invites-row__badge--header"
-      ]`
-    )
-      | {{ tableHeaders[1] }}
+      p(
+        v-else
+      )
+        | {{ tableHeaders[1] }}
 
     <!-- 5th column -->
     .c-members-invites-row__status
         p(
+          v-if="!tableHeaders"
           :class=`[
             "c-members-invites-row--main",
             {
               "c-members-invites-row--none" : userData.invitation_id
             }
           ]`
-        ) {{ userData.online }}
+        ) 
+          | {{ userData.online }}
+          
         p(
           v-if="!tableHeaders"
           class="c-members-invites-row--submain"
@@ -100,8 +98,7 @@
 
         p(
           v-else
-        )
-          | {{ tableHeaders[2] }}
+        ) {{ tableHeaders[2] }} 
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
@@ -131,14 +128,17 @@
 
       p(
         v-if="tableHeaders"
-        class="c-members-invites-row__badge--header"
       )
         | {{ tableHeaders[3] }}
         
     <!-- 7th column -->
     .c-members-invites-row__parameters
       base-button(
-        v-if="!tableHeaders"
+        :class=`[
+          {
+            "c-members-invites-row--hidden":tableHeaders
+          }
+        ]`
         size="medium"
         tint="white"
         :square="true"
@@ -298,34 +298,47 @@ $c: ".c-members-invites-row";
   font-family: $font-family-default;
 
   #{$c}__checkbox {
+    border: 1px solid blue;
     margin-right: 28px;
   }
 
   #{$c}__avatar {
+    border: 1px solid blue;
     margin-right: 17px;
     min-width: 34px;
   }
 
   #{$c}__user {
-    min-width: 220px;
+    border: 1px solid blue;
+    min-width: 170px;
+    max-width: 220px;
     margin-right: 10px;
   }
 
   #{$c}__badge {
-    margin-right: 40px;
+    border: 1px solid blue;
+    margin-right: 10px;
+    max-width: 90px;
+    flex: 1 1 0;
+    min-width: 50px;
 
-    &--header {
-      min-width: 50px;
+    p {
+      margin: 0;
+      width: fit-content;
     }
   }
 
   #{$c}__status {
-    min-width: 16.3%;
+    border: 1px solid blue;
+    min-width: 100px;
+    max-width: 16.3%;
+    flex: 1 1 0;
   }
 
   #{$c}__encryption {
-    position: relative;
-    margin-right: 24%;
+    border: 1px solid blue;
+    flex: 1 1 0;
+    margin-right: 10px;
 
     p {
       margin: 0;
@@ -343,7 +356,7 @@ $c: ".c-members-invites-row";
     }
 
     &--hidden {
-      margin-right: 15%;
+      max-width: 222px;
     }
 
     &--light {

@@ -27,27 +27,30 @@
     )
 
     <!-- 2nd column -->
-    base-avatar(
-      v-if="!tableHeaders"
-      class="c-emojis-reactions-row__image"
-      :avatar-data-url="emojiData.imageUrl"
-      size="30px"
-      border-radius="0px"
-    )
-    p(
-      v-else
-      class="c-emojis-reactions-row__image"
-    )
-      | {{ tableHeaders[0] }}
+    .c-emojis-reactions-row__image
+      base-avatar(
+        v-if="!tableHeaders"
+        :avatar-data-url="emojiData.imageUrl"
+        size="30px"
+        border-radius="0px"
+      )
+      
+      p(
+        v-else
+      )
+        | {{ tableHeaders[0] }}
 
     <!-- 3rd column -->
     .c-emojis-reactions-row__shortcut
-        p.c-emojis-reactions-row--medium-bold {{ emojiData.shortcut }}
+      p.c-emojis-reactions-row--medium-bold(
+        v-if="!tableHeaders"
+      )
+        | {{ emojiData.shortcut }} 
 
-        p(
-          v-if="tableHeaders"
-        )
-          | {{ tableHeaders[1] }}
+      p(
+        v-else
+      ) 
+        | {{ tableHeaders[1] }}
 
     <!-- 4th column -->
     .c-emojis-reactions-row__date
@@ -69,9 +72,10 @@
 
     <!-- 5th column -->
     .c-emojis-reactions-row__contributor(
-      v-if="!tableHeaders"
     )
+        
       base-avatar(
+        v-if="!tableHeaders"
         :class=`[
           "c-emojis-reactions-row__contributor--avatar",
         ]`
@@ -79,18 +83,25 @@
         size="22px"
       )
 
-      p
+      p(
+        v-if="!tableHeaders"
+      )
         | {{ emojiData.contributor }}
 
-    p(
-      v-else
-    )
-      | {{ tableHeaders[3] }}
+      p(
+        v-else
+        class="c-emojis-reactions-row__contributor"
+      )
+        | {{ tableHeaders[3] }}
 
     <!-- 6th column -->
     .c-emojis-reactions-row__parameters
       base-button(
-        v-if="!tableHeaders"
+        :class=`[
+          {
+            "c-emojis-reactions-row--hidden" : tableHeaders
+          }
+        ]`
         size="medium"
         tint="white"
         :square="true"
@@ -169,33 +180,48 @@ $c: ".c-emojis-reactions-row";
   font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {
+    border: 1px solid red;
     margin-right: 28px;
   }
 
   #{$c}__image {
-    margin-right: 67px;
-    min-width: 30px;
+    border: 1px solid red;
+    min-width: 36.5px;
+    max-width: 82px;
+    margin-right: 9.5px;
+    flex: 1 1 0;
   }
 
   #{$c}__shortcut {
-    min-width: 152px;
+    border: 1px solid red;
+    min-width: 70px;
+    max-width: 142px;
+    margin-right: 10px;
+    flex: 1 1 0;
   }
 
   #{$c}__date {
-    min-width: 210px;
+    border: 1px solid red;
+    min-width: 105px;
+    max-width: 188px;
+    margin-right: 15px;
+    flex: 1 1 0;
     font-weight: $font-weight-light;
 
     &--header {
       font-weight: $font-weight-regular;
-      min-width: 210px;
     }
   }
 
   #{$c}__contributor {
+    border: 1px solid red;
+
     display: flex;
     align-items: center;
-    min-width: 27%;
-    margin-right: 10%;
+    min-width: 105px;
+    max-width: 35%;
+    margin-right: 15px;
+    flex: 1 1 auto;
 
     &--avatar {
       margin-right: 9px;
@@ -203,6 +229,7 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__parameters {
+    border: 1px solid red;
     margin-bottom: 1px;
 
     &--button {
@@ -238,6 +265,7 @@ $c: ".c-emojis-reactions-row";
     p {
       line-height: 13px;
       margin-block: 11px;
+      width: fit-content;
     }
   }
 

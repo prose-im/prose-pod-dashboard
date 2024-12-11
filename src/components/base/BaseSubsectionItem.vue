@@ -289,7 +289,8 @@ $c: ".c-base-subsection-item";
   padding-block: 11.5px;
 
   #{$c}__left {
-    width: 100%;
+    flex: 1 1 auto;
+    margin-inline-end: 10px;
   }
 
   #{$c}__subtitle {
@@ -355,10 +356,13 @@ $c: ".c-base-subsection-item";
     font-weight: $font-weight-medium;
     margin-inline-end: 10px;
     min-width: 40px;
+    text-align: center;
+    overflow: clip;
 
     &--avatar {
       outline: 1px solid $color-border-primary;
       outline-offset: 1px;
+      margin-inline-end: 16px;
     }
   }
 
