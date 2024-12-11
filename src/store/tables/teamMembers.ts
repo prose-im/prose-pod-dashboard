@@ -13,11 +13,6 @@ import APITeamMembers, { AllInvitationsResponse, AllMembersResponse, EnrichMembe
 import { defineStore } from "pinia"; 
 
 /**************************************************************************
- * TYPES
- * ************************************************************************* */
-
-
-/**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
@@ -97,7 +92,7 @@ const $teamMembers = defineStore("teamMembers", {
           this.enrichedMembers = allMembers;
   
           console.log('enriched members', allMembers)
-        }, 14000 * (Math.random() + 0.5))
+        }, 5000 * (Math.random() + 0.5))
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;

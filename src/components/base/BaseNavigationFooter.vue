@@ -26,7 +26,7 @@
       )
 
     p
-      | {{ from }} to {{ to }} out of {{ total }} total users
+      | {{ from || 'x' }} to {{ to || 'y' }} out of {{ total }} total users
 
     base-button(
       :disabled="!notLastPage"

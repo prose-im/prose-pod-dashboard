@@ -87,13 +87,19 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
       // Load information? (or reload)
       if (LOCAL_STATES.configLoaded === false || reload === true) {
         // Load globalConfig configuration
-        const [name, icon, color] = await APICustomizationWorkspace.getWorkspaceConfig();
 
-        this.$patch(() => {
-          this.workspaceProfile.name = name.name;
-          this.appearance.color = color.color;        
-          this.workspaceProfile.iconUrl = 'data:image/png;base64,' + icon.icon;
-        });
+        try{
+          const [name, icon, color] = await APICustomizationWorkspace.getWorkspaceConfig();
+
+          this.$patch(() => {
+            this.workspaceProfile.name = name.name;
+            this.appearance.color = color.color;        
+            this.workspaceProfile.iconUrl = 'data:image/png;base64,' + icon.icon;
+          });
+        } catch(error) {
+          console.error('message:', error.message, '- code:', error.code, '- status:', error.status)
+        }
+
       };
     },
 

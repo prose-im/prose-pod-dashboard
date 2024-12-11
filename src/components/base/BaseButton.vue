@@ -495,6 +495,12 @@ $size-ultra-large-padding-sides: 45.5px;
       }
     }
 
+    &#{$c}--red {
+      #{$c}__inner {
+        background-color: rgba($color-base-red-normal, 50%);
+      }
+    }
+
     &#{$c}--loading {
       cursor: wait;
     }

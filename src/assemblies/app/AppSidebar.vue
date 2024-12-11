@@ -85,7 +85,7 @@ export default {
               icon: "gift",
               value: "Emojis & Reactions",
               link: "/customization/emojis",
-              disabled: true,
+              //disabled: true,
             },
           ],
         },
