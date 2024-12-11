@@ -48,7 +48,7 @@ div(
         v-if="item.disabled"
       )
 
-    p.c-base-subsection-item__description 
+    p.c-base-subsection-item__description
       | {{ item.description}}
 
     .c-base-subsection-item__tag(
@@ -68,7 +68,7 @@ div(
         p.c-base-subsection-item--grey
           | {{ (index<item.tags.length-2) ? ',' : '' }}
 
-  <!-- OPTIONAL ELEMENT -->    
+  <!-- OPTIONAL ELEMENT -->
   p(
     v-if="item.slot === 'text'"
     class="c-base-subsection-item__slot"
@@ -95,12 +95,12 @@ div(
   )
 
   base-button(
-    v-if="type === 'button'" 
+    v-if="type === 'button'"
     :disabled="item.disabled"
     :size="item.typeProps?.size"
     :tint="buttonColor"
     @click="$emit('click')"
-  )  
+  )
     | {{item.typeProps?.label}}
 
   form-select(
@@ -126,7 +126,7 @@ div(
     position="bottom"
     @update:modelValue="onUpdateExtraSelect"
   )
-    
+
 </template>
 
 <!-- **********************************************************************
@@ -151,23 +151,23 @@ export default {
     BaseComingSoon,
     BaseIcon,
     FormSelect,
-    FormToggle,
+    FormToggle
   },
 
   props: {
     modelValue: {
       type: [String, Boolean, Object],
-      default: null,
+      default: null
     },
 
     secondaryData: {
       type: String,
-      default: null,
+      default: null
     },
 
     item: {
       type: Object,
-      required: true,
+      required: true
     },
 
     type: {
@@ -176,7 +176,7 @@ export default {
 
       validator(x: string) {
         return ["toggle", "button", "select", "doubleSelect"].includes(x);
-      },
+      }
     },
 
     color: {
@@ -185,13 +185,13 @@ export default {
 
       validator(x: string) {
         return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
-      },
+      }
     },
 
     index: {
       type: Number,
-      default: 0,
-    },
+      default: 0
+    }
   },
 
   emits: ["update", "click"],
@@ -203,7 +203,7 @@ export default {
 
       stateSecondSelect: null,
 
-      colorSquare: null as string | null,
+      colorSquare: null as string | null
     };
   },
 
@@ -211,7 +211,10 @@ export default {
     calculatedValue: {
       get() {
         if (this.type !== "doubleSelect") {
-          if (typeof this.modelValue === "string" && this.modelValue.startsWith("#")) {
+          if (
+            typeof this.modelValue === "string" &&
+            this.modelValue.startsWith("#")
+          ) {
             this.colorSquare = this.modelValue;
           }
           return this.modelValue;
@@ -225,7 +228,7 @@ export default {
 
       set(nextValue: any[]) {
         console.log("nextValue", nextValue);
-      },
+      }
     },
 
     buttonColor() {
@@ -246,7 +249,7 @@ export default {
           return "white";
         }
       }
-    },
+    }
   },
 
   watch: {},
@@ -269,8 +272,8 @@ export default {
       this.item.restoreSubtitle && this.item.restoreAction
         ? this.item.restoreAction()
         : "";
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -305,7 +308,7 @@ $c: ".c-base-subsection-item";
     &--text {
       margin: 0;
       font-size: ($font-size-baseline + 0.5px);
-      font-weight: $font-weight-mid;
+      font-weight: $font-weight-medium;
     }
 
     &--restore {
@@ -327,7 +330,7 @@ $c: ".c-base-subsection-item";
     max-width: 580px;
     margin: 0;
     color: $color-text-secondary;
-    font-size: ($font-size-baseline - 1px);
+    font-size: ($font-size-baseline - 0.5px);
   }
 
   #{$c}__tag {
