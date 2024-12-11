@@ -10,39 +10,38 @@
 
 <template lang="pug">
 .c-members-invites-dashboard
-  .c-members-invites-dashboard__upper
-    search-bar(
-      v-model="searchTerm"
-      :button-label="label"
-      :click-handle="toggleInviteModalVisible"
-      placeholder-text="team members..."
-    )
+  search-bar(
+    v-model="searchTerm"
+    :button-label="label"
+    :click-handle="toggleInviteModalVisible"
+    placeholder-text="team members..."
+  )
 
-    <!-- HEADERS -->
+  <!-- HEADERS -->
+  members-invites-row(
+    :user-data="{}"
+    :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
+  )
+
+  .c-members-invites-dashboard__scroll
+  
+    <!-- INVITATIONS -->
     members-invites-row(
-      :user-data="{}"
-      :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
+      v-if="pageNumber === 1"
+      v-for="(invite, index) in invites"
+      :user-data="invite"
     )
-
-    .c-members-invites-dashboard__scroll
     
-      <!-- INVITATIONS -->
-      members-invites-row(
-        v-if="pageNumber === 1"
-        v-for="(invite, index) in invites"
-        :user-data="invite"
-      )
+    <!-- MEMBERS -->
+    members-invites-row(
+      v-for="(user, index) in members"
+      class="c-members-invites-dashboard__users"
+      :key="user.jid"
+      :user-data="user"
+      :user-enriched-data="enrichedMembers[user.jid]"
+      @menuAction="onMenuAction"
+    ) 
 
-      <!-- MEMBERS -->
-      members-invites-row(
-        v-for="(user, index) in members"
-        class="c-members-invites-dashboard__users"
-        :key="user.jid"
-        :user-data="user"
-        :user-enriched-data="enrichedMembers[user.jid]"
-        @menuAction="onMenuAction"
-      )
-      
   base-navigation-footer(
     v-if="!searchTerm"
     :page="pageNumber"
@@ -298,7 +297,7 @@ $c: ".c-members-invites-dashboard";
   justify-content: space-between;
 
   #{$c}__scroll {
-    max-height: 71vh;
+    flex: 1 1 0;
     overflow: scroll;
   }
 
