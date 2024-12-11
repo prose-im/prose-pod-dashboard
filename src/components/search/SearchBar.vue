@@ -39,6 +39,7 @@
           tint="grey"
           size="large"
           :square="true"
+          :disabled="true"
         )
           base-icon(
             name="dots.vertical"
