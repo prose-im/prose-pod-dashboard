@@ -34,8 +34,8 @@ export default {
 
   components: {
     AppSidebar,
-    DashboardMain,
-  },
+    DashboardMain
+  }
 };
 </script>
 
@@ -56,6 +56,7 @@ $c: ".v-app-base";
   }
 
   #{$c}__content {
+    overflow: hidden;
     flex: 1;
   }
 }

@@ -37,7 +37,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -48,12 +48,18 @@ export default {
 <style lang="scss">
 $c: ".c-base-section-background";
 
+// VARIABLES
+$background-border-radius: 8px;
+
 #{$c} {
   flex: 1;
   display: flex;
   background-color: white;
-  border-radius: 8px;
-  border: 1px solid $color-border-secondary;
+  border-width: 1px 1px 0 1px;
+  border-color: $color-border-secondary;
+  border-style: solid;
+  border-top-left-radius: $background-border-radius;
+  border-top-right-radius: $background-border-radius;
   box-shadow: 0 4px 4px 0 rgba($color-base-purple-light, 0.08);
 
   #{$c}__icon {
