@@ -15,19 +15,12 @@ import Api from "@/api";
  * INTERFACES
  * ************************************************************************* */
 
-interface WorkspaceConfigResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
-}
-
 interface WorkspaceNameResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  name: string
 }
 
 interface WorkspaceIconResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  icon: string
 }
 
 interface WorkspaceDetailsCardResponse {
@@ -36,8 +29,7 @@ interface WorkspaceDetailsCardResponse {
 }
 
 interface WorkspaceColorResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
+  color: string
 }
 
 /**************************************************************************
