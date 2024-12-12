@@ -46,6 +46,7 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 
 // STORE
@@ -97,6 +98,10 @@ export default {
 
       // Close modal
       this.$emit("close");
+      BaseAlert.success(
+        "Succesfully removed",
+        `${this.jid} has been removed from the team`
+      );
     },
   },
 };
@@ -113,15 +118,16 @@ $c: ".a-delete-member";
   text-align: center;
   margin-inline: 48px;
   font-family: $font-family-default;
-  font-size: ($font-size-baseline + 4px);
-  line-height: 40px;
+  font-size: ($font-size-baseline + 2px);
+  line-height: 30px;
+  font-weight: $font-weight-light;
 
   h4 {
     color: $color-text-secondary;
     margin-top: 0;
     margin-bottom: 11px;
     margin-left: 8px;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-regular;
   }
 
   // STYLES
@@ -130,7 +136,7 @@ $c: ".a-delete-member";
   }
 
   &--bolder {
-    font-weight: $font-weight-bolder;
+    font-weight: $font-weight-medium;
   }
 }
 </style>
