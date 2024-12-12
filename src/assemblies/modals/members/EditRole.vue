@@ -27,7 +27,7 @@ base-modal(
       ]`
     )
       h4
-        |  New role for {{ user.jid }}
+        |  Enter new role for {{ user.jid }}
 
       form-select(
         v-model="memberRole"
@@ -166,25 +166,23 @@ $c: ".a-edit-role";
 #{$c} {
   display: flex;
   justify-content: center;
-  //margin-inline: 25%;
   font-family: $font-family-default;
+  padding-block-end: 40px;
 
   h4 {
     color: $color-text-secondary;
-    margin-top: 0px;
-    margin-bottom: 20px;
+    margin-block: 0px 20px;
     font-weight: $font-weight-medium;
   }
 
   #{$c}__select {
-    width: fit-content;
+    position: absolute;
     height: fit-content;
     margin: 0 auto;
-  }
-
-  // BOOLEANS
-  &--open {
-    margin-block-end: 70px;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
   }
 }
 </style>
