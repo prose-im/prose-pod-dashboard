@@ -181,15 +181,26 @@ $c: ".c-emojis-reactions-row";
 
   #{$c}__checkbox {
     border: 1px solid red;
-    margin-right: 28px;
+    min-width: 24px;
+    max-width: 46px;
+    margin-right: 10px;
+    flex: 1 1 0;
   }
 
   #{$c}__image {
     border: 1px solid red;
-    min-width: 36.5px;
+    min-width: 30px;
     max-width: 82px;
-    margin-right: 9.5px;
+    margin-right: 10px;
     flex: 1 1 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    p {
+      margin-block: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   #{$c}__shortcut {
@@ -198,18 +209,32 @@ $c: ".c-emojis-reactions-row";
     max-width: 142px;
     margin-right: 10px;
     flex: 1 1 0;
+
+    p {
+      margin-block: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   #{$c}__date {
     border: 1px solid red;
-    min-width: 105px;
-    max-width: 188px;
-    margin-right: 15px;
+    min-width: 50px;
+    max-width: 193px;
+    margin-right: 10px;
+    white-space: nowrap;
     flex: 1 1 0;
     font-weight: $font-weight-light;
+    overflow: hidden;
 
     &--header {
       font-weight: $font-weight-regular;
+    }
+
+    p {
+      margin-block: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -218,13 +243,20 @@ $c: ".c-emojis-reactions-row";
 
     display: flex;
     align-items: center;
-    min-width: 105px;
-    max-width: 35%;
-    margin-right: 15px;
-    flex: 1 1 auto;
+    min-width: 100px;
+    max-width: 36%;
+    margin-right: 10px;
+    flex: 1 1 0;
+    white-space: nowrap;
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &--avatar {
       margin-right: 9px;
+      flex: none;
     }
   }
 
