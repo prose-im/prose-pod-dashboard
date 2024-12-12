@@ -22,14 +22,22 @@
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
         ]`
-      ) Crisp 
+      ) Crisp &nbsp; 
+
+      .c-base-identity-badge__server-title-right
+        p(
+          :class=`[
+            "c-base-identity-badge__server-description",
+            "c-base-identity-badge--light"
+          ]`
+        ) | &nbsp;
       
-      p(
-        :class=`[
-          "c-base-identity-badge__server-description",
-          "c-base-identity-badge--light"
-        ]`
-      ) &nbsp; | &nbsp;crisp.chat
+        p(
+          :class=`[
+            "c-base-identity-badge__server-description",
+            "c-base-identity-badge--light"
+          ]`
+        ) crisp.chat
 
     .c-base-identity-badge__details
       span 
@@ -106,6 +114,11 @@ $c: ".c-base-identity-badge";
     &-title {
       display: flex;
       align-items: center;
+
+      &-right {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &-name {
@@ -137,6 +150,26 @@ $c: ".c-base-identity-badge";
 
   &--semibold {
     font-weight: $font-weight-medium;
+  }
+
+  // --> MEDIA QUERIES <--
+
+  @media (max-width: 768px) {
+    max-width: 140px;
+
+    #{$c}__server {
+      height: fit-content;
+      margin-left: 12px;
+
+      &-title {
+        display: block;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 922px) {
+    max-width: 210px;
+    box-sizing: border-box;
   }
 }
 </style>

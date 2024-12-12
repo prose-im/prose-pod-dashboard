@@ -37,22 +37,6 @@ export default {
     BaseIcon,
     BaseIdentityBadge,
   },
-
-  props: {},
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
-  },
 };
 </script>
 

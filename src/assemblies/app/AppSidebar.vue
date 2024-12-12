@@ -9,16 +9,16 @@
   ********************************************************************** -->
 
 <template lang="pug">
-  .a-app-sidebar
-    .a-app-sidebar__content
-      .a-app-sidebar__upper
-        sidebar-header
+.a-app-sidebar
+  .a-app-sidebar__content
+    .a-app-sidebar__upper
+      sidebar-header
 
-        sidebar-accordion(
-          :items="items"
-        )
+      sidebar-accordion(
+        :items="items"
+      )
 
-      sidebar-footer
+    sidebar-footer
 </template>
 
 <!-- **********************************************************************
@@ -129,6 +129,12 @@ export default {
 $c: ".a-app-sidebar";
 
 #{$c} {
+  display: flex;
+
+  #{$c}__upper {
+    width: fit-content;
+  }
+
   #{$c}__content {
     display: flex;
     flex-direction: column;
@@ -137,10 +143,16 @@ $c: ".a-app-sidebar";
     padding-bottom: 30px;
     padding-left: 34px;
     padding-right: 32px;
-    height: 100%;
     border-right: solid 1px $color-border-secondary;
     box-sizing: border-box;
     overflow-y: scroll;
+  }
+
+  @media (max-width: 768px) {
+    #{$c}__content {
+      padding-left: 24px;
+      padding-right: 22px;
+    }
   }
 }
 </style>

@@ -9,14 +9,14 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-accordion
-    form-select-accordion(
-      v-for="item in items"
-      v-model="activeCategory"
-      :options="item.subcategories"
-      :search="false"
-      :placeholder="item.value"
-    )
+.c-sidebar-accordion
+  form-select-accordion(
+    v-for="item in items"
+    v-model="activeCategory"
+    :options="item.subcategories"
+    :search="false"
+    :placeholder="item.value"
+  )
 </template>
 
 <!-- **********************************************************************
@@ -131,5 +131,9 @@ $c: ".c-sidebar-accordion";
 #{$c} {
   font-family: $font-family-default;
   margin-block-end: 45px;
+
+  @media (max-width: 768px) {
+    width: fit-content;
+  }
 }
 </style>

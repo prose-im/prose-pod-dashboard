@@ -9,16 +9,18 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-sidebar-footer
+.c-sidebar-footer
+  .c-sidebar-footer__content
     .c-sidebar-footer__left
-      base-avatar(
-        avatarDataUrl="https://avatars.githubusercontent.com/u/1451907?v=4"
-      )
+      .c-sidebar-footer__avatar
+        base-avatar(
+          avatarDataUrl="https://avatars.githubusercontent.com/u/1451907?v=4"
+        )
 
-    .c-sidebar-footer__center
-      p Valerian Saliou
+      .c-sidebar-footer__center
+        p Valerian Saliou
 
-      base-badge
+        base-badge
 
     .c-sidebar-footer__right
       base-button(
@@ -27,7 +29,6 @@
         size="medium"
       )
         | Logout
-
 </template>
 
 <!-- **********************************************************************
@@ -97,22 +98,59 @@ $c: ".c-sidebar-footer";
 
 #{$c} {
   display: flex;
-  align-items: center;
+  align-items: end;
 
-  #{$c}__left {
-    margin-right: 13px;
+  #{$c}__content {
+    display: flex;
+    width: 254px;
   }
 
-  #{$c}__center {
-    text-align: left;
-    margin-right: 51px;
-    p {
-      margin-top: 0px;
-      margin-bottom: 5.5px;
-      font-weight: $font-weight-medium;
-      font-size: ($font-size-baseline - 1.5px);
-      font-family: $font-family-default;
-      line-height: 11px;
+  #{$c}__left {
+    display: flex;
+    margin-right: 10px;
+    min-width: 80px;
+    max-width: 184px;
+    flex: 1 1 0;
+
+    #{$c}__avatar {
+      margin-right: 13px;
+    }
+
+    #{$c}__center {
+      text-align: left;
+
+      p {
+        margin-top: 0px;
+        margin-bottom: 5.5px;
+        font-weight: $font-weight-medium;
+        font-size: ($font-size-baseline - 1.5px);
+        font-family: $font-family-default;
+        line-height: 11px;
+      }
+    }
+  }
+
+  // --> MEDIA QUERIES <--
+
+  @media (max-width: 768px) {
+    #{$c}__content {
+      display: block;
+      width: fit-content;
+
+      #{$c}__left {
+        margin-block-end: 10px;
+      }
+
+      #{$c}__right {
+        //text-align: end;
+        margin-inline-start: 0px;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 922px) {
+    #{$c}__content {
+      width: 210px;
     }
   }
 }
