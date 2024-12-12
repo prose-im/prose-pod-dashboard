@@ -14,7 +14,7 @@ base-modal(
   title="Invite a team member"
   button-color="purple"
   button-label="Invite Team Member"
-  @close="$emit('close')"
+  @close="onClose"
   @confirm="onSendInvite"
 )
   .a-invite-team-member
@@ -134,13 +134,8 @@ export default {
           // Let user know the invitaion was sent
           BaseAlert.success("An invitation has been sent", "");
 
-          // Reset values
-          this.inviteEmail = "";
-          this.inviteUserName = "";
-          this.inviteRole = Roles.Member;
-
-          // Close modal
-          this.$emit("close", true);
+          //Reset values and close modal
+          this.onClose();
         } catch (error) {
           console.error("Invite Error", error.message);
 
@@ -160,6 +155,16 @@ export default {
       if (value.includes("@") && !this.inviteUserName) {
         this.inviteUserName = value.split("@")[0];
       }
+    },
+
+    onClose() {
+      // Reset values
+      this.inviteEmail = "";
+      this.inviteUserName = "";
+      this.inviteRole = Roles.Member;
+
+      // Close modal
+      this.$emit("close", true);
     },
   },
 };

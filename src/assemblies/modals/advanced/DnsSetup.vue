@@ -10,11 +10,11 @@
 
 <template lang="pug">
 base-modal(
+  @close="$emit('close')"
+  @load="onLoad"
   :visible="visibility"
   title="DNS setup instructions"
   button-label="Add custom Emoji"
-  @close="$emit('close')"
-  @load="onLoad"
 )
   .a-dns-setup
     base-modal-input-block(

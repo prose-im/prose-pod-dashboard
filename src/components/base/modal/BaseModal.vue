@@ -15,9 +15,7 @@ teleport(
     enter-active-class="u-animate u-animate--fade-in u-animate--fast"
     leave-active-class="u-animate u-animate--fade-out u-animate--fast"
   )
-    .c-base-modal(
-      v-if="visible"
-    )
+    .c-base-modal
       base-modal-background(
         :position="position"
         @closeModal="onClose"
@@ -120,8 +118,11 @@ export default {
 
   watch: {
     visible(newVisibility, oldVisibility) {
+      //console.log("new visibility");
       setTimeout(() => (this.loaded = newVisibility), 10);
 
+      // If the visibility has changed and is true,
+      // the baseModal can load its contents
       if (newVisibility === true && newVisibility !== oldVisibility) {
         this.$emit("load");
       }

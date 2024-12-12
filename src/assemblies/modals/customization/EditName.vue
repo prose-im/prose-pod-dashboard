@@ -10,12 +10,13 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose" 
+  @confirm="onProceed"
+  :visible="visibility"
   position="center"
   title="Change your workspace name"
   button-color="purple"
   button-label="Change name"
-  @close="onClose"
-  @confirm="onProceed"
 )
   .a-edit-name
     base-modal-input-block(
@@ -48,7 +49,12 @@ export default {
     BaseModalInputBlock,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close"],
 
@@ -59,7 +65,13 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    label() {
+      const name = store.$customizationWorkspace.getWorkspaceName();
+
+      return `New name for ${name}`;
+    },
+  },
 
   watch: {},
 

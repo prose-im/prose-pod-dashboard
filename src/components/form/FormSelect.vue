@@ -159,6 +159,7 @@ export default {
   components: {
     BaseIcon
   },
+
   props: {
     modelValue: {
       type: String || Boolean,
