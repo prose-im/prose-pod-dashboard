@@ -33,7 +33,8 @@
 
 <!-- Modal -->
 add-custom-emoji(
-  :visible="isModalVisible"
+  v-if="isModalVisible"
+  :visible="modalVisibility"
   @close="toggleModalVisible"
   @confirm=""
 )
@@ -71,6 +72,8 @@ export default {
     return {
       // --> STATE <--
       isModalVisible: false,
+
+      modalVisibility: false,
     };
   },
 
@@ -80,7 +83,11 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    isModalVisible(newValue) {
+      setTimeout(() => (this.modalVisibility = newValue), 10);
+    },
+  },
 
   mounted() {
     store.$customizationEmojis.loadAllReactions();

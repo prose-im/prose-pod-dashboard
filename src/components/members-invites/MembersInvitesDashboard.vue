@@ -51,18 +51,21 @@
 
 <!-- Modals -->
 invite-team-member(
-  :visibility="isInviteModalVisible"
+  v-if="isInviteModalVisible"
+  :visibility="inviteModalVisibility"
   @close="toggleInviteModalVisible"
 )
 
 edit-role(
-  :visibility="isEditRoleModalVisible"
+  v-if="isEditRoleModalVisible"
+  :visibility="editRoleModalVisibility"
   :user="userToUpdate"
   @close="toggleEditRoleModalVisible"
 )
 
 delete-member(
-  :visibility="isDeleteMemberModalVisible" 
+  v-if="isDeleteMemberModalVisible" 
+  :visibility="deleteMemberModalVisibility" 
   :jid="userToUpdate?.jid"
   @close="toggleDeleteMemberModalVisible"
 )
@@ -115,9 +118,15 @@ export default {
       // --> STATE <--
       isInviteModalVisible: false,
 
+      inviteModalVisibility: false,
+
       isEditRoleModalVisible: false,
 
+      editRoleModalVisibility: false,
+
       isDeleteMemberModalVisible: false,
+
+      deleteMemberModalVisibility: false,
 
       userToUpdate: null as object | null,
 
@@ -191,7 +200,19 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    isInviteModalVisible(newValue) {
+      setTimeout(() => (this.inviteModalVisibility = newValue), 10);
+    },
+
+    isEditRoleModalVisible(newValue) {
+      setTimeout(() => (this.editRoleModalVisibility = newValue), 10);
+    },
+
+    isDeleteMemberModalVisible(newValue) {
+      setTimeout(() => (this.deleteMemberModalVisibility = newValue), 10);
+    },
+  },
 
   mounted() {
     console.log(`Loading memebers`);
@@ -297,6 +318,7 @@ $c: ".c-members-invites-dashboard";
   justify-content: space-between;
 
   #{$c}__scroll {
+    min-height: 400px;
     flex: 1 1 0;
     overflow: scroll;
   }

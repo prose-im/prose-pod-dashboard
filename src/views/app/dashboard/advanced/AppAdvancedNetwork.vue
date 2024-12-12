@@ -24,14 +24,16 @@
   
 <!-- Modals -->
  
-dns-setup(
-  :visibility="isDnsInstructionsModalVisible"
+dns-setup( 
+  v-if="isDnsInstructionsModalVisible"
+  :visibility="dnsInstructionsModalVisibility"
   @close="toggleDnsInstructionsModalVisible"
   @proceed=""
 )
 
 configuration-checker(
-  :visibility="isNetworkCheckModalVisible"
+  v-if="isNetworkCheckModalVisible"
+  :visibility="networkCheckModalVisibility"
   @close="toggleNetworkCheckModalVisible"
   @proceed=""
 )
@@ -69,7 +71,11 @@ export default {
       // --> STATE <--
       isDnsInstructionsModalVisible: false,
 
+      dnsInstructionsModalVisibility: false,
+
       isNetworkCheckModalVisible: false,
+
+      networkCheckModalVisibility: false,
 
       federationItems: [
         {
@@ -132,7 +138,15 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    isDnsInstructionsModalVisible(newValue) {
+      setTimeout(() => (this.dnsInstructionsModalVisibility = newValue), 10);
+    },
+
+    isNetworkCheckModalVisible(newValue) {
+      setTimeout(() => (this.networkCheckModalVisibility = newValue), 10);
+    },
+  },
 
   mounted() {
     return store.$settingsNetwork.loadFederationConfiguration();

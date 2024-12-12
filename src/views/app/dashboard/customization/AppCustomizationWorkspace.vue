@@ -9,35 +9,38 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.v-app-customization-workspace
-  base-subsection(
-    v-model="config.workspaceProfile"
-    title="Workspace Profile"
-    :items="profileItems"
+  .v-app-customization-workspace
+    base-subsection(
+      v-model="config.workspaceProfile"
+      title="Workspace Profile"
+      :items="profileItems"
+    )
+  
+    base-subsection(
+      v-model="config.appearance"
+      title="Apps Appearance"
+      :items="appearanceItems"
+      @update="onAppearanceUpdate"
+    )
+  
+  <!-- Modals -->
+  edit-name(
+    v-if="isEditNameVisible"
+    :visibility="editNameVisibility"
+    @close="toggleEditNameModalVisible"
   )
-
-  base-subsection(
-    v-model="config.appearance"
-    title="Apps Appearance"
-    :items="appearanceItems"
-    @update="onAppearanceUpdate"
+  
+  edit-logo(
+    v-if="isEditLogoVisible"
+    :visibility="editLogoVisibility"
+    @close="toggleEditLogoModalVisible"
   )
-
-<!-- Modals -->
-edit-name(
-  :visible="isEditNameVisible"
-  @close="toggleEditNameModalVisible"
-)
-
-edit-logo(
-  :visible="isEditLogoVisible"
-  @close="toggleEditLogoModalVisible"
-)
-
-edit-detail-card(
-  :visible="isEditDetailCardVisible"
-  @close="toggleEditDetailCardModalVisible"
-)
+  
+  edit-detail-card(
+    v-if="isEditDetailCardVisible"
+    :visibility="isEditDetailCardVisible"
+    @close="toggleEditDetailCardModalVisible"
+  )
 </template>
 
 <!-- **********************************************************************
@@ -69,17 +72,17 @@ export default {
     EditName,
   },
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
 
       isEditNameVisible: false,
 
+      editNameVisibility: false,
+
       isEditLogoVisible: false,
+
+      editLogoVisibility: false,
 
       isEditDetailCardVisible: false,
 
@@ -154,7 +157,15 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    isEditNameVisible(newVisibility) {
+      setTimeout(() => (this.editNameVisibility = newVisibility), 10);
+    },
+
+    isEditLogoVisible(newVisibility) {
+      setTimeout(() => (this.editLogoVisibility = newVisibility), 10);
+    },
+  },
 
   mounted() {
     store.$customizationWorkspace.loadWorkspaceConfig();
@@ -196,8 +207,8 @@ export default {
 </script>
 
 <!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
+       STYLE
+       ********************************************************************** -->
 
 <style lang="scss">
 $c: ".v-app-customization-workspace";

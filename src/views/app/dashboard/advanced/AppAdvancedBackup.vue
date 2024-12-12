@@ -30,13 +30,15 @@
 
 <!-- Modals -->
 restore-backup(
-  :visibility="isRestoreModalVisible"
+  v-if="isRestoreModalVisible"
+  :visibility="restoreModalVisibility"
   @close="toggleRestoreModalVisible"
   @proceed=""
 )
 
 factory-reset(
-  :visibility="isResetModalVisible"
+  v-if="isResetModalVisible"
+  :visibility="resetModalVisibility"
   @close="toggleResetModalVisible"
 )
 </template>
@@ -72,7 +74,11 @@ export default {
       // --> STATE <--
       isRestoreModalVisible: false,
 
+      restoreModalVisibility: false,
+
       isResetModalVisible: false,
+
+      resetModalVisibility: false,
 
       backupItems: [
         {
@@ -190,7 +196,15 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    isRestoreModalVisible(newVisibility) {
+      setTimeout(() => (this.restoreModalVisibility = newVisibility), 10);
+    },
+
+    isResetModalVisible(newVisibility) {
+      setTimeout(() => (this.resetModalVisibility = newVisibility), 10);
+    },
+  },
 
   mounted() {
     return store.$settingsBackup.loadConfig();
