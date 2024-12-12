@@ -194,6 +194,12 @@ $toggle-field-height: ($toggle-height - (2 * $toggle-handle-offset));
       cursor: wait;
     }
 
+    #{$c}__input {
+      &:checked + #{$c}__field {
+        background-color: rgba($color-base-purple-normal, 0.7);
+      }
+    }
+
     #{$c}__field {
       pointer-events: none;
     }
