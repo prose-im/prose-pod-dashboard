@@ -10,13 +10,13 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose"
+  @confirm="onProceed"
   :visible="visibility"
   title="Restore this Pod from backup"
   button-color="red"
   button-label="Restore This Backup"
   :flex-container="true"
-  @close="$emit('close')"
-  @confirm="onProceed"
 )
   .a-restore-backup
     .a-restore-backup__top
@@ -41,13 +41,14 @@ base-modal(
                   | &nbsp;file:
 
               base-upload-button(
-                label="Choose settings backup..."
                 @filePicked="onSettingsFilePicked"
+                accept=".settings.backup"
+                label="Choose settings backup..."
+                width="168px"
               )
 
               .a-restore-backup__uploaded(
                 v-if="settingsBackupFileName"
-                class="a-restore-backup--flex"
               )
                 p
                   | {{ settingsBackupFileName }}
@@ -78,14 +79,15 @@ base-modal(
                   | &nbsp;archive:
 
               base-upload-button(
-                label="Choose data backup..."
-                :disabled="!settingsBackupFile"
                 @filePicked="onDataFilePicked"
+                :disabled="!settingsBackupFile"
+                accept=".data.backup"
+                label="Choose data backup..."
+                width="150px"
               )
               
               .a-restore-backup__uploaded(
                 v-if="dataBackupFileName"
-                class="a-restore-backup--flex"
               )
                 p
                   | {{ dataBackupFileName }}
@@ -221,19 +223,24 @@ export default {
           "Please confirm that you have read and accept all the conditions"
         );
       } else {
-        // Reset state
-        this.dataBackupFile = null;
-        this.settingsBackupFile = null;
-
-        this.dataBackupFileName = "";
-        this.settingsBackupFileName = "";
-
-        this.password = "";
-        this.dataLossConfirmed = false;
-
-        // Close modal
-        this.$emit("close");
+        // Reset state and close modal
+        this.onClose();
       }
+    },
+
+    onClose() {
+      // Reset state
+      this.dataBackupFile = null;
+      this.settingsBackupFile = null;
+
+      this.dataBackupFileName = "";
+      this.settingsBackupFileName = "";
+
+      this.password = "";
+      this.dataLossConfirmed = false;
+
+      // Close modal
+      this.$emit("close");
     },
   },
 };
@@ -302,6 +309,9 @@ $c: ".a-restore-backup";
     color: $color-base-green-normal;
     font-weight: $font-weight-mid;
     margin-block-start: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--icon {
       margin-inline-start: 5px;
