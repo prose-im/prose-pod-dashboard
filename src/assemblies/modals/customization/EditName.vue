@@ -20,9 +20,10 @@ base-modal(
   .a-edit-name
     base-modal-input-block(
       v-model="newName"
-      label="New name"
+      :label="label"
       placeholder="ex: iCorp"
       type="text"
+      autofocus
     )
 </template>
 

@@ -21,6 +21,7 @@
     :placeholder="placeholder"
     v-bind="$attrs"
     @change="onChange"
+    :autofocus="autofocus"
   )
 </template>
 
@@ -58,6 +59,11 @@ export default {
     type: {
       type: String,
       default: "text",
+    },
+
+    autofocus: {
+      type: Boolean,
+      default: false,
     },
   },
 

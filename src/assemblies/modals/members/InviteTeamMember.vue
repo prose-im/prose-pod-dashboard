@@ -24,6 +24,7 @@ base-modal(
       label="Email to Invite"
       placeholder="Enter e-mail address to invite..."
       @change="onChange"
+      autofocus
     )
 
     base-modal-input-block(
