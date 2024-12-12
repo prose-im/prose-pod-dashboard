@@ -13,22 +13,7 @@ import { defineStore } from "pinia";
 import mitt from "mitt";
 
 // PROJECT: UTILITIES
-import APIAdvancedSecurity  from "@/api/providers/advancedSecurity";
-import store from "..";
-
-/**************************************************************************
- * INSTANCES
- * ************************************************************************* */
-
-const EventBus = mitt();
-
-/**************************************************************************
- * CONSTANTS
- * ************************************************************************* */
-
-const LOCAL_STATES = {
-  configLoaded: false
-};
+import store from "@/store/index";
 
 /**************************************************************************
  * TABLE
@@ -60,11 +45,6 @@ const $settingsSecurity = defineStore("settingsSecurity", {
   },
 
   actions: {
-    events(): ReturnType<typeof mitt> {
-      // Return event bus
-      return EventBus;
-    },
-
     async loadConfig(): Promise<void> {
       await store.$globalConfig.loadGlobalConfig();
 

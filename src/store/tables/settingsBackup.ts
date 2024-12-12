@@ -11,10 +11,7 @@
 // NPM
 import { defineStore } from "pinia";
 import mitt from "mitt";
-import store from "..";
-
-// PROJECT: BROKER
-// import Broker from "@/broker";
+import store from "@/store/index";
 
 /**************************************************************************
  * ENUMERATIONS
@@ -88,8 +85,8 @@ const $settingsBackup = defineStore("settingsBackup", {
       return EventBus;
     },
 
-    async loadConfig(reload = false): Promise<void> {
-      // Load channels? (or reload)
+    async loadConfig(): Promise<void> {
+      // Load Config? (or reload)
       await store.$globalConfig.loadGlobalConfig();
 
       const response = await store.$globalConfig.getGlobalConfig();

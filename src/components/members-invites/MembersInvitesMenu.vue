@@ -109,7 +109,7 @@ export default {
       }
     },
 
-    onOptionMouseLeave(index: number): void {
+    onOptionMouseLeave(): void {
       this.hoveredIndex = -1;
     },
 

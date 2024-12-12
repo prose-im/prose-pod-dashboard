@@ -13,7 +13,7 @@ import mitt from "mitt";
 import { defineStore } from "pinia"; 
 
 import APIAdvancedNetwork, { CheckData, DnsStep } from "@/api/providers/advancedNetwork";
-import store from "..";
+import store from "@/store/index";
 
 /**************************************************************************
  * ENUMERATIONS

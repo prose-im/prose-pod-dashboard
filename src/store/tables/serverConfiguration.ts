@@ -16,7 +16,7 @@ import mitt from "mitt";
 import APIServerConfiguration from '@/api/providers/serverConfiguration';
 
 // STORE
-import store from "..";
+import store from "@/store/index";
 
 //TYPES
 import { ServerConfig } from "@/api/providers/global";
