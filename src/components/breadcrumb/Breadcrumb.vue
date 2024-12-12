@@ -19,18 +19,18 @@
         v-for="(crumb, index) in breadcrumbs" 
         :key="index"
       )
-        span(
-        ) 
+        span
           | {{ crumb }} 
 
-        base-icon(
-          v-if="index !== breadcrumbs.length -1"
-          class="c-breadcrumb__icon"
-          name="chevron.right"
-          size="11px"
-          width="6.35px"
-          fill="#949eb1"
-        )
+        span
+          base-icon(
+            v-if="index !== breadcrumbs.length -1"
+            class="c-breadcrumb__icon"
+            name="chevron.right"
+            size="11px"
+            width="6.35px"
+            fill="#949eb1"
+          )
 
     base-tooltip(
       tooltip="Coming soon"
@@ -177,6 +177,8 @@ $c: ".c-breadcrumb";
       li {
         color: $color-base-grey-normal;
         font-weight: $font-weight-light;
+        display: flex;
+        align-items: center;
 
         &:last-child {
           color: $color-black;
