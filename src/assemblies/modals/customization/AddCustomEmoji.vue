@@ -28,17 +28,11 @@ base-modal(
         borderRadius="7px"
       )
 
-      base-button(
-        tint="white"
-      )
-        | Upload image...
-
-      input(
-        type="file"
-        class="a-add-custom-emoji__input"
-        ref="fileInput"
+      base-upload-button(
+        @filePicked="onFilePicked"
         accept="image/*"
-        @change="onFilePicked"
+        label="Upload image..."
+        width="117px"
       )
 
     h4
@@ -71,7 +65,7 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
+import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormField from "@/components/form/FormField.vue";
@@ -82,9 +76,9 @@ export default {
 
   components: {
     BaseAvatar,
-    BaseButton,
     BaseIcon,
     BaseModal,
+    BaseUploadButton,
     FormField,
   },
 

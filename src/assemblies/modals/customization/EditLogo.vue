@@ -10,13 +10,14 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose"
+  @confirm="onProceed"
+  :visible="visibility"
   position="center"
   title="Select new icon"
   button-color="purple"
   button-label="Change icon"
   :disabled="proceedDisabled"
-  @close="onClose"
-  @confirm="onProceed"
 )
   .a-edit-logo
     h4
@@ -24,7 +25,7 @@ base-modal(
 
     .a-edit-logo__upload
       base-avatar(
-        :avatar-data-url="imageUrl"
+        :avatar-data-url="chosenImageUrl"
         class="a-edit-logo__upload--avatar"
         size="60px"
         border-radius="7px"
@@ -32,17 +33,11 @@ base-modal(
       )
 
       .a-edit-logo__upload--left
-        base-button(
-          tint="white"
-        )
-          | Upload image...  
-
-        input(
-          type="file"
-          class="a-edit-logo__input"
-          ref="fileInput"
+        base-upload-button(
+          @filePicked="onFilePicked"
           accept="image/*"
-          @change="onFilePicked"
+          label="Upload image..."
+          width="117px"
         )
 
         p
@@ -57,7 +52,7 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
+import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
 import BaseModal from "@/components/base/modal/BaseModal.vue";
 
 // STORE
@@ -72,11 +67,16 @@ export default {
 
   components: {
     BaseAvatar,
-    BaseButton,
     BaseModal,
+    BaseUploadButton,
   },
 
-  props: {},
+  props: {
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   emits: ["close", "proceed"],
 
@@ -94,13 +94,20 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    currentImage() {
+      return ""; //store.$customizationWorkspace.getWorkspaceLogo();
+    },
 
-  watch: {},
+    chosenImageUrl() {
+      return this.imageUrl ? this.imageUrl : this.currentImage;
+    },
+  },
 
   methods: {
     // --> HELPERS <--
-    async compressImage(imageFile) {
+    async compressImage(imageFile: File) {
+      console.log("type", typeof imageFile, imageFile);
       console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
       console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
@@ -125,7 +132,7 @@ export default {
       this.$refs.fileInput.click();
     },
 
-    async onFilePicked(event) {
+    async onFilePicked(event: Event) {
       const files = event.target.files;
       let file = files[0];
       const fileType = file.type.split("/")[1];
@@ -145,7 +152,12 @@ export default {
       // Show image preview
       const fileReader = new FileReader();
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
+        if (!fileReader.result) {
+          BaseAlert.error("An error occurred");
+          return;
+        } else {
+          this.imageUrl = fileReader.result;
+        }
       });
 
       fileReader.readAsDataURL(file);
@@ -160,10 +172,6 @@ export default {
 
       // Enable proceed button
       this.proceedDisabled = false;
-
-      console.log("encoded file", file);
-      // console.log("image after encoding", this.image);
-      // console.log("type of image after encoding", typeof this.image);
     },
 
     // --> EVENT LISTENERS <--
@@ -171,12 +179,8 @@ export default {
       if (this.image) {
         store.$customizationWorkspace.updateWorkspaceIcon(this.image);
 
-        // Reinitialize variables
-        this.imageUrl = "";
-        this.image = "";
-
-        // Close modal
-        this.$emit("close");
+        // Reinitialize variables + close modal
+        this.onClose();
       } else {
         BaseAlert.error("Could not change your logo", "Please upload an image");
       }
@@ -219,7 +223,6 @@ $c: ".a-edit-logo";
     position: relative;
     padding-block: 13.5px;
     padding-left: 33px;
-    margin-bottom: 30px;
     border: 1px solid $color-border-secondary;
     border-radius: 7px;
 
@@ -232,7 +235,7 @@ $c: ".a-edit-logo";
     p {
       margin: 0;
       margin-block-start: 8px;
-      margin-inline-start: 2px;
+      margin-inline: 2px;
       font-size: ($font-size-baseline - 3px);
     }
   }
