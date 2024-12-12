@@ -17,16 +17,20 @@
     | {{ label }}
 
   input(
-    type="file"
+    @change="onChange"
     :class=`[
       "c-base-upload-button__input",
       {
         "c-base-upload-button__input--disabled": disabled
       }
     ]`
+    :accept="accept"
+    type="file"
     :disabled="disabled"
     ref="fileInput"
-    @change="onChange"
+    :style=`{
+      width: width
+    }`
   )
 </template>
 
@@ -46,6 +50,11 @@ export default {
   },
 
   props: {
+    accept: {
+      type: String,
+      required: true,
+    },
+
     label: {
       type: String,
       required: true,
@@ -54,6 +63,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+
+    width: {
+      type: String,
+      default: "120px",
     },
   },
 
@@ -79,12 +93,15 @@ export default {
 $c: ".c-base-upload-button";
 
 #{$c} {
+  width: min-content;
+  position: relative;
+
   #{$c}__input {
     position: absolute;
     cursor: pointer;
-    width: 120px;
-    left: 18%;
     opacity: 0;
+    left: 0%;
+    height: 100%;
 
     &--disabled {
       cursor: not-allowed;
