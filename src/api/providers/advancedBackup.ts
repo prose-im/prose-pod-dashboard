@@ -17,6 +17,9 @@ import Api from "@/api";
 
 export class APIAdvancedBackup {
   /* TODO */
+  async getBackupConfig(): Promise<void> {
+    return (await Api.client.get(``)).data;
+  }
 }
 
 /**************************************************************************

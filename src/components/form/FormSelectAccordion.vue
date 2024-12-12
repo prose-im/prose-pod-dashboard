@@ -287,10 +287,6 @@ export default {
       this.visible = false;
     },
 
-    scrollToOptionIndex(index: number): void {
-      const optionsElement = (this.$refs.options as HTMLElement) || null;
-    },
-
     eventOverrides(event: Event): void {
       event.stopPropagation();
       event.preventDefault();
@@ -300,10 +296,6 @@ export default {
 
     onHotkeyEnter(event: Event): void {
       this.eventOverrides(event);
-
-      if (this.hasOptions === true && this.hoveredIndex >= 0) {
-        const selectedOption = this.filteredOptions[this.hoveredIndex] || null;
-      }
     },
 
     onHotkeyEscape(event: Event): void {
@@ -324,8 +316,6 @@ export default {
         } else {
           this.hoveredIndex = 0;
         }
-
-        this.scrollToOptionIndex(this.hoveredIndex);
       }
     },
 
@@ -340,8 +330,6 @@ export default {
         } else {
           this.hoveredIndex = this.filteredOptions.length - 1;
         }
-
-        this.scrollToOptionIndex(this.hoveredIndex);
       }
     },
 
