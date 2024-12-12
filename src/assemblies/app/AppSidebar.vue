@@ -47,8 +47,6 @@ export default {
     },
   },
 
-  emits: ["addContact"],
-
   data() {
     return {
       // --> STATE <--
@@ -142,6 +140,7 @@ $c: ".a-app-sidebar";
     height: 100%;
     border-right: solid 1px $color-border-secondary;
     box-sizing: border-box;
+    overflow-y: scroll;
   }
 }
 </style>
