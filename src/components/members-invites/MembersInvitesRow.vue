@@ -298,25 +298,37 @@ $c: ".c-members-invites-row";
   font-family: $font-family-default;
 
   #{$c}__checkbox {
-    border: 1px solid blue;
-    margin-right: 28px;
-  }
-
-  #{$c}__avatar {
-    border: 1px solid blue;
-    margin-right: 17px;
-    min-width: 34px;
-  }
-
-  #{$c}__user {
-    border: 1px solid blue;
-    min-width: 170px;
-    max-width: 220px;
+    min-width: 24px;
+    max-width: 46px;
+    flex: 1 1 0;
+    //border: 1px solid blue;
     margin-right: 10px;
   }
 
+  #{$c}__avatar {
+    //border: 1px solid blue;
+    margin-right: 10px;
+    min-width: 34px;
+    max-width: 41px;
+    flex: 1 1 0;
+  }
+
+  #{$c}__user {
+    //border: 1px solid blue;
+    min-width: 100px;
+    max-width: 220px;
+    margin-right: 10px;
+    flex: 1 1 0;
+
+    p {
+      margin-block: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
   #{$c}__badge {
-    border: 1px solid blue;
+    //border: 1px solid blue;
     margin-right: 10px;
     max-width: 90px;
     flex: 1 1 0;
@@ -330,15 +342,17 @@ $c: ".c-members-invites-row";
 
   #{$c}__status {
     border: 1px solid blue;
-    min-width: 100px;
-    max-width: 16.3%;
+    min-width: 50px;
+    max-width: 15%;
+    margin-right: 10px;
     flex: 1 1 0;
   }
 
   #{$c}__encryption {
-    border: 1px solid blue;
+    //border: 1px solid blue;
     flex: 1 1 0;
     margin-right: 10px;
+    min-width: 66px;
 
     p {
       margin: 0;
@@ -372,6 +386,9 @@ $c: ".c-members-invites-row";
 
   #{$c}__parameters {
     position: relative;
+    width: 100px;
+    display: flex;
+    justify-content: end;
 
     &--button {
       margin: 0;
@@ -433,6 +450,12 @@ $c: ".c-members-invites-row";
 
   &--none {
     display: none;
+  }
+
+  @media (max-width: 768px) {
+    #{$c}__parameters {
+      justify-content: center;
+    }
   }
 }
 </style>

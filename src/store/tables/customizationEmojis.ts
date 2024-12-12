@@ -76,7 +76,7 @@ const $customizationEmojis = defineStore("room", {
             "https://emojis.slackmojis.com/emojis/images/1693897448/68276/1000046743.jpg?1693897448",
           shortcut: ":excellent:",
           date: "11 November 2012",
-          contributor: "Valerian Saliou",
+          contributor: "Karen Paloma Sanchez Rojas",
           contributorAvatar:
             "https://avatars.githubusercontent.com/u/1451907?v=4"
         },
