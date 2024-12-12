@@ -703,5 +703,11 @@ $sizes: (
       }
     }
   }
+
+  // --> MEDIA QUERIES <--
+
+  @media (max-width: 922px) {
+    max-width: 210px;
+  }
 }
 </style>
