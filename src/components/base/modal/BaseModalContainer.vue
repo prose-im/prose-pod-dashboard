@@ -181,12 +181,16 @@ $c: ".c-base-modal-container";
   border-bottom-left-radius: 14px;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+  flex: 1 1 0;
 
   #{$c}__title {
     font-weight: $font-weight-bolder;
     font-family: $font-family-default;
     font-size: ($font-size-page + 6px);
-    height: 9.5%;
+    max-height: 9.5%;
+    min-height: 70px;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -200,15 +204,17 @@ $c: ".c-base-modal-container";
     padding-top: 35.5px;
     padding-bottom: 26.5px;
     border-block: 1px solid $color-border-primary;
-    flex: 1 1 auto;
+    flex: 1 1 0;
   }
 
   #{$c}__footer {
+    background-color: $color-white;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
     height: 9%;
+    min-height: 70px;
 
     &--extra-button {
       margin-left: 12px;
@@ -218,16 +224,26 @@ $c: ".c-base-modal-container";
   //<!-- POSITIONS -->
 
   &--center {
+    max-width: 550px;
     min-width: 40%;
     border-radius: 14px;
     height: fit-content;
 
     #{$c}__title {
+      min-height: 0;
+      height: 9.5%;
       padding-block-start: 27.5px;
+      flex: 1 1 auto;
+    }
+
+    #{$c}__body {
+      overflow: initial;
+      padding-block: 35.5px;
     }
 
     #{$c}__footer {
       padding-block: 20px;
+      min-height: 0px;
     }
   }
 
