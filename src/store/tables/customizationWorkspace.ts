@@ -9,7 +9,6 @@
  * ************************************************************************* */
 
 // NPM
-import mitt from "mitt";
 import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
@@ -37,12 +36,6 @@ interface CustomizationWorkspaceConfig {
   workspaceProfile: WorkspaceProfileConfig;
   appearance: AppearanceConfig;
 }
-
-/**************************************************************************
- * INSTANCES
- * ************************************************************************* */
-
-const EventBus = mitt();
 
 /**************************************************************************
  * CONSTANTS
@@ -78,6 +71,18 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
           workspaceProfile: this.workspaceProfile,
           appearance: this.appearance
         };
+      };
+    },
+
+    getWorkspaceName: function () {
+      return () => {
+        return this.workspaceProfile.name;
+      };
+    },
+
+    getWorkspaceLogo: function () {
+      return () => {
+        return this.workspaceProfile.iconUrl;
       };
     }
   },
