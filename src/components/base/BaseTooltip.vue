@@ -219,6 +219,7 @@ $c: ".c-base-tooltip";
 #{$c} {
   display: inline-block;
   position: relative;
+  cursor: help;
 
   #{$c}__wrapped {
     display: contents;

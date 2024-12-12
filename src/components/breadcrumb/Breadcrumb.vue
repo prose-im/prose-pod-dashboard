@@ -33,7 +33,7 @@
         )
 
     base-tooltip(
-      tooltip="hello If you hsve any questions, just ask"
+      tooltip="Coming soon"
       align="center"
       direction="bottom"
     )
