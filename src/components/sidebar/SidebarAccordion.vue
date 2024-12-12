@@ -130,11 +130,6 @@ $c: ".c-sidebar-accordion";
 
 #{$c} {
   font-family: $font-family-default;
-
-  > * {
-    &:last-child {
-      margin-block-end: 0;
-    }
-  }
+  margin-block-end: 45px;
 }
 </style>

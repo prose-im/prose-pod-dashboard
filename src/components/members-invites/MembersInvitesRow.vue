@@ -320,7 +320,7 @@ $c: ".c-members-invites-row";
     margin-right: 10px;
     max-width: 90px;
     flex: 1 1 0;
-    min-width: 50px;
+    min-width: 56px;
 
     p {
       margin: 0;

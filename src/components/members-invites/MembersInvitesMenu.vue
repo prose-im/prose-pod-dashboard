@@ -51,12 +51,15 @@ div(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import MembersInvitesMenuOverlay from "./MembersInvitesMenuOverlay.vue";
 
 // CONSTANTS
 export default {
   name: "MembersInvitesMenu",
 
-  components: {},
+  components: {
+    MembersInvitesMenuOverlay,
+  },
 
   props: {
     options: {
@@ -113,6 +116,23 @@ export default {
     onOptionClick(event: Event): void {
       this.$emit("menuAction", event?.value);
     },
+
+    setVisible(is: boolean): void {
+      // Update visibility
+      this.isVisible = visible;
+
+      // Now visible? Proceed more actions
+      if (visible === true) {
+        // Update anchor position of root element
+        const rootElement = this.$refs.root as HTMLElement,
+          rootBounds = rootElement.getBoundingClientRect();
+
+        this.overlayAnchor = [rootBounds.left, rootBounds.top];
+        this.overlayOrigin = [rootBounds.width, rootBounds.height];
+      }
+    },
+
+    // --> EVENT LISTENERS <--
   },
 };
 </script>
