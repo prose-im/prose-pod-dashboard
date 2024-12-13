@@ -17,9 +17,15 @@
       }
     ]`
   )
-    .c-advanced-network-dns-table-row__slot(
+    div(
       ref="rowText"
-      class="c-advanced-network-dns-table-row--flex"
+      :class=`[
+        "c-advanced-network-dns-table-row__slot",
+        "c-advanced-network-dns-table-row--flex",
+        {
+          "u-select": !header
+        }
+      ]`
     )
       slot
 

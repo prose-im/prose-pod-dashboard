@@ -86,10 +86,7 @@ div(
           }
         ]`
       )
-        a(
-          :class=`[
-            "c-form-select__option--link",
-          ]`
+        a.c-form-select__option--link(
           @click="onOptionClick(option)"
         )
 
@@ -595,6 +592,7 @@ $sizes: (
 
       &--link {
         width: 100%;
+        cursor: pointer;
       }
 
       &--hovered {

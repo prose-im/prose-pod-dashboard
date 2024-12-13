@@ -88,7 +88,7 @@ export default {
   props: {
     modelValue: {
       type: [String, Number],
-      default: null,
+      default: null
     },
 
     type: {
@@ -129,7 +129,7 @@ export default {
 
       validator(x: string) {
         return ["left", "center", "right"].includes(x);
-      },
+      }
     },
 
     direction: {
@@ -138,56 +138,63 @@ export default {
 
       validator(x: string): boolean {
         return ["top", "bottom"].includes(x);
-      },
+      }
     },
 
     name: {
       type: String,
-      default: null,
+      default: null
     },
 
     placeholder: {
       type: String,
-      default: null,
+      default: null
     },
 
     rows: {
       type: Number,
-      default: 4,
+      default: 4
     },
 
     autocomplete: {
       type: String,
-      default: null,
+      default: null
     },
 
     submittable: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     autofocus: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     fieldClass: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
 
-  emits: ["update:modelValue", "keyup", "keystroke", "focus", "change", "submit"],
+  emits: [
+    "update:modelValue",
+    "keyup",
+    "keystroke",
+    "focus",
+    "change",
+    "submit"
+  ],
 
   data() {
     return {
@@ -195,7 +202,7 @@ export default {
 
       isFocused: false,
 
-      value: "",
+      value: ""
     };
   },
 
@@ -206,8 +213,8 @@ export default {
       handler(value) {
         // Update value in the state
         this.updateStateValue(value);
-      },
-    },
+      }
+    }
   },
 
   mounted() {
@@ -318,8 +325,8 @@ export default {
 
       // Propagate focus event
       this.$emit("focus", false);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -346,8 +353,7 @@ $c: ".c-form-field";
     transition-timing-function: linear;
     border-radius: $size-form-field-border-radius;
     box-sizing: border-box;
-    box-shadow: 0 3px 4px 0 rgba($color-border-primary, 0.01),
-      inset 0 1px 2px 0 rgba($color-black, 0.04);
+    box-shadow: inset 0 1px 2px 0 rgba($color-black, 0.04);
 
     &--textarea {
       height: 100%;

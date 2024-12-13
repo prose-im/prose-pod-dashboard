@@ -33,18 +33,6 @@
           @click="clickHandle"
         )
           | {{ buttonLabel }}
-
-        base-button(
-          class="c-search-bar__more"
-          tint="grey"
-          size="large"
-          :square="true"
-          :disabled="true"
-        )
-          base-icon(
-            name="dots.vertical"
-            fill="#949EB1"
-          )
 </template>
 
 <!-- **********************************************************************
@@ -125,10 +113,6 @@ $c: ".c-search-bar";
 
   #{$c}__right {
     display: flex;
-  }
-
-  #{$c}__more {
-    margin-left: 8px;
   }
 }
 </style>

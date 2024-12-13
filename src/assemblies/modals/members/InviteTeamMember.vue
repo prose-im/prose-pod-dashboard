@@ -30,6 +30,7 @@ base-modal(
     base-modal-input-block(
       v-model="inviteUserName"
       label="Username"
+      placeholder="Enter an username for user..."
       type="text"
     )
 

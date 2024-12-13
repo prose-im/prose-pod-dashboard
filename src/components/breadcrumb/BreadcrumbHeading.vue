@@ -31,17 +31,6 @@
             width="6.35px"
             fill="#949eb1"
           )
-
-    base-tooltip(
-      tooltip="Coming soon"
-      align="center"
-      direction="bottom"
-    )
-      base-icon(
-        name="questionmark.circle"
-        size="16px"
-        fill="#949eb1"
-      )
 </template>
 
 <!-- **********************************************************************

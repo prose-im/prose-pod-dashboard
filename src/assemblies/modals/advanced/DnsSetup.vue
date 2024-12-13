@@ -129,9 +129,15 @@ base-modal(
 
     span.a-dns-setup--bold
       | 👉 Need help?
+
+    base-space
+
     span
       | You can read the
-    span.a-dns-setup--link
+
+    base-space
+
+    a.a-dns-setup--link
       | DNS setup guide here.
 </template>
 
@@ -325,6 +331,10 @@ $c: ".a-dns-setup";
     color: $color-base-blue-normal;
     font-weight: $font-weight-regular;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>
