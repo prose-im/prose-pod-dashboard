@@ -70,65 +70,67 @@ div(
           p.c-base-subsection-item--grey
             | {{ (index<item.tags.length-2) ? ',' : '' }}
 
-    <!-- OPTIONAL ELEMENT -->
-    p(
-      v-if="item.slot === 'text'"
-      class="c-base-subsection-item__slot"
-    )
-      | {{ calculatedValue }}
 
-    base-avatar(
-      v-if="item.slot === 'avatar'"
-      :avatar-data-url="calculatedValue"
-      size="40px"
-      border-radius="20px"
-      :class=`[
-        "c-base-subsection-item__slot",
-        "c-base-subsection-item__slot--avatar"
-      ]`
-    )
+    .c-base-subsection-item__right
+      <!-- OPTIONAL ELEMENT -->
+      p(
+        v-if="item.slot === 'text'"
+        class="c-base-subsection-item__slot"
+      )
+        | {{ calculatedValue }}
 
-    <!-- INTERACTIVE ELEMENT -->
-    form-toggle(
-      v-if="type === 'toggle'"
-      v-model="calculatedValue"
-      :disabled="item.disabled"
-      @update:modelValue="onUpdateValue"
-    )
+      base-avatar(
+        v-if="item.slot === 'avatar'"
+        :avatar-data-url="calculatedValue"
+        size="40px"
+        border-radius="20px"
+        :class=`[
+          "c-base-subsection-item__slot",
+          "c-base-subsection-item__slot--avatar"
+        ]`
+      )
 
-    base-button(
-      v-if="type === 'button'"
-      :disabled="item.disabled"
-      :size="item.typeProps?.size"
-      :tint="buttonColor"
-      @click="$emit('click')"
-    )
-      | {{item.typeProps?.label}}
-
-    .c-base-subsection-item__select
-      form-select(
-        v-if="(type === 'select') || type === 'doubleSelect'"
+      <!-- INTERACTIVE ELEMENT -->
+      form-toggle(
+        v-if="type === 'toggle'"
         v-model="calculatedValue"
-        :color-prev="colorSquare"
         :disabled="item.disabled"
-        :options="item.typeProps?.options"
-        position="bottom"
-        size="medium"
-        :search="false"
         @update:modelValue="onUpdateValue"
       )
 
-      form-select(
-        v-if="type === 'doubleSelect'"
-        v-model="stateSecondSelect"
-        class="c-base-subsection-item__double-select"
+      base-button(
+        v-if="type === 'button'"
         :disabled="item.disabled"
-        :search="false"
-        size="medium"
-        :options="item.typeProps?.secondOptions"
-        position="bottom"
-        @update:modelValue="onUpdateExtraSelect"
+        :size="item.typeProps?.size"
+        :tint="buttonColor"
+        @click="$emit('click')"
       )
+        | {{item.typeProps?.label}}
+
+      .c-base-subsection-item__select
+        form-select(
+          v-if="(type === 'select') || type === 'doubleSelect'"
+          v-model="calculatedValue"
+          :color-prev="colorSquare"
+          :disabled="item.disabled"
+          :options="item.typeProps?.options"
+          position="bottom"
+          size="medium"
+          :search="false"
+          @update:modelValue="onUpdateValue"
+        )
+
+        form-select(
+          v-if="type === 'doubleSelect'"
+          v-model="stateSecondSelect"
+          class="c-base-subsection-item__double-select"
+          :disabled="item.disabled"
+          :search="false"
+          size="medium"
+          :options="item.typeProps?.secondOptions"
+          position="bottom"
+          @update:modelValue="onUpdateExtraSelect"
+        )
 
 </template>
 
@@ -350,12 +352,16 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  #{$c}__select {
+  #{$c}__right {
     display: flex;
-  }
 
-  #{$c}__double-select {
-    margin-inline-start: 3px;
+    #{$c}__select {
+      display: flex;
+    }
+
+    #{$c}__double-select {
+      margin-inline-start: 3px;
+    }
   }
 
   // <!-- SIMPLE COLORS -->
@@ -398,14 +404,24 @@ $c: ".c-base-subsection-item";
   // <!-- MEDIA QUERIES -->
 
   @media (max-width: 768px) {
-    #{$c}__select {
+    #{$c}__right {
       flex-direction: column;
       align-items: center;
-    }
 
-    #{$c}__double-select {
-      margin-inline-start: 0;
-      margin-block-start: 3px;
+      #{$c}__slot {
+        margin-inline-end: 0;
+        margin-block-end: 10px;
+      }
+
+      #{$c}__select {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #{$c}__double-select {
+        margin-inline-start: 0;
+        margin-block-start: 3px;
+      }
     }
   }
 }

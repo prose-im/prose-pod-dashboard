@@ -181,29 +181,29 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    MembersInvitesMenu
+    MembersInvitesMenu,
   },
 
   props: {
     avatarUrl: {
       type: String,
-      default: "../../assets/icons/missing.avatar.svg"
+      default: "../../assets/icons/missing.avatar.svg",
     },
 
     userData: {
       type: Object,
-      required: true
+      required: true,
     },
 
     userEnrichedData: {
       type: Object,
-      default: null
+      default: null,
     },
 
     tableHeaders: {
       type: Array,
-      default: null
-    }
+      default: null,
+    },
   },
 
   emits: ["menuAction"],
@@ -216,16 +216,16 @@ export default {
       menuOptions: [
         {
           value: "Security settings",
-          disabled: true
+          disabled: true,
         },
         {
-          value: "Change role"
+          value: "Change role",
         },
         {
           value: "Delete member",
-          color: "red"
-        }
-      ]
+          color: "red",
+        },
+      ],
     };
   },
 
@@ -238,7 +238,7 @@ export default {
       } else {
         return "";
       }
-    }
+    },
   },
 
   watch: {},
@@ -246,9 +246,7 @@ export default {
   methods: {
     // <-- EVENT LISTENERS -->
     onActionOnMember(): void {
-      this.userData.invitation_id
-        ? this.onCancelInvite()
-        : this.toggleMenuOpen();
+      this.userData.invitation_id ? this.onCancelInvite() : this.toggleMenuOpen();
     },
 
     onCancelInvite() {
@@ -266,8 +264,8 @@ export default {
 
     onMenuClickAway() {
       this.toggleMenuOpen();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -304,7 +302,8 @@ $c: ".c-members-invites-row";
     //border: 1px solid blue;
     min-width: 100px;
     max-width: 220px;
-    margin-right: 10px;
+    margin-inline-end: 10px;
+    margin-block: 0;
     flex: 1 1 0;
 
     p {
@@ -395,8 +394,7 @@ $c: ".c-members-invites-row";
     font-weight: $font-weight-medium;
     font-size: ($font-size-baseline - 0.5px);
     line-height: ($font-size-baseline + 1.5px);
-    margin-top: 0;
-    margin-bottom: 5.5px;
+    margin-block: 0;
   }
 
   &--submain {
@@ -414,10 +412,8 @@ $c: ".c-members-invites-row";
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 
-    p {
-      line-height: 13px;
-      margin-block: 11px;
-    }
+    line-height: 13px;
+    margin-block: 11px;
   }
 
   //<!-- COLORS -->

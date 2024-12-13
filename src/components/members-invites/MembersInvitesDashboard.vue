@@ -17,30 +17,31 @@
     placeholder-text="team members..."
   )
 
-  <!-- HEADERS -->
-  members-invites-row(
-    :user-data="{}"
-    :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
-  )
-
-  .c-members-invites-dashboard__scroll
-
-    <!-- INVITATIONS -->
+  .c-members-invites-dashboard__content
+    <!-- HEADERS -->
     members-invites-row(
-      v-if="pageNumber === 1"
-      v-for="(invite, index) in invites"
-      :user-data="invite"
+      :user-data="{}"
+      :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
 
-    <!-- MEMBERS -->
-    members-invites-row(
-      v-for="(user, index) in members"
-      class="c-members-invites-dashboard__users"
-      :key="user.jid"
-      :user-data="user"
-      :user-enriched-data="enrichedMembers[user.jid]"
-      @menuAction="onMenuAction"
-    )
+    .c-members-invites-dashboard__scroll
+
+      <!-- INVITATIONS -->
+      members-invites-row(
+        v-if="pageNumber === 1"
+        v-for="(invite, index) in invites"
+        :user-data="invite"
+      )
+
+      <!-- MEMBERS -->
+      members-invites-row(
+        v-for="(user, index) in members"
+        class="c-members-invites-dashboard__users"
+        :key="user.jid"
+        :user-data="user"
+        :user-enriched-data="enrichedMembers[user.jid]"
+        @menuAction="onMenuAction"
+      )
 
   base-navigation-footer(
     v-if="!searchTerm"
@@ -95,14 +96,14 @@ export default {
     EditRole,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar
+    SearchBar,
   },
 
   props: {
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -135,7 +136,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle"
+          type: "toggle",
         },
         {
           subtitle: "Message archive retention time",
@@ -144,8 +145,8 @@ export default {
           type: "button",
           typeProps: {
             label: "Edit details...",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
         {
           subtitle: "Message archive retention time",
@@ -156,17 +157,17 @@ export default {
             options: [
               {
                 icon: "",
-                label: "1 year"
+                label: "1 year",
               },
               {
                 icon: "",
-                label: "2 years"
-              }
+                label: "2 years",
+              },
             ],
-            size: "medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
@@ -193,7 +194,7 @@ export default {
 
     totalMemberNumber() {
       return this.allMembers.length;
-    }
+    },
   },
 
   watch: {
@@ -207,7 +208,7 @@ export default {
 
     isDeleteMemberModalVisible(newValue) {
       setTimeout(() => (this.deleteMemberModalVisibility = newValue), 10);
-    }
+    },
   },
 
   mounted() {
@@ -220,10 +221,7 @@ export default {
         // Login to account
         store.$teamMembers.loadActiveMembers();
       } catch (_) {
-        BaseAlert.error(
-          "Could not log in",
-          "Check your credentials and try again"
-        );
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
       } finally {
         this.isMembersLoading = false;
       }
@@ -237,10 +235,7 @@ export default {
         // Login to account
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
-        BaseAlert.error(
-          "Could not log in",
-          "Check your credentials and try again"
-        );
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
       } finally {
         this.isInvitesLoading = false;
       }
@@ -301,8 +296,8 @@ export default {
           break;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -319,15 +314,14 @@ $c: ".c-members-invites-dashboard";
   flex: 1;
   justify-content: space-between;
 
-  #{$c}__scroll {
-    min-height: 400px;
+  #{$c}__content {
+    overflow: auto;
     flex: 1 1 0;
-    overflow: scroll;
-  }
 
-  #{$c}__users {
-    &:nth-child(even) {
-      background-color: $color-base-purple-ultra-light;
+    #{$c}__users {
+      &:nth-child(even) {
+        background-color: $color-base-purple-ultra-light;
+      }
     }
   }
 }

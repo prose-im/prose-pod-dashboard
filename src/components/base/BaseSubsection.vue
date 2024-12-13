@@ -38,7 +38,8 @@
           size="9px"
           fill="#2490f0"
         )
-        | Restore defaults
+        p
+          | Restore defaults
 
     base-subsection-item(
       v-for="(item, index) in items"
@@ -112,12 +113,10 @@ export default {
       get() {
         if (Object.keys(this.modelValue).length > 0) {
           // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
-          return this.items.map(
-            (_, index) => Object.values(this.modelValue)[index]
-          );
+          return this.items.map((_, index) => Object.values(this.modelValue)[index]);
         }
 
-        return this.items.map(_ => "");
+        return this.items.map((_) => "");
       },
 
       set(nextValue: any[]) {
@@ -140,11 +139,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    updateValue(
-      newValue: boolean | string,
-      index: number,
-      element?: number
-    ): void {
+    updateValue(newValue: boolean | string, index: number, element?: number): void {
       // console.log("hearding", newValue, index, element);
 
       // Creating a copy of the modelValueObject
@@ -189,9 +184,10 @@ $c: ".c-base-subsection";
   #{$c}__title {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    align-items: end;
+    padding-block-end: 10px;
     margin-inline: 11px;
-    margin-bottom: 16px;
+    margin-block-end: 16px;
     border-bottom: 1px solid $color-border-secondary;
 
     h2 {
@@ -199,6 +195,7 @@ $c: ".c-base-subsection";
       font-weight: $font-weight-medium;
       padding-left: 10px;
       margin-block: 0;
+      margin-inline-end: 10px;
     }
 
     p {
@@ -218,16 +215,27 @@ $c: ".c-base-subsection";
   }
 
   #{$c}__restore {
+    display: flex;
+    align-items: center;
     height: fit-content;
     color: $color-base-blue-normal;
     font-size: $font-size-baseline - 1.5px;
-    padding-top: 6px;
-    padding-bottom: 3px;
-    padding-right: 14.5px;
+    padding-block-start: 6px;
+    padding-inline-start: 3px;
+    padding-inline-end: 14.5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     cursor: pointer;
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &--icon {
       margin-right: 4px;
+      flex: none;
     }
 
     &--disabled {
