@@ -37,7 +37,7 @@ base-modal(
 
     h4
       | Emoji shortcut
-      
+
     form-field(
       v-model="shortcut"
       type="text"
@@ -79,7 +79,7 @@ export default {
     BaseIcon,
     BaseModal,
     BaseUploadButton,
-    FormField,
+    FormField
   },
 
   props: {},
@@ -94,7 +94,7 @@ export default {
 
       image: "",
 
-      shortcut: "",
+      shortcut: ""
     };
   },
 
@@ -125,10 +125,12 @@ export default {
       const options = {
         day: "numeric",
         month: "long",
-        year: "numeric",
+        year: "numeric"
       };
 
-      const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
+      const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+        date
+      );
 
       const newReaction = {
         id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
@@ -136,7 +138,7 @@ export default {
         shortcut: this.shortcut,
         date: formattedDate,
         contributor: "Valerian Saliou",
-        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
+        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
       };
 
       store.$customizationEmojis.addReaction(newReaction);
@@ -150,8 +152,8 @@ export default {
       this.imageUrl = "";
       this.image = "";
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -164,7 +166,6 @@ $c: ".a-add-custom-emoji";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   h4 {
     color: $color-text-secondary;

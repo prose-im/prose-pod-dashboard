@@ -80,14 +80,14 @@ enum Level {
   // Info alert level.
   Info = "info",
   // Success alert level.
-  Success = "success",
+  Success = "success"
 }
 
 export enum Visibility {
   // Auto-hide visibility.
   AutoHide = "auto-hide",
   // Sticky visibility.
-  Sticky = "sticky",
+  Sticky = "sticky"
 }
 
 // INTERFACES
@@ -119,7 +119,7 @@ export default {
 
   components: {
     BaseAction,
-    BaseIcon,
+    BaseIcon
   },
 
   data() {
@@ -133,8 +133,8 @@ export default {
 
       timers: {
         show: null,
-        hide: null,
-      },
+        hide: null
+      }
     } as State;
   },
 
@@ -143,7 +143,7 @@ export default {
       level: Level.Error,
       title,
       description,
-      visibility,
+      visibility
     });
   },
 
@@ -152,7 +152,7 @@ export default {
       level: Level.Warning,
       title,
       description,
-      visibility,
+      visibility
     });
   },
 
@@ -161,7 +161,7 @@ export default {
       level: Level.Info,
       title,
       description,
-      visibility,
+      visibility
     });
   },
 
@@ -170,7 +170,7 @@ export default {
       level: Level.Success,
       title,
       description,
-      visibility,
+      visibility
     });
   },
 
@@ -235,9 +235,9 @@ export default {
 
     hotkeys(): { [name: string]: (event: Event) => void } {
       return {
-        esc: this.onHotkeyEscape,
+        esc: this.onHotkeyEscape
       };
-    },
+    }
   },
 
   created() {
@@ -257,7 +257,7 @@ export default {
       level,
       title,
       description = "",
-      visibility = ALERT_VISIBILITY_DEFAULT,
+      visibility = ALERT_VISIBILITY_DEFAULT
     }: {
       level: Level;
       title: string;
@@ -362,8 +362,8 @@ export default {
 
       // Hide alert
       this.hide();
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -411,7 +411,6 @@ $alert-padding-sides: 12px;
     }
 
     #{$c}__text {
-      font-family: $font-family-default;
       line-height: 17px;
       margin-block-start: -1px;
       padding-inline: 26px 51px;

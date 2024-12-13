@@ -297,7 +297,6 @@ $c: ".c-members-invites-row";
   align-items: center;
   padding-inline: 29px;
   padding-block: 18.5px;
-  font-family: $font-family-default;
 
   #{$c}__checkbox {
     min-width: 24px;

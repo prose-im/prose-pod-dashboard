@@ -33,11 +33,11 @@ base-modal(
               .a-restore-backup__step(
                 class="a-restore-backup--flex"
               )
-                p 
+                p
                   | 1️⃣  Please upload a&nbsp;
-                p.a-restore-backup--blue 
-                  | .settings.backup 
-                p 
+                p.a-restore-backup--blue
+                  | .settings.backup
+                p
                   | &nbsp;file:
 
               base-upload-button(
@@ -71,11 +71,11 @@ base-modal(
               .a-restore-backup--flex(
                 class="a-restore-backup__step"
               )
-                p 
+                p
                   | 2️⃣  Please upload a&nbsp;
-                p.a-restore-backup--blue 
-                  | .data.backup 
-                p 
+                p.a-restore-backup--blue
+                  | .data.backup
+                p
                   | &nbsp;archive:
 
               base-upload-button(
@@ -85,7 +85,7 @@ base-modal(
                 label="Choose data backup..."
                 width="150px"
               )
-              
+
               .a-restore-backup__uploaded(
                 v-if="dataBackupFileName"
               )
@@ -143,14 +143,14 @@ export default {
     BaseModalDisclaimer,
     BaseModalInputBlock,
     BaseUploadButton,
-    FormCheckbox,
+    FormCheckbox
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -168,7 +168,7 @@ export default {
 
       dataBackupFile: null,
 
-      dataBackupFileName: "",
+      dataBackupFileName: ""
     };
   },
 
@@ -241,8 +241,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -259,7 +259,6 @@ $c: ".a-restore-backup";
   flex-direction: column;
   justify-content: space-between;
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   #{$c}__block {
     border-radius: 7px;

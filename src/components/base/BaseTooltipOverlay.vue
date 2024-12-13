@@ -165,7 +165,6 @@ $tooltip-spacing-block: 6px;
 $tooltip-spacing-inline: -3px;
 
 #{$c} {
-  font-family: $font-family-default;
   font-weight: initial;
   line-height: 18px;
   user-select: none;

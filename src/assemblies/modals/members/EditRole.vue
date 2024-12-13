@@ -59,19 +59,19 @@ export default {
 
   components: {
     BaseModal,
-    FormSelect,
+    FormSelect
   },
 
   props: {
     user: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -86,13 +86,13 @@ export default {
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member,
+          value: Roles.Member
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin,
-        },
-      ],
+          value: Roles.Admin
+        }
+      ]
     };
   },
 
@@ -111,8 +111,8 @@ export default {
       set(value: Roles.Admin | Roles.Member) {
         console.log("set user role", value);
         this.newRole = value;
-      },
-    },
+      }
+    }
   },
 
   watch: {},
@@ -151,8 +151,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -166,7 +166,6 @@ $c: ".a-edit-role";
 #{$c} {
   display: flex;
   justify-content: center;
-  font-family: $font-family-default;
   padding-block-end: 40px;
 
   h4 {

@@ -57,19 +57,19 @@ export default {
 
   components: {
     BaseButton,
-    BaseIcon,
+    BaseIcon
   },
 
   props: {
     page: {
       type: Number,
-      required: true,
+      required: true
     },
 
     total: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
 
   emits: ["navFooterUpdate"],
@@ -99,14 +99,14 @@ export default {
       } else {
         return "#495462";
       }
-    },
+    }
   },
 
   watch: {},
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -123,7 +123,6 @@ $c: ".c-base-navigation-footer";
 
   #{$c}__content {
     color: $color-text-tertiary;
-    font-family: $font-family-default;
     font-size: ($font-size-baseline - 1px);
     display: flex;
     align-items: center;

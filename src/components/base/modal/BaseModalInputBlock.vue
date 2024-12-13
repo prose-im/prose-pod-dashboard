@@ -12,7 +12,7 @@
 .c-base-modal-input-block
   h4
     | {{ label }}
-    
+
   form-field(
     v-model="fieldValue"
     :type="type"
@@ -37,34 +37,34 @@ export default {
   name: "BaseModalInputBlock",
 
   components: {
-    FormField,
+    FormField
   },
 
   props: {
     modelValue: {
       type: String,
-      required: true,
+      required: true
     },
 
     label: {
       type: String,
-      required: true,
+      required: true
     },
 
     placeholder: {
       type: String,
-      default: "",
+      default: ""
     },
 
     type: {
       type: String,
-      default: "text",
+      default: "text"
     },
 
     autofocus: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -83,8 +83,8 @@ export default {
 
       set(value: string) {
         this.$emit("update:modelValue", value);
-      },
-    },
+      }
+    }
   },
 
   watch: {},
@@ -93,8 +93,8 @@ export default {
     // --> EVENT LISTENERS <--
     onChange(value: string | number): void {
       this.$emit("change", value);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -106,8 +106,6 @@ export default {
 $c: ".c-base-modal-input-block";
 
 #{$c} {
-  font-family: $font-family-default;
-
   h4 {
     color: $color-text-secondary;
     margin-top: 0;

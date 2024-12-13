@@ -39,7 +39,7 @@ export default {
     BaseButton,
     BaseIcon,
     BaseModal,
-    FormField,
+    FormField
   },
 
   props: {},
@@ -54,7 +54,7 @@ export default {
 
       image: "",
 
-      shortcut: "",
+      shortcut: ""
     };
   },
 
@@ -64,7 +64,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -77,7 +77,6 @@ $c: ".a-add-custom-emoji";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   h4 {
     color: $color-text-secondary;

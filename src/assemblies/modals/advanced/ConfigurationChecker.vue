@@ -154,6 +154,5 @@ $c: ".a-configuration-checker";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
 }
 </style>

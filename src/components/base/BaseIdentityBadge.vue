@@ -9,7 +9,7 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.c-base-identity-badge 
+.c-base-identity-badge
   base-icon(
     name="fake.logo"
     size="44px"
@@ -22,7 +22,7 @@
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
         ]`
-      ) Crisp &nbsp; 
+      ) Crisp &nbsp;
 
       .c-base-identity-badge__server-title-right
         p(
@@ -31,7 +31,7 @@
             "c-base-identity-badge--light"
           ]`
         ) | &nbsp;
-      
+
         p(
           :class=`[
             "c-base-identity-badge__server-description",
@@ -40,18 +40,18 @@
         ) crisp.chat
 
     .c-base-identity-badge__details
-      span 
-        | Server 
-        
-      span.c-base-identity-badge--light 
-        | v0.12.1 
+      span
+        | Server
 
-      span 
-        | + Pod 
+      span.c-base-identity-badge--light
+        | v0.12.1
 
-      span.c-base-identity-badge--light 
+      span
+        | + Pod
+
+      span.c-base-identity-badge--light
         | v0.1.3
-  
+
 </template>
 
 <!-- **********************************************************************
@@ -66,7 +66,7 @@ export default {
   name: "BaseIdentityBagde",
 
   components: {
-    BaseIcon,
+    BaseIcon
   },
 
   props: {},
@@ -83,7 +83,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -97,7 +97,6 @@ $c: ".c-base-identity-badge";
 #{$c} {
   display: flex;
   align-items: center;
-  font-family: $font-family-default;
   padding-inline-start: 6px;
   padding-inline-end: 31px;
   padding-block: 6px;

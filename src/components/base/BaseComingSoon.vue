@@ -15,7 +15,7 @@
       "c-base-conimg-soon--" + size,
     ]`
   )
-    p 
+    p
       | {{ text }}
   </template>
 
@@ -34,19 +34,19 @@ export default {
 
       validator(x: string) {
         return ["lower", "upper", "mix"].includes(x);
-      },
+      }
     },
 
     size: {
       type: String,
-      default: "short",
-    },
+      default: "short"
+    }
   },
 
   data() {
     return {
       // --> STATE <--
-      label: "Coming Soon",
+      label: "Coming Soon"
     };
   },
 
@@ -73,12 +73,12 @@ export default {
       }
 
       return comingSoon;
-    },
+    }
   },
 
   watch: {},
 
-  methods: {},
+  methods: {}
 };
 </script>
 
@@ -103,8 +103,8 @@ $badge-padding-inline: 7px;
   color: $color-white;
   font-weight: $font-weight-mid;
   font-size: ($font-size-baseline - 5.5px);
+  line-height: ($font-size-baseline - 1px);
   border-radius: 5px;
-  font-family: $font-family-default;
 
   p {
     margin: 0;

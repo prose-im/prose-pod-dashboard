@@ -81,15 +81,16 @@ $badge-padding-inline: 7px;
   color: $color-white;
   font-weight: $font-weight-mid;
   font-size: ($font-size-baseline - 4px);
+  line-height: ($font-size-baseline - 3px);
   border-radius: 5px;
-  font-family: $font-family-default;
 
   // --> SIZES <--
   &--long {
     text-align: center;
     min-width: 36px;
-    font-size: 11.5px;
-    padding-inline: ($badge-padding-inline + 3px);
+    font-size: ($font-size-baseline - 2.5px);
+    line-height: $font-size-baseline;
+    padding-inline: ($badge-padding-inline + 2px);
   }
 
   // --> BOOLEANS <--

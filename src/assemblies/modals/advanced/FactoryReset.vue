@@ -135,7 +135,6 @@ $c: ".a-factory-reset";
   flex: 1;
   justify-content: space-between;
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   #{$c}__disclaimer {
     margin-top: 4px;

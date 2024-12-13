@@ -287,7 +287,6 @@ $c: ".c-base-subsection-item";
 #{$c} {
   display: flex;
   align-items: center;
-  font-family: $font-family-default;
   padding-inline: 22px;
   padding-block: 11.5px;
 

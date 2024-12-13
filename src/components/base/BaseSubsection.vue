@@ -204,7 +204,6 @@ export default {
 $c: ".c-base-subsection";
 
 #{$c} {
-  font-family: $font-family-default;
   margin-top: 34.5px;
   margin-left: 38px;
   margin-right: 39px;

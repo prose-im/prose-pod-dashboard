@@ -8,7 +8,7 @@
    TEMPLATE
    ********************************************************************** -->
 
-<template lang="pug"> 
+<template lang="pug">
 transition(
   :enter-active-class="enterAnimation"
   :leave-active-class="leaveAnimation"
@@ -34,7 +34,7 @@ transition(
       ]`
     )
       slot
-    
+
     .c-base-modal-container__footer
       base-button(
         :size="buttonSize"
@@ -66,13 +66,13 @@ export default {
   name: "BaseModalContainer",
 
   components: {
-    BaseButton,
+    BaseButton
   },
 
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     titleColor: {
@@ -81,7 +81,7 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     buttonColor: {
@@ -90,27 +90,27 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      },
+      }
     },
 
     buttonLabel: {
       type: String,
-      default: "",
+      default: ""
     },
 
     containerVisible: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     flexBody: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     position: {
@@ -119,8 +119,8 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   emits: ["closeModal", "confirmAction"],
@@ -150,7 +150,7 @@ export default {
       return this.position === "left"
         ? "u-animate u-animate--slide-out"
         : "u-animate u-animate--fade-out-down-small";
-    },
+    }
   },
 
   watch: {},
@@ -162,8 +162,8 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirmAction", event);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -186,7 +186,6 @@ $c: ".c-base-modal-container";
 
   #{$c}__title {
     font-weight: $font-weight-bolder;
-    font-family: $font-family-default;
     font-size: ($font-size-page + 6px);
     max-height: 9.5%;
     min-height: 70px;

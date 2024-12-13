@@ -21,7 +21,7 @@
 
     p
       | {{ warning }}
-   
+
   .c-base-modal-disclaimer__description
     p
       | {{ description }}
@@ -39,19 +39,19 @@ export default {
   name: "BaseModalDisclaimer",
 
   components: {
-    BaseIcon,
+    BaseIcon
   },
 
   props: {
     warning: {
       type: String,
-      required: true,
+      required: true
     },
 
     description: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
 
   emits: [],
@@ -68,7 +68,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -80,7 +80,6 @@ export default {
 $c: ".c-base-modal-disclaimer";
 
 #{$c} {
-  font-family: $font-family-default;
   background-color: rgba($color-base-red-normal, 0.06);
   padding: 10px 19px 10.5px 21px;
   border-radius: 5px;

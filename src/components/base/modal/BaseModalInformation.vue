@@ -33,14 +33,14 @@ export default {
   name: "BaseModalInformation",
 
   components: {
-    BaseIcon,
+    BaseIcon
   },
 
   props: {
     text: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   emits: [],
@@ -57,7 +57,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -75,7 +75,6 @@ $c: ".c-base-modal-information";
   margin-top: 28px;
   margin-bottom: 42px;
   margin-left: 9px;
-  font-family: $font-family-default;
   font-size: ($font-size-baseline - 1px);
 
   p {

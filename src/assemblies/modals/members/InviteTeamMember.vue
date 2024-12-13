@@ -46,7 +46,7 @@ base-modal(
     base-modal-information(
       class="a-invite-team-member__info"
       text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
-    ) 
+    )
 </template>
 
 <!-- **********************************************************************
@@ -74,14 +74,14 @@ export default {
     BaseModal,
     BaseModalInformation,
     BaseModalInputBlock,
-    FormSelect,
+    FormSelect
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -98,13 +98,13 @@ export default {
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member,
+          value: Roles.Member
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin,
-        },
-      ],
+          value: Roles.Admin
+        }
+      ]
     };
   },
 
@@ -117,7 +117,10 @@ export default {
     async onSendInvite(): Promise<void> {
       // Check if all fields have been filled
       if (!this.inviteEmail || !this.inviteUserName) {
-        BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
+        BaseAlert.error(
+          "Cannot send the invitation",
+          "Please complete all the fields"
+        );
         return;
       } else {
         try {
@@ -165,8 +168,8 @@ export default {
 
       // Close modal
       this.$emit("close", true);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -179,7 +182,6 @@ $c: ".a-invite-team-member";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   h4 {
     color: $color-text-secondary;

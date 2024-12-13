@@ -68,14 +68,14 @@ export default {
   components: {
     BaseAvatar,
     BaseModal,
-    BaseUploadButton,
+    BaseUploadButton
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -90,7 +90,7 @@ export default {
 
       shortcut: "",
 
-      proceedDisabled: true,
+      proceedDisabled: true
     };
   },
 
@@ -101,7 +101,7 @@ export default {
 
     chosenImageUrl() {
       return this.imageUrl ? this.imageUrl : this.currentImage;
-    },
+    }
   },
 
   methods: {
@@ -114,13 +114,18 @@ export default {
       const options = {
         maxSizeMB: 0.256,
         maxWidthOrHeight: 1000,
-        useWebWorker: true,
+        useWebWorker: true
       };
 
       try {
         const compressedFile = await imageCompression(imageFile, options);
-        console.log("compressedFile instanceof Blob", compressedFile instanceof Blob); // true
-        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+        console.log(
+          "compressedFile instanceof Blob",
+          compressedFile instanceof Blob
+        ); // true
+        console.log(
+          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+        ); // smaller than maxSizeMB
 
         return compressedFile;
       } catch (error) {
@@ -193,8 +198,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -207,7 +212,6 @@ $c: ".a-edit-logo";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
 
   h4 {
     color: $color-text-secondary;

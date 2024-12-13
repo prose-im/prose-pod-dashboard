@@ -51,14 +51,14 @@ export default {
 
   components: {
     BaseCopyIcon,
-    BaseIcon,
+    BaseIcon
   },
 
   props: {
     header: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: [],
@@ -68,7 +68,7 @@ export default {
       // --> STATE <--
       copied: false,
 
-      timer: null,
+      timer: null
     };
   },
 
@@ -107,14 +107,14 @@ export default {
 
     async copyRow() {
       await this.copyText(this.$refs.rowText);
-    },
+    }
   },
 
   onBeforeUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
     }
-  },
+  }
 };
 </script>
 
@@ -126,8 +126,7 @@ export default {
 $c: ".c-advanced-network-dns-table-row";
 
 #{$c} {
-  font-family: $font-family-default;
-  font-size: ($font-size-baseline - 3px);
+  font-size: ($font-size-baseline - 2px);
 
   &--flex {
     display: flex;
@@ -136,11 +135,12 @@ $c: ".c-advanced-network-dns-table-row";
 
   #{$c}__content {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     line-height: ($font-size-baseline + 2px);
     padding-block: 5.5px;
     padding-inline: 19.5px;
-    min-height: 16px;
+    min-height: 22px;
 
     &--header {
       color: $color-text-secondary;

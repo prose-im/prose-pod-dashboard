@@ -16,11 +16,11 @@
         class=`[
           "c-breadcrumb__list-element"
         ]`
-        v-for="(crumb, index) in breadcrumbs" 
+        v-for="(crumb, index) in breadcrumbs"
         :key="index"
       )
         span
-          | {{ crumb }} 
+          | {{ crumb }}
 
         span
           base-icon(
@@ -58,14 +58,14 @@ export default {
 
   components: {
     BaseIcon,
-    BaseTooltip,
+    BaseTooltip
   },
 
   props: {
     disclosureListClass: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: [],
@@ -135,7 +135,7 @@ export default {
       });
 
       return breadcrumbs;
-    },
+    }
   },
 
   watch: {},
@@ -144,8 +144,8 @@ export default {
     // --> HELPERS <--
     capitalizeFirst(word: string) {
       return word.charAt(0).toUpperCase() + word.slice(1);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -169,7 +169,6 @@ $c: ".c-breadcrumb";
     ul {
       display: flex;
       list-style: none;
-      font-family: $font-family-default;
       font-size: $font-size-page + 7px;
       margin-block: 0px;
       padding-inline: 0px;

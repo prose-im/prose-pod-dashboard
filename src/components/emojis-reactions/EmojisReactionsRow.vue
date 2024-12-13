@@ -34,7 +34,7 @@
         size="30px"
         border-radius="0px"
       )
-      
+
       p(
         v-else
       )
@@ -45,11 +45,11 @@
       p.c-emojis-reactions-row--medium-bold(
         v-if="!tableHeaders"
       )
-        | {{ emojiData.shortcut }} 
+        | {{ emojiData.shortcut }}
 
       p(
         v-else
-      ) 
+      )
         | {{ tableHeaders[1] }}
 
     <!-- 4th column -->
@@ -73,7 +73,7 @@
     <!-- 5th column -->
     .c-emojis-reactions-row__contributor(
     )
-        
+
       base-avatar(
         v-if="!tableHeaders"
         :class=`[
@@ -131,19 +131,19 @@ export default {
     BaseAvatar,
     BaseButton,
     BaseIcon,
-    FormCheckbox,
+    FormCheckbox
   },
 
   props: {
     emojiData: {
       type: Object,
-      required: true,
+      required: true
     },
 
     tableHeaders: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: [],
@@ -160,7 +160,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -176,7 +176,6 @@ $c: ".c-emojis-reactions-row";
   align-items: center;
   padding-inline: 29px;
   padding-block: 14.5px;
-  font-family: $font-family-default;
   font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {

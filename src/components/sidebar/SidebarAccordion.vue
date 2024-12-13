@@ -30,18 +30,18 @@ export default {
   name: "SidebarAccordion",
 
   components: {
-    FormSelectAccordion,
+    FormSelectAccordion
   },
 
   props: {
     items: {
       type: Array,
-      required: true,
+      required: true
     },
     disclosureListClass: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: [],
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      category: "",
+      category: ""
     };
   },
 
@@ -109,15 +109,15 @@ export default {
 
       set(value: string) {
         this.category = value;
-      },
-    },
+      }
+    }
   },
 
   watch: {},
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -129,7 +129,6 @@ export default {
 $c: ".c-sidebar-accordion";
 
 #{$c} {
-  font-family: $font-family-default;
   margin-block-end: 45px;
 
   @media (max-width: 768px) {

@@ -125,7 +125,6 @@ $c: ".c-sidebar-footer";
         margin-bottom: 5.5px;
         font-weight: $font-weight-medium;
         font-size: ($font-size-baseline - 0.5px);
-        font-family: $font-family-default;
         line-height: 11px;
       }
     }

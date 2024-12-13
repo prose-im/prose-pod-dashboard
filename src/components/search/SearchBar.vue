@@ -62,29 +62,29 @@ export default {
   components: {
     BaseButton,
     BaseIcon,
-    FormField,
+    FormField
   },
 
   props: {
     modelValue: {
       type: String,
-      default: "",
+      default: ""
     },
 
     buttonLabel: {
       type: String,
-      required: true,
+      required: true
     },
 
     clickHandle: {
       type: Function,
-      required: true,
+      required: true
     },
 
     placeholderText: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
 
   emits: ["update:modelValue"],
@@ -103,15 +103,15 @@ export default {
 
       set(value: string) {
         this.$emit("update:modelValue", value);
-      },
-    },
+      }
+    }
   },
 
   watch: {},
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 
@@ -124,7 +124,6 @@ $c: ".c-search-bar";
 
 #{$c} {
   #{$c}__content {
-    font-family: $font-family-default;
     display: flex;
     justify-content: space-between;
     padding: 22px 29px;

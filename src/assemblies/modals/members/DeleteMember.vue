@@ -20,14 +20,14 @@ base-modal(
   @confirm="onProceed"
 )
   .a-delete-member
-    span 
-      | Are you sure you want to 
+    span
+      | Are you sure you want to
     span(
       :class=`[
         "a-delete-member--bolder"
       ]`
     )
-      | delete 
+      | delete
     br
     span(
       :class=`[
@@ -35,8 +35,8 @@ base-modal(
         "a-delete-member--bolder"
       ]`
     )
-      | {{ jid }} 
-    span 
+      | {{ jid }}
+    span
       | ?
 </template>
 
@@ -56,19 +56,19 @@ export default {
   name: "DeleteMember",
 
   components: {
-    BaseModal,
+    BaseModal
   },
 
   props: {
     jid: {
       type: String,
-      default: null,
+      default: null
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -102,8 +102,8 @@ export default {
         "Succesfully removed",
         `${this.jid} has been removed from the team`
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -117,7 +117,6 @@ $c: ".a-delete-member";
 #{$c} {
   text-align: center;
   margin-inline: 48px;
-  font-family: $font-family-default;
   font-size: ($font-size-baseline + 2px);
   line-height: 30px;
   font-weight: $font-weight-light;

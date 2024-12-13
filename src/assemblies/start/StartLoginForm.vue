@@ -119,7 +119,6 @@ export default {
 $c: ".a-start-login-form";
 
 #{$c} {
-  font-family: $font-family-default;
   width: 100%;
 
   #{$c}__logo {

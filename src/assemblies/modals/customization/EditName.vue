@@ -10,7 +10,7 @@
 
 <template lang="pug">
 base-modal(
-  @close="onClose" 
+  @close="onClose"
   @confirm="onProceed"
   :visible="visibility"
   position="center"
@@ -46,14 +46,14 @@ export default {
 
   components: {
     BaseModal,
-    BaseModalInputBlock,
+    BaseModalInputBlock
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      newName: "",
+      newName: ""
     };
   },
 
@@ -70,7 +70,7 @@ export default {
       const name = store.$customizationWorkspace.getWorkspaceName();
 
       return `New name for ${name}`;
-    },
+    }
   },
 
   watch: {},
@@ -93,8 +93,8 @@ export default {
     onClose() {
       this.newName = "";
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -108,6 +108,5 @@ $c: ".a-edit-name";
 #{$c} {
   margin-inline: 48px;
   margin-block-end: 30px;
-  font-family: $font-family-default;
 }
 </style>
