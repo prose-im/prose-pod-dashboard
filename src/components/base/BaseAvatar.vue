@@ -33,17 +33,17 @@ export default {
   props: {
     size: {
       type: String,
-      default: "34px",
+      default: "34px"
     },
 
     avatarDataUrl: {
       type: String,
-      default: "",
+      default: ""
     },
 
     borderRadius: {
       type: String,
-      default: "5px",
+      default: "5px"
     },
 
     type: {
@@ -52,8 +52,8 @@ export default {
 
       validator(x: string) {
         return ["person", "image"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   computed: {
@@ -65,11 +65,11 @@ export default {
       } else {
         switch (this.type) {
           case "person": {
-            imageUrl = `url(/images/components/base/BasePlaceholderImage/illustration-contact-empty.webp)`;
+            imageUrl = `url(/images/components/base/BaseAvatar/placeholder-person.webp)`;
             break;
           }
           case "image": {
-            imageUrl = `url(/images/components/base/BaseServerLogo/logo-prose-org.png)`;
+            imageUrl = `url(/images/components/base/BaseAvatar/placeholder-server.png)`;
             break;
           }
           default: {
@@ -79,12 +79,12 @@ export default {
       }
 
       return imageUrl;
-    },
+    }
   },
 
   watch: {},
 
-  methods: {},
+  methods: {}
 };
 </script>
 
