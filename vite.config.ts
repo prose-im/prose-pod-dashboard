@@ -49,7 +49,16 @@ const ASSETS_ICONS_PATH = path.join(__dirname, "src/assets/icons/");
 const CONFIG: Configuration = (function () {
   // Initialize empty configuration
   const config = {
-    environment: ""
+    environment: "",
+
+    api: {
+      version: "",
+
+      endpoint: {
+        local: "",
+        remote: ""
+      }
+    }
   };
 
   // Merge common configuration
@@ -139,6 +148,7 @@ export default defineConfig({
       scss: {
         additionalData: `
           @import "@/assets/stylesheets/variables/all.scss";
+          @import "@/assets/stylesheets/tools/all.scss";
         `
       }
     },

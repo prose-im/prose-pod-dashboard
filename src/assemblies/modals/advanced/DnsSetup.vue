@@ -31,10 +31,10 @@ base-modal(
 
     h3
       | DNS Records
-    
+
     .a-dns-setup__step
       span
-        | 1️⃣ &nbsp;Add those records to 
+        | 1️⃣ &nbsp;Add those records to
       span.a-dns-setup--semibold
         | specify your server IP address:
 
@@ -66,7 +66,7 @@ base-modal(
 
     .a-dns-setup__step
       span
-        | 2️⃣ &nbsp;Add the records that let 
+        | 2️⃣ &nbsp;Add the records that let
       span.a-dns-setup--semibold
         | clients connect to your server:
 
@@ -98,8 +98,8 @@ base-modal(
 
     .a-dns-setup__step
       span
-        | 3️⃣ &nbsp;Add the records that let 
-      span.a-dns-setup--semibold  
+        | 3️⃣ &nbsp;Add the records that let
+      span.a-dns-setup--semibold
         | servers connect to your server:
     .a-dns-setup__table
       advanced-network-dns-table-row(
@@ -128,9 +128,9 @@ base-modal(
         p {{ record["target"] }}
 
     span.a-dns-setup--bold
-      | 👉 Need help?  
+      | 👉 Need help?
     span
-      | You can read the 
+      | You can read the
     span.a-dns-setup--link
       | DNS setup guide here.
 </template>
@@ -156,14 +156,14 @@ export default {
     AdvancedNetworkDnsTableRow,
     BaseModal,
     BaseModalInformation,
-    BaseModalInputBlock,
+    BaseModalInputBlock
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -171,7 +171,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      reload: true,
+      reload: true
     };
   },
 
@@ -187,7 +187,9 @@ export default {
 
     stepTwo() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter((step) => step["purpose"].includes("clients"));
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("clients")
+        );
         return step[0]["records"];
       } else {
         return "";
@@ -196,12 +198,14 @@ export default {
 
     stepThree() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter((step) => step["purpose"].includes("servers"));
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("servers")
+        );
         return step[0]["records"];
       } else {
         return "";
       }
-    },
+    }
   },
 
   watch: {},
@@ -210,8 +214,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -224,7 +228,6 @@ $c: ".a-dns-setup";
 
 #{$c} {
   margin-inline: 48px;
-  font-family: $font-family-default;
   font-weight: $font-weight-light;
 
   #{$c}__step {

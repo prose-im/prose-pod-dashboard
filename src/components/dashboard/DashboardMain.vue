@@ -15,9 +15,10 @@
       class="c-dashboard-main__breadcrumb"
     )
 
-    base-section-background
+    base-section-background(
+      class="c-dashboard-main__background"
+    )
       slot
-
 </template>
 
 <!-- **********************************************************************
@@ -81,6 +82,11 @@ $c: ".c-dashboard-main";
     padding-inline: 100px;
     max-width: 918px;
     width: 100%;
+  }
+
+  #{$c}__breadcrumb,
+  #{$c}__background {
+    margin-inline: 12px;
   }
 }
 </style>

@@ -44,14 +44,14 @@
       loader-base(
         v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
       )
-      
+
       p(
         v-else
         class="c-members-invites-row--main"
       )
         | {{ userEnrichedData?.nickname }}
 
-      p.c-members-invites-row--submain 
+      p.c-members-invites-row--submain
         | {{ userData.jid }}
 
       p(
@@ -87,9 +87,9 @@
               "c-members-invites-row--none" : userData.invitation_id
             }
           ]`
-        ) 
+        )
           | {{ userData.online }}
-          
+
         p(
           v-if="!tableHeaders"
           class="c-members-invites-row--submain"
@@ -98,7 +98,7 @@
 
         p(
           v-else
-        ) {{ tableHeaders[2] }} 
+        ) {{ tableHeaders[2] }}
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
@@ -130,7 +130,7 @@
         v-if="tableHeaders"
       )
         | {{ tableHeaders[3] }}
-        
+
     <!-- 7th column -->
     .c-members-invites-row__parameters
       base-button(
@@ -146,7 +146,7 @@
       )
         base-icon(
           v-if="!userData.invitation_id"
-          fill="#949EB1"
+          fill="#495462"
           name="gearshape.fill"
           size="10px"
         )
@@ -195,29 +195,29 @@ export default {
     BaseMfaBadge,
     FormCheckbox,
     MembersInvitesMenu,
-    LoaderBase,
+    LoaderBase
   },
 
   props: {
     avatarUrl: {
       type: String,
-      default: "../../assets/icons/missing.avatar.svg",
+      default: "../../assets/icons/missing.avatar.svg"
     },
 
     userData: {
       type: Object,
-      required: true,
+      required: true
     },
 
     userEnrichedData: {
       type: Object,
-      default: null,
+      default: null
     },
 
     tableHeaders: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: ["menuAction"],
@@ -230,16 +230,16 @@ export default {
       menuOptions: [
         {
           value: "Security settings",
-          disabled: true,
+          disabled: true
         },
         {
-          value: "Change role",
+          value: "Change role"
         },
         {
           value: "Delete member",
-          color: "red",
-        },
-      ],
+          color: "red"
+        }
+      ]
     };
   },
 
@@ -252,7 +252,7 @@ export default {
       } else {
         return "";
       }
-    },
+    }
   },
 
   watch: {},
@@ -260,7 +260,9 @@ export default {
   methods: {
     // <-- EVENT LISTENERS -->
     onActionOnMember(): void {
-      this.userData.invitation_id ? this.onCancelInvite() : this.toggleMenuOpen();
+      this.userData.invitation_id
+        ? this.onCancelInvite()
+        : this.toggleMenuOpen();
     },
 
     onCancelInvite() {
@@ -278,8 +280,8 @@ export default {
 
     onMenuClickAway() {
       this.toggleMenuOpen();
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -321,7 +323,6 @@ $c: ".c-members-invites-row";
     flex: 1 1 0;
 
     p {
-      margin-block: 0;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -379,7 +380,7 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__soon {
-    font-size: ($font-size-baseline - 4px);
+    font-size: ($font-size-baseline - 1.5px);
     color: $color-base-grey-normal;
     width: max-content;
   }
@@ -408,7 +409,7 @@ $c: ".c-members-invites-row";
     color: $color-text-primary;
     font-weight: $font-weight-medium;
     font-size: ($font-size-baseline - 0.5px);
-    line-height: ($font-size-baseline - 0.5px);
+    line-height: ($font-size-baseline + 1.5px);
     margin-top: 0;
     margin-bottom: 5.5px;
   }
@@ -417,7 +418,7 @@ $c: ".c-members-invites-row";
     color: $color-text-secondary;
     font-weight: $font-weight-light;
     font-size: ($font-size-baseline - 1px);
-    line-height: ($font-size-baseline - 1px);
+    line-height: ($font-size-baseline + 1px);
     margin-block: 0;
   }
 

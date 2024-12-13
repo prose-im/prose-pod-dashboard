@@ -5,8 +5,13 @@
  */
 
 /* *************************************************************************
- * TOOLS > ALL
+ * ELEMENTS > PAGE
  * **************************************************************************/
 
-@import "_tools.functions";
-@import "_tools.mixins";
+html {
+  font-size: $font-size-page;
+  font-family: $font-family-default, Helvetica, Arial, sans-serif;
+  line-height: ($font-size-page + 2px);
+
+  @include font-smoothing(antialiased);
+}

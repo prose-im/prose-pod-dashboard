@@ -70,12 +70,12 @@ div(
 
 <script lang="ts">
 //PROJECT COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue';
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 export default {
   name: "BaseAction",
 
-  components:{
+  components: {
     BaseIcon
   },
 
@@ -297,24 +297,21 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     &#{$c}--white {
       > #{$c}__inner {
         outline-color: $color-border-secondary;
-        box-shadow: $inner-bordered-box-shadow-sizes
-          $color-border-secondary;
+        box-shadow: $inner-bordered-box-shadow-sizes $color-border-secondary;
       }
     }
 
     &#{$c}--grey {
       > #{$c}__inner {
         outline-color: $color-border-secondary;
-        box-shadow: $inner-bordered-box-shadow-sizes
-          $color-border-primary;
+        box-shadow: $inner-bordered-box-shadow-sizes $color-border-primary;
       }
     }
 
     &#{$c}--dark {
       > #{$c}__inner {
         outline-color: rgba($color-black, 0.1);
-        box-shadow: $inner-bordered-box-shadow-sizes
-          rgba($color-black, 0.2);
+        box-shadow: $inner-bordered-box-shadow-sizes rgba($color-black, 0.2);
       }
     }
   }
@@ -381,11 +378,11 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
   &--white {
     > #{$c}__inner {
       &:hover {
-        background-color: darken-var($color-base-grey-light, 1%);
+        background-color: darken($color-base-grey-light, 1%);
       }
 
       &:active {
-        background-color: darken-var($color-base-grey-light, 4%);
+        background-color: darken($color-base-grey-light, 4%);
       }
     }
   }
@@ -393,11 +390,11 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
   &--grey {
     > #{$c}__inner {
       &:hover {
-        background-color: darken-var($color-base-grey-light, 4%);
+        background-color: darken($color-base-grey-light, 4%);
       }
 
       &:active {
-        background-color: darken-var($color-base-grey-light, 8%);
+        background-color: darken($color-base-grey-light, 8%);
       }
     }
   }

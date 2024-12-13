@@ -10,7 +10,7 @@
 
 <template lang="pug">
   .c-base-subsection
-    .c-base-subsection__title 
+    .c-base-subsection__title
       h2(
         :class=`[
           "c-base-subsection__title--" + titleColor
@@ -20,7 +20,7 @@
 
         span.c-base-subsection__sup(
           v-if="sup"
-        ) 
+        )
           | &nbsp; {{ sup.toUpperCase() }}
 
       .c-base-subsection__restore(
@@ -35,7 +35,7 @@
         base-icon(
           class="c-base-subsection__restore--icon"
           name="restore"
-          size="8px"
+          size="9px"
           fill="#2490f0"
         )
         | Restore defaults
@@ -52,7 +52,7 @@
       @click="item.action"
       @update="updateValue"
     )
-    
+
     p(
       class="c-base-subsection__erase"
     )
@@ -73,18 +73,18 @@ export default {
 
   components: {
     BaseIcon,
-    BaseSubsectionItem,
+    BaseSubsectionItem
   },
 
   props: {
     modelValue: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     titleColor: {
@@ -93,30 +93,30 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     sup: {
       type: String,
-      default: null,
+      default: null
     },
 
     items: {
       type: Array,
-      required: true,
+      required: true
     },
 
     restoreOption: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     restoreAction: {
       type: Function,
       default: () => {
         return;
-      },
-    },
+      }
+    }
   },
 
   emits: ["update"],
@@ -132,9 +132,11 @@ export default {
       get() {
         if (Object.keys(this.modelValue).length) {
           // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
-          return this.items.map((_, index) => Object.values(this.modelValue)[index]);
+          return this.items.map(
+            (_, index) => Object.values(this.modelValue)[index]
+          );
         } else {
-          return this.items.map((_) => "");
+          return this.items.map(_ => "");
         }
       },
 
@@ -144,23 +146,27 @@ export default {
         nextValue.forEach((value, index) => {
           updatedModel[index] = value;
         });
-      },
+      }
     },
 
     isRestoreDisabled() {
-      const result = this.items.every((item) => {
+      const result = this.items.every(item => {
         return item.disabled === true;
       });
 
       return result;
-    },
+    }
   },
 
   watch: {},
 
   methods: {
     // --> HELPERS <--
-    updateValue(newValue: boolean | string, index: number, element?: number): void {
+    updateValue(
+      newValue: boolean | string,
+      index: number,
+      element?: number
+    ): void {
       // console.log("hearding", newValue, index, element);
 
       // Creating a copy of the modelValueObject
@@ -185,8 +191,8 @@ export default {
 
       // this.$emit("update", updatedModel[key], newValue);
       // this.$emit("update", updatedModel);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -237,14 +243,14 @@ $c: ".c-base-subsection";
   #{$c}__restore {
     height: fit-content;
     color: $color-base-blue-normal;
-    font-size: $font-size-baseline - 2px;
+    font-size: $font-size-baseline - 1.5px;
     padding-top: 6px;
     padding-bottom: 3px;
     padding-right: 14.5px;
     cursor: pointer;
 
     &--icon {
-      margin-right: 5px;
+      margin-right: 4px;
     }
 
     &--disabled {

@@ -102,7 +102,7 @@ import { PropType } from "vue";
 //- import { names as keyNames } from "keycode";
 
 //COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue'
+import BaseIcon from "@/components/base/BaseIcon.vue";
 
 // INTERFACES
 export interface Option {
@@ -210,7 +210,7 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    },
+    }
   },
 
   emits: ["update:modelValue"],
@@ -300,9 +300,8 @@ export default {
 
     onHotkeyEscape(event: Event): void {
       this.eventOverrides(event);
-        // Hide dropdown selector
-        this.hideDropdown();
-
+      // Hide dropdown selector
+      this.hideDropdown();
     },
 
     onHotkeyDown(event: Event): void {
@@ -355,8 +354,7 @@ export default {
 
     onOptionClick(event: Event): void {
       this.$emit("update:modelValue", event?.value);
-    },
-
+    }
   }
 };
 </script>
@@ -375,36 +373,36 @@ $sizes: (
     "line-height": $size-form-select-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 2px,
+    "option-retract": 2px
   ),
   "mid-medium": (
     "font-size": $font-size-baseline - 1.5px,
     "line-height": $size-form-select-mid-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 4px,
+    "option-retract": 4px
   ),
   "large": (
     "font-size": $font-size-baseline,
     "line-height": $size-form-select-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 6px,
+    "option-retract": 6px
   ),
   "mid-large": (
     "font-size": $font-size-baseline + 1.5px,
     "line-height": $size-form-select-mid-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 8px,
+    "option-retract": 8px
   ),
   "ultra-large": (
     "font-size": $font-size-baseline + 2.5px,
     "line-height": $size-form-select-ultra-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 10px,
-  ),
+    "option-retract": 10px
+  )
 );
 
 #{$c} {
@@ -497,6 +495,7 @@ $sizes: (
         align-items: center;
         transition: none;
         text-decoration: none;
+        transition: background-color 100ms linear;
 
         #{$c}__value {
           color: $color-text-secondary;
@@ -513,6 +512,10 @@ $sizes: (
               color: $color-text-primary;
             }
           }
+
+          &:active {
+            background-color: darken($color-base-grey-ultra-light, 2%);
+          }
         }
       }
 
@@ -522,23 +525,6 @@ $sizes: (
 
           #{$c}__value {
             color: $color-text-primary;
-          }
-        }
-
-        &#{$c}__option--hovered {
-          a {
-            background-color: $color-base-grey-ultra-light;
-
-            &,
-            &:active {
-              #{$c}__value {
-                color: $color-text-primary;
-              }
-            }
-
-            &:active {
-              background-color: $color-base-grey-ultra-light;
-            }
           }
         }
       }
@@ -580,7 +566,9 @@ $sizes: (
 
       #{$c}__options {
         #{$c}__option {
-          line-height: (map-get($size, "line-height") - map-get($size, "option-retract"));
+          line-height: (
+            map-get($size, "line-height") - map-get($size, "option-retract")
+          );
         }
       }
     }

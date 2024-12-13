@@ -65,10 +65,10 @@ $size-widths: (
 );
 
 #{$c} {
-  //@include mask-image("/images/components/base/BaseProseLogo/logo-path.svg");
-  //@include mask-repeat(no-repeat);
-  //@include mask-size(contain);
-  //@include mask-position(left);
+  @include mask-image("/images/components/base/BaseProseLogo/logo-path.svg");
+  @include mask-repeat(no-repeat);
+  @include mask-size(contain);
+  @include mask-position(left);
 
   width: 104px;
   height: 28px;
@@ -84,7 +84,7 @@ $size-widths: (
   }
 
   // --> TINTS <--
-  
+
   &--normal {
     background-color: rgb(var(--color-base-blue-normal));
     background-image: url("/images/components/base/BaseProseLogo/logo-tint-normal.webp");

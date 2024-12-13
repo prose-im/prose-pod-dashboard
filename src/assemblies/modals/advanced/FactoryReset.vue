@@ -71,14 +71,14 @@ export default {
     BaseModal,
     BaseModalDisclaimer,
     BaseModalInputBlock,
-    FormCheckbox,
+    FormCheckbox
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -90,7 +90,7 @@ export default {
 
       dataLossConfirmed: false,
 
-      password: "",
+      password: ""
     };
   },
 
@@ -117,8 +117,8 @@ export default {
         // Close modal
         this.$emit("close");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -51,7 +51,7 @@ export default {
   components: {
     BaseAvatar,
     BaseBadge,
-    BaseButton,
+    BaseButton
   },
 
   props: {},
@@ -76,7 +76,7 @@ export default {
 
         // Redirect to login page
         this.$router.push({
-          name: "start.login",
+          name: "start.login"
         });
 
         // Acknowledge logout success
@@ -84,8 +84,8 @@ export default {
       } catch (_) {
         BaseAlert.error("Could not log out", "Maybe try again?");
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -102,6 +102,7 @@ $c: ".c-sidebar-footer";
 
   #{$c}__content {
     display: flex;
+    align-items: center;
     width: 254px;
   }
 
@@ -123,7 +124,7 @@ $c: ".c-sidebar-footer";
         margin-top: 0px;
         margin-bottom: 5.5px;
         font-weight: $font-weight-medium;
-        font-size: ($font-size-baseline - 1.5px);
+        font-size: ($font-size-baseline - 0.5px);
         font-family: $font-family-default;
         line-height: 11px;
       }

@@ -40,7 +40,7 @@ base-modal(
       description="Checks that your server has connection over all IP protocols."
       :checklist="ipCheckList"
     )
-    
+
     p {{ states }}
 </template>
 
@@ -61,14 +61,14 @@ export default {
 
   components: {
     AdvancedNetworkCheckBlock,
-    BaseModal,
+    BaseModal
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -106,7 +106,7 @@ export default {
 
     ipCheckList() {
       return store.$settingsNetwork.getIpCheck() || [];
-    },
+    }
   },
 
   watch: {},
@@ -140,8 +140,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.checkAllRecords();
-    },
-  },
+    }
+  }
 };
 </script>
 

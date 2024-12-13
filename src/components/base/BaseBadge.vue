@@ -34,13 +34,13 @@ export default {
   props: {
     admin: {
       type: String,
-      default: "MEMBER",
+      default: "MEMBER"
     },
 
     size: {
       type: String,
-      default: "short",
-    },
+      default: "short"
+    }
   },
 
   data() {
@@ -52,12 +52,12 @@ export default {
   computed: {
     label() {
       return this.admin === "ADMIN" ? Roles.Admin : Roles.Member;
-    },
+    }
   },
 
   watch: {},
 
-  methods: {},
+  methods: {}
 };
 </script>
 
@@ -80,7 +80,7 @@ $badge-padding-inline: 7px;
   background-color: $color-base-blue-ultra-dark;
   color: $color-white;
   font-weight: $font-weight-mid;
-  font-size: ($font-size-baseline - 5.5px);
+  font-size: ($font-size-baseline - 4px);
   border-radius: 5px;
   font-family: $font-family-default;
 
@@ -88,7 +88,7 @@ $badge-padding-inline: 7px;
   &--long {
     text-align: center;
     min-width: 36px;
-    font-size: 10px;
+    font-size: 11.5px;
     padding-inline: ($badge-padding-inline + 3px);
   }
 
