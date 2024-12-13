@@ -108,14 +108,18 @@ $c: ".a-start-login-form";
 #{$c} {
   width: 100%;
 
+  #{$c}__logo,
+  #{$c}__inner {
+    margin-inline: auto;
+  }
+
   #{$c}__logo {
     margin-block: 0;
-    margin-inline: auto;
   }
 
   #{$c}__inner {
     margin-block-start: 55px;
-    width: 440px;
+    max-width: 440px;
 
     #{$c}__field,
     #{$c}__button {
