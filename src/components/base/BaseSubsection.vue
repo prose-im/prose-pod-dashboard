@@ -65,12 +65,12 @@ export default {
   props: {
     modelValue: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
 
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     titleColor: {
@@ -79,30 +79,30 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      }
+      },
     },
 
     sup: {
       type: String,
-      default: null
+      default: null,
     },
 
     items: {
       type: Array,
-      required: true
+      required: true,
     },
 
     restoreOption: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     restoreAction: {
       type: Function,
       default: () => {
         return;
-      }
-    }
+      },
+    },
   },
 
   emits: ["update"],
@@ -126,16 +126,16 @@ export default {
         nextValue.forEach((value, index) => {
           updatedModel[index] = value;
         });
-      }
+      },
     },
 
     isRestoreDisabled() {
-      const result = this.items.every(item => {
+      const result = this.items.every((item) => {
         return item.disabled === true;
       });
 
       return result;
-    }
+    },
   },
 
   methods: {
@@ -169,8 +169,8 @@ export default {
 
       // this.$emit("update", updatedModel[key], newValue);
       // this.$emit("update", updatedModel);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -240,6 +240,10 @@ $c: ".c-base-subsection";
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }
+  }
+
+  @media (max-width: 768px) {
+    margin-inline: 10px;
   }
 }
 </style>
