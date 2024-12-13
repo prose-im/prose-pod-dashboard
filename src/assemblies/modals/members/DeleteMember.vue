@@ -47,17 +47,12 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 
 // STORE
 import store from "@/store";
 
 export default {
   name: "DeleteMember",
-
-  components: {
-    BaseModal
-  },
 
   props: {
     jid: {

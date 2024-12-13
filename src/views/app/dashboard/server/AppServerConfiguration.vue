@@ -32,30 +32,23 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseSubsection from "@/components/base/BaseSubsection.vue";
-
 // PROJECT: STORE
 import store from "@/store";
 
 // ENUMERATIONS
 enum MessagingKey {
   Archive = "archiveEnabled",
-  RetentionTime = "messageRetentionTime",
+  RetentionTime = "messageRetentionTime"
 }
 
 enum FileKey {
   UploadEnabled = "fileUploadEnabled",
   Encryption = "encryption",
-  RetentionTime = "fileRetentionTime",
+  RetentionTime = "fileRetentionTime"
 }
 
 export default {
   name: "AppServerConfiguration",
-
-  components: {
-    BaseSubsection,
-  },
 
   props: {},
 
@@ -70,7 +63,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle",
+          type: "toggle"
         },
 
         {
@@ -84,20 +77,20 @@ export default {
             options: [
               {
                 label: "Infinite",
-                value: "infinite",
+                value: "infinite"
               },
               {
                 label: "1 year",
-                value: "P1Y",
+                value: "P1Y"
               },
               {
                 label: "2 years",
-                value: "P2Y",
-              },
+                value: "P2Y"
+              }
             ],
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       filesItems: [
@@ -105,7 +98,7 @@ export default {
           subtitle: "Users can upload and share files",
           description:
             "File sharing is a must-have feature. It is recommended that file uploading is enabled. If however you'd like to prevent users from sharing files eg. for secrecy reasons, you can do so from there.",
-          type: "toggle",
+          type: "toggle"
         },
 
         {
@@ -118,15 +111,15 @@ export default {
             options: [
               {
                 label: "Encrypted (AES-256)",
-                value: "AES-256",
+                value: "AES-256"
               },
               {
                 label: "Not encrypted",
-                value: "Not Encrypted",
-              },
+                value: "Not Encrypted"
+              }
             ],
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -138,28 +131,28 @@ export default {
             options: [
               {
                 label: "Infinite",
-                value: "infinite",
+                value: "infinite"
               },
               {
                 label: "1 year",
-                value: "P1Y",
+                value: "P1Y"
               },
               {
                 label: "2 years",
-                value: "P2Y",
-              },
+                value: "P2Y"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$serverConfiguration.getSettings();
-    },
+    }
   },
 
   watch: {},
@@ -233,8 +226,8 @@ export default {
 
     onRestoreMessageArchiveRetention() {
       store.$serverConfiguration.restoreMessageArchiveRetention();
-    },
-  },
+    }
+  }
 };
 </script>
 

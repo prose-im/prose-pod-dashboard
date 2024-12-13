@@ -34,16 +34,8 @@
       ********************************************************************** -->
 
 <script lang="ts">
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BasePulseIcon from "@/components/base/BasePulseIcon.vue";
-
 export default {
   name: "BaseModalStatus",
-
-  components: {
-    BaseIcon,
-    BasePulseIcon,
-  },
 
   props: {
     status: {
@@ -51,21 +43,26 @@ export default {
       default: "pending",
 
       validator(x: string) {
-        return ["pending", "sucess", "warning", "INVALID", "CLOSED", "FAILURE"].includes(
-          x
-        );
-      },
+        return [
+          "pending",
+          "sucess",
+          "warning",
+          "INVALID",
+          "CLOSED",
+          "FAILURE"
+        ].includes(x);
+      }
     },
 
     color: {
       type: String,
-      required: true,
+      required: true
     },
 
     iconName: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -105,7 +102,7 @@ export default {
       }
 
       return label;
-    },
+    }
   },
 
   watch: {},
@@ -114,8 +111,8 @@ export default {
     // <-- HELPERS -->
     capitalizeFirst(word: string) {
       return word.charAt(0).toUpperCase() + word.slice(1);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -33,7 +33,6 @@ import StartLoginForm, {
 
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
@@ -42,7 +41,6 @@ export default {
   name: "StartLogin",
 
   components: {
-    BaseIdentityBadge,
     StartLoginForm
   },
 

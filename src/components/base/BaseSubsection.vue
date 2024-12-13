@@ -64,17 +64,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseSubsectionItem from "@/components/base/BaseSubsectionItem.vue";
-
 export default {
   name: "BaseSubsection",
-
-  components: {
-    BaseIcon,
-    BaseSubsectionItem
-  },
 
   props: {
     modelValue: {

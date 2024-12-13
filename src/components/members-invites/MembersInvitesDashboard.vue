@@ -24,14 +24,14 @@
   )
 
   .c-members-invites-dashboard__scroll
-  
+
     <!-- INVITATIONS -->
     members-invites-row(
       v-if="pageNumber === 1"
       v-for="(invite, index) in invites"
       :user-data="invite"
     )
-    
+
     <!-- MEMBERS -->
     members-invites-row(
       v-for="(user, index) in members"
@@ -40,7 +40,7 @@
       :user-data="user"
       :user-enriched-data="enrichedMembers[user.jid]"
       @menuAction="onMenuAction"
-    ) 
+    )
 
   base-navigation-footer(
     v-if="!searchTerm"
@@ -64,8 +64,8 @@ edit-role(
 )
 
 delete-member(
-  v-if="isDeleteMemberModalVisible" 
-  :visibility="deleteMemberModalVisibility" 
+  v-if="isDeleteMemberModalVisible"
+  :visibility="deleteMemberModalVisibility"
   :jid="userToUpdate?.jid"
   @close="toggleDeleteMemberModalVisible"
 )
@@ -77,8 +77,7 @@ delete-member(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "../base/BaseAlert.vue";
-import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
 import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
@@ -92,19 +91,18 @@ export default {
   name: "MembersInvitesDashboard",
 
   components: {
-    BaseNavigationFooter,
     DeleteMember,
     EditRole,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar,
+    SearchBar
   },
 
   props: {
     label: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   emits: [],
@@ -139,7 +137,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle",
+          type: "toggle"
         },
         {
           subtitle: "Message archive retention time",
@@ -148,8 +146,8 @@ export default {
           type: "button",
           typeProps: {
             label: "Edit details...",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
         {
           subtitle: "Message archive retention time",
@@ -160,17 +158,17 @@ export default {
             options: [
               {
                 icon: "",
-                label: "1 year",
+                label: "1 year"
               },
               {
                 icon: "",
-                label: "2 years",
-              },
+                label: "2 years"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
@@ -197,7 +195,7 @@ export default {
 
     totalMemberNumber() {
       return this.allMembers.length;
-    },
+    }
   },
 
   watch: {
@@ -211,7 +209,7 @@ export default {
 
     isDeleteMemberModalVisible(newValue) {
       setTimeout(() => (this.deleteMemberModalVisibility = newValue), 10);
-    },
+    }
   },
 
   mounted() {
@@ -224,7 +222,10 @@ export default {
         // Login to account
         store.$teamMembers.loadActiveMembers();
       } catch (_) {
-        BaseAlert.error("Could not log in", "Check your credentials and try again");
+        BaseAlert.error(
+          "Could not log in",
+          "Check your credentials and try again"
+        );
       } finally {
         this.isMembersLoading = false;
       }
@@ -238,7 +239,10 @@ export default {
         // Login to account
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
-        BaseAlert.error("Could not log in", "Check your credentials and try again");
+        BaseAlert.error(
+          "Could not log in",
+          "Check your credentials and try again"
+        );
       } finally {
         this.isInvitesLoading = false;
       }
@@ -299,8 +303,8 @@ export default {
           break;
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

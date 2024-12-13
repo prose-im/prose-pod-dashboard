@@ -56,9 +56,6 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
-import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
 
 // TYPES
@@ -71,9 +68,6 @@ export default {
   name: "InviteTeamMember",
 
   components: {
-    BaseModal,
-    BaseModalInformation,
-    BaseModalInputBlock,
     FormSelect
   },
 

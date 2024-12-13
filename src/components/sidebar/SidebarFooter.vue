@@ -38,21 +38,12 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseBadge from "@/components/base/BaseBadge.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
 
 export default {
   name: "SidebarAccordion",
-
-  components: {
-    BaseAvatar,
-    BaseBadge,
-    BaseButton
-  },
 
   props: {},
 

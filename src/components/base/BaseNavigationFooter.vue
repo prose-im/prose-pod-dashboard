@@ -48,17 +48,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 export default {
   name: "BaseNavigationFooter",
-
-  components: {
-    BaseButton,
-    BaseIcon
-  },
 
   props: {
     page: {

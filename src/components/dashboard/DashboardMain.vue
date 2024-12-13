@@ -27,14 +27,12 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSectionBackground from "@/components/base/BaseSectionBackground.vue";
 import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
 
 export default {
   name: "DashboardMain",
 
   components: {
-    BaseSectionBackground,
     Breadcrumb
   },
 

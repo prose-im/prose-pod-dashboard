@@ -61,10 +61,6 @@ transition(
      ********************************************************************** -->
 
 <script lang="ts">
-//PROJECT COMPONENTS
-import BaseAction from "@/components/base/BaseAction.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 // NPM
 import mitt, { Handler } from "mitt";
 
@@ -116,11 +112,6 @@ const EventBus = mitt();
 
 export default {
   name: "BaseAlert",
-
-  components: {
-    BaseAction,
-    BaseIcon
-  },
 
   data() {
     return {

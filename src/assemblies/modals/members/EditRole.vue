@@ -45,7 +45,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
 
 // STORE
@@ -58,7 +57,6 @@ export default {
   name: "EditRole",
 
   components: {
-    BaseModal,
     FormSelect
   },
 

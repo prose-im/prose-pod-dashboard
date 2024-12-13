@@ -18,7 +18,6 @@
     base-alert
 
     router-view
-
 </template>
 
 <!-- **********************************************************************
@@ -27,12 +26,10 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import DashboardMain from "@/components/dashboard/DashboardMain.vue";
 
 export default {
   components: {
-    BaseAlert,
     DashboardMain
   }
 };

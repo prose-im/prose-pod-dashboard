@@ -135,10 +135,6 @@ div(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseComingSoon from "./BaseComingSoon.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import FormSelect from "@/components/form/FormSelect.vue";
 import FormToggle from "@/components/form/FormToggle.vue";
 
@@ -146,10 +142,6 @@ export default {
   name: "BaseSubsectionItem",
 
   components: {
-    BaseAvatar,
-    BaseButton,
-    BaseComingSoon,
-    BaseIcon,
     FormSelect,
     FormToggle
   },

@@ -58,8 +58,6 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseProseLogo from "@/components/base/BaseProseLogo.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 import FormField from "@/components/form/FormField.vue";
 
@@ -73,8 +71,6 @@ export default {
   name: "StartLoginForm",
 
   components: {
-    BaseButton,
-    BaseProseLogo,
     FormCheckbox,
     FormField
   },

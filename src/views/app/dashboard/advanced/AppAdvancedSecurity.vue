@@ -16,7 +16,7 @@
       :items="accountItems"
       @update="onSecurityUpdate"
     )
-  
+
     base-subsection(
       v-model="config.encryption"
       title="Network Encryption"
@@ -31,28 +31,21 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseSubsection from "@/components/base/BaseSubsection.vue";
-
 // STORE
 import store from "@/store";
 
 // ENUMERATIONS
 enum SecurityKey {
-  TwoFactor = "twoFactor",
+  TwoFactor = "twoFactor"
 }
 
 enum EncryptionKey {
   Version = "version",
-  Strength = "strength",
+  Strength = "strength"
 }
 
 export default {
   name: "AppAdvancedSecurity",
-
-  components: {
-    BaseSubsection,
-  },
 
   props: {},
 
@@ -68,8 +61,8 @@ export default {
           description:
             "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
           type: "toggle",
-          disabled: true,
-        },
+          disabled: true
+        }
       ],
 
       networkItems: [
@@ -84,15 +77,15 @@ export default {
             options: [
               {
                 label: "TLS 1.2",
-                value: "1.2",
+                value: "1.2"
               },
               {
                 label: "TLS 1.0+",
-                value: "1.0+",
-              },
+                value: "1.0+"
+              }
             ],
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
         {
           subtitle: "Minimum cipher suite (encryption strength)",
@@ -104,24 +97,24 @@ export default {
             options: [
               {
                 label: "High strength",
-                value: "HIGH_STRENGTH",
+                value: "HIGH_STRENGTH"
               },
               {
                 label: "Low strength",
-                value: "LOW_STRENGTH",
-              },
+                value: "LOW_STRENGTH"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$settingsSecurity.getSettings();
-    },
+    }
   },
 
   watch: {},
@@ -173,8 +166,8 @@ export default {
           }
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

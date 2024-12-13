@@ -32,7 +32,7 @@ teleport(
           @closeModal="onClose"
           @confirmAction="onConfirm"
         )
-          slot     
+          slot
 </template>
 
 <!-- **********************************************************************
@@ -40,21 +40,13 @@ teleport(
       ********************************************************************** -->
 
 <script lang="ts">
-import BaseModalBackground from "@/components/base/modal/BaseModalBackground.vue";
-import BaseModalContainer from "@/components/base/modal/BaseModalContainer.vue";
-
 export default {
   name: "BaseModal",
-
-  components: {
-    BaseModalBackground,
-    BaseModalContainer,
-  },
 
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     buttonColor: {
@@ -63,22 +55,22 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      },
+      }
     },
 
     buttonLabel: {
       type: String,
-      default: "",
+      default: ""
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     flexContainer: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     position: {
@@ -87,7 +79,7 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      },
+      }
     },
 
     titleColor: {
@@ -96,13 +88,13 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     visible: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "confirm", "load"],
@@ -110,7 +102,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      loaded: false,
+      loaded: false
     };
   },
 
@@ -126,7 +118,7 @@ export default {
       if (newVisibility === true && newVisibility !== oldVisibility) {
         this.$emit("load");
       }
-    },
+    }
   },
 
   methods: {
@@ -137,8 +129,8 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirm", event);
-    },
-  },
+    }
+  }
 };
 </script>
 

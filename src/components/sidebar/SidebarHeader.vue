@@ -22,25 +22,6 @@
 </template>
 
 <!-- **********************************************************************
-  SCRIPT
-  ********************************************************************** -->
-
-<script lang="ts">
-//COMPINENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseIdentityBadge from "@/components/base/BaseIdentityBadge.vue";
-
-export default {
-  name: "SidebarHeader",
-
-  components: {
-    BaseIcon,
-    BaseIdentityBadge,
-  },
-};
-</script>
-
-<!-- **********************************************************************
      STYLE
      ********************************************************************** -->
 

@@ -60,14 +60,8 @@ transition(
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from "@/components/base/BaseButton.vue";
-
 export default {
   name: "BaseModalContainer",
-
-  components: {
-    BaseButton
-  },
 
   props: {
     title: {

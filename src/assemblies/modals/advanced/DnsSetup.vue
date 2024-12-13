@@ -141,9 +141,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalInformation from "@/components/base/modal/BaseModalInformation.vue";
-import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
 
 //STORE
@@ -153,10 +150,7 @@ export default {
   name: "DnsSetup",
 
   components: {
-    AdvancedNetworkDnsTableRow,
-    BaseModal,
-    BaseModalInformation,
-    BaseModalInputBlock
+    AdvancedNetworkDnsTableRow
   },
 
   props: {

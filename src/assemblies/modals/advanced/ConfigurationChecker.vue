@@ -50,7 +50,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNetworkCheckBlock.vue";
 
 // STORE
@@ -60,8 +59,7 @@ export default {
   name: "ConfigurationChecker",
 
   components: {
-    AdvancedNetworkCheckBlock,
-    BaseModal
+    AdvancedNetworkCheckBlock
   },
 
   props: {

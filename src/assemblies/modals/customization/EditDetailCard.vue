@@ -22,23 +22,12 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormField from "@/components/form/FormField.vue";
-
-//STORE
-import store from "@/store";
 
 export default {
   name: "EditDetailCard",
 
   components: {
-    BaseAvatar,
-    BaseButton,
-    BaseIcon,
-    BaseModal,
     FormField
   },
 

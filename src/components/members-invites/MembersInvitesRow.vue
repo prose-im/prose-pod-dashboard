@@ -41,7 +41,7 @@
 
     <!-- 3rd column -->
     .c-members-invites-row__user
-      loader-base(
+      base-loader(
         v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
       )
 
@@ -172,13 +172,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseBadge from "@/components/base/BaseBadge.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseMfaBadge from "../base/BaseMfaBadge.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
-import LoaderBase from "../base/loader/LoaderBase.vue";
 import MembersInvitesMenu from "./MembersInvitesMenu.vue";
 
 // STORE
@@ -188,14 +182,8 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    BaseAvatar,
-    BaseBadge,
-    BaseButton,
-    BaseIcon,
-    BaseMfaBadge,
     FormCheckbox,
-    MembersInvitesMenu,
-    LoaderBase
+    MembersInvitesMenu
   },
 
   props: {

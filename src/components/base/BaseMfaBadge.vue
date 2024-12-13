@@ -28,20 +28,14 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 export default {
   name: "BaseMfaBadge",
-
-  components: {
-    BaseIcon,
-  },
 
   props: {
     size: {
       type: String,
-      default: "short",
-    },
+      default: "short"
+    }
   },
 
   data() {
@@ -54,7 +48,7 @@ export default {
 
   watch: {},
 
-  methods: {},
+  methods: {}
 };
 </script>
 

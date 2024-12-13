@@ -47,7 +47,6 @@ add-custom-emoji(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import AddCustomEmoji from "@/assemblies/modals/customization/AddCustomEmoji.vue";
-import BaseNavigationFooter from "@/components/base/BaseNavigationFooter.vue";
 import EmojisReactionsRow from "@/components/emojis-reactions/EmojisReactionsRow.vue";
 import SearchBar from "@/components/search/SearchBar.vue";
 
@@ -59,9 +58,8 @@ export default {
 
   components: {
     AddCustomEmoji,
-    BaseNavigationFooter,
     EmojisReactionsRow,
-    SearchBar,
+    SearchBar
   },
 
   props: {},
@@ -73,20 +71,20 @@ export default {
       // --> STATE <--
       isModalVisible: false,
 
-      modalVisibility: false,
+      modalVisibility: false
     };
   },
 
   computed: {
     emojis() {
       return store.$customizationEmojis.getEmojiList();
-    },
+    }
   },
 
   watch: {
     isModalVisible(newValue) {
       setTimeout(() => (this.modalVisibility = newValue), 10);
-    },
+    }
   },
 
   mounted() {
@@ -101,8 +99,8 @@ export default {
 
     onInvitePeopleClick(): void {
       this.toggleModalVisible();
-    },
-  },
+    }
+  }
 };
 </script>
 

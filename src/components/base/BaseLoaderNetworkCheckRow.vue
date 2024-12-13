@@ -8,12 +8,24 @@
      TEMPLATE
      ********************************************************************** -->
 <template lang="pug">
-.c-loader-base
-  .c-loader-base__animated(
-    :style=`{
-      width: width,
-    }`
+.c-base-loader-network-check-row(
+  class="c-base-loader-network-check-row--flex"
+)
+  base-pulse-icon(
+    class="c-base-loader-network-check-row__icon"
   )
+
+  .c-base-loader-network-check-row__right(
+    :class=`[
+      "c-base-loader-network-check-row--flex",
+    ]`
+  )
+    .c-base-loader-network-check-row__loading(
+      class="c-base-loader-network-check-row__animated"
+    )
+
+    p.c-base-loader-network-check-row__status
+      | Pending
 </template>
 
 <!-- **********************************************************************
@@ -22,16 +34,9 @@
 
 <script lang="ts">
 export default {
-  name: "LoaderBase",
+  name: "BaseLoaderNetworkCheckRow",
 
-  components: {},
-
-  props: {
-    width: {
-      type: String,
-      default: "100px",
-    },
-  },
+  props: {},
 
   data() {
     return {
@@ -45,7 +50,7 @@ export default {
 
   methods: {
     // <-- HELPERS -->
-  },
+  }
 };
 </script>
 
@@ -54,17 +59,40 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-loader-base";
+$c: ".c-base-loader-network-check-row";
 
 #{$c} {
-  margin-bottom: 5.5px;
+  margin-bottom: 9px;
+
+  #{$c}__icon {
+    margin-right: 9px;
+  }
+
+  #{$c}__loading {
+    width: 180px;
+    height: 18px;
+  }
 
   #{$c}__animated {
-    height: 13.5px;
     border-radius: 7px;
     background: linear-gradient(90deg, #0001 33%, #0005 50%, #0001 66%) #f2f2f2;
     background-size: 300% 100%;
     animation: l1 1s infinite linear;
+  }
+
+  #{$c}__right {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  #{$c}__status {
+    color: $color-base-blue-normal;
+    font-size: ($font-size-baseline - 2px);
+  }
+
+  &--flex {
+    display: flex;
+    align-items: center;
   }
 
   @keyframes l1 {

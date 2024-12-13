@@ -31,7 +31,7 @@
 
         p
           | {{ description }}
-    
+
     base-modal-status(
       :status="status"
       :color="globalIconColor"
@@ -39,7 +39,7 @@
     )
 
   .c-advanced-network-check-block__details
-    loader-network-check-row(
+    base-loader-network-check-row(
       v-if="status === 'pending'"
       v-for="row in [0, 1]"
     )
@@ -73,18 +73,8 @@
       ********************************************************************** -->
 
 <script lang="ts">
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseModalStatus from "@/components/base/modal/BaseModalStatus.vue";
-import LoaderNetworkCheckRow from "@/components/base/loader/LoaderNetworkCheckRow.vue";
-
 export default {
   name: "AdvancedNetworkCheckBlock",
-
-  components: {
-    BaseIcon,
-    BaseModalStatus,
-    LoaderNetworkCheckRow,
-  },
 
   props: {
     status: {
@@ -92,29 +82,31 @@ export default {
       default: "sucess",
 
       validator(x: string) {
-        return ["sucess", "pending", "INVALID", "CLOSED", "FAILURE"].includes(x);
-      },
+        return ["sucess", "pending", "INVALID", "CLOSED", "FAILURE"].includes(
+          x
+        );
+      }
     },
 
     label: {
       type: String,
-      required: true,
+      required: true
     },
 
     subtitle: {
       type: String,
-      required: true,
+      required: true
     },
 
     description: {
       type: String,
-      required: true,
+      required: true
     },
 
     checklist: {
       type: Array,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -131,7 +123,7 @@ export default {
     globalIconName() {
       // console.log('icon name', this.getIconName(this.status))
       return this.getIconName(this.status);
-    },
+    }
   },
 
   watch: {},
@@ -224,8 +216,8 @@ export default {
           return "No address available";
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

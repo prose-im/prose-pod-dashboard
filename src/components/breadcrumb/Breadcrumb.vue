@@ -49,17 +49,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseTooltip from "@/components/base/BaseTooltip.vue";
-
 export default {
   name: "Breadcrumb",
-
-  components: {
-    BaseIcon,
-    BaseTooltip
-  },
 
   props: {
     disclosureListClass: {

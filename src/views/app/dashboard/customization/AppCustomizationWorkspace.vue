@@ -15,27 +15,27 @@
       title="Workspace Profile"
       :items="profileItems"
     )
-  
+
     base-subsection(
       v-model="config.appearance"
       title="Apps Appearance"
       :items="appearanceItems"
       @update="onAppearanceUpdate"
     )
-  
+
   <!-- Modals -->
   edit-name(
     v-if="isEditNameVisible"
     :visibility="editNameVisibility"
     @close="toggleEditNameModalVisible"
   )
-  
+
   edit-logo(
     v-if="isEditLogoVisible"
     :visibility="editLogoVisibility"
     @close="toggleEditLogoModalVisible"
   )
-  
+
   edit-detail-card(
     v-if="isEditDetailCardVisible"
     :visibility="isEditDetailCardVisible"
@@ -49,7 +49,6 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import EditDetailCard from "@/assemblies/modals/customization/EditDetailCard.vue";
 import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
 import EditName from "@/assemblies/modals/customization/EditName.vue";
@@ -59,17 +58,16 @@ import store from "@/store";
 
 // ENUMERATIONS
 enum AppearanceKey {
-  Color = "color",
+  Color = "color"
 }
 
 export default {
   name: "AppCustomizationWorkspace",
 
   components: {
-    BaseSubsection,
     EditDetailCard,
     EditLogo,
-    EditName,
+    EditName
   },
 
   data() {
@@ -95,9 +93,9 @@ export default {
           action: this.toggleEditNameModalVisible,
           typeProps: {
             label: "Edit name...",
-            size: "medium",
+            size: "medium"
           },
-          slot: "text",
+          slot: "text"
         },
         {
           subtitle: "Icon for workspace",
@@ -107,9 +105,9 @@ export default {
           action: this.toggleEditLogoModalVisible,
           typeProps: {
             label: "Edit logo...",
-            size: "medium",
+            size: "medium"
           },
-          slot: "avatar",
+          slot: "avatar"
         },
         {
           subtitle: "Server details card",
@@ -120,9 +118,9 @@ export default {
           action: this.toggleEditDetailCardModalVisible,
           typeProps: {
             label: "Edit details...",
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       appearanceItems: [
@@ -136,25 +134,25 @@ export default {
               {
                 colorPrev: "#2490F0",
                 label: "Medium Blue",
-                value: "#2490F0",
+                value: "#2490F0"
               },
               {
                 colorPrev: "#1C293B",
                 label: "Dark Blue",
-                value: "#1C293B",
-              },
+                value: "#1C293B"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$customizationWorkspace.getConfig();
-    },
+    }
   },
 
   watch: {
@@ -164,7 +162,7 @@ export default {
 
     isEditLogoVisible(newVisibility) {
       setTimeout(() => (this.editLogoVisibility = newVisibility), 10);
-    },
+    }
   },
 
   mounted() {
@@ -201,8 +199,8 @@ export default {
       }
 
       return;
-    },
-  },
+    }
+  }
 };
 </script>
 

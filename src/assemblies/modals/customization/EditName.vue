@@ -35,19 +35,12 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 
 // STORE
 import store from "@/store";
 
 export default {
   name: "EditName",
-
-  components: {
-    BaseModal,
-    BaseModalInputBlock
-  },
 
   props: {
     visibility: {

@@ -69,15 +69,8 @@ div(
      ********************************************************************** -->
 
 <script lang="ts">
-//PROJECT COMPONENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 export default {
   name: "BaseAction",
-
-  components: {
-    BaseIcon
-  },
 
   props: {
     icon: {

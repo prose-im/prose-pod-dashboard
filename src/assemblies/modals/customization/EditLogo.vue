@@ -51,9 +51,6 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 
 // STORE
 import store from "@/store";
@@ -64,12 +61,6 @@ import imageCompression from "browser-image-compression";
 
 export default {
   name: "EditLogo",
-
-  components: {
-    BaseAvatar,
-    BaseModal,
-    BaseUploadButton
-  },
 
   props: {
     visibility: {

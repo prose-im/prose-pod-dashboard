@@ -64,10 +64,6 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
 import FormField from "@/components/form/FormField.vue";
 import store from "@/store";
 
@@ -75,10 +71,6 @@ export default {
   name: "AddCustomEmoji",
 
   components: {
-    BaseAvatar,
-    BaseIcon,
-    BaseModal,
-    BaseUploadButton,
     FormField
   },
 

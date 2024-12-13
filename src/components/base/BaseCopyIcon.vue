@@ -26,11 +26,11 @@
           size="11px"
           width="10px"
         )
-        
-      .c-base-copy-icon__unit   
+
+      .c-base-copy-icon__unit
         p
           | Copied
-        
+
     .c-base-copy-icon__copy(
       v-else
       :class=`[
@@ -56,15 +56,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-//PROJECT COMPONENTS
-import BaseIcon from '@/components/base/BaseIcon.vue';
-
 export default {
   name: "BaseCopyIcon",
-
-  components:{
-    BaseIcon
-  },
 
   props: {
     isCopied: {
@@ -75,13 +68,10 @@ export default {
 
   emits: ["click"],
 
-  computed: {
-  },
+  computed: {},
 
   methods: {
     // --> EVENT LISTENERS <--
-
-
   }
 };
 </script>
@@ -119,11 +109,9 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     }
   }
 
-  &--flex{
+  &--flex {
     display: flex;
     align-items: center;
   }
-
-
 }
 </style>

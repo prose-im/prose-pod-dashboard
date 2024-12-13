@@ -49,7 +49,6 @@ factory-reset(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import FactoryReset from "@/assemblies/modals/advanced/FactoryReset.vue";
 import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
 
@@ -60,9 +59,8 @@ export default {
   name: "AppAdvancedBackup",
 
   components: {
-    BaseSubsection,
     FactoryReset,
-    RestoreBackup,
+    RestoreBackup
   },
 
   props: {},
@@ -91,25 +89,25 @@ export default {
             options: [
               {
                 label: "Daily",
-                value: "P1D",
+                value: "P1D"
               },
               {
                 label: "Weekly",
-                value: "P1W",
-              },
+                value: "P1W"
+              }
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01",
+                value: "01"
               },
               {
                 label: "at 2am",
-                value: "02",
-              },
+                value: "02"
+              }
             ],
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -122,26 +120,26 @@ export default {
             options: [
               {
                 label: "Daily",
-                value: "P1D",
+                value: "P1D"
               },
               {
                 label: "Weekly",
-                value: "P1W",
-              },
+                value: "P1W"
+              }
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01",
+                value: "01"
               },
               {
                 label: "at 2am",
-                value: "02",
-              },
+                value: "02"
+              }
             ],
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       exportItems: [
@@ -154,9 +152,9 @@ export default {
           color: "bwPurple",
           typeProps: {
             label: "Download backup",
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       dangerItems: [
@@ -169,8 +167,8 @@ export default {
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -183,17 +181,17 @@ export default {
           color: "redShell",
           typeProps: {
             label: "Start factory reset…",
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$settingsBackup.getBackupSettings();
-    },
+    }
   },
 
   watch: {
@@ -203,7 +201,7 @@ export default {
 
     isResetModalVisible(newVisibility) {
       setTimeout(() => (this.resetModalVisibility = newVisibility), 10);
-    },
+    }
   },
 
   mounted() {
@@ -218,8 +216,8 @@ export default {
 
     toggleResetModalVisible() {
       this.isResetModalVisible = !this.isResetModalVisible;
-    },
-  },
+    }
+  }
 };
 </script>
 

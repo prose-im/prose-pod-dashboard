@@ -59,18 +59,12 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
-import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "FactoryReset",
 
   components: {
-    BaseModal,
-    BaseModalDisclaimer,
-    BaseModalInputBlock,
     FormCheckbox
   },
 

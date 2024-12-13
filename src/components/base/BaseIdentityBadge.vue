@@ -66,15 +66,8 @@
     ********************************************************************** -->
 
 <script lang="ts">
-//COMPINENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 export default {
   name: "BaseIdentityBagde",
-
-  components: {
-    BaseIcon
-  },
 
   props: {},
 

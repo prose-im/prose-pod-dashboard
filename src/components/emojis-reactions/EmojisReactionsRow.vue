@@ -119,18 +119,12 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAvatar from "@/components/base/BaseAvatar.vue";
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "EmojisReactionsRow",
 
   components: {
-    BaseAvatar,
-    BaseButton,
-    BaseIcon,
     FormCheckbox
   },
 

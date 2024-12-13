@@ -52,16 +52,12 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseButton from "@/components/base/BaseButton.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
 import FormField from "@/components/form/FormField.vue";
 
 export default {
   name: "SearchBar",
 
   components: {
-    BaseButton,
-    BaseIcon,
     FormField
   },
 

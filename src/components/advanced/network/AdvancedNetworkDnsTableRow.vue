@@ -42,17 +42,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import BaseCopyIcon from "@/components/base/BaseCopyIcon.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 export default {
   name: "AdvancedNetworkDnsTableRow",
-
-  components: {
-    BaseCopyIcon,
-    BaseIcon
-  },
 
   props: {
     header: {

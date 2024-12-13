@@ -127,22 +127,12 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseIcon from "@/components/base/BaseIcon.vue";
-import BaseModal from "@/components/base/modal/BaseModal.vue";
-import BaseModalDisclaimer from "@/components/base/modal/BaseModalDisclaimer.vue";
-import BaseModalInputBlock from "@/components/base/modal/BaseModalInputBlock.vue";
-import BaseUploadButton from "@/components/base/BaseUploadButton.vue";
 import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "RestoreBackup",
 
   components: {
-    BaseIcon,
-    BaseModal,
-    BaseModalDisclaimer,
-    BaseModalInputBlock,
-    BaseUploadButton,
     FormCheckbox
   },
 

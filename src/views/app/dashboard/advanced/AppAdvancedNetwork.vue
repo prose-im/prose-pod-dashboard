@@ -21,10 +21,10 @@
     title="Network Setup Tools"
     :items="toolsItems"
   )
-  
+
 <!-- Modals -->
- 
-dns-setup( 
+
+dns-setup(
   v-if="isDnsInstructionsModalVisible"
   :visibility="dnsInstructionsModalVisibility"
   @close="toggleDnsInstructionsModalVisible"
@@ -46,7 +46,6 @@ configuration-checker(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
 
@@ -57,9 +56,8 @@ export default {
   name: "AppAdvancedNetwork",
 
   components: {
-    BaseSubsection,
     ConfigurationChecker,
-    DnsSetup,
+    DnsSetup
   },
 
   props: {},
@@ -84,7 +82,7 @@ export default {
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
           type: "toggle",
-          disabled: true,
+          disabled: true
         },
         {
           subtitle: "Friendly servers whitelist",
@@ -96,9 +94,9 @@ export default {
           disabled: true,
           typeProps: {
             label: "Edit servers...",
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       toolsItems: [
@@ -110,8 +108,8 @@ export default {
           action: this.onShowDnsInstructions,
           typeProps: {
             label: "Show DNS instructions...",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -125,17 +123,17 @@ export default {
           type: "button",
           typeProps: {
             label: "Start network check...",
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$settingsNetwork.getFederationConfig;
-    },
+    }
   },
 
   watch: {
@@ -145,7 +143,7 @@ export default {
 
     isNetworkCheckModalVisible(newValue) {
       setTimeout(() => (this.networkCheckModalVisibility = newValue), 10);
-    },
+    }
   },
 
   mounted() {
@@ -165,8 +163,8 @@ export default {
     // --> EVENT LISTENERS <--
     onShowDnsInstructions() {
       this.toggleDnsInstructionsModalVisible();
-    },
-  },
+    }
+  }
 };
 </script>
 

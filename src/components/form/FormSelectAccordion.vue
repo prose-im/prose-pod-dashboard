@@ -101,9 +101,6 @@ div(
 import { PropType } from "vue";
 //- import { names as keyNames } from "keycode";
 
-//COMPONENTS
-import BaseIcon from "@/components/base/BaseIcon.vue";
-
 // INTERFACES
 export interface Option {
   value: string;
@@ -142,9 +139,6 @@ export interface Icon {
 export default {
   name: "FormSelectAccordion",
 
-  components: {
-    BaseIcon
-  },
   props: {
     modelValue: {
       type: String,
