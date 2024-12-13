@@ -110,7 +110,7 @@ export default {
   computed: {
     myVal: {
       get() {
-        if (Object.keys(this.modelValue).length) {
+        if (Object.keys(this.modelValue).length > 0) {
           // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
           return this.items.map(
             (_, index) => Object.values(this.modelValue)[index]
