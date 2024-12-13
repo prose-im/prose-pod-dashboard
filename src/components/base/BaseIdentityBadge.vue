@@ -11,12 +11,13 @@
 <template lang="pug">
 .c-base-identity-badge
   base-icon(
+    class="c-base-identity-badge__icon"
     name="fake.logo"
     size="44px"
   )
 
   .c-base-identity-badge__server
-    .c-base-identity-badge__server-title
+    .c-base-identity-badge__server-title.u-ellipsis
       p(
         :class=`[
           "c-base-identity-badge__server-name",
@@ -39,15 +40,21 @@
           ]`
         ) crisp.chat
 
-    .c-base-identity-badge__details
+    .c-base-identity-badge__details.u-ellipsis
       span
         | Server
 
       span.c-base-identity-badge--light
         | v0.12.1
 
+      base-space
+
       span
-        | + Pod
+        | +
+
+      base-space
+
+      span Pod
 
       span.c-base-identity-badge--light
         | v0.1.3
@@ -106,9 +113,14 @@ $c: ".c-base-identity-badge";
   border: solid 1px $color-border-secondary;
   box-shadow: 0 4px 4px 0 rgba($color-black, 0.01);
 
+  #{$c}__icon {
+    flex: 0 0 auto;
+  }
+
   #{$c}__server {
     height: fit-content;
     margin-left: 12px;
+    overflow: hidden;
 
     &-title {
       display: flex;
@@ -155,15 +167,6 @@ $c: ".c-base-identity-badge";
 
   @media (max-width: 768px) {
     max-width: 140px;
-
-    #{$c}__server {
-      height: fit-content;
-      margin-left: 12px;
-
-      &-title {
-        display: block;
-      }
-    }
   }
 
   @media (min-width: 768px) and (max-width: 922px) {
