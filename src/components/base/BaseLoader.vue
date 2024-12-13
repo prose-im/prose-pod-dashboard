@@ -24,27 +24,11 @@
 export default {
   name: "BaseLoader",
 
-  components: {},
-
   props: {
     width: {
       type: String,
       default: "100px"
     }
-  },
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // <-- HELPERS -->
   }
 };
 </script>

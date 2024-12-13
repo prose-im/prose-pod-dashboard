@@ -74,11 +74,7 @@ export default {
 
       return comingSoon;
     }
-  },
-
-  watch: {},
-
-  methods: {}
+  }
 };
 </script>
 

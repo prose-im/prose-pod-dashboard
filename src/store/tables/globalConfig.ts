@@ -55,7 +55,7 @@ const $globalConfig = defineStore("globalConfig", {
         minimum_cipher_suite: "HIGH_STRENGTH",
         federation_enabled: true,
         settings_backup_interval: "P1D",
-        user_data_backup_interval: "P1W",
+        user_data_backup_interval: "P1W"
       }
     };
   },
@@ -71,7 +71,7 @@ const $globalConfig = defineStore("globalConfig", {
       return () => {
         return this.properties.domain;
       };
-    },
+    }
   },
 
   actions: {

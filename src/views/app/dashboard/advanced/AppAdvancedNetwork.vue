@@ -60,19 +60,13 @@ export default {
     DnsSetup
   },
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
+
       isDnsInstructionsModalVisible: false,
-
       dnsInstructionsModalVisibility: false,
-
       isNetworkCheckModalVisible: false,
-
       networkCheckModalVisibility: false,
 
       federationItems: [
@@ -167,11 +161,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".v-app-advanced-network";
-</style>

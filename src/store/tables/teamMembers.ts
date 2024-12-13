@@ -9,8 +9,13 @@
  * ************************************************************************* */
 
 // NPM
-import APITeamMembers, { AllInvitationsResponse, AllMembersResponse, EnrichMembersResponse, Roles } from "@/api/providers/teamMembers";
-import { defineStore } from "pinia"; 
+import APITeamMembers, {
+  AllInvitationsResponse,
+  AllMembersResponse,
+  EnrichMembersResponse,
+  Roles
+} from "@/api/providers/teamMembers";
+import { defineStore } from "pinia";
 
 /**************************************************************************
  * INTERFACES
@@ -39,9 +44,9 @@ const $teamMembers = defineStore("teamMembers", {
     return {
       invitedMembers: [],
 
-      enrichedMembers:{},
+      enrichedMembers: {},
 
-      nonEnrichedMembers:[]
+      nonEnrichedMembers: []
     };
   },
 
@@ -62,86 +67,84 @@ const $teamMembers = defineStore("teamMembers", {
       return () => {
         return this.invitedMembers;
       };
-    },
+    }
   },
 
   actions: {
-    // <-- ACTIVE MEMBERS --> 
+    // <-- ACTIVE MEMBERS -->
 
     async loadActiveMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
-
         // Load all Members (non enriched)
         const entries = await APITeamMembers.getAllMembers();
         this.nonEnrichedMembers = entries;
-        console.log('non enriched entries', entries)
+        console.log("non enriched entries", entries);
 
         // Create a jid Array to ask enrichment
-        const jids: string[] = []
-        
-        entries.forEach((member) => {
+        const jids: string[] = [];
+
+        entries.forEach(member => {
           jids.push(member.jid);
         });
 
-        console.log('jids', jids);
+        console.log("jids", jids);
 
         // Get enriched Members
-        setTimeout(async() => {
+        setTimeout(async () => {
           const allMembers = await APITeamMembers.enrichMembers(jids);
           this.enrichedMembers = allMembers;
-  
-          console.log('enriched members', allMembers)
-        }, 5000 * (Math.random() + 0.5))
+
+          console.log("enriched members", allMembers);
+        }, 5000 * (Math.random() + 0.5));
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
     },
 
-    getFilteredMembers (filter: number | string) {
-      if(typeof filter === 'number'){
-  
+    getFilteredMembers(filter: number | string) {
+      if (typeof filter === "number") {
         /** Page filter */
         const startIndex = (filter - 1) * 10;
-        const endIndex = filter * 10 < this.nonEnrichedMembers.length ? filter * 10: this.nonEnrichedMembers.length;
+        const endIndex =
+          filter * 10 < this.nonEnrichedMembers.length
+            ? filter * 10
+            : this.nonEnrichedMembers.length;
 
         return this.nonEnrichedMembers.slice(startIndex, endIndex);
-
-      } else if(typeof filter === 'string') {
-
+      } else if (typeof filter === "string") {
         /** Searching bar filter */
-        const memberArray = Object.values(this.enrichedMembers)
+        const memberArray = Object.values(this.enrichedMembers);
 
         // Loop through all members
-        const response = memberArray.filter((member) => {
-
+        const response = memberArray.filter(member => {
           // Loop through all the values of a member
-          const filteredMember = Object.values(member).filter((e) =>{
-            if(!e) {
-              return
+          const filteredMember = Object.values(member).filter(e => {
+            if (!e) {
+              return;
             } else {
-              return e.includes(filter)
+              return e.includes(filter);
             }
           });
 
           return filteredMember.length ? filteredMember : false;
         });
 
-        console.log('filtered', response)
+        console.log("filtered", response);
         return response;
       }
     },
 
     async updateRoleByMemberId(jid: string, newRole: [Roles]) {
-      return true;   ///// TODO
+      return true; ///// TODO
     },
 
     async deleteMemberById(jid: string) {
-      return true;   ///// TODO
+      return true; ///// TODO
     },
 
-    // <-- INVITES --> 
+    // <-- INVITES -->
 
     async loadInvitedMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
@@ -149,19 +152,23 @@ const $teamMembers = defineStore("teamMembers", {
         // Initialize entries
         this.invitedMembers = await APITeamMembers.getAllInvitations();
 
-        console.log('invites', this.invitedMembers)
+        console.log("invites", this.invitedMembers);
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
     },
 
-    async sendInvitation(newUsername: string, newRole:string, newInviteEmail: string): Promise<void> {
+    async sendInvitation(
+      newUsername: string,
+      newRole: string,
+      newInviteEmail: string
+    ): Promise<void> {
       const newInvite = {
         username: newUsername,
         pre_assigned_role: newRole.toUpperCase(),
-        channel: 'email',
-        email_address: newInviteEmail,
+        channel: "email",
+        email_address: newInviteEmail
       };
 
       return await APITeamMembers.sendInvitation(newInvite);

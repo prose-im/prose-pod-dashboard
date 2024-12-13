@@ -112,12 +112,6 @@ export default {
 
   emits: ["update"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     myVal: {
       get() {
@@ -148,8 +142,6 @@ export default {
       return result;
     }
   },
-
-  watch: {},
 
   methods: {
     // --> HELPERS <--

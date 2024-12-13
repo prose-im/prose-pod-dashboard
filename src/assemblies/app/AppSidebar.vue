@@ -37,14 +37,14 @@ export default {
   components: {
     SidebarAccordion,
     SidebarFooter,
-    SidebarHeader,
+    SidebarHeader
   },
 
   props: {
     disclosureListClass: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
 
   data() {
@@ -57,9 +57,9 @@ export default {
             {
               icon: "two.people",
               value: "Members & Invites",
-              link: "/team/members",
-            },
-          ],
+              link: "/team/members"
+            }
+          ]
         },
         {
           value: "Server Features",
@@ -67,9 +67,9 @@ export default {
             {
               icon: "gearshape",
               value: "Configuration",
-              link: "/server/configuration",
-            },
-          ],
+              link: "/server/configuration"
+            }
+          ]
         },
         {
           value: "Customization",
@@ -77,15 +77,15 @@ export default {
             {
               icon: "stack",
               value: "Workspace",
-              link: "/customization/workspace",
+              link: "/customization/workspace"
             },
             {
               icon: "gift",
               value: "Emojis & Reactions",
-              link: "/customization/emojis",
+              link: "/customization/emojis"
               //disabled: true,
-            },
-          ],
+            }
+          ]
         },
         {
           value: "Advanced Settings",
@@ -93,21 +93,21 @@ export default {
             {
               icon: "key",
               value: "Security & Encryption",
-              link: "/advanced/security",
+              link: "/advanced/security"
             },
             {
               icon: "world",
               value: "Network Setup",
-              link: "/advanced/network",
+              link: "/advanced/network"
             },
             {
               icon: "archive",
               value: "Backup & Reset",
-              link: "/advanced/backup",
-            },
-          ],
-        },
-      ],
+              link: "/advanced/backup"
+            }
+          ]
+        }
+      ]
     };
   },
 
@@ -117,7 +117,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 

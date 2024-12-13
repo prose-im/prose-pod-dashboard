@@ -47,10 +47,6 @@ enum EncryptionKey {
 export default {
   name: "AppAdvancedSecurity",
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
@@ -117,8 +113,6 @@ export default {
     }
   },
 
-  watch: {},
-
   mounted() {
     store.$settingsSecurity.loadConfig();
   },
@@ -170,11 +164,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".v-app-advanced-security";
-</style>

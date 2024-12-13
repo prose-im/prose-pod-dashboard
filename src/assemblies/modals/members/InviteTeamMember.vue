@@ -79,7 +79,6 @@ export default {
     return {
       // --> STATE <--
       inviteEmail: "",
-
       inviteUserName: "",
 
       inviteRole: Roles.Member,

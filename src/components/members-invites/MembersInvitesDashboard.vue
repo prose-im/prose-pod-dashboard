@@ -84,7 +84,7 @@ import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
 import SearchBar from "@/components/search/SearchBar.vue";
 
-//STORE
+// PROJECT: STORE
 import store from "@/store";
 
 export default {
@@ -104,8 +104,6 @@ export default {
       required: true
     }
   },
-
-  emits: [],
 
   data() {
     return {

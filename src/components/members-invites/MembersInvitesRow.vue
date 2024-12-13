@@ -174,7 +174,7 @@
 // PROJECT: COMPONENTS
 import MembersInvitesMenu from "./MembersInvitesMenu.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
 export default {

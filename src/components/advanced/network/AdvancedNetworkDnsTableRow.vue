@@ -34,7 +34,6 @@
       base-copy-icon(
         :isCopied="copied"
       )
-
 </template>
 
 <!-- **********************************************************************
@@ -57,6 +56,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       copied: false,
 
       timer: null
@@ -69,6 +69,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     async copyText(htmlCollection: HTMLCollection) {
       const textToCopyArray: string[] = [];
 
@@ -91,7 +92,7 @@ export default {
         this.timer = setTimeout(() => {
           this.copied = false;
         }, 5000);
-      } catch ($e) {
+      } catch (_) {
         // alert('Cannot copy');
       }
     },

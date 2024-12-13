@@ -119,12 +119,6 @@ export default {
 
   emits: ["closeModal", "confirmAction"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     abortButtonText() {
       return this.buttonColor === "grey" ? "Close" : "Cancel";

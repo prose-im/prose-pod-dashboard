@@ -148,11 +148,9 @@ export default {
       password: "",
 
       settingsBackupFile: null,
-
       settingsBackupFileName: "",
 
       dataBackupFile: null,
-
       dataBackupFileName: ""
     };
   },

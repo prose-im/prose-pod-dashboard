@@ -13,7 +13,7 @@ import mitt from "mitt";
 import { defineStore } from "pinia";
 
 // PROJECT: STORES
-import APICustomizationReactions from '@/api/providers/customizationReactions';
+import APICustomizationReactions from "@/api/providers/customizationReactions";
 
 /**************************************************************************
  * TYPES
@@ -112,9 +112,10 @@ const $customizationEmojis = defineStore("room", {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions: Array<EmojiListEntry> = await APICustomizationReactions.getAllReactions();
+        const allReactions: Array<EmojiListEntry> =
+          await APICustomizationReactions.getAllReactions();
 
-        console.log('reactions', allReactions);
+        console.log("reactions", allReactions);
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;

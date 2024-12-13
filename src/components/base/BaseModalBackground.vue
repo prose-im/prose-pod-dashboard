@@ -16,7 +16,6 @@
   @click.self="onClickAway"
 )
   slot
- 
 </template>
 
 <!-- **********************************************************************
@@ -27,8 +26,6 @@
 export default {
   name: "BaseModalBackground",
 
-  components: {},
-
   props: {
     position: {
       type: String,
@@ -36,25 +33,17 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   emits: ["closeModal"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  watch: {},
-
   methods: {
     onClickAway(event: Event) {
       this.$emit("closeModal", event);
-    },
-  },
+    }
+  }
 };
 </script>
 

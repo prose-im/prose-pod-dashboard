@@ -13,6 +13,8 @@ import { default as axios, AxiosInstance, AxiosHeaderValue } from "axios";
 
 // PROJECT: COMMONS
 import CONFIG from "@/commons/config";
+
+// PROJECT: STORES
 import store from "@/store";
 
 /**************************************************************************
@@ -32,20 +34,23 @@ class API {
     // Initialize API HTTP client
     this.client = this.__createClient();
 
-    this.addInterceptor()
+    this.addInterceptor();
   }
 
   addInterceptor() {
-    this.client.interceptors.response.use(function (response) {
-      // Any status code that lie within the range of 2xx cause this function to trigger
-      // Do something with response data
-      return response;
-    }, function (error) {
-      if(error.status === 403) {
-        store.$account.logout();
+    this.client.interceptors.response.use(
+      function (response) {
+        // Any status code that lie within the range of 2xx cause this function to trigger
+        // Do something with response data
+        return response;
+      },
+      function (error) {
+        if (error.status === 403) {
+          store.$account.logout();
+        }
+        return Promise.reject(error);
       }
-      return Promise.reject(error);
-    });
+    );
   }
 
   authenticate(token: string | null): void {
@@ -56,11 +61,7 @@ class API {
   private __createClient(): AxiosInstance {
     return axios.create({
       baseURL: `${CONFIG.api.endpoint.local}/${CONFIG.api.version}`,
-      timeout: HTTP_TIMEOUT,
-
-      // headers: {
-      //   "Content-Type": "application/json"
-      // }
+      timeout: HTTP_TIMEOUT
     });
   }
 

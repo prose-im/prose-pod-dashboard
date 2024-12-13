@@ -131,22 +131,6 @@ export default {
       type: Array,
       default: null
     }
-  },
-
-  emits: [],
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

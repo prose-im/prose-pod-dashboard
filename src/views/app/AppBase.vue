@@ -17,7 +17,6 @@
   dashboard-main
     .v-app-base__content
       router-view
-
 </template>
 
 <!-- **********************************************************************

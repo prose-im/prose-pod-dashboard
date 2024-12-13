@@ -27,12 +27,8 @@ export default {
   name: "AppTeamMembers",
 
   components: {
-    MembersInvitesDashboard,
+    MembersInvitesDashboard
   },
-
-  props: {},
-
-  emits: [],
 
   data() {
     return {
@@ -42,7 +38,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle",
+          type: "toggle"
         },
         {
           subtitle: "Message archive retention time",
@@ -51,8 +47,8 @@ export default {
           type: "button",
           typeProps: {
             label: "Edit details...",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
         {
           subtitle: "Message archive retention time",
@@ -63,27 +59,19 @@ export default {
             options: [
               {
                 icon: "",
-                label: "1 year",
+                label: "1 year"
               },
               {
                 icon: "",
-                label: "2 years",
-              },
+                label: "2 years"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
-  },
+  }
 };
 </script>
 

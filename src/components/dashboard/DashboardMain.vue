@@ -11,7 +11,7 @@
 <template lang="pug">
 .c-dashboard-main
   .c-dashboard-main__content
-    breadcrumb(
+    breadcrumb-heading(
       class="c-dashboard-main__breadcrumb"
     )
 
@@ -27,31 +27,13 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import Breadcrumb from "@/components/breadcrumb/Breadcrumb.vue";
+import BreadcrumbHeading from "@/components/breadcrumb/BreadcrumbHeading.vue";
 
 export default {
   name: "DashboardMain",
 
   components: {
-    Breadcrumb
-  },
-
-  props: {},
-
-  emits: [],
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
+    BreadcrumbHeading
   }
 };
 </script>

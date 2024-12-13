@@ -143,7 +143,7 @@ base-modal(
 // PROJECT: COMPONENTS
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
 
-//STORE
+// PROJECT: STORE
 import store from "@/store";
 
 export default {

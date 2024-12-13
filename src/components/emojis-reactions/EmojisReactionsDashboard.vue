@@ -62,10 +62,6 @@ export default {
     SearchBar
   },
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--

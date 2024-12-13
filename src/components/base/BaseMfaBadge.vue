@@ -36,19 +36,7 @@ export default {
       type: String,
       default: "short"
     }
-  },
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {}
+  }
 };
 </script>
 

@@ -50,10 +50,6 @@ enum FileKey {
 export default {
   name: "AppServerConfiguration",
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
@@ -155,8 +151,6 @@ export default {
     }
   },
 
-  watch: {},
-
   mounted() {
     store.$serverConfiguration.loadServerConfiguration();
   },
@@ -230,11 +224,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".v-app-customization-emojis";
-</style>

@@ -14,14 +14,6 @@ import mitt from "mitt";
 import store from "@/store/index";
 
 /**************************************************************************
- * ENUMERATIONS
- * ************************************************************************* */
-
-/**************************************************************************
- * TYPES
- * ************************************************************************* */
-
-/**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
@@ -73,7 +65,7 @@ const $settingsBackup = defineStore("settingsBackup", {
       return (): BackupSettings => {
         return {
           podBackup: this.podBackup,
-          userDataBackup: this.userDataBackup,
+          userDataBackup: this.userDataBackup
         };
       };
     }
@@ -94,11 +86,11 @@ const $settingsBackup = defineStore("settingsBackup", {
       this.$patch(() => {
         this.podBackup.frequency = response.settings_backup_interval;
         this.userDataBackup.frequency = response.user_data_backup_interval;
-      })
+      });
 
       // Mark as loaded
       LOCAL_STATES.loaded = true;
-    },
+    }
   }
 });
 

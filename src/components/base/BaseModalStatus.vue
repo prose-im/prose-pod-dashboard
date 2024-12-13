@@ -65,12 +65,6 @@ export default {
     }
   },
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     label() {
       let label = "";
@@ -104,8 +98,6 @@ export default {
       return label;
     }
   },
-
-  watch: {},
 
   methods: {
     // <-- HELPERS -->

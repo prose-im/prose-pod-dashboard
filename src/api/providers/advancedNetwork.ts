@@ -14,24 +14,25 @@ import Api from "@/api";
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
+
 interface DnsRecord {
-  type: string,
-  hostname: string,
-  ttl: number,
-  priority: number,
-  weight: number,
-  port: number,
-  target: string,
-  string_repr: string
+  type: string;
+  hostname: string;
+  ttl: number;
+  priority: number;
+  weight: number;
+  port: number;
+  target: string;
+  string_repr: string;
 }
 
 export interface DnsStep {
-  purpose: string,
-  records: DnsRecord[]
+  purpose: string;
+  records: DnsRecord[];
 }
 
 interface DNSRecordsResponse {
-  steps: DnsStep[]
+  steps: DnsStep[];
 }
 
 interface AllNetworkChecksResponse {
@@ -40,14 +41,14 @@ interface AllNetworkChecksResponse {
 }
 
 export interface CheckData {
-  description: string,
-  status: string
+  description: string;
+  status: string;
 }
 
 interface CheckRecord {
-  id: string,
-  event: string,
-  data: CheckData
+  id: string;
+  event: string;
+  data: CheckData;
 }
 
 /**************************************************************************

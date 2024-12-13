@@ -65,12 +65,6 @@ export default {
 
   emits: ["navFooterUpdate"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     from() {
       return 1 + 10 * (this.page - 1);
@@ -91,12 +85,6 @@ export default {
         return "#495462";
       }
     }
-  },
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

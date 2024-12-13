@@ -63,19 +63,13 @@ export default {
     RestoreBackup
   },
 
-  props: {},
-
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
+
       isRestoreModalVisible: false,
-
       restoreModalVisibility: false,
-
       isResetModalVisible: false,
-
       resetModalVisibility: false,
 
       backupItems: [
@@ -220,11 +214,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".v-app-advanced-backup";
-</style>

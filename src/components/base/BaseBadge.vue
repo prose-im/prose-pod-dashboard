@@ -43,21 +43,11 @@ export default {
     }
   },
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     label() {
       return this.admin === "ADMIN" ? Roles.Admin : Roles.Member;
     }
-  },
-
-  watch: {},
-
-  methods: {}
+  }
 };
 </script>
 

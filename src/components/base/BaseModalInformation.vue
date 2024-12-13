@@ -34,22 +34,6 @@ export default {
       type: String,
       required: true
     }
-  },
-
-  emits: [],
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

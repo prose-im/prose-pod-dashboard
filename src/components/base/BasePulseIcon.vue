@@ -20,31 +20,19 @@
 
 <script lang="ts">
 export default {
-  components: {},
-
   props: {
     size: {
       type: String,
-      default: "15px",
-    },
+      default: "15px"
+    }
   },
-
-  emits: [],
 
   data() {
     return {
       // --> STATE <--
-      parameter: true,
+      parameter: true
     };
-  },
-
-  computed: {},
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
-  },
+  }
 };
 </script>
 

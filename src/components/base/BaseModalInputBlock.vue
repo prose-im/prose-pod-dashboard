@@ -62,12 +62,6 @@ export default {
 
   emits: ["update:modelValue", "change"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     fieldValue: {
       get() {
@@ -79,8 +73,6 @@ export default {
       }
     }
   },
-
-  watch: {},
 
   methods: {
     // --> EVENT LISTENERS <--
@@ -99,6 +91,8 @@ export default {
 $c: ".c-base-modal-input-block";
 
 #{$c} {
+  margin-bottom: 18px;
+
   h4 {
     color: $color-text-secondary;
     margin-top: 0;
@@ -106,7 +100,5 @@ $c: ".c-base-modal-input-block";
     margin-left: 8px;
     font-weight: $font-weight-medium;
   }
-
-  margin-bottom: 18px;
 }
 </style>

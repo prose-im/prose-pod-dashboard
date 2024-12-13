@@ -9,12 +9,12 @@
       ********************************************************************** -->
 
 <template lang="pug">
-.c-breadcrumb
-  nav.c-breadcrumb__nav
-    ul.c-breadcrumb__list
+.c-breadcrumb-heading
+  nav.c-breadcrumb-heading__nav
+    ul.c-breadcrumb-heading__list
       li(
         class=`[
-          "c-breadcrumb__list-element"
+          "c-breadcrumb-heading__list-element"
         ]`
         v-for="(crumb, index) in breadcrumbs"
         :key="index"
@@ -25,7 +25,7 @@
         span
           base-icon(
             v-if="index !== breadcrumbs.length -1"
-            class="c-breadcrumb__icon"
+            class="c-breadcrumb-heading__icon"
             name="chevron.right"
             size="11px"
             width="6.35px"
@@ -50,21 +50,13 @@
 
 <script lang="ts">
 export default {
-  name: "Breadcrumb",
+  name: "BreadcrumbHeading",
 
   props: {
     disclosureListClass: {
       type: String,
       default: null
     }
-  },
-
-  emits: [],
-
-  data() {
-    return {
-      // --> STATE <--
-    };
   },
 
   computed: {
@@ -129,8 +121,6 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // --> HELPERS <--
     capitalizeFirst(word: string) {
@@ -145,7 +135,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-breadcrumb";
+$c: ".c-breadcrumb-heading";
 
 #{$c} {
   #{$c}__nav {

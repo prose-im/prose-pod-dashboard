@@ -102,11 +102,10 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       loaded: false
     };
   },
-
-  computed: {},
 
   watch: {
     visible(newVisibility, oldVisibility) {

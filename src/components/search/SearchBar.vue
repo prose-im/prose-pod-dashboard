@@ -79,12 +79,6 @@ export default {
 
   emits: ["update:modelValue"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
   computed: {
     term: {
       get() {
@@ -95,12 +89,6 @@ export default {
         this.$emit("update:modelValue", value);
       }
     }
-  },
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

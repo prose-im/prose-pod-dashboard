@@ -93,6 +93,7 @@ export default {
 
       // Close modal
       this.$emit("close");
+
       BaseAlert.success(
         "Succesfully removed",
         `${this.jid} has been removed from the team`

@@ -66,13 +66,7 @@ export default {
     }
   },
 
-  emits: ["click"],
-
-  computed: {},
-
-  methods: {
-    // --> EVENT LISTENERS <--
-  }
+  emits: ["click"]
 };
 </script>
 

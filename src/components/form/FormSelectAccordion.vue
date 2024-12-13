@@ -99,7 +99,6 @@ div(
 <script lang="ts">
 // NPM
 import { PropType } from "vue";
-//- import { names as keyNames } from "keycode";
 
 // INTERFACES
 export interface Option {

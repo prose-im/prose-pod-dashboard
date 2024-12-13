@@ -75,13 +75,9 @@ export default {
       // --> STATE <--
 
       isEditNameVisible: false,
-
       editNameVisibility: false,
-
       isEditLogoVisible: false,
-
       editLogoVisibility: false,
-
       isEditDetailCardVisible: false,
 
       profileItems: [
@@ -203,11 +199,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
-
-<style lang="scss">
-$c: ".v-app-customization-workspace";
-</style>

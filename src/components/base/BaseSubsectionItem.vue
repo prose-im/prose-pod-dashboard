@@ -235,8 +235,6 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // --> EVENT LISTENERS <--
     onUpdateValue(newValue: boolean | string): void {

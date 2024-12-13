@@ -76,7 +76,6 @@ export default {
       // --> STATE <--
 
       imageUrl: "",
-
       image: "",
 
       shortcut: "",
@@ -110,6 +109,7 @@ export default {
 
       try {
         const compressedFile = await imageCompression(imageFile, options);
+
         console.log(
           "compressedFile instanceof Blob",
           compressedFile instanceof Blob

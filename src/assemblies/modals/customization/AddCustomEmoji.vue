@@ -100,10 +100,12 @@ export default {
 
       // Show image preview
       const fileReader = new FileReader();
+
       fileReader.addEventListener("load", () => {
         this.imageUrl = fileReader.result;
       });
       fileReader.readAsDataURL(files[0]);
+
       this.image = files[0];
     },
 
@@ -132,12 +134,14 @@ export default {
 
       this.imageUrl = "";
       this.image = "";
+
       this.$emit("close");
     },
 
     onClose() {
       this.imageUrl = "";
       this.image = "";
+
       this.$emit("close");
     }
   }

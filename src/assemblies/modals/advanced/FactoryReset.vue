@@ -75,8 +75,8 @@ export default {
   data() {
     return {
       // --> STATE <--
-      downloadConfirmed: false,
 
+      downloadConfirmed: false,
       dataLossConfirmed: false,
 
       password: ""
@@ -100,6 +100,7 @@ export default {
       } else {
         // Reset state
         this.password = "";
+
         this.downloadConfirmed = false;
         this.dataLossConfirmed = false;
 

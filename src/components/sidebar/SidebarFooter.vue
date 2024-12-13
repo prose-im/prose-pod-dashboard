@@ -45,18 +45,6 @@ import Store from "@/store";
 export default {
   name: "SidebarAccordion",
 
-  props: {},
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
   methods: {
     // --> EVENT LISTENERS <--
 

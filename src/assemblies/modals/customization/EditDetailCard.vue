@@ -33,7 +33,6 @@ export default {
       // --> STATE <--
 
       imageUrl: "",
-
       image: "",
 
       shortcut: ""

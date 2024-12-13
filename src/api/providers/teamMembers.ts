@@ -14,42 +14,45 @@ import Api from "@/api";
 /**************************************************************************
  * TYPES
  * ************************************************************************* */
-export type inviteChannel = 'email';
+
+export type inviteChannel = "email";
 
 /**************************************************************************
- * INTERFACES
+ * ENUMERATIONS
  * ************************************************************************* */
+
 export enum Roles {
-  Member = 'Member',
-  Admin = 'Admin',
+  Member = "Member",
+  Admin = "Admin"
 }
 
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
+
 interface Invitation {
-  username: string,
-  pre_assigned_role: [Roles],
-  channel: string,
-  email_address: string
+  username: string;
+  pre_assigned_role: [Roles];
+  channel: string;
+  email_address: string;
 }
 
 interface InvitedMemberEntry {
-  invitation_id: number,
-  created_at: string,
-  status: string,
-  jid: string,
-  pre_assigned_role: [Roles],
-  contact: { 
-    channel: string,
-    email_address: string
-  },
-  accept_token_expires_at: string
+  invitation_id: number;
+  created_at: string;
+  status: string;
+  jid: string;
+  pre_assigned_role: [Roles];
+  contact: {
+    channel: string;
+    email_address: string;
+  };
+  accept_token_expires_at: string;
 }
 
 interface MemberEntry {
-  jid: string,
-  role: string
+  jid: string;
+  role: string;
 }
 
 interface MemberByIdResponse {
@@ -58,11 +61,11 @@ interface MemberByIdResponse {
 }
 
 interface EnrichedMember {
-  jid: string,
-  role: string,
-  online: boolean,
-  nickname: string,
-  avatar: string
+  jid: string;
+  role: string;
+  online: boolean;
+  nickname: string;
+  avatar: string;
 }
 
 export interface EnrichMembersResponse {
@@ -72,6 +75,7 @@ export interface EnrichMembersResponse {
 /**************************************************************************
  * TYPES
  * ************************************************************************* */
+
 export type AllMembersResponse = MemberEntry[];
 
 export type AllInvitationsResponse = InvitedMemberEntry[];
@@ -88,9 +92,7 @@ class APITeamMembers {
   }
 
   async sendInvitation(invite: Invitation): Promise<void> {
-    await Api.client.post("/invitations",
-      invite
-    );
+    await Api.client.post("/invitations", invite);
   }
 
   async resendInvitation(invitationId: string): Promise<void> {
@@ -108,17 +110,23 @@ class APITeamMembers {
   }
 
   async enrichMembers(jids: string[]): Promise<EnrichMembersResponse> {
-    return (await Api.client.get("enrich-members?",{
-      params: {
-        jids: jids
-      },
-      paramsSerializer: params => {
-        // Custom serializer to encode array parameters correctly
-        return Object.keys(params).map(key => {
-          return params[key].map((value: string )=> `${key}=${encodeURIComponent(value)}`).join('&');
-        }).join('&');
-      }
-    })).data
+    return (
+      await Api.client.get("enrich-members?", {
+        params: {
+          jids: jids
+        },
+        paramsSerializer: params => {
+          // Custom serializer to encode array parameters correctly
+          return Object.keys(params)
+            .map(key => {
+              return params[key]
+                .map((value: string) => `${key}=${encodeURIComponent(value)}`)
+                .join("&");
+            })
+            .join("&");
+        }
+      })
+    ).data;
   }
 
   async getMemberById(memberId: number): Promise<MemberByIdResponse> {

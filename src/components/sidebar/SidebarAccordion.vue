@@ -38,8 +38,6 @@ export default {
     }
   },
 
-  emits: [],
-
   data() {
     return {
       // --> STATE <--
@@ -105,12 +103,6 @@ export default {
         this.category = value;
       }
     }
-  },
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

@@ -93,19 +93,27 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
       if (LOCAL_STATES.configLoaded === false || reload === true) {
         // Load globalConfig configuration
 
-        try{
-          const [name, icon, color] = await APICustomizationWorkspace.getWorkspaceConfig();
+        try {
+          const [name, icon, color] =
+            await APICustomizationWorkspace.getWorkspaceConfig();
 
           this.$patch(() => {
             this.workspaceProfile.name = name.name;
-            this.appearance.color = color.color;        
-            this.workspaceProfile.iconUrl = 'data:image/png;base64,' + icon.icon;
+            this.appearance.color = color.color;
+            this.workspaceProfile.iconUrl =
+              "data:image/png;base64," + icon.icon;
           });
-        } catch(error) {
-          console.error('message:', error.message, '- code:', error.code, '- status:', error.status)
+        } catch (error) {
+          console.error(
+            "message:",
+            error.message,
+            "- code:",
+            error.code,
+            "- status:",
+            error.status
+          );
         }
-
-      };
+      }
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
@@ -117,18 +125,18 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceIcon(newIcon: string): Promise<void> {
-        await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
+      await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
 
-        this.$patch(() => {
-          this.workspaceProfile.iconUrl = 'data:image/png;base64,' + newIcon;
-        })
+      this.$patch(() => {
+        this.workspaceProfile.iconUrl = "data:image/png;base64," + newIcon;
+      });
     },
 
     async updateWorkspaceColor(newColor: string): Promise<void> {
-      await APICustomizationWorkspace.setWorkspaceColor(newColor)
+      await APICustomizationWorkspace.setWorkspaceColor(newColor);
 
       this.$patch(() => {
-        this.appearance.color = newColor
+        this.appearance.color = newColor;
       });
     }
   }

@@ -13,21 +13,16 @@ import Api from "@/api";
 import { ServerConfigResponse } from "./global";
 
 /**************************************************************************
- * INTERFACES  
- * ************************************************************************* */
-
-/**************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
-const CONFIG_URL = "/server/config"; 
+const CONFIG_URL = "/server/config";
 
 /**************************************************************************
  * API
  * ************************************************************************* */
 
 class APIServerConfiguration {
- 
   /**  MESSAGING  **/
 
   async resetMessagesConfig(): Promise<ServerConfigResponse> {
@@ -47,7 +42,9 @@ class APIServerConfiguration {
   }
 
   async resetMessageRetentionTime(): Promise<ServerConfigResponse> {
-    return (await Api.client.put(`${CONFIG_URL}/message-archive-retention/reset`)).data;
+    return (
+      await Api.client.put(`${CONFIG_URL}/message-archive-retention/reset`)
+    ).data;
   }
 
   /**  FILES  **/
@@ -56,17 +53,13 @@ class APIServerConfiguration {
     return (await Api.client.put(`${CONFIG_URL}/files/reset`)).data;
   }
 
-  async updateFileUploadPermission(
-    uploadAllowed: boolean
-  ): Promise<void> {
+  async updateFileUploadPermission(uploadAllowed: boolean): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/file-upload-allowed`, {
       file_upload_allowed: uploadAllowed
     });
   }
 
-  async updateFileEncryptionScheme(
-    newEncryptionScheme: string
-  ): Promise<void> {
+  async updateFileEncryptionScheme(newEncryptionScheme: string): Promise<void> {
     await Api.client.put(`${CONFIG_URL}/file-storage-encryption-scheme`, {
       newEncryptionScheme
     });
