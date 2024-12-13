@@ -20,6 +20,7 @@ import Router from "@/router";
 import Store from "@/store";
 
 // PROJECT: BOOTSTRAP
+import BootstrapComponents from "@/bootstrap/components";
 import BootstrapPlugins from "@/bootstrap/plugins";
 
 // VIRTUAL
@@ -42,6 +43,7 @@ Router.bind(app);
  * BOOTSTRAP
  * ************************************************************************* */
 
+BootstrapComponents.init(app);
 BootstrapPlugins.init(app);
 
 /**************************************************************************

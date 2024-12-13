@@ -5,8 +5,11 @@
  */
 
 /* *************************************************************************
- * UTILITIES > ALL
+ * UTILITIES > INLINE
  * **************************************************************************/
 
-@import "_utilities.animations";
-@import "_utilities.inline";
+.u-ellipsis {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}

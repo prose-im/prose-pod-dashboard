@@ -20,6 +20,8 @@
     "browser-image-compression": "^2.0.2",
     "file64": "^1.0.4",
     "keycode": "2.2.1",
+    "lodash.camelcase": "4.3.0",
+    "lodash.upperfirst": "4.3.1",
     "lodash.merge": "4.6.2",
     "mitt": "3.0.1",
     "pinia": "2.2.4",
@@ -29,7 +31,9 @@
     "vue3-click-away": "1.2.4"
   },
   "devDependencies": {
+    "@types/lodash.camelcase": "4.3.x",
     "@types/lodash.merge": "4.6.x",
+    "@types/lodash.upperfirst": "4.3.x",
     "@types/node": "22.5.x",
     "@typescript-eslint/eslint-plugin": "5.48.x",
     "@typescript-eslint/parser": "5.48.x",
