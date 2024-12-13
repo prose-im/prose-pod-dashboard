@@ -23,7 +23,9 @@
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
         ]`
-      ) Crisp &nbsp;
+      ) Crisp
+
+      base-space
 
       .c-base-identity-badge__server-title-right
         p(
@@ -31,7 +33,9 @@
             "c-base-identity-badge__server-description",
             "c-base-identity-badge--light"
           ]`
-        ) | &nbsp;
+        ) |
+
+        base-space
 
         p(
           :class=`[
@@ -44,6 +48,8 @@
       span
         | Server
 
+      base-space
+
       span.c-base-identity-badge--light
         | v0.12.1
 
@@ -55,6 +61,8 @@
       base-space
 
       span Pod
+
+      base-space
 
       span.c-base-identity-badge--light
         | v0.1.3
