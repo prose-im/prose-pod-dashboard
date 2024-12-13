@@ -52,11 +52,6 @@
       @click="item.action"
       @update="updateValue"
     )
-
-    p(
-      class="c-base-subsection__erase"
-    )
-      | {{ myVal }}
 </template>
 
 <!-- **********************************************************************
@@ -120,9 +115,9 @@ export default {
           return this.items.map(
             (_, index) => Object.values(this.modelValue)[index]
           );
-        } else {
-          return this.items.map(_ => "");
         }
+
+        return this.items.map(_ => "");
       },
 
       set(nextValue: any[]) {
@@ -245,13 +240,6 @@ $c: ".c-base-subsection";
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }
-  }
-
-  //////ERASE
-  #{$c}__erase {
-    max-width: 600px;
-    max-height: 20px;
-    overflow: clip;
   }
 }
 </style>
