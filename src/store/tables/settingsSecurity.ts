@@ -10,7 +10,6 @@
 
 // NPM
 import { defineStore } from "pinia";
-import mitt from "mitt";
 
 // PROJECT: UTILITIES
 import store from "@/store/index";
@@ -49,12 +48,11 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       await store.$globalConfig.loadGlobalConfig();
 
       const response = await store.$globalConfig.getGlobalConfig();
-        
+
       // Load globalConfig configuration
       this.security.twoFactor = response.mfa_required;
       this.encryption.strength = response.minimum_cipher_suite;
       this.encryption.version = response.minimum_tls_version;
-      
     },
 
     setCallSoundOutputSource(value: string): void {
