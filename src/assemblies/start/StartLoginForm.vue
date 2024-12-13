@@ -57,10 +57,6 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import FormCheckbox from "@/components/form/FormCheckbox.vue";
-import FormField from "@/components/form/FormField.vue";
-
 // INTERFACES
 export interface StateForm {
   jid: string;
@@ -69,11 +65,6 @@ export interface StateForm {
 
 export default {
   name: "StartLoginForm",
-
-  components: {
-    FormCheckbox,
-    FormField
-  },
 
   props: {
     loading: {

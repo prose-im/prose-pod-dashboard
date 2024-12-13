@@ -56,7 +56,6 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import FormSelect from "@/components/form/FormSelect.vue";
 
 // TYPES
 import { Roles } from "@/api/providers/teamMembers";
@@ -66,10 +65,6 @@ import store from "@/store";
 
 export default {
   name: "InviteTeamMember",
-
-  components: {
-    FormSelect
-  },
 
   props: {
     visibility: {

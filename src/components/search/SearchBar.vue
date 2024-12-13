@@ -52,14 +52,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import FormField from "@/components/form/FormField.vue";
-
 export default {
   name: "SearchBar",
-
-  components: {
-    FormField
-  },
 
   props: {
     modelValue: {

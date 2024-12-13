@@ -21,15 +21,8 @@ base-modal(
          ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import FormField from "@/components/form/FormField.vue";
-
 export default {
   name: "EditDetailCard",
-
-  components: {
-    FormField
-  },
 
   props: {},
 

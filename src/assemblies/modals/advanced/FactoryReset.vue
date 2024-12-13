@@ -59,14 +59,9 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import FormCheckbox from "@/components/form/FormCheckbox.vue";
 
 export default {
   name: "FactoryReset",
-
-  components: {
-    FormCheckbox
-  },
 
   props: {
     visibility: {

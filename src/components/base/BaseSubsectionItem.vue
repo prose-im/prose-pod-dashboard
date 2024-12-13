@@ -134,17 +134,8 @@ div(
        ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import FormSelect from "@/components/form/FormSelect.vue";
-import FormToggle from "@/components/form/FormToggle.vue";
-
 export default {
   name: "BaseSubsectionItem",
-
-  components: {
-    FormSelect,
-    FormToggle
-  },
 
   props: {
     modelValue: {

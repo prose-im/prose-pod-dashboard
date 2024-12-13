@@ -30,15 +30,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import FormField from "@/components/form/FormField.vue";
-
 export default {
   name: "BaseModalInputBlock",
-
-  components: {
-    FormField
-  },
 
   props: {
     modelValue: {

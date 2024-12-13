@@ -118,15 +118,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import FormCheckbox from "@/components/form/FormCheckbox.vue";
-
 export default {
   name: "EmojisReactionsRow",
-
-  components: {
-    FormCheckbox
-  },
 
   props: {
     emojiData: {

@@ -172,7 +172,6 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import FormCheckbox from "@/components/form/FormCheckbox.vue";
 import MembersInvitesMenu from "./MembersInvitesMenu.vue";
 
 // STORE
@@ -182,7 +181,6 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    FormCheckbox,
     MembersInvitesMenu
   },
 

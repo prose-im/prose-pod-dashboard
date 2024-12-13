@@ -24,14 +24,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import FormSelectAccordion from "@/components/form/FormSelectAccordion.vue";
-
 export default {
   name: "SidebarAccordion",
-
-  components: {
-    FormSelectAccordion
-  },
 
   props: {
     items: {

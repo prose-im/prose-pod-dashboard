@@ -64,15 +64,10 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import FormField from "@/components/form/FormField.vue";
 import store from "@/store";
 
 export default {
   name: "AddCustomEmoji",
-
-  components: {
-    FormField
-  },
 
   props: {},
 
