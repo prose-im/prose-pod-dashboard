@@ -315,8 +315,14 @@ $c: ".c-members-invites-dashboard";
   justify-content: space-between;
 
   #{$c}__content {
-    overflow: auto;
     flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+
+    #{$c}__scroll {
+      overflow: auto;
+      flex: 1 1 0;
+    }
 
     #{$c}__users {
       &:nth-child(even) {
