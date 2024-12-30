@@ -15,123 +15,119 @@ div(
     "c-base-subsection-item--" + color
   ]`
 )
-
-  .c-base-subsection-item__subtitle
-    base-icon(
-      v-if="item.subtitleLeftIcon"
-      class="c-base-subsection-item__subtitle--left-icon"
-      :name="item.subtitleLeftIcon"
-      size="14px"
-    )
-
-    h3(
-      :class=`[
-        "c-base-subsection-item__subtitle--text",
-        {
-          "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
-          "c-base-subsection-item__subtitle--restore--disabled": item.restoreSubtitle && item.disabled,
-        }
-      ]`
-      @click="onSubtitleClick"
-    )
-      | {{ item.subtitle }}
-
+  .c-base-subsection-item__left
+    .c-base-subsection-item__subtitle
       base-icon(
-        v-if="item.restoreSubtitle"
-        class="c-base-subsection-item__subtitle--right-icon"
-        name="restore"
-        size="8px"
-        fill="#2490f0"
+        v-if="item.subtitleLeftIcon"
+        class="c-base-subsection-item__subtitle--left-icon"
+        :name="item.subtitleLeftIcon"
+        size="14px"
       )
 
-    base-coming-soon(
-      v-if="item.disabled"
+      h3(
+        :class=`[
+          "c-base-subsection-item__subtitle--text",
+          {
+            "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
+            "c-base-subsection-item__subtitle--restore--disabled": item.restoreSubtitle && item.disabled,
+          }
+        ]`
+        @click="onSubtitleClick"
+      )
+        | {{ item.subtitle }}
+
+        base-icon(
+          v-if="item.restoreSubtitle"
+          class="c-base-subsection-item__subtitle--right-icon"
+          name="restore"
+          size="8px"
+          fill="#2490f0"
+        )
+
+      base-coming-soon(
+        v-if="item.disabled"
+      )
+
+    p.c-base-subsection-item__description
+      | {{ item.description}}
+
+    .c-base-subsection-item__tag(
+      v-if="item.tags"
+    )
+      span(
+      )
+        | {{ item.tags[0] + ': ' }}
+
+      span(
+        v-for="(tag, index) in item.tags"
+        class="c-base-subsection-item__taglist"
+      )
+        p
+          | {{ item.tags[index + 1] }}
+
+        p.c-base-subsection-item--grey
+          | {{ (index<item.tags.length-2) ? ',' : '' }}
+
+  .c-base-subsection-item__right
+    <!-- OPTIONAL ELEMENT -->
+    p(
+      v-if="item.slot === 'text'"
+      class="c-base-subsection-item__slot"
+    )
+      | {{ calculatedValue }}
+
+    base-avatar(
+      v-if="item.slot === 'avatar'"
+      :avatar-data-url="calculatedValue"
+      size="40px"
+      border-radius="20px"
+      :class=`[
+        "c-base-subsection-item__slot",
+        "c-base-subsection-item__slot--avatar"
+      ]`
     )
 
-  .c-base-subsection-item__lower
-    .c-base-subsection-item__left
-      p.c-base-subsection-item__description
-        | {{ item.description}}
+    <!-- INTERACTIVE ELEMENT -->
+    form-toggle(
+      v-if="type === 'toggle'"
+      v-model="calculatedValue"
+      :disabled="item.disabled"
+      @update:modelValue="onUpdateValue"
+    )
 
-      .c-base-subsection-item__tag(
-        v-if="item.tags"
-      )
-        span(
-        )
-          | {{ item.tags[0] + ': ' }}
+    base-button(
+      v-if="type === 'button'"
+      :disabled="item.disabled"
+      :size="item.typeProps?.size"
+      :tint="buttonColor"
+      @click="$emit('click')"
+    )
+      | {{item.typeProps?.label}}
 
-        span(
-          v-for="(tag, index) in item.tags"
-          class="c-base-subsection-item__taglist"
-        )
-          p
-            | {{ item.tags[index + 1] }}
-
-          p.c-base-subsection-item--grey
-            | {{ (index<item.tags.length-2) ? ',' : '' }}
-
-
-    .c-base-subsection-item__right
-      <!-- OPTIONAL ELEMENT -->
-      p(
-        v-if="item.slot === 'text'"
-        class="c-base-subsection-item__slot"
-      )
-        | {{ calculatedValue }}
-
-      base-avatar(
-        v-if="item.slot === 'avatar'"
-        :avatar-data-url="calculatedValue"
-        size="40px"
-        border-radius="20px"
-        :class=`[
-          "c-base-subsection-item__slot",
-          "c-base-subsection-item__slot--avatar"
-        ]`
-      )
-
-      <!-- INTERACTIVE ELEMENT -->
-      form-toggle(
-        v-if="type === 'toggle'"
+    .c-base-subsection-item__select
+      form-select(
+        v-if="(type === 'select') || type === 'doubleSelect'"
         v-model="calculatedValue"
+        :color-prev="colorSquare"
         :disabled="item.disabled"
+        :options="item.typeProps?.options"
+        position="bottom"
+        size="medium"
+        :search="false"
         @update:modelValue="onUpdateValue"
       )
 
-      base-button(
-        v-if="type === 'button'"
+      form-select(
+        v-if="type === 'doubleSelect'"
+        v-model="stateSecondSelect"
+        class="c-base-subsection-item__double-select"
         :disabled="item.disabled"
-        :size="item.typeProps?.size"
-        :tint="buttonColor"
-        @click="$emit('click')"
+        :search="false"
+        size="medium"
+        :options="item.typeProps?.secondOptions"
+        position="bottom"
+        @update:modelValue="onUpdateExtraSelect"
       )
-        | {{item.typeProps?.label}}
-
-      .c-base-subsection-item__select
-        form-select(
-          v-if="(type === 'select') || type === 'doubleSelect'"
-          v-model="calculatedValue"
-          :color-prev="colorSquare"
-          :disabled="item.disabled"
-          :options="item.typeProps?.options"
-          position="bottom"
-          size="medium"
-          :search="false"
-          @update:modelValue="onUpdateValue"
-        )
-
-        form-select(
-          v-if="type === 'doubleSelect'"
-          v-model="stateSecondSelect"
-          class="c-base-subsection-item__double-select"
-          :disabled="item.disabled"
-          :search="false"
-          size="medium"
-          :options="item.typeProps?.secondOptions"
-          position="bottom"
-          @update:modelValue="onUpdateExtraSelect"
-        )
-
 </template>
 
 <!-- **********************************************************************
@@ -270,6 +266,9 @@ $c: ".c-base-subsection-item";
 #{$c} {
   padding-inline: 22px;
   padding-block: 11.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   #{$c}__subtitle {
     display: flex;
@@ -300,11 +299,8 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  #{$c}__lower {
-    display: flex;
-    align-items: center;
+  #{$c}__left {
     flex: 1 1 auto;
-    margin-inline-end: 10px;
   }
 
   #{$c}__description {
@@ -341,6 +337,7 @@ $c: ".c-base-subsection-item";
     font-size: ($font-size-baseline - 4px);
     font-weight: $font-weight-medium;
     margin-inline-end: 10px;
+    margin-block: 0;
     min-width: 40px;
     text-align: center;
     overflow: clip;
@@ -354,6 +351,7 @@ $c: ".c-base-subsection-item";
 
   #{$c}__right {
     display: flex;
+    align-items: 0;
 
     #{$c}__select {
       display: flex;
@@ -402,16 +400,23 @@ $c: ".c-base-subsection-item";
   }
 
   // <!-- MEDIA QUERIES -->
+  @media (max-width: 922px) {
+    #{$c}__right {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: min-content;
+    }
+
+    #{$c}__slot {
+      margin-inline-end: 0;
+      margin-block-end: 10px;
+    }
+  }
 
   @media (max-width: 768px) {
     #{$c}__right {
       flex-direction: column;
       align-items: center;
-
-      #{$c}__slot {
-        margin-inline-end: 0;
-        margin-block-end: 10px;
-      }
 
       #{$c}__select {
         flex-direction: column;
