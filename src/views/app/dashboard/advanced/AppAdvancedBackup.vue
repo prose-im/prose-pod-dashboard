@@ -12,6 +12,7 @@
 .v-app-advanced-backup
   base-subsection(
     v-model="config"
+    @update="onBackupUpdate"
     title="Backup Settings"
     :items="backupItems"
   )
@@ -23,23 +24,23 @@
 
   base-subsection(
     title="Danger Zone"
-    sup="tm"
     :items="dangerItems"
+    sup="tm"
     title-color="red"
   )
 
 <!-- Modals -->
 restore-backup(
   v-if="isRestoreModalVisible"
-  :visibility="restoreModalVisibility"
   @close="toggleRestoreModalVisible"
   @proceed=""
+  :visibility="restoreModalVisibility"
 )
 
 factory-reset(
   v-if="isResetModalVisible"
-  :visibility="resetModalVisibility"
   @close="toggleResetModalVisible"
+  :visibility="resetModalVisibility"
 )
 </template>
 
@@ -55,12 +56,23 @@ import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
 // STORE
 import store from "@/store";
 
+// ENUMERATIONS
+enum BackupKey {
+  PodSettings = "podBackup",
+  UserData = "userDataBackup",
+}
+
+enum TimeVariable {
+  Frequency = "frequency",
+  Time = "time",
+}
+
 export default {
   name: "AppAdvancedBackup",
 
   components: {
     FactoryReset,
-    RestoreBackup
+    RestoreBackup,
   },
 
   data() {
@@ -83,25 +95,25 @@ export default {
             options: [
               {
                 label: "Daily",
-                value: "P1D"
+                value: "P1D",
               },
               {
                 label: "Weekly",
-                value: "P1W"
-              }
+                value: "P1W",
+              },
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01"
+                value: "01",
               },
               {
                 label: "at 2am",
-                value: "02"
-              }
+                value: "02",
+              },
             ],
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
 
         {
@@ -114,26 +126,26 @@ export default {
             options: [
               {
                 label: "Daily",
-                value: "P1D"
+                value: "P1D",
               },
               {
                 label: "Weekly",
-                value: "P1W"
-              }
+                value: "P1W",
+              },
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01"
+                value: "01",
               },
               {
                 label: "at 2am",
-                value: "02"
-              }
+                value: "02",
+              },
             ],
-            size: "medium"
-          }
-        }
+            size: "medium",
+          },
+        },
       ],
 
       exportItems: [
@@ -146,9 +158,9 @@ export default {
           color: "bwPurple",
           typeProps: {
             label: "Download backup",
-            size: "medium"
-          }
-        }
+            size: "medium",
+          },
+        },
       ],
 
       dangerItems: [
@@ -161,8 +173,8 @@ export default {
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
 
         {
@@ -175,17 +187,17 @@ export default {
           color: "redShell",
           typeProps: {
             label: "Start factory reset…",
-            size: "medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
   computed: {
     config() {
       return store.$settingsBackup.getBackupSettings();
-    }
+    },
   },
 
   watch: {
@@ -195,7 +207,7 @@ export default {
 
     isResetModalVisible(newVisibility) {
       setTimeout(() => (this.resetModalVisibility = newVisibility), 10);
-    }
+    },
   },
 
   mounted() {
@@ -210,7 +222,31 @@ export default {
 
     toggleResetModalVisible() {
       this.isResetModalVisible = !this.isResetModalVisible;
-    }
-  }
+    },
+
+    // --> EVENT LISTENERS <--
+
+    onBackupUpdate(newValue: string, changedKey: BackupKey, changedSubKey: TimeVariable) {
+      console.log("backup change", newValue, changedKey, changedSubKey);
+      console.log("config", this.config);
+
+      if (this.config[changedKey][changedSubKey] !== newValue) {
+        switch (changedKey) {
+          case "podBackup": {
+            /// TODO
+            // console.log("call to store for podBackup", changedSubKey);
+            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            break;
+          }
+          case "userDataBackup": {
+            /// TODO
+            // console.log("call to store for userDataBackup", changedSubKey);
+            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            break;
+          }
+        }
+      }
+    },
+  },
 };
 </script>
