@@ -49,20 +49,14 @@ base-modal(
         p Value
 
       advanced-network-dns-table-row(
+        v-if="stepOne"
+        v-for="record in stepOne"
         class="a-dns-setup__table--one--row"
       )
-        p xmpp.crisp.chat
-        p A
-        p 600
-        p 90.105.205.180
-
-      advanced-network-dns-table-row(
-        class="a-dns-setup__table--one--row"
-      )
-        p xmpp.crisp.chat
-        p AAAA
-        p 600
-        p 2a01:cb05:899c:c200::1
+        p {{ record["hostname"] }}
+        p {{ record["type"] }}
+        p {{ record["ttl"] }}
+        p {{ record["value"] }}
 
     .a-dns-setup__step
       span
@@ -156,14 +150,14 @@ export default {
   name: "DnsSetup",
 
   components: {
-    AdvancedNetworkDnsTableRow
+    AdvancedNetworkDnsTableRow,
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -171,7 +165,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      reload: true
+      reload: true,
     };
   },
 
@@ -185,12 +179,19 @@ export default {
       return store.$settingsNetwork.getDnsInstructions();
     },
 
+    stepOne() {
+      if (this.steps.length > 0) {
+        const step = this.steps.filter((step) => step["purpose"].includes("specify"));
+        return step[0] ? step[0]["records"] : "";
+      } else {
+        return "";
+      }
+    },
+
     stepTwo() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter(step =>
-          step["purpose"].includes("clients")
-        );
-        return step[0]["records"];
+        const step = this.steps.filter((step) => step["purpose"].includes("clients"));
+        return step[0] ? step[0]["records"] : "";
       } else {
         return "";
       }
@@ -198,14 +199,12 @@ export default {
 
     stepThree() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter(step =>
-          step["purpose"].includes("servers")
-        );
-        return step[0]["records"];
+        const step = this.steps.filter((step) => step["purpose"].includes("servers"));
+        return step[0] ? step[0]["records"] : "";
       } else {
         return "";
       }
-    }
+    },
   },
 
   watch: {},
@@ -214,8 +213,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
-    }
-  }
+    },
+  },
 };
 </script>
 
