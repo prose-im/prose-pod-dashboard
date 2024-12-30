@@ -130,29 +130,31 @@ export default {
   methods: {
     // --> HELPERS <--
     updateValue(newValue: boolean | string, index: number, element?: number): void {
-      // console.log("hearding", newValue, index, element);
-
-      // Creating a copy of the modelValueObject
-      const updatedModel = { ...this.modelValue };
+      // Array from the keys of the model value
       const keys = Object.keys(this.modelValue);
 
-      if (element === 0 || element === 1) {
-        console.log("modelValue", this.modelValue);
+      // console.log("keys", keys);
 
+      if (element === 0 || element === 1) {
+        console.log("keys", keys, index);
+
+        //Get the modified subsectionItem
         const key1 = keys[index];
 
+        //Get the modified key from the modified subsectionItem
         const key2 = Object.keys(this.modelValue[key1])[element];
 
-        updatedModel[key1][key2] = newValue;
+        //Ask for update on parent
+        this.$emit("update", newValue, key1, key2);
+        console.log("emitting", newValue, key1, key2);
       } else {
+        //Get the modified subsectionItem
         const key = keys[index];
-        updatedModel[key] = newValue;
+
+        //Ask for update on parent
         this.$emit("update", newValue, key);
         console.log("emitting", key);
       }
-
-      // this.$emit("update", updatedModel[key], newValue);
-      // this.$emit("update", updatedModel);
     },
   },
 };
