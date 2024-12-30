@@ -326,7 +326,7 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__status {
-    border: 1px solid blue;
+    //border: 1px solid blue;
     min-width: 50px;
     max-width: 15%;
     margin-right: 10px;
@@ -413,7 +413,7 @@ $c: ".c-members-invites-row";
     padding-block: 0;
 
     line-height: 13px;
-    margin-block: 11px;
+    margin-block-start: 11px;
   }
 
   //<!-- COLORS -->
