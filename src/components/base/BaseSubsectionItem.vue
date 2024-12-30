@@ -54,11 +54,10 @@ div(
     .c-base-subsection-item__tag(
       v-if="item.tags"
     )
-      span(
-      )
+      p
         | {{ item.tags[0] + ': ' }}
 
-      span(
+      p(
         v-for="(tag, index) in item.tags"
         class="c-base-subsection-item__taglist"
       )
@@ -317,9 +316,12 @@ $c: ".c-base-subsection-item";
     font-size: ($font-size-baseline - 2px);
     font-weight: $font-weight-light;
     display: flex;
+    flex-wrap: wrap;
     color: $color-text-secondary;
+
     p {
       margin-block: 0;
+      white-space: nowrap;
     }
   }
 
