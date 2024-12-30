@@ -109,30 +109,17 @@ export default {
   emits: ["update"],
 
   computed: {
-    myVal: {
-      get() {
-        if (Object.keys(this.modelValue).length > 0) {
-          // console.log(
-          //   "hi",
-          //   this.items.map((_, index) => Object.values(this.modelValue)[index])
-          // );
-          return this.items.map((_, index) => Object.values(this.modelValue)[index]);
-        }
+    myVal() {
+      if (Object.keys(this.modelValue).length > 0) {
+        return this.items.map((_, index) => Object.values(this.modelValue)[index]);
+      }
 
-        return this.items.map(() => "");
-      },
-
-      set(nextValue: any[]) {
-        // console.log('nextValue', nextValue)
-        const updatedModel = { ...this.modelValue };
-        nextValue.forEach((value, index) => {
-          updatedModel[index] = value;
-        });
-      },
+      return this.items.map(() => "");
     },
 
     isRestoreDisabled() {
       const result = this.items.every((item) => {
+        // console.log("item", item);
         return item.disabled === true;
       });
 
@@ -150,9 +137,8 @@ export default {
       const keys = Object.keys(this.modelValue);
 
       if (element === 0 || element === 1) {
-        console.log(this.modelValue);
+        console.log("modelValue", this.modelValue);
 
-        // the
         const key1 = keys[index];
 
         const key2 = Object.keys(this.modelValue[key1])[element];
