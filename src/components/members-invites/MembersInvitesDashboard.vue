@@ -173,7 +173,7 @@ export default {
 
   computed: {
     allMembers() {
-      return store.$teamMembers.getAllMembers(this.pageNumber);
+      return store.$teamMembers.getAllMembers();
     },
 
     members() {
@@ -218,7 +218,7 @@ export default {
       this.isMembersLoading = true;
 
       try {
-        // Login to account
+        // Load already accepted members
         store.$teamMembers.loadActiveMembers();
       } catch (_) {
         BaseAlert.error("Could not log in", "Check your credentials and try again");
@@ -232,7 +232,7 @@ export default {
       this.isInvitesLoading = true;
 
       try {
-        // Login to account
+        // Load invited members
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
         BaseAlert.error("Could not log in", "Check your credentials and try again");
