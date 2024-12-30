@@ -184,7 +184,7 @@ export default {
       // --> STATE <--
       state: null,
 
-      stateSecondSelect: null,
+      stateSecondSelect: null as string | null,
 
       colorSquare: null as string | null,
     };
@@ -263,7 +263,8 @@ export default {
       }
     },
 
-    changeSecondSelectState(array: any[]) {
+    changeSecondSelectState(array: string[]) {
+      console.log(array);
       this.stateSecondSelect = array[1];
     },
   },

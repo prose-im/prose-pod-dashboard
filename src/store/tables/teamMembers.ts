@@ -71,8 +71,8 @@ const $teamMembers = defineStore("teamMembers", {
   },
 
   actions: {
-    // <-- ACTIVE MEMBERS -->
 
+    // <-- ACTIVE MEMBERS -->
     async loadActiveMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
@@ -136,13 +136,13 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
-    async updateRoleByMemberId(jid: string, newRole: [Roles]) {
-      return true; ///// TODO
-    },
+    // async updateRoleByMemberId(jid: string, newRole: [Roles]) {
+    //   return true; ///// TODO
+    // },
 
-    async deleteMemberById(jid: string) {
-      return true; ///// TODO
-    },
+    // async deleteMemberById(jid: string) {
+    //   return true; ///// TODO
+    // },
 
     // <-- INVITES -->
 
