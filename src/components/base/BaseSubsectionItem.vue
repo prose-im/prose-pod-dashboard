@@ -191,22 +191,13 @@ export default {
   },
 
   computed: {
-    calculatedValue: {
-      get() {
-        if (this.type !== "doubleSelect") {
-          this.changeColorSquare();
-          return this.modelValue;
-        } else {
-          const valueArray = Object.values(this.modelValue);
-          this.changeSecondSelectState(valueArray);
-
-          return valueArray[0];
-        }
-      },
-
-      set(nextValue: any[]) {
-        console.log("nextValue", nextValue);
-      },
+    calculatedValue() {
+      if (this.type !== "doubleSelect") {
+        return this.modelValue;
+      } else {
+        const valueArray = Object.values(this.modelValue);
+        return valueArray[0];
+      }
     },
 
     buttonColor() {
@@ -227,6 +218,21 @@ export default {
           return "white";
         }
       }
+    },
+  },
+
+  watch: {
+    modelValue: {
+      immediate: true,
+
+      handler(newValue) {
+        if (this.type !== "doubleSelect") {
+          this.changeColorSquare();
+        } else {
+          const valueArray = Object.values(newValue);
+          this.changeSecondSelectState(valueArray);
+        }
+      },
     },
   },
 
