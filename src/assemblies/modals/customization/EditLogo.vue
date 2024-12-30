@@ -65,8 +65,8 @@ export default {
   props: {
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -80,18 +80,18 @@ export default {
 
       shortcut: "",
 
-      proceedDisabled: true
+      proceedDisabled: true,
     };
   },
 
   computed: {
     currentImage() {
-      return ""; //store.$customizationWorkspace.getWorkspaceLogo();
+      return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
     chosenImageUrl() {
       return this.imageUrl ? this.imageUrl : this.currentImage;
-    }
+    },
   },
 
   methods: {
@@ -104,19 +104,14 @@ export default {
       const options = {
         maxSizeMB: 0.256,
         maxWidthOrHeight: 1000,
-        useWebWorker: true
+        useWebWorker: true,
       };
 
       try {
         const compressedFile = await imageCompression(imageFile, options);
 
-        console.log(
-          "compressedFile instanceof Blob",
-          compressedFile instanceof Blob
-        ); // true
-        console.log(
-          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        ); // smaller than maxSizeMB
+        console.log("compressedFile instanceof Blob", compressedFile instanceof Blob); // true
+        console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
 
         return compressedFile;
       } catch (error) {
@@ -189,8 +184,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
