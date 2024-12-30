@@ -194,13 +194,11 @@ export default {
     calculatedValue: {
       get() {
         if (this.type !== "doubleSelect") {
-          if (typeof this.modelValue === "string" && this.modelValue.startsWith("#")) {
-            this.colorSquare = this.modelValue;
-          }
+          this.changeColorSquare();
           return this.modelValue;
         } else {
           const valueArray = Object.values(this.modelValue);
-          this.stateSecondSelect = valueArray[1];
+          this.changeSecondSelectState(valueArray);
 
           return valueArray[0];
         }
@@ -250,6 +248,17 @@ export default {
       this.item.restoreSubtitle && this.item.restoreAction
         ? this.item.restoreAction()
         : "";
+    },
+
+    // --> HELPERS <--
+    changeColorSquare() {
+      if (typeof this.modelValue === "string" && this.modelValue.startsWith("#")) {
+        this.colorSquare = this.modelValue;
+      }
+    },
+
+    changeSecondSelectState(array: any[]) {
+      this.stateSecondSelect = array[1];
     },
   },
 };
