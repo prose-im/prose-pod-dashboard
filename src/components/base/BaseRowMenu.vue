@@ -11,15 +11,15 @@
 <template lang="pug">
 div(
   :class=`[
-    "c-members-invites-menu",
-    "c-members-invites-menu--" + align,
+    "c-base-row-menu",
+    "c-base-row-menu--" + align,
     {
-      "c-members-invites-menu--visible": isVisible,
+      "c-base-row-menu--visible": isVisible,
     }
   ]`
 )
-  .c-members-invites-menu__dropdown
-    ul.c-members-invites-menu__options(
+  .c-base-row-menu__dropdown
+    ul.c-base-row-menu__options(
       ref="options"
     )
       li(
@@ -28,20 +28,20 @@ div(
         @mouseleave="onOptionMouseLeave(index)"
         @click="onDropDownClick"
         :class=`[
-          "c-members-invites-menu__option",
+          "c-base-row-menu__option",
           {
-            "c-members-invites-menu__option--hovered": (hoveredIndex === index),
-            "c-members-invites-menu__option--disabled": option.disabled
+            "c-base-row-menu__option--hovered": (hoveredIndex === index),
+            "c-base-row-menu__option--disabled": option.disabled
           }
         ]`
       )
-        .c-members-invites-menu__link(
+        .c-base-row-menu__link(
           :class=`[
-            "c-members-invites-menu__link--" + option.color
+            "c-base-row-menu__link--" + option.color
           ]`
           @click="onOptionClick(option)"
         )
-          span.c-members-invites-menu__value.u-ellipsis
+          span.c-base-row-menu__value.u-ellipsis
             | {{ option?.value }}
 </template>
 
@@ -51,14 +51,14 @@ div(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import MembersInvitesMenuOverlay from "./MembersInvitesMenuOverlay.vue";
+import BaseRowMenuOverlay from "@/components/base/BaseRowMenuOverlay.vue";
 
 // CONSTANTS
 export default {
-  name: "MembersInvitesMenu",
+  name: "BaseRowMenu",
 
   components: {
-    MembersInvitesMenuOverlay,
+    BaseRowMenuOverlay,
   },
 
   props: {
@@ -125,7 +125,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-members-invites-menu";
+$c: ".c-base-row-menu";
 
 #{$c} {
   display: inline-block;

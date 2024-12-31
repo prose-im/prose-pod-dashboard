@@ -14,14 +14,14 @@ teleport(
 )
   div(
     :class=`[
-      "c-members-invites-menu",
-      "c-members-invites-menu--" + direction,
-      "c-members-invites-menu--" + align
+      "c-base-row-menu",
+      "c-base-row-menu--" + direction,
+      "c-base-row-menu--" + align
     ]`
     :style="overlayStyle"
   )
-    span.c-members-invites-menu__dropdown
-      ul.c-members-invites-menu__options(
+    span.c-base-row-menu__dropdown
+      ul.c-base-row-menu__options(
         ref="options"
       )
         li(
@@ -30,16 +30,16 @@ teleport(
           @mouseleave="onOptionMouseLeave(index)"
           @click="onDropDownClick"
           :class=`[
-            "c-members-invites-menu__option",
+            "c-base-row-menu__option",
             {
               "u-medium": (value === option.value),
-              "c-members-invites-menu__option--selected": (value === option.value),
-              "c-members-invites-menu__option--hovered": (hoveredIndex === index),
-              "c-members-invites-menu__option--disabled": option.disabled
+              "c-base-row-menu__option--selected": (value === option.value),
+              "c-base-row-menu__option--hovered": (hoveredIndex === index),
+              "c-base-row-menu__option--disabled": option.disabled
             }
           ]`
         )
-          span.c-members-invites-menu__value.u-ellipsis
+          span.c-base-row-menu__value.u-ellipsis
             | {{ option.value }}
 </template>
 
@@ -56,7 +56,7 @@ enum PositionRule {
 }
 
 export default {
-  name: "MembersInvitesMenu",
+  name: "BaseRowMenuOverlay",
 
   props: {
     options: {
@@ -176,7 +176,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-members-invites-menu";
+$c: ".c-base-row-menu";
 
 // VARIABLES
 $tooltip-spacing-block: 6px;
