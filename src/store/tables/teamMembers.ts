@@ -33,7 +33,7 @@ interface Members {
  * ************************************************************************* */
 
 const LOCAL_STATES = {
-  loaded: false
+  loaded: false 
 };
 
 /**************************************************************************
@@ -132,14 +132,13 @@ const $teamMembers = defineStore("teamMembers", {
           return filteredMember.length ? filteredMember : false;
         });
 
-        console.log("filtered", response);
         return response;
       }
     },
 
-    // async updateRoleByMemberId(jid: string, newRole: [Roles]) {
-    //   return true; ///// TODO
-    // },
+    async updateRoleByMemberId(jid: string, newRole: [ROLES]) {
+      return await APITeamMembers.updateMemberRole(jid, newRole);
+    },
 
     // async deleteMemberById(jid: string) {
     //   return true; ///// TODO
