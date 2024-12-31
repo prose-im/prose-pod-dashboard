@@ -55,18 +55,34 @@ import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNet
 // STORE
 import store from "@/store";
 
+// ENUM
+enum Block {
+  Dns = "dns",
+  Ip = "ip",
+  Port = "port",
+}
+
+// INTERFACE
+interface CheckRow {
+  description: string;
+  status: string;
+}
+
+// TYPES
+type CheckList = CheckRow[];
+
 export default {
   name: "ConfigurationChecker",
 
   components: {
-    AdvancedNetworkCheckBlock
+    AdvancedNetworkCheckBlock,
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -83,15 +99,15 @@ export default {
     },
 
     dnsStatus() {
-      return this.getGlobalStatus("dns", this.dnsCheckList);
+      return this.getGlobalStatus(Block.Dns, this.dnsCheckList);
     },
 
     portStatus() {
-      return this.getGlobalStatus("port", this.portCheckList);
+      return this.getGlobalStatus(Block.Port, this.portCheckList);
     },
 
     ipStatus() {
-      return this.getGlobalStatus("ip", this.ipCheckList);
+      return this.getGlobalStatus(Block.Ip, this.ipCheckList);
     },
 
     dnsCheckList() {
@@ -104,14 +120,15 @@ export default {
 
     ipCheckList() {
       return store.$settingsNetwork.getIpCheck() || [];
-    }
+    },
   },
 
   watch: {},
 
   methods: {
     // --> HELPERS <--
-    getGlobalStatus(block: string, checkList) {
+    getGlobalStatus(block: Block, checkList: CheckList) {
+      console.log("checklist", checkList);
       let checkListStatus = "";
 
       if (this.states[`${block}Loading`]) {
@@ -138,8 +155,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.checkAllRecords();
-    }
-  }
+    },
+  },
 };
 </script>
 
