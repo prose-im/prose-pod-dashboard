@@ -45,13 +45,25 @@ transition(
 
       base-button(
         v-if="buttonColor !== 'grey'"
+        @click="onConfirm"
         class="c-base-modal-container__footer--extra-button"
         :disabled="disabled"
+        :loading="loading"
         :size="buttonSize"
         :tint="buttonColor"
-        @click="onConfirm"
       )
-        | {{ buttonLabel }}
+        span(
+          :class=`[
+            {
+              "c-base-modal-container--hidden": loading && disabled
+            }
+          ]`
+        )
+          | {{ buttonLabel }}
+
+        span.c-base-modal-container__loader(
+          v-if="loading"
+        )
 
 </template>
 
@@ -66,7 +78,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     titleColor: {
@@ -75,7 +87,7 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      }
+      },
     },
 
     buttonColor: {
@@ -84,27 +96,32 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      }
+      },
     },
 
     buttonLabel: {
       type: String,
-      default: ""
+      default: "",
     },
 
     containerVisible: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     flexBody: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+
+    loading: {
+      type: Boolean,
+      default: false,
     },
 
     position: {
@@ -113,8 +130,8 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      }
-    }
+      },
+    },
   },
 
   emits: ["closeModal", "confirmAction"],
@@ -138,7 +155,7 @@ export default {
       return this.position === "left"
         ? "u-animate u-animate--slide-out"
         : "u-animate u-animate--fade-out-down-small";
-    }
+    },
   },
 
   watch: {},
@@ -150,8 +167,8 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirmAction", event);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -205,6 +222,7 @@ $c: ".c-base-modal-container";
 
     &--extra-button {
       margin-left: 12px;
+      position: relative;
     }
   }
 
@@ -241,9 +259,60 @@ $c: ".c-base-modal-container";
     flex-direction: column;
   }
 
+  &--hidden {
+    visibility: hidden;
+  }
+
   //<!-- COLORS -->
   &--red {
     color: $color-base-red-normal;
+  }
+
+  //<!-- LOADER -->
+  #{$c}__loader {
+    position: absolute !important;
+    top: 40%;
+    left: 45%;
+    display: block;
+    width: 12.5px;
+    height: 12.5px;
+    border-radius: 50%;
+    position: relative;
+    animation: rotate 1s linear infinite;
+  }
+
+  #{$c}__loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    animation: prixClipFix 2s linear infinite;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes prixClipFix {
+    0% {
+      clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+    }
+    25% {
+      clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+    }
+    50% {
+      clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+    }
+    75% {
+      clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    }
+    100% {
+      clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+    }
   }
 }
 </style>
