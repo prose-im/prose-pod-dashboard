@@ -16,6 +16,8 @@ import CONFIG from "@/commons/config";
 
 // PROJECT: STORES
 import store from "@/store";
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import router from "@/router";
 
 /**************************************************************************
  * CONSTANTS
@@ -37,18 +39,40 @@ class API {
     this.addInterceptor();
   }
 
-  addInterceptor() {
+  addInterceptor() {    
     this.client.interceptors.response.use(
       function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
         return response;
       },
-      function (error) {
-        if (error.status === 403) {
-          store.$account.logout();
+      async function (error) {
+        // Check if the error response status is 403 before logging out
+        if (error.response && error.response.status === 403) {  
+          try {
+            // Logout from account
+            await store.$account.logout();
+    
+            // Redirect to login page
+            console.log('router', router.instance());
+
+            router.instance()
+              .push('/start/login')
+              .catch(err => {
+                // Handle redundant navigation error
+                console.error('error reroute:', err);
+              });
+    
+            // Acknowledge logout success
+            BaseAlert.info("Logged out", "Logged out of your dashboard");
+          } catch (_) {
+            console.error('router error', _)
+            BaseAlert.error("Could not log out", "Maybe try again?");
+          }
         }
-        return Promise.reject(error);
+        // Handle other errors globally if needed
+
+        return Promise.reject(error);  
       }
     );
   }
