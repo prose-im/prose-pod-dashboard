@@ -13,7 +13,8 @@ import APITeamMembers, {
   AllInvitationsResponse,
   AllMembersResponse,
   EnrichMembersResponse,
-  // Roles
+  ROLES,
+  Roles
 } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
 
@@ -161,12 +162,12 @@ const $teamMembers = defineStore("teamMembers", {
 
     async sendInvitation(
       newUsername: string,
-      newRole: string,
+      newRole: [ROLES],
       newInviteEmail: string
     ): Promise<void> {
       const newInvite = {
         username: newUsername,
-        pre_assigned_role: newRole.toUpperCase(),
+        pre_assigned_role: newRole,
         channel: "email",
         email_address: newInviteEmail
       };

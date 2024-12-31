@@ -48,7 +48,7 @@ base-modal(
 import store from "@/store";
 
 // TYPES
-import { Roles } from "@/api/providers/teamMembers";
+import { ROLES, Roles } from "@/api/providers/teamMembers";
 
 export default {
   name: "EditRole",
@@ -56,13 +56,13 @@ export default {
   props: {
     user: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
 
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -72,18 +72,18 @@ export default {
       // --> STATE <--
       isSelectOpen: false,
 
-      newRole: null as Roles.Member | Roles.Admin | null,
+      newRole: null as [ROLES] | null,
 
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member
+          value: ROLES.MEMBER,
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin
-        }
-      ]
+          value: ROLES.ADMIN,
+        },
+      ],
     };
   },
 
@@ -93,17 +93,17 @@ export default {
         console.log("getting role", this.user.role, this.newRole);
 
         if (!this.newRole) {
-          return this.user.role === "ADMIN" ? Roles.Admin : Roles.Member;
+          return this.user.role;
         } else {
           return this.newRole;
         }
       },
 
-      set(value: Roles.Admin | Roles.Member) {
+      set(value: [ROLES]) {
         console.log("set user role", value);
         this.newRole = value;
-      }
-    }
+      },
+    },
   },
 
   watch: {},
@@ -121,17 +121,14 @@ export default {
     // --> EVENT LISTENERS <--
     onProceed() {
       // update only if Role has changed
-      if (this.newRole && this.user.role !== this.newRole.toUpperCase()) {
-        store.$teamMembers.updateRoleByMemberId(
-          this.user.jid,
-          this.newRole.toUpperCase()
-        );
+      if (this.newRole && this.user.role !== this.newRole) {
+        store.$teamMembers.updateRoleByMemberId(this.user.jid, this.newRole);
 
         // Close modal
-        this.$emit("close");
+        this.onClose();
       } else {
         // Close modal
-        this.$emit("close");
+        this.onClose();
       }
     },
 
@@ -142,8 +139,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 

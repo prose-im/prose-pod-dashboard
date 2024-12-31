@@ -59,7 +59,7 @@ base-modal(
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // TYPES
-import { Roles } from "@/api/providers/teamMembers";
+import { ROLES, Roles } from "@/api/providers/teamMembers";
 
 //Store
 import store from "@/store";
@@ -70,8 +70,8 @@ export default {
   props: {
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close"],
@@ -82,18 +82,18 @@ export default {
       inviteEmail: "",
       inviteUserName: "",
 
-      inviteRole: Roles.Member,
+      inviteRole: ROLES.MEMBER,
 
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member
+          value: ROLES.MEMBER,
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin
-        }
-      ]
+          value: ROLES.ADMIN,
+        },
+      ],
     };
   },
 
@@ -106,10 +106,7 @@ export default {
     async onSendInvite(): Promise<void> {
       // Check if all fields have been filled
       if (!this.inviteEmail || !this.inviteUserName) {
-        BaseAlert.error(
-          "Cannot send the invitation",
-          "Please complete all the fields"
-        );
+        BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
         return;
       } else {
         try {
@@ -153,12 +150,12 @@ export default {
       // Reset values
       this.inviteEmail = "";
       this.inviteUserName = "";
-      this.inviteRole = Roles.Member;
+      this.inviteRole = ROLES.MEMBER;
 
       // Close modal
       this.$emit("close", true);
-    }
-  }
+    },
+  },
 };
 </script>
 

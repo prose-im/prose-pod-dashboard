@@ -26,13 +26,18 @@ export enum Roles {
   Admin = "Admin"
 }
 
+export enum ROLES {
+  MEMBER = "MEMBER",
+  ADMIN = "ADMIN"
+}
+
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Invitation {
   username: string;
-  pre_assigned_role: [Roles];
+  pre_assigned_role: [ROLES];
   channel: string;
   email_address: string;
 }
@@ -139,9 +144,9 @@ class APITeamMembers {
     });
   }
 
-  async updateMemberRole(memberId: number, role: string): Promise<void> {
+  async updateMemberRole(memberId: string, role: [ROLES]): Promise<void> {
     await Api.client.put(`/members/${memberId}/role`, {
-      role
+      role: role
     });
   }
 }
