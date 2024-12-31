@@ -15,12 +15,13 @@
 
   form-field(
     v-model="fieldValue"
+    @change="onChange"
+    ref="formField"
     :type="type"
     size="mid-large"
     align="left"
     :placeholder="placeholder"
     v-bind="$attrs"
-    @change="onChange"
     :autofocus="autofocus"
   )
 </template>
@@ -36,28 +37,28 @@ export default {
   props: {
     modelValue: {
       type: String,
-      required: true
+      required: true,
     },
 
     label: {
       type: String,
-      required: true
+      required: true,
     },
 
     placeholder: {
       type: String,
-      default: ""
+      default: "",
     },
 
     type: {
       type: String,
-      default: "text"
+      default: "text",
     },
 
     autofocus: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["update:modelValue", "change"],
@@ -70,16 +71,32 @@ export default {
 
       set(value: string) {
         this.$emit("update:modelValue", value);
-      }
-    }
+      },
+    },
+  },
+
+  watch: {
+    autofocus: {
+      handler(value) {
+        console.log("new autofocus", value);
+        // Update value in the state
+        this.focusFieldFromParent();
+      },
+    },
   },
 
   methods: {
     // --> EVENT LISTENERS <--
     onChange(value: string | number): void {
       this.$emit("change", value);
-    }
-  }
+    },
+
+    // --> EXTERNALS <--
+    focusFieldFromParent(): void {
+      // call the focus method on the component
+      this.$refs.formField?.focusFieldFromParent();
+    },
+  },
 };
 </script>
 
