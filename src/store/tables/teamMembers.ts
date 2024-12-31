@@ -14,7 +14,6 @@ import APITeamMembers, {
   AllMembersResponse,
   EnrichMembersResponse,
   ROLES,
-  Roles
 } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
 
