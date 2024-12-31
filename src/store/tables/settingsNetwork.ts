@@ -84,31 +84,31 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       return this.federation;
     },
 
-    getDnsInstructions: function (): object {
+    getDnsInstructions: function () {
       return () => {
         return this.dnsInstructions;
       };
     },
 
-    getDnsCheck: function (): object {
+    getDnsCheck: function () {
       return () => {
         return this.checks.dns;
       };
     },
 
-    getPortCheck: function (): object {
+    getPortCheck: function () {
       return () => {
         return this.checks.ports;
       };
     },
 
-    getIpCheck: function (): object {
+    getIpCheck: function () {
       return () => {
         return this.checks.ip;
       };
     },
 
-    getConfigCheckStates: function (): object {
+    getConfigCheckStates: function () {
       return () => {
         return this.states.configChecks;
       };
@@ -124,7 +124,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     async loadFederationConfiguration() {
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = await store.$globalConfig.getGlobalConfig();
+      const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
         this.federation.externalConnectAllowed = response.federation_enabled;

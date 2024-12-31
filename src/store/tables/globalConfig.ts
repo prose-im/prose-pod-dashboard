@@ -61,7 +61,7 @@ const $globalConfig = defineStore("globalConfig", {
   },
 
   getters: {
-    getGlobalConfig: function (): ServerConfigResponse {
+    getGlobalConfig: function () {
       return () => {
         return this.properties;
       };
