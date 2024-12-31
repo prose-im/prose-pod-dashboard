@@ -12,12 +12,13 @@
 base-modal(
   @close="onClose"
   @confirm="onProceed"
+  :disabled="proceedDisabled"
+  :loading="imageLoading"
   :visible="visibility"
   position="center"
   title="Select new icon"
   button-color="purple"
   button-label="Change icon"
-  :disabled="proceedDisabled"
 )
   .a-edit-logo
     h4
@@ -74,11 +75,11 @@ export default {
   data() {
     return {
       // --> STATE <--
-
       imageUrl: "",
-      image: "",
 
-      shortcut: "",
+      image: "" as string | ArrayBuffer,
+
+      imageLoading: false,
 
       proceedDisabled: true,
     };
@@ -124,10 +125,15 @@ export default {
     },
 
     async onFilePicked(event: Event) {
+      // Update confirm button as loading
+      this.proceedDisabled = true;
+      this.imageLoading = true;
+
       const files = event.target.files;
       let file = files[0];
       const fileType = file.type.split("/")[1];
 
+      // Let the user know the format they chose is wrong
       if (
         !(
           fileType === "jpeg" ||
@@ -136,7 +142,10 @@ export default {
           fileType === "webp"
         )
       ) {
-        BaseAlert.error("Please choose an image with the right format");
+        BaseAlert.error(
+          "Please choose an image in the right format",
+          "Accepted formats: .jpeg, .png, .gif, .webp"
+        );
         return;
       }
 
@@ -162,6 +171,7 @@ export default {
       this.image = encodedResult.split(",")[1];
 
       // Enable proceed button
+      this.imageLoading = false;
       this.proceedDisabled = false;
     },
 
