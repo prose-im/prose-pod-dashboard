@@ -157,7 +157,7 @@
         )
           | Cancel invite
 
-      members-invites-menu(
+      base-row-menu(
         v-if="isMenuOpen"
         v-click-away="onMenuClickAway"
         class="c-members-invites-row__parameters--menu"
@@ -172,7 +172,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import MembersInvitesMenu from "./MembersInvitesMenu.vue";
+import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
 import store from "@/store";
@@ -181,7 +181,7 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    MembersInvitesMenu,
+    BaseRowMenu,
   },
 
   props: {
