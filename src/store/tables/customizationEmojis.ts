@@ -113,12 +113,44 @@ const $customizationEmojis = defineStore("room", {
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
         const allReactions: Array<EmojiListEntry> =
-          await APICustomizationReactions.getAllReactions();
+          await APICustomizationReactions.getAllReactions(); 
 
         console.log("reactions", allReactions);
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
+      }
+    },
+
+    getFilteredEmojis(filter: number | string) {
+      if (typeof filter === "number") {
+        /** Page filter */
+        const startIndex = (filter - 1) * 10;
+        const endIndex =
+          filter * 10 < this.emojisList.length
+            ? filter * 10
+            : this.emojisList.length;
+
+        return this.emojisList.slice(startIndex, endIndex);
+      } else if (typeof filter === "string") {
+        /** Searching bar filter */
+        //const memberArray = Object.values(this.enrichedMembers);
+
+        // Loop through all members
+        const response = this.emojisList.filter(member => {
+          // Loop through all the values of a member
+          const filteredMember = Object.values(member).filter(e => {
+            if (!e) {
+              return;
+            } else {
+              return e.includes(filter);
+            }
+          });
+
+          return filteredMember.length ? filteredMember : false;
+        });
+
+        return response;
       }
     },
 
