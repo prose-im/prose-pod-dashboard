@@ -45,30 +45,31 @@
 
   base-navigation-footer(
     v-if="!searchTerm"
+    @navFooterUpdate="onChangePage"
+    listing="users"
     :page="pageNumber"
     :total="totalMemberNumber"
-    @navFooterUpdate="onChangePage"
   )
 
 <!-- Modals -->
 invite-team-member(
   v-if="isInviteModalVisible"
-  :visibility="inviteModalVisibility"
   @close="toggleInviteModalVisible"
+  :visibility="inviteModalVisibility"
 )
 
 edit-role(
   v-if="isEditRoleModalVisible"
+  @close="toggleEditRoleModalVisible"
   :visibility="editRoleModalVisibility"
   :user="userToUpdate"
-  @close="toggleEditRoleModalVisible"
 )
 
 delete-member(
   v-if="isDeleteMemberModalVisible"
+  @close="toggleDeleteMemberModalVisible"
   :visibility="deleteMemberModalVisibility"
   :jid="userToUpdate?.jid"
-  @close="toggleDeleteMemberModalVisible"
 )
 </template>
 
@@ -216,6 +217,8 @@ export default {
     if (this.isMembersLoading !== true) {
       // Mark as loading
       this.isMembersLoading = true;
+
+      console.log(`Loading memebers inside`);
 
       try {
         // Load already accepted members
