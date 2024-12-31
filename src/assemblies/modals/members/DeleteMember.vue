@@ -21,13 +21,13 @@ base-modal(
 )
   .a-delete-member
     span
-      | Are you sure you want to
+      | Are you sure you want to&nbsp;
     span(
       :class=`[
         "a-delete-member--bolder"
       ]`
     )
-      | delete
+      | delete 
     br
     span(
       :class=`[
@@ -57,13 +57,13 @@ export default {
   props: {
     jid: {
       type: String,
-      default: null
+      default: null,
     },
 
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -98,8 +98,8 @@ export default {
         "Succesfully removed",
         `${this.jid} has been removed from the team`
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
