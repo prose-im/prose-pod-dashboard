@@ -134,11 +134,11 @@ class APITeamMembers {
     ).data;
   }
 
-  async getMemberById(memberId: number): Promise<MemberByIdResponse> {
+  async getMemberById(memberId: string): Promise<MemberByIdResponse> {
     return (await Api.client.get(`/members/${memberId}`)).data;
   }
 
-  async updateMemberMfa(memberId: number, mfa: boolean): Promise<void> {
+  async updateMemberMfa(memberId: string, mfa: boolean): Promise<void> {
     await Api.client.put(`/members/${memberId}/mfa`, {
       mfa
     });
