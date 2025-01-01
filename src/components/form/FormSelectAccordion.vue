@@ -345,7 +345,7 @@ export default {
       this.hoveredIndex = -1;
     },
 
-    onOptionClick(event: Event): void {
+    onOptionClick(event: HTMLButtonElement): void {
       this.$emit("update:modelValue", event?.value);
     }
   }
@@ -366,36 +366,36 @@ $sizes: (
     "line-height": $size-form-select-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 2px
+    "option-retract": 2px,
   ),
   "mid-medium": (
     "font-size": $font-size-baseline - 1.5px,
     "line-height": $size-form-select-mid-medium-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 4px
+    "option-retract": 4px,
   ),
   "large": (
     "font-size": $font-size-baseline,
     "line-height": $size-form-select-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 6px
+    "option-retract": 6px,
   ),
   "mid-large": (
     "font-size": $font-size-baseline + 1.5px,
     "line-height": $size-form-select-mid-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 8px
+    "option-retract": 8px,
   ),
   "ultra-large": (
     "font-size": $font-size-baseline + 2.5px,
     "line-height": $size-form-select-ultra-large-line-height,
     "padding-start": $size-form-select-medium-padding-start,
     "padding-end": $size-form-select-medium-padding-end,
-    "option-retract": 10px
-  )
+    "option-retract": 10px,
+  ),
 );
 
 #{$c} {
@@ -559,9 +559,7 @@ $sizes: (
 
       #{$c}__options {
         #{$c}__option {
-          line-height: (
-            map-get($size, "line-height") - map-get($size, "option-retract")
-          );
+          line-height: (map-get($size, "line-height") - map-get($size, "option-retract"));
         }
       }
     }
