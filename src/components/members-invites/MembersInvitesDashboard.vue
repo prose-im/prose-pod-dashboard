@@ -97,14 +97,14 @@ export default {
     EditRole,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar
+    SearchBar,
   },
 
   props: {
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -137,7 +137,7 @@ export default {
           subtitle: "Store archives of all messages",
           description:
             "Archives are required for users running Prose apps on multiple devices, so that previous messages synchronize across all devices. End-to-end encrypted messages are stored as-is",
-          type: "toggle"
+          type: "toggle",
         },
         {
           subtitle: "Message archive retention time",
@@ -146,8 +146,8 @@ export default {
           type: "button",
           typeProps: {
             label: "Edit details...",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
         {
           subtitle: "Message archive retention time",
@@ -158,17 +158,17 @@ export default {
             options: [
               {
                 icon: "",
-                label: "1 year"
+                label: "1 year",
               },
               {
                 icon: "",
-                label: "2 years"
-              }
+                label: "2 years",
+              },
             ],
-            size: "medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
@@ -178,8 +178,6 @@ export default {
     },
 
     members() {
-      console.log("getting filtered memebres");
-
       return this.searchTerm
         ? store.$teamMembers.getFilteredMembers(this.searchTerm)
         : store.$teamMembers.getFilteredMembers(this.pageNumber);
@@ -190,12 +188,14 @@ export default {
     },
 
     invites() {
-      return store.$teamMembers.getInviteList();
+      return this.searchTerm
+        ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
+        : store.$teamMembers.getFilteredInviteList();
     },
 
     totalMemberNumber() {
       return this.allMembers.length;
-    }
+    },
   },
 
   watch: {
@@ -209,7 +209,7 @@ export default {
 
     isDeleteMemberModalVisible(newValue) {
       setTimeout(() => (this.deleteMemberModalVisibility = newValue), 10);
-    }
+    },
   },
 
   mounted() {
@@ -222,12 +222,9 @@ export default {
 
       try {
         // Load already accepted members
-        store.$teamMembers.loadActiveMembers();
+        store.$teamMembers.loadActiveMembers(true);
       } catch (_) {
-        BaseAlert.error(
-          "Could not log in",
-          "Check your credentials and try again"
-        );
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
       } finally {
         this.isMembersLoading = false;
       }
@@ -241,10 +238,7 @@ export default {
         // Load invited members
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
-        BaseAlert.error(
-          "Could not log in",
-          "Check your credentials and try again"
-        );
+        BaseAlert.error("Could not log in", "Check your credentials and try again");
       } finally {
         this.isInvitesLoading = false;
       }
@@ -305,8 +299,8 @@ export default {
           break;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

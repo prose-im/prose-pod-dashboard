@@ -62,12 +62,6 @@ const $teamMembers = defineStore("teamMembers", {
         return this.enrichedMembers;
       };
     },
-
-    getInviteList: function () {
-      return () => {
-        return this.invitedMembers;
-      };
-    }
   },
 
   actions: {
@@ -128,6 +122,23 @@ const $teamMembers = defineStore("teamMembers", {
           });
 
           return filteredMember.length ? filteredMember : false;
+        });
+
+        return response;
+      }
+    },
+
+    getFilteredInviteList(filter?: string) {
+      /** Searching bar filter */
+      console.log("invites filtered", this.invitedMembers);
+
+      if(!filter) {
+        return this.invitedMembers
+        
+      } else {
+        // Loop through all invited members
+        const response = this.invitedMembers.filter(member => {
+          return member.contact.email_address.includes(filter);
         });
 
         return response;
