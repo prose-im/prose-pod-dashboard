@@ -12,7 +12,7 @@
 import APITeamMembers, {
   AllInvitationsResponse,
   AllMembersResponse,
-  EnrichMembersResponse,
+  EnrichMembersResponse, 
   ROLES,
 } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
@@ -139,9 +139,10 @@ const $teamMembers = defineStore("teamMembers", {
       return await APITeamMembers.updateMemberRole(jid, newRole);
     },
 
-    // async deleteMemberById(jid: string) {
-    //   return true; ///// TODO
-    // },
+    async deleteMemberById(jid: string) {
+      console.log(jid)
+      return true; ///// TODO
+    },
 
     // <-- INVITES -->
 
