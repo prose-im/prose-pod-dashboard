@@ -47,17 +47,13 @@ const $settingsSecurity = defineStore("settingsSecurity", {
     async loadConfig(): Promise<void> {
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = await store.$globalConfig.getGlobalConfig();
+      const response = store.$globalConfig.getGlobalConfig();
 
       // Load globalConfig configuration
       this.security.twoFactor = response.mfa_required;
       this.encryption.strength = response.minimum_cipher_suite;
       this.encryption.version = response.minimum_tls_version;
     },
-
-    setCallSoundOutputSource(value: string): void {
-      this.setGeneric(this.calls.sound, "outputSource", value);
-    }
   }
 });
 

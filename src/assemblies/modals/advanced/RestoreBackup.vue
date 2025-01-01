@@ -134,8 +134,8 @@ export default {
   props: {
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -147,11 +147,11 @@ export default {
 
       password: "",
 
-      settingsBackupFile: null,
+      settingsBackupFile: null as File | null,
       settingsBackupFileName: "",
 
-      dataBackupFile: null,
-      dataBackupFileName: ""
+      dataBackupFile: null as File | null,
+      dataBackupFileName: "",
     };
   },
 
@@ -162,34 +162,40 @@ export default {
   methods: {
     // --> EVENT LISTENERS <--
 
-    async onSettingsFilePicked(event) {
-      let file = event.target.files[0];
-      const fileType = file.type.split("/")[1];
+    async onSettingsFilePicked(event: Event) {
+      let file = (event.target as HTMLInputElement).files?.[0];
 
-      console.log("file picked", file);
+      if (file) {
+        const fileType = file.type.split("/")[1];
 
-      // if (fileType !== "settings.backup") {
-      if (fileType !== "jpeg") {
-        BaseAlert.error("Please choose a .settings.backup file");
-        return;
-      } else {
-        this.settingsBackupFile = file;
-        this.settingsBackupFileName = file.name;
+        console.log("file picked", file);
+
+        // if (fileType !== "settings.backup") {
+        if (fileType !== "jpeg") {
+          BaseAlert.error("Please choose a .settings.backup file");
+          return;
+        } else {
+          this.settingsBackupFile = file;
+          this.settingsBackupFileName = file.name;
+        }
       }
     },
 
-    async onDataFilePicked(event) {
+    async onDataFilePicked(event: Event) {
       // console.log("file picked", event);
-      let file = event.target.files[0];
-      const fileType = file.type.split("/")[1];
+      let file = (event.target as HTMLInputElement).files?.[0];
 
-      if (fileType !== "jpeg") {
-        // if (fileType !== "data.backup") {
-        BaseAlert.error("Please choose a .data.backup file");
-        return;
-      } else {
-        this.dataBackupFile = file;
-        this.dataBackupFileName = file.name;
+      if (file) {
+        const fileType = file.type.split("/")[1];
+
+        if (fileType !== "jpeg") {
+          // if (fileType !== "data.backup") {
+          BaseAlert.error("Please choose a .data.backup file");
+          return;
+        } else {
+          this.dataBackupFile = file;
+          this.dataBackupFileName = file.name;
+        }
       }
     },
 
@@ -224,8 +230,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 

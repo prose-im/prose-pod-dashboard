@@ -37,7 +37,7 @@ export enum ROLES {
 
 interface Invitation {
   username: string;
-  pre_assigned_role: [ROLES];
+  pre_assigned_role: ROLES;
   channel: string;
   email_address: string;
 }
@@ -47,7 +47,7 @@ interface InvitedMemberEntry {
   created_at: string;
   status: string;
   jid: string;
-  pre_assigned_role: [Roles];
+  pre_assigned_role: [ROLES];
   contact: {
     channel: string;
     email_address: string;

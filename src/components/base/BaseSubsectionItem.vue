@@ -229,7 +229,7 @@ export default {
         if (this.type !== "doubleSelect") {
           this.changeColorSquare();
         } else {
-          const valueArray = Object.values(newValue);
+          const valueArray: string[] = Object.values(newValue);
           this.changeSecondSelectState(valueArray);
         }
       },

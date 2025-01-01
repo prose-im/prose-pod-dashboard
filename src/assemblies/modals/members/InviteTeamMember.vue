@@ -125,7 +125,7 @@ export default {
 
           //Reset values and close modal
           this.onClose();
-        } catch (error) {
+        } catch (error: any) {
           console.error("Invite Error", error.message);
 
           // If member has already been invited

@@ -45,36 +45,36 @@ export default {
   props: {
     accept: {
       type: String,
-      required: true
+      required: true,
     },
 
     label: {
       type: String,
-      required: true
+      required: true,
     },
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     width: {
       type: String,
-      default: "120px"
-    }
+      default: "120px",
+    },
   },
 
   emits: ["filePicked"],
 
   methods: {
     onPickFile() {
-      this.$refs.fileInput.click();
+      (this.$refs.fileInput as HTMLInputElement).click();
     },
 
-    onChange(event) {
+    onChange(event: Event) {
       this.$emit("filePicked", event);
-    }
-  }
+    },
+  },
 };
 </script>
 

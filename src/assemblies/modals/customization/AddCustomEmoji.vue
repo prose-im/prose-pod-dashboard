@@ -65,6 +65,9 @@ base-modal(
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import store from "@/store";
 
+// TYPES
+export type imageUrl = string | ArrayBuffer | null;
+
 export default {
   name: "AddCustomEmoji",
 
@@ -76,9 +79,9 @@ export default {
     return {
       // --> STATE <--
 
-      emojiUrl: "",
+      emojiUrl: "" as imageUrl,
 
-      emoji: "",
+      emoji: null as File | null,
 
       emojiShortcut: "",
 
@@ -93,13 +96,13 @@ export default {
   methods: {
     // --> HELPERS <--
     onPickFile() {
-      this.$refs.fileInput.click();
+      (this.$refs.fileInput as HTMLInputElement).click();
     },
 
     onFilePicked(event: Event) {
       this.inputAutofocus = false;
 
-      const files = event.target.files;
+      const files = (event.target as HTMLInputElement).files || [];
 
       // Show emoji preview
       const fileReader = new FileReader();
@@ -107,6 +110,7 @@ export default {
       fileReader.addEventListener("load", () => {
         this.emojiUrl = fileReader.result;
       });
+
       fileReader.readAsDataURL(files[0]);
 
       this.emoji = files[0];
@@ -118,25 +122,25 @@ export default {
       if (!this.emojiUrl || !this.emojiShortcut) {
         BaseAlert.error("Please complete all the fields");
       } else {
-        const date = new Date();
-        const options = {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        };
+        // const date = new Date();
+        // const options = {
+        //   day: "numeric",
+        //   month: "long",
+        //   year: "numeric",
+        // };
 
-        const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
+        // const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
 
-        const newReaction = {
-          id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
-          imageUrl: this.emojiUrl,
-          shortcut: this.emojiShortcut,
-          date: formattedDate,
-          contributor: "Valerian Saliou",
-          contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
-        };
+        // const newReaction = {
+        //   id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
+        //   imageUrl: this.emojiUrl,
+        //   shortcut: this.emojiShortcut,
+        //   date: formattedDate,
+        //   contributor: "Valerian Saliou",
+        //   contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
+        // };
 
-        store.$customizationEmojis.addReaction(newReaction);
+        // store.$customizationEmojis.addReaction(newReaction);
 
         this.emojiUrl = "";
         this.emoji = "";
@@ -147,7 +151,7 @@ export default {
 
     onClose() {
       this.emojiUrl = "";
-      this.emoji = "";
+      this.emoji = null;
       this.emojiShortcut = "";
 
       this.$emit("close");

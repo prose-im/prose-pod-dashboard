@@ -113,8 +113,8 @@ export default {
       this.hoveredIndex = -1;
     },
 
-    onOptionClick(event: Event): void {
-      this.$emit("menuAction", event?.value);
+    onOptionClick(event: HTMLButtonElement): void {
+      this.$emit("menuAction", event.value);
     },
   },
 };

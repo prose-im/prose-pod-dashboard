@@ -31,6 +31,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
+import FormField from "../form/FormField.vue";
+
 export default {
   name: "BaseModalInputBlock",
 
@@ -94,7 +96,7 @@ export default {
     // --> EXTERNALS <--
     focusFieldFromParent(): void {
       // call the focus method on the component
-      this.$refs.formField?.focusFieldFromParent();
+      (this.$refs.formField as InstanceType<typeof FormField>).focusFieldFromParent();
     },
   },
 };

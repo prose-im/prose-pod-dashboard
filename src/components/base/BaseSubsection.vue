@@ -60,6 +60,24 @@
      ********************************************************************** -->
 
 <script lang="ts">
+import type { PropType } from "vue";
+
+//INTERFACES
+interface Item {
+  subtitle: string;
+  restoreSubtitle?: boolean;
+  description: string;
+  tags?: string[];
+  type: string;
+  disabled?: boolean;
+  typeProps?: object;
+  slot?: "avatar" | "text";
+  size?: string;
+}
+
+// TYPES
+type Items = Item[];
+
 export default {
   name: "BaseSubsection",
 
@@ -89,7 +107,7 @@ export default {
     },
 
     items: {
-      type: Array,
+      type: Array as PropType<Items>,
       required: true,
     },
 
@@ -119,7 +137,6 @@ export default {
 
     isRestoreDisabled() {
       const result = this.items.every((item) => {
-        // console.log("item", item);
         return item.disabled === true;
       });
 

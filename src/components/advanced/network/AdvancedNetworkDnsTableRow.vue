@@ -53,8 +53,8 @@ export default {
   props: {
     header: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: [],
@@ -65,7 +65,7 @@ export default {
 
       copied: false,
 
-      timer: null
+      timer: null as ReturnType<typeof setTimeout> | null,
     };
   },
 
@@ -76,11 +76,11 @@ export default {
   methods: {
     // --> HELPERS <--
 
-    async copyText(htmlCollection: HTMLCollection) {
+    async copyText(htmlElement: HTMLElement) {
       const textToCopyArray: string[] = [];
 
-      for (let i = 0; i < htmlCollection.children.length; i++) {
-        textToCopyArray.push(htmlCollection.children[i].innerHTML);
+      for (let i = 0; i < htmlElement.children.length; i++) {
+        textToCopyArray.push(htmlElement.children[i].innerHTML);
       }
 
       const textToCopy = textToCopyArray.map(String).join(" ");
@@ -104,15 +104,15 @@ export default {
     },
 
     async copyRow() {
-      await this.copyText(this.$refs.rowText);
-    }
+      await this.copyText(this.$refs.rowText as HTMLElement);
+    },
   },
 
   onBeforeUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
     }
-  }
+  },
 };
 </script>
 

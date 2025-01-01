@@ -59,6 +59,7 @@ import store from "@/store";
 // PACKAGES
 import { fileToBase64 } from "file64";
 import imageCompression from "browser-image-compression";
+import { imageUrl } from "./AddCustomEmoji.vue";
 
 export default {
   name: "EditLogo",
@@ -75,7 +76,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      imageUrl: "",
+      imageUrl: null as imageUrl,
 
       image: "" as string | ArrayBuffer,
 
@@ -118,10 +119,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
+
+      return null;
     },
 
     onPickFile() {
-      this.$refs.fileInput.click();
+      (this.$refs.fileInput as HTMLInputElement).click();
     },
 
     async onFilePicked(event: Event) {
@@ -129,55 +132,62 @@ export default {
       this.proceedDisabled = true;
       this.imageLoading = true;
 
-      const files = event.target.files;
-      let file = files[0];
-      const fileType = file.type.split("/")[1];
+      const files = (event.target as HTMLInputElement).files || [];
+      let file = files[0] as File | null;
 
-      // Let the user know the format they chose is wrong
-      if (
-        !(
-          fileType === "jpeg" ||
-          fileType === "png" ||
-          fileType === "gif" ||
-          fileType === "webp"
-        )
-      ) {
-        BaseAlert.error(
-          "Please choose an image in the right format",
-          "Accepted formats: .jpeg, .png, .gif, .webp"
-        );
-        return;
-      }
+      if (file) {
+        const fileType = file.type.split("/")[1];
 
-      // Show image preview
-      const fileReader = new FileReader();
-      fileReader.addEventListener("load", () => {
-        if (!fileReader.result) {
-          BaseAlert.error("An error occurred");
+        // Let the user know the format they chose is wrong
+        if (
+          !(
+            fileType === "jpeg" ||
+            fileType === "png" ||
+            fileType === "gif" ||
+            fileType === "webp"
+          )
+        ) {
+          BaseAlert.error(
+            "Please choose an image in the right format",
+            "Accepted formats: .jpeg, .png, .gif, .webp"
+          );
           return;
-        } else {
-          this.imageUrl = fileReader.result;
         }
-      });
 
-      fileReader.readAsDataURL(file);
+        // Show image preview
+        const fileReader = new FileReader();
+        fileReader.addEventListener("load", () => {
+          if (!fileReader.result) {
+            BaseAlert.error("An error occurred");
+            return;
+          } else {
+            this.imageUrl = fileReader.result;
+          }
+        });
 
-      // Compress image if it's bigger than 256 ko
-      if (file.size > 256000) {
-        file = await this.compressImage(files[0]);
+        fileReader.readAsDataURL(file);
+
+        // Compress image if it's bigger than 256 ko
+        if (file.size > 256000) {
+          file = await this.compressImage(files[0]);
+        }
+
+        if (file) {
+          const encodedResult = await fileToBase64(file);
+          this.image = encodedResult.split(",")[1];
+
+          // Enable proceed button
+          this.imageLoading = false;
+          this.proceedDisabled = false;
+        } else {
+          this.imageLoading = false;
+        }
       }
-
-      const encodedResult = await fileToBase64(file);
-      this.image = encodedResult.split(",")[1];
-
-      // Enable proceed button
-      this.imageLoading = false;
-      this.proceedDisabled = false;
     },
 
     // --> EVENT LISTENERS <--
     onProceed() {
-      if (this.image) {
+      if (this.image && typeof this.image === "string") {
         store.$customizationWorkspace.updateWorkspaceIcon(this.image);
 
         // Reinitialize variables + close modal

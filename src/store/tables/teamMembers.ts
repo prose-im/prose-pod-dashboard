@@ -160,7 +160,7 @@ const $teamMembers = defineStore("teamMembers", {
 
     async sendInvitation(
       newUsername: string,
-      newRole: [ROLES],
+      newRole: ROLES,
       newInviteEmail: string
     ): Promise<void> {
       const newInvite = {

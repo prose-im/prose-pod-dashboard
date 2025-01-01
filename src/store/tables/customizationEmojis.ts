@@ -112,8 +112,7 @@ const $customizationEmojis = defineStore("room", {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions: Array<EmojiListEntry> =
-          await APICustomizationReactions.getAllReactions(); 
+        const allReactions = await APICustomizationReactions.getAllReactions(); 
 
         console.log("reactions", allReactions);
 
@@ -162,11 +161,11 @@ const $customizationEmojis = defineStore("room", {
     },
 
     deleteReaction(reactionId: string): void {
-      customizationReactions.deleteReactionById(reactionId);
+      APICustomizationReactions.deleteReactionById(reactionId);
     },
 
     updateReaction(reactionId: string, newReaction: EmojiListEntry) {
-      customizationReactions.updateReactionById(reactionId, newReaction);
+      APICustomizationReactions.updateReactionById(reactionId, newReaction);
     }
   }
 });

@@ -149,7 +149,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
-        } catch (e) {
+        } catch (e: any) {
           this.states.dnsSteps.instructionsFailed = true;
 
           console.error("recordError", e.response);
@@ -185,7 +185,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           // update request progress
           this.states.configChecks.dnsLoaded = true;
           this.states.configChecks.dnsLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error dns", e.message);
 
           // update request progress
@@ -214,7 +214,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           // update request progress
           this.states.configChecks.portLoaded = true;
           this.states.configChecks.portLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error ports", e.message);
 
           // update request progress
@@ -241,7 +241,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           console.log("ip", this.checks.ip);
           this.states.configChecks.ipLoaded = true;
           this.states.configChecks.ipLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error ip", e.message);
 
           this.states.configChecks.ipLoading = false;
