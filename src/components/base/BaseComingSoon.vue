@@ -34,19 +34,19 @@ export default {
 
       validator(x: string) {
         return ["lower", "upper", "mix"].includes(x);
-      },
+      }
     },
 
     size: {
       type: String,
-      default: "short",
-    },
+      default: "short"
+    }
   },
 
   data() {
     return {
       // --> STATE <--
-      label: "Coming Soon",
+      label: "Coming Soon"
     };
   },
 
@@ -73,8 +73,8 @@ export default {
       }
 
       return comingSoon;
-    },
-  },
+    }
+  }
 };
 </script>
 

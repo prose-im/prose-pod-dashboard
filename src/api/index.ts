@@ -39,7 +39,7 @@ class API {
     this.addInterceptor();
   }
 
-  addInterceptor() {    
+  addInterceptor() {
     this.client.interceptors.response.use(
       function (response) {
         // Any status code that lie within the range of 2xx cause this function to trigger
@@ -48,31 +48,32 @@ class API {
       },
       async function (error) {
         // Check if the error response status is 403 before logging out
-        if (error.response && error.response.status === 403) {  
+        if (error.response && error.response.status === 403) {
           try {
             // Logout from account
             await store.$account.logout();
-    
-            // Redirect to login page
-            console.log('router', router.instance());
 
-            router.instance()
-              .push('/start/login')
+            // Redirect to login page
+            console.log("router", router.instance());
+
+            router
+              .instance()
+              .push("/start/login")
               .catch(err => {
                 // Handle redundant navigation error
-                console.error('error reroute:', err);
+                console.error("error reroute:", err);
               });
-    
+
             // Acknowledge logout success
             BaseAlert.info("Logged out", "Logged out of your dashboard");
           } catch (_) {
-            console.error('router error', _)
+            console.error("router error", _);
             BaseAlert.error("Could not log out", "Maybe try again?");
           }
         }
         // Handle other errors globally if needed
 
-        return Promise.reject(error);  
+        return Promise.reject(error);
       }
     );
   }

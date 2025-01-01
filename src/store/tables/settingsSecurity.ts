@@ -53,7 +53,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       this.security.twoFactor = response.mfa_required;
       this.encryption.strength = response.minimum_cipher_suite;
       this.encryption.version = response.minimum_tls_version;
-    },
+    }
   }
 });
 

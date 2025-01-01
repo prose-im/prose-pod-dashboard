@@ -12,8 +12,8 @@
 import APITeamMembers, {
   AllInvitationsResponse,
   AllMembersResponse,
-  EnrichMembersResponse, 
-  ROLES,
+  EnrichMembersResponse,
+  ROLES
 } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
 
@@ -32,7 +32,7 @@ interface Members {
  * ************************************************************************* */
 
 const LOCAL_STATES = {
-  loaded: false 
+  loaded: false
 };
 
 /**************************************************************************
@@ -71,7 +71,6 @@ const $teamMembers = defineStore("teamMembers", {
   },
 
   actions: {
-
     // <-- ACTIVE MEMBERS -->
     async loadActiveMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
@@ -140,7 +139,7 @@ const $teamMembers = defineStore("teamMembers", {
     },
 
     async deleteMemberById(jid: string) {
-      console.log(jid)
+      console.log(jid);
       return true; ///// TODO
     },
 

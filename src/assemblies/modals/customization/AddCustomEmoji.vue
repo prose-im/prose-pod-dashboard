@@ -85,7 +85,7 @@ export default {
 
       emojiShortcut: "",
 
-      inputAutofocus: false,
+      inputAutofocus: false
     };
   },
 
@@ -152,8 +152,8 @@ export default {
       this.emojiShortcut = "";
 
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 

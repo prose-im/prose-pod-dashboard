@@ -33,8 +33,8 @@ export default {
 
   components: {
     AppSidebar,
-    DashboardMain,
-  },
+    DashboardMain
+  }
 };
 </script>
 

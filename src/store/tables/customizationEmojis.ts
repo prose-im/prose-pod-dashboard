@@ -112,7 +112,7 @@ const $customizationEmojis = defineStore("room", {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions = await APICustomizationReactions.getAllReactions(); 
+        const allReactions = await APICustomizationReactions.getAllReactions();
 
         console.log("reactions", allReactions);
 

@@ -181,29 +181,29 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    BaseRowMenu,
+    BaseRowMenu
   },
 
   props: {
     avatarUrl: {
       type: String,
-      default: "../../assets/icons/missing.avatar.svg",
+      default: "../../assets/icons/missing.avatar.svg"
     },
 
     userData: {
       type: Object,
-      required: true,
+      required: true
     },
 
     userEnrichedData: {
       type: Object,
-      default: null,
+      default: null
     },
 
     tableHeaders: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: ["menuAction"],
@@ -216,16 +216,16 @@ export default {
       menuOptions: [
         {
           value: "Security settings",
-          disabled: true,
+          disabled: true
         },
         {
-          value: "Change role",
+          value: "Change role"
         },
         {
           value: "Delete member",
-          color: "red",
-        },
-      ],
+          color: "red"
+        }
+      ]
     };
   },
 
@@ -238,7 +238,7 @@ export default {
       } else {
         return "";
       }
-    },
+    }
   },
 
   watch: {},
@@ -246,7 +246,9 @@ export default {
   methods: {
     // <-- EVENT LISTENERS -->
     onActionOnMember(): void {
-      this.userData.invitation_id ? this.onCancelInvite() : this.toggleMenuOpen();
+      this.userData.invitation_id
+        ? this.onCancelInvite()
+        : this.toggleMenuOpen();
     },
 
     onCancelInvite() {
@@ -264,8 +266,8 @@ export default {
 
     onMenuClickAway() {
       this.toggleMenuOpen();
-    },
-  },
+    }
+  }
 };
 </script>
 

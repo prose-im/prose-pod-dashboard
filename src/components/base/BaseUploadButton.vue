@@ -45,23 +45,23 @@ export default {
   props: {
     accept: {
       type: String,
-      required: true,
+      required: true
     },
 
     label: {
       type: String,
-      required: true,
+      required: true
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     width: {
       type: String,
-      default: "120px",
-    },
+      default: "120px"
+    }
   },
 
   emits: ["filePicked"],
@@ -73,8 +73,8 @@ export default {
 
     onChange(event: Event) {
       this.$emit("filePicked", event);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -47,7 +47,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     buttonColor: {
@@ -56,27 +56,27 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      },
+      }
     },
 
     buttonLabel: {
       type: String,
-      default: "",
+      default: ""
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     flexContainer: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     position: {
@@ -85,7 +85,7 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      },
+      }
     },
 
     titleColor: {
@@ -94,13 +94,13 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     visible: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "confirm", "load"],
@@ -109,7 +109,7 @@ export default {
     return {
       // --> STATE <--
 
-      loaded: false,
+      loaded: false
     };
   },
 
@@ -123,7 +123,7 @@ export default {
       if (newVisibility === true && newVisibility !== oldVisibility) {
         this.$emit("load");
       }
-    },
+    }
   },
 
   methods: {
@@ -134,8 +134,8 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirm", event);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -47,7 +47,7 @@ export default {
       default: "18px"
     },
 
-    width:{
+    width: {
       type: String,
       default: ""
     },
@@ -81,7 +81,7 @@ export default {
         fill: this.fill,
         stroke: this.stroke,
         height: this.size,
-        width: this.width ? this.width: this.size,
+        width: this.width ? this.width : this.size
       };
     }
   }
@@ -100,7 +100,7 @@ $icon-fill-default: $color-black;
 
 #{$c} {
   fill: $icon-fill-default;
-  
+
   display: inline-block;
 }
 </style>

@@ -268,11 +268,11 @@ $animate-toast-translate-vertical: 40px;
 }
 
 @keyframes scaleUp {
-  0%  {
+  0% {
     transform: scale(0);
   }
 
-  30%  {
+  30% {
     transform: scale(0);
   }
 
@@ -307,4 +307,3 @@ $animate-toast-translate-vertical: 40px;
     transform: translateX(20%);
   }
 }
-

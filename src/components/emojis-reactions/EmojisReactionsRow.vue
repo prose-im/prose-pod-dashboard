@@ -135,19 +135,19 @@ export default {
   name: "EmojisReactionsRow",
 
   components: {
-    BaseRowMenu,
+    BaseRowMenu
   },
 
   props: {
     emojiData: {
       type: Object,
-      required: true,
+      required: true
     },
 
     tableHeaders: {
       type: Array,
-      default: null,
-    },
+      default: null
+    }
   },
 
   emits: ["menuAction"],
@@ -160,13 +160,13 @@ export default {
       menuOptions: [
         {
           value: "Security settings",
-          disabled: true,
+          disabled: true
         },
         {
           value: "Delete emoji",
-          color: "red",
-        },
-      ],
+          color: "red"
+        }
+      ]
     };
   },
 
@@ -184,8 +184,8 @@ export default {
 
     onMenuClickAway() {
       this.toggleMenuOpen();
-    },
-  },
+    }
+  }
 };
 </script>
 

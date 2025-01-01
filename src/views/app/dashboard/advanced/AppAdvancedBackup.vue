@@ -59,12 +59,12 @@ import store from "@/store";
 // ENUMERATIONS
 enum BackupKey {
   PodSettings = "podBackup",
-  UserData = "userDataBackup",
+  UserData = "userDataBackup"
 }
 
 enum TimeVariable {
   Frequency = "frequency",
-  Time = "time",
+  Time = "time"
 }
 
 export default {
@@ -72,7 +72,7 @@ export default {
 
   components: {
     FactoryReset,
-    RestoreBackup,
+    RestoreBackup
   },
 
   data() {
@@ -90,30 +90,30 @@ export default {
           description:
             "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
           type: "doubleSelect",
-          disabled: true,
+          disabled: false,
           typeProps: {
             options: [
               {
                 label: "Daily",
-                value: "P1D",
+                value: "P1D"
               },
               {
                 label: "Weekly",
-                value: "P1W",
-              },
+                value: "P1W"
+              }
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01",
+                value: "01"
               },
               {
                 label: "at 2am",
-                value: "02",
-              },
+                value: "02"
+              }
             ],
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -121,31 +121,31 @@ export default {
           description:
             "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
-          disabled: true,
+          disabled: false,
           typeProps: {
             options: [
               {
                 label: "Daily",
-                value: "P1D",
+                value: "P1D"
               },
               {
                 label: "Weekly",
-                value: "P1W",
-              },
+                value: "P1W"
+              }
             ],
             secondOptions: [
               {
                 label: "at 1am",
-                value: "01",
+                value: "01"
               },
               {
                 label: "at 2am",
-                value: "02",
-              },
+                value: "02"
+              }
             ],
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       exportItems: [
@@ -158,9 +158,9 @@ export default {
           color: "bwPurple",
           typeProps: {
             label: "Download backup",
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       dangerItems: [
@@ -173,8 +173,8 @@ export default {
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -187,17 +187,17 @@ export default {
           color: "redShell",
           typeProps: {
             label: "Start factory reset…",
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$settingsBackup.getBackupSettings();
-    },
+    }
   },
 
   watch: {
@@ -207,7 +207,7 @@ export default {
 
     isResetModalVisible(newVisibility) {
       setTimeout(() => (this.resetModalVisibility = newVisibility), 10);
-    },
+    }
   },
 
   mounted() {
@@ -226,7 +226,11 @@ export default {
 
     // --> EVENT LISTENERS <--
 
-    onBackupUpdate(newValue: string, changedKey: BackupKey, changedSubKey: TimeVariable) {
+    onBackupUpdate(
+      newValue: string,
+      changedKey: BackupKey,
+      changedSubKey: TimeVariable
+    ) {
       console.log("backup change", newValue, changedKey, changedSubKey);
       console.log("config", this.config);
 
@@ -246,7 +250,7 @@ export default {
           }
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>

@@ -65,7 +65,7 @@ export default {
   components: {
     AddCustomEmoji,
     EmojisReactionsRow,
-    SearchBar,
+    SearchBar
   },
 
   data() {
@@ -77,7 +77,7 @@ export default {
 
       searchTerm: "",
 
-      pageNumber: 1,
+      pageNumber: 1
     };
   },
 
@@ -96,13 +96,13 @@ export default {
 
     totalEmojiNumber() {
       return this.allEmojis.length;
-    },
+    }
   },
 
   watch: {
     isAddEmojiModalVisible(newValue) {
       setTimeout(() => (this.addEmojiModalVisibility = newValue), 10);
-    },
+    }
   },
 
   mounted() {
@@ -131,8 +131,8 @@ export default {
       }
 
       return;
-    },
-  },
+    }
+  }
 };
 </script>
 

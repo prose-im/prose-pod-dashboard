@@ -134,8 +134,8 @@ export default {
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -151,7 +151,7 @@ export default {
       settingsBackupFileName: "",
 
       dataBackupFile: null as File | null,
-      dataBackupFileName: "",
+      dataBackupFileName: ""
     };
   },
 
@@ -230,8 +230,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 

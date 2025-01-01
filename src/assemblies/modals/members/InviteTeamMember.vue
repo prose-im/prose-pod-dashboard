@@ -70,8 +70,8 @@ export default {
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -87,13 +87,13 @@ export default {
       roleOptions: [
         {
           label: Roles.Member,
-          value: ROLES.MEMBER,
+          value: ROLES.MEMBER
         },
         {
           label: Roles.Admin,
-          value: ROLES.ADMIN,
-        },
-      ],
+          value: ROLES.ADMIN
+        }
+      ]
     };
   },
 
@@ -106,7 +106,10 @@ export default {
     async onSendInvite(): Promise<void> {
       // Check if all fields have been filled
       if (!this.inviteEmail || !this.inviteUserName) {
-        BaseAlert.error("Cannot send the invitation", "Please complete all the fields");
+        BaseAlert.error(
+          "Cannot send the invitation",
+          "Please complete all the fields"
+        );
         return;
       } else {
         try {
@@ -154,8 +157,8 @@ export default {
 
       // Close modal
       this.$emit("close", true);
-    },
-  },
+    }
+  }
 };
 </script>
 

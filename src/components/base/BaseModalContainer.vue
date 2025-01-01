@@ -78,7 +78,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     titleColor: {
@@ -87,7 +87,7 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     buttonColor: {
@@ -96,32 +96,32 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      },
+      }
     },
 
     buttonLabel: {
       type: String,
-      default: "",
+      default: ""
     },
 
     containerVisible: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     flexBody: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     position: {
@@ -130,8 +130,8 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   emits: ["closeModal", "confirmAction"],
@@ -155,7 +155,7 @@ export default {
       return this.position === "left"
         ? "u-animate u-animate--slide-out"
         : "u-animate u-animate--fade-out-down-small";
-    },
+    }
   },
 
   watch: {},
@@ -167,8 +167,8 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirmAction", event);
-    },
-  },
+    }
+  }
 };
 </script>
 

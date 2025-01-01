@@ -39,28 +39,28 @@ export default {
   props: {
     modelValue: {
       type: String,
-      required: true,
+      required: true
     },
 
     label: {
       type: String,
-      required: true,
+      required: true
     },
 
     placeholder: {
       type: String,
-      default: "",
+      default: ""
     },
 
     type: {
       type: String,
-      default: "text",
+      default: "text"
     },
 
     autofocus: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -73,8 +73,8 @@ export default {
 
       set(value: string) {
         this.$emit("update:modelValue", value);
-      },
-    },
+      }
+    }
   },
 
   watch: {
@@ -83,8 +83,8 @@ export default {
         console.log("new autofocus", value);
         // Update value in the state
         this.focusFieldFromParent();
-      },
-    },
+      }
+    }
   },
 
   methods: {
@@ -96,9 +96,11 @@ export default {
     // --> EXTERNALS <--
     focusFieldFromParent(): void {
       // call the focus method on the component
-      (this.$refs.formField as InstanceType<typeof FormField>).focusFieldFromParent();
-    },
-  },
+      (
+        this.$refs.formField as InstanceType<typeof FormField>
+      ).focusFieldFromParent();
+    }
+  }
 };
 </script>
 

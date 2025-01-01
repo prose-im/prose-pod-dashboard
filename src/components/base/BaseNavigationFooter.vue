@@ -54,18 +54,18 @@ export default {
   props: {
     listing: {
       type: String,
-      default: "",
+      default: ""
     },
 
     page: {
       type: Number,
-      required: true,
+      required: true
     },
 
     total: {
       type: Number,
-      required: true,
-    },
+      required: true
+    }
   },
 
   emits: ["navFooterUpdate"],
@@ -89,8 +89,8 @@ export default {
       } else {
         return "#495462";
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -58,13 +58,13 @@ export default {
   name: "BaseRowMenu",
 
   components: {
-    BaseRowMenuOverlay,
+    BaseRowMenuOverlay
   },
 
   props: {
     options: {
       type: Array,
-      required: true,
+      required: true
     },
 
     align: {
@@ -73,7 +73,7 @@ export default {
 
       validator(x: string): boolean {
         return ["left", "center", "right"].includes(x);
-      },
+      }
     },
 
     direction: {
@@ -82,8 +82,8 @@ export default {
 
       validator(x: string): boolean {
         return ["top", "bottom"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   emits: ["menuAction"],
@@ -96,7 +96,7 @@ export default {
       isVisible: true,
 
       overlayAnchor: [0, 0],
-      overlayOrigin: [0, 0],
+      overlayOrigin: [0, 0]
     };
   },
 
@@ -115,8 +115,8 @@ export default {
 
     onOptionClick(event: HTMLButtonElement): void {
       this.$emit("menuAction", event.value);
-    },
-  },
+    }
+  }
 };
 </script>
 

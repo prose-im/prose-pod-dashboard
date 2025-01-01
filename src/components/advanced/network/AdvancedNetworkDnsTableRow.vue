@@ -53,8 +53,8 @@ export default {
   props: {
     header: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: [],
@@ -65,7 +65,7 @@ export default {
 
       copied: false,
 
-      timer: null as ReturnType<typeof setTimeout> | null,
+      timer: null as ReturnType<typeof setTimeout> | null
     };
   },
 
@@ -105,14 +105,14 @@ export default {
 
     async copyRow() {
       await this.copyText(this.$refs.rowText as HTMLElement);
-    },
+    }
   },
 
   onBeforeUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
     }
-  },
+  }
 };
 </script>
 

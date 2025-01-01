@@ -26,7 +26,7 @@ export default {
   name: "AppCustomizationEmojis",
 
   components: {
-    EmojisReactionsDashboard,
+    EmojisReactionsDashboard
   },
 
   props: {},
@@ -45,7 +45,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
-  },
+  }
 };
 </script>
 

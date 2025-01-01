@@ -84,12 +84,12 @@ export default {
   props: {
     modelValue: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     title: {
       type: String,
-      required: true,
+      required: true
     },
 
     titleColor: {
@@ -98,30 +98,30 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
+      }
     },
 
     sup: {
       type: String,
-      default: null,
+      default: null
     },
 
     items: {
       type: Array as PropType<Items>,
-      required: true,
+      required: true
     },
 
     restoreOption: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     restoreAction: {
       type: Function,
       default: () => {
         return;
-      },
-    },
+      }
+    }
   },
 
   emits: ["update"],
@@ -129,24 +129,30 @@ export default {
   computed: {
     myVal() {
       if (Object.keys(this.modelValue).length > 0) {
-        return this.items.map((_, index) => Object.values(this.modelValue)[index]);
+        return this.items.map(
+          (_, index) => Object.values(this.modelValue)[index]
+        );
       }
 
       return this.items.map(() => "");
     },
 
     isRestoreDisabled() {
-      const result = this.items.every((item) => {
+      const result = this.items.every(item => {
         return item.disabled === true;
       });
 
       return result;
-    },
+    }
   },
 
   methods: {
     // --> HELPERS <--
-    updateValue(newValue: boolean | string, index: number, element?: number): void {
+    updateValue(
+      newValue: boolean | string,
+      index: number,
+      element?: number
+    ): void {
       // Array from the keys of the model value
       const keys = Object.keys(this.modelValue);
 
@@ -172,8 +178,8 @@ export default {
         this.$emit("update", newValue, key);
         console.log("emitting", key);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

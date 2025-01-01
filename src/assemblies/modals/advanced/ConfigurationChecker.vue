@@ -59,7 +59,7 @@ import store from "@/store";
 enum Block {
   Dns = "dns",
   Ip = "ip",
-  Port = "port",
+  Port = "port"
 }
 
 // INTERFACE
@@ -75,14 +75,14 @@ export default {
   name: "ConfigurationChecker",
 
   components: {
-    AdvancedNetworkCheckBlock,
+    AdvancedNetworkCheckBlock
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -120,7 +120,7 @@ export default {
 
     ipCheckList() {
       return store.$settingsNetwork.getIpCheck() || [];
-    },
+    }
   },
 
   watch: {},
@@ -155,8 +155,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.checkAllRecords();
-    },
-  },
+    }
+  }
 };
 </script>
 
