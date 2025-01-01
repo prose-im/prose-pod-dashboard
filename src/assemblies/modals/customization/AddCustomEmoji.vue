@@ -142,10 +142,7 @@ export default {
 
         // store.$customizationEmojis.addReaction(newReaction);
 
-        this.emojiUrl = "";
-        this.emoji = "";
-
-        this.$emit("close");
+        this.onClose();
       }
     },
 
