@@ -19,18 +19,17 @@
         v-for="(crumb, index) in breadcrumbs"
         :key="index"
       )
-        span
+        p
           | {{ crumb }}
 
-        span
-          base-icon(
-            v-if="index !== breadcrumbs.length -1"
-            class="c-breadcrumb-heading__icon"
-            name="chevron.right"
-            size="11px"
-            width="6.35px"
-            fill="#949eb1"
-          )
+        base-icon(
+          v-if="index !== breadcrumbs.length -1"
+          class="c-breadcrumb-heading__icon"
+          name="chevron.right"
+          size="11px"
+          width="6.35px"
+          fill="#949eb1"
+        )
 </template>
 
 <!-- **********************************************************************
@@ -128,12 +127,10 @@ $c: ".c-breadcrumb-heading";
 
 #{$c} {
   #{$c}__nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding-inline: 20px;
     margin-top: 10px;
     margin-bottom: 26.5px;
+    line-height: 28px;
     text-decoration: none;
 
     ul {
@@ -153,13 +150,17 @@ $c: ".c-breadcrumb-heading";
           color: $color-black;
           font-weight: $font-weight-bolder;
         }
+
+        p {
+          margin-block: 0;
+        }
       }
     }
   }
 
   #{$c}__icon {
-    margin-left: 11px;
-    margin-right: 12px;
+    margin-inline: 12px;
+    flex: 1 0 auto;
   }
 }
 </style>
