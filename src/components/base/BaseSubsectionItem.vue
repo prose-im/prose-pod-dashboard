@@ -78,12 +78,13 @@ div(
     base-avatar(
       v-if="item.slot === 'avatar'"
       :avatar-data-url="calculatedValue"
-      size="40px"
-      border-radius="20px"
       :class=`[
         "c-base-subsection-item__slot",
         "c-base-subsection-item__slot--avatar"
       ]`
+      type="image"
+      border-radius="20px"
+      size="40px"
     )
 
     <!-- INTERACTIVE ELEMENT -->
@@ -140,17 +141,17 @@ export default {
   props: {
     modelValue: {
       type: [String, Boolean, Object],
-      default: null
+      default: null,
     },
 
     secondaryData: {
       type: String,
-      default: null
+      default: null,
     },
 
     item: {
       type: Object,
-      required: true
+      required: true,
     },
 
     type: {
@@ -159,7 +160,7 @@ export default {
 
       validator(x: string) {
         return ["toggle", "button", "select", "doubleSelect"].includes(x);
-      }
+      },
     },
 
     color: {
@@ -168,13 +169,13 @@ export default {
 
       validator(x: string) {
         return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
-      }
+      },
     },
 
     index: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
 
   emits: ["update", "click"],
@@ -186,7 +187,7 @@ export default {
 
       stateSecondSelect: null as string | null,
 
-      colorSquare: null as string | null
+      colorSquare: null as string | null,
     };
   },
 
@@ -203,7 +204,7 @@ export default {
 
       set() {
         console.log("change Calculated");
-      }
+      },
     },
 
     buttonColor() {
@@ -224,7 +225,7 @@ export default {
           return "white";
         }
       }
-    }
+    },
   },
 
   watch: {
@@ -238,8 +239,8 @@ export default {
           const valueArray: string[] = Object.values(newValue);
           this.changeSecondSelectState(valueArray);
         }
-      }
-    }
+      },
+    },
   },
 
   methods: {
@@ -264,10 +265,7 @@ export default {
 
     // --> HELPERS <--
     changeColorSquare() {
-      if (
-        typeof this.modelValue === "string" &&
-        this.modelValue.startsWith("#")
-      ) {
+      if (typeof this.modelValue === "string" && this.modelValue.startsWith("#")) {
         this.colorSquare = this.modelValue;
       }
     },
@@ -275,8 +273,8 @@ export default {
     changeSecondSelectState(array: string[]) {
       console.log(array);
       this.stateSecondSelect = array[1];
-    }
-  }
+    },
+  },
 };
 </script>
 
