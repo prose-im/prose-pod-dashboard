@@ -49,6 +49,7 @@ import store from "@/store";
 
 // TYPES
 import { ROLES, Roles } from "@/api/providers/teamMembers";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {
   name: "EditRole",
@@ -119,10 +120,17 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
-    onProceed() {
+    async onProceed() {
       // update only if Role has changed
       if (this.newRole && this.user.role !== this.newRole) {
-        store.$teamMembers.updateRoleByMemberId(this.user.jid, this.newRole);
+        await store.$teamMembers.updateRoleByMemberId(this.user.jid, this.newRole);
+
+        BaseAlert.success(
+          "Success",
+          `${this.user.jid} is now ${this.newRole.toLowerCase()}`
+        );
+
+        store.$teamMembers.updateRoleLocally(this.user.jid, this.newRole);
 
         // Close modal
         this.onClose();

@@ -128,23 +128,16 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
-    getFilteredInviteList(filter?: string) {
-      /** Searching bar filter */
-      console.log("invites filtered", this.invitedMembers);
-
-      if (!filter) {
-        return this.invitedMembers;
-      } else {
-        // Loop through all invited members
-        const response = this.invitedMembers.filter(member => {
-          return member.contact.email_address.includes(filter);
-        });
-
-        return response;
+    updateRoleLocally (jid: string, newValue: ROLES) {
+      for(const member of this.notEnrichedMembers) {
+        if(member.jid === jid) {
+          member.role = newValue
+          break;
+        }
       }
     },
 
-    async updateRoleByMemberId(jid: string, newRole: [ROLES]) {
+    async updateRoleByMemberId(jid: string, newRole: ROLES) {
       return await APITeamMembers.updateMemberRole(jid, newRole);
     },
 
