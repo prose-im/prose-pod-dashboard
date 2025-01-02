@@ -172,6 +172,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.dnsLoaded = false;
         this.states.configChecks.dnsLoading = true;
         this.states.configChecks.dnsFailed = false;
+        this.checks.dns = [];
 
         try {
           const response = await APIAdvancedNetwork.getDnsRecordsCheck();
@@ -201,9 +202,11 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.portLoaded = false;
         this.states.configChecks.portLoading = true;
         this.states.configChecks.portFailed = false;
+        this.checks.ports = [];
 
         try {
           const response = await APIAdvancedNetwork.getPortsCheck();
+
 
           response.forEach(element => {
             this.checks.ports.push(element.data);
@@ -230,6 +233,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.ipLoaded = false;
         this.states.configChecks.ipLoading = true;
         this.states.configChecks.ipFailed = false;
+        this.checks.ip = [];
 
         try {
           const response = await APIAdvancedNetwork.getIPConnectivityCheck();
