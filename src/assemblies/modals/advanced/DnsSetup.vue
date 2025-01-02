@@ -151,14 +151,14 @@ export default {
   name: "DnsSetup",
 
   components: {
-    AdvancedNetworkDnsTableRow,
+    AdvancedNetworkDnsTableRow
   },
 
   props: {
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -166,7 +166,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      reload: true,
+      reload: true
     };
   },
 
@@ -182,7 +182,9 @@ export default {
 
     stepOne() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter((step) => step["purpose"].includes("specify"));
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("specify")
+        );
         return step[0] ? step[0]["records"] : "";
       } else {
         return "";
@@ -191,7 +193,9 @@ export default {
 
     stepTwo() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter((step) => step["purpose"].includes("clients"));
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("clients")
+        );
         return step[0] ? step[0]["records"] : "";
       } else {
         return "";
@@ -200,12 +204,14 @@ export default {
 
     stepThree() {
       if (this.steps.length > 0) {
-        const step = this.steps.filter((step) => step["purpose"].includes("servers"));
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("servers")
+        );
         return step[0] ? step[0]["records"] : "";
       } else {
         return "";
       }
-    },
+    }
   },
 
   watch: {},
@@ -214,8 +220,8 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
-    },
-  },
+    }
+  }
 };
 </script>
 

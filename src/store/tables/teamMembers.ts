@@ -61,7 +61,7 @@ const $teamMembers = defineStore("teamMembers", {
       return () => {
         return this.enrichedMembers;
       };
-    },
+    }
   },
 
   actions: {
@@ -132,9 +132,8 @@ const $teamMembers = defineStore("teamMembers", {
       /** Searching bar filter */
       console.log("invites filtered", this.invitedMembers);
 
-      if(!filter) {
-        return this.invitedMembers
-        
+      if (!filter) {
+        return this.invitedMembers;
       } else {
         // Loop through all invited members
         const response = this.invitedMembers.filter(member => {

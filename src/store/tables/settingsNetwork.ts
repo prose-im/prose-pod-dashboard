@@ -207,7 +207,6 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         try {
           const response = await APIAdvancedNetwork.getPortsCheck();
 
-
           response.forEach(element => {
             this.checks.ports.push(element.data);
           });
