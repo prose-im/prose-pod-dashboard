@@ -72,7 +72,7 @@ export default {
       // --> STATE <--
       isSelectOpen: false,
 
-      newRole: null as [ROLES] | null,
+      newRole: null as ROLES | null,
 
       roleOptions: [
         {
@@ -99,11 +99,11 @@ export default {
         }
       },
 
-      set(value: [ROLES]) {
+      set(value: ROLES) {
         console.log("set user role", value);
         this.newRole = value;
-      }
-    }
+      },
+    },
   },
 
   watch: {},

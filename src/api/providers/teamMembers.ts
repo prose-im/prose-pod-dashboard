@@ -47,7 +47,7 @@ interface InvitedMemberEntry {
   created_at: string;
   status: string;
   jid: string;
-  pre_assigned_role: [ROLES];
+  pre_assigned_role: ROLES;
   contact: {
     channel: string;
     email_address: string;
@@ -65,9 +65,9 @@ interface MemberByIdResponse {
   _keyToReplace: string;
 }
 
-interface EnrichedMember {
+export interface EnrichedMember {
   jid: string;
-  role: string;
+  role: ROLES;
   online: boolean;
   nickname: string;
   avatar: string;
@@ -144,7 +144,7 @@ class APITeamMembers {
     });
   }
 
-  async updateMemberRole(memberId: string, role: [ROLES]): Promise<void> {
+  async updateMemberRole(memberId: string, role: ROLES): Promise<void> {
     await Api.client.put(`/members/${memberId}/role`, {
       role: role
     });
