@@ -57,13 +57,13 @@ export default {
   props: {
     user: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -78,13 +78,13 @@ export default {
       roleOptions: [
         {
           label: Roles.Member,
-          value: ROLES.MEMBER,
+          value: ROLES.MEMBER
         },
         {
           label: Roles.Admin,
-          value: ROLES.ADMIN,
-        },
-      ],
+          value: ROLES.ADMIN
+        }
+      ]
     };
   },
 
@@ -103,8 +103,8 @@ export default {
       set(value: ROLES) {
         console.log("set user role", value);
         this.newRole = value;
-      },
-    },
+      }
+    }
   },
 
   watch: {},
@@ -123,7 +123,10 @@ export default {
     async onProceed() {
       // update only if Role has changed
       if (this.newRole && this.user.role !== this.newRole) {
-        await store.$teamMembers.updateRoleByMemberId(this.user.jid, this.newRole);
+        await store.$teamMembers.updateRoleByMemberId(
+          this.user.jid,
+          this.newRole
+        );
 
         BaseAlert.success(
           "Success",
@@ -147,8 +150,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    },
-  },
+    }
+  }
 };
 </script>
 

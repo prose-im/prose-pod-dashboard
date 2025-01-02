@@ -128,10 +128,10 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
-    updateRoleLocally (jid: string, newValue: ROLES) {
-      for(const member of this.notEnrichedMembers) {
-        if(member.jid === jid) {
-          member.role = newValue
+    updateRoleLocally(jid: string, newValue: ROLES) {
+      for (const member of this.notEnrichedMembers) {
+        if (member.jid === jid) {
+          member.role = newValue;
           break;
         }
       }
