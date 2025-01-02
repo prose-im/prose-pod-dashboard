@@ -24,7 +24,7 @@ import { defineStore } from "pinia";
 interface Members {
   enrichedMembers: EnrichMembersResponse;
   invitedMembers: AllInvitationsResponse;
-  nonEnrichedMembers: AllMembersResponse;
+  notEnrichedMembers: AllMembersResponse;
 }
 
 /**************************************************************************
@@ -46,14 +46,14 @@ const $teamMembers = defineStore("teamMembers", {
 
       enrichedMembers: {},
 
-      nonEnrichedMembers: []
+      notEnrichedMembers: []
     };
   },
 
   getters: {
     getAllMembers: function () {
       return () => {
-        return this.nonEnrichedMembers;
+        return this.notEnrichedMembers;
       };
     },
 
@@ -71,7 +71,7 @@ const $teamMembers = defineStore("teamMembers", {
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Load all Members (non enriched)
         const entries = await APITeamMembers.getAllMembers();
-        this.nonEnrichedMembers = entries;
+        this.notEnrichedMembers = entries;
         console.log("non enriched entries", entries);
 
         // Create a jid Array to ask enrichment
@@ -101,11 +101,11 @@ const $teamMembers = defineStore("teamMembers", {
         /** Page filter */
         const startIndex = (filter - 1) * 10;
         const endIndex =
-          filter * 10 < this.nonEnrichedMembers.length
+          filter * 10 < this.notEnrichedMembers.length
             ? filter * 10
-            : this.nonEnrichedMembers.length;
+            : this.notEnrichedMembers.length;
 
-        return this.nonEnrichedMembers.slice(startIndex, endIndex);
+        return this.notEnrichedMembers.slice(startIndex, endIndex);
       } else if (typeof filter === "string") {
         /** Searching bar filter */
         const memberArray = Object.values(this.enrichedMembers);
@@ -165,6 +165,22 @@ const $teamMembers = defineStore("teamMembers", {
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
+      }
+    },
+
+    getFilteredInviteList(filter?: string) {
+      /** Searching bar filter */
+      console.log("invites filtered", this.invitedMembers);
+
+      if (!filter) {
+        return this.invitedMembers;
+      } else {
+        // Loop through all invited members
+        const response = this.invitedMembers.filter(member => {
+          return member.contact.email_address.includes(filter);
+        });
+
+        return response;
       }
     },
 

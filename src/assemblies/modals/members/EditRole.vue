@@ -56,13 +56,13 @@ export default {
   props: {
     user: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
 
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "proceed"],
@@ -77,13 +77,13 @@ export default {
       roleOptions: [
         {
           label: Roles.Member,
-          value: ROLES.MEMBER
+          value: ROLES.MEMBER,
         },
         {
           label: Roles.Admin,
-          value: ROLES.ADMIN
-        }
-      ]
+          value: ROLES.ADMIN,
+        },
+      ],
     };
   },
 
@@ -139,8 +139,8 @@ export default {
 
       // Close modal
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
