@@ -24,6 +24,7 @@
           "c-emojis-reactions-row--hidden" : !emojiData.imageUrl
         }
       ]`
+      :disabled="true"
     )
 
     <!-- 2nd column -->
@@ -102,6 +103,7 @@
             "c-emojis-reactions-row--hidden" : tableHeaders
           }
         ]`
+        @click="toggleMenuOpen"
         size="medium"
         tint="white"
         :square="true"
@@ -111,6 +113,14 @@
           size="10px"
           fill="#949EB1"
         )
+
+      base-row-menu(
+        v-if="isMenuOpen"
+        v-click-away="onMenuClickAway"
+        class="c-emojis-reactions-row__parameters--menu"
+        @menuAction="onMenuAction"
+        :options="menuOptions"
+      )
 </template>
 
 <!-- **********************************************************************
@@ -118,8 +128,15 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: COMPONENTS
+import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
+
 export default {
   name: "EmojisReactionsRow",
+
+  components: {
+    BaseRowMenu
+  },
 
   props: {
     emojiData: {
@@ -130,6 +147,43 @@ export default {
     tableHeaders: {
       type: Array,
       default: null
+    }
+  },
+
+  emits: ["menuAction"],
+
+  data() {
+    return {
+      // --> STATE <--
+      isMenuOpen: false,
+
+      menuOptions: [
+        {
+          value: "Security settings",
+          disabled: true
+        },
+        {
+          value: "Delete emoji",
+          color: "red"
+        }
+      ]
+    };
+  },
+
+  methods: {
+    // <-- EVENT LISTENERS -->
+
+    toggleMenuOpen() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+
+    onMenuAction(action: string) {
+      console.log("emoji data", this.emojiData.id);
+      this.$emit("menuAction", action, this.emojiData.id);
+    },
+
+    onMenuClickAway() {
+      this.toggleMenuOpen();
     }
   }
 };
@@ -150,7 +204,7 @@ $c: ".c-emojis-reactions-row";
   font-size: ($font-size-baseline - 1.5px);
 
   #{$c}__checkbox {
-    border: 1px solid red;
+    // border: 1px solid red;
     min-width: 24px;
     max-width: 46px;
     margin-right: 10px;
@@ -158,7 +212,7 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__image {
-    border: 1px solid red;
+    // border: 1px solid red;
     min-width: 30px;
     max-width: 82px;
     margin-right: 10px;
@@ -174,7 +228,7 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__shortcut {
-    border: 1px solid red;
+    //border: 1px solid red;
     min-width: 70px;
     max-width: 142px;
     margin-right: 10px;
@@ -188,7 +242,7 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__date {
-    border: 1px solid red;
+    //border: 1px solid red;
     min-width: 50px;
     max-width: 193px;
     margin-right: 10px;
@@ -209,7 +263,7 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__contributor {
-    border: 1px solid red;
+    //border: 1px solid red;
 
     display: flex;
     align-items: center;
@@ -231,12 +285,19 @@ $c: ".c-emojis-reactions-row";
   }
 
   #{$c}__parameters {
-    border: 1px solid red;
+    //border: 1px solid red;
+    position: relative;
     margin-bottom: 1px;
 
     &--button {
       margin: 0;
       padding-inline: 18px;
+    }
+
+    &--menu {
+      //z-index: $index-foreground-tertiary;
+      position: absolute;
+      right: -115%;
     }
   }
 

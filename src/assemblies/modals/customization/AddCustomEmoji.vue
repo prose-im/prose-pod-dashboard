@@ -22,10 +22,11 @@ base-modal(
 
     .a-add-custom-emoji__upload
       base-avatar(
-        :avatar-data-url="imageUrl"
+        :avatar-data-url="emojiUrl"
         class="a-add-custom-emoji__upload--avatar"
         size="60px"
         borderRadius="7px"
+        type="image"
       )
 
       base-upload-button(
@@ -35,17 +36,14 @@ base-modal(
         width="117px"
       )
 
-    h4
-      | Emoji shortcut
-
-    form-field(
-      v-model="shortcut"
+    base-modal-input-block(
+      v-model="emojiShortcut"
+      :autofocus="inputAutofocus"
       type="text"
-      size="mid-large"
-      align="left"
+      label="Emoji shortcut"
       placeholder="Enter a :shortcut: for the emoji..."
     )
-
+    
     .a-add-custom-emoji__info
       base-icon(
         class="a-add-custom-emoji__info--icon"
@@ -64,7 +62,11 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import store from "@/store";
+
+// TYPES
+export type imageUrl = string | ArrayBuffer | null;
 
 export default {
   name: "AddCustomEmoji",
@@ -77,11 +79,13 @@ export default {
     return {
       // --> STATE <--
 
-      imageUrl: "",
+      emojiUrl: "" as imageUrl,
 
-      image: "",
+      emoji: null as File | null,
 
-      shortcut: ""
+      emojiShortcut: "",
+
+      inputAutofocus: false
     };
   },
 
@@ -92,55 +96,60 @@ export default {
   methods: {
     // --> HELPERS <--
     onPickFile() {
-      this.$refs.fileInput.click();
+      (this.$refs.fileInput as HTMLInputElement).click();
     },
 
-    onFilePicked(event) {
-      const files = event.target.files;
+    onFilePicked(event: Event) {
+      this.inputAutofocus = false;
 
-      // Show image preview
+      const files = (event.target as HTMLInputElement).files || [];
+
+      // Show emoji preview
       const fileReader = new FileReader();
 
       fileReader.addEventListener("load", () => {
-        this.imageUrl = fileReader.result;
+        this.emojiUrl = fileReader.result;
       });
+
       fileReader.readAsDataURL(files[0]);
 
-      this.image = files[0];
+      this.emoji = files[0];
+
+      this.inputAutofocus = true;
     },
 
     onProceed() {
-      const date = new Date();
-      const options = {
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      };
+      if (!this.emojiUrl || !this.emojiShortcut) {
+        BaseAlert.error("Please complete all the fields");
+      } else {
+        // const date = new Date();
+        // const options = {
+        //   day: "numeric",
+        //   month: "long",
+        //   year: "numeric",
+        // };
 
-      const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
-        date
-      );
+        // const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(date);
 
-      const newReaction = {
-        id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
-        imageUrl: this.imageUrl,
-        shortcut: this.shortcut,
-        date: formattedDate,
-        contributor: "Valerian Saliou",
-        contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4"
-      };
+        // const newReaction = {
+        //   id: "e8f6dbac-cda3-460e-88f1-5e588c64c76e",
+        //   imageUrl: this.emojiUrl,
+        //   shortcut: this.emojiShortcut,
+        //   date: formattedDate,
+        //   contributor: "Valerian Saliou",
+        //   contributorAvatar: "https://avatars.githubusercontent.com/u/1451907?v=4",
+        // };
 
-      store.$customizationEmojis.addReaction(newReaction);
+        // store.$customizationEmojis.addReaction(newReaction);
 
-      this.imageUrl = "";
-      this.image = "";
-
-      this.$emit("close");
+        this.onClose();
+      }
     },
 
     onClose() {
-      this.imageUrl = "";
-      this.image = "";
+      this.emojiUrl = "";
+      this.emoji = null;
+      this.emojiShortcut = "";
 
       this.$emit("close");
     }

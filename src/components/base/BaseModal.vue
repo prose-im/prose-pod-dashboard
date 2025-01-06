@@ -17,10 +17,12 @@ teleport(
   )
     .c-base-modal
       base-modal-background(
-        :position="position"
         @closeModal="onClose"
+        :position="position"
       )
         base-modal-container(
+          @closeModal="onClose"
+          @confirmAction="onConfirm"
           :container-visible="loaded"
           :position="position"
           :title="title"
@@ -29,8 +31,7 @@ teleport(
           :button-label="buttonLabel"
           :flex-body="flexContainer"
           :disabled="disabled"
-          @closeModal="onClose"
-          @confirmAction="onConfirm"
+          :loading="loading"
         )
           slot
 </template>
@@ -69,6 +70,11 @@ export default {
     },
 
     flexContainer: {
+      type: Boolean,
+      default: false
+    },
+
+    loading: {
       type: Boolean,
       default: false
     },

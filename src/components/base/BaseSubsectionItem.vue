@@ -54,11 +54,10 @@ div(
     .c-base-subsection-item__tag(
       v-if="item.tags"
     )
-      span(
-      )
+      p
         | {{ item.tags[0] + ': ' }}
 
-      span(
+      p(
         v-for="(tag, index) in item.tags"
         class="c-base-subsection-item__taglist"
       )
@@ -68,65 +67,67 @@ div(
         p.c-base-subsection-item--grey
           | {{ (index<item.tags.length-2) ? ',' : '' }}
 
-  <!-- OPTIONAL ELEMENT -->
-  p(
-    v-if="item.slot === 'text'"
-    class="c-base-subsection-item__slot"
-  )
-    | {{ calculatedValue }}
+  .c-base-subsection-item__right
+    <!-- OPTIONAL ELEMENT -->
+    p(
+      v-if="item.slot === 'text'"
+      class="c-base-subsection-item__slot"
+    )
+      | {{ calculatedValue }}
 
-  base-avatar(
-    v-if="item.slot === 'avatar'"
-    :avatar-data-url="calculatedValue"
-    size="40px"
-    border-radius="20px"
-    :class=`[
-      "c-base-subsection-item__slot",
-      "c-base-subsection-item__slot--avatar"
-    ]`
-  )
+    base-avatar(
+      v-if="item.slot === 'avatar'"
+      :avatar-data-url="calculatedValue"
+      :class=`[
+        "c-base-subsection-item__slot",
+        "c-base-subsection-item__slot--avatar"
+      ]`
+      type="image"
+      border-radius="20px"
+      size="40px"
+    )
 
-  <!-- INTERACTIVE ELEMENT -->
-  form-toggle(
-    v-if="type === 'toggle'"
-    v-model="calculatedValue"
-    :disabled="item.disabled"
-    @update:modelValue="onUpdateValue"
-  )
+    <!-- INTERACTIVE ELEMENT -->
+    form-toggle(
+      v-if="type === 'toggle'"
+      v-model="calculatedValue"
+      :disabled="item.disabled"
+      @update:modelValue="onUpdateValue"
+    )
 
-  base-button(
-    v-if="type === 'button'"
-    :disabled="item.disabled"
-    :size="item.typeProps?.size"
-    :tint="buttonColor"
-    @click="$emit('click')"
-  )
-    | {{item.typeProps?.label}}
+    base-button(
+      v-if="type === 'button'"
+      :disabled="item.disabled"
+      :size="item.typeProps?.size"
+      :tint="buttonColor"
+      @click="$emit('click')"
+    )
+      | {{item.typeProps?.label}}
 
-  form-select(
-    v-if="(type === 'select') || type === 'doubleSelect'"
-    v-model="calculatedValue"
-    :color-prev="colorSquare"
-    :disabled="item.disabled"
-    :options="item.typeProps?.options"
-    position="bottom"
-    size="medium"
-    :search="false"
-    @update:modelValue="onUpdateValue"
-  )
+    .c-base-subsection-item__select
+      form-select(
+        v-if="(type === 'select') || type === 'doubleSelect'"
+        v-model="calculatedValue"
+        :color-prev="colorSquare"
+        :disabled="item.disabled"
+        :options="item.typeProps?.options"
+        position="bottom"
+        size="medium"
+        :search="false"
+        @update:modelValue="onUpdateValue"
+      )
 
-  form-select(
-    v-if="type === 'doubleSelect'"
-    v-model="stateSecondSelect"
-    class="c-base-subsection-item__double-select"
-    :disabled="item.disabled"
-    :search="false"
-    size="medium"
-    :options="item.typeProps?.secondOptions"
-    position="bottom"
-    @update:modelValue="onUpdateExtraSelect"
-  )
-
+      form-select(
+        v-if="type === 'doubleSelect'"
+        v-model="stateSecondSelect"
+        class="c-base-subsection-item__double-select"
+        :disabled="item.disabled"
+        :search="false"
+        size="medium"
+        :options="item.typeProps?.secondOptions"
+        position="bottom"
+        @update:modelValue="onUpdateExtraSelect"
+      )
 </template>
 
 <!-- **********************************************************************
@@ -184,7 +185,7 @@ export default {
       // --> STATE <--
       state: null,
 
-      stateSecondSelect: null,
+      stateSecondSelect: null as string | null,
 
       colorSquare: null as string | null
     };
@@ -194,23 +195,15 @@ export default {
     calculatedValue: {
       get() {
         if (this.type !== "doubleSelect") {
-          if (
-            typeof this.modelValue === "string" &&
-            this.modelValue.startsWith("#")
-          ) {
-            this.colorSquare = this.modelValue;
-          }
           return this.modelValue;
         } else {
           const valueArray = Object.values(this.modelValue);
-          this.stateSecondSelect = valueArray[1];
-
           return valueArray[0];
         }
       },
 
-      set(nextValue: any[]) {
-        console.log("nextValue", nextValue);
+      set() {
+        console.log("change Calculated");
       }
     },
 
@@ -235,6 +228,21 @@ export default {
     }
   },
 
+  watch: {
+    modelValue: {
+      immediate: true,
+
+      handler(newValue) {
+        if (this.type !== "doubleSelect") {
+          this.changeColorSquare();
+        } else {
+          const valueArray: string[] = Object.values(newValue);
+          this.changeSecondSelectState(valueArray);
+        }
+      }
+    }
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
     onUpdateValue(newValue: boolean | string): void {
@@ -253,6 +261,21 @@ export default {
       this.item.restoreSubtitle && this.item.restoreAction
         ? this.item.restoreAction()
         : "";
+    },
+
+    // --> HELPERS <--
+    changeColorSquare() {
+      if (
+        typeof this.modelValue === "string" &&
+        this.modelValue.startsWith("#")
+      ) {
+        this.colorSquare = this.modelValue;
+      }
+    },
+
+    changeSecondSelectState(array: string[]) {
+      console.log(array);
+      this.stateSecondSelect = array[1];
     }
   }
 };
@@ -266,15 +289,11 @@ export default {
 $c: ".c-base-subsection-item";
 
 #{$c} {
-  display: flex;
-  align-items: center;
   padding-inline: 22px;
   padding-block: 11.5px;
-
-  #{$c}__left {
-    flex: 1 1 auto;
-    margin-inline-end: 10px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   #{$c}__subtitle {
     display: flex;
@@ -286,7 +305,7 @@ $c: ".c-base-subsection-item";
     }
 
     &--text {
-      margin: 0;
+      margin-block: 0;
       font-size: ($font-size-baseline + 0.5px);
       font-weight: $font-weight-medium;
     }
@@ -305,10 +324,16 @@ $c: ".c-base-subsection-item";
     }
   }
 
+  #{$c}__left {
+    flex: 1 1 auto;
+    max-width: 590px;
+  }
+
   #{$c}__description {
     font-weight: $font-weight-light;
     max-width: 580px;
-    margin: 0;
+    margin-block: 0;
+    margin-inline-end: 10px;
     color: $color-text-secondary;
     font-size: ($font-size-baseline - 0.5px);
   }
@@ -318,9 +343,12 @@ $c: ".c-base-subsection-item";
     font-size: ($font-size-baseline - 2px);
     font-weight: $font-weight-light;
     display: flex;
+    flex-wrap: wrap;
     color: $color-text-secondary;
+
     p {
-      margin: 0;
+      margin-block: 0;
+      white-space: nowrap;
     }
   }
 
@@ -338,6 +366,7 @@ $c: ".c-base-subsection-item";
     font-size: ($font-size-baseline - 4px);
     font-weight: $font-weight-medium;
     margin-inline-end: 10px;
+    margin-block: 0;
     min-width: 40px;
     text-align: center;
     overflow: clip;
@@ -349,8 +378,17 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  #{$c}__double-select {
-    margin-inline-start: 3px;
+  #{$c}__right {
+    display: flex;
+    align-items: center;
+
+    #{$c}__select {
+      display: flex;
+    }
+
+    #{$c}__double-select {
+      margin-inline-start: 3px;
+    }
   }
 
   // <!-- SIMPLE COLORS -->
@@ -387,6 +425,37 @@ $c: ".c-base-subsection-item";
 
     #{$c}__description {
       color: $color-base-red-normal;
+    }
+  }
+
+  // <!-- MEDIA QUERIES -->
+  @media (max-width: 922px) {
+    #{$c}__right {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: min-content;
+    }
+
+    #{$c}__slot {
+      margin-inline-end: 0;
+      margin-block-end: 10px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #{$c}__right {
+      flex-direction: column;
+      align-items: center;
+
+      #{$c}__select {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #{$c}__double-select {
+        margin-inline-start: 0;
+        margin-block-start: 3px;
+      }
     }
   }
 }

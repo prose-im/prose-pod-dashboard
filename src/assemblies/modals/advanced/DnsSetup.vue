@@ -34,7 +34,7 @@ base-modal(
 
     .a-dns-setup__step
       span
-        | 1️⃣ &nbsp;Add those records to
+        | 1️⃣ &nbsp;Add those records to&nbsp;
       span.a-dns-setup--semibold
         | specify your server IP address:
 
@@ -49,24 +49,18 @@ base-modal(
         p Value
 
       advanced-network-dns-table-row(
+        v-if="stepOne"
+        v-for="record in stepOne"
         class="a-dns-setup__table--one--row"
       )
-        p xmpp.crisp.chat
-        p A
-        p 600
-        p 90.105.205.180
-
-      advanced-network-dns-table-row(
-        class="a-dns-setup__table--one--row"
-      )
-        p xmpp.crisp.chat
-        p AAAA
-        p 600
-        p 2a01:cb05:899c:c200::1
+        p {{ record["hostname"] }}
+        p {{ record["type"] }}
+        p {{ record["ttl"] }}
+        p {{ record["value"] }}
 
     .a-dns-setup__step
       span
-        | 2️⃣ &nbsp;Add the records that let
+        | 2️⃣ &nbsp;Add the records that let&nbsp;
       span.a-dns-setup--semibold
         | clients connect to your server:
 
@@ -98,9 +92,10 @@ base-modal(
 
     .a-dns-setup__step
       span
-        | 3️⃣ &nbsp;Add the records that let
+        | 3️⃣ &nbsp;Add the records that let&nbsp;
       span.a-dns-setup--semibold
         | servers connect to your server:
+
     .a-dns-setup__table
       advanced-network-dns-table-row(
         :header="true"
@@ -185,12 +180,23 @@ export default {
       return store.$settingsNetwork.getDnsInstructions();
     },
 
+    stepOne() {
+      if (this.steps.length > 0) {
+        const step = this.steps.filter(step =>
+          step["purpose"].includes("specify")
+        );
+        return step[0] ? step[0]["records"] : "";
+      } else {
+        return "";
+      }
+    },
+
     stepTwo() {
       if (this.steps.length > 0) {
         const step = this.steps.filter(step =>
           step["purpose"].includes("clients")
         );
-        return step[0]["records"];
+        return step[0] ? step[0]["records"] : "";
       } else {
         return "";
       }
@@ -201,7 +207,7 @@ export default {
         const step = this.steps.filter(step =>
           step["purpose"].includes("servers")
         );
-        return step[0]["records"];
+        return step[0] ? step[0]["records"] : "";
       } else {
         return "";
       }

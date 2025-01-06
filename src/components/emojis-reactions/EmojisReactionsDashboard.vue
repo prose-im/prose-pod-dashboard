@@ -12,6 +12,7 @@
 .c-emojis-reactions-dashboard
   .c-emojis-reactions-dashboard__upper
     search-bar(
+      v-model="searchTerm"
       button-label="Add Custom Emoji"
       :click-handle="onInvitePeopleClick"
       placeholder-text="a custom emoji..."
@@ -23,20 +24,25 @@
     )
 
     emojis-reactions-row(
-      v-for="(emoji, index) in emojis"
+      v-for="(emoji, index) in allEmojis"
       :key="emoji.shortcut"
       :emoji-data="emoji"
       class="c-emojis-reactions-dashboard__users"
     )
 
-  base-navigation-footer
+  base-navigation-footer(
+    v-if="!searchTerm"
+    @navFooterUpdate="onChangePage"
+    listing="reactions"
+    :page="pageNumber"
+    :total="totalEmojiNumber"
+  )
 
-<!-- Modal -->
+<!-- Modals -->
 add-custom-emoji(
-  v-if="isModalVisible"
-  :visible="modalVisibility"
-  @close="toggleModalVisible"
-  @confirm=""
+  v-if="isAddEmojiModalVisible"
+  @close="toggleAddEmojiModalVisible"
+  :visible="addEmojiModalVisibility"
 )
 </template>
 
@@ -65,21 +71,37 @@ export default {
   data() {
     return {
       // --> STATE <--
-      isModalVisible: false,
+      isAddEmojiModalVisible: false,
 
-      modalVisibility: false
+      addEmojiModalVisibility: false,
+
+      searchTerm: "",
+
+      pageNumber: 1
     };
   },
 
   computed: {
-    emojis() {
+    allEmojis() {
       return store.$customizationEmojis.getEmojiList();
+    },
+
+    emojis() {
+      console.log("getting filtered emojis");
+
+      return this.searchTerm
+        ? store.$teamMembers.getFilteredMembers(this.searchTerm)
+        : store.$teamMembers.getFilteredMembers(this.pageNumber);
+    },
+
+    totalEmojiNumber() {
+      return this.allEmojis.length;
     }
   },
 
   watch: {
-    isModalVisible(newValue) {
-      setTimeout(() => (this.modalVisibility = newValue), 10);
+    isAddEmojiModalVisible(newValue) {
+      setTimeout(() => (this.addEmojiModalVisibility = newValue), 10);
     }
   },
 
@@ -89,12 +111,26 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
-    toggleModalVisible() {
-      this.isModalVisible = !this.isModalVisible;
+    toggleAddEmojiModalVisible() {
+      this.isAddEmojiModalVisible = !this.isAddEmojiModalVisible;
     },
 
     onInvitePeopleClick(): void {
-      this.toggleModalVisible();
+      this.toggleAddEmojiModalVisible();
+    },
+
+    onChangePage(type: string) {
+      if (type === "forth") {
+        this.pageNumber += 1;
+      } else if (type === "back") {
+        if (this.pageNumber === 1) {
+          return;
+        } else {
+          this.pageNumber -= 1;
+        }
+      }
+
+      return;
     }
   }
 };

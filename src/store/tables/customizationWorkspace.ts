@@ -103,7 +103,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
             this.workspaceProfile.iconUrl =
               "data:image/png;base64," + icon.icon;
           });
-        } catch (error) {
+        } catch (error: any) {
           console.error(
             "message:",
             error.message,

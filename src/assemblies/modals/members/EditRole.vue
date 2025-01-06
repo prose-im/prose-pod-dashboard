@@ -48,7 +48,8 @@ base-modal(
 import store from "@/store";
 
 // TYPES
-import { Roles } from "@/api/providers/teamMembers";
+import { ROLES, Roles } from "@/api/providers/teamMembers";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {
   name: "EditRole",
@@ -72,16 +73,16 @@ export default {
       // --> STATE <--
       isSelectOpen: false,
 
-      newRole: null as Roles.Member | Roles.Admin | null,
+      newRole: null as ROLES | null,
 
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member
+          value: ROLES.MEMBER
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin
+          value: ROLES.ADMIN
         }
       ]
     };
@@ -93,13 +94,13 @@ export default {
         console.log("getting role", this.user.role, this.newRole);
 
         if (!this.newRole) {
-          return this.user.role === "ADMIN" ? Roles.Admin : Roles.Member;
+          return this.user.role;
         } else {
           return this.newRole;
         }
       },
 
-      set(value: Roles.Admin | Roles.Member) {
+      set(value: ROLES) {
         console.log("set user role", value);
         this.newRole = value;
       }
@@ -119,19 +120,26 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
-    onProceed() {
+    async onProceed() {
       // update only if Role has changed
-      if (this.newRole && this.user.role !== this.newRole.toUpperCase()) {
-        store.$teamMembers.updateRoleByMemberId(
+      if (this.newRole && this.user.role !== this.newRole) {
+        await store.$teamMembers.updateRoleByMemberId(
           this.user.jid,
-          this.newRole.toUpperCase()
+          this.newRole
         );
 
+        BaseAlert.success(
+          "Success",
+          `${this.user.jid} is now ${this.newRole.toLowerCase()}`
+        );
+
+        store.$teamMembers.updateRoleLocally(this.user.jid, this.newRole);
+
         // Close modal
-        this.$emit("close");
+        this.onClose();
       } else {
         // Close modal
-        this.$emit("close");
+        this.onClose();
       }
     },
 

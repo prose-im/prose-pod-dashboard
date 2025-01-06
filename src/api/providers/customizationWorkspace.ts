@@ -12,15 +12,15 @@
 import Api from "@/api";
 
 /**************************************************************************
- * INTERFACES  
+ * INTERFACES
  * ************************************************************************* */
 
 interface WorkspaceNameResponse {
-  name: string
+  name: string;
 }
 
 interface WorkspaceIconResponse {
-  icon: string
+  icon: string;
 }
 
 interface WorkspaceDetailsCardResponse {
@@ -29,14 +29,18 @@ interface WorkspaceDetailsCardResponse {
 }
 
 interface WorkspaceColorResponse {
-  color: string
+  color: string;
 }
 
 /**************************************************************************
- * TYPES  
+ * TYPES
  * ************************************************************************* */
 
-type WorkspaceConfigResponse = [WorkspaceNameResponse, WorkspaceIconResponse, WorkspaceColorResponse]
+type WorkspaceConfigResponse = [
+  WorkspaceNameResponse,
+  WorkspaceIconResponse,
+  WorkspaceColorResponse
+];
 
 /**************************************************************************
  * API
@@ -51,7 +55,6 @@ export class APICustomizationWorkspace {
       this.getWorkspaceIcon(),
       this.getWorkspaceColor()
     ]);
-
   }
 
   /**  WORKSPACE PROFILE **/
@@ -72,7 +75,7 @@ export class APICustomizationWorkspace {
 
   async setWorkspaceIcon(newIcon: string): Promise<void> {
     await Api.client.put("/workspace/icon", {
-      method: 'put',
+      method: "put",
       image: newIcon
     });
   }
@@ -87,7 +90,7 @@ export class APICustomizationWorkspace {
     });
   }
 
-  /**  APPEARANCE  **/ 
+  /**  APPEARANCE  **/
 
   async getWorkspaceColor(): Promise<WorkspaceColorResponse> {
     return (await Api.client.get("/workspace/accent-color")).data;

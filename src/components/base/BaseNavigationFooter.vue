@@ -26,7 +26,7 @@
       )
 
     p
-      | {{ from || 'x' }} to {{ to || 'y' }} out of {{ total }} total users
+      | {{ from || 'x' }} to {{ to || 'y' }} out of {{ total }} total {{ listing }}
 
     base-button(
       :disabled="!notLastPage"
@@ -52,6 +52,11 @@ export default {
   name: "BaseNavigationFooter",
 
   props: {
+    listing: {
+      type: String,
+      default: ""
+    },
+
     page: {
       type: Number,
       required: true

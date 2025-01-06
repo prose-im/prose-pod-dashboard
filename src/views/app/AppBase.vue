@@ -56,7 +56,7 @@ $c: ".v-app-base";
 
   #{$c}__content {
     overflow: hidden;
-    flex: 1;
+    flex: 1 1 0;
   }
 }
 

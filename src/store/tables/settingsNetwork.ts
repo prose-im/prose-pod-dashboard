@@ -84,31 +84,31 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       return this.federation;
     },
 
-    getDnsInstructions: function (): object {
+    getDnsInstructions: function () {
       return () => {
         return this.dnsInstructions;
       };
     },
 
-    getDnsCheck: function (): object {
+    getDnsCheck: function () {
       return () => {
         return this.checks.dns;
       };
     },
 
-    getPortCheck: function (): object {
+    getPortCheck: function () {
       return () => {
         return this.checks.ports;
       };
     },
 
-    getIpCheck: function (): object {
+    getIpCheck: function () {
       return () => {
         return this.checks.ip;
       };
     },
 
-    getConfigCheckStates: function (): object {
+    getConfigCheckStates: function () {
       return () => {
         return this.states.configChecks;
       };
@@ -124,7 +124,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     async loadFederationConfiguration() {
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = await store.$globalConfig.getGlobalConfig();
+      const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
         this.federation.externalConnectAllowed = response.federation_enabled;
@@ -149,7 +149,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
-        } catch (e) {
+        } catch (e: any) {
           this.states.dnsSteps.instructionsFailed = true;
 
           console.error("recordError", e.response);
@@ -172,6 +172,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.dnsLoaded = false;
         this.states.configChecks.dnsLoading = true;
         this.states.configChecks.dnsFailed = false;
+        this.checks.dns = [];
 
         try {
           const response = await APIAdvancedNetwork.getDnsRecordsCheck();
@@ -185,7 +186,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           // update request progress
           this.states.configChecks.dnsLoaded = true;
           this.states.configChecks.dnsLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error dns", e.message);
 
           // update request progress
@@ -201,6 +202,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.portLoaded = false;
         this.states.configChecks.portLoading = true;
         this.states.configChecks.portFailed = false;
+        this.checks.ports = [];
 
         try {
           const response = await APIAdvancedNetwork.getPortsCheck();
@@ -214,7 +216,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           // update request progress
           this.states.configChecks.portLoaded = true;
           this.states.configChecks.portLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error ports", e.message);
 
           // update request progress
@@ -230,6 +232,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.ipLoaded = false;
         this.states.configChecks.ipLoading = true;
         this.states.configChecks.ipFailed = false;
+        this.checks.ip = [];
 
         try {
           const response = await APIAdvancedNetwork.getIPConnectivityCheck();
@@ -241,7 +244,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           console.log("ip", this.checks.ip);
           this.states.configChecks.ipLoaded = true;
           this.states.configChecks.ipLoading = false;
-        } catch (e) {
+        } catch (e: any) {
           console.error("error ip", e.message);
 
           this.states.configChecks.ipLoading = false;

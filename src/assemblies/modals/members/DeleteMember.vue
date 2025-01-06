@@ -21,13 +21,13 @@ base-modal(
 )
   .a-delete-member
     span
-      | Are you sure you want to
+      | Are you sure you want to&nbsp;
     span(
       :class=`[
         "a-delete-member--bolder"
       ]`
     )
-      | delete
+      | delete 
     br
     span(
       :class=`[
@@ -90,6 +90,8 @@ export default {
 
     onProceed() {
       store.$teamMembers.deleteMemberById(this.jid);
+
+      store.$teamMembers.deleteMemberLocally(this.jid);
 
       // Close modal
       this.$emit("close");

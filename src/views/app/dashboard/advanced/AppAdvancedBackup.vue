@@ -12,6 +12,7 @@
 .v-app-advanced-backup
   base-subsection(
     v-model="config"
+    @update="onBackupUpdate"
     title="Backup Settings"
     :items="backupItems"
   )
@@ -23,23 +24,23 @@
 
   base-subsection(
     title="Danger Zone"
-    sup="tm"
     :items="dangerItems"
+    sup="tm"
     title-color="red"
   )
 
 <!-- Modals -->
 restore-backup(
   v-if="isRestoreModalVisible"
-  :visibility="restoreModalVisibility"
   @close="toggleRestoreModalVisible"
   @proceed=""
+  :visibility="restoreModalVisibility"
 )
 
 factory-reset(
   v-if="isResetModalVisible"
-  :visibility="resetModalVisibility"
   @close="toggleResetModalVisible"
+  :visibility="resetModalVisibility"
 )
 </template>
 
@@ -54,6 +55,17 @@ import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
 
 // STORE
 import store from "@/store";
+
+// ENUMERATIONS
+enum BackupKey {
+  PodSettings = "podBackup",
+  UserData = "userDataBackup"
+}
+
+enum TimeVariable {
+  Frequency = "frequency",
+  Time = "time"
+}
 
 export default {
   name: "AppAdvancedBackup",
@@ -78,7 +90,7 @@ export default {
           description:
             "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
           type: "doubleSelect",
-          disabled: true,
+          disabled: false,
           typeProps: {
             options: [
               {
@@ -109,7 +121,7 @@ export default {
           description:
             "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
-          disabled: true,
+          disabled: false,
           typeProps: {
             options: [
               {
@@ -210,6 +222,34 @@ export default {
 
     toggleResetModalVisible() {
       this.isResetModalVisible = !this.isResetModalVisible;
+    },
+
+    // --> EVENT LISTENERS <--
+
+    onBackupUpdate(
+      newValue: string,
+      changedKey: BackupKey,
+      changedSubKey: TimeVariable
+    ) {
+      console.log("backup change", newValue, changedKey, changedSubKey);
+      console.log("config", this.config);
+
+      if (this.config[changedKey][changedSubKey] !== newValue) {
+        switch (changedKey) {
+          case "podBackup": {
+            /// TODO
+            // console.log("call to store for podBackup", changedSubKey);
+            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            break;
+          }
+          case "userDataBackup": {
+            /// TODO
+            // console.log("call to store for userDataBackup", changedSubKey);
+            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+            break;
+          }
+        }
+      }
     }
   }
 };

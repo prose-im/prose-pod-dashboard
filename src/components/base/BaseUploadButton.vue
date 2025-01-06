@@ -68,10 +68,10 @@ export default {
 
   methods: {
     onPickFile() {
-      this.$refs.fileInput.click();
+      (this.$refs.fileInput as HTMLInputElement).click();
     },
 
-    onChange(event) {
+    onChange(event: Event) {
       this.$emit("filePicked", event);
     }
   }

@@ -157,7 +157,7 @@
         )
           | Cancel invite
 
-      members-invites-menu(
+      base-row-menu(
         v-if="isMenuOpen"
         v-click-away="onMenuClickAway"
         class="c-members-invites-row__parameters--menu"
@@ -172,7 +172,7 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import MembersInvitesMenu from "./MembersInvitesMenu.vue";
+import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
 import store from "@/store";
@@ -181,7 +181,7 @@ export default {
   name: "MembersInvitesRow",
 
   components: {
-    MembersInvitesMenu
+    BaseRowMenu
   },
 
   props: {
@@ -304,7 +304,8 @@ $c: ".c-members-invites-row";
     //border: 1px solid blue;
     min-width: 100px;
     max-width: 220px;
-    margin-right: 10px;
+    margin-inline-end: 10px;
+    margin-block: 0;
     flex: 1 1 0;
 
     p {
@@ -327,7 +328,7 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__status {
-    border: 1px solid blue;
+    //border: 1px solid blue;
     min-width: 50px;
     max-width: 15%;
     margin-right: 10px;
@@ -395,8 +396,7 @@ $c: ".c-members-invites-row";
     font-weight: $font-weight-medium;
     font-size: ($font-size-baseline - 0.5px);
     line-height: ($font-size-baseline + 1.5px);
-    margin-top: 0;
-    margin-bottom: 5.5px;
+    margin-block: 0;
   }
 
   &--submain {
@@ -414,10 +414,8 @@ $c: ".c-members-invites-row";
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
 
-    p {
-      line-height: 13px;
-      margin-block: 11px;
-    }
+    line-height: 13px;
+    margin-block-start: 11px;
   }
 
   //<!-- COLORS -->

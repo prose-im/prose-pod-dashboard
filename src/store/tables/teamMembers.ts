@@ -13,7 +13,7 @@ import APITeamMembers, {
   AllInvitationsResponse,
   AllMembersResponse,
   EnrichMembersResponse,
-  Roles
+  ROLES
 } from "@/api/providers/teamMembers";
 import { defineStore } from "pinia";
 
@@ -24,7 +24,7 @@ import { defineStore } from "pinia";
 interface Members {
   enrichedMembers: EnrichMembersResponse;
   invitedMembers: AllInvitationsResponse;
-  nonEnrichedMembers: AllMembersResponse;
+  notEnrichedMembers: AllMembersResponse;
 }
 
 /**************************************************************************
@@ -46,14 +46,14 @@ const $teamMembers = defineStore("teamMembers", {
 
       enrichedMembers: {},
 
-      nonEnrichedMembers: []
+      notEnrichedMembers: []
     };
   },
 
   getters: {
     getAllMembers: function () {
       return () => {
-        return this.nonEnrichedMembers;
+        return this.notEnrichedMembers;
       };
     },
 
@@ -61,24 +61,17 @@ const $teamMembers = defineStore("teamMembers", {
       return () => {
         return this.enrichedMembers;
       };
-    },
-
-    getInviteList: function () {
-      return () => {
-        return this.invitedMembers;
-      };
     }
   },
 
   actions: {
     // <-- ACTIVE MEMBERS -->
-
     async loadActiveMembers(reload = false): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Load all Members (non enriched)
         const entries = await APITeamMembers.getAllMembers();
-        this.nonEnrichedMembers = entries;
+        this.notEnrichedMembers = entries;
         console.log("non enriched entries", entries);
 
         // Create a jid Array to ask enrichment
@@ -108,11 +101,11 @@ const $teamMembers = defineStore("teamMembers", {
         /** Page filter */
         const startIndex = (filter - 1) * 10;
         const endIndex =
-          filter * 10 < this.nonEnrichedMembers.length
+          filter * 10 < this.notEnrichedMembers.length
             ? filter * 10
-            : this.nonEnrichedMembers.length;
+            : this.notEnrichedMembers.length;
 
-        return this.nonEnrichedMembers.slice(startIndex, endIndex);
+        return this.notEnrichedMembers.slice(startIndex, endIndex);
       } else if (typeof filter === "string") {
         /** Searching bar filter */
         const memberArray = Object.values(this.enrichedMembers);
@@ -131,17 +124,33 @@ const $teamMembers = defineStore("teamMembers", {
           return filteredMember.length ? filteredMember : false;
         });
 
-        console.log("filtered", response);
         return response;
       }
     },
 
-    async updateRoleByMemberId(jid: string, newRole: [Roles]) {
-      return true; ///// TODO
+    updateRoleLocally(jid: string, newValue: ROLES) {
+      for (const member of this.notEnrichedMembers) {
+        if (member.jid === jid) {
+          member.role = newValue;
+          break;
+        }
+      }
+    },
+
+    async updateRoleByMemberId(jid: string, newRole: ROLES) {
+      return await APITeamMembers.updateMemberRole(jid, newRole);
+    },
+
+    deleteMemberLocally(jid: string) {
+      return (this.notEnrichedMembers = this.notEnrichedMembers.filter(
+        member => {
+          return member.jid !== jid;
+        }
+      ));
     },
 
     async deleteMemberById(jid: string) {
-      return true; ///// TODO
+      return await APITeamMembers.deleteMemberById(jid);
     },
 
     // <-- INVITES -->
@@ -159,14 +168,30 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
+    getFilteredInviteList(filter?: string) {
+      /** Searching bar filter */
+      console.log("invites filtered", this.invitedMembers);
+
+      if (!filter) {
+        return this.invitedMembers;
+      } else {
+        // Loop through all invited members
+        const response = this.invitedMembers.filter(member => {
+          return member.contact.email_address.includes(filter);
+        });
+
+        return response;
+      }
+    },
+
     async sendInvitation(
       newUsername: string,
-      newRole: string,
+      newRole: ROLES,
       newInviteEmail: string
     ): Promise<void> {
       const newInvite = {
         username: newUsername,
-        pre_assigned_role: newRole.toUpperCase(),
+        pre_assigned_role: newRole,
         channel: "email",
         email_address: newInviteEmail
       };

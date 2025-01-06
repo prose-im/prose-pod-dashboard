@@ -38,7 +38,8 @@
           size="9px"
           fill="#2490f0"
         )
-        | Restore defaults
+        p
+          | Restore defaults
 
     base-subsection-item(
       v-for="(item, index) in items"
@@ -59,6 +60,24 @@
      ********************************************************************** -->
 
 <script lang="ts">
+import type { PropType } from "vue";
+
+//INTERFACES
+interface Item {
+  subtitle: string;
+  restoreSubtitle?: boolean;
+  description: string;
+  tags?: string[];
+  type: string;
+  disabled?: boolean;
+  typeProps?: object;
+  slot?: "avatar" | "text";
+  size?: string;
+}
+
+// TYPES
+type Items = Item[];
+
 export default {
   name: "BaseSubsection",
 
@@ -88,7 +107,7 @@ export default {
     },
 
     items: {
-      type: Array,
+      type: Array as PropType<Items>,
       required: true
     },
 
@@ -108,25 +127,14 @@ export default {
   emits: ["update"],
 
   computed: {
-    myVal: {
-      get() {
-        if (Object.keys(this.modelValue).length > 0) {
-          // console.log('hi', this.items?.map((_, index) => Object.values(this.modelValue)[index] ))
-          return this.items.map(
-            (_, index) => Object.values(this.modelValue)[index]
-          );
-        }
-
-        return this.items.map(_ => "");
-      },
-
-      set(nextValue: any[]) {
-        // console.log('nextValue', nextValue)
-        const updatedModel = { ...this.modelValue };
-        nextValue.forEach((value, index) => {
-          updatedModel[index] = value;
-        });
+    myVal() {
+      if (Object.keys(this.modelValue).length > 0) {
+        return this.items.map(
+          (_, index) => Object.values(this.modelValue)[index]
+        );
       }
+
+      return this.items.map(() => "");
     },
 
     isRestoreDisabled() {
@@ -145,30 +153,31 @@ export default {
       index: number,
       element?: number
     ): void {
-      // console.log("hearding", newValue, index, element);
-
-      // Creating a copy of the modelValueObject
-      const updatedModel = { ...this.modelValue };
+      // Array from the keys of the model value
       const keys = Object.keys(this.modelValue);
 
-      if (element === 0 || element === 1) {
-        console.log(this.modelValue);
+      // console.log("keys", keys);
 
-        // the
+      if (element === 0 || element === 1) {
+        console.log("keys", keys, index);
+
+        //Get the modified subsectionItem
         const key1 = keys[index];
 
+        //Get the modified key from the modified subsectionItem
         const key2 = Object.keys(this.modelValue[key1])[element];
 
-        updatedModel[key1][key2] = newValue;
+        //Ask for update on parent
+        this.$emit("update", newValue, key1, key2);
+        console.log("emitting", newValue, key1, key2);
       } else {
+        //Get the modified subsectionItem
         const key = keys[index];
-        updatedModel[key] = newValue;
+
+        //Ask for update on parent
         this.$emit("update", newValue, key);
         console.log("emitting", key);
       }
-
-      // this.$emit("update", updatedModel[key], newValue);
-      // this.$emit("update", updatedModel);
     }
   }
 };
@@ -189,9 +198,10 @@ $c: ".c-base-subsection";
   #{$c}__title {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    align-items: end;
+    padding-block-end: 10px;
     margin-inline: 11px;
-    margin-bottom: 16px;
+    margin-block-end: 16px;
     border-bottom: 1px solid $color-border-secondary;
 
     h2 {
@@ -199,6 +209,7 @@ $c: ".c-base-subsection";
       font-weight: $font-weight-medium;
       padding-left: 10px;
       margin-block: 0;
+      margin-inline-end: 10px;
     }
 
     p {
@@ -218,16 +229,27 @@ $c: ".c-base-subsection";
   }
 
   #{$c}__restore {
+    display: flex;
+    align-items: center;
     height: fit-content;
     color: $color-base-blue-normal;
     font-size: $font-size-baseline - 1.5px;
-    padding-top: 6px;
-    padding-bottom: 3px;
-    padding-right: 14.5px;
+    padding-block-start: 6px;
+    padding-inline-start: 3px;
+    padding-inline-end: 14.5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     cursor: pointer;
+
+    p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &--icon {
       margin-right: 4px;
+      flex: none;
     }
 
     &--disabled {
@@ -240,6 +262,10 @@ $c: ".c-base-subsection";
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }
+  }
+
+  @media (max-width: 768px) {
+    margin-inline: 10px;
   }
 }
 </style>

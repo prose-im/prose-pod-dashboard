@@ -17,57 +17,59 @@
     placeholder-text="team members..."
   )
 
-  <!-- HEADERS -->
-  members-invites-row(
-    :user-data="{}"
-    :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
-  )
-
-  .c-members-invites-dashboard__scroll
-
-    <!-- INVITATIONS -->
+  .c-members-invites-dashboard__content
+    <!-- HEADERS -->
     members-invites-row(
-      v-if="pageNumber === 1"
-      v-for="(invite, index) in invites"
-      :user-data="invite"
+      :user-data="{}"
+      :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
 
-    <!-- MEMBERS -->
-    members-invites-row(
-      v-for="(user, index) in members"
-      class="c-members-invites-dashboard__users"
-      :key="user.jid"
-      :user-data="user"
-      :user-enriched-data="enrichedMembers[user.jid]"
-      @menuAction="onMenuAction"
-    )
+    .c-members-invites-dashboard__scroll
+
+      <!-- INVITATIONS -->
+      members-invites-row(
+        v-if="pageNumber === 1"
+        v-for="(invite, index) in invites"
+        :user-data="invite"
+      )
+
+      <!-- MEMBERS -->
+      members-invites-row(
+        v-for="(user, index) in members"
+        class="c-members-invites-dashboard__users"
+        :key="user.jid"
+        :user-data="user"
+        :user-enriched-data="enrichedMembers[user.jid]"
+        @menuAction="onMenuAction"
+      )
 
   base-navigation-footer(
     v-if="!searchTerm"
+    @navFooterUpdate="onChangePage"
+    listing="users"
     :page="pageNumber"
     :total="totalMemberNumber"
-    @navFooterUpdate="onChangePage"
   )
 
 <!-- Modals -->
 invite-team-member(
   v-if="isInviteModalVisible"
-  :visibility="inviteModalVisibility"
   @close="toggleInviteModalVisible"
+  :visibility="inviteModalVisibility"
 )
 
 edit-role(
   v-if="isEditRoleModalVisible"
+  @close="toggleEditRoleModalVisible"
   :visibility="editRoleModalVisibility"
   :user="userToUpdate"
-  @close="toggleEditRoleModalVisible"
 )
 
 delete-member(
   v-if="isDeleteMemberModalVisible"
+  @close="toggleDeleteMemberModalVisible"
   :visibility="deleteMemberModalVisibility"
   :jid="userToUpdate?.jid"
-  @close="toggleDeleteMemberModalVisible"
 )
 </template>
 
@@ -172,12 +174,10 @@ export default {
 
   computed: {
     allMembers() {
-      return store.$teamMembers.getAllMembers(this.pageNumber);
+      return store.$teamMembers.getAllMembers();
     },
 
     members() {
-      console.log("getting filtered memebres");
-
       return this.searchTerm
         ? store.$teamMembers.getFilteredMembers(this.searchTerm)
         : store.$teamMembers.getFilteredMembers(this.pageNumber);
@@ -188,7 +188,9 @@ export default {
     },
 
     invites() {
-      return store.$teamMembers.getInviteList();
+      return this.searchTerm
+        ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
+        : store.$teamMembers.getFilteredInviteList();
     },
 
     totalMemberNumber() {
@@ -216,9 +218,11 @@ export default {
       // Mark as loading
       this.isMembersLoading = true;
 
+      console.log(`Loading memebers inside`);
+
       try {
-        // Login to account
-        store.$teamMembers.loadActiveMembers();
+        // Load already accepted members
+        store.$teamMembers.loadActiveMembers(true);
       } catch (_) {
         BaseAlert.error(
           "Could not log in",
@@ -234,7 +238,7 @@ export default {
       this.isInvitesLoading = true;
 
       try {
-        // Login to account
+        // Load invited members
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
         BaseAlert.error(
@@ -319,15 +323,20 @@ $c: ".c-members-invites-dashboard";
   flex: 1;
   justify-content: space-between;
 
-  #{$c}__scroll {
-    min-height: 400px;
+  #{$c}__content {
     flex: 1 1 0;
-    overflow: scroll;
-  }
+    display: flex;
+    flex-direction: column;
 
-  #{$c}__users {
-    &:nth-child(even) {
-      background-color: $color-base-purple-ultra-light;
+    #{$c}__scroll {
+      overflow: auto;
+      flex: 1 1 0;
+    }
+
+    #{$c}__users {
+      &:nth-child(even) {
+        background-color: $color-base-purple-ultra-light;
+      }
     }
   }
 }

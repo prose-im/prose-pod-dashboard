@@ -43,23 +43,23 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     name: {
       type: String,
-      default: null,
+      default: null
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     loading: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      checked: false,
+      checked: false
     };
   },
 
@@ -77,8 +77,8 @@ export default {
 
       handler(value) {
         this.checked = value;
-      },
-    },
+      }
+    }
   },
 
   methods: {
@@ -99,8 +99,8 @@ export default {
     onFieldClick(): void {
       // Toggle hidden input value
       (this.$refs.input as HTMLInputElement).click();
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -53,7 +53,7 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     size: {
@@ -62,22 +62,22 @@ export default {
 
       validator(x: string) {
         return ["small", "mid", "medium"].includes(x);
-      },
+      }
     },
 
     name: {
       type: String,
-      default: null,
+      default: null
     },
 
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     loading: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     bold: {
@@ -86,7 +86,7 @@ export default {
 
       validator(x: string) {
         return ["normal", "semibold"].includes(x);
-      },
+      }
     },
 
     labelColor: {
@@ -95,8 +95,8 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      },
-    },
+      }
+    }
   },
 
   emits: ["update:modelValue", "change"],
@@ -104,7 +104,7 @@ export default {
   computed: {
     hasLabelEmphasis(): boolean {
       return this.size === "medium" || this.size === "mid" ? true : false;
-    },
+    }
   },
 
   methods: {
@@ -127,8 +127,8 @@ export default {
     onLabelClick(): void {
       // Toggle model value
       this.updateValue(!this.modelValue);
-    },
-  },
+    }
+  }
 };
 </script>
 

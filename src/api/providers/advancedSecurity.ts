@@ -16,11 +16,11 @@ import Api from "@/api";
  * ************************************************************************* */
 
 interface WorkspaceNameResponse {
-  name: string
+  name: string;
 }
 
 interface WorkspaceIconResponse {
-  icon: string
+  icon: string;
 }
 
 interface WorkspaceDetailsCardResponse {
@@ -29,7 +29,7 @@ interface WorkspaceDetailsCardResponse {
 }
 
 interface WorkspaceColorResponse {
-  color: string
+  color: string;
 }
 
 /**************************************************************************
@@ -37,7 +37,6 @@ interface WorkspaceColorResponse {
  * ************************************************************************* */
 
 export class APIAdvancedSecurity {
-
   /**  WORKSPACE PROFILE **/
 
   async getWorkspaceName(): Promise<WorkspaceNameResponse> {

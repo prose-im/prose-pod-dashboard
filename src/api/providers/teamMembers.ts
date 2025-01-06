@@ -26,13 +26,18 @@ export enum Roles {
   Admin = "Admin"
 }
 
+export enum ROLES {
+  MEMBER = "MEMBER",
+  ADMIN = "ADMIN"
+}
+
 /**************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Invitation {
   username: string;
-  pre_assigned_role: [Roles];
+  pre_assigned_role: ROLES;
   channel: string;
   email_address: string;
 }
@@ -42,7 +47,7 @@ interface InvitedMemberEntry {
   created_at: string;
   status: string;
   jid: string;
-  pre_assigned_role: [Roles];
+  pre_assigned_role: ROLES;
   contact: {
     channel: string;
     email_address: string;
@@ -60,9 +65,9 @@ interface MemberByIdResponse {
   _keyToReplace: string;
 }
 
-interface EnrichedMember {
+export interface EnrichedMember {
   jid: string;
-  role: string;
+  role: ROLES;
   online: boolean;
   nickname: string;
   avatar: string;
@@ -129,20 +134,24 @@ class APITeamMembers {
     ).data;
   }
 
-  async getMemberById(memberId: number): Promise<MemberByIdResponse> {
+  async getMemberById(memberId: string): Promise<MemberByIdResponse> {
     return (await Api.client.get(`/members/${memberId}`)).data;
   }
 
-  async updateMemberMfa(memberId: number, mfa: boolean): Promise<void> {
+  async updateMemberMfa(memberId: string, mfa: boolean): Promise<void> {
     await Api.client.put(`/members/${memberId}/mfa`, {
       mfa
     });
   }
 
-  async updateMemberRole(memberId: number, role: string): Promise<void> {
+  async updateMemberRole(memberId: string, role: ROLES): Promise<void> {
     await Api.client.put(`/members/${memberId}/role`, {
-      role
+      role: role
     });
+  }
+
+  async deleteMemberById(memberId: string): Promise<MemberByIdResponse> {
+    return await Api.client.delete(`/members/${memberId}`);
   }
 }
 

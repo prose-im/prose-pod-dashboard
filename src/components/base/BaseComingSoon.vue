@@ -11,8 +11,8 @@
 <template lang="pug">
   div(
     :class=`[
-      "c-base-conimg-soon",
-      "c-base-conimg-soon--" + size,
+      "c-base-coming-soon",
+      "c-base-coming-soon--" + size,
     ]`
   )
     p
@@ -83,7 +83,7 @@ export default {
     ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-base-conimg-soon";
+$c: ".c-base-coming-soon";
 
 // VARIABLES
 $badge-padding-block: 3.5px;
@@ -101,6 +101,9 @@ $badge-padding-inline: 7px;
   font-size: ($font-size-baseline - 5.5px);
   line-height: ($font-size-baseline - 1px);
   border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   p {
     margin: 0;

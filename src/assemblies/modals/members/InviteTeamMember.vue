@@ -59,7 +59,7 @@ base-modal(
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // TYPES
-import { Roles } from "@/api/providers/teamMembers";
+import { ROLES, Roles } from "@/api/providers/teamMembers";
 
 //Store
 import store from "@/store";
@@ -82,16 +82,16 @@ export default {
       inviteEmail: "",
       inviteUserName: "",
 
-      inviteRole: Roles.Member,
+      inviteRole: ROLES.MEMBER,
 
       roleOptions: [
         {
           label: Roles.Member,
-          value: Roles.Member
+          value: ROLES.MEMBER
         },
         {
           label: Roles.Admin,
-          value: Roles.Admin
+          value: ROLES.ADMIN
         }
       ]
     };
@@ -128,7 +128,7 @@ export default {
 
           //Reset values and close modal
           this.onClose();
-        } catch (error) {
+        } catch (error: any) {
           console.error("Invite Error", error.message);
 
           // If member has already been invited
@@ -153,7 +153,7 @@ export default {
       // Reset values
       this.inviteEmail = "";
       this.inviteUserName = "";
-      this.inviteRole = Roles.Member;
+      this.inviteRole = ROLES.MEMBER;
 
       // Close modal
       this.$emit("close", true);

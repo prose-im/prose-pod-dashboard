@@ -345,7 +345,7 @@ export default {
       this.hoveredIndex = -1;
     },
 
-    onOptionClick(event: Event): void {
+    onOptionClick(event: HTMLButtonElement): void {
       this.$emit("update:modelValue", event?.value);
     }
   }
