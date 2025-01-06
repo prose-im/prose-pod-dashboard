@@ -99,13 +99,13 @@ export default {
 
     domain() {
       return store.$globalConfig.getDomain();
-    },
+    }
   },
 
   mounted() {
     store.$customizationWorkspace.loadWorkspaceConfig();
     store.$globalConfig.loadGlobalConfig();
-  },
+  }
 };
 </script>
 
