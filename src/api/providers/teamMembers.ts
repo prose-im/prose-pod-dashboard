@@ -149,6 +149,10 @@ class APITeamMembers {
       role: role
     });
   }
+
+  async deleteMemberById(memberId: string): Promise<MemberByIdResponse> {
+    return await Api.client.delete(`/members/${memberId}`);
+  }
 }
 
 /**************************************************************************

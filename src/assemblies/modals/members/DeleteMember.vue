@@ -91,6 +91,8 @@ export default {
     onProceed() {
       store.$teamMembers.deleteMemberById(this.jid);
 
+      store.$teamMembers.deleteMemberLocally(this.jid);
+
       // Close modal
       this.$emit("close");
 

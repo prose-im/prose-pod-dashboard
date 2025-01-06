@@ -141,9 +141,16 @@ const $teamMembers = defineStore("teamMembers", {
       return await APITeamMembers.updateMemberRole(jid, newRole);
     },
 
+    deleteMemberLocally(jid: string) {
+      return (this.notEnrichedMembers = this.notEnrichedMembers.filter(
+        member => {
+          return member.jid !== jid;
+        }
+      ));
+    },
+
     async deleteMemberById(jid: string) {
-      console.log(jid);
-      return true; ///// TODO
+      return await APITeamMembers.deleteMemberById(jid);
     },
 
     // <-- INVITES -->
