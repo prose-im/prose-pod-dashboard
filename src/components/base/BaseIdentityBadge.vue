@@ -10,9 +10,11 @@
 
 <template lang="pug">
 .c-base-identity-badge
-  base-icon(
+  base-avatar(
+    :avatar-data-url="logo"
     class="c-base-identity-badge__icon"
-    name="fake.logo"
+    type="image"
+    border-radius="20px"
     size="44px"
   )
 
@@ -23,7 +25,8 @@
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
         ]`
-      ) Crisp
+      ) 
+        | {{ name }}
 
       base-space
 
@@ -42,7 +45,8 @@
             "c-base-identity-badge__server-description",
             "c-base-identity-badge--light"
           ]`
-        ) crisp.chat
+        ) 
+          | {{ domain }}
 
     .c-base-identity-badge__details.u-ellipsis
       span
@@ -51,7 +55,7 @@
       base-space
 
       span.c-base-identity-badge--light
-        | v0.12.1
+        | v0.0.0
 
       base-space
 
@@ -65,9 +69,45 @@
       base-space
 
       span.c-base-identity-badge--light
-        | v0.1.3
-
+        | v0.0.0
 </template>
+
+<!-- **********************************************************************
+     STYLE
+     ********************************************************************** -->
+
+<script>
+import store from "@/store";
+
+export default {
+  name: "BaseIdentityBadge",
+
+  data() {
+    return {
+      // --> STATE <--
+    };
+  },
+
+  computed: {
+    logo() {
+      return store.$customizationWorkspace.getWorkspaceLogo();
+    },
+
+    name() {
+      return store.$customizationWorkspace.getWorkspaceName();
+    },
+
+    domain() {
+      return store.$globalConfig.getDomain();
+    },
+  },
+
+  mounted() {
+    store.$customizationWorkspace.loadWorkspaceConfig();
+    store.$globalConfig.loadGlobalConfig();
+  },
+};
+</script>
 
 <!-- **********************************************************************
      STYLE
