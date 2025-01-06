@@ -40,7 +40,7 @@ const $globalConfig = defineStore("globalConfig", {
   state: (): GlobalConfig => {
     return {
       properties: {
-        domain: "crisp.chat",
+        domain: "",
 
         // Server Config
         message_archive_enabled: true,
