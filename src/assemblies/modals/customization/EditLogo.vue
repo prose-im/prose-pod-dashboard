@@ -58,7 +58,7 @@ import store from "@/store";
 
 // PACKAGES
 import { fileToBase64 } from "file64";
-import imageCompression from "browser-image-compression";
+import { readAndCompressImage } from "browser-image-resizer";
 import { imageUrl } from "./AddCustomEmoji.vue";
 
 export default {
@@ -82,7 +82,9 @@ export default {
 
       imageLoading: false,
 
-      proceedDisabled: true
+      proceedDisabled: true,
+
+      recreatedImage: "" as string | ArrayBuffer
     };
   },
 
@@ -98,36 +100,6 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    async compressImage(imageFile: File) {
-      console.log("type", typeof imageFile, imageFile);
-      console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
-      console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
-      const options = {
-        maxSizeMB: 0.256,
-        maxWidthOrHeight: 1000,
-        useWebWorker: true
-      };
-
-      try {
-        const compressedFile = await imageCompression(imageFile, options);
-
-        console.log(
-          "compressedFile instanceof Blob",
-          compressedFile instanceof Blob
-        ); // true
-        console.log(
-          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        ); // smaller than maxSizeMB
-
-        return compressedFile;
-      } catch (error) {
-        console.log(error);
-      }
-
-      return null;
-    },
-
     onPickFile() {
       (this.$refs.fileInput as HTMLInputElement).click();
     },
@@ -139,6 +111,15 @@ export default {
 
       const files = (event.target as HTMLInputElement).files || [];
       let file = files[0] as File | null;
+      let resizedImage = null as Blob | null;
+      console.log("files", files);
+
+      const config = {
+        quality: 0.5,
+        maxWidth: 800,
+        maxHeight: 600,
+        debug: true
+      };
 
       if (file) {
         const fileType = file.type.split("/")[1];
@@ -167,6 +148,7 @@ export default {
             return;
           } else {
             this.imageUrl = fileReader.result;
+            console.log("imagUrl from reader", this.imageUrl);
           }
         });
 
@@ -174,11 +156,20 @@ export default {
 
         // Compress image if it's bigger than 256 ko
         if (file.size > 256000) {
-          file = await this.compressImage(files[0]);
+          resizedImage = await readAndCompressImage(file, config);
         }
 
         if (file) {
-          const encodedResult = await fileToBase64(file);
+          //Encode to base64
+          let encodedResult = "";
+
+          if (resizedImage) {
+            encodedResult = await fileToBase64(resizedImage);
+          } else {
+            encodedResult = await fileToBase64(file);
+          }
+
+          //Remove unnecessary 'data:image/**;base64'
           this.image = encodedResult.split(",")[1];
 
           // Enable proceed button
@@ -191,12 +182,19 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
-    onProceed() {
+    async onProceed() {
       if (this.image && typeof this.image === "string") {
-        store.$customizationWorkspace.updateWorkspaceIcon(this.image);
+        try {
+          console.log("new logo lenght", this.image.length);
+          await store.$customizationWorkspace.updateWorkspaceIcon(this.image);
 
-        // Reinitialize variables + close modal
-        this.onClose();
+          console.log("logo upload success");
+
+          // Reinitialize variables + close modal
+          this.onClose();
+        } catch (e) {
+          console.error("logo lad error", e);
+        }
       } else {
         BaseAlert.error("Could not change your logo", "Please upload an image");
       }
