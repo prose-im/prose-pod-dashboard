@@ -59,7 +59,7 @@ import store from "@/store";
 // PACKAGES
 import { fileToBase64 } from "file64";
 import { readAndCompressImage } from "browser-image-resizer";
-import { imageUrl } from "./AddCustomEmoji.vue";
+import { imageUrl } from "@/assemblies/modals/customization/AddCustomEmoji.vue";
 
 export default {
   name: "EditLogo",
@@ -71,7 +71,7 @@ export default {
     }
   },
 
-  emits: ["close", "proceed"],
+  emits: ["close", "proceed", "showSuccess"],
 
   data() {
     return {
@@ -185,13 +185,14 @@ export default {
     async onProceed() {
       if (this.image && typeof this.image === "string") {
         try {
-          console.log("new logo lenght", this.image.length);
+          console.log("new logo length", this.image.length);
           await store.$customizationWorkspace.updateWorkspaceIcon(this.image);
-
-          console.log("logo upload success");
 
           // Reinitialize variables + close modal
           this.onClose();
+
+          //Make success Notitification Visible
+          this.$emit("showSuccess");
         } catch (e) {
           console.error("logo lad error", e);
         }

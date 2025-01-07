@@ -9,49 +9,58 @@
       ********************************************************************** -->
 
 <template lang="pug">
-  .c-base-subsection
-    .c-base-subsection__title
-      h2(
-        :class=`[
-          "c-base-subsection__title--" + titleColor
-        ]`
+.c-base-subsection
+  .c-base-subsection__title
+    h2(
+      :class=`[
+        "c-base-subsection__title--" + titleColor
+      ]`
+    )
+      | {{ title}}
+
+      span.c-base-subsection__sup(
+        v-if="sup"
       )
-        | {{ title}}
+        | &nbsp; {{ sup.toUpperCase() }}
 
-        span.c-base-subsection__sup(
-          v-if="sup"
-        )
-          | &nbsp; {{ sup.toUpperCase() }}
-
-      .c-base-subsection__restore(
-        v-if="restoreOption"
-        :class=`[
-          {
-            "c-base-subsection__restore--disabled": isRestoreDisabled
-          }
-        ]`
-        @click="restoreAction"
+    .c-base-subsection__restore(
+      v-if="restoreOption"
+      :class=`[
+        {
+          "c-base-subsection__restore--disabled": isRestoreDisabled
+        }
+      ]`
+      @click="restoreAction"
+    )
+      base-icon(
+        class="c-base-subsection__restore--icon"
+        name="restore"
+        size="9px"
+        fill="#2490f0"
       )
-        base-icon(
-          class="c-base-subsection__restore--icon"
-          name="restore"
-          size="9px"
-          fill="#2490f0"
-        )
-        p
-          | Restore defaults
+      p
+        | Restore defaults
 
-    base-subsection-item(
-      v-for="(item, index) in items"
-      v-model="myVal[index]"
-      class="c-base-subsection__list"
-      :key="item.subtitle"
-      :item="item"
-      :type="item.type"
-      :color="item.color?item.color:'bw'"
-      :index="index"
-      @click="item.action"
-      @update="updateValue"
+  base-subsection-item(
+    v-for="(item, index) in items"
+    v-model="myVal[index]"
+    class="c-base-subsection__list"
+    :key="item.subtitle"
+    :item="item"
+    :type="item.type"
+    :color="item.color?item.color:'bw'"
+    :index="index"
+    @click="item.action"
+    @update="updateValue"
+  )
+
+  <!-- Tooltip Notification -->
+  transition(
+    enter-active-class="u-animate u-animate--scale-up u-animate--fast"
+    leave-active-class="u-animate u-animate--scale-down u-animate--fast"
+  )
+    base-notification(
+      v-if="isNotificationVisible"
     )
 </template>
 
@@ -126,6 +135,12 @@ export default {
 
   emits: ["update"],
 
+  data() {
+    return {
+      isNotificationVisible: false
+    };
+  },
+
   computed: {
     myVal() {
       if (Object.keys(this.modelValue).length > 0) {
@@ -177,6 +192,17 @@ export default {
         //Ask for update on parent
         this.$emit("update", newValue, key);
         console.log("emitting", key);
+      }
+    },
+
+    makeNotificationVisibile() {
+      console.log("ho ho ho");
+      if (this.isNotificationVisible === false) {
+        this.isNotificationVisible = true;
+
+        setTimeout(() => {
+          this.isNotificationVisible = false;
+        }, 3000);
       }
     }
   }

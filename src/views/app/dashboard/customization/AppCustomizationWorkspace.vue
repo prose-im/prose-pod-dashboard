@@ -12,6 +12,7 @@
   .v-app-customization-workspace
     base-subsection(
       v-model="config.workspaceProfile"
+      ref="profileSubsection"
       title="Workspace Profile"
       :items="profileItems"
     )
@@ -34,6 +35,7 @@
     v-if="isEditLogoVisible"
     :visibility="editLogoVisibility"
     @close="toggleEditLogoModalVisible"
+    @showSuccess="onShowSuccess"
   )
 
   edit-detail-card(
@@ -52,6 +54,7 @@
 import EditDetailCard from "@/assemblies/modals/customization/EditDetailCard.vue";
 import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
 import EditName from "@/assemblies/modals/customization/EditName.vue";
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // STORE
 import store from "@/store";
@@ -195,6 +198,13 @@ export default {
       }
 
       return;
+    },
+
+    onShowSuccess() {
+      console.log("ho ho ho success");
+      (
+        this.$refs.profileSubsection as InstanceType<typeof BaseSubsection>
+      ).makeNotificationVisibile();
     }
   }
 };
