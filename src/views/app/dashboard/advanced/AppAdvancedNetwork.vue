@@ -12,7 +12,8 @@
 .v-app-advanced-network
   base-subsection(
     v-model="config"
-    title="Server Federation"
+    @update="onFederationUpdate"
+    title="Server Federation" 
     :items="federationItems"
     :restore-option="true"
   )
@@ -38,6 +39,7 @@ configuration-checker(
   @proceed=""
 )
 
+p {{ config }}
 </template>
 
 <!-- **********************************************************************
@@ -57,7 +59,7 @@ export default {
 
   components: {
     ConfigurationChecker,
-    DnsSetup
+    DnsSetup,
   },
 
   data() {
@@ -76,7 +78,6 @@ export default {
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
           type: "toggle",
-          disabled: true
         },
         {
           subtitle: "Friendly servers whitelist",
@@ -88,9 +89,9 @@ export default {
           disabled: true,
           typeProps: {
             label: "Edit servers...",
-            size: "medium"
-          }
-        }
+            size: "medium",
+          },
+        },
       ],
 
       toolsItems: [
@@ -102,8 +103,8 @@ export default {
           action: this.onShowDnsInstructions,
           typeProps: {
             label: "Show DNS instructions...",
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
 
         {
@@ -117,17 +118,17 @@ export default {
           type: "button",
           typeProps: {
             label: "Start network check...",
-            size: "medium"
-          }
-        }
-      ]
+            size: "medium",
+          },
+        },
+      ],
     };
   },
 
   computed: {
     config() {
       return store.$settingsNetwork.getFederationConfig;
-    }
+    },
   },
 
   watch: {
@@ -137,7 +138,7 @@ export default {
 
     isNetworkCheckModalVisible(newValue) {
       setTimeout(() => (this.networkCheckModalVisibility = newValue), 10);
-    }
+    },
   },
 
   mounted() {
@@ -157,7 +158,11 @@ export default {
     // --> EVENT LISTENERS <--
     onShowDnsInstructions() {
       this.toggleDnsInstructionsModalVisible();
-    }
-  }
+    },
+
+    onFederationUpdate(newValue: boolean) {
+      store.$settingsNetwork.updateFederationEnabled(newValue);
+    },
+  },
 };
 </script>

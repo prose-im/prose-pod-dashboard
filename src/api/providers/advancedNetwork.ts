@@ -62,6 +62,13 @@ type CheckResponse = CheckRecord[];
  * ************************************************************************* */
 
 class APIAdvancedNetwork {
+  /**  SERVER FEDERATION **/
+  async updateServerFederationEnabled(newState: boolean): Promise<void> {
+    return await Api.client.put(`/server/config/federation-enabled`, {
+      federation_enabled: newState
+    });
+  }
+
   /**  DNS RECORDS  **/
 
   async getDnsRecords(): Promise<DNSRecordsResponse> {

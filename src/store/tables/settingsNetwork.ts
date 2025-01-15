@@ -43,7 +43,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
   state: () => {
     return {
       federation: {
-        externalConnectAllowed: true,
+        federationEnabled: true,
         whitelist: []
       },
 
@@ -127,7 +127,15 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
-        this.federation.externalConnectAllowed = response.federation_enabled;
+        this.federation.federationEnabled = response.federation_enabled;
+      });
+    },
+
+    async updateFederationEnabled(newState: boolean) {
+      await APIAdvancedNetwork.updateServerFederationEnabled(newState)
+
+      this.$patch(() => {
+        this.federation.federationEnabled = newState;
       });
     },
 
