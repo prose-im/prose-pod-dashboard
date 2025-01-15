@@ -39,7 +39,7 @@ interface WorkspaceColorResponse {
 export class APIAdvancedSecurity {
   /**  NETWORK ENCRYPTION **/
 
-  async updateTlsProfile (newTlsProfile: string): Promise<void> {
+  async updateTlsProfile(newTlsProfile: string): Promise<void> {
     await Api.client.put("/server/config/tls-profile", {
       tls_profile: newTlsProfile
     });

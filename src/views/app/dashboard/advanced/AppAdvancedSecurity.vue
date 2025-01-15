@@ -39,11 +39,11 @@ import store from "@/store";
 
 // ENUMERATIONS
 enum SecurityKey {
-  TwoFactor = "twoFactor",
+  TwoFactor = "twoFactor"
 }
 
 enum EncryptionKey {
-  TLS_Profile = "tls_profile",
+  TLS_Profile = "tls_profile"
 }
 
 export default {
@@ -59,13 +59,14 @@ export default {
           description:
             "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
           type: "toggle",
-          disabled: true,
-        },
+          disabled: true
+        }
       ],
 
       networkItems: [
         {
-          subtitle: "Minimum SSL/TLS version and cipher suite (encryption strength)",
+          subtitle:
+            "Minimum SSL/TLS version and cipher suite (encryption strength)",
           description:
             "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered much less secure. It is recommended to configure the minimum version to Intermediate",
           restoreSubtitle: true,
@@ -75,28 +76,28 @@ export default {
             options: [
               {
                 label: "Modern",
-                value: "modern",
+                value: "modern"
               },
               {
                 label: "Intermediate",
-                value: "intermediate",
+                value: "intermediate"
               },
               {
                 label: "Old",
-                value: "old",
-              },
+                value: "old"
+              }
             ],
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
   computed: {
     config() {
       return store.$settingsSecurity.getSettings();
-    },
+    }
   },
 
   mounted() {
@@ -150,7 +151,7 @@ export default {
 
     onGlobalRestore() {
       this.onRestoreTlsProfile();
-    },
-  },
+    }
+  }
 };
 </script>

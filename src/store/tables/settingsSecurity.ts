@@ -27,7 +27,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       },
 
       encryption: {
-        tls_profile: "",
+        tls_profile: ""
       }
     };
   },
@@ -52,8 +52,8 @@ const $settingsSecurity = defineStore("settingsSecurity", {
 
       this.$patch(() => {
         this.security.twoFactor = response.mfa_required;
-        this.encryption.tls_profile = response.tls_profile; 
-      })
+        this.encryption.tls_profile = response.tls_profile;
+      });
     },
 
     async updateTlsProfile(newTlsProfile: string) {
