@@ -64,6 +64,89 @@ enum AppearanceKey {
   Color = "color"
 }
 
+// CONSTANTS
+const ACCENT_COLORS = [
+  {
+    name: "Medium Blue",
+    hex: "#2490F0"
+  },
+
+  {
+    name: "Dark Blue",
+    hex: "#1C293B"
+  },
+
+  {
+    name: "Red",
+    hex: "#E51E0F"
+  },
+
+  {
+    name: "Pink",
+    hex: "#F11D64"
+  },
+
+  {
+    name: "Purple",
+    hex: "#B520CF"
+  },
+
+  {
+    name: "Dark Purple",
+    hex: "#682AD5"
+  },
+
+  {
+    name: "Indigo",
+    hex: "#2943D1"
+  },
+
+  {
+    name: "Cyan",
+    hex: "#01A2B4"
+  },
+
+  {
+    name: "Teal",
+    hex: "#00947C"
+  },
+
+  {
+    name: "Green",
+    hex: "#28A52D"
+  },
+
+  {
+    name: "Amber",
+    hex: "#E1AE01"
+  },
+
+  {
+    name: "Orange",
+    hex: "#EC6800"
+  },
+
+  {
+    name: "Dark Orange",
+    hex: "#E45300"
+  },
+
+  {
+    name: "Brown",
+    hex: "#924B32"
+  },
+
+  {
+    name: "Grey",
+    hex: "#7A7A7A"
+  },
+
+  {
+    name: "Black",
+    hex: "#2A2A2A"
+  }
+];
+
 export default {
   name: "AppCustomizationWorkspace",
 
@@ -129,18 +212,13 @@ export default {
             "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
           type: "select",
           typeProps: {
-            options: [
-              {
-                colorPreview: "#2490F0",
-                label: "Medium Blue",
-                value: "#2490F0"
-              },
-              {
-                colorPreview: "#1C293B",
-                label: "Dark Blue",
-                value: "#1C293B"
-              }
-            ],
+            options: ACCENT_COLORS.map(color => {
+              return {
+                colorPreview: color.hex,
+                label: color.name,
+                value: color.hex
+              };
+            }),
             align: "left"
           }
         }
