@@ -240,11 +240,6 @@ $c: ".c-base-modal-container";
       overflow: initial;
       padding-block: 35.5px;
     }
-
-    #{$c}__footer {
-      padding-block: 20px;
-      min-height: 0px;
-    }
   }
 
   //<!-- DISPLAYS -->

@@ -75,7 +75,7 @@ export default {
           typeProps: {
             options: [
               {
-                label: "Modern",
+                label: "Modern (Most Secure)",
                 value: "modern"
               },
               {
@@ -83,7 +83,7 @@ export default {
                 value: "intermediate"
               },
               {
-                label: "Old",
+                label: "Old (Most Compatible)",
                 value: "old"
               }
             ]

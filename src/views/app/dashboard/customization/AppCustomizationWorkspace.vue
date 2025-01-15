@@ -219,7 +219,8 @@ export default {
                 value: color.hex
               };
             }),
-            align: "left"
+            align: "left",
+            position: "top"
           }
         }
       ]

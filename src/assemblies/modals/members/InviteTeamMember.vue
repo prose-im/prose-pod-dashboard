@@ -41,6 +41,8 @@ base-modal(
       v-model="inviteRole"
       class="a-invite-team-member__select"
       position="bottom"
+      min-width="200px"
+      align="left"
       :options="roleOptions"
     )
 

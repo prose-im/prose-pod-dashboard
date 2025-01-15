@@ -72,7 +72,7 @@ export default {
           typeProps: {
             options: [
               {
-                label: "Infinite",
+                label: "Keep forever",
                 value: "infinite"
               },
               {
@@ -124,7 +124,7 @@ export default {
           typeProps: {
             options: [
               {
-                label: "Infinite",
+                label: "Keep forever",
                 value: "infinite"
               },
               {

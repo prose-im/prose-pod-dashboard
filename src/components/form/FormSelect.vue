@@ -528,6 +528,7 @@ $sizes: (
     border-radius: $size-form-select-border-radius;
     cursor: pointer;
     position: relative;
+    z-index: 1;
 
     &:hover {
       border-color: rgba($color-black, 0.15);
@@ -558,6 +559,7 @@ $sizes: (
 
   #{$c}__dropdown {
     overflow: hidden;
+    z-index: 2;
 
     &--menu {
       position: absolute;
@@ -571,7 +573,7 @@ $sizes: (
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: 0;
+    padding-block: 6px;
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -722,14 +724,9 @@ $sizes: (
   // --> POSITIONS <--
 
   &--top {
-    #{$c}__field {
-      z-index: 2;
-    }
-
     #{$c}__dropdown {
       border-block-end: 0 none;
       inset-block-end: 100%;
-      z-index: 1;
       border-start-start-radius: $size-form-select-border-radius;
       border-start-end-radius: $size-form-select-border-radius;
     }
@@ -743,14 +740,9 @@ $sizes: (
   }
 
   &--bottom {
-    #{$c}__field {
-      z-index: 1;
-    }
-
     #{$c}__dropdown {
       border-block-start: 0 none;
       inset-block-start: 100%;
-      z-index: 2;
       border-end-start-radius: $size-form-select-border-radius;
       border-end-end-radius: $size-form-select-border-radius;
     }
