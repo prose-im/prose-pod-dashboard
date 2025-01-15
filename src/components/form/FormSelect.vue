@@ -77,7 +77,6 @@ div(
         :class=`[
           "c-form-select__option",
           {
-            "u-medium": (value === option.value),
             "c-form-select__option--selected": (value === option.value),
             "c-form-select__option--hovered": (hoveredIndex === index),
             "c-form-select__option--disabled": option.disabled

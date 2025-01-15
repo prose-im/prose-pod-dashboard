@@ -32,7 +32,6 @@ teleport(
           :class=`[
             "c-base-row-menu__option",
             {
-              "u-medium": (value === option.value),
               "c-base-row-menu__option--selected": (value === option.value),
               "c-base-row-menu__option--hovered": (hoveredIndex === index),
               "c-base-row-menu__option--disabled": option.disabled
