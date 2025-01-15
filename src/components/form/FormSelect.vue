@@ -26,11 +26,7 @@ div(
     :style="{ minWidth }"
     @click="onFieldClick"
   )
-    .c-form-select__inner(
-      :class=`[
-        "c-form-select__inner--menu"
-      ]`
-    )
+    .c-form-select__inner.c-form-select__inner--menu
       .c-form-select__color-preview(
         v-if="colorPreview"
         :style=`{
@@ -91,7 +87,6 @@ div(
         a.c-form-select__option--link(
           @click="onOptionClick(option)"
         )
-
           .c-form-select__color-preview(
             v-if="option.colorPreview"
             :style=`{
@@ -99,7 +94,7 @@ div(
             }`
           )
 
-          span.u-ellipsis(
+          span.c-form-select__option-label.u-ellipsis(
             :class=`[
               {
                 "c-form-select__value" : !option.colorPreview
@@ -672,11 +667,10 @@ $sizes: (
         font-size: map-get($size, "font-size");
       }
 
-      #{$c}__field #{$c}__inner {
-        &--menu {
-          padding-inline-start: map-get($size, "padding-start");
-          padding-inline-end: map-get($size, "padding-end");
-        }
+      #{$c}__field #{$c}__inner#{$c}__inner--menu,
+      #{$c}__options #{$c}__option a {
+        padding-inline-start: map-get($size, "padding-start");
+        padding-inline-end: map-get($size, "padding-end");
       }
 
       #{$c}__field {
@@ -704,6 +698,14 @@ $sizes: (
     #{$c}__options #{$c}__option a {
       text-align: left;
     }
+
+    #{$c}__options {
+      #{$c}__option {
+        #{$c}__option-label {
+          flex: 1;
+        }
+      }
+    }
   }
 
   &--center {
@@ -711,6 +713,10 @@ $sizes: (
     #{$c}__search input,
     #{$c}__options #{$c}__option a {
       text-align: center;
+    }
+
+    #{$c}__options #{$c}__option a {
+      padding-inline: 0;
     }
   }
 

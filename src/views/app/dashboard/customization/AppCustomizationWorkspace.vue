@@ -140,7 +140,8 @@ export default {
                 label: "Dark Blue",
                 value: "#1C293B"
               }
-            ]
+            ],
+            align: "left"
           }
         }
       ]
