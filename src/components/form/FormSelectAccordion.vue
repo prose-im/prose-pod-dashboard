@@ -465,6 +465,7 @@ $sizes: (
 
   #{$c}__link {
     padding-left: 14px;
+    padding-right: 18px;
 
     &--icon {
       fill: $color-base-grey-normal;

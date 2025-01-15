@@ -23,6 +23,7 @@ div(
   ]`
 )
   .c-form-select__field(
+    :style="{ minWidth }"
     @click="onFieldClick"
   )
     .c-form-select__inner(
@@ -58,6 +59,7 @@ div(
   div(
     v-if="visible && !disabled"
     v-click-away="onDropdownClickAway"
+    :style="{ minWidth }"
     :class=`[
       "c-form-select__dropdown",
       "c-form-select__dropdown--menu",
@@ -173,6 +175,11 @@ export default {
     colorPrev: {
       type: String,
       default: null
+    },
+
+    minWidth: {
+      type: String,
+      default: "140px"
     },
 
     size: {
@@ -511,6 +518,7 @@ $sizes: (
     }
 
     #{$c}__value {
+      padding-bottom: 1px;
       flex: 1;
     }
   }
