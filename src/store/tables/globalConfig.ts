@@ -51,9 +51,10 @@ const $globalConfig = defineStore("globalConfig", {
 
         // advanced Config
         mfa_required: true,
-        minimum_tls_version: "1.2",
-        minimum_cipher_suite: "HIGH_STRENGTH",
+        tls_profile: "modern",
         federation_enabled: true,
+        federation_whitelist_enabled: false,
+        federation_friendly_servers: [],
         settings_backup_interval: "P1D",
         user_data_backup_interval: "P1W"
       }

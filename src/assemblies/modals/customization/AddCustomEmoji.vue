@@ -63,7 +63,7 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import store from "@/store";
+// import store from "@/store";
 
 // TYPES
 export type imageUrl = string | ArrayBuffer | null;

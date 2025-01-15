@@ -16,19 +16,6 @@ import { ServerConfigResponse } from "./global";
  * INTERFACES
  * ************************************************************************* */
 
-interface WorkspaceNameResponse {
-  name: string;
-}
-
-interface WorkspaceIconResponse {
-  icon: string;
-}
-
-interface WorkspaceDetailsCardResponse {
-  /* TODO: fill me! */
-  _keyToReplace: string;
-}
-
 interface WorkspaceColorResponse {
   color: string;
 }
