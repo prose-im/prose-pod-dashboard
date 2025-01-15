@@ -10,6 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
+import { ServerConfigResponse } from "./global";
 
 /**************************************************************************
  * INTERFACES
@@ -45,7 +46,7 @@ export class APIAdvancedSecurity {
     });
   }
 
-  async resetTlsProfile(): Promise<WorkspaceIconResponse> {
+  async resetTlsProfile(): Promise<ServerConfigResponse> {
     return (await Api.client.put("/server/config/tls-profile/reset")).data;
   }
 

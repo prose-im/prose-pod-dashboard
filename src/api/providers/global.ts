@@ -28,9 +28,10 @@ export interface ServerConfigResponse extends ServerConfig {
 
   // Security
   mfa_required: boolean;
-  minimum_tls_version: string;
-  minimum_cipher_suite: string;
+  tls_profile: string;
   federation_enabled: boolean;
+  federation_whitelist_enabled: boolean;
+  federation_friendly_servers: string[];
   settings_backup_interval: string;
   user_data_backup_interval: string;
 }
