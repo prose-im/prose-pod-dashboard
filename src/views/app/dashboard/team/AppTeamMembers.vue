@@ -11,7 +11,7 @@
 <template lang="pug">
 .v-app-team-members
   members-invites-dashboard(
-    label="Invite People"
+    label="Add a Team Member"
   )
 </template>
 
