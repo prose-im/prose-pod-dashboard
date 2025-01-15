@@ -9,21 +9,24 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .v-app-advanced-security
-    base-subsection(
-      v-model="config.security"
-      title="Account Security"
-      :items="accountItems"
-      @update="onSecurityUpdate"
-    )
+.v-app-advanced-security
+  base-subsection(
+    v-model="config.security"
+    title="Account Security"
+    :items="accountItems"
+    @update="onSecurityUpdate"
+  )
 
-    base-subsection(
-      v-model="config.encryption"
-      title="Network Encryption"
-      :items="networkItems"
-      :restore-option="true"
-      @update="onEncryptionUpdate"
-    )
+  base-subsection(
+    v-model="config.encryption"
+    title="Network Encryption"
+    :items="networkItems"
+    :restore-option="true"
+    :restore-action="onGlobalRestore"
+    @update="onEncryptionUpdate"
+  )
+  
+  p {{ config }}
 </template>
 
 <!-- **********************************************************************
@@ -36,12 +39,11 @@ import store from "@/store";
 
 // ENUMERATIONS
 enum SecurityKey {
-  TwoFactor = "twoFactor"
+  TwoFactor = "twoFactor",
 }
 
 enum EncryptionKey {
-  Version = "version",
-  Strength = "strength"
+  TLS_Profile = "tls_profile",
 }
 
 export default {
@@ -57,60 +59,44 @@ export default {
           description:
             "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
           type: "toggle",
-          disabled: true
-        }
+          disabled: true,
+        },
       ],
 
       networkItems: [
         {
-          subtitle: "Minimum SSL/TLS version",
+          subtitle: "Minimum SSL/TLS version and cipher suite (encryption strength)",
           description:
-            "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered less secure. It is recommended to configure the minimum version to TLS 1.2.",
+            "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered much less secure. It is recommended to configure the minimum version to Intermediate",
           restoreSubtitle: true,
+          restoreAction: this.onRestoreTlsProfile,
           type: "select",
-          disabled: true,
           typeProps: {
             options: [
               {
-                label: "TLS 1.2",
-                value: "1.2"
+                label: "Modern",
+                value: "modern",
               },
               {
-                label: "TLS 1.0+",
-                value: "1.0+"
-              }
+                label: "Intermediate",
+                value: "intermediate",
+              },
+              {
+                label: "Old",
+                value: "old",
+              },
             ],
-            size: "medium"
-          }
+            size: "medium",
+          },
         },
-        {
-          subtitle: "Minimum cipher suite (encryption strength)",
-          description:
-            "Accepting lower-security encryption ciphers let older user devices and servers connect to your server, but is also much less secure. A minimum cipher suite of High strength is recommended.",
-          type: "select",
-          disabled: true,
-          typeProps: {
-            options: [
-              {
-                label: "High strength",
-                value: "HIGH_STRENGTH"
-              },
-              {
-                label: "Low strength",
-                value: "LOW_STRENGTH"
-              }
-            ],
-            size: "medium"
-          }
-        }
-      ]
+      ],
     };
   },
 
   computed: {
     config() {
       return store.$settingsSecurity.getSettings();
-    }
+    },
   },
 
   mounted() {
@@ -138,20 +124,15 @@ export default {
       }
     },
 
-    onEncryptionUpdate(newValue: boolean | string, changedKey: EncryptionKey) {
+    onEncryptionUpdate(newValue: string, changedKey: EncryptionKey) {
       // console.log('newValue', newValue, changedKey)
       if (
         this.config.encryption[changedKey] &&
         this.config.encryption[changedKey] !== newValue
       ) {
         switch (changedKey) {
-          case "version": {
-            // store.$serverConfiguration.toggleFileUploadEnabled();
-            break;
-          }
-
-          case "strength": {
-            // store.$serverConfiguration.changeFileEncryption(newValue);
+          case "tls_profile": {
+            store.$settingsSecurity.updateTlsProfile(newValue);
             break;
           }
 
@@ -160,7 +141,16 @@ export default {
           }
         }
       }
-    }
-  }
+    },
+
+    onRestoreTlsProfile() {
+      console.log("resetting");
+      store.$settingsSecurity.resetTlsProfile();
+    },
+
+    onGlobalRestore() {
+      this.onRestoreTlsProfile();
+    },
+  },
 };
 </script>

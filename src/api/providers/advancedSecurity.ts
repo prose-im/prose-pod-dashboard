@@ -37,36 +37,16 @@ interface WorkspaceColorResponse {
  * ************************************************************************* */
 
 export class APIAdvancedSecurity {
-  /**  WORKSPACE PROFILE **/
+  /**  NETWORK ENCRYPTION **/
 
-  async getWorkspaceName(): Promise<WorkspaceNameResponse> {
-    return (await Api.client.get("/workspace/name")).data;
-  }
-
-  async updateWorkspaceName(newName: string): Promise<void> {
-    await Api.client.put("/workspace/name", {
-      newName
+  async updateTlsProfile (newTlsProfile: string): Promise<void> {
+    await Api.client.put("/server/config/tls-profile", {
+      tls_profile: newTlsProfile
     });
   }
 
-  async getWorkspaceIcon(): Promise<WorkspaceIconResponse> {
-    return (await Api.client.get("/workspace/icon")).data;
-  }
-
-  async updateWorkspaceIcon(newIcon: string): Promise<void> {
-    await Api.client.put("/workspace/icon", {
-      newIcon
-    });
-  }
-
-  async getWorkspaceDetailsCard(): Promise<WorkspaceDetailsCardResponse> {
-    return (await Api.client.get("/workspace/details-card")).data;
-  }
-
-  async updateWorkspaceDetailsCard(newDetailsCard: string): Promise<void> {
-    await Api.client.put("/workspace/details-card", {
-      newDetailsCard
-    });
+  async resetTlsProfile(): Promise<WorkspaceIconResponse> {
+    return (await Api.client.put("/server/config/tls-profile/reset")).data;
   }
 
   /**  APPEARANCE  **/

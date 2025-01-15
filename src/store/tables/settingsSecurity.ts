@@ -13,6 +13,7 @@ import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
 import store from "@/store/index";
+import APIAdvancedSecurity from "@/api/providers/advancedSecurity";
 
 /**************************************************************************
  * TABLE
@@ -26,8 +27,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       },
 
       encryption: {
-        version: "",
-        strength: ""
+        tls_profile: "",
       }
     };
   },
@@ -45,14 +45,29 @@ const $settingsSecurity = defineStore("settingsSecurity", {
 
   actions: {
     async loadConfig(): Promise<void> {
+      // Load globalConfig configuration
       await store.$globalConfig.loadGlobalConfig();
 
       const response = store.$globalConfig.getGlobalConfig();
 
-      // Load globalConfig configuration
-      this.security.twoFactor = response.mfa_required;
-      this.encryption.strength = response.minimum_cipher_suite;
-      this.encryption.version = response.minimum_tls_version;
+      this.$patch(() => {
+        this.security.twoFactor = response.mfa_required;
+        this.encryption.tls_profile = response.tls_profile; 
+      })
+    },
+
+    async updateTlsProfile(newTlsProfile: string) {
+      await APIAdvancedSecurity.updateTlsProfile(newTlsProfile);
+
+      this.encryption.tls_profile = newTlsProfile;
+    },
+
+    async resetTlsProfile() {
+      const response = await APIAdvancedSecurity.resetTlsProfile();
+
+      this.$patch(() => {
+        this.encryption.tls_profile = response.tls_profile;
+      });
     }
   }
 });
