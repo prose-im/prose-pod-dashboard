@@ -37,7 +37,7 @@ transition(
         )
 
       .c-base-alert__text
-        p.c-base-alert__text-title.u-medium
+        p.c-base-alert__text-title
           | {{ title }}
 
         p.c-base-alert__text-description(

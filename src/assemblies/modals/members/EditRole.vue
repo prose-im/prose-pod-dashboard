@@ -27,13 +27,14 @@ base-modal(
       ]`
     )
       h4
-        |  Enter new role for {{ user.jid }}
+        | Enter new role for {{ user.jid }}:
 
       form-select(
         v-model="memberRole"
         v-click-away="closeSelectOpen"
         class="a-edit-role__select"
         position="bottom"
+        min-width="280px"
         :options="roleOptions"
         @click="toggleSelectOpen"
       )

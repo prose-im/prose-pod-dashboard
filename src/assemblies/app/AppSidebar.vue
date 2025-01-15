@@ -131,18 +131,13 @@ $c: ".a-app-sidebar";
 #{$c} {
   display: flex;
 
-  #{$c}__upper {
-    width: fit-content;
-  }
-
   #{$c}__content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-top: 40px;
     padding-bottom: 30px;
-    padding-left: 34px;
-    padding-right: 32px;
+    padding-inline: 22px;
     border-right: solid 1px $color-border-secondary;
     box-sizing: border-box;
     overflow-y: scroll;
@@ -150,8 +145,7 @@ $c: ".a-app-sidebar";
 
   @media (max-width: 768px) {
     #{$c}__content {
-      padding-left: 24px;
-      padding-right: 22px;
+      padding-inline: 16px;
     }
   }
 }

@@ -23,17 +23,14 @@ div(
   ]`
 )
   .c-form-select__field(
+    :style="{ minWidth }"
     @click="onFieldClick"
   )
-    .c-form-select__inner(
-      :class=`[
-        "c-form-select__inner--menu"
-      ]`
-    )
-      .c-form-select__color-prev(
-        v-if="colorPrev"
+    .c-form-select__inner.c-form-select__inner--menu
+      .c-form-select__color-preview(
+        v-if="colorPreview"
         :style=`{
-          backgroundColor:colorPrev,
+          backgroundColor:colorPreview,
         }`
       )
 
@@ -58,11 +55,12 @@ div(
   div(
     v-if="visible && !disabled"
     v-click-away="onDropdownClickAway"
+    :style="{ minWidth }"
     :class=`[
       "c-form-select__dropdown",
       "c-form-select__dropdown--menu",
       {
-        "c-form-select__dropdown--color": colorPrev
+        "c-form-select__dropdown--color": colorPreview
       }
     ]`
 
@@ -79,7 +77,6 @@ div(
         :class=`[
           "c-form-select__option",
           {
-            "u-medium": (value === option.value),
             "c-form-select__option--selected": (value === option.value),
             "c-form-select__option--hovered": (hoveredIndex === index),
             "c-form-select__option--disabled": option.disabled
@@ -89,18 +86,17 @@ div(
         a.c-form-select__option--link(
           @click="onOptionClick(option)"
         )
-
-          .c-form-select__color-prev(
-            v-if="option.colorPrev"
+          .c-form-select__color-preview(
+            v-if="option.colorPreview"
             :style=`{
-              backgroundColor: option.colorPrev,
+              backgroundColor: option.colorPreview,
             }`
           )
 
-          span.u-ellipsis(
+          span.c-form-select__option-label.u-ellipsis(
             :class=`[
               {
-                "c-form-select__value" : !option.colorPrev
+                "c-form-select__value" : !option.colorPreview
               }
             ]`
           )
@@ -170,9 +166,14 @@ export default {
       default: null
     },
 
-    colorPrev: {
+    colorPreview: {
       type: String,
       default: null
+    },
+
+    minWidth: {
+      type: String,
+      default: "140px"
     },
 
     size: {
@@ -502,7 +503,7 @@ $sizes: (
   #{$c}__option {
     margin: 0px;
 
-    #{$c}__color-prev {
+    #{$c}__color-preview {
       height: 11px;
       width: 11px;
       margin-inline-end: 9px;
@@ -511,6 +512,7 @@ $sizes: (
     }
 
     #{$c}__value {
+      padding-bottom: 1px;
       flex: 1;
     }
   }
@@ -526,6 +528,7 @@ $sizes: (
     border-radius: $size-form-select-border-radius;
     cursor: pointer;
     position: relative;
+    z-index: 1;
 
     &:hover {
       border-color: rgba($color-black, 0.15);
@@ -556,6 +559,7 @@ $sizes: (
 
   #{$c}__dropdown {
     overflow: hidden;
+    z-index: 2;
 
     &--menu {
       position: absolute;
@@ -569,7 +573,7 @@ $sizes: (
 
   #{$c}__options {
     max-height: 240px;
-    padding-block: 0;
+    padding-block: 6px;
     padding-inline: 0;
     overflow-x: hidden;
     overflow-y: auto;
@@ -664,11 +668,10 @@ $sizes: (
         font-size: map-get($size, "font-size");
       }
 
-      #{$c}__field #{$c}__inner {
-        &--menu {
-          padding-inline-start: map-get($size, "padding-start");
-          padding-inline-end: map-get($size, "padding-end");
-        }
+      #{$c}__field #{$c}__inner#{$c}__inner--menu,
+      #{$c}__options #{$c}__option a {
+        padding-inline-start: map-get($size, "padding-start");
+        padding-inline-end: map-get($size, "padding-end");
       }
 
       #{$c}__field {
@@ -696,6 +699,14 @@ $sizes: (
     #{$c}__options #{$c}__option a {
       text-align: left;
     }
+
+    #{$c}__options {
+      #{$c}__option {
+        #{$c}__option-label {
+          flex: 1;
+        }
+      }
+    }
   }
 
   &--center {
@@ -704,19 +715,18 @@ $sizes: (
     #{$c}__options #{$c}__option a {
       text-align: center;
     }
+
+    #{$c}__options #{$c}__option a {
+      padding-inline: 0;
+    }
   }
 
   // --> POSITIONS <--
 
   &--top {
-    #{$c}__field {
-      z-index: 2;
-    }
-
     #{$c}__dropdown {
       border-block-end: 0 none;
       inset-block-end: 100%;
-      z-index: 1;
       border-start-start-radius: $size-form-select-border-radius;
       border-start-end-radius: $size-form-select-border-radius;
     }
@@ -730,14 +740,9 @@ $sizes: (
   }
 
   &--bottom {
-    #{$c}__field {
-      z-index: 1;
-    }
-
     #{$c}__dropdown {
       border-block-start: 0 none;
       inset-block-start: 100%;
-      z-index: 2;
       border-end-start-radius: $size-form-select-border-radius;
       border-end-end-radius: $size-form-select-border-radius;
     }

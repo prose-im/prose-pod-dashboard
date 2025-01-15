@@ -14,7 +14,7 @@
     :avatar-data-url="logo"
     class="c-base-identity-badge__icon"
     type="image"
-    border-radius="20px"
+    border-radius="22px"
     size="44px"
   )
 
@@ -25,7 +25,7 @@
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
         ]`
-      ) 
+      )
         | {{ name }}
 
       base-space
@@ -33,7 +33,7 @@
       .c-base-identity-badge__server-title-right
         p(
           :class=`[
-            "c-base-identity-badge__server-description",
+            "c-base-identity-badge__server-separator",
             "c-base-identity-badge--light"
           ]`
         ) |
@@ -45,7 +45,7 @@
             "c-base-identity-badge__server-description",
             "c-base-identity-badge--light"
           ]`
-        ) 
+        )
           | {{ domain }}
 
     .c-base-identity-badge__details.u-ellipsis
@@ -149,6 +149,11 @@ $c: ".c-base-identity-badge";
 
     &-name {
       font-size: $font-size-baseline + 1px;
+    }
+
+    &-separator {
+      color: $color-base-grey-light;
+      font-size: $font-size-baseline - 1px;
     }
 
     &-description {

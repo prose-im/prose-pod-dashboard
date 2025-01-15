@@ -32,11 +32,7 @@ div(
     @click="onLabelClick"
     :class=`[
       "c-form-checkbox--" + bold,
-      "c-form-checkbox--" + labelColor,
-      {
-        "u-medium": hasLabelEmphasis,
-        "u-regular": !hasLabelEmphasis
-      }
+      "c-form-checkbox--" + labelColor
     ]`
   )
     slot
@@ -100,12 +96,6 @@ export default {
   },
 
   emits: ["update:modelValue", "change"],
-
-  computed: {
-    hasLabelEmphasis(): boolean {
-      return this.size === "medium" || this.size === "mid" ? true : false;
-    }
-  },
 
   methods: {
     // --> HELPERS <--

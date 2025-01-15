@@ -22,13 +22,19 @@ base-modal(
   .a-delete-member
     span
       | Are you sure you want to&nbsp;
+
     span(
       :class=`[
         "a-delete-member--bolder"
       ]`
     )
-      | delete 
+      | delete
+
+    span
+      | :
+
     br
+
     span(
       :class=`[
         "a-delete-member--red",
@@ -36,6 +42,7 @@ base-modal(
       ]`
     )
       | {{ jid }}
+
     span
       | ?
 </template>

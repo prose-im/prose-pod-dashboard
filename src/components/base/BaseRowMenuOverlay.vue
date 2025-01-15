@@ -32,7 +32,6 @@ teleport(
           :class=`[
             "c-base-row-menu__option",
             {
-              "u-medium": (value === option.value),
               "c-base-row-menu__option--selected": (value === option.value),
               "c-base-row-menu__option--hovered": (hoveredIndex === index),
               "c-base-row-menu__option--disabled": option.disabled
@@ -201,7 +200,6 @@ $tooltip-spacing-inline: -3px;
     letter-spacing: 0.1px;
     padding: 5px 10px;
     display: inline-block;
-    border-radius: 3px;
     box-shadow: 0 2px 6px 0 rgba($color-border-secondary, 0.06);
 
     &,

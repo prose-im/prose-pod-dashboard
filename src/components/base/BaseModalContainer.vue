@@ -37,7 +37,7 @@ transition(
 
     .c-base-modal-container__footer
       base-button(
-        :size="buttonSize"
+        size="large"
         tint="grey"
         @click="onClose"
       )
@@ -46,10 +46,10 @@ transition(
       base-button(
         v-if="buttonColor !== 'grey'"
         @click="onConfirm"
+        size="large"
         class="c-base-modal-container__footer--extra-button"
         :disabled="disabled"
         :loading="loading"
-        :size="buttonSize"
         :tint="buttonColor"
       )
         span(
@@ -141,10 +141,6 @@ export default {
       return this.buttonColor === "grey" ? "Close" : "Cancel";
     },
 
-    buttonSize() {
-      return this.position === "left" ? "mid-large" : "large";
-    },
-
     enterAnimation() {
       return this.position === "left"
         ? "u-animate u-animate--slide-in"
@@ -192,8 +188,8 @@ $c: ".c-base-modal-container";
   #{$c}__title {
     font-weight: $font-weight-bolder;
     font-size: ($font-size-page + 6px);
-    max-height: 9.5%;
-    min-height: 70px;
+    max-height: 110px;
+    min-height: 60px;
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
@@ -204,7 +200,6 @@ $c: ".c-base-modal-container";
 
   #{$c}__body {
     overflow: scroll;
-    max-height: 73%;
     padding-top: 35.5px;
     padding-bottom: 26.5px;
     border-block: 1px solid $color-border-primary;
@@ -217,7 +212,7 @@ $c: ".c-base-modal-container";
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
-    height: 9%;
+    height: 100px;
     min-height: 70px;
 
     &--extra-button {
@@ -244,11 +239,6 @@ $c: ".c-base-modal-container";
     #{$c}__body {
       overflow: initial;
       padding-block: 35.5px;
-    }
-
-    #{$c}__footer {
-      padding-block: 20px;
-      min-height: 0px;
     }
   }
 

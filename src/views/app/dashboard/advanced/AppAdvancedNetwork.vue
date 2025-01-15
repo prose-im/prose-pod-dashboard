@@ -101,8 +101,7 @@ export default {
           type: "button",
           action: this.onShowServerWhitelist,
           typeProps: {
-            label: "Edit servers...",
-            size: "medium"
+            label: "Edit servers..."
           }
         }
       ],
@@ -116,7 +115,7 @@ export default {
           action: this.onShowDnsInstructions,
           typeProps: {
             label: "Show DNS instructions...",
-            size: "medium"
+            size: "mid-medium"
           }
         },
 
@@ -131,7 +130,7 @@ export default {
           type: "button",
           typeProps: {
             label: "Start network check...",
-            size: "medium"
+            size: "mid-medium"
           }
         }
       ]

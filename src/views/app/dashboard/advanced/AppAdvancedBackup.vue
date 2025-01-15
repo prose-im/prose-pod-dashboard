@@ -112,7 +112,8 @@ export default {
                 value: "02"
               }
             ],
-            size: "medium"
+            size: "medium",
+            minWidth: "94px"
           }
         },
 
@@ -143,7 +144,8 @@ export default {
                 value: "02"
               }
             ],
-            size: "medium"
+            size: "medium",
+            minWidth: "94px"
           }
         }
       ],
@@ -158,7 +160,7 @@ export default {
           color: "bwPurple",
           typeProps: {
             label: "Download backup",
-            size: "medium"
+            size: "mid-medium"
           }
         }
       ],
@@ -173,7 +175,7 @@ export default {
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",
-            size: "medium"
+            size: "mid-medium"
           }
         },
 
@@ -187,7 +189,7 @@ export default {
           color: "redShell",
           typeProps: {
             label: "Start factory reset…",
-            size: "medium"
+            size: "mid-medium"
           }
         }
       ]

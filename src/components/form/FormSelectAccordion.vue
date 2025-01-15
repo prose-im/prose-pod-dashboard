@@ -69,7 +69,6 @@ div(
         :class=`[
           "c-form-select-accordion__option",
           {
-            "u-medium": (value === option.value),
             "c-form-select-accordion__option--selected": (value === option.value),
             "c-form-select-accordion__option--hovered": (hoveredIndex === index),
             "c-form-select-accordion__option--disabled": option.disabled
@@ -465,6 +464,7 @@ $sizes: (
 
   #{$c}__link {
     padding-left: 14px;
+    padding-right: 18px;
 
     &--icon {
       fill: $color-base-grey-normal;
