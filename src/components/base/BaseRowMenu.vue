@@ -37,7 +37,9 @@ div(
       )
         .c-base-row-menu__link(
           :class=`[
-            "c-base-row-menu__link--" + option.color
+            {
+              ["c-base-row-menu__link--" + option.color]: option.color
+            }
           ]`
           @click="onOptionClick(option)"
         )
@@ -127,6 +129,9 @@ export default {
 <style lang="scss">
 $c: ".c-base-row-menu";
 
+// VARIABLES
+$options-border-radius: 6px;
+
 #{$c} {
   display: inline-block;
   position: relative;
@@ -165,10 +170,10 @@ $c: ".c-base-row-menu";
   #{$c}__options {
     border: 1px solid darken($color-base-grey-ultra-light, 3%);
     max-height: 240px;
-    padding-block: $size-form-select-options-padding-block;
-    padding-inline: 0;
+    padding: 4px;
     overflow-x: hidden;
     overflow-y: auto;
+    border-radius: $options-border-radius;
 
     #{$c}__option {
       display: block;
@@ -181,26 +186,40 @@ $c: ".c-base-row-menu";
         text-decoration: none;
 
         #{$c}__value {
-          color: $color-text-secondary;
+          color: $color-text-primary;
+          border-radius: ($options-border-radius - 1px);
           box-shadow: none;
+        }
+
+        &--red {
+          #{$c}__value {
+            color: $color-base-red-normal;
+          }
         }
       }
 
       &--hovered {
         #{$c}__link {
-          //background-color: $color-base-purple-ultra-light;
-
           #{$c}__value {
             cursor: pointer;
-            color: $color-text-primary;
-            background-color: $color-base-purple-ultra-light;
+            background-color: darken($color-base-purple-ultra-light, 1%);
           }
 
-          // <!-- COLORS  -->
           &--red {
             #{$c}__value {
-              color: $color-base-red-normal;
               background-color: rgba($color-base-red-normal, 0.05);
+            }
+          }
+
+          &:active {
+            #{$c}__value {
+              background-color: darken($color-base-purple-ultra-light, 3%);
+            }
+
+            &#{$c}__link--red {
+              #{$c}__value {
+                background-color: rgba($color-base-red-normal, 0.09);
+              }
             }
           }
         }
@@ -213,13 +232,8 @@ $c: ".c-base-row-menu";
           pointer-events: none;
 
           #{$c}__value {
+            background-color: transparent;
             color: $color-text-tertiary;
-          }
-        }
-
-        &#{$c}__option--hovered {
-          #{$c}__link {
-            background-color: darken($color-background-primary, 1%);
           }
         }
       }
