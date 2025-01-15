@@ -39,7 +39,11 @@ configuration-checker(
   @proceed=""
 )
 
-p {{ config }}
+server-whitelist(
+  v-if="isServerWhitelistModalVisible"
+  :visibility="serverWhitelistModalVisibility"
+  @close="toggleServerWhitelistModalVisible"
+)
 </template>
 
 <!-- **********************************************************************
@@ -50,6 +54,7 @@ p {{ config }}
 // PROJECT: COMPONENTS
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
+import ServerWhitelist from "@/assemblies/modals/advanced/ServerWhitelist.vue";
 
 // STORE
 import store from "@/store";
@@ -60,6 +65,7 @@ export default {
   components: {
     ConfigurationChecker,
     DnsSetup,
+    ServerWhitelist,
   },
 
   data() {
@@ -68,8 +74,14 @@ export default {
 
       isDnsInstructionsModalVisible: false,
       dnsInstructionsModalVisibility: false,
+
+      isServerWhitelistModalVisible: false,
+      serverWhitelistModalVisibility: false,
+
       isNetworkCheckModalVisible: false,
       networkCheckModalVisibility: false,
+
+      whitelistTags: [] as string[],
 
       federationItems: [
         {
@@ -85,9 +97,9 @@ export default {
           restoreSubtitle: true,
           description:
             "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
-          tags: ["Allowed", "prose.org", "clever-cloud.com", "bb.agency"],
+          tags: [], //["Allowed", "prose.org", "clever-cloud.com", "bb.agency"],
           type: "button",
-          disabled: true,
+          action: this.onShowServerWhitelist,
           typeProps: {
             label: "Edit servers...",
             size: "medium",
@@ -130,6 +142,10 @@ export default {
     config() {
       return store.$settingsNetwork.getFederationConfig;
     },
+
+    whitelist() {
+      return store.$settingsNetwork.getServerWhitelist;
+    },
   },
 
   watch: {
@@ -139,6 +155,14 @@ export default {
 
     isNetworkCheckModalVisible(newValue) {
       setTimeout(() => (this.networkCheckModalVisibility = newValue), 10);
+    },
+
+    isServerWhitelistModalVisible(newValue) {
+      setTimeout(() => (this.serverWhitelistModalVisibility = newValue), 10);
+    },
+
+    whitelist(newValue) {
+      this.federationItems[1]["tags"] = newValue;
     },
   },
 
@@ -156,9 +180,17 @@ export default {
       this.isNetworkCheckModalVisible = !this.isNetworkCheckModalVisible;
     },
 
+    toggleServerWhitelistModalVisible() {
+      this.isServerWhitelistModalVisible = !this.isServerWhitelistModalVisible;
+    },
+
     // --> EVENT LISTENERS <--
     onShowDnsInstructions() {
       this.toggleDnsInstructionsModalVisible();
+    },
+
+    onShowServerWhitelist() {
+      this.toggleServerWhitelistModalVisible();
     },
 
     onFederationUpdate(newValue: boolean) {

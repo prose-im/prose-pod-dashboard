@@ -44,7 +44,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     return {
       federation: {
         federationEnabled: true,
-        whitelist: []
+        whitelist: [] as string[]
       },
 
       dnsInstructions: [] as DnsStep[],
@@ -82,6 +82,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
   getters: {
     getFederationConfig(): object {
       return this.federation;
+    },
+
+    getServerWhitelist(): object {
+      return this.federation.whitelist;
     },
 
     getDnsInstructions: function () {
@@ -127,6 +131,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
+        this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
         this.federation.federationEnabled = response.federation_enabled;
       });
     },
