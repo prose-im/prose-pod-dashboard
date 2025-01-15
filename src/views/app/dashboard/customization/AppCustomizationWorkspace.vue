@@ -131,17 +131,16 @@ export default {
           typeProps: {
             options: [
               {
-                colorPrev: "#2490F0",
+                colorPreview: "#2490F0",
                 label: "Medium Blue",
                 value: "#2490F0"
               },
               {
-                colorPrev: "#1C293B",
+                colorPreview: "#1C293B",
                 label: "Dark Blue",
                 value: "#1C293B"
               }
-            ],
-            size: "medium"
+            ]
           }
         }
       ]

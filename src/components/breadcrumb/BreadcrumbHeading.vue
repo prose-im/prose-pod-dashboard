@@ -160,6 +160,7 @@ $c: ".c-breadcrumb-heading";
 
   #{$c}__icon {
     margin-inline: 12px;
+    margin-bottom: -5px;
     flex: 1 0 auto;
   }
 }

@@ -98,7 +98,8 @@ div(
     base-button(
       v-if="type === 'button'"
       :disabled="item.disabled"
-      :size="item.typeProps?.size"
+      :size="item.typeProps?.size || 'medium'"
+      :min-width="item.typeProps?.minWidth"
       :tint="buttonColor"
       @click="$emit('click')"
     )
@@ -108,12 +109,13 @@ div(
       form-select(
         v-if="(type === 'select') || type === 'doubleSelect'"
         v-model="calculatedValue"
-        :color-prev="colorSquare"
+        :color-preview="colorSquare"
         :disabled="item.disabled"
         :options="item.typeProps?.options"
-        position="bottom"
-        size="medium"
+        :size="item.typeProps?.size || 'mid-medium'"
+        :min-width="item.typeProps?.minWidth"
         :search="false"
+        position="bottom"
         @update:modelValue="onUpdateValue"
       )
 
@@ -123,7 +125,8 @@ div(
         class="c-base-subsection-item__double-select"
         :disabled="item.disabled"
         :search="false"
-        size="medium"
+        :size="item.typeProps?.size || 'mid-medium'"
+        :min-width="item.typeProps?.minWidth"
         :options="item.typeProps?.secondOptions"
         position="bottom"
         @update:modelValue="onUpdateExtraSelect"

@@ -37,7 +37,7 @@ transition(
 
     .c-base-modal-container__footer
       base-button(
-        :size="buttonSize"
+        size="large"
         tint="grey"
         @click="onClose"
       )
@@ -46,10 +46,10 @@ transition(
       base-button(
         v-if="buttonColor !== 'grey'"
         @click="onConfirm"
+        size="large"
         class="c-base-modal-container__footer--extra-button"
         :disabled="disabled"
         :loading="loading"
-        :size="buttonSize"
         :tint="buttonColor"
       )
         span(
@@ -139,10 +139,6 @@ export default {
   computed: {
     abortButtonText() {
       return this.buttonColor === "grey" ? "Close" : "Cancel";
-    },
-
-    buttonSize() {
-      return this.position === "left" ? "mid-large" : "large";
     },
 
     enterAnimation() {

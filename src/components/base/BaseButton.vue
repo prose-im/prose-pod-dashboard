@@ -24,6 +24,7 @@ div(
   button(
     @click="onInnerClick"
     :type="type"
+    :style="{ minWidth }"
     :class=`[
       "c-base-button__inner",
       {
@@ -53,8 +54,8 @@ div(
         :class=`[
           "c-base-button__label",
           {
-            "u-medium": !bolder,
-            "u-bold": bolder,
+            "c-base-button__label--medium": !bolder,
+            "c-base-button__label--bold": bolder,
             "c-base-button__label--square":square
           }
         ]`
@@ -123,6 +124,11 @@ export default {
 
         return sizes.includes(x);
       }
+    },
+
+    minWidth: {
+      type: String,
+      default: null
     },
 
     icon: {
@@ -201,9 +207,8 @@ export default {
 $c: ".c-base-button";
 
 // VARIABLES
-$size-mid-small-padding-sides: 12px; ///erase
 $size-medium-padding-sides: 19px;
-$size-mid-medium-padding-sides: 33.5px;
+$size-mid-medium-padding-sides: 24px;
 $size-large-padding-sides: 26.5px;
 $size-mid-large-padding-sides: 36px;
 $size-ultra-large-padding-sides: 45.5px;
@@ -245,7 +250,16 @@ $size-ultra-large-padding-sides: 45.5px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      padding-bottom: 1px;
       flex: 1;
+
+      &--medium {
+        font-weight: $font-weight-medium;
+      }
+
+      &--bold {
+        font-weight: $font-weight-bolder;
+      }
 
       &--square {
         display: flex;

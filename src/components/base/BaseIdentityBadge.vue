@@ -33,7 +33,7 @@
       .c-base-identity-badge__server-title-right
         p(
           :class=`[
-            "c-base-identity-badge__server-description",
+            "c-base-identity-badge__server-separator",
             "c-base-identity-badge--light"
           ]`
         ) |
@@ -149,6 +149,11 @@ $c: ".c-base-identity-badge";
 
     &-name {
       font-size: $font-size-baseline + 1px;
+    }
+
+    &-separator {
+      color: $color-base-grey-light;
+      font-size: $font-size-baseline - 1px;
     }
 
     &-description {

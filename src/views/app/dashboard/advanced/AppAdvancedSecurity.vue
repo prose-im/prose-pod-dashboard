@@ -25,7 +25,7 @@
     :restore-action="onGlobalRestore"
     @update="onEncryptionUpdate"
   )
-  
+
   p {{ config }}
 </template>
 
@@ -86,8 +86,7 @@ export default {
                 label: "Old",
                 value: "old"
               }
-            ],
-            size: "medium"
+            ]
           }
         }
       ]

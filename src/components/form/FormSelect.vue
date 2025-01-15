@@ -31,10 +31,10 @@ div(
         "c-form-select__inner--menu"
       ]`
     )
-      .c-form-select__color-prev(
-        v-if="colorPrev"
+      .c-form-select__color-preview(
+        v-if="colorPreview"
         :style=`{
-          backgroundColor:colorPrev,
+          backgroundColor:colorPreview,
         }`
       )
 
@@ -64,7 +64,7 @@ div(
       "c-form-select__dropdown",
       "c-form-select__dropdown--menu",
       {
-        "c-form-select__dropdown--color": colorPrev
+        "c-form-select__dropdown--color": colorPreview
       }
     ]`
 
@@ -92,17 +92,17 @@ div(
           @click="onOptionClick(option)"
         )
 
-          .c-form-select__color-prev(
-            v-if="option.colorPrev"
+          .c-form-select__color-preview(
+            v-if="option.colorPreview"
             :style=`{
-              backgroundColor: option.colorPrev,
+              backgroundColor: option.colorPreview,
             }`
           )
 
           span.u-ellipsis(
             :class=`[
               {
-                "c-form-select__value" : !option.colorPrev
+                "c-form-select__value" : !option.colorPreview
               }
             ]`
           )
@@ -172,7 +172,7 @@ export default {
       default: null
     },
 
-    colorPrev: {
+    colorPreview: {
       type: String,
       default: null
     },
@@ -509,7 +509,7 @@ $sizes: (
   #{$c}__option {
     margin: 0px;
 
-    #{$c}__color-prev {
+    #{$c}__color-preview {
       height: 11px;
       width: 11px;
       margin-inline-end: 9px;

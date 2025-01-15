@@ -38,6 +38,7 @@
         size="9px"
         fill="#2490f0"
       )
+
       p
         | Restore defaults
 
@@ -268,6 +269,10 @@ $c: ".c-base-subsection";
     overflow: hidden;
     cursor: pointer;
 
+    &:hover {
+      text-decoration: underline;
+    }
+
     p {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -281,6 +286,11 @@ $c: ".c-base-subsection";
     &--disabled {
       color: rgba($color-base-blue-normal, 0.7);
       cursor: not-allowed;
+
+      &,
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 

@@ -83,8 +83,7 @@ export default {
                 label: "2 years",
                 value: "P2Y"
               }
-            ],
-            size: "medium"
+            ]
           }
         }
       ],
@@ -113,8 +112,7 @@ export default {
                 label: "Not encrypted",
                 value: "Not Encrypted"
               }
-            ],
-            size: "medium"
+            ]
           }
         },
 
@@ -137,8 +135,7 @@ export default {
                 label: "2 years",
                 value: "P2Y"
               }
-            ],
-            size: "medium"
+            ]
           }
         }
       ]
