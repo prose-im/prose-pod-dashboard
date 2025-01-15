@@ -75,6 +75,7 @@ export default {
         {
           subtitle: "Allow other servers to connect with this server",
           restoreSubtitle: true,
+          restoreAction: this.onRestoreFederationEnabled,
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
           type: "toggle",
@@ -162,6 +163,11 @@ export default {
 
     onFederationUpdate(newValue: boolean) {
       store.$settingsNetwork.updateFederationEnabled(newValue);
+    },
+
+    onRestoreFederationEnabled() {
+      console.log("restoring federation enabled");
+      store.$settingsNetwork.restoreFederationEnabled();
     },
   },
 };

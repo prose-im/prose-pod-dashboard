@@ -131,6 +131,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       });
     },
 
+    //**  SERVER FEDERATION */
+
     async updateFederationEnabled(newState: boolean) {
       await APIAdvancedNetwork.updateServerFederationEnabled(newState)
 
@@ -138,6 +140,16 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.federation.federationEnabled = newState;
       });
     },
+
+    async restoreFederationEnabled() {
+      const response = await APIAdvancedNetwork.restoreServerFederationEnabled();
+
+      this.$patch(() => {
+        this.federation.federationEnabled = response.federation_enabled;
+      });
+    },
+
+    //**  DNS  */
 
     async loadDnsInstructions(reload = false) {
       if (
@@ -164,6 +176,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         }
       }
     },
+
+    //**  RECORD CHECK  */
 
     checkAllRecords() {
       this.checkDnsRecords();

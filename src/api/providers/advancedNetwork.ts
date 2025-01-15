@@ -10,6 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
+import { ServerConfigResponse } from "./global";
 
 /**************************************************************************
  * INTERFACES
@@ -67,6 +68,10 @@ class APIAdvancedNetwork {
     return await Api.client.put(`/server/config/federation-enabled`, {
       federation_enabled: newState
     });
+  }
+
+  async restoreServerFederationEnabled(): Promise<ServerConfigResponse> {
+    return (await Api.client.put(`/server/config/federation-enabled/reset`)).data;
   }
 
   /**  DNS RECORDS  **/
