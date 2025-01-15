@@ -12,18 +12,18 @@
 .v-app-customization-emojis
   base-subsection(
     v-model="config.messaging"
+    @update="onMessagingUpdate"
     title="Messaging"
     :items="messagingItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
-    @update="onMessagingUpdate"
   )
 
   base-subsection(
     v-model="config.files"
+    @update="onFileUpdate"
     title="Files"
     :items="filesItems"
-    @update="onFileUpdate"
   )
 </template>
 

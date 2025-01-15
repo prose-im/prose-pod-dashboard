@@ -71,7 +71,8 @@ class APIAdvancedNetwork {
   }
 
   async restoreServerFederationEnabled(): Promise<ServerConfigResponse> {
-    return (await Api.client.put(`/server/config/federation-enabled/reset`)).data;
+    return (await Api.client.put(`/server/config/federation-enabled/reset`))
+      .data;
   }
 
   /**  DNS RECORDS  **/

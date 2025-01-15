@@ -65,7 +65,7 @@ export default {
   components: {
     ConfigurationChecker,
     DnsSetup,
-    ServerWhitelist,
+    ServerWhitelist
   },
 
   data() {
@@ -90,7 +90,7 @@ export default {
           restoreAction: this.onRestoreFederationEnabled,
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
-          type: "toggle",
+          type: "toggle"
         },
         {
           subtitle: "Friendly servers whitelist",
@@ -102,9 +102,9 @@ export default {
           action: this.onShowServerWhitelist,
           typeProps: {
             label: "Edit servers...",
-            size: "medium",
-          },
-        },
+            size: "medium"
+          }
+        }
       ],
 
       toolsItems: [
@@ -116,8 +116,8 @@ export default {
           action: this.onShowDnsInstructions,
           typeProps: {
             label: "Show DNS instructions...",
-            size: "medium",
-          },
+            size: "medium"
+          }
         },
 
         {
@@ -131,10 +131,10 @@ export default {
           type: "button",
           typeProps: {
             label: "Start network check...",
-            size: "medium",
-          },
-        },
-      ],
+            size: "medium"
+          }
+        }
+      ]
     };
   },
 
@@ -145,7 +145,7 @@ export default {
 
     whitelist() {
       return store.$settingsNetwork.getServerWhitelist;
-    },
+    }
   },
 
   watch: {
@@ -163,7 +163,7 @@ export default {
 
     whitelist(newValue) {
       this.federationItems[1]["tags"] = newValue;
-    },
+    }
   },
 
   mounted() {
@@ -200,7 +200,7 @@ export default {
     onRestoreFederationEnabled() {
       console.log("restoring federation enabled");
       store.$settingsNetwork.restoreFederationEnabled();
-    },
-  },
+    }
+  }
 };
 </script>

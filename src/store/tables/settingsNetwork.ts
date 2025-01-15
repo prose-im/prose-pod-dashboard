@@ -131,7 +131,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
-        this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
+        this.federation.whitelist = [
+          "Allowed",
+          ...response.federation_friendly_servers
+        ];
         this.federation.federationEnabled = response.federation_enabled;
       });
     },
@@ -139,7 +142,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     //**  SERVER FEDERATION */
 
     async updateFederationEnabled(newState: boolean) {
-      await APIAdvancedNetwork.updateServerFederationEnabled(newState)
+      await APIAdvancedNetwork.updateServerFederationEnabled(newState);
 
       this.$patch(() => {
         this.federation.federationEnabled = newState;
@@ -147,7 +150,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     async restoreFederationEnabled() {
-      const response = await APIAdvancedNetwork.restoreServerFederationEnabled();
+      const response =
+        await APIAdvancedNetwork.restoreServerFederationEnabled();
 
       this.$patch(() => {
         this.federation.federationEnabled = response.federation_enabled;

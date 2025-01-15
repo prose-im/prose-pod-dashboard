@@ -10,12 +10,12 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose"
+  @confirm="onSendInvite"
   :visible="visibility"
   title="Invite a team member"
   button-color="purple"
   button-label="Invite Team Member"
-  @close="onClose"
-  @confirm="onSendInvite"
 )
   .a-invite-team-member
     base-modal-input-block(

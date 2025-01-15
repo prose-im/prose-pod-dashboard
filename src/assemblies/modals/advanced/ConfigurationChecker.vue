@@ -10,11 +10,11 @@
 
 <template lang="pug">
 base-modal(
-  :visible="visibility"
-  title="Network configuration checker"
   @close="$emit('close')"
   @confirm="$emit('proceed')"
   @load="onLoad"
+  :visible="visibility"
+  title="Network configuration checker"
 )
   .a-configuration-checker
     advanced-network-check-block(

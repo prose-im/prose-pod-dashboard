@@ -25,8 +25,6 @@
     :restore-action="onGlobalRestore"
     @update="onEncryptionUpdate"
   )
-  
-  p {{ config }}
 </template>
 
 <!-- **********************************************************************

@@ -79,13 +79,13 @@ export default {
   props: {
     serverList: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: () => []
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -98,7 +98,7 @@ export default {
 
       newDomain: "",
 
-      whitelist: [] as string[],
+      whitelist: [] as string[]
     };
   },
 
@@ -107,7 +107,7 @@ export default {
   watch: {
     serverList() {
       this.whitelist = this.serverList;
-    },
+    }
   },
 
   methods: {
@@ -131,8 +131,8 @@ export default {
 
     onProceed() {
       // Check if the whole form was filled
-    },
-  },
+    }
+  }
 };
 </script>
 
