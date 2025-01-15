@@ -188,8 +188,8 @@ $c: ".c-base-modal-container";
   #{$c}__title {
     font-weight: $font-weight-bolder;
     font-size: ($font-size-page + 6px);
-    max-height: 9.5%;
-    min-height: 70px;
+    max-height: 110px;
+    min-height: 60px;
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
@@ -200,7 +200,6 @@ $c: ".c-base-modal-container";
 
   #{$c}__body {
     overflow: scroll;
-    max-height: 73%;
     padding-top: 35.5px;
     padding-bottom: 26.5px;
     border-block: 1px solid $color-border-primary;
@@ -213,7 +212,7 @@ $c: ".c-base-modal-container";
     align-items: center;
     justify-content: flex-end;
     padding-right: 48px;
-    height: 9%;
+    height: 100px;
     min-height: 70px;
 
     &--extra-button {
