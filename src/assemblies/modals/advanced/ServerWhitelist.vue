@@ -60,15 +60,15 @@ base-modal(
           @click="onAddNewDomain"
           class="a-server-whitelist__button"
           size="medium"
+          tint="purple"
         )
           p
-            | Add
+            | Add domain
 
         base-button(
           @click="toggleButtonLabel"
           class="a-server-whitelist__button"
           size="medium"
-          tint="red"
         )
           p
             | Cancel
@@ -98,7 +98,7 @@ export default {
     }
   },
 
-  emits: ["close"],
+  emits: ["close", "showSuccess"],
 
   data() {
     return {
@@ -147,6 +147,9 @@ export default {
     onProceed() {
       if (this.serverList !== this.whitelist) {
         store.$settingsNetwork.updateServerWhitelist(this.whitelist);
+
+        //Make success Notitification Visible
+        this.$emit("showSuccess");
       }
 
       this.onClose();

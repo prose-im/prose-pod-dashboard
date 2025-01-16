@@ -49,7 +49,7 @@ export default {
     }
   },
 
-  emits: ["close"],
+  emits: ["close", "showSuccess"],
 
   data() {
     return {
@@ -79,8 +79,12 @@ export default {
 
       store.$customizationWorkspace.updateWorkspaceName(this.newName);
 
+      // Reinitialize variables + close modal
       this.newName = "";
       this.$emit("close");
+
+      //Make success Notitification Visible
+      this.$emit("showSuccess");
     },
 
     onClose() {
