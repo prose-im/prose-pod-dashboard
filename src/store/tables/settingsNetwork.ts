@@ -162,11 +162,9 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     async updateServerWhitelist(newWhitelist: string[]) {
-      const response = (
-        await APIAdvancedNetwork.updateServerFederationWhitelist(newWhitelist)
-      ).data;
-
-      console.log("updated whitelist res", response);
+      const response = await APIAdvancedNetwork.updateServerFederationWhitelist(
+        newWhitelist
+      );
 
       this.$patch(() => {
         this.federation.whitelist = [...response.federation_friendly_servers];

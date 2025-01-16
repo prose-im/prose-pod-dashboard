@@ -75,15 +75,20 @@ class APIAdvancedNetwork {
       .data;
   }
 
-  async updateServerFederationWhitelist(newWhitelist: string[]): Promise<ServerConfigResponse> {
-    return await Api.client.put(`/server/config/federation-friendly-servers`, {
-      federation_friendly_servers: newWhitelist
-    });
+  async updateServerFederationWhitelist(
+    newWhitelist: string[]
+  ): Promise<ServerConfigResponse> {
+    return (
+      await Api.client.put(`/server/config/federation-friendly-servers`, {
+        federation_friendly_servers: newWhitelist
+      })
+    ).data;
   }
 
   async restoreServerFederationWhitelist(): Promise<ServerConfigResponse> {
-    return (await Api.client.put(`/server/config/federation-friendly-servers/reset`))
-      .data;
+    return (
+      await Api.client.put(`/server/config/federation-friendly-servers/reset`)
+    ).data;
   }
 
   /**  DNS RECORDS  **/
