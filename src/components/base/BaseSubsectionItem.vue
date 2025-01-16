@@ -162,14 +162,8 @@ div(
        ********************************************************************** -->
 
 <script lang="ts">
-import ResetModal from "@/assemblies/modals/ResetModal.vue";
-
 export default {
   name: "BaseSubsectionItem",
-
-  components: {
-    ResetModal
-  },
 
   props: {
     modelValue: {
