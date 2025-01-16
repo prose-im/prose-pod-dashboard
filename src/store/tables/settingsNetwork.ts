@@ -137,10 +137,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       const response = store.$globalConfig.getGlobalConfig();
 
       this.$patch(() => {
-        this.federation.whitelist = [
-          "Allowed",
-          ...response.federation_friendly_servers
-        ];
+        this.federation.whitelist = [...response.federation_friendly_servers];
         this.federation.federationEnabled = response.federation_enabled;
       });
     },
@@ -164,15 +161,16 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       });
     },
 
-    async updateServerWhitelist(newWhitelist: string[]){
-      const response =
-        (await APIAdvancedNetwork.updateServerFederationWhitelist(newWhitelist)).data;
+    async updateServerWhitelist(newWhitelist: string[]) {
+      const response = (
+        await APIAdvancedNetwork.updateServerFederationWhitelist(newWhitelist)
+      ).data;
 
-        console.log('updated whitelist res', response)
+      console.log("updated whitelist res", response);
 
-        this.$patch(() => {
-          this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
-        });
+      this.$patch(() => {
+        this.federation.whitelist = [...response.federation_friendly_servers];
+      });
     },
 
     async restoreFederationWhitelist() {
@@ -180,7 +178,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         await APIAdvancedNetwork.restoreServerFederationWhitelist();
 
       this.$patch(() => {
-        this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
+        this.federation.whitelist = [...response.federation_friendly_servers];
       });
     },
 

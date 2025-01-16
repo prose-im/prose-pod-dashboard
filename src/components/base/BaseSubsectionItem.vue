@@ -55,17 +55,23 @@ div(
       v-if="item.tags"
     )
       p
-        | {{ item.tags[0] + ': ' }}
+        | {{ item.firstTag + " : "}}
 
       p(
+        v-if="noTags"
+      )
+        | &nbsp;None
+
+      p(
+        v-else
         v-for="(tag, index) in item.tags"
         class="c-base-subsection-item__taglist"
       )
         p
-          | {{ item.tags[index + 1] }}
+          | {{ item.tags[index] }}
 
         p.c-base-subsection-item--grey
-          | {{ (index<item.tags.length-2) ? ',' : '' }}
+          | {{ (index<item.tags.length-1) ? ',' : '' }}
 
   .c-base-subsection-item__right
     <!-- OPTIONAL ELEMENT -->
@@ -232,6 +238,10 @@ export default {
           return "white";
         }
       }
+    },
+
+    noTags() {
+      return !(this.item.tags.length > 0);
     }
   },
 

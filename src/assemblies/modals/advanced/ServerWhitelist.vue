@@ -24,7 +24,7 @@ base-modal(
         | Currently approved servers:
 
       p(
-        v-if="whitelist.length === 1"
+        v-if="whitelist.length === 0"
       )
         | No server approved
         
@@ -32,7 +32,7 @@ base-modal(
         v-else
         v-for="(server, index) in whitelist"
       )
-        | {{ index !== 0 ? server : ""}}
+        | {{ server }}
 
     .a-server-whitelist__add
       base-modal-input-block(
@@ -89,13 +89,13 @@ export default {
   props: {
     serverList: {
       type: Array as PropType<string[]>,
-      default: () => [],
+      default: () => []
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close"],
@@ -108,7 +108,7 @@ export default {
 
       newDomain: "",
 
-      whitelist: [] as string[],
+      whitelist: [] as string[]
     };
   },
 
@@ -146,15 +146,12 @@ export default {
 
     onProceed() {
       if (this.serverList !== this.whitelist) {
-        const newWhitelist = [...this.whitelist];
-        newWhitelist.shift();
-
-        store.$settingsNetwork.updateServerWhitelist(newWhitelist);
+        store.$settingsNetwork.updateServerWhitelist(this.whitelist);
       }
 
       this.onClose();
-    },
-  },
+    }
+  }
 };
 </script>
 
