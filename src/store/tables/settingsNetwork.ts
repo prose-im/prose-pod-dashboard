@@ -80,6 +80,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
   },
 
   getters: {
+    //** SERVER FEDERATION */
+
     getFederationConfig(): object {
       return this.federation;
     },
@@ -88,11 +90,15 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       return this.federation.whitelist;
     },
 
+    //** DNS INSTRUCTIONS*/
+
     getDnsInstructions: function () {
       return () => {
         return this.dnsInstructions;
       };
     },
+
+    //** CONFIG CHECKS*/
 
     getDnsCheck: function () {
       return () => {
@@ -155,6 +161,26 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
       this.$patch(() => {
         this.federation.federationEnabled = response.federation_enabled;
+      });
+    },
+
+    async updateServerWhitelist(newWhitelist: string[]){
+      const response =
+        (await APIAdvancedNetwork.updateServerFederationWhitelist(newWhitelist)).data;
+
+        console.log('updated whitelist res', response)
+
+        this.$patch(() => {
+          this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
+        });
+    },
+
+    async restoreFederationWhitelist() {
+      const response =
+        await APIAdvancedNetwork.restoreServerFederationWhitelist();
+
+      this.$patch(() => {
+        this.federation.whitelist = ["Allowed", ...response.federation_friendly_servers];
       });
     },
 

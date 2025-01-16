@@ -20,11 +20,21 @@ base-modal(
 )
   .a-server-whitelist
     .a-server-whitelist__top
-      p(
-        v-for="server in whitelist"
-      )
-        | {{ server }}
+      h3
+        | Currently approved servers:
 
+      p(
+        v-if="whitelist.length === 1"
+      )
+        | No server approved
+        
+      p(
+        v-else
+        v-for="(server, index) in whitelist"
+      )
+        | {{ index !== 0 ? server : ""}}
+
+    .a-server-whitelist__add
       base-modal-input-block(
         v-if="addingDomain"
         v-model="newDomain"
@@ -47,7 +57,7 @@ base-modal(
         v-else
       )
         base-button(
-          @click="onNewDomainEntered"
+          @click="onAddNewDomain"
           class="a-server-whitelist__button"
           size="medium"
         )
@@ -79,13 +89,13 @@ export default {
   props: {
     serverList: {
       type: Array as PropType<string[]>,
-      default: () => []
+      default: () => [],
     },
 
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close"],
@@ -98,17 +108,11 @@ export default {
 
       newDomain: "",
 
-      whitelist: [] as string[]
+      whitelist: [] as string[],
     };
   },
 
   computed: {},
-
-  watch: {
-    serverList() {
-      this.whitelist = this.serverList;
-    }
-  },
 
   methods: {
     // --> HELPERS <--
@@ -118,21 +122,39 @@ export default {
     },
 
     // --> EVENT LISTENER <--
-    onNewDomainEntered() {
+    onAddNewDomain() {
       this.whitelist.push(this.newDomain);
 
       this.addingDomain = false;
       this.newDomain = "";
     },
 
+    onClose() {
+      this.addingDomain = false;
+      this.newDomain = "";
+
+      this.$emit("close");
+    },
+
     onLoad() {
       store.$globalConfig.getGlobalConfig();
+
+      if (this.whitelist.length === 0) {
+        this.whitelist = [...this.serverList];
+      }
     },
 
     onProceed() {
-      // Check if the whole form was filled
-    }
-  }
+      if (this.serverList !== this.whitelist) {
+        const newWhitelist = [...this.whitelist];
+        newWhitelist.shift();
+
+        store.$settingsNetwork.updateServerWhitelist(newWhitelist);
+      }
+
+      this.onClose();
+    },
+  },
 };
 </script>
 
@@ -150,18 +172,21 @@ $c: ".a-server-whitelist";
   justify-content: space-between;
   margin-inline: 48px;
 
-  #{$c}__buttons {
-    display: flex;
+  #{$c}__top {
+    margin-block-end: 31px;
   }
 
-  #{$c}__disclaimer {
-    margin-top: 4px;
-    margin-bottom: 31px;
-  }
+  #{$c}__add {
+    p {
+      margin: 0;
+    }
 
-  #{$c}__confirm {
-    &--upper {
-      margin-bottom: 8px;
+    #{$c}__buttons {
+      display: flex;
+
+      #{$c}__button {
+        margin-inline-end: 15px;
+      }
     }
   }
 }
