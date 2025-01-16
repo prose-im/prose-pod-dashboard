@@ -203,8 +203,10 @@ const $teamMembers = defineStore("teamMembers", {
       await APITeamMembers.cancelInvitation(inviteId);
 
       this.$patch(() => {
-        this.invitedMembers = this.invitedMembers.filter((invitation)=> invitation.invitation_id !== Number(inviteId))
-      })
+        this.invitedMembers = this.invitedMembers.filter(
+          invitation => invitation.invitation_id !== Number(inviteId)
+        );
+      });
     }
   }
 });

@@ -45,7 +45,10 @@ export default {
       validator(x: string) {
         return [
           "pending",
-          "sucess",
+          "SUCCESS",
+          "VALID",
+          "OPEN",
+          "PARTIALLY_VALID",
           "warning",
           "INVALID",
           "CLOSED",
@@ -75,7 +78,9 @@ export default {
           break;
         }
 
-        case "sucess": {
+        case "SUCCESS":
+        case "OPEN":
+        case "VALID": {
           label = "Verified";
           break;
         }
@@ -86,10 +91,12 @@ export default {
           break;
         }
 
-        case "FAILURE": {
+        case "FAILURE":
+        case "PARTIALLY_VALID": {
           label = "Warning";
           break;
         }
+
         default: {
           break;
         }

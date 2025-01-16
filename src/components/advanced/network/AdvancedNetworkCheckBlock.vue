@@ -20,8 +20,8 @@
             "c-advanced-network-check-block__subtitle",
             {
               "c-advanced-network-check-block--blue": status === 'pending',
-              "c-advanced-network-check-block--green": status === 'sucess',
-              "c-advanced-network-check-block--orange": status === 'FAILURE',
+              "c-advanced-network-check-block--green": status === 'SUCCESS' || status === 'VALID' || status === 'OPEN',
+              "c-advanced-network-check-block--orange": status === 'FAILURE' || status === 'PARTIALLY_VALID',
               "c-advanced-network-check-block--red": status === 'INVALID' || status === 'CLOSED',
 
             }
@@ -79,12 +79,19 @@ export default {
   props: {
     status: {
       type: String,
-      default: "sucess",
+      default: "SUCCESS",
 
       validator(x: string) {
-        return ["sucess", "pending", "INVALID", "CLOSED", "FAILURE"].includes(
-          x
-        );
+        return [
+          "VALID",
+          "OPEN",
+          "SUCCESS",
+          "pending",
+          "PARTIALLY_VALID",
+          "INVALID",
+          "CLOSED",
+          "FAILURE"
+        ].includes(x);
       }
     },
 
@@ -139,7 +146,9 @@ export default {
           break;
         }
 
-        case "sucess": {
+        case "SUCCESS":
+        case "VALID":
+        case "OPEN": {
           result = isString ? "green" : "#05c02b";
           break;
         }
@@ -150,7 +159,8 @@ export default {
           break;
         }
 
-        case "FAILURE": {
+        case "FAILURE":
+        case "PARTIALLY_VALID": {
           result = isString ? "orange" : "#fc8227";
           break;
         }
@@ -167,7 +177,9 @@ export default {
           break;
         }
 
-        case "sucess": {
+        case "SUCCESS":
+        case "VALID":
+        case "OPEN": {
           result = "checkmark.circle.fill";
           break;
         }
@@ -178,7 +190,8 @@ export default {
           break;
         }
 
-        case "FAILURE": {
+        case "FAILURE":
+        case "PARTIALLY_VALID": {
           result = "exclamationmark.circle.fill";
           break;
         }
@@ -194,7 +207,9 @@ export default {
           return "Pending";
         }
 
-        case "sucess": {
+        case "SUCCESS":
+        case "VALID":
+        case "OPEN": {
           if (this.label === "dns") {
             return "Record is valid";
           } else if (this.label === "tcp") {
@@ -206,6 +221,10 @@ export default {
 
         case "INVALID": {
           return "Record is not valid";
+        }
+
+        case "PARTIALLY_VALID": {
+          return "Record is partially valid";
         }
 
         case "CLOSED": {

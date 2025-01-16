@@ -137,11 +137,15 @@ export default {
       } else if (this.states[`${block}Loaded`]) {
         // Block check is done => check if all the checks in the block are OK
         for (let i = 0; i < checkList.length; i++) {
-          if (checkList[i].status !== "sucess") {
+          if (
+            checkList[i].status !== "SUCCESS" ||
+            checkList[i].status !== "OPEN" ||
+            checkList[i].status !== "VALID"
+          ) {
             checkListStatus = checkList[i].status;
             break;
           } else {
-            checkListStatus = "sucess";
+            checkListStatus = "SUCESS";
           }
         }
       } else {
