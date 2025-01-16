@@ -67,7 +67,7 @@ export default {
   components: {
     ConfigurationChecker,
     DnsSetup,
-    ServerWhitelist,
+    ServerWhitelist
   },
 
   data() {
@@ -92,7 +92,7 @@ export default {
           restoreAction: this.onRestoreFederationEnabled,
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
-          type: "toggle",
+          type: "toggle"
         },
         {
           subtitle: "Friendly servers whitelist",
@@ -100,13 +100,14 @@ export default {
           restoreAction: this.onRestoreFederationWhitelist,
           description:
             "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
-          tags: [], //["Allowed", "prose.org", "clever-cloud.com", "bb.agency"],
+          firstTag: "Allowed",
+          tags: [],
           type: "button",
           action: this.onShowServerWhitelist,
           typeProps: {
-            label: "Edit servers...",
-          },
-        },
+            label: "Edit servers..."
+          }
+        }
       ],
 
       toolsItems: [
@@ -118,8 +119,8 @@ export default {
           action: this.onShowDnsInstructions,
           typeProps: {
             label: "Show DNS instructions...",
-            size: "mid-medium",
-          },
+            size: "mid-medium"
+          }
         },
 
         {
@@ -148,7 +149,7 @@ export default {
 
     whitelist() {
       return store.$settingsNetwork.getServerWhitelist;
-    },
+    }
   },
 
   watch: {
@@ -166,7 +167,7 @@ export default {
 
     whitelist(newValue) {
       this.federationItems[1]["tags"] = newValue;
-    },
+    }
   },
 
   mounted() {
@@ -211,7 +212,7 @@ export default {
     onGlobalRestore() {
       this.onRestoreFederationEnabled();
       this.onRestoreFederationWhitelist();
-    },
-  },
+    }
+  }
 };
 </script>

@@ -12,18 +12,18 @@
 .v-app-advanced-security
   base-subsection(
     v-model="config.security"
+    @update="onSecurityUpdate"
     title="Account Security"
     :items="accountItems"
-    @update="onSecurityUpdate"
   )
 
   base-subsection(
     v-model="config.encryption"
+    @update="onEncryptionUpdate"
     title="Network Encryption"
     :items="networkItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
-    @update="onEncryptionUpdate"
   )
 </template>
 
