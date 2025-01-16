@@ -13,10 +13,12 @@
   base-subsection(
     v-model="config"
     @update="onFederationUpdate"
+    ref="federationSubsection"
     title="Server Federation" 
     :items="federationItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
+    :restore-description="restoreDescription"
   )
 
   base-subsection(
@@ -43,6 +45,7 @@ configuration-checker(
 server-whitelist(
   v-if="isServerWhitelistModalVisible"
   @close="toggleServerWhitelistModalVisible"
+  @showSuccess="onShowSuccess"
   :server-list="whitelist"
   :visibility="serverWhitelistModalVisibility"
 )
@@ -57,6 +60,7 @@ server-whitelist(
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
 import ServerWhitelist from "@/assemblies/modals/advanced/ServerWhitelist.vue";
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // STORE
 import store from "@/store";
@@ -84,6 +88,10 @@ export default {
       networkCheckModalVisibility: false,
 
       whitelistTags: [] as string[],
+
+      restoreText: `Are you sure you want to reset the whole network setup configuration?`,
+
+      restoreDescription: `This action will reset the authorization for other servers to connect with this server and your server whitelist`,
 
       federationItems: [
         {
@@ -212,6 +220,13 @@ export default {
     onGlobalRestore() {
       this.onRestoreFederationEnabled();
       this.onRestoreFederationWhitelist();
+    },
+
+    onShowSuccess() {
+      console.log("show success");
+      (
+        this.$refs.federationSubsection as InstanceType<typeof BaseSubsection>
+      ).makeNotificationVisible();
     }
   }
 };

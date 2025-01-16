@@ -30,7 +30,7 @@
           "c-base-subsection__restore--disabled": isRestoreDisabled
         }
       ]`
-      @click="restoreAction"
+      @click="toggleResetModal"
     )
       base-icon(
         class="c-base-subsection__restore--icon"
@@ -45,16 +45,35 @@
   base-subsection-item(
     v-for="(item, index) in items"
     v-model="myVal[index]"
-    class="c-base-subsection__list"
+    @click="item.action"
+    @update="updateValue"
+    @showSucess="makeNotificationVisible"
     :key="item.subtitle"
     :item="item"
     :type="item.type"
     :color="item.color?item.color:'bw'"
     :index="index"
-    @click="item.action"
-    @update="updateValue"
+
   )
 
+  <!-- MODALS -->
+  base-modal(
+    v-if="isResetModalVisible"
+    @close="onClose"
+    @confirm="onProceed"
+    :visible="resetModalVisibility"
+    position="center"
+    :title="restoreTitle"
+    button-color="red"
+    :button-label="restoreButton"
+  )
+    .c-base-subsection__modal
+      h4 
+        | {{ restoreText }}
+
+      p 
+        | {{ restoreDescription }}
+        
   <!-- Tooltip Notification -->
   transition(
     enter-active-class="u-animate u-animate--scale-up u-animate--fast"
@@ -64,6 +83,7 @@
       v-if="isNotificationVisible"
     )
 </template>
+<!-- class="c-base-subsection__list" -->
 
 <!-- **********************************************************************
      SCRIPT
@@ -111,6 +131,11 @@ export default {
       }
     },
 
+    restoreDescription: {
+      type: String,
+      default: ""
+    },
+
     sup: {
       type: String,
       default: null
@@ -138,7 +163,10 @@ export default {
 
   data() {
     return {
-      isNotificationVisible: false
+      isNotificationVisible: false,
+
+      isResetModalVisible: false,
+      resetModalVisibility: false
     };
   },
 
@@ -159,6 +187,28 @@ export default {
       });
 
       return result;
+    },
+
+    restoreTitle() {
+      return "Restore " + this.title;
+    },
+
+    restoreText() {
+      return (
+        "Are you sure you want to reset the whole " +
+        this.title +
+        " configuration?"
+      );
+    },
+
+    restoreButton() {
+      return "Reset " + this.title.toLowerCase() + " configuration";
+    }
+  },
+
+  watch: {
+    isResetModalVisible(newValue) {
+      setTimeout(() => (this.resetModalVisibility = newValue), 10);
     }
   },
 
@@ -196,8 +246,7 @@ export default {
       }
     },
 
-    makeNotificationVisibile() {
-      console.log("ho ho ho");
+    makeNotificationVisible() {
       if (this.isNotificationVisible === false) {
         this.isNotificationVisible = true;
 
@@ -205,6 +254,23 @@ export default {
           this.isNotificationVisible = false;
         }, 3000);
       }
+    },
+
+    toggleResetModal() {
+      this.isResetModalVisible = !this.isResetModalVisible;
+    },
+
+    // EVENT LISTENERS
+    onProceed() {
+      this.restoreAction();
+
+      this.toggleResetModal();
+
+      this.makeNotificationVisible();
+    },
+
+    onClose() {
+      this.toggleResetModal();
     }
   }
 };
@@ -219,8 +285,7 @@ $c: ".c-base-subsection";
 
 #{$c} {
   margin-top: 34.5px;
-  margin-left: 38px;
-  margin-right: 39px;
+  margin-inline: 38px;
 
   #{$c}__title {
     display: flex;
@@ -302,6 +367,18 @@ $c: ".c-base-subsection";
 
   @media (max-width: 768px) {
     margin-inline: 10px;
+  }
+}
+
+#{$c}__modal {
+  text-align: justify;
+
+  h4 {
+    margin-block: 0 20px;
+  }
+
+  p {
+    margin: 0 !important;
   }
 }
 </style>

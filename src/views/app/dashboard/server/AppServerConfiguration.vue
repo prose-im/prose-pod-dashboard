@@ -16,7 +16,8 @@
     title="Messaging"
     :items="messagingItems"
     :restore-option="true"
-    :restore-action="onGlobalRestore"
+    :restore-action="onMessagingRestore"
+    :restore-description="restoreMessagingDescription"
   )
 
   base-subsection(
@@ -24,6 +25,9 @@
     @update="onFileUpdate"
     title="Files"
     :items="filesItems"
+    :restore-option="true"
+    :restore-action="onFileRestore"
+    :restore-description="restoreFilesDescription"
   )
 </template>
 
@@ -53,6 +57,9 @@ export default {
   data() {
     return {
       // --> STATE <--
+      restoreMessagingDescription: `This action will reset the archiving of messages and retention time parameters`,
+
+      restoreFilesDescription: `This action will reset the file upload & share persmissions and the file storage encryption and retention time`,
 
       messagingItems: [
         {
@@ -210,8 +217,11 @@ export default {
       }
     },
 
-    onGlobalRestore() {
+    onMessagingRestore() {
       store.$serverConfiguration.restoreMessagingConfig();
+    },
+
+    onFileRestore() {
       store.$serverConfiguration.restoreFileConfig();
     },
 
