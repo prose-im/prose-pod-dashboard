@@ -32,7 +32,7 @@ div(
             "c-base-subsection-item__subtitle--restore--disabled": item.restoreSubtitle && item.disabled,
           }
         ]`
-        @click="onSubtitleClick"
+        @click="onSubtitleRestoreClick"
       )
         | {{ item.subtitle }}
 
@@ -141,6 +141,20 @@ div(
         position="bottom"
         @update:modelValue="onUpdateExtraSelect"
       )
+
+      <!-- MODALS -->
+      base-modal(
+        v-if="isResetModalVisible"
+        @close="onClose"
+        @confirm="onProceed"
+        :visible="resetModalVisibility"
+        position="center"
+        :title="restoreTitle"
+        button-color="red"
+        button-label="Reset now"
+      )
+        p
+          | {{ restoreText }}
 </template>
 
 <!-- **********************************************************************
@@ -148,8 +162,14 @@ div(
        ********************************************************************** -->
 
 <script lang="ts">
+import ResetModal from "@/assemblies/modals/ResetModal.vue";
+
 export default {
   name: "BaseSubsectionItem",
+
+  components: {
+    ResetModal
+  },
 
   props: {
     modelValue: {
@@ -191,7 +211,7 @@ export default {
     }
   },
 
-  emits: ["update", "click"],
+  emits: ["update", "click", "showSucess"],
 
   data() {
     return {
@@ -200,7 +220,10 @@ export default {
 
       stateSecondSelect: null as string | null,
 
-      colorSquare: null as string | null
+      colorSquare: null as string | null,
+
+      isResetModalVisible: false,
+      resetModalVisibility: false
     };
   },
 
@@ -242,6 +265,22 @@ export default {
 
     noTags() {
       return !(this.item.tags.length > 0);
+    },
+
+    restoreTitle() {
+      return "Restore defaults?";
+    },
+
+    restoreText() {
+      return (
+        'Are you sure you want to reset the "' +
+        this.item.subtitle.toLowerCase() +
+        '" parameter?'
+      );
+    },
+
+    restoreButton() {
+      return "Reset " + this.item.subtitle.toLowerCase() + " configuration";
     }
   },
 
@@ -257,6 +296,10 @@ export default {
           this.changeSecondSelectState(valueArray);
         }
       }
+    },
+
+    isResetModalVisible(newValue) {
+      setTimeout(() => (this.resetModalVisibility = newValue), 10);
     }
   },
 
@@ -274,10 +317,10 @@ export default {
       this.$emit("update", newValue, this.index, 1);
     },
 
-    onSubtitleClick() {
-      this.item.restoreSubtitle && this.item.restoreAction
-        ? this.item.restoreAction()
-        : "";
+    onSubtitleRestoreClick() {
+      if (this.item.restoreSubtitle && this.item.restoreAction) {
+        this.toggleResetModalVisible();
+      }
     },
 
     // --> HELPERS <--
@@ -293,6 +336,20 @@ export default {
     changeSecondSelectState(array: string[]) {
       console.log(array);
       this.stateSecondSelect = array[1];
+    },
+
+    toggleResetModalVisible() {
+      this.isResetModalVisible = !this.isResetModalVisible;
+    },
+
+    onClose() {
+      this.toggleResetModalVisible();
+    },
+
+    onProceed() {
+      this.item.restoreAction();
+      this.toggleResetModalVisible();
+      this.$emit("showSucess");
     }
   }
 };

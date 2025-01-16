@@ -90,7 +90,7 @@ export default {
           description:
             "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
           type: "doubleSelect",
-          disabled: false,
+          disabled: true,
           typeProps: {
             options: [
               {
@@ -122,7 +122,7 @@ export default {
           description:
             "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
-          disabled: false,
+          disabled: true,
           typeProps: {
             options: [
               {
@@ -171,7 +171,7 @@ export default {
           description:
             "This will erase all data on your Pod (all settings and all user data), essentially performing a factory reset. It then imports everything back again from an automated or manual backup.",
           type: "button",
-          // disabled: true,
+          disabled: true,
           action: this.toggleRestoreModalVisible,
           typeProps: {
             label: "Restore from backup…",

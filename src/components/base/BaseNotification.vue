@@ -71,7 +71,7 @@ $c: ".c-base-notification";
   display: flex;
   align-items: center;
   top: 5%;
-  right: 2%;
+  right: 15%;
   padding-right: 10px;
   font-size: $font-size-baseline;
 

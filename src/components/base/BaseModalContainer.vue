@@ -239,6 +239,7 @@ $c: ".c-base-modal-container";
     #{$c}__body {
       overflow: initial;
       padding-block: 35.5px;
+      padding-inline: 48px;
     }
   }
 

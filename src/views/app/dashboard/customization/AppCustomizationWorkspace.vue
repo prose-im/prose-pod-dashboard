@@ -27,21 +27,22 @@
   <!-- Modals -->
   edit-name(
     v-if="isEditNameVisible"
-    :visibility="editNameVisibility"
     @close="toggleEditNameModalVisible"
+    @showSuccess="onShowSuccess"
+    :visibility="editNameVisibility"
   )
 
   edit-logo(
     v-if="isEditLogoVisible"
-    :visibility="editLogoVisibility"
     @close="toggleEditLogoModalVisible"
     @showSuccess="onShowSuccess"
+    :visibility="editLogoVisibility"
   )
 
   edit-detail-card(
     v-if="isEditDetailCardVisible"
-    :visibility="isEditDetailCardVisible"
     @close="toggleEditDetailCardModalVisible"
+    :visibility="isEditDetailCardVisible"
   )
 </template>
 
@@ -283,7 +284,7 @@ export default {
       console.log("ho ho ho success");
       (
         this.$refs.profileSubsection as InstanceType<typeof BaseSubsection>
-      ).makeNotificationVisibile();
+      ).makeNotificationVisible();
     }
   }
 };
