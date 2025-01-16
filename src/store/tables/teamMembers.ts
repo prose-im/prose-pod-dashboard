@@ -200,7 +200,11 @@ const $teamMembers = defineStore("teamMembers", {
     },
 
     async cancelInvitation(inviteId: string): Promise<void> {
-      return await APITeamMembers.cancelInvitation(inviteId);
+      await APITeamMembers.cancelInvitation(inviteId);
+
+      this.$patch(() => {
+        this.invitedMembers = this.invitedMembers.filter((invitation)=> invitation.invitation_id !== Number(inviteId))
+      })
     }
   }
 });
