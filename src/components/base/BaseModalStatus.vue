@@ -34,26 +34,18 @@
       ********************************************************************** -->
 
 <script lang="ts">
+import { CheckStatus } from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
+
 export default {
   name: "BaseModalStatus",
 
   props: {
     status: {
       type: String,
-      default: "pending",
+      default: "CHECKING",
 
       validator(x: string) {
-        return [
-          "pending",
-          "SUCCESS",
-          "VALID",
-          "OPEN",
-          "PARTIALLY_VALID",
-          "warning",
-          "INVALID",
-          "CLOSED",
-          "FAILURE"
-        ].includes(x);
+        return Object.values(CheckStatus).includes(x as CheckStatus);
       }
     },
 
@@ -72,27 +64,27 @@ export default {
     label() {
       let label = "";
 
-      switch (this.status) {
-        case "pending": {
+      switch (this.status as CheckStatus) {
+        case CheckStatus.CHECKING: {
           label = "Checking...";
           break;
         }
 
-        case "SUCCESS":
-        case "OPEN":
-        case "VALID": {
+        case CheckStatus.SUCCESS:
+        case CheckStatus.VALID:
+        case CheckStatus.OPEN: {
           label = "Verified";
           break;
         }
 
-        case "INVALID":
-        case "CLOSED": {
+        case CheckStatus.FAILURE:
+        case CheckStatus.INVALID:
+        case CheckStatus.CLOSED: {
           label = "Issue";
           break;
         }
 
-        case "FAILURE":
-        case "PARTIALLY_VALID": {
+        case CheckStatus.PARTIALLY_VALID: {
           label = "Warning";
           break;
         }

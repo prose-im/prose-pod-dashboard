@@ -11,6 +11,7 @@
 // PROJECT: API
 import Api from "@/api";
 import { ServerConfigResponse } from "./global";
+import { CheckStatus } from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 
 /**************************************************************************
  * INTERFACES
@@ -43,7 +44,7 @@ interface AllNetworkChecksResponse {
 
 export interface CheckData {
   description: string;
-  status: string;
+  status: CheckStatus;
 }
 
 interface CheckRecord {

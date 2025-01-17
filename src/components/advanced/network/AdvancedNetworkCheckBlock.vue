@@ -73,25 +73,19 @@
       ********************************************************************** -->
 
 <script lang="ts">
+import { CheckStatus } from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
+import { PropType } from "vue";
+
 export default {
   name: "AdvancedNetworkCheckBlock",
 
   props: {
     status: {
-      type: String,
-      default: "SUCCESS",
+      type: String as PropType<CheckStatus>,
+      default: "CHECKING",
 
       validator(x: string) {
-        return [
-          "VALID",
-          "OPEN",
-          "SUCCESS",
-          "pending",
-          "PARTIALLY_VALID",
-          "INVALID",
-          "CLOSED",
-          "FAILURE"
-        ].includes(x);
+        return Object.values(CheckStatus).includes(x as CheckStatus);
       }
     },
 
@@ -137,30 +131,30 @@ export default {
 
   methods: {
     // <-- HELPERS -->
-    colorCode(status: string, isString = false) {
+    colorCode(status: CheckStatus, isString = false) {
       let result = "";
 
       switch (status) {
-        case "pending": {
+        case CheckStatus.CHECKING: {
           result = isString ? "blue" : "#2490f0";
           break;
         }
 
-        case "SUCCESS":
-        case "VALID":
-        case "OPEN": {
+        case CheckStatus.SUCCESS:
+        case CheckStatus.VALID:
+        case CheckStatus.OPEN: {
           result = isString ? "green" : "#05c02b";
           break;
         }
 
-        case "INVALID":
-        case "CLOSED": {
+        case CheckStatus.FAILURE:
+        case CheckStatus.INVALID:
+        case CheckStatus.CLOSED: {
           result = isString ? "red" : "#dd2f2f";
           break;
         }
 
-        case "FAILURE":
-        case "PARTIALLY_VALID": {
+        case CheckStatus.PARTIALLY_VALID: {
           result = isString ? "orange" : "#fc8227";
           break;
         }
@@ -172,26 +166,26 @@ export default {
       let result = "";
 
       switch (status) {
-        case "pending": {
+        case CheckStatus.CHECKING: {
           result = "archive";
           break;
         }
 
-        case "SUCCESS":
-        case "VALID":
-        case "OPEN": {
+        case CheckStatus.SUCCESS:
+        case CheckStatus.VALID:
+        case CheckStatus.OPEN: {
           result = "checkmark.circle.fill";
           break;
         }
 
-        case "INVALID":
-        case "CLOSED": {
+        case CheckStatus.FAILURE:
+        case CheckStatus.INVALID:
+        case CheckStatus.CLOSED: {
           result = "exclamationmark.triangle.fill";
           break;
         }
 
-        case "FAILURE":
-        case "PARTIALLY_VALID": {
+        case CheckStatus.PARTIALLY_VALID: {
           result = "exclamationmark.circle.fill";
           break;
         }
@@ -203,36 +197,36 @@ export default {
 
     getStatusDisplay(status: string) {
       switch (status) {
-        case "pending": {
+        case CheckStatus.CHECKING: {
           return "Pending";
         }
 
-        case "SUCCESS":
-        case "VALID":
-        case "OPEN": {
-          if (this.label === "dns") {
-            return "Record is valid";
-          } else if (this.label === "tcp") {
-            return "Port is open";
-          } else {
-            return "Connectivity is OK";
-          }
+        case CheckStatus.SUCCESS: {
+          return "Connectivity is OK";
         }
 
-        case "INVALID": {
-          return "Record is not valid";
+        case CheckStatus.OPEN: {
+          return "Port is open";
         }
 
-        case "PARTIALLY_VALID": {
+        case CheckStatus.VALID: {
+          return "Record is valid";
+        }
+
+        case CheckStatus.PARTIALLY_VALID: {
           return "Record is partially valid";
         }
 
-        case "CLOSED": {
+        case CheckStatus.FAILURE: {
+          return "No address available";
+        }
+
+        case CheckStatus.CLOSED: {
           return "Port is closed";
         }
 
-        case "FAILURE": {
-          return "No address available";
+        case CheckStatus.INVALID: {
+          return "Record is not valid";
         }
       }
     }

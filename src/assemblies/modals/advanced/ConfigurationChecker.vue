@@ -62,10 +62,22 @@ enum Block {
   Port = "port"
 }
 
+export enum CheckStatus {
+  QUEUED = "QUEUED",
+  CHECKING = "CHECKING",
+  VALID = "VALID",
+  SUCCESS = "SUCCESS",
+  OPEN = "OPEN",
+  PARTIALLY_VALID = "PARTIALLY_VALID",
+  INVALID = "INVALID",
+  FAILURE = "FAILURE",
+  CLOSED = "CLOSED"
+}
+
 // INTERFACE
 interface CheckRow {
   description: string;
-  status: string;
+  status: CheckStatus;
 }
 
 // TYPES
@@ -129,11 +141,11 @@ export default {
     // --> HELPERS <--
     getGlobalStatus(block: Block, checkList: CheckList) {
       console.log("checklist", checkList);
-      let checkListStatus = "";
+      let checkListStatus = null as null | CheckStatus;
 
       if (this.states[`${block}Loading`]) {
         // Block check is still running ({dns/ ip/ port}Loading === true)
-        checkListStatus = "pending";
+        checkListStatus = CheckStatus.CHECKING;
       } else if (this.states[`${block}Loaded`]) {
         // Block check is done => check if all the checks in the block are OK
         for (let i = 0; i < checkList.length; i++) {
@@ -145,12 +157,12 @@ export default {
             checkListStatus = checkList[i].status;
             break;
           } else {
-            checkListStatus = "SUCESS";
+            checkListStatus = CheckStatus.SUCCESS;
           }
         }
       } else {
         // Block check failed
-        checkListStatus = "INVALID";
+        checkListStatus = CheckStatus.INVALID;
       }
 
       return checkListStatus;
