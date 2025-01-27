@@ -72,7 +72,13 @@
         | {{ restoreText }}
 
       p 
-        | {{ restoreDescription }}
+        | This action will reset the following parameters: 
+                
+      ul
+        li(
+          v-for="description in restoreDescription"
+        )
+          | {{ description}}
         
   <!-- Tooltip Notification -->
   transition(
@@ -132,8 +138,8 @@ export default {
     },
 
     restoreDescription: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     },
 
     sup: {
@@ -374,7 +380,7 @@ $c: ".c-base-subsection";
   text-align: justify;
 
   h4 {
-    margin-block: 0 20px;
+    margin-block: 0 40px;
   }
 
   p {

@@ -24,6 +24,7 @@
     :items="networkItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
+    :restore-description="restoreDescription"
   )
 </template>
 
@@ -50,6 +51,10 @@ export default {
   data() {
     return {
       // --> STATE <--
+
+      restoreDescription: [
+        "Minimum SSL/TLS version and cipher suite (encryption strength)"
+      ],
 
       accountItems: [
         {

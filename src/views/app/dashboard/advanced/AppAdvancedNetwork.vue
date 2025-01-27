@@ -89,9 +89,10 @@ export default {
 
       whitelistTags: [] as string[],
 
-      restoreText: `Are you sure you want to reset the whole network setup configuration?`,
-
-      restoreDescription: `This action will reset the authorization for other servers to connect with this server and your server whitelist`,
+      restoreDescription: [
+        "Authorizations for other servers to connect with this server",
+        "Your server whitelist"
+      ],
 
       federationItems: [
         {

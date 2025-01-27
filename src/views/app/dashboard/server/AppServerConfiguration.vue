@@ -57,9 +57,15 @@ export default {
   data() {
     return {
       // --> STATE <--
-      restoreMessagingDescription: `This action will reset the archiving of messages and retention time parameters`,
+      restoreMessagingDescription: [
+        `Allow message archiving`,
+        "Message archive retention time"
+      ],
 
-      restoreFilesDescription: `This action will reset the file upload & share persmissions and the file storage encryption and retention time`,
+      restoreFilesDescription: [
+        `File upload & share persmissions`,
+        "File storage encryption and retention time"
+      ],
 
       messagingItems: [
         {
