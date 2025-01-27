@@ -74,6 +74,7 @@ $c: ".c-base-notification";
   right: 15%;
   padding-right: 10px;
   font-size: $font-size-baseline;
+  color: $color-base-green-normal;
 
   #{$c}__icon {
     padding-left: 4px;
