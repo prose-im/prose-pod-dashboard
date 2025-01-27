@@ -79,26 +79,26 @@
 
     <!-- 5th column -->
     .c-members-invites-row__status
+        base-loader(
+          v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
+          width="50px"
+        )
+
         p(
-          v-if="!tableHeaders"
+          v-else-if="!tableHeaders"
           :class=`[
             "c-members-invites-row--main",
-            {
-              "c-members-invites-row--none" : userData.invitation_id
-            }
           ]`
         )
           | {{ userStatus }}
 
-        p(
-          v-if="!tableHeaders"
-          class="c-members-invites-row--submain"
-        )
-          |{{ userStatusDetail }}
-
+          .c-members-invites-row--submain
+            |{{ userStatusDetail }}
+        
         p(
           v-else
-        ) {{ tableHeaders[2] }}
+        ) 
+          | {{ tableHeaders[2] }}
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
