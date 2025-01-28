@@ -105,7 +105,11 @@ class Router {
             {
               path: "/customization/emojis",
               name: "app.customization.emojis",
-              component: AppCustomizationEmojis as object
+              component: AppCustomizationEmojis as object,
+              beforeEnter: (to, from) => {
+                // reject the navigation
+                return {path: from.path}
+              },
             },
 
             {
