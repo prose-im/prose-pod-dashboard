@@ -85,10 +85,10 @@ const $teamMembers = defineStore("teamMembers", {
 
         // Get enriched Members
         setTimeout(async () => {
-          const allMembers = await APITeamMembers.enrichMembers(jids);
-          this.enrichedMembers = allMembers;
+          const enrichedMembers = await APITeamMembers.enrichMembers(jids);
+          this.enrichedMembers = enrichedMembers;
 
-          console.log("enriched members", allMembers);
+          console.log("enriched members", this.enrichedMembers);
         }, 5000 * (Math.random() + 0.5));
 
         // Mark as loaded
@@ -108,12 +108,16 @@ const $teamMembers = defineStore("teamMembers", {
         return this.notEnrichedMembers.slice(startIndex, endIndex);
       } else if (typeof filter === "string") {
         /** Searching bar filter */
-        const memberArray = Object.values(this.enrichedMembers);
+        const enrichedMemberArray = Object.values(this.enrichedMembers);
 
         // Loop through all members
-        const response = memberArray.filter(member => {
+        const response = enrichedMemberArray.filter(member => {
+          // Get an array with only the values to be searched
+          const memberElements = Object.values(member);
+          memberElements.pop();
+
           // Loop through all the values of a member
-          const filteredMember = Object.values(member).filter(e => {
+          const filteredMember = memberElements.filter(e => {
             if (!e) {
               return;
             } else {
@@ -125,6 +129,12 @@ const $teamMembers = defineStore("teamMembers", {
         });
 
         return response;
+      }
+    },
+
+    loadMemberById(jid: string | null) {
+      if (jid) {
+        return APITeamMembers.getMemberById(jid);
       }
     },
 
