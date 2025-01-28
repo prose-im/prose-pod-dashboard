@@ -134,7 +134,7 @@ class APITeamMembers {
     ).data;
   }
 
-  async getMemberById(memberId: string): Promise<MemberByIdResponse> {
+  async getMemberById(memberId: string): Promise<EnrichedMember> {
     return (await Api.client.get(`/members/${memberId}`)).data;
   }
 
