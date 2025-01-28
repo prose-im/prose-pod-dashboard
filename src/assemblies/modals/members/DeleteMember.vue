@@ -95,18 +95,29 @@ export default {
       this.$emit("close");
     },
 
-    onProceed() {
-      store.$teamMembers.deleteMemberById(this.jid);
+    async onProceed() {
+      try {
+        await store.$teamMembers.deleteMemberById(this.jid);
 
-      store.$teamMembers.deleteMemberLocally(this.jid);
+        store.$teamMembers.deleteMemberLocally(this.jid);
 
-      // Close modal
-      this.$emit("close");
+        // Close modal
+        this.$emit("close");
 
-      BaseAlert.success(
-        "Succesfully removed",
-        `${this.jid} has been removed from the team`
-      );
+        BaseAlert.success(
+          "Succesfully removed",
+          `${this.jid} has been removed from the team`
+        );
+      } catch (e: any) {
+        if (e.response.data.message.includes("self-remove")) {
+          BaseAlert.error(
+            "You cannot remove yourself from the team",
+            "Please ask an admin to remove you"
+          );
+        } else {
+          BaseAlert.error("Something went wrong", e.response.data.message);
+        }
+      }
     }
   }
 };

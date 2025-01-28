@@ -124,20 +124,31 @@ export default {
     async onProceed() {
       // update only if Role has changed
       if (this.newRole && this.user.role !== this.newRole) {
-        await store.$teamMembers.updateRoleByMemberId(
-          this.user.jid,
-          this.newRole
-        );
+        try {
+          await store.$teamMembers.updateRoleByMemberId(
+            this.user.jid,
+            this.newRole
+          );
 
-        BaseAlert.success(
-          "Success",
-          `${this.user.jid} is now ${this.newRole.toLowerCase()}`
-        );
+          BaseAlert.success(
+            "Success",
+            `${this.user.jid} is now ${this.newRole.toLowerCase()}`
+          );
 
-        store.$teamMembers.updateRoleLocally(this.user.jid, this.newRole);
+          store.$teamMembers.updateRoleLocally(this.user.jid, this.newRole);
 
-        // Close modal
-        this.onClose();
+          // Close modal
+          this.onClose();
+        } catch (e: any) {
+          if (e.response.data.message.includes("own")) {
+            BaseAlert.error(
+              "You cannot change your own role",
+              "Please ask an admin to change your role"
+            );
+          } else {
+            BaseAlert.error(e.response.data.message);
+          }
+        }
       } else {
         // Close modal
         this.onClose();
