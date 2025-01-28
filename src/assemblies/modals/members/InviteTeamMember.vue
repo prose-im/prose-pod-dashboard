@@ -139,6 +139,8 @@ export default {
               "This username is already in use",
               "Please choose a different username"
             );
+          } else {
+            BaseAlert.error("Something went wrong", error.message);
           }
         }
       }
