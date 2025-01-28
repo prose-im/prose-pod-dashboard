@@ -18,7 +18,11 @@
         :items="items"
       )
 
-    sidebar-footer
+    sidebar-footer(
+      :nickname="userData.nickname"
+      :admin="userData.role"
+      :avatar="userData.avatar"
+    )
 </template>
 
 <!-- **********************************************************************
@@ -30,6 +34,7 @@
 import SidebarAccordion from "@/components/sidebar/SidebarAccordion.vue";
 import SidebarFooter from "@/components/sidebar/SidebarFooter.vue";
 import SidebarHeader from "@/components/sidebar/SidebarHeader.vue";
+import store from "@/store";
 
 export default {
   name: "AppSidebar",
@@ -111,7 +116,11 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    userData() {
+      return store.$account.getUserSessionData();
+    }
+  },
 
   watch: {},
 
