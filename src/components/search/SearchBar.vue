@@ -24,6 +24,7 @@
           :placeholder="'Search for' + ' ' + placeholderText"
           align="left"
           class="c-search-bar__field"
+          :disabled="disabled"
         )
 
       .c-search-bar__right
@@ -57,6 +58,11 @@ export default {
     clickHandle: {
       type: Function,
       required: true
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false
     },
 
     placeholderText: {
