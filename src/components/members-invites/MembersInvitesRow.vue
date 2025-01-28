@@ -51,7 +51,9 @@
       )
         | {{ userEnrichedData?.nickname }}
 
-      p.c-members-invites-row--submain
+      p.c-members-invites-row--submain(
+        :title="userData.jid"
+      )
         | {{ userData.jid }}
 
       p(
@@ -134,6 +136,7 @@
     <!-- 7th column -->
     .c-members-invites-row__parameters
       base-button(
+        @click="onActionOnMember"
         :class=`[
           {
             "c-members-invites-row--hidden":tableHeaders
@@ -142,7 +145,7 @@
         size="medium"
         tint="white"
         :square="true"
-        @click="onActionOnMember"
+        :disabled="disabled"
       )
         base-icon(
           v-if="!userData.invitation_id"
@@ -188,6 +191,11 @@ export default {
     avatarUrl: {
       type: String,
       default: "../../assets/icons/missing.avatar.svg"
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false
     },
 
     userData: {
@@ -324,6 +332,7 @@ $c: ".c-members-invites-row";
     p {
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
