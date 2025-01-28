@@ -108,8 +108,8 @@ class Router {
               component: AppCustomizationEmojis as object,
               beforeEnter: (to, from) => {
                 // reject the navigation
-                return {path: from.path}
-              },
+                return { path: from.path };
+              }
             },
 
             {
