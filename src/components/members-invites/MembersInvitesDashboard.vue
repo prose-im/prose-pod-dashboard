@@ -14,9 +14,10 @@
     v-model="searchTerm"
     :button-label="label"
     :click-handle="toggleInviteModalVisible"
+    :disabled="searchBarDisabled"
     placeholder-text="team members..."
   )
-
+  
   .c-members-invites-dashboard__content
     <!-- HEADERS -->
     members-invites-row(
@@ -40,6 +41,7 @@
         :key="user.jid"
         :user-data="user"
         :user-enriched-data="enrichedMembers[user.jid]"
+        :disabled="menuActionDisabled"
         @menuAction="onMenuAction"
       )
 
@@ -88,6 +90,7 @@ import SearchBar from "@/components/search/SearchBar.vue";
 
 // PROJECT: STORE
 import store from "@/store";
+import { ROLES } from "@/api/providers/teamMembers";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -193,8 +196,16 @@ export default {
         : store.$teamMembers.getFilteredInviteList();
     },
 
+    searchBarDisabled() {
+      return Object.keys(this.enrichedMembers).length === 0;
+    },
+
     totalMemberNumber() {
       return this.allMembers.length;
+    },
+
+    menuActionDisabled() {
+      return store.$account.getUserRole() === ROLES.ADMIN ? false : true;
     }
   },
 
