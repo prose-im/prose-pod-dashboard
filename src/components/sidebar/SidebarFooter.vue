@@ -14,13 +14,16 @@
     .c-sidebar-footer__left
       .c-sidebar-footer__avatar
         base-avatar(
-          avatarDataUrl="https://avatars.githubusercontent.com/u/1451907?v=4"
+          :avatarDataUrl="avatar"
         )
 
       .c-sidebar-footer__center
-        p Valerian Saliou
+        p 
+          | {{ nickname }}
 
-        base-badge
+        base-badge(
+          :admin="admin"
+        )
 
     .c-sidebar-footer__right
       base-button(
@@ -44,6 +47,23 @@ import Store from "@/store";
 
 export default {
   name: "SidebarAccordion",
+
+  props: {
+    admin: {
+      type: String,
+      required: true
+    },
+
+    avatar: {
+      type: String,
+      required: true
+    },
+
+    nickname: {
+      type: String,
+      required: true
+    }
+  },
 
   methods: {
     // --> EVENT LISTENERS <--
