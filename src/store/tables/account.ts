@@ -45,7 +45,7 @@ const $account = defineStore("account", {
         token: null,
         jid: null,
         nickname: null,
-        role: null,
+        role: null as ROLES | null,
         avatar: null
       }
     };
@@ -69,10 +69,8 @@ const $account = defineStore("account", {
     },
 
     getUserRole: function () {
-      return () => {
-        return {
-          role: this.session.role
-        };
+      return (): ROLES | null => {
+        return this.session.role;
       };
     }
   },
