@@ -40,8 +40,6 @@ base-modal(
       description="Checks that your server has connection over all IP protocols."
       :checklist="ipCheckList"
     )
-
-    p {{ states }}
 </template>
 
 <!-- **********************************************************************

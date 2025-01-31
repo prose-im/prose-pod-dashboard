@@ -121,19 +121,6 @@ base-modal(
         p {{ record["weight"] }}
         p {{ record["port"] }}
         p {{ record["target"] }}
-
-    span.a-dns-setup--bold
-      | 👉 Need help?
-
-    base-space
-
-    span
-      | You can read the
-
-    base-space
-
-    a.a-dns-setup--link
-      | DNS setup guide here.
 </template>
 
 <!-- **********************************************************************
