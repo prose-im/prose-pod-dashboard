@@ -11,7 +11,9 @@
 <template lang="pug">
 .c-signup-page
   .c-signup-page__content
-    .c-signup-page__upper
+    .c-signup-page__upper(
+      v-if="currentStep !== 4"
+    )
       h3
         | 👋 Welcome to Prose!
 
@@ -59,6 +61,7 @@
         signup-form(
           v-if="currentStep === 3"
           v-model="organization.adminUsername"
+          @changeStep="updateStep('admin')"
           @updateSecondInput="onUpdateSecondInput"
           :secondary-input="organization.adminPassword"
           button-label="Create my account and Finish now"
@@ -92,6 +95,18 @@
       v-if="currentStep === 3"
       :tips="tipAdmin"
     )
+
+    .c-signup-page__success(
+      v-if="currentStep === 4"
+    )
+      h3
+        | Congratulations! 
+      br
+      p
+        | Your server has been setup
+      br
+      p
+        | You will be redirected to the login page
 
 </template>
 
@@ -217,6 +232,17 @@ export default {
               this.currentStep += 1;
             } else {
               BaseAlert.error("Please enter a name for your server");
+            }
+            break;
+          }
+          case "admin": {
+            if (
+              this.organization.adminUsername &&
+              this.organization.adminPassword
+            ) {
+              this.currentStep += 1;
+            } else {
+              BaseAlert.error("Please enter a valid email and password");
             }
             break;
           }
