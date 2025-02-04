@@ -171,6 +171,10 @@ $c: ".c-signup-form";
       #{$c}__button {
         margin-block-start: 20px;
         width: 100%;
+
+        &--content {
+          margin-inline-start: 32.5px;
+        }
       }
     }
   }
@@ -188,7 +192,6 @@ $c: ".c-signup-form";
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-inline-start: 32.5px;
     }
   }
 
