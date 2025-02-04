@@ -11,72 +11,107 @@
 <template lang="pug">
 .c-signup-page
   .c-signup-page__content
-    h3
-      | 👋 Welcome to Prose!
+    .c-signup-page__upper
+      h3
+        | 👋 Welcome to Prose!
 
-    p.c-signup-page__subtitle
-      | Let's get your server set up. It will take less than 5 minutes.
+      p.c-signup-page__subtitle
+        | Let's get your server set up. It will take less than 5 minutes.
 
-    transition(
-      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-    )
-      signup-form(
-        v-if="currentStep === 1"
-        v-model="organization.domain"
-        @changeStep="updateStep('domain')"
-        placeholder=" Ex: hello.com"
-        type="text"
+      transition(
+        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
       )
-        span
-          | First, what's your 
-        span.c-signup-page__bold 
-          | organization domain name
-        span
-          | ?
+        signup-form(
+          v-if="currentStep === 1"
+          v-model="organization.domain"
+          @changeStep="updateStep('domain')"
+          placeholder=" Ex: hello.com"
+        )
+          span
+            | First, what's your 
+          span.c-signup-page__bold 
+            | organization domain name
+          span
+            | ?
 
-    transition(
-      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-    )
-      signup-form(
-        v-if="currentStep === 2"
-        v-model="organization.server"
-        @changeStep="updateStep('server')"
-        placeholder=" Ex: MyCompanyName"
-        type="text"
+
+
+      transition(
+        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
       )
-        span 
-          | Now, give a 
-        span.c-signup-page__bold
-          | name to your server
-        span
-          | ! You will be able to customize all the rest later.
-         
-    transition(
-      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-    )
-      signup-form(
-        v-if="currentStep === 3"
-        v-model="organization.adminUsername"
-        @updateSecondInput="onUpdateSecondInput"
-        :secondary-input="organization.adminPassword"
-        button-label="Create my account and Finish now"
-        form-type="double"
-        placeholder="Email"
-        secondary-placeholder="Password"
-        type="email"
-        secondary-type="password"
+        signup-form(
+          v-if="currentStep === 2"
+          v-model="organization.server"
+          @changeStep="updateStep('server')"
+          placeholder=" Ex: MyCompanyName"
+        )
+          span 
+            | Now, give a 
+          span.c-signup-page__bold
+            | name to your server
+          span
+            | ! You will be able to customize all the rest later.
+           
+      transition(
+        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
       )
-        span
-          | Finish by creating your 
-        span.c-signup-page__bold
-          | administrator account
-        span
-          | . You'll be able to invite team members later."
+        signup-form(
+          v-if="currentStep === 3"
+          v-model="organization.adminUsername"
+          @updateSecondInput="onUpdateSecondInput"
+          :secondary-input="organization.adminPassword"
+          button-label="Create my account and Finish now"
+          form-type="double"
+          placeholder="Email"
+          secondary-placeholder="Password"
+          type="email"
+          secondary-type="password"
+        )
+          span
+            | Finish by creating your 
+          span.c-signup-page__bold
+            | administrator account
+          span
+            | . You'll be able to invite team members later."
+
+      p {{ organization }}
         
-    p {{ organization }}
+        
+    signup-tips(
+      v-if="currentStep === 1"
+    )
+      li
+        span 
+          | If your team members emails are 
+        span.c-signup-page__bold 
+          | name@company.com
+        span 
+          | , then enter 
+        span.c-signup-page__bold 
+          | company.com here
+        span 
+          | .
+        br
+        span 
+          | Prose can co-exist with your email and website 
+        span.c-signup-page__bold 
+          | on the same domain
+        span 
+          | .
+
+      li
+        span
+          | You will be able to setup required 
+        span.c-signup-page__bold 
+          | DNS records 
+        span
+          | once signed up.
+        br
+        span
+          | We will provide records to setup in your DNS manager.
 </template>
 
 <!-- **********************************************************************
@@ -86,12 +121,14 @@
 <script lang="ts">
 import BaseAlert from "../base/BaseAlert.vue";
 import SignupForm from "./SignupForm.vue";
+import SignupTips from "./SignupTips.vue";
 
 export default {
   name: "SignupPage",
 
   components: {
-    SignupForm
+    SignupForm,
+    SignupTips
   },
 
   props: {},
@@ -167,14 +204,22 @@ export default {
 $c: ".c-signup-page";
 
 #{$c} {
+  display: flex;
   margin-block-start: 120px;
   text-align: center;
   flex: 1 1 auto;
   overflow: hidden;
 
   #{$c}__content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: space-between;
+  }
+
+  #{$c}__upper {
     max-width: 560px;
-    margin: 0 auto;
   }
 
   h3 {
