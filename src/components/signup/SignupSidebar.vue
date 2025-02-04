@@ -27,11 +27,17 @@
         }
       ]`
     )
-      .c-signup-sidebar__icon-frame
+      .c-signup-sidebar__icon-frame(
+        :class=`[
+          {
+            "c-signup-sidebar__icon-frame--active" : index === step - 1
+          }
+        ]`
+      )
         base-icon(                 
           :name="item.icon"
           :fill="index === step - 1 ? '#000000' : '#49546299'"
-          size="12px"
+          size="20px"
         )
 
       .c-signup-sidebar__text
@@ -47,7 +53,7 @@
       base-icon(                 
         class="c-signup-sidebar__sucess-icon"
         name="checkmark.circle.empty"
-        size="12px"
+        size="20px"
         :fill="step === 4 ? '#05C02B' : '#49546299'"
       )
 
@@ -131,6 +137,11 @@ $c: ".c-signup-sidebar";
     box-sizing: border-box;
     text-align: center;
     margin-inline-end: 18px;
+
+    &--active {
+      height: 42px;
+      width: 42px;
+    }
   }
 
   #{$c}__title {
