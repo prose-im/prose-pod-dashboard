@@ -30,7 +30,7 @@
       .c-signup-sidebar__icon-frame
         base-icon(                 
           :name="item.icon"
-          fill="#05c02b"
+          :fill="index === step - 1 ? '#000000' : '#49546299'"
           size="12px"
         )
 
@@ -46,8 +46,9 @@
     )
       base-icon(                 
         class="c-signup-sidebar__sucess-icon"
-        name="checkmark.circle.fill"
+        name="checkmark.circle.empty"
         size="12px"
+        :fill="step === 4 ? '#05C02B' : '#49546299'"
       )
 
     .c-signup-sidebar__separator
