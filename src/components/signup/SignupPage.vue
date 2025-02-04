@@ -34,9 +34,7 @@
             | organization domain name
           span
             | ?
-
-
-
+            
       transition(
         enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
         leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
@@ -82,36 +80,19 @@
         
     signup-tips(
       v-if="currentStep === 1"
+      :tips="tipDomain"
     )
-      li
-        span 
-          | If your team members emails are 
-        span.c-signup-page__bold 
-          | name@company.com
-        span 
-          | , then enter 
-        span.c-signup-page__bold 
-          | company.com here
-        span 
-          | .
-        br
-        span 
-          | Prose can co-exist with your email and website 
-        span.c-signup-page__bold 
-          | on the same domain
-        span 
-          | .
 
-      li
-        span
-          | You will be able to setup required 
-        span.c-signup-page__bold 
-          | DNS records 
-        span
-          | once signed up.
-        br
-        span
-          | We will provide records to setup in your DNS manager.
+    signup-tips(
+      v-if="currentStep === 2"
+      :tips="tipServer"
+    )
+
+    signup-tips(
+      v-if="currentStep === 3"
+      :tips="tipAdmin"
+    )
+
 </template>
 
 <!-- **********************************************************************
@@ -145,6 +126,63 @@ export default {
         server: "",
         adminUsername: "",
         adminPassword: ""
+      },
+
+      tipDomain: {
+        1: [
+          ["If your team members emails are ", false],
+          ["name@company.com", true],
+          [", then enter ", false],
+          ["company.com here", true],
+          [".", false],
+          ["br"],
+          ["Prose can co-exist with your email and website ", false],
+          ["on the same domain", true]
+        ],
+        2: [
+          ["You will be able to setup required ", false],
+          ["DNS records ", true],
+          ["once signed up.", false],
+          ["br"],
+          ["      We will provide records to setup in your DNS manager.", false]
+        ]
+      },
+
+      tipServer: {
+        1: [
+          ["Your server name will be used on ", false],
+          ["Prose apps ", true],
+          ["to identify your workspace.", false],
+          ["br"],
+          ["It is recommended to use your ", false],
+          ["organization name", true],
+          [".", false]
+        ],
+        2: [
+          ["You will be able to setup required ", false],
+          ["DNS records ", true],
+          ["once signed up.", false],
+          ["br"],
+          ["      We will provide records to setup in your DNS manager.", false]
+        ]
+      },
+
+      tipAdmin: {
+        1: [
+          ["This account will be ", false],
+          ["the first Prose account", true],
+          [", usable for administration and Prose apps.", false],
+          ["br"],
+          [
+            "You will be able to customize your identity or modify your password then.",
+            false
+          ]
+        ],
+        2: [
+          ["You will be able to ", false],
+          ["invite more administrators ", true],
+          ["or other team members once signed up.", false]
+        ]
       }
     };
   },

@@ -23,7 +23,23 @@
         | Tips
 
   ol.c-signup-tips__list
-    slot
+    li(
+      v-for="tip in tips"
+    )
+      span(
+        v-for="sentence in tip"
+        :class=`[
+          {
+            "c-signup-tips__bold": sentence[1]
+          }
+        ]`
+      )
+        | {{ sentence[0] === 'br' ? '' : sentence[0]  }}
+
+        br(
+          v-if="sentence[0] === 'br'"
+        )
+
 </template>
 
 <!-- **********************************************************************
@@ -38,7 +54,7 @@ export default {
 
   props: {
     tips: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -95,17 +111,53 @@ $c: ".c-signup-tips";
   }
 
   #{$c}__list {
-    font-size: $font-size-baseline;
+    font-size: ($font-size-baseline + 2px);
     font-weight: $font-weight-light;
     line-height: ($font-size-baseline + 10px);
     text-align: left;
     padding-block-end: 64px;
+    padding-inline-start: 54px;
     margin: 0;
+    counter-reset: li;
 
     span {
       text-align: left;
       margin: 0;
     }
+
+    li {
+      list-style: none;
+      margin-block-end: 24px;
+    }
+
+    > li:before {
+      content: counter(li) "."; /* Use the counter as content */
+      counter-increment: li; /* Increment the counter by 1 */
+      /* Position and style the number */
+      position: absolute;
+      margin-block-start: -4px;
+      margin-inline-start: -26px;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 2em;
+      /* Some space between the number and the content in browsers that support
+         generated content but not positioning it (Camino 2 is one example) */
+      padding: 4px;
+      font-size: ($font-size-baseline + 2px);
+      font-weight: $font-weight-bolder;
+      font-family: $font-family-default;
+      text-align: center;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  //--> STYLE <--
+  #{$c}__bold {
+    font-weight: $font-weight-medium;
   }
 }
 </style>
