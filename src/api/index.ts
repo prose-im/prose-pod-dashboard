@@ -48,7 +48,7 @@ class API {
       },
       async function (error) {
         // Check if the error response status is 403 before logging out
-        if (error.response && error.response.status === 403) {
+        if (error.response && error.response.status === 401) {
           try {
             // Logout from account
             await store.$account.logout();
