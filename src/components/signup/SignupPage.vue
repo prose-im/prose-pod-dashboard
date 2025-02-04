@@ -17,20 +17,66 @@
     p.c-signup-page__subtitle
       | Let's get your server set up. It will take less than 5 minutes.
 
-    signup-form(
-      v-if="currentStep === 1"
-      label="First, what's your organization domain name?"
+    transition(
+      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
     )
+      signup-form(
+        v-if="currentStep === 1"
+        v-model="organization.domain"
+        @changeStep="updateStep('domain')"
+        placeholder=" Ex: hello.com"
+        type="text"
+      )
+        span
+          | First, what's your 
+        span.c-signup-page__bold 
+          | organization domain name
+        span
+          | ?
 
-    signup-form(
-      v-if="currentStep === 2"
-      label="Now, give a name to your server! You will be able to customize all the rest later."
+    transition(
+      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
     )
-
-    signup-form(
-      v-if="currentStep === 3"
-      label="Finish by creating your administrator account. You'll be able to invite team members later."
+      signup-form(
+        v-if="currentStep === 2"
+        v-model="organization.server"
+        @changeStep="updateStep('server')"
+        placeholder=" Ex: MyCompanyName"
+        type="text"
+      )
+        span 
+          | Now, give a 
+        span.c-signup-page__bold
+          | name to your server
+        span
+          | ! You will be able to customize all the rest later.
+         
+    transition(
+      enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+      leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
     )
+      signup-form(
+        v-if="currentStep === 3"
+        v-model="organization.adminUsername"
+        @updateSecondInput="onUpdateSecondInput"
+        :secondary-input="organization.adminPassword"
+        button-label="Create my account and Finish now"
+        form-type="double"
+        placeholder="Email"
+        secondary-placeholder="Password"
+        type="email"
+        secondary-type="password"
+      )
+        span
+          | Finish by creating your 
+        span.c-signup-page__bold
+          | administrator account
+        span
+          | . You'll be able to invite team members later."
+        
+    p {{ organization }}
 </template>
 
 <!-- **********************************************************************
@@ -38,13 +84,14 @@
        ********************************************************************** -->
 
 <script lang="ts">
+import BaseAlert from "../base/BaseAlert.vue";
 import SignupForm from "./SignupForm.vue";
 
 export default {
   name: "SignupPage",
 
   components: {
-    SignupForm
+    SignupForm,
   },
 
   props: {},
@@ -52,69 +99,61 @@ export default {
   data() {
     return {
       // --> STATE <--
-      currentStep: 1
+      currentStep: 1,
+
+      organization: {
+        domain: "",
+        server: "",
+        adminUsername: "",
+        adminPassword: "",
+      },
     };
   },
 
-  computed: {
-    activeCategory: {
-      get() {
-        if (!this.currentStep) {
-          const route = this.$route;
-          let activeCategory = "";
+  computed: {},
 
-          switch (route.path) {
-            case "/team/members": {
-              activeCategory = "Members & Invites";
-              break;
-            }
+  watch: {
+    // organization() {
+    //   if (this.organization.domain) {
+    //     this.currentStep = 2;
+    //   } else if (this.organization.server) {
+    //     this.currentStep = 3;
+    //   }
+    // },
+  },
 
-            case "/server/configuration": {
-              activeCategory = "Configuration";
-              break;
+  methods: {
+    /// HELPERS
+    updateStep(stepName: string) {
+      if (this.currentStep < 4) {
+        switch (stepName) {
+          case "domain": {
+            if (this.organization.domain) {
+              this.currentStep += 1;
+            } else {
+              BaseAlert.error("Please enter a domain name");
             }
-
-            case "/customization/workspace": {
-              activeCategory = "Workspace";
-              break;
-            }
-
-            case "/customization/emojis": {
-              activeCategory = "Emojis & Reactions";
-              break;
-            }
-
-            case "/advanced/security": {
-              activeCategory = "Security & Encryption";
-              break;
-            }
-
-            case "/advanced/network": {
-              activeCategory = "Network Setup";
-              break;
-            }
-
-            case "/advanced/backup": {
-              activeCategory = "Backup & Reset";
-              break;
-            }
-
-            default: {
-              break;
-            }
+            break;
           }
-
-          return activeCategory;
-        } else {
-          return this.currentStep;
+          case "server": {
+            if (this.organization.server) {
+              this.currentStep += 1;
+            } else {
+              BaseAlert.error("Please enter a name for your server");
+            }
+            break;
+          }
+          default:
+            break;
         }
-      },
-
-      set(value: string) {
-        this.currentStep = value;
       }
-    }
-  }
+    },
+
+    /// EVENT LISTENERS
+    onUpdateSecondInput(value: string) {
+      this.organization.adminPassword = value;
+    },
+  },
 };
 </script>
 
@@ -129,6 +168,7 @@ $c: ".c-signup-page";
   margin-block-start: 120px;
   text-align: center;
   flex: 1 1 auto;
+  overflow: hidden;
 
   #{$c}__content {
     max-width: 560px;
@@ -146,6 +186,11 @@ $c: ".c-signup-page";
     font-weight: $font-weight-light;
     margin-block: 0 108px;
     color: $color-base-grey-normal;
+  }
+
+  //--> STYLES <--
+  #{$c}__bold {
+    font-weight: $font-weight-medium;
   }
 
   @media (max-width: 768px) {
