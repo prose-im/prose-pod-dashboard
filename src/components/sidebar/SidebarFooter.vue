@@ -44,7 +44,6 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
-import { PropType } from "vue";
 
 export default {
   name: "SidebarAccordion",

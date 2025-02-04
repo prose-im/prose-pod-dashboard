@@ -65,10 +65,6 @@ export default {
     };
   },
 
-  computed: {
-    tipToDisplay() {}
-  },
-
   methods: {
     // --> EVENT LISTENERS <--
   }
