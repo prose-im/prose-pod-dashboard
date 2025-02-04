@@ -21,19 +21,8 @@
   .c-signup-sidebar__frames
     .c-signup-sidebar__frame(
       v-for="(item, index) in items"
-      :class=`[
-        {
-          "c-signup-sidebar__frame--active" : index === step - 1
-        }
-      ]`
     )
-      .c-signup-sidebar__icon-frame(
-        :class=`[
-          {
-            "c-signup-sidebar__icon-frame--active" : index === step - 1
-          }
-        ]`
-      )
+      .c-signup-sidebar__icon-frame
         base-icon(                 
           :name="item.icon"
           :fill="index === step - 1 ? '#000000' : '#49546299'"
@@ -57,7 +46,14 @@
         :fill="step === 4 ? '#05C02B' : '#49546299'"
       )
 
+    .c-signup-sidebar__highlighter(
+      :class=`[
+          "c-signup-sidebar__highlighter--" + step
+      ]`
+    )
+
     .c-signup-sidebar__separator
+
 
   p {{ step }}
 </template>
@@ -117,12 +113,6 @@ $c: ".c-signup-sidebar";
     margin-block-end: 10px;
     z-index: 10;
     position: relative;
-
-    &--active {
-      background-color: $color-base-purple-ultra-light;
-      border: 1px solid $color-border-secondary;
-      border-radius: 9px;
-    }
   }
 
   #{$c}__icon-frame {
@@ -137,11 +127,6 @@ $c: ".c-signup-sidebar";
     box-sizing: border-box;
     text-align: center;
     margin-inline-end: 18px;
-
-    &--active {
-      height: 42px;
-      width: 42px;
-    }
   }
 
   #{$c}__title {
@@ -161,6 +146,33 @@ $c: ".c-signup-sidebar";
 
   #{$c}__sucess {
     margin-inline-start: 11px;
+  }
+
+  #{$c}__highlighter {
+    position: absolute;
+    background-color: $color-base-purple-ultra-light;
+    border: 1px solid $color-border-secondary;
+    border-radius: 9px;
+    height: 64px;
+    width: 100%;
+    max-width: 275px;
+    margin-inline-start: 30px;
+    top: 134px;
+    left: -11px;
+    z-index: 5;
+    transition: top 200ms ease-in-out;
+
+    &--2 {
+      top: (134px + 75px);
+    }
+
+    &--3 {
+      top: (134px + 150px);
+    }
+
+    &--4 {
+      display: none;
+    }
   }
 
   #{$c}__separator {
