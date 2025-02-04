@@ -113,6 +113,10 @@ $animate-toast-translate-vertical: 40px;
   &--slide-out {
     animation-name: slideOut;
   }
+
+  &--slide-out-left {
+    animation-name: slideOutLeft;
+  }
 }
 
 // --> KEYFRAMES <--
@@ -305,5 +309,19 @@ $animate-toast-translate-vertical: 40px;
     opacity: 0.5;
     // width: 0%;
     transform: translateX(20%);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    // width: 43%;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0.5;
+    // width: 0%;
+    transform: translateX(-60%);
   }
 }
