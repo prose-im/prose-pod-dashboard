@@ -13,12 +13,12 @@
   .v-start-login__header
     base-identity-badge
 
-  .v-start-login__box
-    start-login-form(
-      @submit="onFormSubmit"
-      :loading="isFormLoading"
-      class="v-start-login__form"
-    )
+
+  start-login-form(
+    @submit="onFormSubmit"
+    :loading="isFormLoading"
+    class="v-start-login__form"
+  )
 </template>
 
 <!-- **********************************************************************
@@ -93,13 +93,18 @@ export default {
 $c: ".v-start-login";
 
 #{$c} {
-  background-color: $color-background-primary;
   height: 100%;
   width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.98)
+    ),
+    url("/images/components/base/BaseTopography.svg");
+  background-size: 35%;
 
   #{$c}__header {
     position: absolute;
@@ -108,32 +113,11 @@ $c: ".v-start-login";
     left: 46px;
   }
 
-  #{$c}__box {
-    background-color: $color-white;
-    border: 1px solid rgba($color-base-purple-light, 0.35);
-    pointer-events: none;
-    border-radius: 18px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 2px 4px 0 rgba($color-black, 0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 660px;
-    margin-inline: 8px;
-    padding-block: 68px 90px;
-    padding-inline: 14px;
-    box-sizing: border-box;
-    overflow: auto;
-    position: relative;
-    z-index: 1;
+  #{$c}__form {
+    flex: 0 0 auto;
 
-    #{$c}__form {
-      flex: 0 0 auto;
-
-      > * {
-        pointer-events: initial;
-      }
+    > * {
+      pointer-events: initial;
     }
   }
 
