@@ -41,9 +41,11 @@
         p.c-signup-sidebar__description
           | {{ item.description }}
 
-    .c-signup-sidebar__icon-frame
+    .c-signup-sidebar__icon-frame(
+      class="c-signup-sidebar__sucess"
+    )
       base-icon(                 
-        class="c-signup-sidebar__sucess"
+        class="c-signup-sidebar__sucess-icon"
         name="checkmark.circle.fill"
         size="12px"
       )
@@ -62,18 +64,18 @@ export default {
   props: {
     items: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       // --> STATE <--
-      currentStep: 1
+      currentStep: 1,
     };
   },
 
-  computed: {}
+  computed: {},
 };
 </script>
 
@@ -89,6 +91,7 @@ $c: ".c-signup-sidebar";
   padding-inline: 22px;
   flex: 1 1 auto;
   border-right: 1px solid $color-border-secondary;
+  background-color: $color-white;
 
   #{$c}__logo {
     margin-block: 40px 69px;
@@ -110,6 +113,8 @@ $c: ".c-signup-sidebar";
   }
 
   #{$c}__icon-frame {
+    position: relative;
+    z-index: 10;
     padding: 11px;
     background-color: $color-background-primary;
     border: 1px solid $color-border-primary;
@@ -134,6 +139,10 @@ $c: ".c-signup-sidebar";
     font-weight: $font-weight-light;
     margin: 0;
     color: $color-text-secondary;
+  }
+
+  #{$c}__sucess {
+    margin-inline-start: 11px;
   }
 
   #{$c}__separator {
