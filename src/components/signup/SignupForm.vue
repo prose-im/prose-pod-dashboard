@@ -46,14 +46,17 @@
       class="c-signup-form__button"
       tint="purple"
       size="ultra-large"
+      padding="32.5px 24.5px"
     )
-      | {{ buttonLabel }} 
+      .c-signup-form__button--content
+        | {{ buttonLabel }} 
 
-      base-icon(
-        name="arrow.right"
-        stroke="#ffffff"
-        size="15px"
-      )
+        base-icon(
+          class="c-signup-form__icon"
+          name="arrow.right"
+          stroke="#ffffff"
+          size="15px"
+        )
 </template>
 
 <!-- **********************************************************************
@@ -67,43 +70,43 @@ export default {
   props: {
     buttonLabel: {
       type: String,
-      default: "Continue",
+      default: "Continue"
     },
 
     formType: {
       type: String,
-      default: "single",
+      default: "single"
     },
 
     modelValue: {
       type: String,
-      default: "",
+      default: ""
     },
 
     secondaryInput: {
       type: String,
-      default: "",
+      default: ""
     },
 
     placeholder: {
       type: String,
-      default: "",
+      default: ""
     },
 
     secondaryPlaceholder: {
       type: String,
-      default: "",
+      default: ""
     },
 
     type: {
       type: String,
-      required: true,
+      required: true
     },
 
     secondaryType: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
 
   emits: ["update:modelValue", "updateSecondInput", "changeStep"],
@@ -121,7 +124,7 @@ export default {
       },
       set(value: string) {
         this.$emit("update:modelValue", value);
-      },
+      }
     },
 
     secondInput: {
@@ -130,15 +133,15 @@ export default {
       },
       set(value: string) {
         this.$emit("updateSecondInput", value);
-      },
-    },
+      }
+    }
   },
 
   methods: {
     onClick() {
       this.$emit("changeStep");
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -167,6 +170,7 @@ $c: ".c-signup-form";
 
       #{$c}__button {
         margin-block-start: 20px;
+        width: 100%;
       }
     }
   }
@@ -176,6 +180,20 @@ $c: ".c-signup-form";
     flex: 1 1 auto;
     margin-inline-end: 20px;
     margin-block-end: 12px;
+  }
+
+  #{$c}__button {
+    &--content {
+      font-size: ($font-size-page + 1px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-inline-start: 32.5px;
+    }
+  }
+
+  #{$c}__icon {
+    margin-inline-start: 20px;
   }
 
   @media (max-width: 768px) {

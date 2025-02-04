@@ -24,7 +24,10 @@ div(
   button(
     @click="onInnerClick"
     :type="type"
-    :style="{ minWidth }"
+    :style=`{ 
+      minWidth: minWidth, 
+      paddingInline: padding 
+    }`
     :class=`[
       "c-base-button__inner",
       {
@@ -132,6 +135,11 @@ export default {
     },
 
     icon: {
+      type: String,
+      default: null
+    },
+
+    padding: {
       type: String,
       default: null
     },
