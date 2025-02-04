@@ -12,10 +12,12 @@
 .v-start-signup
   signup-sidebar(
     :items="items"
+    :step="currentStep"
   )
 
   signup-page(
     class="v-start-signup__page"
+    @updateStep="onUpdateStep"
   )
 </template>
 
@@ -25,12 +27,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import SignupSidebar from "@/components/signup/SignupSidebar.vue";
 import SignupPage from "@/components/signup/SignupPage.vue";
-
-// PROJECT: STORES
-import Store from "@/store";
 
 export default {
   name: "StartSignup",
@@ -43,6 +41,7 @@ export default {
   data() {
     return {
       // --> STATES <--
+      currentStep: null as number | null,
 
       isFormLoading: false,
 
@@ -68,32 +67,8 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
-
-    async onFormSubmit(form): Promise<void> {
-      if (this.isFormLoading !== true) {
-        // Mark as loading
-        this.isFormLoading = true;
-
-        try {
-          // Login to account
-          await Store.$account.login(form.jid, form.password);
-
-          // Redirect to dashboard
-          this.$router.push({
-            name: "app"
-          });
-
-          // Acknowledge login success
-          BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
-        } catch (_) {
-          BaseAlert.error(
-            "Could not log in",
-            "Check your credentials and try again"
-          );
-        } finally {
-          this.isFormLoading = false;
-        }
-      }
+    onUpdateStep(newStep: number) {
+      this.currentStep = newStep;
     }
   }
 };

@@ -91,10 +91,12 @@ export default {
   name: "SignupPage",
 
   components: {
-    SignupForm,
+    SignupForm
   },
 
   props: {},
+
+  emits: ["updateStep"],
 
   data() {
     return {
@@ -105,21 +107,21 @@ export default {
         domain: "",
         server: "",
         adminUsername: "",
-        adminPassword: "",
-      },
+        adminPassword: ""
+      }
     };
   },
 
   computed: {},
 
   watch: {
-    // organization() {
-    //   if (this.organization.domain) {
-    //     this.currentStep = 2;
-    //   } else if (this.organization.server) {
-    //     this.currentStep = 3;
-    //   }
-    // },
+    currentStep: {
+      handler() {
+        this.$emit("updateStep", this.currentStep);
+      },
+
+      immediate: true
+    }
   },
 
   methods: {
@@ -152,8 +154,8 @@ export default {
     /// EVENT LISTENERS
     onUpdateSecondInput(value: string) {
       this.organization.adminPassword = value;
-    },
-  },
+    }
+  }
 };
 </script>
 

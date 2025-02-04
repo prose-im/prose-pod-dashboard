@@ -23,7 +23,7 @@
       v-for="(item, index) in items"
       :class=`[
         {
-          "c-signup-sidebar__frame--active" : index === currentStep - 1
+          "c-signup-sidebar__frame--active" : index === step - 1
         }
       ]`
     )
@@ -51,6 +51,8 @@
       )
 
     .c-signup-sidebar__separator
+
+  p {{ step }}
 </template>
 
 <!-- **********************************************************************
@@ -64,18 +66,22 @@ export default {
   props: {
     items: {
       type: Array,
-      required: true,
+      required: true
     },
+
+    step: {
+      type: Number,
+      required: true
+    }
   },
 
   data() {
     return {
       // --> STATE <--
-      currentStep: 1,
     };
   },
 
-  computed: {},
+  computed: {}
 };
 </script>
 
