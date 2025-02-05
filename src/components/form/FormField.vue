@@ -236,6 +236,11 @@ export default {
       this.focusField();
     },
 
+    unfocusFieldFromParent(): void {
+      // Alias focus field method
+      this.unfocusField();
+    },
+
     // --> HELPERS <--
 
     focusField(): void {
@@ -245,6 +250,17 @@ export default {
 
         if (fieldElement !== null) {
           fieldElement.focus();
+        }
+      }
+    },
+
+    unfocusField(): void {
+      // Attempt to focus? (not already focused)
+      if (this.isFocused === true) {
+        const fieldElement = (this.$refs.field as HTMLElement) || null;
+
+        if (fieldElement !== null) {
+          fieldElement.blur();
         }
       }
     },

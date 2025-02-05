@@ -23,26 +23,30 @@
   )
     form-field(
       v-model="input"
+      ref="firstFormField"
       class="c-signup-form__field"
       autofocus
       align="left"
       :placeholder="placeholder"
       size="ultra-large"
       :type="type"
+      @keyup.enter="onKeyupFirstInput"
     )
 
     form-field(
       v-if="formType === 'double'"
       v-model="secondInput"
+      ref="secondFormField"
       align="left"
       class="c-signup-form__field"
       :placeholder="secondaryPlaceholder"
       size="ultra-large"
       :type="secondaryType"
+      @keyup.enter="onSubmit"
     )
 
     base-button(
-      @click="onClick"
+      @click="onSubmit"
       class="c-signup-form__button"
       tint="purple"
       size="ultra-large"
@@ -64,6 +68,8 @@
        ********************************************************************** -->
 
 <script lang="ts">
+import FormField from "../form/FormField.vue";
+
 export default {
   name: "SignupPage",
 
@@ -138,8 +144,21 @@ export default {
   },
 
   methods: {
-    onClick() {
+    onSubmit() {
+      console.log("emitting");
+      this.firstInputValidated = false;
       this.$emit("changeStep");
+    },
+
+    onKeyupFirstInput() {
+      if (this.formType === "double" && this.input) {
+        (
+          this.$refs.firstFormField as InstanceType<typeof FormField>
+        ).unfocusFieldFromParent();
+        (
+          this.$refs.secondFormField as InstanceType<typeof FormField>
+        ).focusFieldFromParent();
+      }
     }
   }
 };
