@@ -10,57 +10,70 @@
 
 <template lang="pug">
 .c-signup-form
-  .c-signup-form__label
-    slot
-
-  form.c-signup-form__field-block(
-    @submit.prevent="onClick"
-    :class=`[
-      {
-        "c-signup-form__field-block--block" : formType === 'double'
-      }
-    ]`
+  transition(
+    enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
+    leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
   )
-    form-field(
-      v-model="input"
-      ref="firstFormField"
-      class="c-signup-form__field"
-      autofocus
-      align="left"
-      :placeholder="placeholder"
-      size="ultra-large"
-      :type="type"
-      @keyup.enter="onKeyupFirstInput"
+    .c-signup-form__upper(
+      v-if="loaded"
     )
+      .c-signup-form__label
+        slot
 
-    form-field(
-      v-if="formType === 'double'"
-      v-model="secondInput"
-      ref="secondFormField"
-      align="left"
-      class="c-signup-form__field"
-      :placeholder="secondaryPlaceholder"
-      size="ultra-large"
-      :type="secondaryType"
-      @keyup.enter="onSubmit"
-    )
-
-    base-button(
-      @click="onSubmit"
-      class="c-signup-form__button"
-      tint="purple"
-      size="ultra-large"
-      padding="32.5px 24.5px"
-    )
-      .c-signup-form__button--content
-        | {{ buttonLabel }} 
-
-        base-icon(
-          class="c-signup-form__icon"
-          name="arrow.right"
-          stroke="#ffffff"
-          size="15px"
+      form.c-signup-form__field-block(
+        @submit.prevent="onSubmit"
+        :class=`[
+          {
+            "c-signup-form__field-block--block" : formType === 'double',
+            "c-signup-form__field-block--flex" : formType !== 'double'
+          }
+        ]`
+      )
+        form-field(
+          v-model="input"
+          ref="firstFormField"
+          class="c-signup-form__field"
+          autofocus
+          align="left"
+          :placeholder="placeholder"
+          size="ultra-large"
+          :type="type"
+          @keyup.enter="onKeyupFirstInput"
         )
+
+        form-field(
+          v-if="formType === 'double'"
+          v-model="secondInput"
+          ref="secondFormField"
+          align="left"
+          class="c-signup-form__field"
+          :placeholder="secondaryPlaceholder"
+          size="ultra-large"
+          :type="secondaryType"
+          @keyup.enter="onSubmit"
+        )
+
+        base-button(
+          @click="onSubmit"
+          class="c-signup-form__button"
+          tint="purple"
+          size="ultra-large"
+          padding="32.5px 24.5px"
+        )
+          .c-signup-form__button--content
+            | {{ buttonLabel }} 
+
+            base-icon(
+              class="c-signup-form__icon"
+              name="arrow.right"
+              stroke="#ffffff"
+              size="15px"
+            )
+
+  signup-tips(
+    v-if="formVisible"
+    :tips="tips"
+  )
 </template>
 
 <!-- **********************************************************************
@@ -68,10 +81,15 @@
        ********************************************************************** -->
 
 <script lang="ts">
-import FormField from "../form/FormField.vue";
+import FormField from "@/components/form/FormField.vue";
+import SignupTips from "@/components/signup/SignupTips.vue";
 
 export default {
   name: "SignupPage",
+
+  components: {
+    SignupTips
+  },
 
   props: {
     buttonLabel: {
@@ -82,6 +100,11 @@ export default {
     formType: {
       type: String,
       default: "single"
+    },
+
+    formVisible: {
+      type: Boolean,
+      default: false
     },
 
     modelValue: {
@@ -104,6 +127,11 @@ export default {
       default: ""
     },
 
+    tips: {
+      type: Object,
+      required: true
+    },
+
     type: {
       type: String,
       default: "text"
@@ -120,6 +148,9 @@ export default {
   data() {
     return {
       // --> STATE <--
+      firstInputValidated: false,
+
+      loaded: false
     };
   },
 
@@ -140,6 +171,17 @@ export default {
       set(value: string) {
         this.$emit("updateSecondInput", value);
       }
+    }
+  },
+
+  watch: {
+    formVisible: {
+      handler(newVisibility, oldVisibility) {
+        console.log("received");
+        setTimeout(() => (this.loaded = newVisibility), 10);
+      },
+
+      immediate: true
     }
   },
 
@@ -172,7 +214,16 @@ export default {
 $c: ".c-signup-form";
 
 #{$c} {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex: 1 1 auto;
   text-align: center;
+  justify-content: space-between;
+
+  #{$c}__upper {
+    max-width: 560px;
+  }
 
   #{$c}__label {
     font-size: ($font-size-page + 3px);
@@ -181,8 +232,9 @@ $c: ".c-signup-form";
   }
 
   #{$c}__field-block {
-    display: flex;
-    flex: 1 1 auto;
+    &--flex {
+      display: flex;
+    }
 
     &--block {
       display: block;
@@ -216,10 +268,6 @@ $c: ".c-signup-form";
 
   #{$c}__icon {
     margin-inline-start: 20px;
-  }
-
-  @media (max-width: 768px) {
-    width: fit-content;
   }
 }
 </style>

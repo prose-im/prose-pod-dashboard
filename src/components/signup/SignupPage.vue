@@ -10,103 +10,73 @@
 
 <template lang="pug">
 .c-signup-page
-  .c-signup-page__content
-    .c-signup-page__upper(
-      v-if="currentStep !== 4"
-    )
-      h3
-        | 👋 Welcome to Prose!
+  .c-signup-page__content(
+    v-if="currentStep !== 4"
+  )
+    h3
+      | 👋 Welcome to Prose!
 
-      p.c-signup-page__subtitle
-        | Let's get your server set up. It will take less than 5 minutes.
+    p.c-signup-page__subtitle
+      | Let's get your server set up. It will take less than 5 minutes.
 
-      transition(
-        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-      )
-        signup-form(
-          v-if="currentStep === 1"
-          v-model="organization.domain"
-          @changeStep="updateStep('domain')"
-          placeholder=" Ex: hello.com"
-        )
-          span
-            | First, what's your 
-          span.c-signup-page__bold 
-            | organization domain name
-          span
-            | ?
-            
-      transition(
-        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-      )
-        signup-form(
-          v-if="currentStep === 2"
-          v-model="organization.server"
-          @changeStep="updateStep('server')"
-          placeholder=" Ex: MyCompanyName"
-        )
-          span 
-            | Now, give a 
-          span.c-signup-page__bold
-            | name to your server
-          span
-            | ! You will be able to customize all the rest later.
-           
-      transition(
-        enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
-        leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
-      )
-        signup-form(
-          v-if="currentStep === 3"
-          v-model="organization.adminUsername"
-          @changeStep="updateStep('admin')"
-          @updateSecondInput="onUpdateSecondInput"
-          :secondary-input="organization.adminPassword"
-          button-label="Create my account and Finish now"
-          form-type="double"
-          placeholder="Email"
-          secondary-placeholder="Password"
-          type="email"
-          secondary-type="password"
-        )
-          span
-            | Finish by creating your 
-          span.c-signup-page__bold
-            | administrator account
-          span
-            | . You'll be able to invite team members later."
-
-      p {{ organization }}
-        
-        
-    signup-tips(
+    signup-form(
       v-if="currentStep === 1"
+      v-model="organization.domain"
+      @changeStep="updateStep('domain')"
+      :form-visible="currentStep === 1"
+      placeholder=" Ex: hello.com"
       :tips="tipDomain"
     )
-
-    signup-tips(
+      span
+        | First, what's your 
+      span.c-signup-page__bold 
+        | organization domain name
+      span
+        | ?
+        
+    signup-form(
       v-if="currentStep === 2"
+      v-model="organization.server"
+      @changeStep="updateStep('server')"
+      :form-visible="currentStep === 2"
+      placeholder=" Ex: MyCompanyName"
       :tips="tipServer"
     )
-
-    signup-tips(
+      span 
+        | Now, give a 
+      span.c-signup-page__bold
+        | name to your server
+      span
+        | ! You will be able to customize all the rest later.
+       
+    signup-form(
       v-if="currentStep === 3"
+      v-model="organization.adminUsername"
+      @changeStep="updateStep('admin')"
+      @updateSecondInput="onUpdateSecondInput"
+      :secondary-input="organization.adminPassword"
+      button-label="Create my account and Finish now"
+      form-type="double"
+      :form-visible="currentStep === 3"
+      placeholder="E-mail"
+      secondary-placeholder="Password"
       :tips="tipAdmin"
+      type="email"
+      secondary-type="password"
     )
+      span
+        | Finish by creating your 
+      span.c-signup-page__bold
+        | administrator account
+      span
+        | . You'll be able to invite team members later."
 
-    .c-signup-page__success(
-      v-if="currentStep === 4"
-    )
-      h3
-        | Congratulations! 
-      br
-      p
-        | Your server has been setup
-      br
-      p
-        | You will be redirected to the login page
+      p {{ organization }}
+
+  .c-signup-page__success(
+    v-if="currentStep === 4"
+  )
+    signup-success
 
 </template>
 
@@ -115,16 +85,18 @@
        ********************************************************************** -->
 
 <script lang="ts">
-import BaseAlert from "../base/BaseAlert.vue";
-import SignupForm from "./SignupForm.vue";
-import SignupTips from "./SignupTips.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import SignupForm from "@/components/signup/SignupForm.vue";
+import SignupTips from "@/components/signup/SignupTips.vue";
+import SignupSuccess from "@/components/signup/SignupSuccess.vue";
 
 export default {
   name: "SignupPage",
 
   components: {
     SignupForm,
-    SignupTips
+    SignupTips,
+    SignupSuccess
   },
 
   props: {},
@@ -134,7 +106,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      currentStep: 1,
+      currentStep: null as number | null,
 
       organization: {
         domain: "",
@@ -207,6 +179,10 @@ export default {
   watch: {
     currentStep: {
       handler() {
+        if (!this.currentStep) {
+          setTimeout(() => (this.currentStep = 1), 10);
+        }
+
         this.$emit("updateStep", this.currentStep);
       },
 
@@ -217,37 +193,39 @@ export default {
   methods: {
     /// HELPERS
     updateStep(stepName: string) {
-      if (this.currentStep < 4) {
-        switch (stepName) {
-          case "domain": {
-            if (this.organization.domain) {
-              this.currentStep += 1;
-            } else {
-              BaseAlert.error("Please enter a domain name");
+      if (this.currentStep) {
+        if (this.currentStep < 4) {
+          switch (stepName) {
+            case "domain": {
+              if (this.organization.domain) {
+                this.currentStep += 1;
+              } else {
+                BaseAlert.error("Please enter a domain name");
+              }
+              break;
             }
-            break;
-          }
-          case "server": {
-            if (this.organization.server) {
-              this.currentStep += 1;
-            } else {
-              BaseAlert.error("Please enter a name for your server");
+            case "server": {
+              if (this.organization.server) {
+                this.currentStep += 1;
+              } else {
+                BaseAlert.error("Please enter a name for your server");
+              }
+              break;
             }
-            break;
-          }
-          case "admin": {
-            if (
-              this.organization.adminUsername &&
-              this.organization.adminPassword
-            ) {
-              this.currentStep += 1;
-            } else {
-              BaseAlert.error("Please enter a valid email and password");
+            case "admin": {
+              if (
+                this.organization.adminUsername &&
+                this.organization.adminPassword
+              ) {
+                this.currentStep += 1;
+              } else {
+                BaseAlert.error("Please enter a valid email and password");
+              }
+              break;
             }
-            break;
+            default:
+              break;
           }
-          default:
-            break;
         }
       }
     },
@@ -276,14 +254,8 @@ $c: ".c-signup-page";
 
   #{$c}__content {
     display: flex;
-    align-items: center;
     flex-direction: column;
     flex: 1 1 auto;
-    justify-content: space-between;
-  }
-
-  #{$c}__upper {
-    max-width: 560px;
   }
 
   h3 {
@@ -299,6 +271,11 @@ $c: ".c-signup-page";
     color: $color-base-grey-normal;
   }
 
+  #{$c}__success {
+    margin-inline: auto;
+    margin-block-start: 150px;
+  }
+
   //--> STYLES <--
   #{$c}__bold {
     font-weight: $font-weight-medium;
@@ -309,3 +286,32 @@ $c: ".c-signup-page";
   }
 }
 </style>
+<!-- li
+span 
+  | If your team members emails are 
+span.c-signup-page__bold 
+  | name@company.com
+span 
+  | , then enter 
+span.c-signup-page__bold 
+  | company.com here
+span 
+  | .
+br
+span 
+  | Prose can co-exist with your email and website 
+span.c-signup-page__bold 
+  | on the same domain
+span 
+  | .
+
+li
+span
+  | You will be able to setup required 
+span.c-signup-page__bold 
+  | DNS records 
+span
+  | once signed up.
+br
+span
+  | We will provide records to setup in your DNS manager. -->
