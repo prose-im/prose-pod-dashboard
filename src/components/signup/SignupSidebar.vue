@@ -37,10 +37,10 @@
           | {{ item.description }}
 
     .c-signup-sidebar__icon-frame(
-      class="c-signup-sidebar__sucess"
+      class="c-signup-sidebar__success"
     )
       base-icon(                 
-        class="c-signup-sidebar__sucess-icon"
+        class="c-signup-sidebar__success-icon"
         name="checkmark.circle.empty"
         size="20px"
         :fill="step === 4 ? '#05C02B' : '#49546299'"
@@ -74,7 +74,7 @@ export default {
 
     step: {
       type: Number,
-      required: true
+      default: null
     }
   },
 
@@ -144,7 +144,7 @@ $c: ".c-signup-sidebar";
     color: $color-text-secondary;
   }
 
-  #{$c}__sucess {
+  #{$c}__success {
     margin-inline-start: 11px;
   }
 

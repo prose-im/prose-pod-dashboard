@@ -115,7 +115,6 @@ export default {
 
   watch: {
     visible(newVisibility, oldVisibility) {
-      //console.log("new visibility");
       setTimeout(() => (this.loaded = newVisibility), 10);
 
       // If the visibility has changed and is true,

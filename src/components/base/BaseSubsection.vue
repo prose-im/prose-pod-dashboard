@@ -89,7 +89,6 @@
       v-if="isNotificationVisible"
     )
 </template>
-<!-- class="c-base-subsection__list" -->
 
 <!-- **********************************************************************
      SCRIPT
