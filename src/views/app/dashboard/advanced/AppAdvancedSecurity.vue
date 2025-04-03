@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 // STORE
+import { TlsProfile } from "@/api/providers/serverConfig";
 import store from "@/store";
 
 // ENUMERATIONS
@@ -134,12 +135,9 @@ export default {
         this.config.encryption[changedKey] !== newValue
       ) {
         switch (changedKey) {
-          case "tls_profile": {
-            store.$settingsSecurity.updateTlsProfile(newValue);
-            break;
-          }
-
-          default: {
+          case EncryptionKey.TLS_Profile: {
+            // WARN: Unsafe cast.
+            store.$settingsSecurity.updateTlsProfile(newValue as TlsProfile);
             break;
           }
         }

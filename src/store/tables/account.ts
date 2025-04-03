@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -13,25 +13,26 @@ import { defineStore } from "pinia";
 
 // PROJECT: API
 import Api from "@/api";
-import APILogin from "@/api/providers/login";
+import APIAuth from "@/api/providers/auth";
 import store from "..";
-import { ROLES } from "@/api/providers/teamMembers";
+import { MemberRole } from "@/api/providers/members";
+import { BareJid } from "@/api/providers/global";
 
-/**************************************************************************
+/* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Account {
   session: {
     token: string | null;
-    jid: string | null;
+    jid: BareJid | null;
+    role: MemberRole | null;
     nickname: string | null;
-    role: ROLES | null;
     avatar: string | null;
   };
 }
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -45,7 +46,7 @@ const $account = defineStore("account", {
         token: null,
         jid: null,
         nickname: null,
-        role: null as ROLES | null,
+        role: null,
         avatar: null
       }
     };
@@ -69,7 +70,7 @@ const $account = defineStore("account", {
     },
 
     getUserRole: function () {
-      return (): ROLES | null => {
+      return (): MemberRole | null => {
         return this.session.role;
       };
     }
@@ -77,7 +78,7 @@ const $account = defineStore("account", {
 
   actions: {
     async login(username: string, password: string): Promise<void> {
-      const { token } = await APILogin.login(username, password);
+      const { token } = await APIAuth.login(username, password);
 
       // Save session token
       this.setSessionToken(token);
@@ -125,7 +126,7 @@ const $account = defineStore("account", {
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

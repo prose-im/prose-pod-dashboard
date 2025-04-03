@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -26,7 +26,7 @@ div(
      ********************************************************************** -->
 
 <script lang="ts">
-import { Roles } from "@/api/providers/teamMembers";
+import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 
 export default {
   name: "BaseBadge",
@@ -34,7 +34,7 @@ export default {
   props: {
     admin: {
       type: String,
-      default: "MEMBER"
+      default: MemberRole.Member
     },
 
     size: {
@@ -45,7 +45,9 @@ export default {
 
   computed: {
     label() {
-      return this.admin === "ADMIN" ? Roles.Admin : Roles.Member;
+      return this.admin === MemberRole.Admin
+        ? RolesDisplayStrings[MemberRole.Admin]
+        : RolesDisplayStrings[MemberRole.Member];
     }
   }
 };

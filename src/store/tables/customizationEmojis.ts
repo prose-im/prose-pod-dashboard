@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -13,15 +13,15 @@ import mitt from "mitt";
 import { defineStore } from "pinia";
 
 // PROJECT: STORES
-import APICustomizationReactions from "@/api/providers/customizationReactions";
+import APIReactions from "@/api/providers/reactions";
 
-/**************************************************************************
+/* *************************************************************************
  * TYPES
  * ************************************************************************* */
 
 type EmojiList = Array<EmojiListEntry>;
 
-/**************************************************************************
+/* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
@@ -38,13 +38,13 @@ interface Emojis {
   emojisList: EmojiList;
 }
 
-/**************************************************************************
+/* *************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
 const EventBus = mitt();
 
-/**************************************************************************
+/* *************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
@@ -52,7 +52,7 @@ const LOCAL_STATES = {
   loaded: false
 };
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -112,7 +112,7 @@ const $customizationEmojis = defineStore("room", {
       // Load room list? (or reload)
       if (LOCAL_STATES.loaded !== true || reload === true) {
         // Initialize entries
-        const allReactions = await APICustomizationReactions.getAllReactions();
+        const allReactions = await APIReactions.getAllReactions();
 
         console.log("reactions", allReactions);
 
@@ -156,21 +156,21 @@ const $customizationEmojis = defineStore("room", {
     addReaction(reaction: EmojiListEntry): void {
       console.log("hey hey");
       this.emojisList.push(reaction);
-      // customizationReactions.addReaction(reaction);
+      // reactions.addReaction(reaction);
       // loadReactions(true):
     },
 
     deleteReaction(reactionId: string): void {
-      APICustomizationReactions.deleteReactionById(reactionId);
+      APIReactions.deleteReactionById(reactionId);
     },
 
     updateReaction(reactionId: string, newReaction: EmojiListEntry) {
-      APICustomizationReactions.updateReactionById(reactionId, newReaction);
+      APIReactions.updateReactionById(reactionId, newReaction);
     }
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 export type { EmojiListEntry };

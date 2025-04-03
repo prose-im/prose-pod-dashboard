@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -49,7 +49,7 @@ base-modal(
 import store from "@/store";
 
 // TYPES
-import { ROLES, Roles } from "@/api/providers/teamMembers";
+import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {
@@ -74,16 +74,16 @@ export default {
       // --> STATE <--
       isSelectOpen: false,
 
-      newRole: null as ROLES | null,
+      newRole: null as MemberRole | null,
 
       roleOptions: [
         {
-          label: Roles.Member,
-          value: ROLES.MEMBER
+          label: RolesDisplayStrings[MemberRole.Member],
+          value: MemberRole.Member
         },
         {
-          label: Roles.Admin,
-          value: ROLES.ADMIN
+          label: RolesDisplayStrings[MemberRole.Admin],
+          value: MemberRole.Admin
         }
       ]
     };
@@ -101,7 +101,7 @@ export default {
         }
       },
 
-      set(value: ROLES) {
+      set(value: MemberRole) {
         console.log("set user role", value);
         this.newRole = value;
       }

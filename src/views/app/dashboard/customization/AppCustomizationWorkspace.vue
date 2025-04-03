@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -267,7 +267,7 @@ export default {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
           case "color": {
-            store.$customizationWorkspace.updateWorkspaceColor(newValue);
+            store.$customizationWorkspace.setWorkspaceAccentColor(newValue);
             break;
           }
 

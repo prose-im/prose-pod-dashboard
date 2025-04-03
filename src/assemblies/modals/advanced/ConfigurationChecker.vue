@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024, Prose Foundation
+* Copyright 2024–2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -22,7 +22,7 @@ base-modal(
       label="dns"
       subtitle="DNS records"
       description="Checks that all DNS records are properly configured."
-      :checklist="dnsCheckList"
+      :checklist="dnsCheckResults"
     )
 
     advanced-network-check-block(
@@ -30,7 +30,7 @@ base-modal(
       label="tcp"
       subtitle="Ports reachability"
       description="Ensures that all required ports are opened and reachable."
-      :checklist="portCheckList"
+      :checklist="portCheckResults"
     )
 
     advanced-network-check-block(
@@ -38,7 +38,7 @@ base-modal(
       label="ip"
       subtitle="IP connectivity"
       description="Checks that your server has connection over all IP protocols."
-      :checklist="ipCheckList"
+      :checklist="ipCheckResults"
     )
 </template>
 
@@ -48,39 +48,21 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import {
+  AnyNetworkCheckStatus,
+  DnsRecordCheckResult,
+  DnsRecordStatus,
+  PortReachabilityCheckResult,
+  PortReachabilityStatus,
+  IpConnectivityCheckResult,
+  IpConnectivityStatus
+} from "@/api/providers/networkConfig";
 import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNetworkCheckBlock.vue";
 
 // STORE
 import store from "@/store";
 
-// ENUM
-enum Block {
-  Dns = "dns",
-  Ip = "ip",
-  Port = "port"
-}
-
-export enum CheckStatus {
-  QUEUED = "QUEUED",
-  CHECKING = "CHECKING",
-  VALID = "VALID",
-  SUCCESS = "SUCCESS",
-  OPEN = "OPEN",
-  PARTIALLY_VALID = "PARTIALLY_VALID",
-  INVALID = "INVALID",
-  FAILURE = "FAILURE",
-  CLOSED = "CLOSED"
-}
-
-// INTERFACE
-interface CheckRow {
-  description: string;
-  status: CheckStatus;
-}
-
 // TYPES
-type CheckList = CheckRow[];
-
 export default {
   name: "ConfigurationChecker",
 
@@ -109,26 +91,22 @@ export default {
     },
 
     dnsStatus() {
-      return this.getGlobalStatus(Block.Dns, this.dnsCheckList);
+      return this.getBlockStatusDns(this.dnsCheckResults);
     },
-
     portStatus() {
-      return this.getGlobalStatus(Block.Port, this.portCheckList);
+      return this.getBlockStatusPorts(this.portCheckResults);
     },
-
     ipStatus() {
-      return this.getGlobalStatus(Block.Ip, this.ipCheckList);
+      return this.getBlockStatusIp(this.ipCheckResults);
     },
 
-    dnsCheckList() {
-      return store.$settingsNetwork.getDnsCheck() || [];
+    dnsCheckResults() {
+      return store.$settingsNetwork.getDnsCheckResults() || [];
     },
-
-    portCheckList() {
+    portCheckResults() {
       return store.$settingsNetwork.getPortCheck() || [];
     },
-
-    ipCheckList() {
+    ipCheckResults() {
       return store.$settingsNetwork.getIpCheck() || [];
     }
   },
@@ -137,33 +115,42 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    getGlobalStatus(block: Block, checkList: CheckList) {
-      console.log("checklist", checkList);
-      let checkListStatus = null as null | CheckStatus;
-
-      if (this.states[`${block}Loading`]) {
-        // Block check is still running ({dns/ ip/ port}Loading === true)
-        checkListStatus = CheckStatus.CHECKING;
-      } else if (this.states[`${block}Loaded`]) {
-        // Block check is done => check if all the checks in the block are OK
-        for (let i = 0; i < checkList.length; i++) {
-          if (
-            checkList[i].status !== "SUCCESS" ||
-            checkList[i].status !== "OPEN" ||
-            checkList[i].status !== "VALID"
-          ) {
-            checkListStatus = checkList[i].status;
-            break;
-          } else {
-            checkListStatus = CheckStatus.SUCCESS;
-          }
-        }
-      } else {
-        // Block check failed
-        checkListStatus = CheckStatus.INVALID;
-      }
-
-      return checkListStatus;
+    /** Get the overall status of a section (e.g. `INVALID` for DNS if one DNS check hasn’t passed yet). */
+    // getBlockStatus(checkResults: DnsRecordCheckResult[]): DnsRecordStatus {
+    //   return (
+    //     checkResults
+    //       .map(res => res.data.status)
+    //       // Find the highest value (based on enum index).
+    //       .reduce((highest, current) => {
+    //         const currentIndex =
+    //           Object.values(DnsRecordStatus).indexOf(current);
+    //         const highestIndex =
+    //           Object.values(DnsRecordStatus).indexOf(highest);
+    //         return currentIndex > highestIndex ? current : highest;
+    //       }, DnsRecordStatus.Queued)
+    //   );
+    // },
+    getBlockStatusDns(checkResults: DnsRecordCheckResult[]): DnsRecordStatus {
+      return highestValue(
+        checkResults.map(res => res.data.status),
+        Object.values(DnsRecordStatus)
+      );
+    },
+    getBlockStatusPorts(
+      checkResults: PortReachabilityCheckResult[]
+    ): PortReachabilityStatus {
+      return highestValue(
+        checkResults.map(res => res.data.status),
+        Object.values(PortReachabilityStatus)
+      );
+    },
+    getBlockStatusIp(
+      checkResults: IpConnectivityCheckResult[]
+    ): IpConnectivityStatus {
+      return highestValue(
+        checkResults.map(res => res.data.status),
+        Object.values(IpConnectivityStatus)
+      );
     },
 
     // --> EVENT LISTENERS <--
@@ -172,6 +159,21 @@ export default {
     }
   }
 };
+
+function highestValue<Status extends AnyNetworkCheckStatus>(
+  values: Status[],
+  allValues: Status[]
+): Status {
+  return (
+    values
+      // Find the highest value (based on enum index).
+      .reduce((highest, current) => {
+        const currentIndex = allValues.indexOf(current);
+        const highestIndex = allValues.indexOf(highest);
+        return currentIndex > highestIndex ? current : highest;
+      }, allValues[0])
+  );
+}
 </script>
 
 <!-- **********************************************************************

@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -13,15 +13,17 @@ import { defineStore } from "pinia";
 import mitt from "mitt";
 
 // PROJECT: BROKER
-import APIServerConfiguration from "@/api/providers/serverConfiguration";
+import APIServerConfig, {
+  DEFAULT_SERVER_CONFIG
+} from "@/api/providers/serverConfig";
 
 // PROJECT: STORE
 import store from "@/store/index";
 
 // TYPES
-import { ServerConfig } from "@/api/providers/global";
+import { ServerConfig } from "@/api/providers/serverConfig";
 
-/**************************************************************************
+/* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 interface ServerConfigUi {
@@ -40,25 +42,19 @@ interface FilesConfig {
   fileRetentionTime: string;
 }
 
-/**************************************************************************
+/* *************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
 const EventBus = mitt();
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
 const $serverConfiguration = defineStore("serverConfiguration", {
   state: (): ServerConfig => {
-    return {
-      message_archive_enabled: false,
-      message_archive_retention: "P1Y",
-      file_upload_allowed: true,
-      file_storage_encryption_scheme: "",
-      file_storage_retention: "infinite"
-    };
+    return DEFAULT_SERVER_CONFIG;
   },
 
   getters: {
@@ -102,7 +98,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async toggleMessageArchiveEnabled(activated: boolean) {
-      await APIServerConfiguration.updateMessageArchiveEnabled(activated);
+      await APIServerConfig.setMessageArchiveEnabled(activated);
 
       this.$patch(() => {
         this.message_archive_enabled = activated;
@@ -110,7 +106,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async changeMessageRetentionTime(newTime: string): Promise<void> {
-      await APIServerConfiguration.updateMessageRetentionTime(newTime);
+      await APIServerConfig.setMessageArchiveRetention(newTime);
 
       this.$patch(() => {
         this.message_archive_retention = newTime;
@@ -118,7 +114,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async toggleFileUploadEnabled(allowed: boolean): Promise<void> {
-      await APIServerConfiguration.updateFileUploadPermission(allowed);
+      await APIServerConfig.setFileUploadAllowed(allowed);
 
       this.$patch(() => {
         this.file_upload_allowed = allowed;
@@ -126,9 +122,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async changeFileEncryption(newEncryptionScheme: string): Promise<void> {
-      await APIServerConfiguration.updateFileEncryptionScheme(
-        newEncryptionScheme
-      );
+      await APIServerConfig.setFileStorageEncryptionScheme(newEncryptionScheme);
 
       this.$patch(() => {
         this.file_storage_encryption_scheme = newEncryptionScheme;
@@ -136,7 +130,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async changeFileRetentionTime(newTime: string): Promise<void> {
-      await APIServerConfiguration.updateFileRetentionTime(newTime);
+      await APIServerConfig.setFileStorageRetention(newTime);
 
       this.$patch(() => {
         this.file_storage_retention = newTime;
@@ -144,37 +138,37 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async restoreMessagingConfig(): Promise<void> {
-      const response = await APIServerConfiguration.resetMessagesConfig();
+      const defaultValue = await APIServerConfig.resetMessagingConfig();
 
       this.$patch(() => {
-        this.message_archive_enabled = response.message_archive_enabled;
-        this.message_archive_retention = response.message_archive_retention;
+        this.message_archive_enabled = defaultValue.message_archive_enabled;
+        this.message_archive_retention = defaultValue.message_archive_retention;
       });
     },
 
     async restoreMessageArchiveRetention(): Promise<void> {
-      const response = await APIServerConfiguration.resetMessageRetentionTime();
+      const defaultValue = await APIServerConfig.resetMessageArchiveRetention();
 
       this.$patch(() => {
-        this.message_archive_retention = response.message_archive_retention;
+        this.message_archive_retention = defaultValue;
       });
     },
 
     async restoreFileConfig(): Promise<void> {
-      const response = await APIServerConfiguration.resetFilesConfig();
-      console.log("files", response);
+      const defaultValue = await APIServerConfig.resetFilesConfig();
+      console.log("files", defaultValue);
 
       this.$patch(() => {
-        this.file_upload_allowed = response.file_upload_allowed;
+        this.file_upload_allowed = defaultValue.file_upload_allowed;
         this.file_storage_encryption_scheme =
-          response.file_storage_encryption_scheme;
-        this.file_storage_retention = response.file_storage_retention;
+          defaultValue.file_storage_encryption_scheme;
+        this.file_storage_retention = defaultValue.file_storage_retention;
       });
     }
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

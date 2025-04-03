@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -73,7 +73,12 @@
       ********************************************************************** -->
 
 <script lang="ts">
-import { CheckStatus } from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
+import {
+  AnyNetworkCheckStatus,
+  DnsRecordStatus,
+  IpConnectivityStatus,
+  PortReachabilityStatus
+} from "@/api/providers/networkConfig";
 import { PropType } from "vue";
 
 export default {
@@ -81,11 +86,20 @@ export default {
 
   props: {
     status: {
-      type: String as PropType<CheckStatus>,
+      type: String as PropType<AnyNetworkCheckStatus>,
       default: "CHECKING",
 
       validator(x: string) {
-        return Object.values(CheckStatus).includes(x as CheckStatus);
+        // NOTE: Not great but temporary before a refactor.
+        return (
+          Object.values(DnsRecordStatus).includes(x as DnsRecordStatus) ||
+          Object.values(IpConnectivityStatus).includes(
+            x as IpConnectivityStatus
+          ) ||
+          Object.values(PortReachabilityStatus).includes(
+            x as PortReachabilityStatus
+          )
+        );
       }
     },
 
@@ -131,104 +145,114 @@ export default {
 
   methods: {
     // <-- HELPERS -->
-    colorCode(status: CheckStatus, isString = false) {
-      let result = "";
-
+    colorCode(status: AnyNetworkCheckStatus, isString = false) {
       switch (status) {
-        case CheckStatus.CHECKING: {
-          result = isString ? "blue" : "#2490f0";
-          break;
+        case DnsRecordStatus.Queued:
+        case IpConnectivityStatus.Queued:
+        case PortReachabilityStatus.Queued: {
+          return "";
         }
 
-        case CheckStatus.SUCCESS:
-        case CheckStatus.VALID:
-        case CheckStatus.OPEN: {
-          result = isString ? "green" : "#05c02b";
-          break;
+        case DnsRecordStatus.Checking:
+        case PortReachabilityStatus.Checking:
+        case IpConnectivityStatus.Checking: {
+          return isString ? "blue" : "#2490f0";
         }
 
-        case CheckStatus.FAILURE:
-        case CheckStatus.INVALID:
-        case CheckStatus.CLOSED: {
-          result = isString ? "red" : "#dd2f2f";
-          break;
+        case DnsRecordStatus.Valid:
+        case PortReachabilityStatus.Open:
+        case IpConnectivityStatus.Success: {
+          return isString ? "green" : "#05c02b";
         }
 
-        case CheckStatus.PARTIALLY_VALID: {
-          result = isString ? "orange" : "#fc8227";
-          break;
+        case DnsRecordStatus.Invalid:
+        case PortReachabilityStatus.Closed:
+        case IpConnectivityStatus.Failure: {
+          return isString ? "red" : "#dd2f2f";
+        }
+
+        case DnsRecordStatus.PartiallyValid: {
+          return isString ? "orange" : "#fc8227";
         }
       }
-      return result;
+
+      return "";
     },
 
-    getIconName(status: string) {
-      let result = "";
-
+    getIconName(status: AnyNetworkCheckStatus) {
       switch (status) {
-        case CheckStatus.CHECKING: {
-          result = "archive";
-          break;
+        case DnsRecordStatus.Queued:
+        case IpConnectivityStatus.Queued:
+        case PortReachabilityStatus.Queued: {
+          return "";
         }
 
-        case CheckStatus.SUCCESS:
-        case CheckStatus.VALID:
-        case CheckStatus.OPEN: {
-          result = "checkmark.circle.fill";
-          break;
+        case DnsRecordStatus.Checking:
+        case PortReachabilityStatus.Checking:
+        case IpConnectivityStatus.Checking: {
+          return "archive";
         }
 
-        case CheckStatus.FAILURE:
-        case CheckStatus.INVALID:
-        case CheckStatus.CLOSED: {
-          result = "exclamationmark.triangle.fill";
-          break;
+        case DnsRecordStatus.Valid:
+        case PortReachabilityStatus.Open:
+        case IpConnectivityStatus.Success: {
+          return "checkmark.circle.fill";
         }
 
-        case CheckStatus.PARTIALLY_VALID: {
-          result = "exclamationmark.circle.fill";
-          break;
+        case DnsRecordStatus.Invalid:
+        case PortReachabilityStatus.Closed:
+        case IpConnectivityStatus.Failure: {
+          return "exclamationmark.triangle.fill";
         }
-        default:
-          break;
+
+        case DnsRecordStatus.PartiallyValid: {
+          return "exclamationmark.circle.fill";
+        }
       }
-      return result;
+
+      return "";
     },
 
-    getStatusDisplay(status: string) {
+    getStatusDisplay(status: AnyNetworkCheckStatus) {
       switch (status) {
-        case CheckStatus.CHECKING: {
+        case DnsRecordStatus.Queued:
+        case PortReachabilityStatus.Queued:
+        case IpConnectivityStatus.Queued: {
+          return "";
+        }
+
+        case DnsRecordStatus.Checking:
+        case PortReachabilityStatus.Checking:
+        case IpConnectivityStatus.Checking: {
           return "Pending";
         }
 
-        case CheckStatus.SUCCESS: {
-          return "Connectivity is OK";
-        }
-
-        case CheckStatus.OPEN: {
-          return "Port is open";
-        }
-
-        case CheckStatus.VALID: {
+        case DnsRecordStatus.Valid: {
           return "Record is valid";
         }
-
-        case CheckStatus.PARTIALLY_VALID: {
+        case DnsRecordStatus.Invalid: {
+          return "Record is not valid";
+        }
+        case DnsRecordStatus.PartiallyValid: {
           return "Record is partially valid";
         }
 
-        case CheckStatus.FAILURE: {
-          return "No address available";
+        case PortReachabilityStatus.Open: {
+          return "Port is open";
         }
-
-        case CheckStatus.CLOSED: {
+        case PortReachabilityStatus.Closed: {
           return "Port is closed";
         }
 
-        case CheckStatus.INVALID: {
-          return "Record is not valid";
+        case IpConnectivityStatus.Success: {
+          return "Connectivity is OK";
+        }
+        case IpConnectivityStatus.Failure: {
+          return "No address available";
         }
       }
+
+      return "";
     }
   }
 };

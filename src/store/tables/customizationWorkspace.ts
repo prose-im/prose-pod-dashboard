@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -12,9 +12,9 @@
 import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
-import APICustomizationWorkspace from "@/api/providers/customizationWorkspace";
+import APIWorkspace from "@/api/providers/workspace";
 
-/**************************************************************************
+/* *************************************************************************
  * TYPES
  * ************************************************************************* */
 
@@ -28,7 +28,7 @@ type WorkspaceProfileConfig = {
   detailsCard: string;
 };
 
-/**************************************************************************
+/* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
@@ -37,15 +37,16 @@ interface CustomizationWorkspaceConfig {
   appearance: AppearanceConfig;
 }
 
-/**************************************************************************
+/* *************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
 const LOCAL_STATES = {
   configLoaded: false
 };
+const DEFAULT_ACCENT_COLOR = "";
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -59,7 +60,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
       },
 
       appearance: {
-        color: ""
+        color: DEFAULT_ACCENT_COLOR
       }
     };
   },
@@ -94,14 +95,14 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         // Load globalConfig configuration
 
         try {
-          const [name, icon, color] =
-            await APICustomizationWorkspace.getWorkspaceConfig();
+          const workspace = await APIWorkspace.getWorkspace();
 
           this.$patch(() => {
-            this.workspaceProfile.name = name.name;
-            this.appearance.color = color.color;
+            this.workspaceProfile.name = workspace.name;
+            this.appearance.color =
+              workspace.accent_color ?? DEFAULT_ACCENT_COLOR;
             this.workspaceProfile.iconUrl =
-              "data:image/png;base64," + icon.icon;
+              "data:image/png;base64," + workspace.icon;
           });
         } catch (error: any) {
           console.error(
@@ -117,7 +118,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
-      await APICustomizationWorkspace.setWorkspaceName(newName);
+      await APIWorkspace.setWorkspaceName(newName);
 
       this.$patch(() => {
         this.workspaceProfile.name = newName;
@@ -125,15 +126,15 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceIcon(newIcon: string): Promise<void> {
-      await APICustomizationWorkspace.setWorkspaceIcon(newIcon);
+      await APIWorkspace.setWorkspaceIcon(newIcon);
 
       this.$patch(() => {
         this.workspaceProfile.iconUrl = "data:image/png;base64," + newIcon;
       });
     },
 
-    async updateWorkspaceColor(newColor: string): Promise<void> {
-      await APICustomizationWorkspace.setWorkspaceColor(newColor);
+    async setWorkspaceAccentColor(newColor: string): Promise<void> {
+      await APIWorkspace.setWorkspaceAccentColor(newColor);
 
       this.$patch(() => {
         this.appearance.color = newColor;
@@ -142,7 +143,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 
