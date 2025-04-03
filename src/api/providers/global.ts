@@ -27,3 +27,6 @@ export type Ipv6 = string;
 export type BareJid = string;
 /** The local part (aka “username”) of a JID (e.g. `alice` in `alice@example.org`). */
 export type JidLocalPart = string;
+
+/** A color in CSS format (e.g. `#ABABAB`). */
+export type CssColor = string;

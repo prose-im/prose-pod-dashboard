@@ -12,20 +12,23 @@
 import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
-import APIWorkspace from "@/api/providers/workspace";
+import APIWorkspace, {
+  WorkspaceIcon,
+  WorkspaceName
+} from "@/api/providers/workspace";
+import { CssColor } from "@/api/providers/global";
 
 /* *************************************************************************
  * TYPES
  * ************************************************************************* */
 
 type AppearanceConfig = {
-  color: string;
+  color: CssColor;
 };
 
 type WorkspaceProfileConfig = {
-  name: string;
-  iconUrl: string;
-  detailsCard: string;
+  name: WorkspaceName | null;
+  logo: WorkspaceIcon | null;
 };
 
 /* *************************************************************************
@@ -44,7 +47,8 @@ interface CustomizationWorkspaceConfig {
 const LOCAL_STATES = {
   configLoaded: false
 };
-const DEFAULT_ACCENT_COLOR = "";
+// TODO: Use `ACCENT_COLORS` from `AppCustomizationWorkspace.vue`.
+const DEFAULT_ACCENT_COLOR = "#2490F0";
 
 /* *************************************************************************
  * TABLE
@@ -54,9 +58,8 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
   state: (): CustomizationWorkspaceConfig => {
     return {
       workspaceProfile: {
-        name: "",
-        iconUrl: "",
-        detailsCard: ""
+        name: null,
+        logo: null
       },
 
       appearance: {
@@ -83,7 +86,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
 
     getWorkspaceLogo: function () {
       return () => {
-        return this.workspaceProfile.iconUrl;
+        return this.workspaceProfile.logo;
       };
     }
   },
@@ -99,46 +102,72 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
 
           this.$patch(() => {
             this.workspaceProfile.name = workspace.name;
-            this.appearance.color =
-              workspace.accent_color ?? DEFAULT_ACCENT_COLOR;
-            this.workspaceProfile.iconUrl =
-              "data:image/png;base64," + workspace.icon;
+            if (workspace.accent_color) {
+              this.appearance.color = workspace.accent_color;
+            }
+            if (workspace.icon) {
+              this.workspaceProfile.logo = `data:image/png;base64,${workspace.icon}`;
+            }
           });
         } catch (error: any) {
           console.error(
-            "message:",
-            error.message,
-            "- code:",
-            error.code,
-            "- status:",
-            error.status
+            "Error when loading the Workspace:",
+            JSON.stringify(error, null, 2)
           );
         }
       }
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
-      await APIWorkspace.setWorkspaceName(newName);
+      try {
+        const workspaceName = await APIWorkspace.setWorkspaceName(newName);
 
-      this.$patch(() => {
-        this.workspaceProfile.name = newName;
-      });
+        this.$patch(() => {
+          this.workspaceProfile.name = workspaceName;
+        });
+      } catch (error: any) {
+        console.error(
+          "Error when setting the Workspace name:",
+          JSON.stringify(error, null, 2)
+        );
+      }
     },
 
-    async updateWorkspaceIcon(newIcon: string): Promise<void> {
-      await APIWorkspace.setWorkspaceIcon(newIcon);
+    async updateWorkspaceIcon(newIcon: WorkspaceIcon | null): Promise<void> {
+      try {
+        const workspaceIcon = await APIWorkspace.setWorkspaceIcon(newIcon);
 
-      this.$patch(() => {
-        this.workspaceProfile.iconUrl = "data:image/png;base64," + newIcon;
-      });
+        this.$patch(() => {
+          // NOTE: Remove once [Add prefix `data:image/png;base64,` to Base64-encoded avatars · Issue #203 · prose-im/prose-pod-api](https://github.com/prose-im/prose-pod-api/issues/203) gets fixed.
+          if (workspaceIcon) {
+            this.workspaceProfile.logo = `data:image/png;base64,${workspaceIcon}`;
+          } else {
+            this.workspaceProfile.logo = workspaceIcon;
+          }
+        });
+      } catch (error: any) {
+        console.error(
+          "Error when setting the Workspace icon:",
+          JSON.stringify(error, null, 2)
+        );
+      }
     },
 
-    async setWorkspaceAccentColor(newColor: string): Promise<void> {
-      await APIWorkspace.setWorkspaceAccentColor(newColor);
+    async setWorkspaceAccentColor(newColor: CssColor | null): Promise<void> {
+      try {
+        const workspaceAccentColor = await APIWorkspace.setWorkspaceAccentColor(
+          newColor
+        );
 
-      this.$patch(() => {
-        this.appearance.color = newColor;
-      });
+        this.$patch(() => {
+          this.appearance.color = workspaceAccentColor ?? DEFAULT_ACCENT_COLOR;
+        });
+      } catch (error: any) {
+        console.error(
+          "Error when setting the Workspace accent color:",
+          JSON.stringify(error, null, 2)
+        );
+      }
     }
   }
 });
