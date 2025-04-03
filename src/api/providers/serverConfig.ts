@@ -38,8 +38,8 @@ export interface ServerConfig {
  * TYPES
  * ************************************************************************* */
 
-type MessageArchiveRetention = DurationDateLike | "infinite";
-type FileStorageRetention = DurationDateLike | "infinite";
+export type MessageArchiveRetention = DurationDateLike | "infinite";
+export type FileStorageRetention = DurationDateLike | "infinite";
 export type TlsProfile = "modern" | "intermediate" | "old";
 
 /* *************************************************************************

@@ -138,7 +138,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     async loadFederationConfiguration() {
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = store.$globalConfig.getGlobalConfig();
+      const response = store.$globalConfig.getServerConfig();
 
       this.$patch(() => {
         this.federation.whitelist = [...response.federation_friendly_servers];

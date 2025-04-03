@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024, Prose Foundation
+* Copyright 2024–2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -27,7 +27,7 @@ base-modal(
         v-if="whitelist.length === 0"
       )
         | No server approved
-        
+
       p(
         v-else
         v-for="(server, index) in whitelist"
@@ -51,7 +51,7 @@ base-modal(
         tint="purple"
       )
         p
-          | Add a new domain 
+          | Add a new domain
 
       .a-server-whitelist__buttons(
         v-else
@@ -137,7 +137,7 @@ export default {
     },
 
     onLoad() {
-      store.$globalConfig.getGlobalConfig();
+      store.$globalConfig.getServerConfig();
 
       if (this.whitelist.length === 0) {
         this.whitelist = [...this.serverList];

@@ -48,7 +48,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       // Load globalConfig configuration
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = store.$globalConfig.getGlobalConfig();
+      const response = store.$globalConfig.getServerConfig();
 
       this.$patch(() => {
         this.security.twoFactor = response.mfa_required;

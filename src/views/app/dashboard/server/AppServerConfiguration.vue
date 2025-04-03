@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -174,13 +174,13 @@ export default {
         this.config.messaging[changedKey] !== newValue
       ) {
         switch (changedKey) {
-          case "archiveEnabled": {
+          case MessagingKey.Archive: {
             if (typeof newValue === "boolean") {
               store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
             }
             break;
           }
-          case "messageRetentionTime": {
+          case MessagingKey.RetentionTime: {
             if (typeof newValue === "string") {
               store.$serverConfiguration.changeMessageRetentionTime(newValue);
             }
