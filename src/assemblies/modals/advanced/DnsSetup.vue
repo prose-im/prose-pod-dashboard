@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024, Prose Foundation
+* Copyright 2024–2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -32,95 +32,35 @@ base-modal(
     h3
       | DNS Records
 
-    .a-dns-setup__step
-      span
-        | 1️⃣ &nbsp;Add those records to&nbsp;
-      span.a-dns-setup--semibold
-        | specify your server IP address:
+    template(
+      v-for="(step, index) in steps"
+    )
 
-    .a-dns-setup__table
-      advanced-network-dns-table-row(
-        :header="true"
-        class="a-dns-setup__table--one--row"
-      )
-        p Hostname
-        p Type
-        p TTL
-        p Value
+      .a-dns-setup__step
+        span
+          | {{ numberEmoji(index) }} &nbsp;Add those records to&nbsp;
+        span.a-dns-setup--semibold
+          | {{ step.purpose }}:
 
-      advanced-network-dns-table-row(
-        v-if="stepOne"
-        v-for="record in stepOne"
-        class="a-dns-setup__table--one--row"
-      )
-        p {{ record["hostname"] }}
-        p {{ record["type"] }}
-        p {{ record["ttl"] }}
-        p {{ record["value"] }}
+      .a-dns-setup__table
+        advanced-network-dns-table-row(
+          :header="true"
+          :class="`a-dns-setup__table--${stepTableClass(step)}--row`"
+        )
+          template(
+            v-for="column in stepTableColumns(step)"
+          )
+            p {{ column }}
 
-    .a-dns-setup__step
-      span
-        | 2️⃣ &nbsp;Add the records that let&nbsp;
-      span.a-dns-setup--semibold
-        | clients connect to your server:
-
-    .a-dns-setup__table
-      advanced-network-dns-table-row(
-        :header="true"
-        class="a-dns-setup__table--two--row"
-      )
-        p Hostname
-        p Type
-        p TTL
-        p Prio.
-        p Weight
-        p Port
-        p Target
-
-      advanced-network-dns-table-row(
-        v-if="stepTwo"
-        v-for="record in stepTwo"
-        class="a-dns-setup__table--two--row"
-      )
-        p {{ record["hostname"] }}
-        p {{ record["type"] }}
-        p {{ record["ttl"] }}
-        p {{ record["priority"] }}
-        p {{ record["weight"] }}
-        p {{ record["port"] }}
-        p {{ record["target"] }}
-
-    .a-dns-setup__step
-      span
-        | 3️⃣ &nbsp;Add the records that let&nbsp;
-      span.a-dns-setup--semibold
-        | servers connect to your server:
-
-    .a-dns-setup__table
-      advanced-network-dns-table-row(
-        :header="true"
-        class="a-dns-setup__table--two--row"
-      )
-        p Hostname
-        p Type
-        p TTL
-        p Prio.
-        p Weight
-        p Port
-        p Target
-
-      advanced-network-dns-table-row(
-        v-if="stepThree"
-        v-for="record in stepThree"
-        class="a-dns-setup__table--two--row"
-      )
-        p {{ record["hostname"] }}
-        p {{ record["type"] }}
-        p {{ record["ttl"] }}
-        p {{ record["priority"] }}
-        p {{ record["weight"] }}
-        p {{ record["port"] }}
-        p {{ record["target"] }}
+        advanced-network-dns-table-row(
+          v-for="record in step.records"
+          :class="`a-dns-setup__table--${stepTableClass(step)}--row`"
+          :stringRepr="`${record.string_repr}`"
+        )
+          template(
+            v-for="value in recordTableValues(record)"
+          )
+            p {{ value }}
 </template>
 
 <!-- **********************************************************************
@@ -129,10 +69,25 @@ base-modal(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import { AnyDnsRecord, DnsSetupStep } from "@/api/providers/networkConfig";
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
 
 // PROJECT: STORE
 import store from "@/store";
+
+// CONSTANTS
+const NUMBER_EMOJIS = [
+  "1️⃣",
+  "2️⃣",
+  "3️⃣",
+  "4️⃣",
+  "5️⃣",
+  "6️⃣",
+  "7️⃣",
+  "8️⃣",
+  "9️⃣",
+  "🔟"
+];
 
 export default {
   name: "DnsSetup",
@@ -165,39 +120,6 @@ export default {
 
     steps() {
       return store.$settingsNetwork.getDnsInstructions();
-    },
-
-    stepOne() {
-      if (this.steps.length > 0) {
-        const step = this.steps.filter(step =>
-          step["purpose"].includes("specify")
-        );
-        return step[0] ? step[0]["records"] : "";
-      } else {
-        return "";
-      }
-    },
-
-    stepTwo() {
-      if (this.steps.length > 0) {
-        const step = this.steps.filter(step =>
-          step["purpose"].includes("clients")
-        );
-        return step[0] ? step[0]["records"] : "";
-      } else {
-        return "";
-      }
-    },
-
-    stepThree() {
-      if (this.steps.length > 0) {
-        const step = this.steps.filter(step =>
-          step["purpose"].includes("servers")
-        );
-        return step[0] ? step[0]["records"] : "";
-      } else {
-        return "";
-      }
     }
   },
 
@@ -207,9 +129,72 @@ export default {
     // --> EVENT LISTENERS <--
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
+    },
+
+    numberEmoji(n: number): string {
+      return NUMBER_EMOJIS[n] ?? n.toString();
+    },
+    stepTableColumns(step: DnsSetupStep): string[] {
+      if (stepRecordsType(step.records, ["A", "AAAA"])) {
+        return ["Hostname", "Type", "TTL", "Value"];
+      } else if (stepRecordsType(step.records, ["SRV"])) {
+        return ["Hostname", "Type", "TTL", "Prio.", "Weight", "Port", "Target"];
+      } else {
+        console.error("DNS setup step records are mixed:", step);
+        // NOTE: This should never happen, but if it does return an empty array.
+        return [];
+      }
+    },
+    stepTableClass(step: DnsSetupStep): "ip" | "srv" | null {
+      if (stepRecordsType(step.records, ["A", "AAAA"])) {
+        return "ip";
+      } else if (stepRecordsType(step.records, ["SRV"])) {
+        return "srv";
+      } else {
+        console.error("DNS setup step records are mixed:", step);
+        // NOTE: This should never happen, but if it does return `null`.
+        return null;
+      }
+    },
+    recordTableValues(record: AnyDnsRecord): string[] {
+      switch (record.type) {
+        case "A":
+        case "AAAA": {
+          return [
+            record.hostname,
+            record.type,
+            record.ttl.toString(),
+            record.value
+          ];
+        }
+        case "SRV": {
+          return [
+            record.hostname,
+            record.type,
+            record.ttl.toString(),
+            record.priority.toString(),
+            record.weight.toString(),
+            record.port.toString(),
+            record.target
+          ];
+        }
+      }
     }
   }
 };
+
+function stepRecordsType<RecordType extends AnyDnsRecord>(
+  records: AnyDnsRecord[],
+  types: string[]
+): records is RecordType[] {
+  return records.every(record => types.includes(record.type));
+}
+// function dnsRecordType<RecordType extends AnyDnsRecord>(
+//   record: AnyDnsRecord,
+//   types: string[]
+// ): record is RecordType {
+//   return types.includes(record.type);
+// }
 </script>
 
 <!-- **********************************************************************
@@ -234,7 +219,7 @@ $c: ".a-dns-setup";
     margin-bottom: 27px;
     font-weight: $font-weight-light;
 
-    &--one--row {
+    &--ip--row {
       p:first-child {
         min-width: 74px;
         max-width: (74px + 35px);
@@ -258,7 +243,7 @@ $c: ".a-dns-setup";
       }
     }
 
-    &--two--row {
+    &--srv--row {
       p:first-child {
         min-width: 74px;
         max-width: (74px + 35px);

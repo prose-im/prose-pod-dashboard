@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024, Prose Foundation
+* Copyright 2024–2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -54,6 +54,10 @@ export default {
     header: {
       type: Boolean,
       default: false
+    },
+    stringRepr: {
+      type: String,
+      default: ""
     }
   },
 
@@ -76,35 +80,26 @@ export default {
   methods: {
     // --> HELPERS <--
 
-    async copyText(htmlElement: HTMLElement) {
-      const textToCopyArray: string[] = [];
-
-      for (let i = 0; i < htmlElement.children.length; i++) {
-        textToCopyArray.push(htmlElement.children[i].innerHTML);
-      }
-
-      const textToCopy = textToCopyArray.map(String).join(" ");
-      // console.log(textToCopy);
-
-      try {
-        await navigator.clipboard.writeText(textToCopy);
-
-        this.copied = true;
-
-        if (this.timer) {
-          clearTimeout(this.timer);
-        }
-
-        this.timer = setTimeout(() => {
-          this.copied = false;
-        }, 5000);
-      } catch (_) {
-        // alert('Cannot copy');
-      }
-    },
-
     async copyRow() {
-      await this.copyText(this.$refs.rowText as HTMLElement);
+      if (this.stringRepr !== "") {
+        try {
+          await navigator.clipboard.writeText(this.stringRepr);
+
+          this.copied = true;
+
+          if (this.timer) {
+            clearTimeout(this.timer);
+          }
+
+          this.timer = setTimeout(() => {
+            this.copied = false;
+          }, 5000);
+        } catch (_) {
+          // alert("Cannot copy");
+        }
+      } else {
+        console.error("Row is missing prop `stringRepr`.");
+      }
     }
   },
 

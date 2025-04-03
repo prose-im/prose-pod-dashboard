@@ -16,19 +16,19 @@ import { Hostname, Ipv4, Ipv6 } from "./global";
  * INTERFACES
  * ************************************************************************* */
 
-interface DnsRecordA {
+export interface DnsRecordA {
   hostname: Hostname;
   type: "A";
   ttl: number;
   value: Ipv4;
 }
-interface DnsRecordAAAA {
+export interface DnsRecordAAAA {
   hostname: Hostname;
   type: "AAAA";
   ttl: number;
   value: Ipv6;
 }
-interface DnsRecordSRV {
+export interface DnsRecordSRV {
   hostname: Hostname;
   type: "SRV";
   ttl: number;
@@ -36,6 +36,9 @@ interface DnsRecordSRV {
   weight: number;
   port: number;
   target: string;
+}
+export interface DnsRecordStringRepr {
+  string_repr: string;
 }
 
 export interface DnsSetupStep {
@@ -92,10 +95,8 @@ export interface IpConnectivityCheckResult {
  * TYPES
  * ************************************************************************* */
 
-type AnyDnsRecord = DnsRecordA | DnsRecordAAAA | DnsRecordSRV;
-type AnyDnsRecordWithStringRepr = AnyDnsRecord & {
-  string_repr: string;
-};
+export type AnyDnsRecord = DnsRecordA | DnsRecordAAAA | DnsRecordSRV;
+export type AnyDnsRecordWithStringRepr = AnyDnsRecord & DnsRecordStringRepr;
 
 export type AnyNetworkCheckResult =
   | DnsRecordCheckResult
