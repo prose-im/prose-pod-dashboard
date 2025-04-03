@@ -23,17 +23,6 @@ import store from "@/store/index";
 import { Hostname } from "@/api/providers/global";
 
 /* *************************************************************************
- * ENUMERATIONS
- * ************************************************************************* */
-
-enum SessionAppearance {
-  // Light appearance.
-  Light = "light",
-  // Dark appearance.
-  Dark = "dark"
-}
-
-/* *************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
@@ -311,5 +300,4 @@ const $settingsNetwork = defineStore("settingsNetwork", {
  * EXPORTS
  * ************************************************************************* */
 
-export { SessionAppearance };
 export default $settingsNetwork;
