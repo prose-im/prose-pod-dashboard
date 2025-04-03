@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -17,7 +17,7 @@
     :disabled="searchBarDisabled"
     placeholder-text="team members..."
   )
-  
+
   .c-members-invites-dashboard__content
     <!-- HEADERS -->
     members-invites-row(
@@ -90,7 +90,7 @@ import SearchBar from "@/components/search/SearchBar.vue";
 
 // PROJECT: STORE
 import store from "@/store";
-import { ROLES } from "@/api/providers/teamMembers";
+import { MemberRole } from "@/api/providers/members";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -205,7 +205,7 @@ export default {
     },
 
     menuActionDisabled() {
-      return store.$account.getUserRole() === ROLES.ADMIN ? false : true;
+      return store.$account.getUserRole() === MemberRole.Admin ? false : true;
     }
   },
 

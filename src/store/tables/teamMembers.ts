@@ -1,33 +1,38 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
 // NPM
 import APITeamMembers, {
-  AllInvitationsResponse,
-  AllMembersResponse,
+  Member,
   EnrichMembersResponse,
-  ROLES
-} from "@/api/providers/teamMembers";
+  MemberRole
+} from "@/api/providers/members";
+import APIInvitations, {
+  InvitationChannel,
+  Invitation,
+  InvitationId
+} from "@/api/providers/invitations";
 import { defineStore } from "pinia";
+import { EmailAddress, JidLocalPart } from "@/api/providers/global";
 
-/**************************************************************************
+/* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Members {
   enrichedMembers: EnrichMembersResponse;
-  invitedMembers: AllInvitationsResponse;
-  notEnrichedMembers: AllMembersResponse;
+  invitedMembers: Invitation[];
+  notEnrichedMembers: Member[];
 }
 
-/**************************************************************************
+/* *************************************************************************
  * CONSTANTS
  * ************************************************************************* */
 
@@ -35,7 +40,7 @@ const LOCAL_STATES = {
   loaded: false
 };
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -134,11 +139,11 @@ const $teamMembers = defineStore("teamMembers", {
 
     loadMemberById(jid: string | null) {
       if (jid) {
-        return APITeamMembers.getMemberById(jid);
+        return APITeamMembers.getMember(jid);
       }
     },
 
-    updateRoleLocally(jid: string, newValue: ROLES) {
+    updateRoleLocally(jid: string, newValue: MemberRole) {
       for (const member of this.notEnrichedMembers) {
         if (member.jid === jid) {
           member.role = newValue;
@@ -147,8 +152,8 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
-    async updateRoleByMemberId(jid: string, newRole: ROLES) {
-      return await APITeamMembers.updateMemberRole(jid, newRole);
+    async updateRoleByMemberId(jid: string, newRole: MemberRole) {
+      return await APITeamMembers.setMemberRole(jid, newRole);
     },
 
     deleteMemberLocally(jid: string) {
@@ -160,7 +165,7 @@ const $teamMembers = defineStore("teamMembers", {
     },
 
     async deleteMemberById(jid: string) {
-      return await APITeamMembers.deleteMemberById(jid);
+      return await APITeamMembers.deleteMember(jid);
     },
 
     // <-- INVITES -->
@@ -169,7 +174,7 @@ const $teamMembers = defineStore("teamMembers", {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Initialize entries
-        this.invitedMembers = await APITeamMembers.getAllInvitations();
+        this.invitedMembers = await APIInvitations.getAllInvitations();
 
         console.log("invites", this.invitedMembers);
 
@@ -195,33 +200,33 @@ const $teamMembers = defineStore("teamMembers", {
     },
 
     async sendInvitation(
-      newUsername: string,
-      newRole: ROLES,
-      newInviteEmail: string
-    ): Promise<void> {
-      const newInvite = {
-        username: newUsername,
-        pre_assigned_role: newRole,
-        channel: "email",
-        email_address: newInviteEmail
+      username: JidLocalPart,
+      preAssignedRole: MemberRole,
+      emailAddress: EmailAddress
+    ): Promise<Invitation> {
+      const invitation = {
+        username,
+        pre_assigned_role: preAssignedRole,
+        channel: InvitationChannel.Email,
+        email_address: emailAddress
       };
 
-      return await APITeamMembers.sendInvitation(newInvite);
+      return await APIInvitations.inviteMember(invitation);
     },
 
-    async cancelInvitation(inviteId: string): Promise<void> {
-      await APITeamMembers.cancelInvitation(inviteId);
+    async cancelInvitation(invitationId: InvitationId): Promise<void> {
+      await APIInvitations.cancelInvitation(invitationId);
 
       this.$patch(() => {
         this.invitedMembers = this.invitedMembers.filter(
-          invitation => invitation.invitation_id !== Number(inviteId)
+          invitation => invitation.invitation_id !== Number(invitationId)
         );
       });
     }
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

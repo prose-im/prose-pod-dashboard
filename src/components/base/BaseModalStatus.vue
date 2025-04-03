@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -34,7 +34,12 @@
       ********************************************************************** -->
 
 <script lang="ts">
-import { CheckStatus } from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
+import {
+  DnsRecordStatus,
+  IpConnectivityStatus,
+  PortReachabilityStatus,
+  AnyNetworkCheckStatus
+} from "@/api/providers/networkConfig";
 
 export default {
   name: "BaseModalStatus",
@@ -45,7 +50,16 @@ export default {
       default: "CHECKING",
 
       validator(x: string) {
-        return Object.values(CheckStatus).includes(x as CheckStatus);
+        // NOTE: Not great but temporary before a refactor.
+        return (
+          Object.values(DnsRecordStatus).includes(x as DnsRecordStatus) ||
+          Object.values(IpConnectivityStatus).includes(
+            x as IpConnectivityStatus
+          ) ||
+          Object.values(PortReachabilityStatus).includes(
+            x as PortReachabilityStatus
+          )
+        );
       }
     },
 
@@ -64,32 +78,37 @@ export default {
     label() {
       let label = "";
 
-      switch (this.status as CheckStatus) {
-        case CheckStatus.CHECKING: {
+      switch (this.status as AnyNetworkCheckStatus) {
+        case DnsRecordStatus.Queued:
+        case IpConnectivityStatus.Queued:
+        case PortReachabilityStatus.Queued: {
+          label = "";
+          break;
+        }
+
+        case DnsRecordStatus.Checking:
+        case IpConnectivityStatus.Checking:
+        case PortReachabilityStatus.Checking: {
           label = "Checking...";
           break;
         }
 
-        case CheckStatus.SUCCESS:
-        case CheckStatus.VALID:
-        case CheckStatus.OPEN: {
+        case DnsRecordStatus.Valid:
+        case PortReachabilityStatus.Open:
+        case IpConnectivityStatus.Success: {
           label = "Verified";
           break;
         }
 
-        case CheckStatus.FAILURE:
-        case CheckStatus.INVALID:
-        case CheckStatus.CLOSED: {
+        case DnsRecordStatus.Invalid:
+        case PortReachabilityStatus.Closed:
+        case IpConnectivityStatus.Failure: {
           label = "Issue";
           break;
         }
 
-        case CheckStatus.PARTIALLY_VALID: {
+        case DnsRecordStatus.PartiallyValid: {
           label = "Warning";
-          break;
-        }
-
-        default: {
           break;
         }
       }

@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -13,9 +13,9 @@ import { defineStore } from "pinia";
 
 // PROJECT: UTILITIES
 import store from "@/store/index";
-import APIAdvancedSecurity from "@/api/providers/advancedSecurity";
+import APIServerConfig, { TlsProfile } from "@/api/providers/serverConfig";
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -56,23 +56,23 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       });
     },
 
-    async updateTlsProfile(newTlsProfile: string) {
-      await APIAdvancedSecurity.updateTlsProfile(newTlsProfile);
+    async updateTlsProfile(newTlsProfile: TlsProfile) {
+      await APIServerConfig.setTlsProfile(newTlsProfile);
 
       this.encryption.tls_profile = newTlsProfile;
     },
 
     async resetTlsProfile() {
-      const response = await APIAdvancedSecurity.resetTlsProfile();
+      const defaultValue = await APIServerConfig.resetTlsProfile();
 
       this.$patch(() => {
-        this.encryption.tls_profile = response.tls_profile;
+        this.encryption.tls_profile = defaultValue;
       });
     }
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

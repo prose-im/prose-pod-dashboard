@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -19,13 +19,13 @@ import store from "@/store";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import router from "@/router";
 
-/**************************************************************************
+/* *************************************************************************
  * CONSTANTS
  ***************************************************************************/
 
 const HTTP_TIMEOUT = 30000; // 30 seconds
 
-/**************************************************************************
+/* *************************************************************************
  * STORE
  * ************************************************************************* */
 
@@ -86,7 +86,13 @@ class API {
   private __createClient(): AxiosInstance {
     return axios.create({
       baseURL: `${CONFIG.api.endpoint.local}/${CONFIG.api.version}`,
-      timeout: HTTP_TIMEOUT
+      timeout: HTTP_TIMEOUT,
+      // NOTE: Some routes accept primitive JSON types,
+      //   but Axios doesn’t mark it as JSON by default.
+      //   This sets a default value for the `Content-Type` header.
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
   }
 
@@ -104,7 +110,7 @@ class API {
   }
 }
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

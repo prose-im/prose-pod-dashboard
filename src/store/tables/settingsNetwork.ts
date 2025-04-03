@@ -1,10 +1,10 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  */
 
-/**************************************************************************
+/* *************************************************************************
  * IMPORTS
  * ************************************************************************* */
 
@@ -12,13 +12,17 @@
 import mitt from "mitt";
 import { defineStore } from "pinia";
 
-import APIAdvancedNetwork, {
-  CheckData,
-  DnsStep
-} from "@/api/providers/advancedNetwork";
+import APINetworkConfig, {
+  DnsSetupStep,
+  IpConnectivityCheckResult,
+  DnsRecordCheckResult,
+  PortReachabilityCheckResult
+} from "@/api/providers/networkConfig";
+import APIServerConfig from "@/api/providers/serverConfig";
 import store from "@/store/index";
+import { Hostname } from "@/api/providers/global";
 
-/**************************************************************************
+/* *************************************************************************
  * ENUMERATIONS
  * ************************************************************************* */
 
@@ -29,13 +33,13 @@ enum SessionAppearance {
   Dark = "dark"
 }
 
-/**************************************************************************
+/* *************************************************************************
  * INSTANCES
  * ************************************************************************* */
 
 const EventBus = mitt();
 
-/**************************************************************************
+/* *************************************************************************
  * TABLE
  * ************************************************************************* */
 
@@ -44,15 +48,15 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     return {
       federation: {
         federationEnabled: true,
-        whitelist: [] as string[]
+        whitelist: [] as Hostname[]
       },
 
-      dnsInstructions: [] as DnsStep[],
+      dnsInstructions: [] as DnsSetupStep[],
 
-      checks: {
-        dns: [] as CheckData[],
-        ports: [] as CheckData[],
-        ip: [] as CheckData[]
+      checkResults: {
+        dns: [] as DnsRecordCheckResult[],
+        ip: [] as IpConnectivityCheckResult[],
+        ports: [] as PortReachabilityCheckResult[]
       },
 
       states: {
@@ -61,13 +65,13 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           dnsLoaded: false,
           dnsFailed: false,
 
-          portLoading: false,
-          portLoaded: false,
-          portFailed: false,
-
           ipLoading: false,
           ipLoaded: false,
-          ipFailed: false
+          ipFailed: false,
+
+          portLoading: false,
+          portLoaded: false,
+          portFailed: false
         },
 
         dnsSteps: {
@@ -100,21 +104,21 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
     //** CONFIG CHECKS*/
 
-    getDnsCheck: function () {
+    getDnsCheckResults: function () {
       return () => {
-        return this.checks.dns;
+        return this.checkResults.dns;
       };
     },
 
     getPortCheck: function () {
       return () => {
-        return this.checks.ports;
+        return this.checkResults.ports;
       };
     },
 
     getIpCheck: function () {
       return () => {
-        return this.checks.ip;
+        return this.checkResults.ip;
       };
     },
 
@@ -142,10 +146,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       });
     },
 
-    //**  SERVER FEDERATION */
+    /** SERVER FEDERATION */
 
     async updateFederationEnabled(newState: boolean) {
-      await APIAdvancedNetwork.updateServerFederationEnabled(newState);
+      await APIServerConfig.setFederationEnabled(newState);
 
       this.$patch(() => {
         this.federation.federationEnabled = newState;
@@ -153,34 +157,33 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     async restoreFederationEnabled() {
-      const response =
-        await APIAdvancedNetwork.restoreServerFederationEnabled();
+      const defaultValue = await APIServerConfig.resetFederationEnabled();
 
       this.$patch(() => {
-        this.federation.federationEnabled = response.federation_enabled;
+        this.federation.federationEnabled = defaultValue;
       });
     },
 
-    async updateServerWhitelist(newWhitelist: string[]) {
-      const response = await APIAdvancedNetwork.updateServerFederationWhitelist(
+    async updateServerWhitelist(newWhitelist: Hostname[]) {
+      const response = await APIServerConfig.setFederationFriendlyServers(
         newWhitelist
       );
 
       this.$patch(() => {
-        this.federation.whitelist = [...response.federation_friendly_servers];
+        this.federation.whitelist = response;
       });
     },
 
     async restoreFederationWhitelist() {
-      const response =
-        await APIAdvancedNetwork.restoreServerFederationWhitelist();
+      const defaultValue =
+        await APIServerConfig.resetFederationFriendlyServers();
 
       this.$patch(() => {
-        this.federation.whitelist = [...response.federation_friendly_servers];
+        this.federation.whitelist = defaultValue;
       });
     },
 
-    //**  DNS  */
+    /** DNS **/
 
     async loadDnsInstructions(reload = false) {
       if (
@@ -193,9 +196,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           this.states.dnsSteps.instructionsLoaded = false;
           this.states.dnsSteps.instructionsFailed = false;
 
-          this.dnsInstructions = (
-            await APIAdvancedNetwork.getDnsRecords()
-          ).steps;
+          this.dnsInstructions = (await APINetworkConfig.getDnsRecords()).steps;
           console.log("instructions", this.dnsInstructions);
 
           this.states.dnsSteps.instructionsLoading = false;
@@ -208,13 +209,11 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       }
     },
 
-    //**  RECORD CHECK  */
+    /** RECORD CHECK **/
 
     checkAllRecords() {
       this.checkDnsRecords();
-
       this.checkPortReachability();
-
       this.checkIPConnectivity();
     },
 
@@ -225,16 +224,16 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.dnsLoaded = false;
         this.states.configChecks.dnsLoading = true;
         this.states.configChecks.dnsFailed = false;
-        this.checks.dns = [];
+        this.checkResults.dns = [];
 
         try {
-          const response = await APIAdvancedNetwork.getDnsRecordsCheck();
+          const response = await APINetworkConfig.checkDnsRecords();
 
           response.forEach(element => {
-            this.checks.dns.push(element.data);
+            this.checkResults.dns.push(element);
           });
 
-          console.log("dns", this.checks.dns);
+          console.log("dns", this.checkResults.dns);
 
           // update request progress
           this.states.configChecks.dnsLoaded = true;
@@ -255,16 +254,16 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.portLoaded = false;
         this.states.configChecks.portLoading = true;
         this.states.configChecks.portFailed = false;
-        this.checks.ports = [];
+        this.checkResults.ports = [];
 
         try {
-          const response = await APIAdvancedNetwork.getPortsCheck();
+          const response = await APINetworkConfig.checkPortsReachability();
 
           response.forEach(element => {
-            this.checks.ports.push(element.data);
+            this.checkResults.ports.push(element);
           });
 
-          console.log("ports", this.checks.ports);
+          console.log("ports", this.checkResults.ports);
 
           // update request progress
           this.states.configChecks.portLoaded = true;
@@ -285,16 +284,16 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         this.states.configChecks.ipLoaded = false;
         this.states.configChecks.ipLoading = true;
         this.states.configChecks.ipFailed = false;
-        this.checks.ip = [];
+        this.checkResults.ip = [];
 
         try {
-          const response = await APIAdvancedNetwork.getIPConnectivityCheck();
+          const response = await APINetworkConfig.checkIpConnectivity();
 
           response.forEach(element => {
-            this.checks.ip.push(element.data);
+            this.checkResults.ip.push(element);
           });
 
-          console.log("ip", this.checks.ip);
+          console.log("ip", this.checkResults.ip);
           this.states.configChecks.ipLoaded = true;
           this.states.configChecks.ipLoading = false;
         } catch (e: any) {
@@ -308,7 +307,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
   }
 });
 
-/**************************************************************************
+/* *************************************************************************
  * EXPORTS
  * ************************************************************************* */
 

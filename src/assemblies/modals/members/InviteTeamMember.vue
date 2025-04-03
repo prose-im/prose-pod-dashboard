@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -61,7 +61,7 @@ base-modal(
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // TYPES
-import { ROLES, Roles } from "@/api/providers/teamMembers";
+import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 
 //Store
 import store from "@/store";
@@ -84,16 +84,16 @@ export default {
       inviteEmail: "",
       inviteUserName: "",
 
-      inviteRole: ROLES.MEMBER,
+      inviteRole: MemberRole.Member,
 
       roleOptions: [
         {
-          label: Roles.Member,
-          value: ROLES.MEMBER
+          label: RolesDisplayStrings[MemberRole.Member],
+          value: MemberRole.Member
         },
         {
-          label: Roles.Admin,
-          value: ROLES.ADMIN
+          label: RolesDisplayStrings[MemberRole.Admin],
+          value: MemberRole.Admin
         }
       ]
     };
@@ -157,7 +157,7 @@ export default {
       // Reset values
       this.inviteEmail = "";
       this.inviteUserName = "";
-      this.inviteRole = ROLES.MEMBER;
+      this.inviteRole = MemberRole.Member;
 
       // Close modal
       this.$emit("close", true);
