@@ -42,25 +42,25 @@ export class APIWorkspace {
   /** WORKSPACE DETAILS **/
 
   async initWorkspace(workspace: Workspace): Promise<Workspace> {
-    return (await Api.client.put("/workspace", workspace)).data;
+    return (await Api.client.put("/v1/workspace", workspace)).data;
   }
 
   async getWorkspace(): Promise<Workspace> {
-    return (await Api.client.get("/workspace")).data;
+    return (await Api.client.get("/v1/workspace")).data;
   }
 
   async patchWorkspace(patch: WorkspacePatchRequest): Promise<Workspace> {
-    return (await Api.client.patch("/workspace", patch)).data;
+    return (await Api.client.patch("/v1/workspace", patch)).data;
   }
 
   /** WORKSPACE NAME **/
 
   async setWorkspaceName(newName: WorkspaceName): Promise<WorkspaceName> {
-    return (await Api.client.put("/workspace/name", newName)).data;
+    return (await Api.client.put("/v1/workspace/name", newName)).data;
   }
 
   async getWorkspaceName(): Promise<WorkspaceName> {
-    return (await Api.client.get("/workspace/name")).data;
+    return (await Api.client.get("/v1/workspace/name")).data;
   }
 
   /** WORKSPACE ACCENT COLOR **/
@@ -68,22 +68,22 @@ export class APIWorkspace {
   async setWorkspaceAccentColor(
     newAccentColor: WorkspaceAccentColor
   ): Promise<WorkspaceAccentColor> {
-    return (await Api.client.put("/workspace/accent-color", newAccentColor))
+    return (await Api.client.put("/v1/workspace/accent-color", newAccentColor))
       .data;
   }
 
   async getWorkspaceAccentColor(): Promise<WorkspaceAccentColor> {
-    return (await Api.client.get("/workspace/accent-color")).data;
+    return (await Api.client.get("/v1/workspace/accent-color")).data;
   }
 
   /** WORKSPACE ICON **/
 
   async setWorkspaceIcon(newIcon: WorkspaceIcon): Promise<WorkspaceIcon> {
-    return (await Api.client.put("/workspace/icon", newIcon)).data;
+    return (await Api.client.put("/v1/workspace/icon", newIcon)).data;
   }
 
   async getWorkspaceIcon(): Promise<WorkspaceIcon> {
-    return (await Api.client.get("/workspace/icon")).data;
+    return (await Api.client.get("/v1/workspace/icon")).data;
   }
 }
 

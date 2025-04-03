@@ -85,7 +85,7 @@ class API {
 
   private __createClient(): AxiosInstance {
     return axios.create({
-      baseURL: `${CONFIG.api.endpoint.local}/${CONFIG.api.version}`,
+      baseURL: `${CONFIG.api.endpoint.local}`,
       timeout: HTTP_TIMEOUT,
       // NOTE: Some routes accept primitive JSON types,
       //   but Axios doesn’t mark it as JSON by default.

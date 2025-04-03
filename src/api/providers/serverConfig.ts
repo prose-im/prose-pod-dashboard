@@ -46,7 +46,7 @@ export type TlsProfile = "modern" | "intermediate" | "old";
  * CONSTANTS
  * ************************************************************************* */
 
-const SERVER_CONFIG_PREFIX = "/server/config";
+const SERVER_CONFIG_PREFIX = "/v1/server/config";
 
 /**
  * @deprecated The Pod Dashboard shouldn’t depend on default values

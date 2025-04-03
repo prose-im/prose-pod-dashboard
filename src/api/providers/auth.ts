@@ -26,7 +26,7 @@ interface LoginResponse {
 class APIAuth {
   async login(username: string, password: string): Promise<LoginResponse> {
     return (
-      await Api.client.post<LoginResponse>("/login", undefined, {
+      await Api.client.post("/v1/login", undefined, {
         auth: {
           username,
           password

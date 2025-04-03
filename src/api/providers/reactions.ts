@@ -32,7 +32,7 @@ interface ReactionByIdResponse {
  * CONSTANTS
  * ************************************************************************* */
 
-const REACTIONS_URL = "/workspace/reactions";
+const REACTIONS_URL = "/v1/workspace/reactions";
 
 /* *************************************************************************
  * API

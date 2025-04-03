@@ -114,23 +114,23 @@ class APINetworkConfig {
   /** DNS SETUP **/
 
   async getDnsRecords(): Promise<GetDnsRecordsResponse> {
-    return (await Api.client.get(`/network/dns/records`)).data;
+    return (await Api.client.get(`/v1/network/dns/records`)).data;
   }
 
   /** NETWORK CHECKS **/
 
   async checkAll(): Promise<AnyNetworkCheckResult[]> {
-    return (await Api.client.get(`/network/checks`)).data;
+    return (await Api.client.get(`/v1/network/checks`)).data;
   }
 
   async checkDnsRecords(): Promise<DnsRecordCheckResult[]> {
-    return (await Api.client.get(`/network/checks/dns`)).data;
+    return (await Api.client.get(`/v1/network/checks/dns`)).data;
   }
   async checkPortsReachability(): Promise<PortReachabilityCheckResult[]> {
-    return (await Api.client.get(`/network/checks/ports`)).data;
+    return (await Api.client.get(`/v1/network/checks/ports`)).data;
   }
   async checkIpConnectivity(): Promise<IpConnectivityCheckResult[]> {
-    return (await Api.client.get(`/network/checks/ip`)).data;
+    return (await Api.client.get(`/v1/network/checks/ip`)).data;
   }
 }
 

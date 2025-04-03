@@ -53,7 +53,7 @@ type DashboardUrl = Url | null;
  * CONSTANTS
  * ************************************************************************* */
 
-const POD_CONFIG_PREFIX = "/pod/config";
+const POD_CONFIG_PREFIX = "/v1/pod/config";
 
 /* *************************************************************************
  * API

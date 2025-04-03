@@ -59,25 +59,25 @@ export type EnrichedMember = Member & {
 
 class APITeamMembers {
   async getAllMembers(): Promise<Member[]> {
-    return (await Api.client.get("/members")).data;
+    return (await Api.client.get("/v1/members")).data;
   }
 
   async getMember(jid: BareJid): Promise<EnrichedMember | null> {
-    return (await Api.client.get(`/members/${jid}`)).data;
+    return (await Api.client.get(`/v1/members/${jid}`)).data;
   }
   async deleteMember(jid: BareJid): Promise<void> {
-    return await Api.client.delete(`/members/${jid}`);
+    return await Api.client.delete(`/v1/members/${jid}`);
   }
 
   async setMemberRole(jid: BareJid, role: MemberRole): Promise<MemberRole> {
-    return (await Api.client.put(`/members/${jid}/role`, role)).data;
+    return (await Api.client.put(`/v1/members/${jid}/role`, role)).data;
   }
 
   /** ENRICHING **/
 
   async enrichMembers(jids: BareJid[]): Promise<EnrichMembersResponse> {
     return (
-      await Api.client.get("enrich-members?", {
+      await Api.client.get("/v1/enrich-members?", {
         params: { jids },
         // TODO: Check if this is really needed (probably not).
         paramsSerializer: params => {

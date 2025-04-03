@@ -87,22 +87,24 @@ type InviteMemberRequest = {
 
 class APIInvitations {
   async inviteMember(invitation: InviteMemberRequest): Promise<Invitation> {
-    return (await Api.client.post("/invitations", invitation)).data;
+    return (await Api.client.post("/v1/invitations", invitation)).data;
   }
   async getAllInvitations(): Promise<Invitation[]> {
-    return (await Api.client.get("/invitations")).data;
+    return (await Api.client.get("/v1/invitations")).data;
   }
   async getInvitation(invitationId: InvitationId): Promise<Invitation | null> {
-    return (await Api.client.get(`/invitations/${invitationId}`)).data ?? null;
+    return (
+      (await Api.client.get(`/v1/invitations/${invitationId}`)).data ?? null
+    );
   }
 
   /** INVITATION ACTIONS **/
 
   async resendInvitation(invitationId: InvitationId): Promise<void> {
-    await Api.client.post(`/invitations/${invitationId}/resend`);
+    await Api.client.post(`/v1/invitations/${invitationId}/resend`);
   }
   async cancelInvitation(invitationId: InvitationId): Promise<void> {
-    await Api.client.delete(`/invitations/${invitationId}`);
+    await Api.client.delete(`/v1/invitations/${invitationId}`);
   }
 
   /** INVITATION LINK ACTIONS **/
@@ -113,7 +115,7 @@ class APIInvitations {
   ): Promise<InvitationBasicDetails> {
     return (
       await Api.client.put(
-        `/invitation-tokens/${token}/details?token_type=${token_type}`
+        `/v1/invitation-tokens/${token}/details?token_type=${token_type}`
       )
     ).data;
   }
@@ -121,10 +123,13 @@ class APIInvitations {
     acceptToken: InvitationAcceptToken,
     request: AcceptInvitationRequest
   ): Promise<void> {
-    await Api.client.put(`/invitation-tokens/${acceptToken}/accept`, request);
+    await Api.client.put(
+      `/v1/invitation-tokens/${acceptToken}/accept`,
+      request
+    );
   }
   async rejectInvitation(rejectToken: InvitationRejectToken): Promise<void> {
-    await Api.client.put(`/invitation-tokens/${rejectToken}/reject`);
+    await Api.client.put(`/v1/invitation-tokens/${rejectToken}/reject`);
   }
 }
 

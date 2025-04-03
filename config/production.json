@@ -2,7 +2,6 @@
   "environment": "production",
 
   "api": {
-    "version": "v1",
     "endpoint": { "local": "/api", "remote": "http://127.0.0.1:8000" }
   }
 }
