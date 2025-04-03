@@ -10,21 +10,85 @@
 
 <template lang="pug">
 .c-members-invites-row(
+  v-if="tableHeaders"
+  class="c-members-invites-row--header"
+)
+  <!--  1st column -->
+  form-checkbox(
+    :class=`[
+      "c-members-invites-row__checkbox",
+      "c-members-invites-row--hidden"
+    ]`
+    :disabled="true"
+  )
+
+  <!-- 2nd column -->
+  base-avatar(
+    :class=`[
+      "c-members-invites-row__avatar",
+      "c-members-invites-row--hidden"
+    ]`
+    :avatar-data-url="userEnrichedData?.avatar"
+  )
+
+  <!-- 3rd column -->
+  .c-members-invites-row__user
+    p {{ tableHeaders[0] }}
+
+  <!-- 4th column -->
+  .c-members-invites-row__badge
+    p {{ tableHeaders[1] }}
+
+  <!-- 5th column -->
+  .c-members-invites-row__status
+    p {{ tableHeaders[2] }}
+
+  <!-- 6th column -->
+  .c-members-invites-row__encryption
+    p {{ tableHeaders[3] }}
+
+  <!-- 7th column -->
+  .c-members-invites-row__parameters
+    base-button(
+      @click="onActionOnMember"
+      class="c-members-invites-row--hidden"
+      size="medium"
+      tint="white"
+      :square="true"
+      :disabled="disabled"
+    )
+      base-icon(
+        v-if="!userData.invitation_id"
+        fill="#495462"
+        name="gearshape.fill"
+        size="10px"
+      )
+
+      p(
+        v-else
+        class="c-members-invites-row__parameters--button"
+      )
+        | Cancel invite
+
+    base-row-menu(
+      v-if="isMenuOpen"
+      v-click-away="onMenuClickAway"
+      class="c-members-invites-row__parameters--menu"
+      :options="menuOptions"
+      @menuAction="onMenuAction"
+    )
+
+.c-members-invites-row(
+  v-else
   :class=`[
     {
-      "c-members-invites-row--yellow" : (userData.invitation_id && !tableHeaders),
-      "c-members-invites-row--header" : tableHeaders
+      "c-members-invites-row--yellow" : (userData.invitation_id)
     }
   ]`
 )
     <!--  1st column -->
     form-checkbox(
-      :class=`[
-        "c-members-invites-row__checkbox",
-        {
-          "c-members-invites-row--hidden" : tableHeaders
-        }
-      ]`
+      class="c-members-invites-row__checkbox"
       :disabled="true"
     )
 
@@ -33,7 +97,7 @@
       :class=`[
         "c-members-invites-row__avatar",
         {
-          "c-members-invites-row--hidden" : (userData.invitation_id || tableHeaders)
+          "c-members-invites-row--hidden": userData.invitation_id
         }
       ]`
       :avatar-data-url="userEnrichedData?.avatar"
@@ -42,7 +106,7 @@
     <!-- 3rd column -->
     .c-members-invites-row__user
       base-loader(
-        v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
+        v-if="!userEnrichedData && !userData.invitation_id"
       )
 
       p(
@@ -56,15 +120,9 @@
       )
         | {{ userData.jid }}
 
-      p(
-        v-if="tableHeaders"
-      )
-        | {{ tableHeaders[0] }}
-
     <!-- 4th column -->
     .c-members-invites-row__badge
       base-badge(
-        v-if="!tableHeaders"
         :class=`[
           {
             "c-members-invites-row--hidden" : userData.invitation_id,
@@ -74,11 +132,6 @@
         size="long"
       )
 
-      p(
-        v-else
-      )
-        | {{ tableHeaders[1] }}
-
     <!-- 5th column -->
     .c-members-invites-row__status
         base-loader(
@@ -87,31 +140,22 @@
         )
 
         p(
-          v-else-if="!tableHeaders"
-          :class=`[
-            "c-members-invites-row--main",
-          ]`
+          class="c-members-invites-row--main"
         )
           | {{ userStatus }}
 
           .c-members-invites-row--submain
             |{{ userStatusDetail }}
-        
-        p(
-          v-else
-        ) 
-          | {{ tableHeaders[2] }}
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
       :class=`[
         {
-          "c-members-invites-row__encryption--hidden" : userData.invitation_id && !tableHeaders
+          "c-members-invites-row__encryption--hidden" : userData.invitation_id
         }
       ]`
     )
       .c-members-invites-row__encryption--block(
-        v-if="!tableHeaders"
         :class=`[
           {
             "c-members-invites-row--hidden" : userData.invitation_id
@@ -128,20 +172,10 @@
         )
           | Coming soon
 
-      p(
-        v-if="tableHeaders"
-      )
-        | {{ tableHeaders[3] }}
-
     <!-- 7th column -->
     .c-members-invites-row__parameters
       base-button(
         @click="onActionOnMember"
-        :class=`[
-          {
-            "c-members-invites-row--hidden":tableHeaders
-          }
-        ]`
         size="medium"
         tint="white"
         :square="true"
