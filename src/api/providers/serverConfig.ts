@@ -40,7 +40,11 @@ export interface ServerConfig {
 
 export type MessageArchiveRetention = DurationDateLike | "infinite";
 export type FileStorageRetention = DurationDateLike | "infinite";
-export type TlsProfile = "modern" | "intermediate" | "old";
+export enum TlsProfile {
+  Modern = "modern",
+  Intermediate = "intermediate",
+  Old = "old"
+}
 
 /* *************************************************************************
  * CONSTANTS
@@ -61,7 +65,7 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
   file_storage_encryption_scheme: "AES-256",
   file_storage_retention: "infinite",
   mfa_required: true,
-  tls_profile: "modern",
+  tls_profile: TlsProfile.Modern,
   federation_enabled: false,
   federation_whitelist_enabled: false,
   federation_friendly_servers: [],

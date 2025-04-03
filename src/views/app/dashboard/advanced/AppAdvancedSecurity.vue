@@ -11,14 +11,14 @@
 <template lang="pug">
 .v-app-advanced-security
   base-subsection(
-    v-model="config.security"
+    v-model="config.accountSecurity"
     @update="onSecurityUpdate"
     title="Account Security"
     :items="accountItems"
   )
 
   base-subsection(
-    v-model="config.encryption"
+    v-model="config.networkEncryption"
     @update="onEncryptionUpdate"
     title="Network Encryption"
     :items="networkItems"
@@ -36,15 +36,10 @@
 // STORE
 import { TlsProfile } from "@/api/providers/serverConfig";
 import store from "@/store";
-
-// ENUMERATIONS
-enum SecurityKey {
-  TwoFactor = "twoFactor"
-}
-
-enum EncryptionKey {
-  TLS_Profile = "tls_profile"
-}
+import {
+  NetworkEncryptionUiState,
+  AccountSecurityUiState
+} from "@/store/tables/settingsSecurity";
 
 export default {
   name: "AppAdvancedSecurity",
@@ -80,15 +75,15 @@ export default {
             options: [
               {
                 label: "Modern (Most Secure)",
-                value: "modern"
+                value: TlsProfile.Modern
               },
               {
                 label: "Intermediate",
-                value: "intermediate"
+                value: TlsProfile.Intermediate
               },
               {
                 label: "Old (Most Compatible)",
-                value: "old"
+                value: TlsProfile.Old
               }
             ]
           }
@@ -109,34 +104,29 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
-    onSecurityUpdate(newValue: boolean | string, changedKey: SecurityKey) {
-      // console.log('newValue', newValue, changedKey)
-      if (
-        this.config.security[changedKey] &&
-        this.config.security[changedKey] !== newValue
-      ) {
+    onSecurityUpdate(
+      newValue: AccountSecurityUiState[keyof AccountSecurityUiState],
+      changedKey: keyof AccountSecurityUiState
+    ) {
+      // console.log("onSecurityUpdate", "newValue", newValue, changedKey);
+      if (this.config.accountSecurity[changedKey] !== newValue) {
         switch (changedKey) {
-          case "twoFactor": {
-            // store.$serverConfiguration.toggleMessageArchiveEnabled();
-            break;
-          }
-
-          default: {
+          case "require2FA": {
+            // store.$serverConfiguration.todo();
             break;
           }
         }
       }
     },
 
-    onEncryptionUpdate(newValue: string, changedKey: EncryptionKey) {
-      // console.log('newValue', newValue, changedKey)
-      if (
-        this.config.encryption[changedKey] &&
-        this.config.encryption[changedKey] !== newValue
-      ) {
+    onEncryptionUpdate(
+      newValue: NetworkEncryptionUiState[keyof NetworkEncryptionUiState],
+      changedKey: keyof NetworkEncryptionUiState
+    ) {
+      // console.log("onEncryptionUpdate", "newValue", newValue, changedKey);
+      if (this.config.networkEncryption[changedKey] !== newValue) {
         switch (changedKey) {
-          case EncryptionKey.TLS_Profile: {
-            // WARN: Unsafe cast.
+          case "tlsProfile": {
             store.$settingsSecurity.updateTlsProfile(newValue as TlsProfile);
             break;
           }
@@ -145,7 +135,7 @@ export default {
     },
 
     onRestoreTlsProfile() {
-      console.log("resetting");
+      // console.log("onRestoreTlsProfile", "resetting");
       store.$settingsSecurity.resetTlsProfile();
     },
 
