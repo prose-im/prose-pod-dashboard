@@ -55,7 +55,7 @@
       size="medium"
       tint="white"
       :square="true"
-      :disabled="disabled"
+      :disabled="!actionsEnabled"
     )
       base-icon(
         v-if="!userData.invitation_id"
@@ -179,7 +179,7 @@
         size="medium"
         tint="white"
         :square="true"
-        :disabled="disabled"
+        :disabled="!actionsEnabled"
       )
         base-icon(
           v-if="!userData.invitation_id"
@@ -222,7 +222,9 @@ export default {
   },
 
   props: {
-    disabled: {
+    /** NOTE: Define "enabled" and not "disabled" to
+     * ensure the button won’t be enabled by mistake. */
+    actionsEnabled: {
       type: Boolean,
       default: false
     },

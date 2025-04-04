@@ -41,7 +41,7 @@
         :key="user.jid"
         :user-data="user"
         :user-enriched-data="enrichedMembers[user.jid]"
-        :disabled="menuActionDisabled"
+        :actionsEnabled="actionsMenuEnabled"
         @menuAction="onMenuAction"
       )
 
@@ -166,8 +166,8 @@ export default {
       return this.allMembers.length;
     },
 
-    menuActionDisabled() {
-      return store.$account.getUserRole() === MemberRole.Admin ? false : true;
+    actionsMenuEnabled() {
+      return store.$account.getUserRole() === MemberRole.Admin;
     }
   },
 
