@@ -94,12 +94,7 @@
 
     <!-- 2nd column -->
     base-avatar(
-      :class=`[
-        "c-members-invites-row__avatar",
-        {
-          "c-members-invites-row--hidden": userData.invitation_id
-        }
-      ]`
+      class="c-members-invites-row__avatar"
       :avatar-data-url="userData.avatar"
     )
 
