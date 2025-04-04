@@ -222,11 +222,6 @@ export default {
   },
 
   props: {
-    avatarUrl: {
-      type: String,
-      default: "../../assets/icons/missing.avatar.svg"
-    },
-
     disabled: {
       type: Boolean,
       default: false
