@@ -32,6 +32,7 @@
         v-if="pageNumber === 1"
         v-for="(invite, index) in invites"
         :user-data="invite"
+        :actions-enabled="actionsMenuEnabled"
       )
 
       <!-- MEMBERS -->
@@ -40,8 +41,7 @@
         class="c-members-invites-dashboard__users"
         :key="user.jid"
         :user-data="user"
-        :user-enriched-data="enrichedMembers[user.jid]"
-        :actionsEnabled="actionsMenuEnabled"
+        :actions-enabled="actionsMenuEnabled"
         @menuAction="onMenuAction"
       )
 
@@ -148,10 +148,6 @@ export default {
         : store.$teamMembers.getFilteredMembers(this.pageNumber);
     },
 
-    enrichedMembers() {
-      return store.$teamMembers.getEnrichedMemberList();
-    },
-
     invites() {
       return this.searchTerm
         ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
@@ -159,11 +155,12 @@ export default {
     },
 
     searchBarDisabled() {
-      return Object.keys(this.enrichedMembers).length === 0;
+      // Never disable the search bar: one could still search JIDs.
+      return false;
     },
 
     totalMemberNumber() {
-      return this.allMembers.length;
+      return this.allMembers.size;
     },
 
     actionsMenuEnabled() {
@@ -186,12 +183,12 @@ export default {
   },
 
   mounted() {
-    console.log(`Loading memebers`);
+    console.log("Loading members…");
     if (this.isMembersLoading !== true) {
       // Mark as loading
       this.isMembersLoading = true;
 
-      console.log(`Loading memebers inside`);
+      console.log("Loading members inside…");
 
       try {
         // Load already accepted members

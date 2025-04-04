@@ -94,7 +94,11 @@ const $account = defineStore("account", {
     },
 
     async loadUserInformation() {
-      const user = await store.$teamMembers.loadMemberById(this.session.jid);
+      const jid = this.session.jid;
+      if (jid === null) {
+        return;
+      }
+      const user = await store.$teamMembers.loadMemberById(jid);
 
       if (user) {
         // Update user session data

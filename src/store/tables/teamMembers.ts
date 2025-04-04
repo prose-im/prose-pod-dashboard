@@ -11,8 +11,8 @@
 // NPM
 import APITeamMembers, {
   Member,
-  EnrichMembersResponse,
-  MemberRole
+  MemberRole,
+  EnrichedMember
 } from "@/api/providers/members";
 import APIInvitations, {
   InvitationChannel,
@@ -20,16 +20,16 @@ import APIInvitations, {
   InvitationId
 } from "@/api/providers/invitations";
 import { defineStore } from "pinia";
-import { EmailAddress, JidLocalPart } from "@/api/providers/global";
+import { BareJid, EmailAddress, JidLocalPart } from "@/api/providers/global";
 
 /* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
 
 interface Members {
-  enrichedMembers: EnrichMembersResponse;
   invitedMembers: Invitation[];
-  notEnrichedMembers: Member[];
+  /** NOTE: `Map`s keep insertion order. */
+  members: Map<BareJid, Member | EnrichedMember>;
 }
 
 /* *************************************************************************
@@ -48,23 +48,14 @@ const $teamMembers = defineStore("teamMembers", {
   state: (): Members => {
     return {
       invitedMembers: [],
-
-      enrichedMembers: {},
-
-      notEnrichedMembers: []
+      members: new Map()
     };
   },
 
   getters: {
     getAllMembers: function () {
       return () => {
-        return this.notEnrichedMembers;
-      };
-    },
-
-    getEnrichedMemberList: function () {
-      return () => {
-        return this.enrichedMembers;
+        return this.members;
       };
     }
   },
@@ -75,25 +66,24 @@ const $teamMembers = defineStore("teamMembers", {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Load all Members (non enriched)
-        const entries = await APITeamMembers.getAllMembers();
-        this.notEnrichedMembers = entries;
-        console.log("non enriched entries", entries);
+        const members = await APITeamMembers.getAllMembers();
+        this.members = new Map(members.map(member => [member.jid, member]));
+        console.log("Non-enriched members:", members);
 
-        // Create a jid Array to ask enrichment
-        const jids: string[] = [];
+        // Create a JID Array to ask enrichment
+        const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
+        console.log("Enriching members:", jidsToEnrich);
 
-        entries.forEach(member => {
-          jids.push(member.jid);
-        });
-
-        console.log("jids", jids);
-
-        // Get enriched Members
+        // Enrich members
         setTimeout(async () => {
-          const enrichedMembers = await APITeamMembers.enrichMembers(jids);
-          this.enrichedMembers = enrichedMembers;
+          const enrichedMembers = await APITeamMembers.enrichMembers(
+            jidsToEnrich
+          );
+          console.log("Enriched members:", enrichedMembers);
 
-          console.log("enriched members", this.enrichedMembers);
+          for (const [jid, member] of Object.entries(enrichedMembers)) {
+            this.members.set(jid, member);
+          }
         }, 5000 * (Math.random() + 0.5));
 
         // Mark as loaded
@@ -101,70 +91,53 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
-    getFilteredMembers(filter: number | string) {
+    getFilteredMembers(filter: number | string): (Member | EnrichedMember)[] {
+      const members = Array.from(this.members.values());
       if (typeof filter === "number") {
         /** Page filter */
         const startIndex = (filter - 1) * 10;
         const endIndex =
-          filter * 10 < this.notEnrichedMembers.length
-            ? filter * 10
-            : this.notEnrichedMembers.length;
+          filter * 10 < this.members.size ? filter * 10 : this.members.size;
 
-        return this.notEnrichedMembers.slice(startIndex, endIndex);
-      } else if (typeof filter === "string") {
-        /** Searching bar filter */
-        const enrichedMemberArray = Object.values(this.enrichedMembers);
-
-        // Loop through all members
-        const response = enrichedMemberArray.filter(member => {
+        return members.slice(startIndex, endIndex);
+      } else {
+        /** Search bar filter */
+        return members.filter(member => {
           // Get an array with only the values to be searched
-          const memberElements = Object.values(member);
-          memberElements.pop();
+          const memberValues = Object.values(member)
+            // Keep only string values since matching booleans or `null` wouldn’t make sense
+            .filter((item): item is string => typeof item === "string");
 
           // Loop through all the values of a member
-          const filteredMember = memberElements.filter(e => {
-            if (!e) {
-              return;
-            } else {
-              return e.includes(filter);
-            }
+          const filteredMembers = memberValues.filter(value => {
+            return value.includes(filter);
           });
 
-          return filteredMember.length ? filteredMember : false;
+          return filteredMembers.length ? filteredMembers : false;
         });
-
-        return response;
       }
     },
 
-    loadMemberById(jid: string | null) {
-      if (jid) {
-        return APITeamMembers.getMember(jid);
+    loadMemberById(jid: BareJid) {
+      return APITeamMembers.getMember(jid);
+    },
+
+    updateRoleLocally(jid: BareJid, newValue: MemberRole) {
+      const member = this.members.get(jid);
+      if (member) {
+        member.role = newValue;
       }
     },
 
-    updateRoleLocally(jid: string, newValue: MemberRole) {
-      for (const member of this.notEnrichedMembers) {
-        if (member.jid === jid) {
-          member.role = newValue;
-          break;
-        }
-      }
-    },
-
-    async updateRoleByMemberId(jid: string, newRole: MemberRole) {
+    async updateRoleByMemberId(jid: BareJid, newRole: MemberRole) {
       return await APITeamMembers.setMemberRole(jid, newRole);
     },
 
-    deleteMemberLocally(jid: string) {
-      return (this.notEnrichedMembers = this.notEnrichedMembers.filter(
-        member => {
-          return member.jid !== jid;
-        }
-      ));
+    deleteMemberLocally(jid: BareJid) {
+      this.members.delete(jid);
     },
 
-    async deleteMemberById(jid: string) {
+    async deleteMemberById(jid: BareJid) {
       return await APITeamMembers.deleteMember(jid);
     },
 

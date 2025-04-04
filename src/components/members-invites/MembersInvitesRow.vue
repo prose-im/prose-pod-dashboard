@@ -28,7 +28,7 @@
       "c-members-invites-row__avatar",
       "c-members-invites-row--hidden"
     ]`
-    :avatar-data-url="userEnrichedData?.avatar"
+    :avatar-data-url="userData.avatar"
   )
 
   <!-- 3rd column -->
@@ -100,20 +100,20 @@
           "c-members-invites-row--hidden": userData.invitation_id
         }
       ]`
-      :avatar-data-url="userEnrichedData?.avatar"
+      :avatar-data-url="userData.avatar"
     )
 
     <!-- 3rd column -->
     .c-members-invites-row__user
-      base-loader(
-        v-if="!userEnrichedData && !userData.invitation_id"
-      )
-
       p(
-        v-else
+        v-if="userData.nickname"
         class="c-members-invites-row--main"
       )
-        | {{ userEnrichedData?.nickname }}
+        | {{ userData.nickname }}
+
+      base-loader(
+        v-else-if="!userData.invitation_id"
+      )
 
       p.c-members-invites-row--submain(
         :title="userData.jid"
@@ -134,18 +134,19 @@
 
     <!-- 5th column -->
     .c-members-invites-row__status
-        base-loader(
-          v-if="!userEnrichedData && !userData.invitation_id && !tableHeaders"
-          width="50px"
-        )
-
         p(
+          v-if="userStatus || userStatusDetail"
           class="c-members-invites-row--main"
         )
           | {{ userStatus }}
 
           .c-members-invites-row--submain
-            |{{ userStatusDetail }}
+            | {{ userStatusDetail }}
+
+        base-loader(
+          v-else-if="!userData.invitation_id"
+          width="50px"
+        )
 
     <!-- 6th column -->
     .c-members-invites-row__encryption(
@@ -209,6 +210,8 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import { Invitation } from "@/api/providers/invitations";
+import { Member, EnrichedMember } from "@/api/providers/members";
 import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
@@ -229,14 +232,11 @@ export default {
       default: false
     },
 
+    // TODO: Make another row view for invitations.
+    /** `Member | EnrichedMember | Invitation` */
     userData: {
       type: Object,
       required: true
-    },
-
-    userEnrichedData: {
-      type: Object,
-      default: null
     },
 
     tableHeaders: {
@@ -269,26 +269,31 @@ export default {
   },
 
   computed: {
+    user() {
+      return this.userData as Member | EnrichedMember | Invitation;
+    },
+
     userStatus() {
-      let status = "";
-
-      if (
-        this.userEnrichedData &&
-        this.userEnrichedData.online !== "undefined"
-      ) {
-        status = this.userEnrichedData.online ? "Active" : "Inactive";
+      switch ((this.user as EnrichedMember | undefined)?.online) {
+        case true:
+          return "Active";
+        case false:
+          return "Inactive";
+        default:
+          return null;
       }
-
-      return status;
     },
 
     userStatusDetail() {
-      if (!this.userEnrichedData?.nickname && this.userData.invitation_id) {
+      if ((this.user as Invitation | undefined)?.invitation_id !== undefined) {
         return "Invited";
-      } else if (this.userData.status === "Active") {
+      } else if (
+        (this.user as EnrichedMember | undefined)?.online &&
+        this.userData.os
+      ) {
         return "Prose " + this.userData.os;
       } else {
-        return "";
+        return null;
       }
     }
   },
