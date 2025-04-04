@@ -123,12 +123,7 @@
     <!-- 4th column -->
     .c-members-invites-row__badge
       base-badge(
-        :class=`[
-          {
-            "c-members-invites-row--hidden" : userData.invitation_id,
-          }
-        ]`
-        :admin="userData.role"
+        :admin="userData.role ?? userData.pre_assigned_role"
         size="long"
       )
 
