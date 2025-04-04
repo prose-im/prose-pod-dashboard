@@ -77,19 +77,8 @@ class APITeamMembers {
 
   async enrichMembers(jids: BareJid[]): Promise<EnrichMembersResponse> {
     return (
-      await Api.client.get("/v1/enrich-members?", {
-        params: { jids },
-        // TODO: Check if this is really needed (probably not).
-        paramsSerializer: params => {
-          // Custom serializer to encode array parameters correctly
-          return Object.keys(params)
-            .map(key => {
-              return params[key]
-                .map((value: string) => `${key}=${encodeURIComponent(value)}`)
-                .join("&");
-            })
-            .join("&");
-        }
+      await Api.client.get("/v1/enrich-members", {
+        params: { jids }
       })
     ).data;
   }
