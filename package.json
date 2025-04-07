@@ -18,6 +18,7 @@
   "dependencies": {
     "axios": "1.7.7",
     "browser-image-resizer": "^2.4.1",
+    "extended-eventsource": "^2.1.0",
     "file64": "^1.0.4",
     "keycode": "2.2.1",
     "lodash.camelcase": "4.3.0",

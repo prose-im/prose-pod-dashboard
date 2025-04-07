@@ -75,16 +75,21 @@ const $teamMembers = defineStore("teamMembers", {
         console.log("Enriching members:", jidsToEnrich);
 
         // Enrich members
-        setTimeout(async () => {
-          const enrichedMembers = await APITeamMembers.enrichMembers(
-            jidsToEnrich
-          );
-          console.log("Enriched members:", enrichedMembers);
+        await new Promise<void>(resolve => {
+          setTimeout(resolve, 5_000);
 
-          for (const [jid, member] of Object.entries(enrichedMembers)) {
-            this.members.set(jid, member);
-          }
-        }, 5000 * (Math.random() + 0.5));
+          const eventSource = APITeamMembers.enrichMembersStream(jidsToEnrich);
+          eventSource.addEventListener("enriched-member", event => {
+            this.members.set(event.lastEventId, JSON.parse(event.data));
+          });
+          eventSource.addEventListener("end", () => {
+            eventSource.close();
+            resolve();
+          });
+          eventSource.onerror = error => {
+            console.error("Error when enriching members:", error);
+          };
+        });
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;

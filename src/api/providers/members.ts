@@ -11,6 +11,7 @@
 // PROJECT: API
 import Api from "@/api";
 import { BareJid } from "./global";
+import { EventSource } from "extended-eventsource";
 
 /* *************************************************************************
  * ENUMERATIONS
@@ -81,6 +82,11 @@ class APITeamMembers {
         params: { jids }
       })
     ).data;
+  }
+  enrichMembersStream(jids: BareJid[]): EventSource {
+    const queryString = new URLSearchParams();
+    jids.forEach(jid => queryString.append("jids", jid));
+    return Api.eventSource(`/v1/enrich-members?${queryString}`);
   }
 }
 

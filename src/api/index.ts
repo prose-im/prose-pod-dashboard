@@ -10,6 +10,7 @@
 
 // NPM
 import { default as axios, AxiosInstance, AxiosHeaderValue } from "axios";
+import { EventSource } from "extended-eventsource";
 
 // PROJECT: COMMONS
 import CONFIG from "@/commons/config";
@@ -31,6 +32,9 @@ const HTTP_TIMEOUT = 30000; // 30 seconds
 
 class API {
   public readonly client: AxiosInstance;
+  public static BASE_URL = `${CONFIG.api.endpoint.local}`;
+
+  private token: string | null = null;
 
   constructor() {
     // Initialize API HTTP client
@@ -79,13 +83,21 @@ class API {
   }
 
   authenticate(token: string | null): void {
+    this.token = token;
     // Assign token to common authorization
     this.__setCommonHeader("Authorization", `Bearer ${token}`);
   }
 
+  eventSource(route: string): EventSource {
+    return new EventSource(`${API.BASE_URL}${route}`, {
+      headers: this.token ? { Authorization: `Bearer ${this.token}` } : {},
+      retry: 3_000
+    });
+  }
+
   private __createClient(): AxiosInstance {
     return axios.create({
-      baseURL: `${CONFIG.api.endpoint.local}`,
+      baseURL: API.BASE_URL,
       timeout: HTTP_TIMEOUT,
       // NOTE: Some routes accept primitive JSON types,
       //   but Axios doesn’t mark it as JSON by default.
