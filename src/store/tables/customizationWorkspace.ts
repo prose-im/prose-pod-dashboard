@@ -101,13 +101,12 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
           const workspace = await APIWorkspace.getWorkspace();
 
           this.$patch(() => {
-            this.workspaceProfile.name = workspace.name;
-            if (workspace.accent_color) {
-              this.appearance.color = workspace.accent_color;
-            }
-            if (workspace.icon) {
-              this.workspaceProfile.logo = `data:image/png;base64,${workspace.icon}`;
-            }
+            this.appearance.color =
+              workspace.accent_color ?? DEFAULT_ACCENT_COLOR;
+            this.workspaceProfile = {
+              name: workspace.name,
+              logo: workspace.icon && `data:image/png;base64,${workspace.icon}`
+            };
           });
         } catch (error: any) {
           console.error(
@@ -138,12 +137,8 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         const workspaceIcon = await APIWorkspace.setWorkspaceIcon(newIcon);
 
         this.$patch(() => {
-          // NOTE: Remove once [Add prefix `data:image/png;base64,` to Base64-encoded avatars · Issue #203 · prose-im/prose-pod-api](https://github.com/prose-im/prose-pod-api/issues/203) gets fixed.
-          if (workspaceIcon) {
-            this.workspaceProfile.logo = `data:image/png;base64,${workspaceIcon}`;
-          } else {
-            this.workspaceProfile.logo = workspaceIcon;
-          }
+          this.workspaceProfile.logo =
+            workspaceIcon && `data:image/png;base64,${workspaceIcon}`;
         });
       } catch (error: any) {
         console.error(

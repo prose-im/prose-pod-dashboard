@@ -61,8 +61,7 @@ export default {
       let imageUrl = "";
 
       if (this.avatarDataUrl) {
-        // imageUrl = this.avatarDataUrl;
-        imageUrl = `url(data:image/gif;base64,${this.avatarDataUrl})`;
+        imageUrl = `url(data:image/png;base64,${this.avatarDataUrl})`;
       } else {
         switch (this.type) {
           case "person": {
