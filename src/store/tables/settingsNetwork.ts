@@ -14,9 +14,10 @@ import { defineStore } from "pinia";
 
 import APINetworkConfig, {
   DnsSetupStep,
-  IpConnectivityCheckResult,
-  DnsRecordCheckResult,
-  PortReachabilityCheckResult
+  IpConnectivityStatus,
+  PortReachabilityStatus,
+  DnsRecordStatus,
+  CheckResultData
 } from "@/api/providers/networkConfig";
 import APIServerConfig from "@/api/providers/serverConfig";
 import store from "@/store/index";
@@ -42,27 +43,18 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
       dnsInstructions: [] as DnsSetupStep[],
 
-      checkResults: {
-        dns: [] as DnsRecordCheckResult[],
-        ip: [] as IpConnectivityCheckResult[],
-        ports: [] as PortReachabilityCheckResult[]
+      networkCheckResults: {
+        dns: new Map<string, CheckResultData<DnsRecordStatus>>(),
+        ports: new Map<string, CheckResultData<PortReachabilityStatus>>(),
+        ip: new Map<string, CheckResultData<IpConnectivityStatus>>()
       },
 
+      runningNetworkChecks: null as {
+        promise: Promise<void>;
+        abortController: AbortController;
+      } | null,
+
       states: {
-        configChecks: {
-          dnsLoading: false,
-          dnsLoaded: false,
-          dnsFailed: false,
-
-          ipLoading: false,
-          ipLoaded: false,
-          ipFailed: false,
-
-          portLoading: false,
-          portLoaded: false,
-          portFailed: false
-        },
-
         dnsSteps: {
           instructionsLoading: false,
           instructionsLoaded: false,
@@ -73,17 +65,17 @@ const $settingsNetwork = defineStore("settingsNetwork", {
   },
 
   getters: {
-    //** SERVER FEDERATION */
+    /* SERVER FEDERATION */
 
     getFederationConfig(): object {
       return this.federation;
     },
 
-    getServerWhitelist(): object {
+    getServerWhitelist(): Hostname[] {
       return this.federation.whitelist;
     },
 
-    //** DNS INSTRUCTIONS*/
+    /* DNS INSTRUCTIONS */
 
     getDnsInstructions: function () {
       return () => {
@@ -91,30 +83,24 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       };
     },
 
-    //** CONFIG CHECKS*/
+    /* NETWORK CHECKS */
+
+    isRunningNetworkChecks(): boolean {
+      return this.runningNetworkChecks !== null;
+    },
 
     getDnsCheckResults: function () {
-      return () => {
-        return this.checkResults.dns;
-      };
+      return () => this.networkCheckResults.dns;
     },
-
-    getPortCheck: function () {
-      return () => {
-        return this.checkResults.ports;
-      };
+    getPortCheckResults: function () {
+      return () => this.networkCheckResults.ports;
     },
-
-    getIpCheck: function () {
-      return () => {
-        return this.checkResults.ip;
-      };
+    getIpCheckResults: function () {
+      return () => this.networkCheckResults.ip;
     },
 
     getConfigCheckStates: function () {
-      return () => {
-        return this.states.configChecks;
-      };
+      return () => this.states.dnsSteps;
     }
   },
 
@@ -135,7 +121,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       });
     },
 
-    /** SERVER FEDERATION */
+    /* SERVER FEDERATION */
 
     async updateFederationEnabled(newState: boolean) {
       await APIServerConfig.setFederationEnabled(newState);
@@ -172,7 +158,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       });
     },
 
-    /** DNS **/
+    /* DNS SETUP */
 
     async loadDnsInstructions(reload = false) {
       if (
@@ -198,100 +184,62 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       }
     },
 
-    /** RECORD CHECK **/
+    /* NETWORK CHECKS */
 
-    checkAllRecords() {
-      this.checkDnsRecords();
-      this.checkPortReachability();
-      this.checkIPConnectivity();
-    },
-
-    async checkDnsRecords() {
-      if (!this.states.configChecks.dnsLoading) {
-        console.log("calling api");
-        // initialize request progress
-        this.states.configChecks.dnsLoaded = false;
-        this.states.configChecks.dnsLoading = true;
-        this.states.configChecks.dnsFailed = false;
-        this.checkResults.dns = [];
-
-        try {
-          const response = await APINetworkConfig.checkDnsRecords();
-
-          response.forEach(element => {
-            this.checkResults.dns.push(element);
-          });
-
-          console.log("dns", this.checkResults.dns);
-
-          // update request progress
-          this.states.configChecks.dnsLoaded = true;
-          this.states.configChecks.dnsLoading = false;
-        } catch (e: any) {
-          console.error("error dns", e.message);
-
-          // update request progress
-          this.states.configChecks.dnsLoading = false;
-          this.states.configChecks.dnsFailed = true;
+    async checkNetworkConfigurationOnce() {
+      console.log("Checking network configuration once…");
+      const results = await APINetworkConfig.checkAllOnce();
+      for (const { event, id, data } of results) {
+        // console.log("Got one shot network check result:", { event, id, data });
+        switch (event) {
+          case "dns-record-check-result":
+            this.networkCheckResults.dns.set(id, data);
+            break;
+          case "ip-connectivity-check-result":
+            this.networkCheckResults.ip.set(id, data);
+            break;
+          case "port-reachability-check-result":
+            this.networkCheckResults.ports.set(id, data);
+            break;
         }
       }
+      console.log("Done checking network configuration once.");
     },
 
-    async checkPortReachability() {
-      if (!this.states.configChecks.portLoading) {
-        // initialize request progress
-        this.states.configChecks.portLoaded = false;
-        this.states.configChecks.portLoading = true;
-        this.states.configChecks.portFailed = false;
-        this.checkResults.ports = [];
-
-        try {
-          const response = await APINetworkConfig.checkPortsReachability();
-
-          response.forEach(element => {
-            this.checkResults.ports.push(element);
-          });
-
-          console.log("ports", this.checkResults.ports);
-
-          // update request progress
-          this.states.configChecks.portLoaded = true;
-          this.states.configChecks.portLoading = false;
-        } catch (e: any) {
-          console.error("error ports", e.message);
-
-          // update request progress
-          this.states.configChecks.portLoading = false;
-          this.states.configChecks.portFailed = true;
-        }
+    startNetworkChecks() {
+      if (this.runningNetworkChecks !== null) {
+        // TODO: Reset timeout.
+        return;
       }
+
+      console.log("Starting network checks…");
+      const abortController = new AbortController();
+      this.runningNetworkChecks = {
+        promise: APINetworkConfig.checkAll(
+          ({ event, id, data }) => {
+            // console.log("Got network check result:", { event, id, data });
+            switch (event) {
+              case "dns-record-check-result":
+                return this.networkCheckResults.dns.set(id, data);
+              case "ip-connectivity-check-result":
+                return this.networkCheckResults.ip.set(id, data);
+              case "port-reachability-check-result":
+                return this.networkCheckResults.ports.set(id, data);
+            }
+          },
+          () => {
+            console.log("Stopped network checks.");
+            this.runningNetworkChecks = null;
+          },
+          abortController.signal
+        ),
+        abortController
+      };
     },
-
-    async checkIPConnectivity() {
-      if (!this.states.configChecks.ipLoading) {
-        // initialize request progress
-        this.states.configChecks.ipLoaded = false;
-        this.states.configChecks.ipLoading = true;
-        this.states.configChecks.ipFailed = false;
-        this.checkResults.ip = [];
-
-        try {
-          const response = await APINetworkConfig.checkIpConnectivity();
-
-          response.forEach(element => {
-            this.checkResults.ip.push(element);
-          });
-
-          console.log("ip", this.checkResults.ip);
-          this.states.configChecks.ipLoaded = true;
-          this.states.configChecks.ipLoading = false;
-        } catch (e: any) {
-          console.error("error ip", e.message);
-
-          this.states.configChecks.ipLoading = false;
-          this.states.configChecks.ipFailed = true;
-        }
-      }
+    stopNetworkChecks() {
+      console.log("Stopping network checks…");
+      this.runningNetworkChecks?.abortController.abort();
+      this.runningNetworkChecks = null;
     }
   }
 });

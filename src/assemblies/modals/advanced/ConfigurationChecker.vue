@@ -10,7 +10,7 @@
 
 <template lang="pug">
 base-modal(
-  @close="$emit('close')"
+  @close="onClose"
   @confirm="$emit('proceed')"
   @load="onLoad"
   :visible="visibility"
@@ -18,27 +18,27 @@ base-modal(
 )
   .a-configuration-checker
     advanced-network-check-block(
-      :status="dnsStatus"
+      :status="dnsBlockStatus"
       label="dns"
       subtitle="DNS records"
       description="Checks that all DNS records are properly configured."
-      :checklist="dnsCheckResults"
+      :results="dnsCheckResults"
     )
 
     advanced-network-check-block(
-      :status="portStatus"
+      :status="portBlockStatus"
       label="tcp"
       subtitle="Ports reachability"
       description="Ensures that all required ports are opened and reachable."
-      :checklist="portCheckResults"
+      :results="portCheckResults"
     )
 
     advanced-network-check-block(
-      :status="ipStatus"
+      :status="ipBlockStatus"
       label="ip"
       subtitle="IP connectivity"
       description="Checks that your server has connection over all IP protocols."
-      :checklist="ipCheckResults"
+      :results="ipCheckResults"
     )
 </template>
 
@@ -50,12 +50,10 @@ base-modal(
 // PROJECT: COMPONENTS
 import {
   AnyNetworkCheckStatus,
-  DnsRecordCheckResult,
   DnsRecordStatus,
-  PortReachabilityCheckResult,
   PortReachabilityStatus,
-  IpConnectivityCheckResult,
-  IpConnectivityStatus
+  IpConnectivityStatus,
+  CheckResultData
 } from "@/api/providers/networkConfig";
 import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNetworkCheckBlock.vue";
 
@@ -90,72 +88,44 @@ export default {
       return store.$settingsNetwork.getConfigCheckStates();
     },
 
-    dnsStatus() {
-      return this.getBlockStatusDns(this.dnsCheckResults);
-    },
-    portStatus() {
-      return this.getBlockStatusPorts(this.portCheckResults);
-    },
-    ipStatus() {
-      return this.getBlockStatusIp(this.ipCheckResults);
-    },
-
-    dnsCheckResults() {
-      return store.$settingsNetwork.getDnsCheckResults() || [];
-    },
-    portCheckResults() {
-      return store.$settingsNetwork.getPortCheck() || [];
-    },
-    ipCheckResults() {
-      return store.$settingsNetwork.getIpCheck() || [];
-    }
-  },
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
-    /** Get the overall status of a section (e.g. `INVALID` for DNS if one DNS check hasn’t passed yet). */
-    // getBlockStatus(checkResults: DnsRecordCheckResult[]): DnsRecordStatus {
-    //   return (
-    //     checkResults
-    //       .map(res => res.data.status)
-    //       // Find the highest value (based on enum index).
-    //       .reduce((highest, current) => {
-    //         const currentIndex =
-    //           Object.values(DnsRecordStatus).indexOf(current);
-    //         const highestIndex =
-    //           Object.values(DnsRecordStatus).indexOf(highest);
-    //         return currentIndex > highestIndex ? current : highest;
-    //       }, DnsRecordStatus.Queued)
-    //   );
-    // },
-    getBlockStatusDns(checkResults: DnsRecordCheckResult[]): DnsRecordStatus {
+    dnsBlockStatus() {
       return highestValue(
-        checkResults.map(res => res.data.status),
+        Array.from(this.dnsCheckResults.values()).map(res => res.status),
         Object.values(DnsRecordStatus)
       );
     },
-    getBlockStatusPorts(
-      checkResults: PortReachabilityCheckResult[]
-    ): PortReachabilityStatus {
+    portBlockStatus() {
       return highestValue(
-        checkResults.map(res => res.data.status),
+        Array.from(this.portCheckResults.values()).map(res => res.status),
         Object.values(PortReachabilityStatus)
       );
     },
-    getBlockStatusIp(
-      checkResults: IpConnectivityCheckResult[]
-    ): IpConnectivityStatus {
+    ipBlockStatus() {
       return highestValue(
-        checkResults.map(res => res.data.status),
+        Array.from(this.ipCheckResults.values()).map(res => res.status),
         Object.values(IpConnectivityStatus)
       );
     },
 
+    dnsCheckResults(): Map<string, CheckResultData<DnsRecordStatus>> {
+      return store.$settingsNetwork.getDnsCheckResults();
+    },
+    portCheckResults(): Map<string, CheckResultData<PortReachabilityStatus>> {
+      return store.$settingsNetwork.getPortCheckResults();
+    },
+    ipCheckResults(): Map<string, CheckResultData<IpConnectivityStatus>> {
+      return store.$settingsNetwork.getIpCheckResults();
+    }
+  },
+
+  methods: {
     // --> EVENT LISTENERS <--
     onLoad() {
-      store.$settingsNetwork.checkAllRecords();
+      store.$settingsNetwork.startNetworkChecks();
+    },
+    onClose() {
+      store.$settingsNetwork.stopNetworkChecks();
+      this.$emit("close");
     }
   }
 };

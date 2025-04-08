@@ -91,7 +91,7 @@ class API {
   eventSource(route: string): EventSource {
     return new EventSource(`${API.BASE_URL}${route}`, {
       headers: this.token ? { Authorization: `Bearer ${this.token}` } : {},
-      retry: 3_000
+      disableRetry: true
     });
   }
 

@@ -30,8 +30,8 @@
 </template>
 
 <!-- **********************************************************************
-      SCRIPT
-      ********************************************************************** -->
+     SCRIPT
+     ********************************************************************** -->
 
 <script lang="ts">
 import {
@@ -40,27 +40,15 @@ import {
   PortReachabilityStatus,
   AnyNetworkCheckStatus
 } from "@/api/providers/networkConfig";
+import { PropType } from "vue";
 
 export default {
   name: "BaseModalStatus",
 
   props: {
     status: {
-      type: String,
-      default: "CHECKING",
-
-      validator(x: string) {
-        // NOTE: Not great but temporary before a refactor.
-        return (
-          Object.values(DnsRecordStatus).includes(x as DnsRecordStatus) ||
-          Object.values(IpConnectivityStatus).includes(
-            x as IpConnectivityStatus
-          ) ||
-          Object.values(PortReachabilityStatus).includes(
-            x as PortReachabilityStatus
-          )
-        );
-      }
+      type: String as PropType<AnyNetworkCheckStatus>,
+      required: true
     },
 
     color: {
@@ -76,59 +64,45 @@ export default {
 
   computed: {
     label() {
-      let label = "";
-
       switch (this.status as AnyNetworkCheckStatus) {
         case DnsRecordStatus.Queued:
         case IpConnectivityStatus.Queued:
         case PortReachabilityStatus.Queued: {
-          label = "";
-          break;
+          return "Queued";
         }
 
         case DnsRecordStatus.Checking:
         case IpConnectivityStatus.Checking:
         case PortReachabilityStatus.Checking: {
-          label = "Checking...";
-          break;
+          return "Checking…";
         }
 
         case DnsRecordStatus.Valid:
         case PortReachabilityStatus.Open:
         case IpConnectivityStatus.Success: {
-          label = "Verified";
-          break;
+          return "OK";
         }
 
         case DnsRecordStatus.Invalid:
-        case PortReachabilityStatus.Closed:
-        case IpConnectivityStatus.Failure: {
-          label = "Issue";
-          break;
+        case PortReachabilityStatus.Closed: {
+          return "Issue";
         }
 
-        case DnsRecordStatus.PartiallyValid: {
-          label = "Warning";
-          break;
+        case DnsRecordStatus.PartiallyValid:
+        case IpConnectivityStatus.Failure: {
+          return "Warning";
         }
       }
 
-      return label;
-    }
-  },
-
-  methods: {
-    // <-- HELPERS -->
-    capitalizeFirst(word: string) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
+      return null;
     }
   }
 };
 </script>
 
 <!-- **********************************************************************
-   STYLE
-   ********************************************************************** -->
+     STYLE
+     ********************************************************************** -->
 
 <style lang="scss">
 $c: ".c-base-modal-status";

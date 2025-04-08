@@ -14,10 +14,10 @@
     v-model="config"
     @update="onFederationUpdate"
     ref="federationSubsection"
-    title="Server Federation" 
+    title="Server Federation"
     :items="federationItems"
     :restore-option="true"
-    :restore-action="onGlobalRestore"
+    :restore-action="onGlobalFederationRestore"
     :restore-description="restoreDescription"
   )
 
@@ -180,7 +180,10 @@ export default {
   },
 
   mounted() {
-    return store.$settingsNetwork.loadFederationConfiguration();
+    return Promise.all([
+      store.$settingsNetwork.loadFederationConfiguration(),
+      store.$settingsNetwork.checkNetworkConfigurationOnce()
+    ]);
   },
 
   methods: {
@@ -218,7 +221,7 @@ export default {
       store.$settingsNetwork.restoreFederationWhitelist();
     },
 
-    onGlobalRestore() {
+    onGlobalFederationRestore() {
       this.onRestoreFederationEnabled();
       this.onRestoreFederationWhitelist();
     },

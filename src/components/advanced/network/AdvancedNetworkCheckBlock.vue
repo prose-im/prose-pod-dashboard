@@ -18,19 +18,11 @@
         h4(
           :class=`[
             "c-advanced-network-check-block__subtitle",
-            {
-              "c-advanced-network-check-block--blue": status === 'pending',
-              "c-advanced-network-check-block--green": status === 'SUCCESS' || status === 'VALID' || status === 'OPEN',
-              "c-advanced-network-check-block--orange": status === 'FAILURE' || status === 'PARTIALLY_VALID',
-              "c-advanced-network-check-block--red": status === 'INVALID' || status === 'CLOSED',
-
-            }
+            "c-advanced-network-check-block--" + colorCode(status, true),
           ]`
-        )
-          | {{ subtitle }}
+        ) {{ subtitle }}
 
-        p
-          | {{ description }}
+        p {{ description }}
 
     base-modal-status(
       :status="status"
@@ -39,45 +31,36 @@
     )
 
   .c-advanced-network-check-block__details
-    base-loader-network-check-row(
-      v-if="status === 'pending'"
-      v-for="row in [0, 1]"
-    )
-
     .c-advanced-network-check-block__details--row(
-      v-else
-      v-for="row in checklist"
-      :class=`[
-        "c-advanced-network-check-block--" + colorCode(row.status, true)
-      ]`
+      v-for="[id, { description, status }] in results"
+      :key="id"
+      :class=`"c-advanced-network-check-block--" + colorCode(status, true)`
     )
       .c-advanced-network-check-block__left(
+        :id="id"
         class="c-advanced-network-check-block--flex"
       )
         base-icon(
-          :name="getIconName(row.status)"
+          :name="getIconName(status)"
           class="c-advanced-network-check-block__icon"
-          :fill="colorCode(row.status)"
+          :fill="colorCode(status)"
           size="14.5px"
         )
-
-        p
-          | {{ row['description'] }}
-
-      p
-        | {{ getStatusDisplay(row.status) }}
+        p {{ description }}
+      p {{ getStatusDisplay(status) }}
 </template>
 
 <!-- **********************************************************************
-      SCRIPT
-      ********************************************************************** -->
+     SCRIPT
+     ********************************************************************** -->
 
 <script lang="ts">
 import {
   AnyNetworkCheckStatus,
   DnsRecordStatus,
   IpConnectivityStatus,
-  PortReachabilityStatus
+  PortReachabilityStatus,
+  CheckResultData
 } from "@/api/providers/networkConfig";
 import { PropType } from "vue";
 
@@ -87,20 +70,7 @@ export default {
   props: {
     status: {
       type: String as PropType<AnyNetworkCheckStatus>,
-      default: "CHECKING",
-
-      validator(x: string) {
-        // NOTE: Not great but temporary before a refactor.
-        return (
-          Object.values(DnsRecordStatus).includes(x as DnsRecordStatus) ||
-          Object.values(IpConnectivityStatus).includes(
-            x as IpConnectivityStatus
-          ) ||
-          Object.values(PortReachabilityStatus).includes(
-            x as PortReachabilityStatus
-          )
-        );
-      }
+      required: true
     },
 
     label: {
@@ -118,8 +88,10 @@ export default {
       required: true
     },
 
-    checklist: {
-      type: Array,
+    results: {
+      type: Object as PropType<
+        Map<string, CheckResultData<AnyNetworkCheckStatus>>
+      >,
       required: true
     }
   },
@@ -141,8 +113,6 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // <-- HELPERS -->
     colorCode(status: AnyNetworkCheckStatus, isString = false) {
@@ -150,7 +120,7 @@ export default {
         case DnsRecordStatus.Queued:
         case IpConnectivityStatus.Queued:
         case PortReachabilityStatus.Queued: {
-          return "";
+          return isString ? "black" : "#000";
         }
 
         case DnsRecordStatus.Checking:
@@ -176,7 +146,7 @@ export default {
         }
       }
 
-      return "";
+      return null;
     },
 
     getIconName(status: AnyNetworkCheckStatus) {
@@ -184,13 +154,13 @@ export default {
         case DnsRecordStatus.Queued:
         case IpConnectivityStatus.Queued:
         case PortReachabilityStatus.Queued: {
-          return "";
+          return "questionmark.circle";
         }
 
         case DnsRecordStatus.Checking:
         case PortReachabilityStatus.Checking:
         case IpConnectivityStatus.Checking: {
-          return "archive";
+          return "questionmark.circle";
         }
 
         case DnsRecordStatus.Valid:
@@ -210,7 +180,7 @@ export default {
         }
       }
 
-      return "";
+      return null;
     },
 
     getStatusDisplay(status: AnyNetworkCheckStatus) {
@@ -218,7 +188,7 @@ export default {
         case DnsRecordStatus.Queued:
         case PortReachabilityStatus.Queued:
         case IpConnectivityStatus.Queued: {
-          return "";
+          return "Queued";
         }
 
         case DnsRecordStatus.Checking:
@@ -252,7 +222,7 @@ export default {
         }
       }
 
-      return "";
+      return null;
     }
   }
 };

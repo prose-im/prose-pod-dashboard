@@ -112,26 +112,92 @@ export type AnyNetworkCheckStatus =
  * ************************************************************************* */
 
 class APINetworkConfig {
-  /** DNS SETUP **/
+  /* DNS SETUP */
 
   async getDnsRecords(): Promise<GetDnsRecordsResponse> {
-    return (await Api.client.get(`/v1/network/dns/records`)).data;
+    return (await Api.client.get("/v1/network/dns/records")).data;
   }
 
-  /** NETWORK CHECKS **/
+  /* NETWORK CHECKS */
 
-  async checkAll(): Promise<AnyNetworkCheckResult[]> {
-    return (await Api.client.get(`/v1/network/checks`)).data;
+  checkAll(
+    onMessage: (
+      message:
+        | DnsRecordCheckResult
+        | PortReachabilityCheckResult
+        | IpConnectivityCheckResult
+    ) => void,
+    onClose: () => void,
+    abortSignal: AbortSignal,
+    /** Default value: 5 minutes. */
+    timeoutMillis = 5 * 60 * 1_000
+  ): Promise<void> {
+    return new Promise<void>(resolve => {
+      function end(message: string, timeout = null as NodeJS.Timeout | null) {
+        return () => {
+          console.log(message);
+          clearTimeout(timeout ?? undefined);
+          eventSource.close();
+          resolve();
+          onClose();
+        };
+      }
+      const timeout = setTimeout(
+        end("Network checks timed out."),
+        timeoutMillis
+      );
+
+      const eventSource = Api.eventSource("/v1/network/checks");
+
+      // Event processing
+      eventSource.addEventListener("dns-record-check-result", event => {
+        onMessage({
+          event: "dns-record-check-result",
+          id: event.lastEventId,
+          data: JSON.parse(event.data)
+        });
+      });
+      eventSource.addEventListener("port-reachability-check-result", event => {
+        onMessage({
+          event: "port-reachability-check-result",
+          id: event.lastEventId,
+          data: JSON.parse(event.data)
+        });
+      });
+      eventSource.addEventListener("ip-connectivity-check-result", event => {
+        onMessage({
+          event: "ip-connectivity-check-result",
+          id: event.lastEventId,
+          data: JSON.parse(event.data)
+        });
+      });
+
+      // Stream management
+      eventSource.addEventListener(
+        "end",
+        end("Server asked to close the network checks stream.", timeout)
+      );
+      eventSource.onerror = error => {
+        console.error("Error when enriching members:", error);
+      };
+      abortSignal.addEventListener(
+        "abort",
+        end("Network checks stream aborted.", timeout)
+      );
+    });
+  }
+  async checkAllOnce(): Promise<AnyNetworkCheckResult[]> {
+    return (await Api.client.get("/v1/network/checks")).data;
   }
 
-  async checkDnsRecords(): Promise<DnsRecordCheckResult[]> {
-    return (await Api.client.get(`/v1/network/checks/dns`)).data;
+  async checkDnsRecordsOnce(): Promise<DnsRecordCheckResult[]> {
+    return (await Api.client.get("/v1/network/checks/dns")).data;
   }
-  async checkPortsReachability(): Promise<PortReachabilityCheckResult[]> {
-    return (await Api.client.get(`/v1/network/checks/ports`)).data;
+  async checkPortsReachabilityOnce(): Promise<PortReachabilityCheckResult[]> {
+    return (await Api.client.get("/v1/network/checks/ports")).data;
   }
-  async checkIpConnectivity(): Promise<IpConnectivityCheckResult[]> {
-    return (await Api.client.get(`/v1/network/checks/ip`)).data;
+  async checkIpConnectivityOnce(): Promise<IpConnectivityCheckResult[]> {
+    return (await Api.client.get("/v1/network/checks/ip")).data;
   }
 }
 
