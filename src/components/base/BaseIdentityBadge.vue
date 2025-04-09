@@ -48,28 +48,25 @@
         )
           | {{ domain }}
 
-    .c-base-identity-badge__details.u-ellipsis
-      span
-        | Server
-
-      base-space
-
-      span.c-base-identity-badge--light
-        | v0.0.0
-
-      base-space
-
-      span
-        | +
-
-      base-space
-
+    .c-base-identity-badge__details.u-ellipsis(
+      v-if="apiVersion"
+    )
       span Pod
-
       base-space
-
       span.c-base-identity-badge--light
-        | v0.0.0
+        | {{ apiVersion }}
+
+      template(
+        v-if="serverVersion"
+      )
+        base-space
+        span +
+        base-space
+
+        span Server
+        base-space
+        span.c-base-identity-badge--light
+          | {{ serverVersion }}
 </template>
 
 <!-- **********************************************************************
@@ -99,6 +96,21 @@ export default {
 
     domain() {
       return store.$globalConfig.getDomain();
+    },
+
+    apiVersion() {
+      const podVersion = store.$globalConfig.getPodVersion();
+      if (podVersion && podVersion.api.tag === "local") {
+        // Show more detailed information if the API isn’t running a released version.
+        return podVersion.api.commit_short ?? podVersion.api.version;
+      } else {
+        return podVersion && podVersion.api.tag;
+      }
+    },
+
+    serverVersion() {
+      // TODO: Implement once [Add a route which returns Prosody's version · Issue #143 · prose-im/prose-pod-api](https://github.com/prose-im/prose-pod-api/issues/143) is fixed.
+      return null;
     }
   },
 

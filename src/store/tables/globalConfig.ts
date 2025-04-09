@@ -16,6 +16,7 @@ import APIServerConfig, {
   DEFAULT_SERVER_CONFIG,
   ServerConfig
 } from "@/api/providers/serverConfig";
+import APIMisc, { PodComponentsVersions } from "@/api/providers/misc";
 
 /* *************************************************************************
  * INTERFACES
@@ -23,6 +24,7 @@ import APIServerConfig, {
 
 interface GlobalConfig {
   serverConfig: ServerConfig;
+  podVersion: PodComponentsVersions | null;
 }
 
 /* *************************************************************************
@@ -42,7 +44,8 @@ const LOCAL_STATES = {
 const $globalConfig = defineStore("globalConfig", {
   state: (): GlobalConfig => {
     return {
-      serverConfig: DEFAULT_SERVER_CONFIG
+      serverConfig: DEFAULT_SERVER_CONFIG,
+      podVersion: null
     };
   },
 
@@ -57,6 +60,12 @@ const $globalConfig = defineStore("globalConfig", {
       return () => {
         return this.serverConfig.domain;
       };
+    },
+
+    getPodVersion: function () {
+      return () => {
+        return this.podVersion;
+      };
     }
   },
 
@@ -64,12 +73,13 @@ const $globalConfig = defineStore("globalConfig", {
     async loadGlobalConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.informationLoaded === false || reload === true) {
-        // Load globalConfig configuration
         const serverConfig = await APIServerConfig.getServerConfig();
+        const podVersion = await APIMisc.getPodVersion();
 
         // Update stored config
         // Notice: this is a cross-store operation, for convenience.
         this.serverConfig = serverConfig;
+        this.podVersion = podVersion;
       }
 
       // Mark as loaded
