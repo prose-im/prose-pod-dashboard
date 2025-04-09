@@ -28,12 +28,29 @@
 import AppSidebar from "@/assemblies/app/AppSidebar.vue";
 import DashboardMain from "@/components/dashboard/DashboardMain.vue";
 
+// PROJECT: API
+import APIInit from "@/api/providers/init";
+import APIServerConfig from "@/api/providers/serverConfig";
+
 export default {
   name: "AppBase",
 
   components: {
     AppSidebar,
     DashboardMain
+  },
+
+  mounted() {
+    (async () => {
+      if (!(await APIInit.isPodConfigInitialized())) {
+        console.log("Initializing Pod config…");
+        const podDomain = (await APIServerConfig.getServerConfig()).domain;
+        await APIInit.initPodConfig({
+          address: { hostname: podDomain },
+          dashboard_url: window.location.origin
+        });
+      }
+    })();
   }
 };
 </script>

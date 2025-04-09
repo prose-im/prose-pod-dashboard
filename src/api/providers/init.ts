@@ -34,37 +34,64 @@ export interface InitFirstAccountRequest {
  * API
  * ************************************************************************* */
 
+async function resource_exists(path: string) {
+  return (
+    (
+      await Api.client.head(path, {
+        headers: {
+          "If-Match": "*"
+        },
+        validateStatus: status => [204, 412].includes(status)
+      })
+    ).status === 204
+  );
+}
+
 class APIInit {
   async isPodInitialized(): Promise<boolean> {
-    // NOTE: This is a shortcut. `HEAD /v1/server/config` is the only route
-    //   that allows checking if the Pod is completely initialized at the
-    //   time of writing this, we’ll improve that later.
+    // NOTE: We don’t check for `isPodConfigInitialized` because
+    //   this doesn’t happen during the initialization process
+    //   (it happens when the Dashboard loads).
     return (
-      (
-        await Api.client.head("/v1/server/config", {
-          headers: {
-            "If-None-Match": "*"
-          },
-          validateStatus: status => status === 204 || status === 412
-        })
-      ).status === 204
+      (await this.isServerInitialized()) &&
+      (await this.isWorkspaceInitialized()) &&
+      (await this.isFirstAccountCreated())
     );
   }
 
   async initWorkspace(name: string): Promise<Workspace> {
     return (await Api.client.put("/v1/workspace", { name })).data;
   }
+  async isWorkspaceInitialized(): Promise<boolean> {
+    return resource_exists("/v1/workspace");
+  }
 
   async initServer(domain: string): Promise<ServerConfig> {
     return (await Api.client.put("/v1/server/config", { domain })).data;
   }
+  async isServerInitialized(): Promise<boolean> {
+    return resource_exists("/v1/server/config");
+  }
+
   /** Note: Requires the server to be initialized. */
   async createFirstAccount(data: InitFirstAccountRequest): Promise<Member> {
     return (await Api.client.put("/v1/init/first-account", data)).data;
   }
+  async isFirstAccountCreated(): Promise<boolean> {
+    return (
+      (
+        await Api.client.head("/v1/init/first-account", {
+          validateStatus: status => [204, 409].includes(status)
+        })
+      ).status === 409
+    );
+  }
 
   async initPodConfig(data: InitPodConfigRequest): Promise<PodConfig> {
     return APIPodConfig.initPodConfig(data);
+  }
+  async isPodConfigInitialized(): Promise<boolean> {
+    return resource_exists("/v1/pod/config");
   }
   /** Note: Requires the Pod configuration to be initialized. */
   async initDashboardUrl(url: Url): Promise<DashboardUrl> {

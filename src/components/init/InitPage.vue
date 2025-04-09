@@ -96,7 +96,6 @@ import InitForm from "@/components/init/InitForm.vue";
 import InitTips from "@/components/init/InitTips.vue";
 import InitSuccess from "@/components/init/InitSuccess.vue";
 
-import APIAuth from "@/api/providers/auth";
 import APIInit from "@/api/providers/init";
 
 import Store from "@/store";
@@ -190,9 +189,13 @@ export default {
 
   watch: {
     currentStep: {
-      handler() {
+      async handler() {
         if (!this.currentStep) {
-          setTimeout(() => (this.currentStep = 1), 10);
+          let currentStep = 1;
+          currentStep += Number(await APIInit.isServerInitialized());
+          currentStep += Number(await APIInit.isWorkspaceInitialized());
+          currentStep += Number(await APIInit.isFirstAccountCreated());
+          setTimeout(() => (this.currentStep = currentStep), 10);
         }
 
         this.$emit("updateStep", this.currentStep);
@@ -250,10 +253,6 @@ export default {
                     admin.jid,
                     this.organization.adminPassword
                   );
-                  await APIInit.initPodConfig({
-                    address: { hostname: this.organization.domain },
-                    dashboard_url: window.location.origin
-                  });
                 } catch (e: any) {
                   return BaseAlert.error("Error:", e);
                 }
