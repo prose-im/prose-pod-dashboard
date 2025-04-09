@@ -17,6 +17,7 @@ import APIServerConfig, {
   ServerConfig
 } from "@/api/providers/serverConfig";
 import APIMisc, { PodComponentsVersions } from "@/api/providers/misc";
+import APIAdministration from "@/api/providers/administration";
 
 /* *************************************************************************
  * INTERFACES
@@ -84,6 +85,12 @@ const $globalConfig = defineStore("globalConfig", {
 
       // Mark as loaded
       LOCAL_STATES.informationLoaded = true;
+    },
+
+    async performFactoryReset(): Promise<void> {
+      const confirmation =
+        await APIAdministration.getFactoryResetConfirmation();
+      await APIAdministration.factoryReset(confirmation);
     }
   }
 });

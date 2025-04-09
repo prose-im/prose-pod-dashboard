@@ -184,7 +184,6 @@ export default {
           description:
             "This will erase all data on your Pod (all settings and all user data). Your Pod will then restart and show the initial setup process, as if it was never used before.",
           type: "button",
-          disabled: true,
           action: this.toggleResetModalVisible,
           color: "redShell",
           typeProps: {

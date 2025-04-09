@@ -36,15 +36,16 @@ base-modal(
 
     .a-factory-reset__confirm
       form-checkbox(
-        v-model="downloadConfirmed"
+        v-model="hasDownloadedBackup"
         class="a-factory-reset__confirm--upper"
         size="mid"
         bold="semibold"
+        disabled
       )
         | I have downloaded a recent backup of this Pod
 
       form-checkbox(
-        v-model="dataLossConfirmed"
+        v-model="acceptsDataLoss"
         size="mid"
         bold="semibold"
         label-color="red"
@@ -59,6 +60,9 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
+
+// PROJECT: STORE
+import store from "@/store";
 
 export default {
   name: "FactoryReset",
@@ -76,8 +80,8 @@ export default {
     return {
       // --> STATE <--
 
-      downloadConfirmed: false,
-      dataLossConfirmed: false,
+      hasDownloadedBackup: false,
+      acceptsDataLoss: false,
 
       password: ""
     };
@@ -89,23 +93,26 @@ export default {
 
   methods: {
     // --> HELPERS <--
-    onProceed() {
+    async onProceed() {
       // Check if the whole form was filled
+      // FIXME: Check `hasDownloadedBackup` once [Export full backup · Issue #131 · prose-im/prose-pod-api](https://github.com/prose-im/prose-pod-api/issues/131) is fixed.
       if (!this.password) {
         BaseAlert.error("Please enter your password");
-      } else if (!this.downloadConfirmed || !this.dataLossConfirmed) {
+      } else if (!this.acceptsDataLoss) {
         BaseAlert.error(
-          "Please confirm that you have read and accept all the conditions"
+          "Please confirm that you have read and do accept all the conditions"
         );
       } else {
         // Reset state
         this.password = "";
 
-        this.downloadConfirmed = false;
-        this.dataLossConfirmed = false;
+        this.hasDownloadedBackup = false;
+        this.acceptsDataLoss = false;
 
-        // Close modal
-        this.$emit("close");
+        await store.$globalConfig.performFactoryReset();
+        // WORKAROUND: Wait a bit so the user is logged out
+        //   and the refresh does not redirect to `/team/members`.
+        setTimeout(() => (window.location.href = "/"), 50);
       }
     }
   }
