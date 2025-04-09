@@ -74,13 +74,24 @@ const $globalConfig = defineStore("globalConfig", {
     async loadGlobalConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.informationLoaded === false || reload === true) {
-        const serverConfig = await APIServerConfig.getServerConfig();
-        const podVersion = await APIMisc.getPodVersion();
-
         // Update stored config
         // Notice: this is a cross-store operation, for convenience.
-        this.serverConfig = serverConfig;
+
+        // console.log("Loading Pod version");
+        const podVersion = await APIMisc.getPodVersion();
         this.podVersion = podVersion;
+
+        try {
+          // console.log("Loading Server config");
+          const serverConfig = await APIServerConfig.getServerConfig();
+          this.serverConfig = serverConfig;
+        } catch (e: any) {
+          if (e.status === 401) {
+            console.log("Server config cannot be loaded: Not authenticated.");
+          } else {
+            console.error("Error loading Server config:", e);
+          }
+        }
       }
 
       // Mark as loaded

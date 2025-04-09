@@ -68,6 +68,9 @@ export default {
           this.$router.push({
             name: "app"
           });
+          // Reload global config after a successful log in since some
+          // data needs authentication and couldn’t be queried earlier.
+          Store.$globalConfig.loadGlobalConfig(true);
 
           // Acknowledge login success
           BaseAlert.success("Logged in", "Welcome to your Prose dashboard");

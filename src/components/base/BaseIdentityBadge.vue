@@ -30,7 +30,9 @@
 
       base-space
 
-      .c-base-identity-badge__server-title-right
+      .c-base-identity-badge__server-title-right(
+        v-if="domain"
+      )
         p(
           :class=`[
             "c-base-identity-badge__server-separator",
