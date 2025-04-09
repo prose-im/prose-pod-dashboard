@@ -9,14 +9,14 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.v-start-signup
-  signup-sidebar(
+.v-start-init
+  init-sidebar(
     :items="items"
     :step="currentStep"
   )
 
-  signup-page(
-    class="v-start-signup__page"
+  init-page(
+    class="v-start-init__page"
     @updateStep="onUpdateStep"
   )
 </template>
@@ -27,15 +27,15 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import SignupSidebar from "@/components/signup/SignupSidebar.vue";
-import SignupPage from "@/components/signup/SignupPage.vue";
+import InitSidebar from "@/components/init/InitSidebar.vue";
+import InitPage from "@/components/init/InitPage.vue";
 
 export default {
-  name: "StartSignup",
+  name: "StartInit",
 
   components: {
-    SignupPage,
-    SignupSidebar
+    InitPage,
+    InitSidebar
   },
 
   data() {
@@ -79,7 +79,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".v-start-signup";
+$c: ".v-start-init";
 
 #{$c} {
   height: 100%;

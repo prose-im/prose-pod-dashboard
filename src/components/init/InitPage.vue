@@ -9,17 +9,17 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.c-signup-page
-  .c-signup-page__content(
+.c-init-page
+  .c-init-page__content(
     v-if="currentStep !== 4"
   )
     h3
       | 👋 Welcome to Prose!
 
-    p.c-signup-page__subtitle
+    p.c-init-page__subtitle
       | Let's get your server set up. It will take less than 5 minutes.
 
-    signup-form(
+    init-form(
       v-if="currentStep === 1"
       v-model="organization.domain"
       @changeStep="updateStep('domain')"
@@ -28,13 +28,13 @@
       :tips="tipDomain"
     )
       span
-        | First, what's your 
-      span.c-signup-page__bold 
+        | First, what's your
+      span.c-init-page__bold
         | organization domain name
       span
         | ?
-        
-    signup-form(
+
+    init-form(
       v-if="currentStep === 2"
       v-model="organization.server"
       @changeStep="updateStep('server')"
@@ -42,14 +42,14 @@
       placeholder=" Ex: MyCompanyName"
       :tips="tipServer"
     )
-      span 
-        | Now, give a 
-      span.c-signup-page__bold
+      span
+        | Now, give a
+      span.c-init-page__bold
         | name to your server
       span
         | ! You will be able to customize all the rest later.
-       
-    signup-form(
+
+    init-form(
       v-if="currentStep === 3"
       v-model="organization.adminUsername"
       @changeStep="updateStep('admin')"
@@ -65,18 +65,18 @@
       secondary-type="password"
     )
       span
-        | Finish by creating your 
-      span.c-signup-page__bold
+        | Finish by creating your
+      span.c-init-page__bold
         | administrator account
       span
         | . You'll be able to invite team members later."
 
       p {{ organization }}
 
-  .c-signup-page__success(
+  .c-init-page__success(
     v-if="currentStep === 4"
   )
-    signup-success
+    init-success
 
 </template>
 
@@ -86,17 +86,17 @@
 
 <script lang="ts">
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import SignupForm from "@/components/signup/SignupForm.vue";
-import SignupTips from "@/components/signup/SignupTips.vue";
-import SignupSuccess from "@/components/signup/SignupSuccess.vue";
+import InitForm from "@/components/init/InitForm.vue";
+import InitTips from "@/components/init/InitTips.vue";
+import InitSuccess from "@/components/init/InitSuccess.vue";
 
 export default {
-  name: "SignupPage",
+  name: "InitPage",
 
   components: {
-    SignupForm,
-    SignupTips,
-    SignupSuccess
+    InitForm,
+    InitTips,
+    InitSuccess
   },
 
   props: {},
@@ -243,7 +243,7 @@ export default {
        ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-signup-page";
+$c: ".c-init-page";
 
 #{$c} {
   display: flex;
@@ -287,29 +287,29 @@ $c: ".c-signup-page";
 }
 </style>
 <!-- li
-span 
-  | If your team members emails are 
-span.c-signup-page__bold 
+span
+  | If your team members emails are
+span.c-init-page__bold
   | name@company.com
-span 
-  | , then enter 
-span.c-signup-page__bold 
+span
+  | , then enter
+span.c-init-page__bold
   | company.com here
-span 
+span
   | .
 br
-span 
-  | Prose can co-exist with your email and website 
-span.c-signup-page__bold 
+span
+  | Prose can co-exist with your email and website
+span.c-init-page__bold
   | on the same domain
-span 
+span
   | .
 
 li
 span
-  | You will be able to setup required 
-span.c-signup-page__bold 
-  | DNS records 
+  | You will be able to setup required
+span.c-init-page__bold
+  | DNS records
 span
   | once signed up.
 br

@@ -9,9 +9,9 @@
       ********************************************************************** -->
 
 <template lang="pug">
-.c-signup-success
+.c-init-success
   h3
-    | Congratulations! 
+    | Congratulations!
   br
   p
     | Your server has been setup
@@ -19,7 +19,7 @@
   p
     | You will be redirected to the login page
 
-  span.c-signup-success__loader
+  span.c-init-success__loader
 
 </template>
 
@@ -31,7 +31,7 @@
 import BaseLoader from "@/components/base/BaseLoader.vue";
 
 export default {
-  name: "SignupSuccess",
+  name: "InitSuccess",
 
   components: {
     BaseLoader
@@ -48,7 +48,7 @@ export default {
        ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-signup-success";
+$c: ".c-init-success";
 
 #{$c} {
   text-align: center;

@@ -29,7 +29,7 @@ import StartLogin from "@/views/start/StartLogin.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
-import StartSignup from "@/views/start/StartSignup.vue";
+import StartInit from "@/views/start/StartInit.vue";
 
 // /**************************************************************************
 //  * ROUTER
@@ -64,9 +64,9 @@ class Router {
         },
 
         {
-          path: "/start/signup/",
-          name: "start.signup",
-          component: StartSignup as object
+          path: "/start/init/",
+          name: "start.init",
+          component: StartInit as object
         },
 
         // --> APP <--

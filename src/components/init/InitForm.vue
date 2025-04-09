@@ -9,30 +9,30 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.c-signup-form
+.c-init-form
   transition(
     enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
     leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
   )
-    .c-signup-form__upper(
+    .c-init-form__upper(
       v-if="loaded"
     )
-      .c-signup-form__label
+      .c-init-form__label
         slot
 
-      form.c-signup-form__field-block(
+      form.c-init-form__field-block(
         @submit.prevent="onSubmit"
         :class=`[
           {
-            "c-signup-form__field-block--block" : formType === 'double',
-            "c-signup-form__field-block--flex" : formType !== 'double'
+            "c-init-form__field-block--block" : formType === 'double',
+            "c-init-form__field-block--flex" : formType !== 'double'
           }
         ]`
       )
         form-field(
           v-model="input"
           ref="firstFormField"
-          class="c-signup-form__field"
+          class="c-init-form__field"
           autofocus
           align="left"
           :placeholder="placeholder"
@@ -46,7 +46,7 @@
           v-model="secondInput"
           ref="secondFormField"
           align="left"
-          class="c-signup-form__field"
+          class="c-init-form__field"
           :placeholder="secondaryPlaceholder"
           size="ultra-large"
           :type="secondaryType"
@@ -55,22 +55,22 @@
 
         base-button(
           @click="onSubmit"
-          class="c-signup-form__button"
+          class="c-init-form__button"
           tint="purple"
           size="ultra-large"
           padding="32.5px 24.5px"
         )
-          .c-signup-form__button--content
-            | {{ buttonLabel }} 
+          .c-init-form__button--content
+            | {{ buttonLabel }}
 
             base-icon(
-              class="c-signup-form__icon"
+              class="c-init-form__icon"
               name="arrow.right"
               stroke="#ffffff"
               size="15px"
             )
 
-  signup-tips(
+  init-tips(
     v-if="formVisible"
     :tips="tips"
   )
@@ -82,13 +82,13 @@
 
 <script lang="ts">
 import FormField from "@/components/form/FormField.vue";
-import SignupTips from "@/components/signup/SignupTips.vue";
+import InitTips from "@/components/init/InitTips.vue";
 
 export default {
-  name: "SignupPage",
+  name: "InitPage",
 
   components: {
-    SignupTips
+    InitTips
   },
 
   props: {
@@ -211,7 +211,7 @@ export default {
        ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-signup-form";
+$c: ".c-init-form";
 
 #{$c} {
   display: flex;

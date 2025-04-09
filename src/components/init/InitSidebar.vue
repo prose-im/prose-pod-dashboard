@@ -9,50 +9,50 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.c-signup-sidebar
+.c-init-sidebar
   base-icon(
-    class="c-signup-sidebar__logo"
+    class="c-init-sidebar__logo"
     name="logo"
     size="21px"
     width="85px"
     :rectangular="true"
   )
 
-  .c-signup-sidebar__frames
-    .c-signup-sidebar__frame(
+  .c-init-sidebar__frames
+    .c-init-sidebar__frame(
       v-for="(item, index) in items"
     )
-      .c-signup-sidebar__icon-frame
-        base-icon(                 
+      .c-init-sidebar__icon-frame
+        base-icon(
           :name="item.icon"
           :fill="index === step - 1 ? '#000000' : '#49546299'"
           size="20px"
         )
 
-      .c-signup-sidebar__text
-        p.c-signup-sidebar__title
+      .c-init-sidebar__text
+        p.c-init-sidebar__title
           | {{ item.value }}
 
-        p.c-signup-sidebar__description
+        p.c-init-sidebar__description
           | {{ item.description }}
 
-    .c-signup-sidebar__icon-frame(
-      class="c-signup-sidebar__success"
+    .c-init-sidebar__icon-frame(
+      class="c-init-sidebar__success"
     )
-      base-icon(                 
-        class="c-signup-sidebar__success-icon"
+      base-icon(
+        class="c-init-sidebar__success-icon"
         name="checkmark.circle.empty"
         size="20px"
         :fill="step === 4 ? '#05C02B' : '#49546299'"
       )
 
-    .c-signup-sidebar__highlighter(
+    .c-init-sidebar__highlighter(
       :class=`[
-          "c-signup-sidebar__highlighter--" + step
+          "c-init-sidebar__highlighter--" + step
       ]`
     )
 
-    .c-signup-sidebar__separator
+    .c-init-sidebar__separator
 
 
   p {{ step }}
@@ -64,7 +64,7 @@
 
 <script lang="ts">
 export default {
-  name: "SignupSidebar",
+  name: "InitSidebar",
 
   props: {
     items: {
@@ -93,7 +93,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-signup-sidebar";
+$c: ".c-init-sidebar";
 
 #{$c} {
   max-width: 320px;
