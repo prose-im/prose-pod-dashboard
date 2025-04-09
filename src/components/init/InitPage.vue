@@ -1,12 +1,12 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
-    TEMPLATE
-    ********************************************************************** -->
+     TEMPLATE
+     ********************************************************************** -->
 
 <template lang="pug">
 .c-init-page
@@ -28,7 +28,7 @@
       :tips="tipDomain"
     )
       span
-        | First, what's your
+        | First, what's your&#32;
       span.c-init-page__bold
         | organization domain name
       span
@@ -43,7 +43,7 @@
       :tips="tipServer"
     )
       span
-        | Now, give a
+        | Now, give a&#32;
       span.c-init-page__bold
         | name to your server
       span
@@ -51,27 +51,33 @@
 
     init-form(
       v-if="currentStep === 3"
-      v-model="organization.adminUsername"
       @changeStep="updateStep('admin')"
-      @updateSecondInput="onUpdateSecondInput"
+      form-type="triple"
+
+      v-model="organization.adminUsername"
+      placeholder="Username"
+      type="text"
+
       :secondary-input="organization.adminPassword"
-      button-label="Create my account and Finish now"
-      form-type="double"
-      :form-visible="currentStep === 3"
-      placeholder="E-mail"
+      @updateSecondInput="onUpdateSecondInput"
       secondary-placeholder="Password"
-      :tips="tipAdmin"
-      type="email"
       secondary-type="password"
+
+      :tertiary-input="organization.adminNickname"
+      @updateThirdInput="onUpdateThirdInput"
+      tertiary-placeholder="Nickname"
+      tertiary-type="text"
+
+      button-label="Create my account and Finish now"
+      :form-visible="currentStep === 3"
+      :tips="tipAdmin"
     )
       span
-        | Finish by creating your
+        | Finish by creating your&#32;
       span.c-init-page__bold
         | administrator account
       span
         | . You'll be able to invite team members later."
-
-      p {{ organization }}
 
   .c-init-page__success(
     v-if="currentStep === 4"
@@ -81,14 +87,19 @@
 </template>
 
 <!-- **********************************************************************
-       SCRIPT
-       ********************************************************************** -->
+     SCRIPT
+     ********************************************************************** -->
 
 <script lang="ts">
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import InitForm from "@/components/init/InitForm.vue";
 import InitTips from "@/components/init/InitTips.vue";
 import InitSuccess from "@/components/init/InitSuccess.vue";
+
+import APIAuth from "@/api/providers/auth";
+import APIInit from "@/api/providers/init";
+
+import Store from "@/store";
 
 export default {
   name: "InitPage",
@@ -112,7 +123,8 @@ export default {
         domain: "",
         server: "",
         adminUsername: "",
-        adminPassword: ""
+        adminPassword: "",
+        adminNickname: ""
       },
 
       tipDomain: {
@@ -120,8 +132,8 @@ export default {
           ["If your team members emails are ", false],
           ["name@company.com", true],
           [", then enter ", false],
-          ["company.com here", true],
-          [".", false],
+          ["company.com", true],
+          [" here.", false],
           ["br"],
           ["Prose can co-exist with your email and website ", false],
           ["on the same domain", true]
@@ -131,7 +143,7 @@ export default {
           ["DNS records ", true],
           ["once signed up.", false],
           ["br"],
-          ["      We will provide records to setup in your DNS manager.", false]
+          ["We will provide records to setup in your DNS manager.", false]
         ]
       },
 
@@ -150,7 +162,7 @@ export default {
           ["DNS records ", true],
           ["once signed up.", false],
           ["br"],
-          ["      We will provide records to setup in your DNS manager.", false]
+          ["We will provide records to setup in your DNS manager.", false]
         ]
       },
 
@@ -192,12 +204,17 @@ export default {
 
   methods: {
     /// HELPERS
-    updateStep(stepName: string) {
+    async updateStep(stepName: string) {
       if (this.currentStep) {
         if (this.currentStep < 4) {
           switch (stepName) {
             case "domain": {
               if (this.organization.domain) {
+                try {
+                  await APIInit.initServer(this.organization.domain);
+                } catch (e: any) {
+                  return BaseAlert.error("Error:", e);
+                }
                 this.currentStep += 1;
               } else {
                 BaseAlert.error("Please enter a domain name");
@@ -206,6 +223,11 @@ export default {
             }
             case "server": {
               if (this.organization.server) {
+                try {
+                  await APIInit.initWorkspace(this.organization.server);
+                } catch (e: any) {
+                  return BaseAlert.error("Error:", e);
+                }
                 this.currentStep += 1;
               } else {
                 BaseAlert.error("Please enter a name for your server");
@@ -215,11 +237,29 @@ export default {
             case "admin": {
               if (
                 this.organization.adminUsername &&
-                this.organization.adminPassword
+                this.organization.adminPassword &&
+                this.organization.adminNickname
               ) {
+                try {
+                  const admin = await APIInit.createFirstAccount({
+                    username: this.organization.adminUsername,
+                    password: this.organization.adminPassword,
+                    nickname: this.organization.adminNickname
+                  });
+                  await Store.$account.login(
+                    admin.jid,
+                    this.organization.adminPassword
+                  );
+                  await APIInit.initPodConfig({
+                    address: { hostname: this.organization.domain },
+                    dashboard_url: window.location.origin
+                  });
+                } catch (e: any) {
+                  return BaseAlert.error("Error:", e);
+                }
                 this.currentStep += 1;
               } else {
-                BaseAlert.error("Please enter a valid email and password");
+                BaseAlert.error("Please fill all fields");
               }
               break;
             }
@@ -233,14 +273,17 @@ export default {
     /// EVENT LISTENERS
     onUpdateSecondInput(value: string) {
       this.organization.adminPassword = value;
+    },
+    onUpdateThirdInput(value: string) {
+      this.organization.adminNickname = value;
     }
   }
 };
 </script>
 
 <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
+     STYLE
+     ********************************************************************** -->
 
 <style lang="scss">
 $c: ".c-init-page";
@@ -286,32 +329,3 @@ $c: ".c-init-page";
   }
 }
 </style>
-<!-- li
-span
-  | If your team members emails are
-span.c-init-page__bold
-  | name@company.com
-span
-  | , then enter
-span.c-init-page__bold
-  | company.com here
-span
-  | .
-br
-span
-  | Prose can co-exist with your email and website
-span.c-init-page__bold
-  | on the same domain
-span
-  | .
-
-li
-span
-  | You will be able to setup required
-span.c-init-page__bold
-  | DNS records
-span
-  | once signed up.
-br
-span
-  | We will provide records to setup in your DNS manager. -->

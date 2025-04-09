@@ -31,6 +31,9 @@ import StartLogin from "@/views/start/StartLogin.vue";
 import Store from "@/store";
 import StartInit from "@/views/start/StartInit.vue";
 
+// PROJECT: API
+import APIInit from "@/api/providers/init";
+
 // /**************************************************************************
 //  * ROUTER
 //  * ************************************************************************* */
@@ -44,7 +47,7 @@ class Router {
       history: createWebHistory(),
 
       routes: [
-        //         // --> START <--
+        // --> START <--
 
         { path: "/start/", redirect: { name: "start.login" } },
 
@@ -54,6 +57,8 @@ class Router {
           component: StartLogin as object,
 
           beforeEnter: async () => {
+            await this.__guardPodInitialized();
+
             try {
               // Anonymous status guard
               await this.__guardAnonymous();
@@ -77,6 +82,8 @@ class Router {
           component: AppBase as object,
 
           beforeEnter: async to => {
+            await this.__guardPodInitialized();
+
             try {
               // Authenticated status guard
               await this.__guardAuthenticated();
@@ -155,8 +162,22 @@ class Router {
     return this.__router;
   }
 
+  /** Ensure that Pod is initialized (redirect to init if not) */
+  private async __guardPodInitialized(): Promise<void> {
+    if (!(await APIInit.isPodInitialized())) {
+      console.log(
+        "Pod not initialized, redirecting to Pod initialization process."
+      );
+      this.__router.push({
+        name: "start.init"
+      });
+
+      return Promise.reject();
+    }
+  }
+
+  /** Ensure that user is logged in (redirect to base if not) */
   private async __guardAuthenticated(): Promise<void> {
-    // Ensure that user is logged in (redirect to base if not)
     if (!Store.$account.session.token) {
       this.__router.push({
         name: "start.login"
@@ -166,8 +187,8 @@ class Router {
     }
   }
 
+  /** Ensure that user is not logged-in (redirect to app if so) */
   private async __guardAnonymous(): Promise<void> {
-    // Ensure that user is not logged-in (redirect to app if so)
     if (Store.$account.session.token) {
       this.__router.push({
         name: "app"

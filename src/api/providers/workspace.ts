@@ -16,7 +16,7 @@ import { CssColor } from "./global";
  * INTERFACES
  * ************************************************************************* */
 
-interface Workspace {
+export interface Workspace {
   name: WorkspaceName;
   icon: WorkspaceIcon | null;
   accent_color: CssColor | null;

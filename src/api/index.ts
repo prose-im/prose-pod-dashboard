@@ -9,7 +9,7 @@
  * ************************************************************************* */
 
 // NPM
-import { default as axios, AxiosInstance, AxiosHeaderValue } from "axios";
+import axios, { AxiosInstance, AxiosHeaderValue, AxiosError } from "axios";
 import { EventSource } from "extended-eventsource";
 
 // PROJECT: COMMONS
@@ -50,16 +50,16 @@ class API {
         // Do something with response data
         return response;
       },
-      async function (error) {
+      async function (error: AxiosError) {
         // Check if the error response status is 403 before logging out
         if (error.response && error.response.status === 401) {
+          // console.log("res:", error.response);
           try {
             // Logout from account
             await store.$account.logout();
 
             // Redirect to login page
-            console.log("router", router.instance());
-
+            // console.log("router", router.instance());
             router
               .instance()
               .push("/start/login")
@@ -70,8 +70,8 @@ class API {
 
             // Acknowledge logout success
             BaseAlert.info("Logged out", "Logged out of your dashboard");
-          } catch (_) {
-            console.error("router error", _);
+          } catch (e) {
+            console.error("router error", e);
             BaseAlert.error("Could not log out", "Maybe try again?");
           }
         }

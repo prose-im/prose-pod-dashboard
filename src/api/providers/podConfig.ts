@@ -47,7 +47,7 @@ export interface PatchPodAddressRequest {
  * TYPES
  * ************************************************************************* */
 
-type DashboardUrl = Url | null;
+export type DashboardUrl = Url | null;
 
 /* *************************************************************************
  * CONSTANTS

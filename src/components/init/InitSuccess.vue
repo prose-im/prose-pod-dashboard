@@ -1,31 +1,27 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024, Prose Foundation
+ * Copyright 2024–2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
-      TEMPLATE
-      ********************************************************************** -->
+     TEMPLATE
+     ********************************************************************** -->
 
 <template lang="pug">
 .c-init-success
-  h3
-    | Congratulations!
+  h3 Congratulations!
   br
-  p
-    | Your server has been setup
+  p Your server has been setup
   br
-  p
-    | You will be redirected to the login page
+  p You will be redirected to the Dashboard
 
   span.c-init-success__loader
-
 </template>
 
 <!-- **********************************************************************
-       SCRIPT
-       ********************************************************************** -->
+     SCRIPT
+     ********************************************************************** -->
 
 <script lang="ts">
 import BaseLoader from "@/components/base/BaseLoader.vue";
@@ -44,8 +40,8 @@ export default {
 </script>
 
 <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
+     STYLE
+     ********************************************************************** -->
 
 <style lang="scss">
 $c: ".c-init-success";
@@ -79,7 +75,7 @@ $c: ".c-init-success";
     inset: 0px;
     border-radius: 50%;
     border: 5px solid $color-base-purple-normal;
-    animation: prixClipFix 2s linear infinite;
+    animation: prixClipFix 3s linear infinite;
   }
 }
 

@@ -5,8 +5,8 @@
  -->
 
 <!-- **********************************************************************
-    TEMPLATE
-    ********************************************************************** -->
+     TEMPLATE
+     ********************************************************************** -->
 
 <template lang="pug">
 .c-init-form
@@ -24,8 +24,8 @@
         @submit.prevent="onSubmit"
         :class=`[
           {
-            "c-init-form__field-block--block" : formType === 'double',
-            "c-init-form__field-block--flex" : formType !== 'double'
+            "c-init-form__field-block--flex" : formType === 'single',
+            "c-init-form__field-block--block" : formType !== 'single'
           }
         ]`
       )
@@ -42,7 +42,7 @@
         )
 
         form-field(
-          v-if="formType === 'double'"
+          v-if="secondaryType"
           v-model="secondInput"
           ref="secondFormField"
           align="left"
@@ -50,6 +50,18 @@
           :placeholder="secondaryPlaceholder"
           size="ultra-large"
           :type="secondaryType"
+          @keyup.enter="onSubmit"
+        )
+
+        form-field(
+          v-if="tertiaryType"
+          v-model="thirdInput"
+          ref="thirdFormField"
+          align="left"
+          class="c-init-form__field"
+          :placeholder="tertiaryPlaceholder"
+          size="ultra-large"
+          :type="tertiaryType"
           @keyup.enter="onSubmit"
         )
 
@@ -77,8 +89,8 @@
 </template>
 
 <!-- **********************************************************************
-       SCRIPT
-       ********************************************************************** -->
+     SCRIPT
+     ********************************************************************** -->
 
 <script lang="ts">
 import FormField from "@/components/form/FormField.vue";
@@ -111,18 +123,37 @@ export default {
       type: String,
       default: ""
     },
+    placeholder: {
+      type: String,
+      default: ""
+    },
+    type: {
+      type: String,
+      default: "text"
+    },
 
     secondaryInput: {
       type: String,
       default: ""
     },
-
-    placeholder: {
+    secondaryPlaceholder: {
+      type: String,
+      default: ""
+    },
+    secondaryType: {
       type: String,
       default: ""
     },
 
-    secondaryPlaceholder: {
+    tertiaryInput: {
+      type: String,
+      default: ""
+    },
+    tertiaryPlaceholder: {
+      type: String,
+      default: ""
+    },
+    tertiaryType: {
       type: String,
       default: ""
     },
@@ -130,20 +161,15 @@ export default {
     tips: {
       type: Object,
       required: true
-    },
-
-    type: {
-      type: String,
-      default: "text"
-    },
-
-    secondaryType: {
-      type: String,
-      default: ""
     }
   },
 
-  emits: ["update:modelValue", "updateSecondInput", "changeStep"],
+  emits: [
+    "update:modelValue",
+    "updateSecondInput",
+    "updateThirdInput",
+    "changeStep"
+  ],
 
   data() {
     return {
@@ -171,6 +197,15 @@ export default {
       set(value: string) {
         this.$emit("updateSecondInput", value);
       }
+    },
+
+    thirdInput: {
+      get() {
+        return this.tertiaryInput;
+      },
+      set(value: string) {
+        this.$emit("updateThirdInput", value);
+      }
     }
   },
 
@@ -193,7 +228,7 @@ export default {
     },
 
     onKeyupFirstInput() {
-      if (this.formType === "double" && this.input) {
+      if (this.formType !== "single" && this.input) {
         (
           this.$refs.firstFormField as InstanceType<typeof FormField>
         ).unfocusFieldFromParent();
@@ -207,8 +242,8 @@ export default {
 </script>
 
 <!-- **********************************************************************
-       STYLE
-       ********************************************************************** -->
+     STYLE
+     ********************************************************************** -->
 
 <style lang="scss">
 $c: ".c-init-form";
