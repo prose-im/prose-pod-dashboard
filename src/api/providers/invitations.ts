@@ -86,6 +86,23 @@ type InviteMemberRequest = {
  * ************************************************************************* */
 
 class APIInvitations {
+  async canInviteMember(): Promise<
+    boolean | "forbidden" | "missing-notifier-config"
+  > {
+    const res = await Api.client.head("/v1/invitations", {
+      validateStatus: status => [204, 403, 412].includes(status)
+    });
+    switch (res.status) {
+      case 403:
+        return "forbidden";
+      case 412:
+        return "missing-notifier-config";
+      case 204:
+        return true;
+      default:
+        return false;
+    }
+  }
   async inviteMember(invitation: InviteMemberRequest): Promise<Invitation> {
     return (await Api.client.post("/v1/invitations", invitation)).data;
   }

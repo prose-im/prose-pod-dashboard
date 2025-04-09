@@ -91,6 +91,7 @@ import SearchBar from "@/components/search/SearchBar.vue";
 // PROJECT: STORE
 import store from "@/store";
 import { MemberRole } from "@/api/providers/members";
+import APIInvitations from "@/api/providers/invitations";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -223,7 +224,26 @@ export default {
 
   methods: {
     // <-- HELPERS -->
-    toggleInviteModalVisible() {
+    async toggleInviteModalVisible() {
+      if (!this.isInviteModalVisible) {
+        const canInviteMembers = await APIInvitations.canInviteMember();
+        switch (canInviteMembers) {
+          case "forbidden":
+            return BaseAlert.error("You cannot do that");
+          case "missing-notifier-config":
+            return BaseAlert.error(
+              "The Prose Pod API is missing configuration",
+              "Add `[notifier.email]` in your `Prose.toml` configuration file."
+            );
+          case false:
+            return BaseAlert.error(
+              "You cannot do that",
+              "…but that might just be a bug."
+            );
+          case true:
+            break;
+        }
+      }
       this.isInviteModalVisible = !this.isInviteModalVisible;
     },
 
