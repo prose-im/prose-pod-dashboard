@@ -19,7 +19,9 @@
   )
 
   .c-base-identity-badge__server
-    .c-base-identity-badge__server-title.u-ellipsis
+    .c-base-identity-badge__server-title.u-ellipsis(
+      v-if="name"
+    )
       p(
         :class=`[
           "c-base-identity-badge__server-name",
