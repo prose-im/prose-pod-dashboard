@@ -131,7 +131,7 @@ class APIInvitations {
     token_type: InvitationTokenType
   ): Promise<InvitationBasicDetails> {
     return (
-      await Api.client.put(
+      await Api.client.get(
         `/v1/invitation-tokens/${token}/details?token_type=${token_type}`
       )
     ).data;
@@ -142,11 +142,14 @@ class APIInvitations {
   ): Promise<void> {
     await Api.client.put(
       `/v1/invitation-tokens/${acceptToken}/accept`,
-      request
+      request,
+      { headers: { Authorization: null } }
     );
   }
   async rejectInvitation(rejectToken: InvitationRejectToken): Promise<void> {
-    await Api.client.put(`/v1/invitation-tokens/${rejectToken}/reject`);
+    await Api.client.put(`/v1/invitation-tokens/${rejectToken}/reject`, null, {
+      headers: { Authorization: null }
+    });
   }
 }
 

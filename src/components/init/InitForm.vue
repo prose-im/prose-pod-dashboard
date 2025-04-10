@@ -50,7 +50,7 @@
           :placeholder="secondaryPlaceholder"
           size="ultra-large"
           :type="secondaryType"
-          @keyup.enter="onSubmit"
+          @keyup.enter="onKeyupSecondInput"
         )
 
         form-field(
@@ -234,6 +234,16 @@ export default {
         ).unfocusFieldFromParent();
         (
           this.$refs.secondFormField as InstanceType<typeof FormField>
+        ).focusFieldFromParent();
+      }
+    },
+    onKeyupSecondInput() {
+      if (this.formType !== "single" && this.input) {
+        (
+          this.$refs.secondFormField as InstanceType<typeof FormField>
+        ).unfocusFieldFromParent();
+        (
+          this.$refs.thirdFormField as InstanceType<typeof FormField>
         ).focusFieldFromParent();
       }
     }

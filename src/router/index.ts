@@ -26,6 +26,8 @@ import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCu
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 import StartLogin from "@/views/start/StartLogin.vue";
+import InvitationAccept from "@/views/invitations/InvitationAccept.vue";
+import InvitationReject from "@/views/invitations/InvitationReject.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
@@ -144,6 +146,21 @@ class Router {
               component: AppAdvancedBackup as object
             }
           ]
+        },
+
+        // --> INVITATIONS <--
+
+        {
+          path: "/invitations/accept/:token",
+          name: "invitations.accept",
+          component: InvitationAccept as object,
+          props: true
+        },
+        {
+          path: "/invitations/reject/:token",
+          name: "invitations.reject",
+          component: InvitationReject as object,
+          props: true
         },
 
         // --> REDIRECT <--
