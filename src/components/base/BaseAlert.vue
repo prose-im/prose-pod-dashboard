@@ -102,8 +102,8 @@ interface State {
 // CONSTANTS
 const ALERT_SHOW_AFTER_DELAY = 250; // 250 milliseconds
 
-const ALERT_EXPIRE_HIDE_DELAY_DEFAULT = 4000; // 4 seconds
-const ALERT_EXPIRE_HIDE_DELAY_SHORT = 2000; // 2 seconds
+const ALERT_EXPIRE_HIDE_DELAY_DEFAULT = 40000000000; // 4 seconds
+const ALERT_EXPIRE_HIDE_DELAY_SHORT = 2000000000; // 2 seconds
 
 const ALERT_VISIBILITY_DEFAULT = Visibility.AutoHide;
 
@@ -374,7 +374,7 @@ $alert-padding-sides: 12px;
   display: flex;
   justify-content: center;
   position: absolute;
-  inset-block-start: 90%;
+  inset-block-end: 3%;
   inset-inline: 0;
   z-index: $index-foreground-primary;
 
