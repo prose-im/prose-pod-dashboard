@@ -112,7 +112,7 @@ export default {
       default: "grey",
 
       validator(x: string) {
-        return ["purple", "grey", "white", "red"].includes(x);
+        return ["purple", "grey", "white", "red", "black"].includes(x);
       }
     },
 
@@ -365,6 +365,18 @@ $size-ultra-large-padding-sides: 45.5px;
 
       &:active {
         background-color: lighten($color-base-red-normal, 2%);
+      }
+    }
+  }
+
+  &--black {
+    #{$c}__inner {
+      background-color: $color-black;
+      color: $color-text-reverse;
+
+      &:hover,
+      &:active {
+        border-color: lighten($color-black, 80%);
       }
     }
   }

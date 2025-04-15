@@ -82,8 +82,8 @@ div(
         )
           base-icon(
             v-if="option.icon"
+            fill="#000000"
             :name="option.icon"
-            fill= '#000000'
             size="11px"
             class="c-form-select-accordion__link--icon"
           )
@@ -346,6 +346,11 @@ export default {
 
     onOptionClick(event: HTMLButtonElement): void {
       this.$emit("update:modelValue", event?.value);
+    },
+
+    getIconColor(disabled: boolean) {
+      console.log("iconColor", disabled ? "#d6dae3" : "#000000");
+      return disabled ? "#d6dae3" : "#000000";
     }
   }
 };

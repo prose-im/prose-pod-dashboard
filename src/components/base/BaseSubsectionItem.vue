@@ -195,7 +195,13 @@ export default {
       default: "bw",
 
       validator(x: string) {
-        return ["bw", "redShell", "redBackground", "bwPurple"].includes(x);
+        return [
+          "bw",
+          "redShell",
+          "redBackground",
+          "bwPurple",
+          "greyBackground"
+        ].includes(x);
       }
     },
 
@@ -250,6 +256,9 @@ export default {
         }
         case "redShell": {
           return "red";
+        }
+        case "greyBackground": {
+          return "black";
         }
         default: {
           return "white";
@@ -494,6 +503,10 @@ $c: ".c-base-subsection-item";
     #{$c}__description {
       color: $color-base-red-normal;
     }
+  }
+
+  &--greyBackground {
+    background-color: rgba($color-base-grey-light, 0.12);
   }
 
   // <!-- MEDIA QUERIES -->
