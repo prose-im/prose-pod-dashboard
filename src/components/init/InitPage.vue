@@ -289,15 +289,15 @@ $c: ".c-init-page";
 
 #{$c} {
   display: flex;
-  margin-block-start: 120px;
   text-align: center;
   flex: 1 1 auto;
-  overflow: hidden;
+  overflow-y: scroll;
 
   #{$c}__content {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    margin-block-start: 120px;
   }
 
   h3 {
