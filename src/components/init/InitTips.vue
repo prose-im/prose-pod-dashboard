@@ -80,6 +80,7 @@ $c: ".c-init-tips";
 
 #{$c} {
   display: flex;
+  padding-block-start: 64px;
 
   #{$c}__sidecard {
     border-right: 1px solid $color-border-primary;
