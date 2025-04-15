@@ -134,6 +134,7 @@ $c: ".c-base-identity-badge";
 
 #{$c} {
   display: flex;
+  background-color: $color-white;
   align-items: center;
   padding-inline-start: 6px;
   padding-inline-end: 31px;
