@@ -72,6 +72,7 @@ export default {
           restoreAction: this.onRestoreTlsProfile,
           type: "select",
           typeProps: {
+            minWidth: "170px",
             options: [
               {
                 label: "Modern (Most Secure)",
