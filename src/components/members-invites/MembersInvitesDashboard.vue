@@ -319,6 +319,7 @@ $c: ".c-members-invites-dashboard";
     flex-direction: column;
 
     #{$c}__scroll {
+      min-height: 142px;
       overflow: auto;
       flex: 1 1 0;
     }
