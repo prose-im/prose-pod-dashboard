@@ -119,6 +119,7 @@ export default {
       default: false
     },
 
+    ///First input
     modelValue: {
       type: String,
       default: ""
@@ -132,6 +133,7 @@ export default {
       default: "text"
     },
 
+    ///Second input
     secondaryInput: {
       type: String,
       default: ""
@@ -145,6 +147,7 @@ export default {
       default: ""
     },
 
+    ///Third input
     tertiaryInput: {
       type: String,
       default: ""
@@ -227,6 +230,7 @@ export default {
       this.$emit("changeStep");
     },
 
+    // Focus on second input if there's more than 2 inputs
     onKeyupFirstInput() {
       if (this.formType !== "single" && this.input) {
         (
@@ -237,6 +241,8 @@ export default {
         ).focusFieldFromParent();
       }
     },
+
+    // Focus on third input if there's 3 inputs
     onKeyupSecondInput() {
       if (this.formType !== "single" && this.input) {
         (

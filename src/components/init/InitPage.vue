@@ -99,6 +99,7 @@ import InitSuccess from "@/components/init/InitSuccess.vue";
 import APIInit from "@/api/providers/init";
 
 import Store from "@/store";
+import isValidDomain from "is-valid-domain";
 
 export default {
   name: "InitPage",
@@ -213,12 +214,23 @@ export default {
           switch (stepName) {
             case "domain": {
               if (this.organization.domain) {
-                try {
-                  await APIInit.initServer(this.organization.domain);
-                } catch (e: any) {
-                  return BaseAlert.error("Error:", e);
+                // Validate the domain
+                const domainValidated = isValidDomain(this.organization.domain);
+
+                if (domainValidated) {
+                  // Initialize server if domain is valid
+                  try {
+                    await APIInit.initServer(this.organization.domain);
+                  } catch (e: any) {
+                    return BaseAlert.error("Error:", e);
+                  }
+                  this.currentStep += 1;
+                } else {
+                  return BaseAlert.error(
+                    "Invalid domain name",
+                    "Please enter a valid domain name"
+                  );
                 }
-                this.currentStep += 1;
               } else {
                 BaseAlert.error("Please enter a domain name");
               }
@@ -227,6 +239,7 @@ export default {
             case "server": {
               if (this.organization.server) {
                 try {
+                  // Initialize workspace
                   await APIInit.initWorkspace(this.organization.server);
                 } catch (e: any) {
                   return BaseAlert.error("Error:", e);
