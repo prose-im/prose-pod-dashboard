@@ -67,7 +67,7 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import FormField from "@/components/form/FormField.vue";
 import APIInvitations, {
   InvitationTokenType,
-  InvitationBasicDetails,
+  InvitationBasicDetails
 } from "@/api/providers/invitations";
 import Store from "@/store";
 
@@ -77,8 +77,8 @@ export default {
   props: {
     token: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -86,7 +86,7 @@ export default {
       nickname: "",
       password: "",
       invitationDetails: null as InvitationBasicDetails | null,
-      invitationExpired: null as boolean | null,
+      invitationExpired: null as boolean | null
     };
   },
 
@@ -118,7 +118,7 @@ export default {
       try {
         await APIInvitations.acceptInvitation(this.token, {
           nickname: this.nickname,
-          password: this.password,
+          password: this.password
         });
       } catch (e: any) {
         console.error(e);
@@ -137,14 +137,14 @@ export default {
     },
 
     onKeyupFirstInput() {
-      (this.$refs.firstFormField as InstanceType<
-        typeof FormField
-      >).unfocusFieldFromParent();
-      (this.$refs.secondFormField as InstanceType<
-        typeof FormField
-      >).focusFieldFromParent();
-    },
-  },
+      (
+        this.$refs.firstFormField as InstanceType<typeof FormField>
+      ).unfocusFieldFromParent();
+      (
+        this.$refs.secondFormField as InstanceType<typeof FormField>
+      ).focusFieldFromParent();
+    }
+  }
 };
 </script>
 
@@ -159,7 +159,10 @@ $c: ".v-invitation-accept";
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.98)
+    ),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
   overflow: auto;

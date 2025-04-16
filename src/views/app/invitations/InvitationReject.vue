@@ -52,13 +52,13 @@ export default {
   props: {
     token: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
     return {
-      invitationCancelled: null as boolean | null,
+      invitationCancelled: null as boolean | null
     };
   },
 
@@ -68,10 +68,13 @@ export default {
       this.invitationCancelled = true;
     } catch (e: any) {
       console.error(e);
-      BaseAlert.error("Something went wrong", "We could not cancel this invitation");
+      BaseAlert.error(
+        "Something went wrong",
+        "We could not cancel this invitation"
+      );
       this.invitationCancelled = false;
     }
-  },
+  }
 };
 </script>
 
@@ -86,7 +89,10 @@ $c: ".v-invitation-reject";
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.98)
+    ),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
 

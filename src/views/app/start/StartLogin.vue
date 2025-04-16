@@ -27,7 +27,7 @@
 <script lang="ts">
 // PROJECT: ASSEMBLIES
 import StartLoginForm, {
-  StateForm as FormStateForm,
+  StateForm as FormStateForm
 } from "@/assemblies/start/StartLoginForm.vue";
 
 // PROJECT: COMPONENTS
@@ -40,14 +40,14 @@ export default {
   name: "StartLogin",
 
   components: {
-    StartLoginForm,
+    StartLoginForm
   },
 
   data() {
     return {
       // --> STATES <--
 
-      isFormLoading: false,
+      isFormLoading: false
     };
   },
 
@@ -65,7 +65,7 @@ export default {
 
           // Redirect to dashboard
           this.$router.push({
-            name: "app",
+            name: "app"
           });
           // Reload global config after a successful log in since some
           // data needs authentication and couldn’t be queried earlier.
@@ -74,13 +74,16 @@ export default {
           // Acknowledge login success
           BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
         } catch (_) {
-          BaseAlert.error("Could not log in", "Check your credentials and try again");
+          BaseAlert.error(
+            "Could not log in",
+            "Check your credentials and try again"
+          );
         } finally {
           this.isFormLoading = false;
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -98,7 +101,10 @@ $c: ".v-start-login";
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 255, 255, 0.98)
+    ),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
 
