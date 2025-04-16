@@ -25,13 +25,13 @@ import AppCustomizationEmojis from "@/views/app/dashboard/customization/AppCusto
 import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCustomizationWorkspace.vue";
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
-import StartLogin from "@/views/start/StartLogin.vue";
-import InvitationAccept from "@/views/invitations/InvitationAccept.vue";
-import InvitationReject from "@/views/invitations/InvitationReject.vue";
+import StartLogin from "@/views/app/start/StartLogin.vue";
+import InvitationAccept from "@/views/app/invitations/InvitationAccept.vue";
+import InvitationReject from "@/views/app/invitations/InvitationReject.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
-import StartInit from "@/views/start/StartInit.vue";
+import StartInit from "@/views/app/start/StartInit.vue";
 
 // PROJECT: API
 import APIInit from "@/api/providers/init";
@@ -151,13 +151,13 @@ class Router {
         // --> INVITATIONS <--
 
         {
-          path: "/invitations/accept/:token",
+          path: "/invitations/accept",
           name: "invitations.accept",
           component: InvitationAccept as object,
           props: true
         },
         {
-          path: "/invitations/reject/:token",
+          path: "/invitations/reject",
           name: "invitations.reject",
           component: InvitationReject as object,
           props: true
