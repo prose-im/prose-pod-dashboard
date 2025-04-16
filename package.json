@@ -20,6 +20,7 @@
     "browser-image-resizer": "^2.4.1",
     "extended-eventsource": "^2.1.0",
     "file64": "^1.0.4",
+    "is-valid-domain": "^0.1.6",
     "keycode": "2.2.1",
     "lodash.camelcase": "4.3.0",
     "lodash.merge": "4.6.2",
