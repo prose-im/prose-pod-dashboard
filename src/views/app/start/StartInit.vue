@@ -35,7 +35,7 @@ export default {
 
   components: {
     InitPage,
-    InitSidebar
+    InitSidebar,
   },
 
   data() {
@@ -49,19 +49,19 @@ export default {
         {
           value: "Domain name",
           description: "Setup server domain",
-          icon: "world"
+          icon: "world",
         },
         {
           value: "Server name",
           description: "Customize your server",
-          icon: "wand"
+          icon: "wand",
         },
         {
           value: "Admin account",
           description: "Create your account",
-          icon: "admin"
-        }
-      ]
+          icon: "admin",
+        },
+      ],
     };
   },
 
@@ -69,8 +69,8 @@ export default {
     // --> EVENT LISTENERS <--
     onUpdateStep(newStep: number) {
       this.currentStep = newStep;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -86,10 +86,7 @@ $c: ".v-start-init";
   width: 100%;
   overflow: hidden;
   display: flex;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
+  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
 }

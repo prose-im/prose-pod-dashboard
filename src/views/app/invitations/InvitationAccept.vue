@@ -11,51 +11,51 @@
 <template lang="pug">
 .v-invitation-accept
   .v-invitation-accept__content(
-    v-if="!invitationExpired"
   )
-    h1 👋 Welcome to Prose!
+    h1 
+      | 👋 Welcome to Prose!
 
-    p Let’s create your account.
+    p.v-invitation-accept__subtitle
+      | Let's create your account.
 
     .v-invitation-accept__form
       form-field(
         v-model="nickname"
+        @keyup.enter="onKeyupFirstInput"
         ref="firstFormField"
         autofocus
         align="left"
         placeholder="How should people call you?"
         size="mid-large"
-        @keyup.enter="onKeyupFirstInput"
+        class="v-invitation-accept__field"
       )
 
       form-field(
         v-model="password"
+        @keyup.enter="onSubmit"
         ref="secondFormField"
         align="left"
         type="password"
         placeholder="Password"
         size="mid-large"
-        @keyup.enter="onSubmit"
+        class="v-invitation-accept__field"
       )
 
       base-button(
         @click="onSubmit"
         tint="purple"
         size="mid-large"
+        class="v-invitation-accept__button"
       )
-        span Create my account
+        .v-invitation-accept__button--content 
+          | Create my account
 
-        base-icon(
-          class="v-invitation-accept__icon"
-          name="arrow.right"
-          stroke="#ffffff"
-          size="1em"
-        )
-
-  .v-invitation-accept__content(
-    v-else
-  )
-    h1 ✋ This invitation has expired
+          base-icon(
+            class="v-invitation-accept__icon"
+            name="arrow.right"
+            stroke="#ffffff"
+            size="1em"
+          )
 </template>
 
 <!-- **********************************************************************
@@ -67,7 +67,7 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 import FormField from "@/components/form/FormField.vue";
 import APIInvitations, {
   InvitationTokenType,
-  InvitationBasicDetails
+  InvitationBasicDetails,
 } from "@/api/providers/invitations";
 import Store from "@/store";
 
@@ -77,8 +77,8 @@ export default {
   props: {
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
@@ -86,7 +86,7 @@ export default {
       nickname: "",
       password: "",
       invitationDetails: null as InvitationBasicDetails | null,
-      invitationExpired: null as boolean | null
+      invitationExpired: null as boolean | null,
     };
   },
 
@@ -99,6 +99,7 @@ export default {
     } catch (e: any) {
       console.error(e);
       this.invitationExpired = true;
+      this.$router.push("/invitations/reject");
     }
   },
 
@@ -117,7 +118,7 @@ export default {
       try {
         await APIInvitations.acceptInvitation(this.token, {
           nickname: this.nickname,
-          password: this.password
+          password: this.password,
         });
       } catch (e: any) {
         console.error(e);
@@ -136,14 +137,14 @@ export default {
     },
 
     onKeyupFirstInput() {
-      (
-        this.$refs.firstFormField as InstanceType<typeof FormField>
-      ).unfocusFieldFromParent();
-      (
-        this.$refs.secondFormField as InstanceType<typeof FormField>
-      ).focusFieldFromParent();
-    }
-  }
+      (this.$refs.firstFormField as InstanceType<
+        typeof FormField
+      >).unfocusFieldFromParent();
+      (this.$refs.secondFormField as InstanceType<
+        typeof FormField
+      >).focusFieldFromParent();
+    },
+  },
 };
 </script>
 
@@ -158,21 +159,44 @@ $c: ".v-invitation-accept";
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
+  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
+  overflow: auto;
+
+  #{$c}__subtitle {
+    font-size: ($font-size-page + 3px);
+    font-weight: $font-weight-light;
+    margin-block: 0 108px;
+    color: $color-base-grey-normal;
+  }
 
   #{$c}__content {
+    text-align: center;
     max-width: 30em;
-    margin: 5em auto;
+    margin-inline: auto;
+    margin-block-start: 120px;
   }
 
   #{$c}__form {
-    display: grid;
-    gap: 0.5em;
+    margin-block-start: 35px;
+  }
+
+  #{$c}__field {
+    margin-block-end: 10px;
+  }
+
+  #{$c}__button {
+    margin-block-start: 20px;
+    width: 100%;
+
+    &--content {
+      font-size: ($font-size-page + 1px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-inline-start: 32.5px;
+    }
   }
 
   #{$c}__icon {

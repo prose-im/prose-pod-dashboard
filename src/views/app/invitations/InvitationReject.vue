@@ -13,20 +13,29 @@
   .v-invitation-reject__content(
     v-if="invitationCancelled === null"
   )
-    h1 Cancelling this invitation…
-    p All data associated to you will be erased.
+    h1 
+      | Cancelling this invitation…
+
+    p 
+      | All of your data will be erased.
 
   .v-invitation-reject__content(
     v-else-if="invitationCancelled === true"
   )
-    h1 👋 Bye
-    p All data associated to you has been erased.
+    h1 
+      | This invitation was cancelled by the person who send it.
+
+    p 
+      | All the data associated to you has been erased.
 
   .v-invitation-reject__content(
     v-else
   )
-    h1 ✋ This invitation has expired
-    p Unless you accepted this invitation before, all data associated to you has been erased.
+    h1 
+      | ✋ This invitation has expired
+
+    p 
+      | Unless you already accepted this invitation before, all of your data has been erased.
 </template>
 
 <!-- **********************************************************************
@@ -43,13 +52,13 @@ export default {
   props: {
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
-      invitationCancelled: null as boolean | null
+      invitationCancelled: null as boolean | null,
     };
   },
 
@@ -59,13 +68,10 @@ export default {
       this.invitationCancelled = true;
     } catch (e: any) {
       console.error(e);
-      BaseAlert.error(
-        "Something went wrong",
-        "We could not cancel this invitation"
-      );
+      BaseAlert.error("Something went wrong", "We could not cancel this invitation");
       this.invitationCancelled = false;
     }
-  }
+  },
 };
 </script>
 
@@ -80,10 +86,7 @@ $c: ".v-invitation-reject";
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
+  background: linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
 
