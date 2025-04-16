@@ -84,6 +84,7 @@ div(
     base-avatar(
       v-if="item.slot === 'avatar'"
       :avatar-data-url="calculatedValue"
+      :name="avatarName"
       :class=`[
         "c-base-subsection-item__slot",
         "c-base-subsection-item__slot--avatar"
@@ -92,7 +93,7 @@ div(
       border-radius="20px"
       size="40px"
     )
-
+    
     <!-- INTERACTIVE ELEMENT -->
     form-toggle(
       v-if="type === 'toggle'"
@@ -208,6 +209,13 @@ export default {
     index: {
       type: Number,
       default: 0
+    },
+
+    slotName: {
+      type: Function,
+      default: () => {
+        return;
+      }
     }
   },
 
@@ -284,6 +292,10 @@ export default {
 
     restoreButton() {
       return "Reset " + this.item.subtitle.toLowerCase() + " configuration";
+    },
+
+    avatarName() {
+      return this.slotName();
     }
   },
 

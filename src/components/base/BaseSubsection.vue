@@ -53,7 +53,7 @@
     :type="item.type"
     :color="item.color?item.color:'bw'"
     :index="index"
-
+    :slotName="item.slotName"
   )
 
   <!-- MODALS -->
@@ -107,6 +107,7 @@ interface Item {
   disabled?: boolean;
   typeProps?: object;
   slot?: "avatar" | "text";
+  slotName?: any;
   size?: string;
 }
 

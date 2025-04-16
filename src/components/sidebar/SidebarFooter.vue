@@ -15,6 +15,7 @@
       .c-sidebar-footer__avatar
         base-avatar(
           :avatarDataUrl="avatar"
+          :name="nickname"
         )
 
       .c-sidebar-footer__center

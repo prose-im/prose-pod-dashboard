@@ -190,7 +190,8 @@ export default {
             label: "Edit logo...",
             size: "medium"
           },
-          slot: "avatar"
+          slot: "avatar",
+          slotName: store.$globalConfig.getDomain
         },
         {
           subtitle: "Server details card",
@@ -244,8 +245,8 @@ export default {
     }
   },
 
-  mounted() {
-    store.$customizationWorkspace.loadWorkspaceConfig();
+  async mounted() {
+    await store.$customizationWorkspace.loadWorkspaceConfig();
   },
 
   methods: {

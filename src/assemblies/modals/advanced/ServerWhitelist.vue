@@ -137,7 +137,7 @@ export default {
     },
 
     onLoad() {
-      store.$globalConfig.getServerConfig();
+      //TODO: store.$globalConfig.getServerConfig();
 
       if (this.whitelist.length === 0) {
         this.whitelist = [...this.serverList];

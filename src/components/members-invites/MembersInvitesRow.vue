@@ -96,6 +96,7 @@
     base-avatar(
       class="c-members-invites-row__avatar"
       :avatar-data-url="userData.avatar"
+      :name="userData.nickname"
     )
 
     <!-- 3rd column -->

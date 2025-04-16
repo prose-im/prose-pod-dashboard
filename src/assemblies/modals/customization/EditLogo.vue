@@ -27,6 +27,7 @@ base-modal(
     .a-edit-logo__upload
       base-avatar(
         :avatar-data-url="chosenImageUrl"
+        :name="domain"
         class="a-edit-logo__upload--avatar"
         size="60px"
         border-radius="7px"
@@ -82,6 +83,8 @@ export default {
 
       imageLoading: false,
 
+      domain: "",
+
       proceedDisabled: true,
 
       recreatedImage: "" as string | ArrayBuffer
@@ -93,9 +96,13 @@ export default {
       return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
-    chosenImageUrl() {
+    chosenImageUrl(): any {
       return this.imageUrl ? this.imageUrl : this.currentImage;
     }
+  },
+
+  beforeMount() {
+    return (this.domain = store.$globalConfig.getDomain());
   },
 
   methods: {

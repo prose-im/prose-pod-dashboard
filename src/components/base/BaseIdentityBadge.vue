@@ -12,6 +12,7 @@
 .c-base-identity-badge
   base-avatar(
     :avatar-data-url="logo"
+    :name="domain"
     class="c-base-identity-badge__icon"
     type="image"
     border-radius="22px"
