@@ -26,21 +26,21 @@
 
   <!-- Modals -->
   edit-name(
-    v-if="isEditNameVisible"
+    v-if="activeModal === 'editName'"
     @close="toggleEditNameModalVisible"
     @showSuccess="onShowSuccess"
     :visibility="editNameVisibility"
   )
 
   edit-logo(
-    v-if="isEditLogoVisible"
+    v-if="activeModal === 'editLogo'"
     @close="toggleEditLogoModalVisible"
     @showSuccess="onShowSuccess"
     :visibility="editLogoVisibility"
   )
 
   edit-detail-card(
-    v-if="isEditDetailCardVisible"
+    v-if="activeModal === 'editDetailCard'"
     @close="toggleEditDetailCardModalVisible"
     :visibility="isEditDetailCardVisible"
   )
@@ -161,11 +161,17 @@ export default {
     return {
       // --> STATE <--
 
-      isEditNameVisible: false,
+      activeModal: null as string | null,
+
+      modalList: {
+        editName: "editName",
+        editLogo: "editLogo",
+        editDetailCard: "editDetailCard"
+      },
+
       editNameVisibility: false,
-      isEditLogoVisible: false,
       editLogoVisibility: false,
-      isEditDetailCardVisible: false,
+      EditDetailCardVisibility: false,
 
       profileItems: [
         {
@@ -236,12 +242,16 @@ export default {
   },
 
   watch: {
-    isEditNameVisible(newVisibility) {
-      setTimeout(() => (this.editNameVisibility = newVisibility), 10);
-    },
+    //isEditNameVisible
+    activeModal(newActiveModal) {
+      this.editNameVisibility = false;
+      this.editLogoVisibility = false;
 
-    isEditLogoVisible(newVisibility) {
-      setTimeout(() => (this.editLogoVisibility = newVisibility), 10);
+      if (newActiveModal === "editName") {
+        setTimeout(() => (this.editNameVisibility = true), 10);
+      } else if (newActiveModal === "editLogo") {
+        setTimeout(() => (this.editLogoVisibility = true), 10);
+      }
     }
   },
 
@@ -252,15 +262,27 @@ export default {
   methods: {
     // --> HELPERS <--
     toggleEditNameModalVisible() {
-      this.isEditNameVisible = !this.isEditNameVisible;
+      if (this.activeModal === "editName") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "editName";
+      }
     },
 
     toggleEditLogoModalVisible() {
-      this.isEditLogoVisible = !this.isEditLogoVisible;
+      if (this.activeModal === "editLogo") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "editLogo";
+      }
     },
 
     toggleEditDetailCardModalVisible() {
-      this.isEditDetailCardVisible = !this.isEditDetailCardVisible;
+      if (this.activeModal === "editDetailCard") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "editDetailCard";
+      }
     },
 
     // --> EVENT LISTENERS <--

@@ -31,14 +31,14 @@
 
 <!-- Modals -->
 restore-backup(
-  v-if="isRestoreModalVisible"
+  v-if="activeModal === 'restore'"
   @close="toggleRestoreModalVisible"
   @proceed=""
   :visibility="restoreModalVisibility"
 )
 
 factory-reset(
-  v-if="isResetModalVisible"
+  v-if="activeModal === 'reset'"
   @close="toggleResetModalVisible"
   :visibility="resetModalVisibility"
 )
@@ -78,10 +78,9 @@ export default {
   data() {
     return {
       // --> STATE <--
+      activeModal: null as string | null,
 
-      isRestoreModalVisible: false,
       restoreModalVisibility: false,
-      isResetModalVisible: false,
       resetModalVisibility: false,
 
       backupItems: [
@@ -202,12 +201,15 @@ export default {
   },
 
   watch: {
-    isRestoreModalVisible(newVisibility) {
-      setTimeout(() => (this.restoreModalVisibility = newVisibility), 10);
-    },
+    activeModal(newActiveModal) {
+      this.restoreModalVisibility = false;
+      this.resetModalVisibility = false;
 
-    isResetModalVisible(newVisibility) {
-      setTimeout(() => (this.resetModalVisibility = newVisibility), 10);
+      if (newActiveModal === "restore") {
+        setTimeout(() => (this.restoreModalVisibility = true), 10);
+      } else if (newActiveModal === "reset") {
+        setTimeout(() => (this.resetModalVisibility = true), 10);
+      }
     }
   },
 
@@ -218,11 +220,19 @@ export default {
   methods: {
     // --> HELPERS <--
     toggleRestoreModalVisible() {
-      this.isRestoreModalVisible = !this.isRestoreModalVisible;
+      if (this.activeModal === "restore") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "restore";
+      }
     },
 
     toggleResetModalVisible() {
-      this.isResetModalVisible = !this.isResetModalVisible;
+      if (this.activeModal === "reset") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "reset";
+      }
     },
 
     // --> EVENT LISTENERS <--

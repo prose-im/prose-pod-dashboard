@@ -29,21 +29,21 @@
 <!-- Modals -->
 
 dns-setup(
-  v-if="isDnsInstructionsModalVisible"
+  v-if="activeModal === 'dnsInstructions'"
   @close="toggleDnsInstructionsModalVisible"
   @proceed=""
   :visibility="dnsInstructionsModalVisibility"
 )
 
 configuration-checker(
-  v-if="isNetworkCheckModalVisible"
+  v-if="activeModal === 'networkCheck'"
   @close="toggleNetworkCheckModalVisible"
   @proceed=""
   :visibility="networkCheckModalVisibility"
 )
 
 server-whitelist(
-  v-if="isServerWhitelistModalVisible"
+  v-if="activeModal === 'serverWhitelist'"
   @close="toggleServerWhitelistModalVisible"
   @showSuccess="onShowSuccess"
   :server-list="whitelist"
@@ -82,14 +82,10 @@ export default {
   data() {
     return {
       // --> STATE <--
+      activeModal: null as string | null,
 
-      isDnsInstructionsModalVisible: false,
       dnsInstructionsModalVisibility: false,
-
-      isServerWhitelistModalVisible: false,
       serverWhitelistModalVisibility: false,
-
-      isNetworkCheckModalVisible: false,
       networkCheckModalVisibility: false,
 
       whitelistTags: [] as string[],
@@ -194,16 +190,18 @@ export default {
   },
 
   watch: {
-    isDnsInstructionsModalVisible(newValue) {
-      setTimeout(() => (this.dnsInstructionsModalVisibility = newValue), 10);
-    },
+    activeModal(newActiveModal) {
+      this.serverWhitelistModalVisibility = false;
+      this.dnsInstructionsModalVisibility = false;
+      this.networkCheckModalVisibility = false;
 
-    isNetworkCheckModalVisible(newValue) {
-      setTimeout(() => (this.networkCheckModalVisibility = newValue), 10);
-    },
-
-    isServerWhitelistModalVisible(newValue) {
-      setTimeout(() => (this.serverWhitelistModalVisibility = newValue), 10);
+      if (newActiveModal === "dnsInstructions") {
+        setTimeout(() => (this.dnsInstructionsModalVisibility = true), 10);
+      } else if (newActiveModal === "networkCheck") {
+        setTimeout(() => (this.networkCheckModalVisibility = true), 10);
+      } else if (newActiveModal === "serverWhitelist") {
+        setTimeout(() => (this.serverWhitelistModalVisibility = true), 10);
+      }
     },
 
     whitelist(newValue) {
@@ -221,15 +219,27 @@ export default {
   methods: {
     // --> HELPERS <--
     toggleDnsInstructionsModalVisible() {
-      this.isDnsInstructionsModalVisible = !this.isDnsInstructionsModalVisible;
+      if (this.activeModal === "dnsInstructions") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "dnsInstructions";
+      }
     },
 
     toggleNetworkCheckModalVisible() {
-      this.isNetworkCheckModalVisible = !this.isNetworkCheckModalVisible;
+      if (this.activeModal === "networkCheck") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "networkCheck";
+      }
     },
 
     toggleServerWhitelistModalVisible() {
-      this.isServerWhitelistModalVisible = !this.isServerWhitelistModalVisible;
+      if (this.activeModal === "serverWhitelist") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = "serverWhitelist";
+      }
     },
 
     // --> EVENT LISTENERS <--
