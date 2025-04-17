@@ -157,6 +157,7 @@ export default {
 $c: ".v-invitation-accept";
 
 #{$c} {
+  display: flex;
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -168,6 +169,12 @@ $c: ".v-invitation-accept";
   background-size: 35%;
   overflow: auto;
 
+  h1 {
+    font-size: ($font-size-page + 3px);
+    font-weight: $font-weight-medium;
+    margin-block: 0 17px;
+  }
+
   #{$c}__subtitle {
     font-size: ($font-size-page + 3px);
     font-weight: $font-weight-light;
@@ -176,14 +183,15 @@ $c: ".v-invitation-accept";
   }
 
   #{$c}__content {
-    text-align: center;
-    max-width: 30em;
-    margin-inline: auto;
-    margin-block-start: 120px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block-start: 13%;
   }
 
   #{$c}__form {
-    margin-block-start: 35px;
+    max-width: 650px;
   }
 
   #{$c}__field {
@@ -198,8 +206,12 @@ $c: ".v-invitation-accept";
       font-size: ($font-size-page + 1px);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-inline-start: 32.5px;
+      justify-content: center;
+      text-align: center;
+    }
+
+    &--text {
+      flex: 1;
     }
   }
 
