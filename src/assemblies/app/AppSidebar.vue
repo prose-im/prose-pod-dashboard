@@ -149,7 +149,7 @@ $c: ".a-app-sidebar";
     padding-inline: 22px;
     border-right: solid 1px $color-border-secondary;
     box-sizing: border-box;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   @media (max-width: 768px) {

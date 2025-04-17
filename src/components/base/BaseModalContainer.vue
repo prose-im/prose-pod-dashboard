@@ -182,7 +182,7 @@ $c: ".c-base-modal-container";
   border-bottom-left-radius: 14px;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto;
   flex: 1 1 0;
 
   #{$c}__title {
@@ -199,7 +199,7 @@ $c: ".c-base-modal-container";
   }
 
   #{$c}__body {
-    overflow: scroll;
+    overflow: auto;
     padding-top: 35.5px;
     padding-bottom: 26.5px;
     border-block: 1px solid $color-border-primary;
