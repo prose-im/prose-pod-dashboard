@@ -73,7 +73,8 @@
           padding="32.5px 24.5px"
         )
           .c-init-form__button--content
-            | {{ buttonLabel }}
+            span.c-init-form__button--text
+              | {{ buttonLabel }}
 
             base-icon(
               class="c-init-form__icon"
@@ -271,9 +272,12 @@ $c: ".c-init-form";
   flex: 1 1 auto;
   text-align: center;
   justify-content: space-between;
+  margin-inline: 10px;
 
   #{$c}__upper {
     max-width: 560px;
+    width: 100%;
+    margin-inline: 10px;
   }
 
   #{$c}__label {
@@ -295,8 +299,16 @@ $c: ".c-init-form";
         width: 100%;
 
         &--content {
-          margin-inline-start: 32.5px;
+          text-align: center;
         }
+
+        &--text {
+          width: 100%;
+        }
+      }
+
+      #{$c}__field {
+        margin-inline-end: 0;
       }
     }
   }
