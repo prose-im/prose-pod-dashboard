@@ -10,52 +10,37 @@
 
 <template lang="pug">
 .v-invitation-accept
-  .v-invitation-accept__content(
+  init-sidebar(
+    :items="items"
+    :step="currentStep"
   )
-    h1 
+
+  .v-invitation-accept__content
+    h3 
       | 👋 Welcome to Prose!
 
     p.v-invitation-accept__subtitle
       | Let's create your account.
 
-    .v-invitation-accept__form
-      form-field(
-        v-model="nickname"
-        @keyup.enter="onKeyupFirstInput"
-        ref="firstFormField"
-        autofocus
-        align="left"
-        placeholder="How should people call you?"
-        size="mid-large"
-        class="v-invitation-accept__field"
-      )
+    init-form(
+      v-model="nickname"
+      @changeStep="onSubmit"
+      :secondary-input="password"
+      :form-visible="currentStep === 1"
+      class="v-invitation-accept__form"
+      
+      placeholder="How should people call you?"
+      type="text"
 
-      form-field(
-        v-model="password"
-        @keyup.enter="onSubmit"
-        ref="secondFormField"
-        align="left"
-        type="password"
-        placeholder="Password"
-        size="mid-large"
-        class="v-invitation-accept__field"
-      )
+      secondary-placeholder="Password"
+      secondary-type="password"
 
-      base-button(
-        @click="onSubmit"
-        tint="purple"
-        size="mid-large"
-        class="v-invitation-accept__button"
-      )
-        .v-invitation-accept__button--content 
-          | Create my account
+      button-label="Create my account"
+      :tips="tip"
+      form-type="double"
+    )
 
-          base-icon(
-            class="v-invitation-accept__icon"
-            name="arrow.right"
-            stroke="#ffffff"
-            size="1em"
-          )
+
 </template>
 
 <!-- **********************************************************************
@@ -65,6 +50,8 @@
 <script lang="ts">
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import FormField from "@/components/form/FormField.vue";
+import InitForm from "@/components/init/InitForm.vue";
+import InitSidebar from "@/components/init/InitSidebar.vue";
 import APIInvitations, {
   InvitationTokenType,
   InvitationBasicDetails
@@ -73,6 +60,11 @@ import Store from "@/store";
 
 export default {
   name: "InvitationAccept",
+
+  components: {
+    InitForm,
+    InitSidebar
+  },
 
   props: {
     token: {
@@ -86,7 +78,25 @@ export default {
       nickname: "",
       password: "",
       invitationDetails: null as InvitationBasicDetails | null,
-      invitationExpired: null as boolean | null
+      invitationExpired: null as boolean | null,
+
+      currentStep: 1,
+
+      items: [
+        {
+          value: "Personal account",
+          description: "Create your account",
+          icon: "admin"
+        }
+      ],
+
+      tip: {
+        1: [
+          ["You will be able to ", false],
+          ["customize your identity or modify your password", true],
+          [" later in the app.", false]
+        ]
+      }
     };
   },
 
@@ -99,7 +109,7 @@ export default {
     } catch (e: any) {
       console.error(e);
       this.invitationExpired = true;
-      this.$router.push("/invitations/reject");
+      // this.$router.push("/invitations/reject");
     }
   },
 
@@ -134,15 +144,6 @@ export default {
         "Redirecting you to the Dashboard…"
       );
       setTimeout(() => this.$router.push("/"), 2_000);
-    },
-
-    onKeyupFirstInput() {
-      (
-        this.$refs.firstFormField as InstanceType<typeof FormField>
-      ).unfocusFieldFromParent();
-      (
-        this.$refs.secondFormField as InstanceType<typeof FormField>
-      ).focusFieldFromParent();
     }
   }
 };
