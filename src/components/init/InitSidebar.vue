@@ -52,7 +52,11 @@
       ]`
     )
 
-    .c-init-sidebar__separator
+    .c-init-sidebar__separator(
+      :style=`{
+        height: separatorHeight
+      }`
+    )
 </template>
 
 <!-- **********************************************************************
@@ -81,7 +85,15 @@ export default {
     };
   },
 
-  computed: {}
+  computed: {
+    separatorHeight() {
+      const numberItems = this.items.length;
+
+      return numberItems > 1
+        ? `${(this.items.length + 1) * 50}px`
+        : `${this.items.length * 50}px`;
+    }
+  }
 };
 </script>
 
@@ -102,6 +114,10 @@ $c: ".c-init-sidebar";
   #{$c}__logo {
     margin-block: 40px 69px;
     margin-inline-start: 12px;
+  }
+
+  #{$c}__frames {
+    position: relative;
   }
 
   #{$c}__frame {
@@ -139,6 +155,8 @@ $c: ".c-init-sidebar";
     font-weight: $font-weight-light;
     margin: 0;
     color: $color-text-secondary;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   #{$c}__success {
@@ -152,19 +170,19 @@ $c: ".c-init-sidebar";
     border-radius: 9px;
     height: 64px;
     width: 100%;
-    max-width: 275px;
-    margin-inline-start: 30px;
-    top: 134px;
+    max-width: 350px;
+    margin-inline-start: 10px;
+    top: 0px;
     left: -11px;
     z-index: 5;
     transition: top 200ms ease-in-out;
 
     &--2 {
-      top: (134px + 75px);
+      top: (75px);
     }
 
     &--3 {
-      top: (134px + 150px);
+      top: (150px);
     }
 
     &--4 {
@@ -176,7 +194,7 @@ $c: ".c-init-sidebar";
     position: absolute;
     border: 1px solid $color-border-secondary;
     height: 200px;
-    top: 170px;
+    top: 50px;
     margin-inline-start: 30px;
   }
 
