@@ -10,10 +10,11 @@
 
 <template lang="pug">
 .c-init-page
+  
   .c-init-page__content(
     v-if="currentStep !== 4"
   )
-    h3
+    h1
       | 👋 Welcome to Prose!
 
     p.c-init-page__subtitle
@@ -92,6 +93,7 @@
 
 <script lang="ts">
 import BaseAlert from "@/components/base/BaseAlert.vue";
+import BaseIcon from "../base/BaseIcon.vue";
 import InitForm from "@/components/init/InitForm.vue";
 import InitTips from "@/components/init/InitTips.vue";
 import InitSuccess from "@/components/init/InitSuccess.vue";
@@ -105,6 +107,7 @@ export default {
   name: "InitPage",
 
   components: {
+    BaseIcon,
     InitForm,
     InitTips,
     InitSuccess
@@ -117,7 +120,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      currentStep: null as number | null,
+      currentStep: 1 as number | null,
 
       organization: {
         domain: "",
@@ -189,25 +192,39 @@ export default {
   computed: {},
 
   watch: {
+    //TODO: verify if impossible with mounted
     currentStep: {
       async handler() {
-        if (!this.currentStep) {
-          let currentStep = 1;
-          currentStep += Number(await APIInit.isServerInitialized());
-          currentStep += Number(await APIInit.isWorkspaceInitialized());
-          currentStep += Number(await APIInit.isFirstAccountCreated());
-          setTimeout(() => (this.currentStep = currentStep), 10);
-        }
+        await this.initializeCurrentStep();
 
         this.$emit("updateStep", this.currentStep);
       },
-
-      immediate: true
+      immediate: true,
+      once: true
     }
   },
 
   methods: {
     /// HELPERS
+
+    async initializeCurrentStep() {
+      let currentStep = 1;
+
+      if (await APIInit.isServerInitialized()) {
+        currentStep += 1;
+
+        if (await APIInit.isWorkspaceInitialized()) {
+          currentStep += 1;
+
+          if (await APIInit.isFirstAccountCreated()) {
+            currentStep += 1;
+          }
+        }
+      }
+
+      this.currentStep = currentStep;
+    },
+
     async updateStep(stepName: string) {
       if (this.currentStep) {
         if (this.currentStep < 4) {
@@ -279,6 +296,8 @@ export default {
               break;
           }
         }
+
+        this.$emit("updateStep", this.currentStep);
       }
     },
 
@@ -313,7 +332,7 @@ $c: ".c-init-page";
     margin-block-start: 120px;
   }
 
-  h3 {
+  h1 {
     font-size: ($font-size-page + 8px);
     font-weight: $font-weight-medium;
     margin-block: 0 17px;
