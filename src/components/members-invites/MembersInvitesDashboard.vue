@@ -81,6 +81,16 @@ delete-member(
      ********************************************************************** -->
 
 <script lang="ts">
+// ENUMERATIONS
+enum Modals {
+  // Invite Team Member Modal
+  Invite = "invite",
+  // Edit Role Member Modal
+  EditRole = "editRole",
+  //delete Member Modal
+  DeleteMember = "deleteMember"
+}
+
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
@@ -114,21 +124,16 @@ export default {
 
   data() {
     return {
+      activeModal: null as null | Modals,
+
       // --> STATES <--
       isMembersLoading: false,
       isInvitesLoading: false,
 
       // --> STATE <--
-      isInviteModalVisible: false,
 
       inviteModalVisibility: false,
-
-      isEditRoleModalVisible: false,
-
       editRoleModalVisibility: false,
-
-      isDeleteMemberModalVisible: false,
-
       deleteMemberModalVisibility: false,
 
       userToUpdate: null as object | null,
@@ -172,16 +177,18 @@ export default {
   },
 
   watch: {
-    isInviteModalVisible(newValue) {
-      setTimeout(() => (this.inviteModalVisibility = newValue), 10);
-    },
+    activeModal(newActiveModal) {
+      this.inviteModalVisibility = false;
+      this.editRoleModalVisibility = false;
+      this.deleteMemberModalVisibility = false;
 
-    isEditRoleModalVisible(newValue) {
-      setTimeout(() => (this.editRoleModalVisibility = newValue), 10);
-    },
-
-    isDeleteMemberModalVisible(newValue) {
-      setTimeout(() => (this.deleteMemberModalVisibility = newValue), 10);
+      if (newActiveModal === "invite") {
+        setTimeout(() => (this.inviteModalVisibility = true), 10);
+      } else if (newActiveModal === "editRole") {
+        setTimeout(() => (this.editRoleModalVisibility = true), 10);
+      } else if (newActiveModal === "deleteMember") {
+        setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
+      }
     }
   },
 
@@ -291,17 +298,16 @@ export default {
 
       switch (action) {
         case "Security settings": {
-          this.isDeleteMemberModalVisible = true;
           break;
         }
 
         case "Change role": {
-          this.isEditRoleModalVisible = true;
+          this.toggleEditRoleModalVisible();
           break;
         }
 
         case "Delete member": {
-          this.isDeleteMemberModalVisible = true;
+          this.toggleDeleteMemberModalVisible();
           break;
         }
 
