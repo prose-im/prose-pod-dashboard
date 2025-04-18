@@ -48,6 +48,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
+import { PAGE_SIZE } from "@/api/providers/members";
+
 export default {
   name: "BaseNavigationFooter",
 
@@ -72,15 +74,15 @@ export default {
 
   computed: {
     from() {
-      return 1 + 10 * (this.page - 1);
+      return 1 + PAGE_SIZE * (this.page - 1);
     },
 
     to() {
-      return this.notLastPage ? this.page * 10 : this.total;
+      return this.notLastPage ? this.page * PAGE_SIZE : this.total;
     },
 
     notLastPage() {
-      return this.page * 10 < this.total;
+      return this.page * PAGE_SIZE < this.total;
     },
 
     arrowColor() {
