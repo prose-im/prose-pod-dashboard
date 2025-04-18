@@ -51,6 +51,16 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// ENUMERATIONS
+enum Modals {
+  // Edit Workspace Name Modal
+  EditName = "editName",
+  // Company's Logo Modal
+  EditLogo = "editLogo",
+  //Edit company's Detail Card Modal
+  EditDetailCard = "editDetailCard"
+}
+
 // PROJECT: COMPONENTS
 import EditDetailCard from "@/assemblies/modals/customization/EditDetailCard.vue";
 import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
@@ -161,7 +171,7 @@ export default {
     return {
       // --> STATE <--
 
-      activeModal: null as string | null,
+      activeModal: null as Modals | null,
 
       modalList: {
         editName: "editName",
@@ -242,7 +252,6 @@ export default {
   },
 
   watch: {
-    //isEditNameVisible
     activeModal(newActiveModal) {
       this.editNameVisibility = false;
       this.editLogoVisibility = false;
@@ -265,7 +274,7 @@ export default {
       if (this.activeModal === "editName") {
         this.activeModal = null;
       } else {
-        this.activeModal = "editName";
+        this.activeModal = Modals.EditName;
       }
     },
 
@@ -273,7 +282,7 @@ export default {
       if (this.activeModal === "editLogo") {
         this.activeModal = null;
       } else {
-        this.activeModal = "editLogo";
+        this.activeModal = Modals.EditLogo;
       }
     },
 
@@ -281,7 +290,7 @@ export default {
       if (this.activeModal === "editDetailCard") {
         this.activeModal = null;
       } else {
-        this.activeModal = "editDetailCard";
+        this.activeModal = Modals.EditDetailCard;
       }
     },
 

@@ -56,6 +56,16 @@ server-whitelist(
      ********************************************************************** -->
 
 <script lang="ts">
+// ENUMERATIONS
+enum Modals {
+  // Dns Instructions Modal
+  DnsInstructions = "dnsInstructions",
+  // Network Checker Modal
+  NetworkCheck = "networkCheck",
+  //Edit whitelist servers Modal
+  ServerWhitelist = "serverWhitelist"
+}
+
 // PROJECT: COMPONENTS
 import {
   AnyNetworkCheckStatus,
@@ -82,7 +92,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      activeModal: null as string | null,
+      activeModal: null as Modals | null,
 
       dnsInstructionsModalVisibility: false,
       serverWhitelistModalVisibility: false,
@@ -222,7 +232,7 @@ export default {
       if (this.activeModal === "dnsInstructions") {
         this.activeModal = null;
       } else {
-        this.activeModal = "dnsInstructions";
+        this.activeModal = Modals.DnsInstructions;
       }
     },
 
@@ -230,7 +240,7 @@ export default {
       if (this.activeModal === "networkCheck") {
         this.activeModal = null;
       } else {
-        this.activeModal = "networkCheck";
+        this.activeModal = Modals.NetworkCheck;
       }
     },
 
@@ -238,7 +248,7 @@ export default {
       if (this.activeModal === "serverWhitelist") {
         this.activeModal = null;
       } else {
-        this.activeModal = "serverWhitelist";
+        this.activeModal = Modals.ServerWhitelist;
       }
     },
 
