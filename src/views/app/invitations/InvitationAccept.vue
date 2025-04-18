@@ -49,7 +49,6 @@
 
 <script lang="ts">
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import FormField from "@/components/form/FormField.vue";
 import InitForm from "@/components/init/InitForm.vue";
 import InitSidebar from "@/components/init/InitSidebar.vue";
 import APIInvitations, {
