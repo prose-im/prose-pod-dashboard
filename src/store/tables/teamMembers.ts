@@ -30,6 +30,7 @@ interface Members {
   invitedMembers: Invitation[];
   /** NOTE: `Map`s keep insertion order. */
   members: Map<BareJid, Member | EnrichedMember>;
+  memberTotal: number | null;
 }
 
 /* *************************************************************************
@@ -48,27 +49,40 @@ const $teamMembers = defineStore("teamMembers", {
   state: (): Members => {
     return {
       invitedMembers: [],
-      members: new Map()
+      members: new Map(),
+      memberTotal: null as number | null
     };
   },
 
   getters: {
     getAllMembers: function () {
       return () => {
-        return this.members;
+        return Array.from(this.members.values());
+      };
+    },
+
+    getMemberTotal: function () {
+      return () => {
+        return this.memberTotal;
       };
     }
   },
 
   actions: {
     // <-- ACTIVE MEMBERS -->
-    async loadActiveMembers(reload = false): Promise<void> {
+    async loadActiveMembersByPage(reload = false, page = 1): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Load all Members (non enriched)
-        const members = await APITeamMembers.getAllMembers();
-        this.members = new Map(members.map(member => [member.jid, member]));
-        console.log("Non-enriched members:", members);
+        const response = await APITeamMembers.getMembersByPage(page);
+        console.log(response, "API res", page);
+
+        this.memberTotal = response.itemTotal;
+
+        this.members = new Map(
+          response.data.map(member => [member.jid, member])
+        );
+        console.log("Non-enriched members:", this.members);
 
         // Create a JID Array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
@@ -76,7 +90,7 @@ const $teamMembers = defineStore("teamMembers", {
 
         // Enrich members
         await new Promise<void>(resolve => {
-          setTimeout(resolve, 5_000);
+          setTimeout(resolve, 5000);
 
           const eventSource = APITeamMembers.enrichMembersStream(jidsToEnrich);
           eventSource.addEventListener("enriched-member", event => {

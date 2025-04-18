@@ -37,38 +37,39 @@
 
       <!-- MEMBERS -->
       members-invites-row(
-        v-for="(user, index) in members"
+        v-for="(user, index) in allMembers"
         class="c-members-invites-dashboard__users"
         :key="user.jid"
         :user-data="user"
         :actions-enabled="actionsMenuEnabled"
         @menuAction="onMenuAction"
       )
+  p {{ activeModal }}
 
   base-navigation-footer(
     v-if="!searchTerm"
     @navFooterUpdate="onChangePage"
     listing="users"
     :page="pageNumber"
-    :total="totalMemberNumber"
+    :total="memberTotal"
   )
 
 <!-- Modals -->
 invite-team-member(
-  v-if="isInviteModalVisible"
+  v-if="activeModal === 'invite'"
   @close="toggleInviteModalVisible"
   :visibility="inviteModalVisibility"
 )
 
 edit-role(
-  v-if="isEditRoleModalVisible"
+  v-if="activeModal === 'editRole'"
   @close="toggleEditRoleModalVisible"
   :visibility="editRoleModalVisibility"
   :user="userToUpdate"
 )
 
 delete-member(
-  v-if="isDeleteMemberModalVisible"
+  v-if="activeModal === 'deleteMember'"
   @close="toggleDeleteMemberModalVisible"
   :visibility="deleteMemberModalVisibility"
   :jid="userToUpdate?.jid"
@@ -143,10 +144,15 @@ export default {
       return store.$teamMembers.getAllMembers();
     },
 
+    memberTotal() {
+      const memberTotal = Number(store.$teamMembers.getMemberTotal());
+
+      return memberTotal ? memberTotal : 1;
+    },
+
     members() {
-      return this.searchTerm
-        ? store.$teamMembers.getFilteredMembers(this.searchTerm)
-        : store.$teamMembers.getFilteredMembers(this.pageNumber);
+      return this.allMembers; //this.searchTerm
+      //? store.$teamMembers.getFilteredMembers(this.searchTerm)
     },
 
     invites() {
@@ -158,10 +164,6 @@ export default {
     searchBarDisabled() {
       // Never disable the search bar: one could still search JIDs.
       return false;
-    },
-
-    totalMemberNumber() {
-      return this.allMembers.size;
     },
 
     actionsMenuEnabled() {
@@ -193,7 +195,7 @@ export default {
 
       try {
         // Load already accepted members
-        store.$teamMembers.loadActiveMembers(true);
+        store.$teamMembers.loadActiveMembersByPage(true);
       } catch (_) {
         BaseAlert.error(
           "Could not log in",
@@ -225,7 +227,8 @@ export default {
   methods: {
     // <-- HELPERS -->
     async toggleInviteModalVisible() {
-      if (!this.isInviteModalVisible) {
+      //TODO so many cases?
+      if (this.activeModal !== "invite") {
         const canInviteMembers = await APIInvitations.canInviteMember();
         switch (canInviteMembers) {
           case "forbidden":
@@ -241,18 +244,27 @@ export default {
               "…but that might just be a bug."
             );
           case true:
-            break;
+            return (this.activeModal = Modals.Invite);
         }
       }
-      this.isInviteModalVisible = !this.isInviteModalVisible;
+
+      this.activeModal = null;
     },
 
     toggleDeleteMemberModalVisible() {
-      this.isDeleteMemberModalVisible = !this.isDeleteMemberModalVisible;
+      if (this.activeModal === "deleteMember") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.DeleteMember;
+      }
     },
 
     toggleEditRoleModalVisible() {
-      this.isEditRoleModalVisible = !this.isEditRoleModalVisible;
+      if (this.activeModal === "editRole") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.EditRole;
+      }
     },
 
     // --> EVENT LISTENERS <--
@@ -260,11 +272,13 @@ export default {
     onChangePage(type: string) {
       if (type === "forth") {
         this.pageNumber += 1;
+        store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
       } else if (type === "back") {
         if (this.pageNumber === 1) {
           return;
         } else {
           this.pageNumber -= 1;
+          store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
         }
       }
 

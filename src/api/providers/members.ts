@@ -26,6 +26,11 @@ export enum MemberRole {
  * INTERFACES
  * ************************************************************************* */
 
+interface MembersByPageResponse {
+  data: Member[];
+  itemTotal: number;
+}
+
 export interface Member {
   jid: BareJid;
   role: MemberRole;
@@ -38,6 +43,7 @@ export interface EnrichMembersResponse {
 /* *************************************************************************
  * CONSTANTS
  * ************************************************************************* */
+export const PAGE_SIZE = 5;
 
 export const RolesDisplayStrings = {
   [MemberRole.Member]: "Member",
@@ -61,6 +67,19 @@ export type EnrichedMember = Member & {
 class APITeamMembers {
   async getAllMembers(): Promise<Member[]> {
     return (await Api.client.get("/v1/members")).data;
+  }
+
+  async getMembersByPage(page: number): Promise<MembersByPageResponse> {
+    const { data, headers } = await Api.client.get("/v1/members", {
+      params: {
+        page_number: page,
+        page_size: PAGE_SIZE
+      }
+    });
+
+    const itemTotal = headers["pagination-item-count"];
+
+    return { data, itemTotal };
   }
 
   async getMember(jid: BareJid): Promise<EnrichedMember | null> {
