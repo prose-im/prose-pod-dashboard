@@ -52,27 +52,36 @@ class API {
       },
       async function (error: AxiosError) {
         // Check if the error response status is 403 before logging out
-        if (error.response && error.response.status === 401) {
-          // console.log("res:", error.response);
-          try {
-            // Logout from account
-            await store.$account.logout();
+        if (error.response) {
+          if (error.response.status === 401) {
+            try {
+              // Logout from account
+              await store.$account.logout();
 
-            // Redirect to login page
-            // console.log("router", router.instance());
+              // Redirect to login page
+              // console.log("router", router.instance());
+              router
+                .instance()
+                .push("/start/login")
+                .catch(err => {
+                  // Handle redundant navigation error
+                  console.error("error reroute:", err);
+                });
+
+              // Acknowledge logout success
+              BaseAlert.info("Logged out", "Logged out of your dashboard");
+            } catch (e) {
+              console.error("router error", e);
+              BaseAlert.error("Could not log out", "Maybe try again?");
+            }
+          } else if (error.response.status === 500) {
             router
               .instance()
-              .push("/start/login")
+              .push("/error")
               .catch(err => {
                 // Handle redundant navigation error
                 console.error("error reroute:", err);
               });
-
-            // Acknowledge logout success
-            BaseAlert.info("Logged out", "Logged out of your dashboard");
-          } catch (e) {
-            console.error("router error", e);
-            BaseAlert.error("Could not log out", "Maybe try again?");
           }
         }
         // Handle other errors globally if needed

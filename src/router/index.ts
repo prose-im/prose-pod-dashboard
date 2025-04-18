@@ -26,6 +26,7 @@ import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCu
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 import StartLogin from "@/views/app/start/StartLogin.vue";
+import BrokenAPI from "@/views/app/placeholders/BrokenAPI.vue";
 import InvitationAccept from "@/views/app/invitations/InvitationAccept.vue";
 import InvitationReject from "@/views/app/invitations/InvitationReject.vue";
 
@@ -165,7 +166,15 @@ class Router {
 
         // --> REDIRECT <--
 
-        { path: "/:path(.*)*", redirect: "/" }
+        { path: "/:path(.*)*", redirect: "/" },
+
+        // --> BROKEN API <--
+        {
+          path: "/error",
+          name: "error",
+          component: BrokenAPI,
+          props: true
+        }
       ]
     });
   }
