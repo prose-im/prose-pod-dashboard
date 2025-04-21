@@ -84,6 +84,8 @@ $c: ".c-init-tips";
 
   #{$c}__sidecard {
     border-right: 1px solid $color-border-primary;
+    width: 100%;
+    max-width: 90px;
   }
 
   #{$c}__logo {
@@ -93,7 +95,6 @@ $c: ".c-init-tips";
     background-color: $color-base-purple-normal;
     width: fit-content;
     padding: 6px 8px;
-    margin-inline-end: 27px;
     border-radius: 4px;
 
     #{$c}__icon {

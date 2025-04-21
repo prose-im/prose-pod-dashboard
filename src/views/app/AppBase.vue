@@ -67,8 +67,10 @@ $c: ".v-app-base";
   width: 100%;
   display: flex;
 
+  //TODO: check with V
   #{$c}__sidebar {
     flex: 0 0 auto;
+    max-width: 22%;
   }
 
   #{$c}__content {
