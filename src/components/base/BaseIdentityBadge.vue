@@ -11,6 +11,7 @@
 <template lang="pug">
 .c-base-identity-badge
   base-avatar(
+    :avatar-type="logoType"
     :avatar-data="logo"
     :name="domain"
     class="c-base-identity-badge__icon"
@@ -92,7 +93,10 @@ export default {
 
   computed: {
     logo() {
-      return store.$customizationWorkspace.getWorkspaceLogo();
+      return store.$customizationWorkspace.getWorkspaceLogo()?.base64;
+    },
+    logoType() {
+      return store.$customizationWorkspace.getWorkspaceLogo()?.type;
     },
 
     name() {

@@ -10,7 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { BareJid } from "./global";
+import { BareJid, Mime } from "./global";
 import { EventSource } from "extended-eventsource";
 
 /* *************************************************************************
@@ -36,6 +36,11 @@ export interface Member {
   role: MemberRole;
 }
 
+export interface Avatar {
+  base64: string;
+  type: Mime;
+}
+
 export interface EnrichMembersResponse {
   [key: BareJid]: EnrichedMember;
 }
@@ -57,7 +62,7 @@ export const RolesDisplayStrings = {
 export type EnrichedMember = Member & {
   online: boolean;
   nickname: string;
-  avatar: string | null;
+  avatar: Avatar | null;
 };
 
 /* *************************************************************************

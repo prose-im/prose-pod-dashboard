@@ -9,6 +9,8 @@
  * ************************************************************************* */
 
 export type Url = string;
+/** A MIME type. */
+export type Mime = string;
 export type EmailAddress = string;
 export type Uuid = string;
 /** Warn: Should be using a type that is zeroized from memory and cannot be printed. */

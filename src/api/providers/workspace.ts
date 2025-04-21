@@ -11,6 +11,7 @@
 // PROJECT: API
 import Api from "@/api";
 import { CssColor } from "./global";
+import { Avatar } from "./members";
 
 /* *************************************************************************
  * INTERFACES
@@ -33,7 +34,7 @@ interface WorkspacePatchRequest {
 
 export type WorkspaceName = string;
 /** A Base64-encoded image. */
-export type WorkspaceIcon = string;
+export type WorkspaceIcon = Avatar;
 
 /* *************************************************************************
  * API
@@ -82,7 +83,11 @@ export class APIWorkspace {
   async setWorkspaceIcon(
     newIcon: WorkspaceIcon | null
   ): Promise<WorkspaceIcon | null> {
-    return (await Api.client.put("/v1/workspace/icon", newIcon)).data;
+    return (
+      await Api.client.put("/v1/workspace/icon", newIcon?.base64, {
+        headers: { "Content-Type": newIcon?.type }
+      })
+    ).data;
   }
 
   async getWorkspaceIcon(): Promise<WorkspaceIcon | null> {
