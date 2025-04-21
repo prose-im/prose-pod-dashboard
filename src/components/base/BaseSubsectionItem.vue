@@ -83,7 +83,7 @@ div(
 
     base-avatar(
       v-if="item.slot === 'avatar'"
-      :avatar-data-url="calculatedValue"
+      :avatar-data="calculatedValue"
       :name="avatarName"
       :class=`[
         "c-base-subsection-item__slot",
@@ -93,7 +93,7 @@ div(
       border-radius="20px"
       size="40px"
     )
-    
+
     <!-- INTERACTIVE ELEMENT -->
     form-toggle(
       v-if="type === 'toggle'"

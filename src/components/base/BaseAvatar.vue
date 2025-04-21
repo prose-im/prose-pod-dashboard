@@ -67,9 +67,19 @@ export default {
       default: "34px"
     },
 
-    avatarDataUrl: {
+    avatarType: {
       type: String,
-      default: ""
+      default: "image/png"
+    },
+
+    avatarData: {
+      type: String,
+      default: null
+    },
+
+    avatarUrl: {
+      type: String,
+      default: null
     },
 
     borderRadius: {
@@ -94,13 +104,17 @@ export default {
 
   computed: {
     backgroundImage(): string | void {
-      let imageUrl = "";
-
-      if (this.avatarDataUrl) {
-        imageUrl = `url(data:image/png;base64,${this.avatarDataUrl})`;
+      // Generate avatar URL from raw URL?
+      if (this.avatarUrl) {
+        return this.avatarUrl;
       }
 
-      return imageUrl;
+      // Generate avatar URL from data and MIME type?
+      if (this.avatarType && this.avatarData) {
+        return `url(data:${this.avatarType};base64,${this.avatarData})`;
+      }
+
+      return "";
     },
 
     backgroundColor(): string | void {

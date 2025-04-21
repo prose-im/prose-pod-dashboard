@@ -11,7 +11,7 @@
 <template lang="pug">
 .c-base-identity-badge
   base-avatar(
-    :avatar-data-url="logo"
+    :avatar-data="logo"
     :name="domain"
     class="c-base-identity-badge__icon"
     type="image"

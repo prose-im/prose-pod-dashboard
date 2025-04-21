@@ -28,7 +28,7 @@
       "c-members-invites-row__avatar",
       "c-members-invites-row--hidden"
     ]`
-    :avatar-data-url="userData.avatar"
+    :avatar-data="userData.avatar"
   )
 
   <!-- 3rd column -->
@@ -95,7 +95,7 @@
     <!-- 2nd column -->
     base-avatar(
       class="c-members-invites-row__avatar"
-      :avatar-data-url="userData.avatar"
+      :avatar-data="userData.avatar"
       :name="userData.nickname"
     )
 

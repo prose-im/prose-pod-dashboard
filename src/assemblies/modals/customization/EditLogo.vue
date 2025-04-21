@@ -26,7 +26,8 @@ base-modal(
 
     .a-edit-logo__upload
       base-avatar(
-        :avatar-data-url="chosenImageUrl"
+        :avatar-type="chosenImageType"
+        :avatar-data="chosenImageData"
         :name="domain"
         class="a-edit-logo__upload--avatar"
         size="60px"
@@ -96,8 +97,13 @@ export default {
       return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
-    chosenImageUrl(): any {
-      return this.imageUrl ? this.imageUrl : this.currentImage;
+    chosenImageType() {
+      // TODO: put correct type here
+      return "image/png";
+    },
+
+    chosenImageData() {
+      return this.image ? this.image : this.currentImage;
     }
   },
 
@@ -118,15 +124,7 @@ export default {
 
       const files = (event.target as HTMLInputElement).files || [];
       let file = files[0] as File | null;
-      let resizedImage = null as Blob | null;
       console.log("files", files);
-
-      const config = {
-        quality: 0.5,
-        maxWidth: 800,
-        maxHeight: 600,
-        debug: true
-      };
 
       if (file) {
         const fileType = file.type.split("/")[1];
@@ -161,22 +159,19 @@ export default {
 
         fileReader.readAsDataURL(file);
 
-        // Compress image if it's bigger than 256 ko
-        if (file.size > 256000) {
-          resizedImage = await readAndCompressImage(file, config);
-        }
+        let resizedImage = await readAndCompressImage(file, {
+          quality: 0.85,
+          maxWidth: 512,
+          maxHeight: 512,
+          debug: true
+        });
 
         if (file) {
-          //Encode to base64
-          let encodedResult = "";
+          // Encode to base64
+          let encodedResult = await fileToBase64(resizedImage);
 
-          if (resizedImage) {
-            encodedResult = await fileToBase64(resizedImage);
-          } else {
-            encodedResult = await fileToBase64(file);
-          }
-
-          //Remove unnecessary 'data:image/**;base64'
+          // Remove unnecessary 'data:image/**;base64'
+          // TODO: obtain type from file.type or else
           this.image = encodedResult.split(",")[1];
 
           // Enable proceed button

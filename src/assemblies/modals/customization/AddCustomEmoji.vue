@@ -22,7 +22,7 @@ base-modal(
 
     .a-add-custom-emoji__upload
       base-avatar(
-        :avatar-data-url="emojiUrl"
+        :avatar-url="emojiUrl"
         class="a-add-custom-emoji__upload--avatar"
         size="60px"
         borderRadius="7px"
@@ -43,7 +43,7 @@ base-modal(
       label="Emoji shortcut"
       placeholder="Enter a :shortcut: for the emoji..."
     )
-    
+
     .a-add-custom-emoji__info
       base-icon(
         class="a-add-custom-emoji__info--icon"

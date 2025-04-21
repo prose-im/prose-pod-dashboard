@@ -31,7 +31,7 @@
     .c-emojis-reactions-row__image
       base-avatar(
         v-if="!tableHeaders"
-        :avatar-data-url="emojiData.imageUrl"
+        :avatar-url="emojiData.imageUrl"
         size="30px"
         border-radius="0px"
       )
@@ -80,7 +80,7 @@
         :class=`[
           "c-emojis-reactions-row__contributor--avatar",
         ]`
-        :avatar-data-url="emojiData.contributorAvatar"
+        :avatar-url="emojiData.contributorAvatar"
         size="22px"
       )
 

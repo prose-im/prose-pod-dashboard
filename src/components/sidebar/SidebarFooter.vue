@@ -14,12 +14,12 @@
     .c-sidebar-footer__left
       .c-sidebar-footer__avatar
         base-avatar(
-          :avatarDataUrl="avatar"
+          :avatar-data="avatar"
           :name="nickname"
         )
 
       .c-sidebar-footer__center
-        p 
+        p
           | {{ nickname }}
 
         base-badge(

@@ -105,7 +105,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
               workspace.accent_color ?? DEFAULT_ACCENT_COLOR;
             this.workspaceProfile = {
               name: workspace.name,
-              logo: workspace.icon && `data:image/png;base64,${workspace.icon}`
+              logo: workspace.icon
             };
           });
         } catch (error: any) {
@@ -137,8 +137,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         const workspaceIcon = await APIWorkspace.setWorkspaceIcon(newIcon);
 
         this.$patch(() => {
-          this.workspaceProfile.logo =
-            workspaceIcon && `data:image/png;base64,${workspaceIcon}`;
+          this.workspaceProfile.logo = workspaceIcon;
         });
       } catch (error: any) {
         console.error(
