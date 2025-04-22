@@ -155,6 +155,11 @@ const ACCENT_COLORS = [
   {
     name: "Black",
     hex: "#2A2A2A"
+  },
+
+  {
+    name: "Default color",
+    hex: "#478ee9"
   }
 ];
 
@@ -299,7 +304,11 @@ export default {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
           case "color": {
-            store.$customizationWorkspace.setWorkspaceAccentColor(newValue);
+            if (newValue === "Default Color") {
+              store.$customizationWorkspace.setWorkspaceAccentColor(null);
+            } else {
+              store.$customizationWorkspace.setWorkspaceAccentColor(newValue);
+            }
             break;
           }
 
