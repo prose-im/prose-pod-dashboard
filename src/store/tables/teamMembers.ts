@@ -70,19 +70,29 @@ const $teamMembers = defineStore("teamMembers", {
 
   actions: {
     // <-- ACTIVE MEMBERS -->
-    async loadActiveMembersByPage(reload = false, page = 1): Promise<void> {
+    async loadActiveMembersByPage(
+      reload = false,
+      page = 1,
+      searchTerm = ""
+    ): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
         // Load all Members (non enriched)
-        const response = await APITeamMembers.getMembersByPage(page);
-        console.log(response, "API res", page);
 
-        this.memberTotal = response.itemTotal;
+        if (!searchTerm) {
+          const response = await APITeamMembers.getMembersByPage(page);
+          console.log(response, "API res", page);
 
-        this.members = new Map(
-          response.data.map(member => [member.jid, member])
-        );
-        console.log("Non-enriched members:", this.members);
+          this.memberTotal = response.itemTotal;
+
+          this.members = new Map(
+            response.data.map(member => [member.jid, member])
+          );
+          console.log("Non-enriched members:", this.members);
+        } else {
+          const response = await APITeamMembers.getSearchedMembers(searchTerm);
+          this.members = new Map(response.map(member => [member.jid, member]));
+        }
 
         // Create a JID Array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());

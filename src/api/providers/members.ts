@@ -60,6 +60,8 @@ export type EnrichedMember = Member & {
   avatar: string | null;
 };
 
+export type searchedMembers = Member[];
+
 /* *************************************************************************
  * API
  * ************************************************************************* */
@@ -80,6 +82,16 @@ class APITeamMembers {
     const itemTotal = headers["pagination-item-count"];
 
     return { data, itemTotal };
+  }
+
+  async getSearchedMembers(searchTerm: string): Promise<searchedMembers> {
+    const { data } = await Api.client.get("/v1/members", {
+      params: {
+        q: searchTerm
+      }
+    });
+
+    return data;
   }
 
   async getMember(jid: BareJid): Promise<EnrichedMember | null> {

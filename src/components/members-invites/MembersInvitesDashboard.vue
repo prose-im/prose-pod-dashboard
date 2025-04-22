@@ -16,6 +16,7 @@
     :click-handle="toggleInviteModalVisible"
     :disabled="searchBarDisabled"
     placeholder-text="team members..."
+    @change="onSearchTermChange"
   )
 
   .c-members-invites-dashboard__content
@@ -314,6 +315,16 @@ export default {
         default: {
           break;
         }
+      }
+    },
+
+    onSearchTermChange() {
+      if (!this.searchTerm) {
+        console.log("no searchtrem");
+        store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+      } else {
+        console.log("termSearch", this.searchTerm);
+        store.$teamMembers.loadActiveMembersByPage(true, 1, this.searchTerm);
       }
     }
   }

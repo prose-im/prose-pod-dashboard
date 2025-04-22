@@ -20,11 +20,12 @@
         )
         form-field(
           v-model="term"
-          type="text"
+          @change="onInputChange"
+          :disabled="disabled"
           :placeholder="'Search for' + ' ' + placeholderText"
+          type="text"
           align="left"
           class="c-search-bar__field"
-          :disabled="disabled"
         )
 
       .c-search-bar__right
@@ -71,7 +72,7 @@ export default {
     }
   },
 
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "change"],
 
   computed: {
     term: {
@@ -82,6 +83,12 @@ export default {
       set(value: string) {
         this.$emit("update:modelValue", value);
       }
+    }
+  },
+
+  methods: {
+    onInputChange() {
+      this.$emit("change");
     }
   }
 };
