@@ -255,6 +255,7 @@ $c: ".c-advanced-network-check-block";
     justify-content: space-between;
     align-items: center;
     margin-block-end: 17px;
+    padding-inline-end: 6px;
 
     &--left {
       display: flex;
