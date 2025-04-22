@@ -51,7 +51,7 @@ class API {
         return response;
       },
       async function (error: AxiosError) {
-        // Check if the error response status is 403 before logging out
+        // Check if the error response status is 401 before logging out
         if (error.response) {
           if (error.response.status === 401) {
             try {
@@ -75,13 +75,17 @@ class API {
               BaseAlert.error("Could not log out", "Maybe try again?");
             }
           } else if (error.response.status === 500) {
-            router
-              .instance()
-              .push("/error")
-              .catch(err => {
-                // Handle redundant navigation error
-                console.error("error reroute:", err);
-              });
+            setTimeout(() => console.log("error 500", error.response), 5000);
+
+            if (error.response.statusText === "Internal Server Error") {
+              router
+                .instance()
+                .push("/error")
+                .catch(err => {
+                  // Handle redundant navigation error
+                  console.error("error reroute:", err);
+                });
+            }
           }
         }
         // Handle other errors globally if needed
