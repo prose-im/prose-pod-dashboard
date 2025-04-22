@@ -38,7 +38,7 @@
 
       <!-- MEMBERS -->
       members-invites-row(
-        v-for="(user, index) in allMembers"
+        v-for="(user, index) in members"
         class="c-members-invites-dashboard__users"
         :key="user.jid"
         :user-data="user"
@@ -146,7 +146,7 @@ export default {
   },
 
   computed: {
-    allMembers() {
+    members() {
       return store.$teamMembers.getAllMembers();
     },
 
@@ -156,11 +156,7 @@ export default {
       return memberTotal ? memberTotal : 1;
     },
 
-    members() {
-      return this.allMembers; //this.searchTerm
-      //? store.$teamMembers.getFilteredMembers(this.searchTerm)
-    },
-
+    //TODO revisit this
     invites() {
       return this.searchTerm
         ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
@@ -168,7 +164,6 @@ export default {
     },
 
     searchBarDisabled() {
-      // Never disable the search bar: one could still search JIDs.
       return false;
     },
 

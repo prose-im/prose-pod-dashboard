@@ -86,14 +86,6 @@ export default {
       return store.$customizationEmojis.getEmojiList();
     },
 
-    emojis() {
-      console.log("getting filtered emojis");
-
-      return this.searchTerm
-        ? store.$teamMembers.getFilteredMembers(this.searchTerm)
-        : store.$teamMembers.getFilteredMembers(this.pageNumber);
-    },
-
     totalEmojiNumber() {
       return this.allEmojis.length;
     }
