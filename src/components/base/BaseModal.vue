@@ -23,6 +23,7 @@ teleport(
         base-modal-container(
           @closeModal="onClose"
           @confirmAction="onConfirm"
+          @reload="onReload"
           :container-visible="loaded"
           :position="position"
           :title="title"
@@ -32,6 +33,8 @@ teleport(
           :flex-body="flexContainer"
           :disabled="disabled"
           :loading="loading"
+          :reload="reload"
+          :reload-text="reloadText"
         )
           slot
 </template>
@@ -88,6 +91,16 @@ export default {
       }
     },
 
+    reload: {
+      type: Boolean,
+      default: false
+    },
+
+    reloadText: {
+      type: String,
+      default: ""
+    },
+
     titleColor: {
       type: String,
       default: "black",
@@ -103,7 +116,7 @@ export default {
     }
   },
 
-  emits: ["close", "confirm", "load"],
+  emits: ["close", "confirm", "load", "reload"],
 
   data() {
     return {
@@ -133,6 +146,10 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirm", event);
+    },
+
+    onReload() {
+      this.$emit("reload");
     }
   }
 };

@@ -13,6 +13,9 @@ base-modal(
   @close="onClose"
   @confirm="$emit('proceed')"
   @load="onLoad"
+  @reload="onLoad"
+  :reload="true"
+  "reloadText"="Check network status again"
   :visible="visibility"
   title="Network configuration checker"
 )
@@ -89,6 +92,11 @@ export default {
     },
 
     dnsBlockStatus() {
+      console.log(
+        "result array",
+        Array.from(this.dnsCheckResults.values()).map(res => res.status)
+      );
+
       return highestValue(
         Array.from(this.dnsCheckResults.values()).map(res => res.status),
         Object.values(DnsRecordStatus)
@@ -130,16 +138,36 @@ export default {
   }
 };
 
+//TODO: properly rewrite function
 function highestValue<Status extends AnyNetworkCheckStatus>(
   values: Status[],
   allValues: Status[]
 ): Status {
+  // console.log("values", values);
+  // console.log("allValues", allValues);
+
+  // console.log(
+  //   values
+  //     // Find the highest value (based on enum index).
+  //     .reduce((highest, current) => {
+  //       console.log("highest", highest);
+  //       console.log("current", current);
+  //       const currentIndex = allValues.indexOf(current);
+  //       const highestIndex = allValues.indexOf(highest);
+
+  //       return currentIndex > highestIndex ? current : highest;
+  //     }, allValues[0])
+  // );
+
   return (
     values
       // Find the highest value (based on enum index).
       .reduce((highest, current) => {
+        console.log("highest", highest);
+        console.log("current", current);
         const currentIndex = allValues.indexOf(current);
         const highestIndex = allValues.indexOf(highest);
+
         return currentIndex > highestIndex ? current : highest;
       }, allValues[0])
   );

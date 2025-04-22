@@ -19,12 +19,29 @@ transition(
       "c-base-modal-container--" + position
     ]`
   )
-    .c-base-modal-container__title(
-      :class=`[
-        "c-base-modal-container--" + titleColor
-      ]`
-    )
-      | {{ title }}
+    .c-base-modal-container__upper
+      .c-base-modal-container__title(
+        :class=`[
+          "c-base-modal-container--" + titleColor
+        ]`
+      )
+        span.c-base-modal-container__title--text
+          | {{ title }}
+
+        span.c-base-modal-container__reload(
+          v-if="reload"
+          @click="onReloadClick"
+
+        )
+          span.c-base-modal-container__reload--text
+            | {{ reloadText }}
+
+          base-icon(
+            class="c-base-modal-container__subtitle--right-icon"
+            name="restore"
+            size="8px"
+            fill="#2490f0"
+          )
 
     .c-base-modal-container__body(
       :class=`[
@@ -131,10 +148,20 @@ export default {
       validator(x: string) {
         return ["center", "left"].includes(x);
       }
+    },
+
+    reload: {
+      type: Boolean,
+      default: false
+    },
+
+    reloadText: {
+      type: String,
+      default: ""
     }
   },
 
-  emits: ["closeModal", "confirmAction"],
+  emits: ["closeModal", "confirmAction", "reload"],
 
   computed: {
     abortButtonText() {
@@ -163,6 +190,11 @@ export default {
 
     onConfirm(event: Event) {
       this.$emit("confirmAction", event);
+    },
+
+    onReloadClick() {
+      console.log("reload");
+      this.$emit("reload");
     }
   }
 };
@@ -185,17 +217,33 @@ $c: ".c-base-modal-container";
   overflow: auto;
   flex: 1 1 0;
 
-  #{$c}__title {
-    font-weight: $font-weight-bolder;
-    font-size: ($font-size-page + 6px);
-    max-height: 110px;
-    min-height: 60px;
-    flex: 1 1 0;
+  #{$c}__upper {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-left: 48px;
-    padding-bottom: 27.5px;
+    flex: 1 1 0;
+    max-height: 110px;
+    min-height: 60px;
+
+    #{$c}__title {
+      font-weight: $font-weight-bolder;
+      font-size: ($font-size-page + 6px);
+      display: flex;
+      justify-content: space-between;
+      padding-inline: 48px;
+      padding-bottom: 27.5px;
+
+      #{$c}__reload {
+        font-size: ($font-size-page - 4px);
+        font-weight: $font-weight-mid;
+        color: $color-base-blue-normal;
+        cursor: pointer;
+
+        &--text {
+          margin-inline-end: 5px;
+        }
+      }
+    }
   }
 
   #{$c}__body {
