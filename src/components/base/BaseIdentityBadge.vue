@@ -33,7 +33,7 @@
 
       base-space
 
-      .c-base-identity-badge__server-title-right(
+      .c-base-identity-badge__server-domain(
         v-if="domain"
       )
         p(
@@ -56,7 +56,8 @@
     .c-base-identity-badge__details.u-ellipsis(
       v-if="apiVersion"
     )
-      span Pod
+      span 
+        | Pod
       base-space
       span.c-base-identity-badge--light
         | {{ apiVersion }}
@@ -65,10 +66,12 @@
         v-if="serverVersion"
       )
         base-space
-        span +
+        span 
+          | +
         base-space
 
-        span Server
+        span 
+          | Server
         base-space
         span.c-base-identity-badge--light
           | {{ serverVersion }}
@@ -165,8 +168,16 @@ $c: ".c-base-identity-badge";
       }
     }
 
+    &-domain {
+      display: flex;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     &-name {
       font-size: $font-size-baseline + 1px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &-separator {
