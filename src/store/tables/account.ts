@@ -22,14 +22,12 @@ import { BareJid } from "@/api/providers/global";
  * INTERFACES
  * ************************************************************************* */
 
-interface Account {
-  session: {
-    token: string | null;
-    jid: BareJid | null;
-    role: MemberRole | null;
-    nickname: string | null;
-    avatar: string | null;
-  };
+interface AccountSession {
+  token: string | null;
+  jid: BareJid | null;
+  role: MemberRole | null;
+  nickname: string | null;
+  avatar: string | null;
 }
 
 /* *************************************************************************
@@ -40,38 +38,32 @@ const $account = defineStore("account", {
   // Important: persist this store, since it retains account-level information.
   persist: true,
 
-  state: (): Account => {
+  state: () => {
     return {
-      session: {
-        token: null,
-        jid: null,
-        nickname: null,
-        role: null,
-        avatar: null
-      }
+      session: {} as AccountSession
     };
   },
 
   getters: {
     getSessionToken: function () {
       return (): string | null => {
-        return this.session.token;
+        return this.session?.token;
       };
     },
 
     getUserSessionData: function () {
       return () => {
         return {
-          jid: this.session.jid,
-          nickname: this.session.nickname,
-          role: this.session.role
+          jid: this.session?.jid,
+          nickname: this.session?.nickname,
+          role: this.session?.role
         };
       };
     },
 
     getUserRole: function () {
       return (): MemberRole | null => {
-        return this.session.role;
+        return this.session?.role;
       };
     }
   },
@@ -94,7 +86,7 @@ const $account = defineStore("account", {
     },
 
     async loadUserInformation() {
-      const jid = this.session.jid;
+      const jid = this.session?.jid;
       if (jid === null) {
         return;
       }
