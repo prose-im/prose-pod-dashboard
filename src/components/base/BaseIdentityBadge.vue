@@ -23,7 +23,7 @@
     .c-base-identity-badge__server-title.u-ellipsis(
       v-if="name"
     )
-      p(
+      span(
         :class=`[
           "c-base-identity-badge__server-name",
           "c-base-identity-badge--semibold"
@@ -36,16 +36,17 @@
       .c-base-identity-badge__server-domain(
         v-if="domain"
       )
-        p(
+        span(
           :class=`[
             "c-base-identity-badge__server-separator",
             "c-base-identity-badge--light"
           ]`
-        ) |
+        ) 
+          | |
 
         base-space
 
-        p(
+        span(
           :class=`[
             "c-base-identity-badge__server-description",
             "c-base-identity-badge--light"
@@ -67,7 +68,7 @@
       )
         base-space
         span 
-          | +
+          |  &#32;+&#32;
         base-space
 
         span 
