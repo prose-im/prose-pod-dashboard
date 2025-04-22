@@ -278,12 +278,13 @@ $c: ".c-init-form";
     max-width: 560px;
     width: 100%;
     margin-inline: 10px;
-  }
 
-  #{$c}__label {
-    font-size: ($font-size-page + 3px);
-    margin-block: 0 35px;
-    font-weight: $font-weight-light;
+    #{$c}__label {
+      font-size: ($font-size-page + 3px);
+      margin-block: 0 35px;
+      font-weight: $font-weight-light;
+      line-height: 24px;
+    }
   }
 
   #{$c}__field-block {
