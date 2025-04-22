@@ -116,7 +116,8 @@ class API {
       //   but Axios doesn’t mark it as JSON by default.
       //   This sets a default value for the `Content-Type` header.
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json"
       }
     });
   }

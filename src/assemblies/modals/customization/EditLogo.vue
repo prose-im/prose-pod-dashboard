@@ -94,7 +94,7 @@ export default {
 
   computed: {
     currentImage() {
-      return store.$customizationWorkspace.getWorkspaceLogo();
+      return store.$customizationWorkspace.getWorkspaceLogo()?.base64;
     },
 
     chosenImageType() {
@@ -188,7 +188,10 @@ export default {
       if (this.image && typeof this.image === "string") {
         try {
           console.log("new logo length", this.image.length);
-          await store.$customizationWorkspace.updateWorkspaceIcon(this.image);
+          await store.$customizationWorkspace.updateWorkspaceIcon({
+            base64: this.image,
+            type: this.chosenImageType
+          });
 
           // Reinitialize variables + close modal
           this.onClose();
