@@ -12,7 +12,7 @@
 .c-base-identity-badge
   base-avatar(
     :avatar-data="logo"
-    :name="domain"
+    :name="placeholderName"
     class="c-base-identity-badge__icon"
     type="image"
     border-radius="22px"
@@ -104,6 +104,10 @@ export default {
 
     domain() {
       return store.$globalConfig.getDomain();
+    },
+
+    placeholderName() {
+      return this.name ? this.name : this.domain;
     },
 
     apiVersion() {
