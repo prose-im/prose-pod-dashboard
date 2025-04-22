@@ -14,8 +14,17 @@
     h1 
       | Sorry, we're experiencing technical problems 
       
-    span
+    span.v-broken-api__subtitle
       | Please try again later
+
+    base-button(
+      @click="onRetry"
+      class="v-broken-api__button"
+      size="medium"
+      tint="purple"
+    )
+      p
+        | Go back home
 </template>
 
 <!-- **********************************************************************
@@ -24,7 +33,13 @@
 
 <script lang="ts">
 export default {
-  name: "BrokenAPI"
+  name: "BrokenAPI",
+
+  methods: {
+    onRetry() {
+      this.$router.push("/");
+    }
+  }
 };
 </script>
 
@@ -56,6 +71,7 @@ $c: ".v-broken-api";
   }
 
   #{$c}__subtitle {
+    display: block;
     font-size: ($font-size-page + 3px);
     font-weight: $font-weight-light;
     margin-block: 0 108px;
