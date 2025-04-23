@@ -78,13 +78,7 @@ class APIInit {
     return (await Api.client.put("/v1/init/first-account", data)).data;
   }
   async isFirstAccountCreated(): Promise<boolean> {
-    return (
-      (
-        await Api.client.head("/v1/init/first-account", {
-          validateStatus: status => [204, 409].includes(status)
-        })
-      ).status === 409
-    );
+    return (await Api.client.head("/v1/init/first-account")).status === 200;
   }
 
   async initPodConfig(data: InitPodConfigRequest): Promise<PodConfig> {
