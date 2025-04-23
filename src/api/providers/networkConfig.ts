@@ -52,21 +52,21 @@ interface GetDnsRecordsResponse {
 
 export enum DnsRecordStatus {
   Queued = "QUEUED",
-  Checking = "CHECKING",
   Valid = "VALID",
   PartiallyValid = "PARTIALLY_VALID",
+  Checking = "CHECKING",
   Invalid = "INVALID"
 }
 export enum PortReachabilityStatus {
   Queued = "QUEUED",
-  Checking = "CHECKING",
   Open = "OPEN",
+  Checking = "CHECKING",
   Closed = "CLOSED"
 }
 export enum IpConnectivityStatus {
   Queued = "QUEUED",
-  Checking = "CHECKING",
   Success = "SUCCESS",
+  Checking = "CHECKING",
   Failure = "FAILURE"
 }
 
