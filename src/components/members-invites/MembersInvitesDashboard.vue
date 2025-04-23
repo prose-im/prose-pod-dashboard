@@ -16,7 +16,6 @@
     :click-handle="toggleInviteModalVisible"
     :disabled="searchBarDisabled"
     placeholder-text="team members..."
-    @change="onSearchTermChange"
   )
 
   .c-members-invites-dashboard__content
@@ -185,6 +184,17 @@ export default {
       } else if (newActiveModal === "deleteMember") {
         setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
       }
+    },
+
+    searchTerm(newTerm) {
+      const timeout = setTimeout(() => {
+        if (newTerm === this.searchTerm) {
+          console.log("hey", newTerm);
+          this.onSearchTermChange();
+        } else {
+          clearTimeout(timeout);
+        }
+      }, 500);
     }
   },
 
