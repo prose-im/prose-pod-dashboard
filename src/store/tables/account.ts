@@ -15,7 +15,7 @@ import { defineStore } from "pinia";
 import Api from "@/api";
 import APIAuth from "@/api/providers/auth";
 import store from "..";
-import { MemberRole } from "@/api/providers/members";
+import { Avatar, MemberRole } from "@/api/providers/members";
 import { BareJid } from "@/api/providers/global";
 
 /* *************************************************************************
@@ -27,7 +27,7 @@ interface AccountSession {
   jid: BareJid | null;
   role: MemberRole | null;
   nickname: string | null;
-  avatar: string | null;
+  avatar: Avatar | null;
 }
 
 /* *************************************************************************

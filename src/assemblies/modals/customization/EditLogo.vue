@@ -102,7 +102,7 @@ export default {
       return "image/png";
     },
 
-    chosenImageData(): string | ArrayBuffer | null {
+    chosenImageData(): string | ArrayBuffer | undefined {
       return this.image ? this.image : this.currentImage;
     }
   },
