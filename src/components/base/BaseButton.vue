@@ -24,9 +24,9 @@ div(
   button(
     @click="onInnerClick"
     :type="type"
-    :style=`{ 
-      minWidth: minWidth, 
-      paddingInline: padding 
+    :style=`{
+      minWidth: minWidth,
+      paddingInline: padding
     }`
     :class=`[
       "c-base-button__inner",
@@ -374,9 +374,12 @@ $size-ultra-large-padding-sides: 45.5px;
       background-color: $color-black;
       color: $color-text-reverse;
 
-      &:hover,
+      &:hover {
+        background-color: lighten($color-black, 18%);
+      }
+
       &:active {
-        border-color: lighten($color-black, 80%);
+        background-color: lighten($color-black, 10%);
       }
     }
   }

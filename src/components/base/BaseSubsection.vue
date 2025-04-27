@@ -389,6 +389,7 @@ $c: ".c-base-subsection";
 
   ul {
     margin: 18px 0 0;
+    padding-left: 22px;
 
     li {
       margin-bottom: 6px;

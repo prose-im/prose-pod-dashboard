@@ -31,9 +31,8 @@ transition(
         span.c-base-modal-container__reload(
           v-if="reload"
           @click="onReloadClick"
-
         )
-          span.c-base-modal-container__reload--text
+          span.c-base-modal-container__reload-text
             | {{ reloadText }}
 
           base-icon(
@@ -234,13 +233,19 @@ $c: ".c-base-modal-container";
       padding-bottom: 27.5px;
 
       #{$c}__reload {
-        font-size: ($font-size-page - 4px);
+        font-size: ($font-size-page - 2.5px);
         font-weight: $font-weight-mid;
         color: $color-base-blue-normal;
         cursor: pointer;
 
-        &--text {
+        #{$c}__reload-text {
           margin-inline-end: 5px;
+        }
+
+        &:hover {
+          #{$c}__reload-text {
+            text-decoration: underline;
+          }
         }
       }
     }

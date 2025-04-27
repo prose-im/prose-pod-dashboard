@@ -403,6 +403,10 @@ $c: ".c-base-subsection-item";
       color: $color-base-blue-normal;
       cursor: pointer;
 
+      &:hover {
+        text-decoration: underline;
+      }
+
       &--disabled {
         cursor: not-allowed;
       }

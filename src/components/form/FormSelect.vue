@@ -611,7 +611,7 @@ $sizes: (
           }
 
           &:active {
-            background-color: darken($color-base-grey-ultra-light, 8%);
+            background-color: darken($color-base-grey-ultra-light, 1%);
           }
         }
       }
