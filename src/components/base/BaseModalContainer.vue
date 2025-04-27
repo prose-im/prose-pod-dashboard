@@ -247,6 +247,8 @@ $c: ".c-base-modal-container";
   }
 
   #{$c}__body {
+    font-size: ($font-size-baseline + 1px);
+    line-height: ($font-size-baseline + 5px);
     overflow: auto;
     padding-top: 35.5px;
     padding-bottom: 26.5px;

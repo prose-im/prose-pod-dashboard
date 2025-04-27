@@ -377,8 +377,6 @@ $c: ".c-base-subsection";
 }
 
 #{$c}__modal {
-  font-size: ($font-size-baseline + 1px);
-  line-height: ($font-size-baseline + 5px);
   text-align: justify;
 
   h4 {
