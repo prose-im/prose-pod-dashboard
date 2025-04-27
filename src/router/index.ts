@@ -21,7 +21,6 @@ import AppBase from "@/views/app/AppBase.vue";
 import AppAdvancedBackup from "@/views/app/dashboard/advanced/AppAdvancedBackup.vue";
 import AppAdvancedNetwork from "@/views/app/dashboard/advanced/AppAdvancedNetwork.vue";
 import AppAdvancedSecurity from "@/views/app/dashboard/advanced/AppAdvancedSecurity.vue";
-import AppCustomizationEmojis from "@/views/app/dashboard/customization/AppCustomizationEmojis.vue";
 import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCustomizationWorkspace.vue";
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
@@ -117,16 +116,6 @@ class Router {
               path: "/customization/workspace",
               name: "app.customization.workspace",
               component: AppCustomizationWorkspace as object
-            },
-
-            {
-              path: "/customization/emojis",
-              name: "app.customization.emojis",
-              component: AppCustomizationEmojis as object,
-              beforeEnter: (to, from) => {
-                // reject the navigation
-                return { path: from.path };
-              }
             },
 
             {

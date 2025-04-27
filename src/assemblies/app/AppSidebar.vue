@@ -83,12 +83,6 @@ export default {
               icon: "stack",
               value: "Workspace",
               link: "/customization/workspace"
-            },
-            {
-              icon: "gift",
-              value: "Emojis & Reactions",
-              link: "/customization/emojis",
-              disabled: true
             }
           ]
         },

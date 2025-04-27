@@ -61,7 +61,9 @@ import store from "@/store";
 // PACKAGES
 import { fileToBase64 } from "file64";
 import { readAndCompressImage } from "browser-image-resizer";
-import { imageUrl } from "@/assemblies/modals/customization/AddCustomEmoji.vue";
+
+// TYPES
+export type ImageUrl = string | ArrayBuffer | null;
 
 export default {
   name: "EditLogo",
@@ -78,7 +80,7 @@ export default {
   data() {
     return {
       // --> STATE <--
-      imageUrl: null as imageUrl,
+      imageUrl: null as ImageUrl,
 
       image: "" as string | ArrayBuffer,
 
@@ -102,7 +104,7 @@ export default {
       return "image/png";
     },
 
-    chosenImageData(): string | ArrayBuffer | undefined {
+    chosenImageData(): ImageUrl | undefined {
       return this.image ? this.image : this.currentImage;
     }
   },

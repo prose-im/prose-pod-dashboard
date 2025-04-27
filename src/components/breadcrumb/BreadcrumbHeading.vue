@@ -81,10 +81,6 @@ export default {
               breadcrumbs.push("Members & Invites");
               break;
             }
-            case "emojis": {
-              breadcrumbs.push("Emojis & Reactions");
-              break;
-            }
             case "security": {
               breadcrumbs.push("Security & Encryption");
               break;

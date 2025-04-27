@@ -68,18 +68,18 @@
     :button-label="restoreButton"
   )
     .c-base-subsection__modal
-      h4 
+      h4
         | {{ restoreText }}
 
-      p 
-        | This action will reset the following parameters: 
-                
+      p
+        | This action will reset the following parameters:
+
       ul
         li(
           v-for="description in restoreDescription"
         )
           | {{ description}}
-        
+
   <!-- Tooltip Notification -->
   transition(
     enter-active-class="u-animate u-animate--scale-up u-animate--fast"
@@ -377,14 +377,28 @@ $c: ".c-base-subsection";
 }
 
 #{$c}__modal {
+  font-size: ($font-size-baseline + 1px);
+  line-height: ($font-size-baseline + 5px);
   text-align: justify;
 
   h4 {
-    margin-block: 0 40px;
+    margin-block: 0 30px;
   }
 
   p {
-    margin: 0 !important;
+    margin: 0;
+  }
+
+  ul {
+    margin: 18px 0 0;
+
+    li {
+      margin-bottom: 6px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 </style>

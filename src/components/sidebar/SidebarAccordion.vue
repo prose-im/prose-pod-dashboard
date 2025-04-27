@@ -68,11 +68,6 @@ export default {
               break;
             }
 
-            case "/customization/emojis": {
-              activeCategory = "Emojis & Reactions";
-              break;
-            }
-
             case "/advanced/security": {
               activeCategory = "Security & Encryption";
               break;

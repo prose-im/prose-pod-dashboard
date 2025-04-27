@@ -15,7 +15,6 @@ import { createPersistedState } from "pinia-plugin-persistedstate";
 
 // PROJECT: STORE
 import $account from "./tables/account";
-import $customizationEmojis from "./tables/customizationEmojis";
 import $customizationWorkspace from "./tables/customizationWorkspace";
 import $globalConfig from "./tables/globalConfig";
 import $serverConfiguration from "./tables/serverConfiguration";
@@ -45,7 +44,6 @@ class Store {
   private readonly __store: Pinia;
 
   $account!: ReturnType<typeof $account>;
-  $customizationEmojis!: ReturnType<typeof $customizationEmojis>;
   $customizationWorkspace!: ReturnType<typeof $customizationWorkspace>;
   $globalConfig!: ReturnType<typeof $globalConfig>;
   $serverConfiguration!: ReturnType<typeof $serverConfiguration>;
@@ -99,7 +97,6 @@ class Store {
   private __loadTables(): void {
     this.$session = $session(this.__store);
     this.$account = $account(this.__store);
-    this.$customizationEmojis = $customizationEmojis(this.__store);
     this.$customizationWorkspace = $customizationWorkspace(this.__store);
     this.$globalConfig = $globalConfig(this.__store);
     this.$serverConfiguration = $serverConfiguration(this.__store);

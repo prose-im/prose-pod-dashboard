@@ -9,7 +9,7 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.v-app-customization-emojis
+.v-app-server-configuration
   base-subsection(
     v-model="config.messaging"
     @update="onMessagingUpdate"
