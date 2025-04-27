@@ -11,6 +11,7 @@
 // NPM
 import { App } from "vue";
 import VueClickAway from "vue3-click-away";
+import VueHotkey from "v-hotkey3";
 
 /**************************************************************************
  * PLUGINS
@@ -20,6 +21,7 @@ class BootstrapPlugins {
   init(app: App): void {
     // Vue directives
     app.use(VueClickAway);
+    app.use(VueHotkey);
   }
 }
 

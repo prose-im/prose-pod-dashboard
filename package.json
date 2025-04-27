@@ -30,7 +30,8 @@
     "pinia-plugin-persistedstate": "3.1.0",
     "vue": "3.4.37",
     "vue-router": "4.4.5",
-    "vue3-click-away": "1.2.4"
+    "vue3-click-away": "1.2.4",
+    "v-hotkey3": "0.1.4"
   },
   "devDependencies": {
     "@types/lodash.camelcase": "4.3.x",
