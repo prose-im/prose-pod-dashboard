@@ -75,7 +75,7 @@ export default {
         await Store.$account.logout();
 
         // Redirect to login page
-        this.$router.push({
+        await this.$router.push({
           name: "start.login"
         });
 

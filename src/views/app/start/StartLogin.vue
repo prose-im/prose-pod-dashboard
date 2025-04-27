@@ -12,7 +12,7 @@
 .v-start-login
   .v-start-login__header
     base-identity-badge
-    
+
   start-login-form(
     @submit="onFormSubmit"
     :loading="isFormLoading"
@@ -63,13 +63,14 @@ export default {
           // Login to account
           await Store.$account.login(form.jid, form.password);
 
-          // Redirect to dashboard
-          this.$router.push({
-            name: "app"
-          });
           // Reload global config after a successful log in since some
           // data needs authentication and couldn’t be queried earlier.
           Store.$globalConfig.loadGlobalConfig(true);
+
+          // Redirect to dashboard
+          await this.$router.push({
+            name: "app"
+          });
 
           // Acknowledge login success
           BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
