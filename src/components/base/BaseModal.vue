@@ -15,7 +15,9 @@ teleport(
     enter-active-class="u-animate u-animate--fade-in u-animate--fast"
     leave-active-class="u-animate u-animate--fade-out u-animate--fast"
   )
-    .c-base-modal
+    .c-base-modal(
+      v-hotkey="hotkeys"
+    )
       base-modal-background(
         @closeModal="onClose"
         :position="position"
@@ -126,6 +128,14 @@ export default {
     };
   },
 
+  computed: {
+    hotkeys(): { [name: string]: () => void } {
+      return {
+        escape: this.onClose
+      };
+    }
+  },
+
   watch: {
     visible(newVisibility, oldVisibility) {
       setTimeout(() => (this.loaded = newVisibility), 10);
@@ -139,8 +149,9 @@ export default {
   },
 
   methods: {
-    onClose(event: Event) {
+    onClose(event: Event | null) {
       this.loaded = false;
+
       setTimeout(() => this.$emit("close", event), 50);
     },
 
