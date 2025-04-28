@@ -76,13 +76,14 @@ export default {
 
         // Redirect to login page
         await this.$router.push({
-          name: "start.login"
+          name: "start.login",
+          query: { action: "logout" }
         });
 
         // Acknowledge logout success
-        BaseAlert.info("Logged out", "Logged out of your dashboard");
+        // BaseAlert.info("Logged out", "Logged out of your dashboard");
       } catch (_) {
-        BaseAlert.error("Could not log out", "Maybe try again?");
+        BaseAlert.error("Could not log out", "Try again later");
       }
     }
   }

@@ -65,10 +65,9 @@ class API {
               await store.$account.logout();
 
               // Redirect to login page
-              // console.log("router", router.instance());
               router
                 .instance()
-                .push("/start/login")
+                .push({ name: "start.login", query: { action: "logout" } })
                 .catch(err => {
                   // Handle redundant navigation error
                   console.error("error reroute:", err);

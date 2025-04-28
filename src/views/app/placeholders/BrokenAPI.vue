@@ -37,7 +37,9 @@ export default {
 
   methods: {
     onRetry() {
-      this.$router.push("/");
+      this.$router.push({
+        name: "app"
+      });
     }
   }
 };

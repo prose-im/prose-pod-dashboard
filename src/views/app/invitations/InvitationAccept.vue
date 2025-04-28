@@ -108,7 +108,9 @@ export default {
     } catch (e: any) {
       console.error(e);
       this.invitationExpired = true;
-      // this.$router.push("/invitations/reject");
+      this.$router.push({
+        name: "invitations.reject"
+      });
     }
   },
 
@@ -142,7 +144,13 @@ export default {
         "Account created successfully",
         "Redirecting you to the Dashboard…"
       );
-      setTimeout(() => this.$router.push("/"), 2_000);
+      setTimeout(
+        () =>
+          this.$router.push({
+            name: "app"
+          }),
+        2_000
+      );
     }
   }
 };

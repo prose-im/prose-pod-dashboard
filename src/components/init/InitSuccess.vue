@@ -34,7 +34,13 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => this.$router.push("/"), 3000);
+    setTimeout(
+      () =>
+        this.$router.push({
+          name: "app"
+        }),
+      3000
+    );
   }
 };
 </script>
