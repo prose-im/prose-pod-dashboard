@@ -67,17 +67,13 @@ export default {
       default: "34px"
     },
 
-    avatarType: {
+    //TODO: make required
+    avatarContentType: {
       type: String,
       default: "image/png"
     },
 
-    avatarData: {
-      type: String,
-      default: null
-    },
-
-    avatarUrl: {
+    avatarData64: {
       type: String,
       default: null
     },
@@ -87,7 +83,7 @@ export default {
       default: "5px"
     },
 
-    name: {
+    placeholderData: {
       type: String,
       default: null
     },
@@ -104,23 +100,21 @@ export default {
 
   computed: {
     backgroundImage(): string | void {
-      // Generate avatar URL from raw URL?
-      if (this.avatarUrl) {
-        return this.avatarUrl;
+      let backgroundImage = "";
+
+      if (this.avatarContentType && this.avatarData64) {
+        // Generate avatar URL from data and MIME type?
+        console.log("datatype", this.avatarContentType);
+        return (backgroundImage = `url(data:${this.avatarContentType};base64,${this.avatarData64})`);
       }
 
-      // Generate avatar URL from data and MIME type?
-      if (this.avatarType && this.avatarData) {
-        return `url(data:${this.avatarType};base64,${this.avatarData})`;
-      }
-
-      return "";
+      return backgroundImage;
     },
 
     backgroundColor(): string | void {
       // Generate background color? (as avatar is textual)
       if (this.isTextual === true) {
-        const value = this.name || "";
+        const value = this.placeholderData || "";
 
         if (value) {
           return this.generateTextualPalette(value);
@@ -141,7 +135,7 @@ export default {
     contentText(): string | void {
       // Generate content text? (as avatar is textual)
       if (this.isTextual === true) {
-        const name = this.name || "";
+        const name = this.placeholderData || "";
 
         return this.normalizeTextualInitials(
           this.generateTextualInitials(name) || undefined

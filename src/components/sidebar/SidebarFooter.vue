@@ -14,8 +14,8 @@
     .c-sidebar-footer__left
       .c-sidebar-footer__avatar
         base-avatar(
-          :avatar-data="avatar"
-          :name="nickname"
+          :avatar-data-64="avatar"
+          :placeholder-data="nickname" 
         )
 
       .c-sidebar-footer__center

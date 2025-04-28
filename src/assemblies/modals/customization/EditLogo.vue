@@ -26,9 +26,9 @@ base-modal(
 
     .a-edit-logo__upload
       base-avatar(
-        :avatar-type="chosenImageType"
-        :avatar-data="chosenImageData"
-        :name="domain"
+        :avatar-content-type="previewImageType"
+        :avatar-data-64="previewImageData"
+        :placeholder-data="domain"
         class="a-edit-logo__upload--avatar"
         size="60px"
         border-radius="7px"
@@ -80,6 +80,8 @@ export default {
   data() {
     return {
       // --> STATE <--
+      chosenImageType: "",
+
       imageUrl: null as ImageUrl,
 
       image: "" as string | ArrayBuffer,
@@ -96,16 +98,18 @@ export default {
 
   computed: {
     currentImage() {
-      return store.$customizationWorkspace.getWorkspaceLogo()?.base64;
+      console.log(store.$customizationWorkspace.getWorkspaceLogo());
+      return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
-    chosenImageType() {
-      // TODO: put correct type here
-      return "image/png";
+    previewImageData(): ImageUrl | undefined {
+      return this.image ? this.image : this.currentImage?.base64;
     },
 
-    chosenImageData(): ImageUrl | undefined {
-      return this.image ? this.image : this.currentImage;
+    previewImageType(): ImageUrl | undefined {
+      return this.chosenImageType
+        ? this.chosenImageType
+        : this.currentImage?.type;
     }
   },
 
@@ -132,12 +136,7 @@ export default {
 
         // Let the user know the format they chose is wrong
         if (
-          !(
-            fileType === "jpeg" ||
-            fileType === "png" ||
-            fileType === "gif" ||
-            fileType === "webp"
-          )
+          !(fileType === "jpeg" || fileType === "png" || fileType === "gif")
         ) {
           BaseAlert.error(
             "Please choose an image in the right format",
@@ -145,6 +144,8 @@ export default {
           );
           return;
         }
+
+        this.chosenImageType = file.type;
 
         // Show image preview
         const fileReader = new FileReader();
@@ -159,12 +160,18 @@ export default {
 
         fileReader.readAsDataURL(file);
 
-        let resizedImage = await readAndCompressImage(file, {
-          quality: 0.85,
-          maxWidth: 512,
-          maxHeight: 512,
-          debug: true
-        });
+        let resizedImage = null as Blob | File | null;
+
+        if (fileType === "gif") {
+          resizedImage = file;
+        } else {
+          resizedImage = await readAndCompressImage(file, {
+            quality: 0.85,
+            maxWidth: 512,
+            maxHeight: 512,
+            debug: true
+          });
+        }
 
         if (file) {
           // Encode to base64
@@ -196,10 +203,13 @@ export default {
           //Make success Notitification Visible
           this.$emit("showSuccess");
         } catch (e) {
-          console.error("logo lad error", e);
+          console.error("logo load error", e);
         }
       } else {
-        BaseAlert.error("Could not change your logo", "Please upload an image");
+        BaseAlert.error(
+          "Could not change your logo",
+          "Please upload a valid image"
+        );
       }
     },
 

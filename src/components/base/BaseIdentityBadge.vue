@@ -11,9 +11,9 @@
 <template lang="pug">
 .c-base-identity-badge
   base-avatar(
-    :avatar-type="logoType"
-    :avatar-data="logo"
-    :name="placeholderName"
+    :avatar-content-type="logo?.type"
+    :avatar-data-64="logo?.base64"
+    :placeholder-data="placeholderName"
     class="c-base-identity-badge__icon"
     type="image"
     border-radius="22px"

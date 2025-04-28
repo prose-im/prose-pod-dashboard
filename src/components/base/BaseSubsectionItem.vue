@@ -83,8 +83,9 @@ div(
 
     base-avatar(
       v-if="item.slot === 'avatar'"
-      :avatar-data="calculatedValue"
-      :name="avatarName"
+      :avatar-data-64="calculatedValue?.base64" 
+      :avatar-content-type= "calculatedValue?.type"
+      :placeholder-data="avatarName"
       :class=`[
         "c-base-subsection-item__slot",
         "c-base-subsection-item__slot--avatar"
