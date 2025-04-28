@@ -12,7 +12,7 @@
   .v-app-customization-workspace
     base-subsection(
       v-model="config.workspaceProfile"
-      ref="profileSubsection"
+      ref="customizationSubsection"
       title="Workspace Profile"
       :items="profileItems"
     )
@@ -322,10 +322,11 @@ export default {
     },
 
     onShowSuccess() {
-      console.log("ho ho ho success");
       (
-        this.$refs.profileSubsection as InstanceType<typeof BaseSubsection>
-      ).makeNotificationVisible();
+        this.$refs.customizationSubsection as InstanceType<
+          typeof BaseSubsection
+        >
+      ).makeSucessBannerVisible();
     }
   }
 };

@@ -279,10 +279,9 @@ export default {
     },
 
     onShowSuccess() {
-      console.log("show success");
       (
         this.$refs.federationSubsection as InstanceType<typeof BaseSubsection>
-      ).makeNotificationVisible();
+      ).makeSucessBannerVisible();
     }
   }
 };
