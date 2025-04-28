@@ -47,7 +47,7 @@
     v-model="myVal[index]"
     @click="item.action"
     @update="updateValue"
-    @showSucess="makeNotificationVisible"
+    @showSucess="makeSucessBannerVisible"
     :key="item.subtitle"
     :item="item"
     :type="item.type"
@@ -86,7 +86,7 @@
     leave-active-class="u-animate u-animate--scale-down u-animate--fast"
   )
     base-notification(
-      v-if="isNotificationVisible"
+      v-if="showSucessBanner"
     )
 </template>
 
@@ -169,7 +169,9 @@ export default {
 
   data() {
     return {
-      isNotificationVisible: false,
+      timer: null as ReturnType<typeof setTimeout> | null,
+
+      showSucessBanner: false,
 
       isResetModalVisible: false,
       resetModalVisibility: false
@@ -248,17 +250,28 @@ export default {
 
         //Ask for update on parent
         this.$emit("update", newValue, key);
-        console.log("emitting", key);
       }
     },
 
-    makeNotificationVisible() {
-      if (this.isNotificationVisible === false) {
-        this.isNotificationVisible = true;
+    //TO DO verify with V
+    makeSucessBannerVisible() {
+      if (this.showSucessBanner === false) {
+        this.showSucessBanner = true;
 
-        setTimeout(() => {
-          this.isNotificationVisible = false;
+        this.timer = setTimeout(() => {
+          this.showSucessBanner = false;
+          this.timer = null;
         }, 3000);
+      } else {
+        if (this.timer) {
+          clearTimeout(this.timer);
+          this.timer = null;
+        }
+
+        this.showSucessBanner = false;
+        setTimeout(() => {
+          this.makeSucessBannerVisible();
+        }, 100);
       }
     },
 
@@ -272,7 +285,7 @@ export default {
 
       this.toggleResetModal();
 
-      this.makeNotificationVisible();
+      this.makeSucessBannerVisible();
     },
 
     onClose() {
