@@ -24,9 +24,10 @@
       :user-data="{}"
       :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
-
-    .c-members-invites-dashboard__scroll
-
+    
+    .c-members-invites-dashboard__scroll(
+      v-if="!isMembersLoading"
+    )
       <!-- INVITATIONS -->
       members-invites-row(
         v-if="pageNumber === 1"
@@ -44,7 +45,15 @@
         :actions-enabled="actionsMenuEnabled"
         @menuAction="onMenuAction"
       )
-  p {{ activeModal }}
+      
+      span.c-members-invites-dashboard__failed-search(
+        v-if="searchNotFound"
+      )
+        | No members found
+
+    base-spiner(
+      v-else
+    )
 
   base-navigation-footer(
     v-if="!searchTerm"
@@ -156,6 +165,10 @@ export default {
       return memberTotal ? memberTotal : 1;
     },
 
+    searchNotFound() {
+      return this.searchTerm && this.members.length === 0;
+    },
+
     //TODO revisit this
     invites() {
       return this.searchTerm
@@ -188,9 +201,10 @@ export default {
     },
 
     searchTerm(newTerm) {
+      this.isMembersLoading = true;
+
       const timeout = setTimeout(() => {
         if (newTerm === this.searchTerm) {
-          console.log("hey", newTerm);
           this.onSearchTermChange();
         } else {
           clearTimeout(timeout);
@@ -280,18 +294,25 @@ export default {
 
     // --> EVENT LISTENERS <--
 
-    onChangePage(type: string) {
+    async onChangePage(type: string) {
+      this.isMembersLoading = true;
+
       if (type === "forth") {
         this.pageNumber += 1;
-        store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+        await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
       } else if (type === "back") {
         if (this.pageNumber === 1) {
           return;
         } else {
           this.pageNumber -= 1;
-          store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+          await store.$teamMembers.loadActiveMembersByPage(
+            true,
+            this.pageNumber
+          );
         }
       }
+
+      this.isMembersLoading = false;
 
       return;
     },
@@ -320,13 +341,17 @@ export default {
       }
     },
 
-    onSearchTermChange() {
+    async onSearchTermChange() {
       if (!this.searchTerm) {
-        console.log("no searchtrem");
-        store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+        await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+        this.isMembersLoading = false;
       } else {
-        console.log("termSearch", this.searchTerm);
-        store.$teamMembers.loadActiveMembersByPage(true, 1, this.searchTerm);
+        await store.$teamMembers.loadActiveMembersByPage(
+          true,
+          1,
+          this.searchTerm
+        );
+        this.isMembersLoading = false;
       }
     }
   }
@@ -355,6 +380,12 @@ $c: ".c-members-invites-dashboard";
       min-height: 142px;
       overflow: auto;
       flex: 1 1 0;
+
+      #{$c}__failed-search {
+        display: flex;
+        justify-content: center;
+        margin-block-start: 200px;
+      }
     }
 
     #{$c}__users {
