@@ -97,10 +97,7 @@ export default {
 
   computed: {
     logo() {
-      return store.$customizationWorkspace.getWorkspaceLogo()?.base64;
-    },
-    logoType() {
-      return store.$customizationWorkspace.getWorkspaceLogo()?.type;
+      return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
     name() {
