@@ -338,10 +338,13 @@ export default {
       } else {
         this.$emit("update", newValue, this.index);
       }
+
+      this.$emit("showSucess");
     },
 
     onUpdateExtraSelect(newValue: boolean | string): void {
       this.$emit("update", newValue, this.index, 1);
+      this.$emit("showSucess");
     },
 
     onSubtitleRestoreClick() {
