@@ -361,7 +361,6 @@ export default {
     },
 
     changeSecondSelectState(array: string[]) {
-      console.log(array);
       this.stateSecondSelect = array[1];
     },
 

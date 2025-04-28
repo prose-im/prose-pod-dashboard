@@ -230,11 +230,7 @@ export default {
       // Array from the keys of the model value
       const keys = Object.keys(this.modelValue);
 
-      // console.log("keys", keys);
-
       if (element === 0 || element === 1) {
-        console.log("keys", keys, index);
-
         //Get the modified subsectionItem
         const key1 = keys[index];
 
@@ -243,7 +239,6 @@ export default {
 
         //Ask for update on parent
         this.$emit("update", newValue, key1, key2);
-        console.log("emitting", newValue, key1, key2);
       } else {
         //Get the modified subsectionItem
         const key = keys[index];
