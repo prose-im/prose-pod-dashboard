@@ -72,9 +72,6 @@ class API {
                   // Handle redundant navigation error
                   console.error("error reroute:", err);
                 });
-
-              // Acknowledge logout success
-              BaseAlert.info("Logged out", "Logged out of your dashboard");
             } catch (e) {
               console.error("router error", e);
               BaseAlert.error("Could not log out", "Maybe try again?");

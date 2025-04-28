@@ -51,6 +51,12 @@ export default {
     };
   },
 
+  created() {
+    if (this.$route.query.action === "logout") {
+      BaseAlert.info("Logged out", "Logged out of your dashboard");
+    }
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
 
