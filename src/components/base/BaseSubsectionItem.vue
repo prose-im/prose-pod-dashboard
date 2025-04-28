@@ -24,25 +24,36 @@ div(
         size="14px"
       )
 
-      h3(
-        :class=`[
-          "c-base-subsection-item__subtitle--text",
-          {
-            "c-base-subsection-item__subtitle--restore": item.restoreSubtitle,
-            "c-base-subsection-item__subtitle--restore--disabled": item.restoreSubtitle && item.disabled,
-          }
-        ]`
-        @click="onSubtitleRestoreClick"
+      <!-- Subtitle if restore possible -->
+      base-tooltip(
+        v-if="item.restoreSubtitle"
+        tooltip="Click to reset"
+        align="right"
+      )
+        h3(
+          :class=`[
+            "c-base-subsection-item__subtitle--text",
+            "c-base-subsection-item__subtitle--restore",
+            {
+              "c-base-subsection-item__subtitle--restore--disabled": item.disabled,
+            }
+          ]`
+          @click="onSubtitleRestoreClick"
+        )
+          | {{ item.subtitle }}
+
+          base-icon(
+            class="c-base-subsection-item__subtitle--right-icon"
+            name="restore"
+            size="8px"
+            fill="#2490f0"
+          )
+
+      <!-- Subtitle if NO restore available -->
+      h3.c-base-subsection-item__subtitle--text(
+        v-else
       )
         | {{ item.subtitle }}
-
-        base-icon(
-          v-if="item.restoreSubtitle"
-          class="c-base-subsection-item__subtitle--right-icon"
-          name="restore"
-          size="8px"
-          fill="#2490f0"
-        )
 
       base-coming-soon(
         v-if="item.disabled"
