@@ -34,7 +34,7 @@
         :user-data="invite"
         :actions-enabled="actionsMenuEnabled"
       )
-
+      
       <!-- MEMBERS -->
       members-invites-row(
         v-for="(user, index) in members"
@@ -146,6 +146,7 @@ export default {
 
   computed: {
     members() {
+      console.log("members", store.$teamMembers.getAllMembers());
       return store.$teamMembers.getAllMembers();
     },
 
@@ -199,12 +200,9 @@ export default {
   },
 
   mounted() {
-    console.log("Loading members…");
     if (this.isMembersLoading !== true) {
       // Mark as loading
       this.isMembersLoading = true;
-
-      console.log("Loading members inside…");
 
       try {
         // Load already accepted members
@@ -299,7 +297,6 @@ export default {
     },
 
     onMenuAction(action: string, user: object) {
-      console.log("action on dashboard", action, user);
       this.userToUpdate = user;
 
       switch (action) {

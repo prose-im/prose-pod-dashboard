@@ -168,9 +168,6 @@ export default {
       if (file) {
         const fileType = file.type.split("/")[1];
 
-        console.log("file picked", file);
-
-        // if (fileType !== "settings.backup") {
         if (fileType !== "jpeg") {
           BaseAlert.error("Please choose a .settings.backup file");
           return;
@@ -182,7 +179,6 @@ export default {
     },
 
     async onDataFilePicked(event: Event) {
-      // console.log("file picked", event);
       let file = (event.target as HTMLInputElement).files?.[0];
 
       if (file) {

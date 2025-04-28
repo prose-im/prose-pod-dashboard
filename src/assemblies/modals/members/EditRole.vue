@@ -92,8 +92,6 @@ export default {
   computed: {
     memberRole: {
       get() {
-        console.log("getting role", this.user.role, this.newRole);
-
         if (!this.newRole) {
           return this.user.role;
         } else {
@@ -102,7 +100,6 @@ export default {
       },
 
       set(value: MemberRole) {
-        console.log("set user role", value);
         this.newRole = value;
       }
     }

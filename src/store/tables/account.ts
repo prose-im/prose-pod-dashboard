@@ -99,7 +99,6 @@ const $account = defineStore("account", {
           this.session.role = user.role;
           this.session.avatar = user.avatar;
         });
-        console.log("user", user);
       }
     },
 

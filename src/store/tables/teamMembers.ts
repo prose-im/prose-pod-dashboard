@@ -81,14 +81,12 @@ const $teamMembers = defineStore("teamMembers", {
 
         if (!searchTerm) {
           const response = await APITeamMembers.getMembersByPage(page);
-          console.log(response, "API res", page);
 
           this.memberTotal = response.itemTotal;
 
           this.members = new Map(
             response.data.map(member => [member.jid, member])
           );
-          console.log("Non-enriched members:", this.members);
         } else {
           const response = await APITeamMembers.getSearchedMembers(searchTerm);
           this.members = new Map(response.map(member => [member.jid, member]));
@@ -96,7 +94,6 @@ const $teamMembers = defineStore("teamMembers", {
 
         // Create a JID Array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
-        console.log("Enriching members:", jidsToEnrich);
 
         // Enrich members
         await new Promise<void>(resolve => {
@@ -151,8 +148,6 @@ const $teamMembers = defineStore("teamMembers", {
         // Initialize entries
         this.invitedMembers = await APIInvitations.getAllInvitations();
 
-        console.log("invites", this.invitedMembers);
-
         // Mark as loaded
         LOCAL_STATES.loaded = true;
       }
@@ -160,8 +155,6 @@ const $teamMembers = defineStore("teamMembers", {
 
     getFilteredInviteList(filter?: string) {
       /** Searching bar filter */
-      console.log("invites filtered", this.invitedMembers);
-
       if (!filter) {
         return this.invitedMembers;
       } else {

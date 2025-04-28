@@ -80,7 +80,6 @@ export default {
   watch: {
     autofocus: {
       handler(value) {
-        console.log("new autofocus", value);
         // Update value in the state
         this.focusFieldFromParent();
       }

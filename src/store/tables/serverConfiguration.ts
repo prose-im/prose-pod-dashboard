@@ -90,7 +90,6 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         await store.$globalConfig.loadGlobalConfig();
 
         const serverConfig = store.$globalConfig.getServerConfig();
-        // console.log('serverConfig', serverConfig)
 
         this.$patch(() => {
           this.value = serverConfig;

@@ -242,9 +242,6 @@ export default {
       changedKey: BackupKey,
       changedSubKey: TimeVariable
     ) {
-      console.log("backup change", newValue, changedKey, changedSubKey);
-      console.log("config", this.config);
-
       if (this.config[changedKey][changedSubKey] !== newValue) {
         switch (changedKey) {
           case "podBackup": {

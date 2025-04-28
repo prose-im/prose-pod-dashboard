@@ -295,7 +295,6 @@ export default {
     // --> HELPERS <--
 
     selectOption(option: Option): void {
-      // console.log(option, option.value);
       this.$emit("update:modelValue", option.value);
 
       // Hide dropdown selector

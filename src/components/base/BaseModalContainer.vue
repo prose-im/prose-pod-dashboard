@@ -192,7 +192,6 @@ export default {
     },
 
     onReloadClick() {
-      console.log("reload");
       this.$emit("reload");
     }
   }

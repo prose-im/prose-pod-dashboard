@@ -216,7 +216,6 @@ export default {
   watch: {
     formVisible: {
       handler(newVisibility, oldVisibility) {
-        console.log("received");
         setTimeout(() => (this.loaded = newVisibility), 10);
       },
 
@@ -226,7 +225,6 @@ export default {
 
   methods: {
     onSubmit() {
-      console.log("emitting");
       this.firstInputValidated = false;
       this.$emit("changeStep");
     },

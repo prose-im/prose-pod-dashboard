@@ -172,7 +172,6 @@ const $settingsNetwork = defineStore("settingsNetwork", {
           this.states.dnsSteps.instructionsFailed = false;
 
           this.dnsInstructions = (await APINetworkConfig.getDnsRecords()).steps;
-          console.log("instructions", this.dnsInstructions);
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
@@ -187,10 +186,8 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     /* NETWORK CHECKS */
 
     async checkNetworkConfigurationOnce() {
-      console.log("Checking network configuration once…");
       const results = await APINetworkConfig.checkAllOnce();
       for (const { event, id, data } of results) {
-        // console.log("Got one shot network check result:", { event, id, data });
         switch (event) {
           case "dns-record-check-result":
             this.networkCheckResults.dns.set(id, data);
@@ -203,7 +200,6 @@ const $settingsNetwork = defineStore("settingsNetwork", {
             break;
         }
       }
-      console.log("Done checking network configuration once.");
     },
 
     startNetworkChecks() {
@@ -212,12 +208,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
         return;
       }
 
-      console.log("Starting network checks…");
       const abortController = new AbortController();
       this.runningNetworkChecks = {
         promise: APINetworkConfig.checkAll(
           ({ event, id, data }) => {
-            // console.log("Got network check result:", { event, id, data });
             switch (event) {
               case "dns-record-check-result":
                 return this.networkCheckResults.dns.set(id, data);
@@ -228,7 +222,6 @@ const $settingsNetwork = defineStore("settingsNetwork", {
             }
           },
           () => {
-            console.log("Stopped network checks.");
             this.runningNetworkChecks = null;
           },
           abortController.signal
@@ -237,7 +230,6 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       };
     },
     stopNetworkChecks() {
-      console.log("Stopping network checks…");
       this.runningNetworkChecks?.abortController.abort();
       this.runningNetworkChecks = null;
     }

@@ -17,7 +17,7 @@
       sidebar-accordion(
         :items="items"
       )
-
+      
     sidebar-footer(
       :nickname="userData.nickname"
       :admin="userData.role"

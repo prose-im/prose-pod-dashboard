@@ -126,7 +126,6 @@ export default {
 
       const files = (event.target as HTMLInputElement).files || [];
       let file = files[0] as File | null;
-      console.log("files", files);
 
       if (file) {
         const fileType = file.type.split("/")[1];
@@ -155,7 +154,6 @@ export default {
             return;
           } else {
             this.imageUrl = fileReader.result;
-            console.log("imagUrl from reader", this.imageUrl);
           }
         });
 
@@ -172,8 +170,6 @@ export default {
           // Encode to base64
           let encodedResult = await fileToBase64(resizedImage);
 
-          // Remove unnecessary 'data:image/**;base64'
-          // TODO: obtain type from file.type or else
           this.image = encodedResult.split(",")[1];
 
           // Enable proceed button
@@ -189,7 +185,6 @@ export default {
     async onProceed() {
       if (this.image && typeof this.image === "string") {
         try {
-          console.log("new logo length", this.image.length);
           await store.$customizationWorkspace.updateWorkspaceIcon({
             base64: this.image,
             type: this.chosenImageType

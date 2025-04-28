@@ -108,7 +108,6 @@ export default {
     },
 
     globalIconName() {
-      // console.log('icon name', this.getIconName(this.status))
       return this.getIconName(this.status);
     }
   },

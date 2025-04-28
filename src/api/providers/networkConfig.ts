@@ -135,7 +135,6 @@ class APINetworkConfig {
     return new Promise<void>(resolve => {
       function end(message: string, timeout = null as NodeJS.Timeout | null) {
         return () => {
-          console.log(message);
           clearTimeout(timeout ?? undefined);
           eventSource.close();
           resolve();

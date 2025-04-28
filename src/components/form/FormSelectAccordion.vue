@@ -349,7 +349,6 @@ export default {
     },
 
     getIconColor(disabled: boolean) {
-      console.log("iconColor", disabled ? "#d6dae3" : "#000000");
       return disabled ? "#d6dae3" : "#000000";
     }
   }

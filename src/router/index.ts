@@ -180,9 +180,6 @@ class Router {
   /** Ensure that Pod is initialized (redirect to init if not) */
   private async __guardPodInitialized(): Promise<void> {
     if (!(await APIInit.isPodInitialized())) {
-      console.log(
-        "Pod not initialized, redirecting to Pod initialization process."
-      );
       this.__router.push({
         name: "start.init"
       });

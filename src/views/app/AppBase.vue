@@ -43,7 +43,6 @@ export default {
   mounted() {
     (async () => {
       if (!(await APIInit.isPodConfigInitialized())) {
-        console.log("Initializing Pod config…");
         const podDomain = (await APIServerConfig.getServerConfig()).domain;
         await APIInit.initPodConfig({
           address: { hostname: podDomain },

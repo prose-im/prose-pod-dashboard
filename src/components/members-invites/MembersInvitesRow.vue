@@ -28,9 +28,8 @@
       "c-members-invites-row__avatar",
       "c-members-invites-row--hidden"
     ]`
-    :avatar-data="userData.avatar"
   )
-
+  
   <!-- 3rd column -->
   .c-members-invites-row__user
     p {{ tableHeaders[0] }}
@@ -216,14 +215,11 @@ export default {
   },
 
   props: {
-    /** NOTE: Define "enabled" and not "disabled" to
-     * ensure the button won’t be enabled by mistake. */
     actionsEnabled: {
       type: Boolean,
       default: false
     },
 
-    // TODO: Make another row view for invitations.
     /** `Member | EnrichedMember | Invitation` */
     userData: {
       type: Object,
@@ -289,8 +285,6 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // <-- EVENT LISTENERS -->
     onActionOnMember(): void {
@@ -300,7 +294,6 @@ export default {
     },
 
     onCancelInvite() {
-      console.log("inviteId", this.userData.invitation_id);
       store.$teamMembers.cancelInvitation(this.userData.invitation_id);
     },
 

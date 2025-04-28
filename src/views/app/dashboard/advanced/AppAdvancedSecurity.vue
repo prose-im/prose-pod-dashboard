@@ -109,7 +109,6 @@ export default {
       newValue: AccountSecurityUiState[keyof AccountSecurityUiState],
       changedKey: keyof AccountSecurityUiState
     ) {
-      // console.log("onSecurityUpdate", "newValue", newValue, changedKey);
       if (this.config.accountSecurity[changedKey] !== newValue) {
         switch (changedKey) {
           case "require2FA": {
@@ -124,7 +123,6 @@ export default {
       newValue: NetworkEncryptionUiState[keyof NetworkEncryptionUiState],
       changedKey: keyof NetworkEncryptionUiState
     ) {
-      // console.log("onEncryptionUpdate", "newValue", newValue, changedKey);
       if (this.config.networkEncryption[changedKey] !== newValue) {
         switch (changedKey) {
           case "tlsProfile": {
@@ -136,7 +134,6 @@ export default {
     },
 
     onRestoreTlsProfile() {
-      // console.log("onRestoreTlsProfile", "resetting");
       store.$settingsSecurity.resetTlsProfile();
     },
 

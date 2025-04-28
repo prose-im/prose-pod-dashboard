@@ -51,6 +51,8 @@ class API {
         return response;
       },
       async function (error: AxiosError) {
+        console.log(error);
+
         // Check if the error response status is 401 before logging out
         if (error.response) {
           if (error.response.status === 401) {

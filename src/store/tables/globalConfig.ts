@@ -77,12 +77,10 @@ const $globalConfig = defineStore("globalConfig", {
         // Update stored config
         // Notice: this is a cross-store operation, for convenience.
 
-        // console.log("Loading Pod version");
         const podVersion = await APIMisc.getPodVersion();
         this.podVersion = podVersion;
 
         try {
-          // console.log("Loading Server config");
           const serverConfig = await APIServerConfig.getServerConfig();
           this.serverConfig = serverConfig;
         } catch (e: any) {
