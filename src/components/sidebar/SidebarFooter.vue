@@ -33,6 +33,20 @@
         size="medium"
       )
         | Logout
+
+  <!-- MODALS -->
+  base-modal(
+    v-if="isLogoutModalVisible"
+    @close="onClose"
+    @confirm="onProceed"
+    :visible="LogoutModalVisibility"
+    position="center"
+    title="Log out"
+    button-color="purple"
+    button-label="Log out"
+  )
+    p
+      | Are you sure to log out?
 </template>
 
 <!-- **********************************************************************
@@ -66,10 +80,30 @@ export default {
     }
   },
 
+  data() {
+    return {
+      isLogoutModalVisible: false,
+      LogoutModalVisibility: false
+    };
+  },
+
+  watch: {
+    isLogoutModalVisible(newValue) {
+      setTimeout(() => (this.LogoutModalVisibility = newValue), 10);
+    }
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
+    onLogoutClick() {
+      this.isLogoutModalVisible = true;
+    },
 
-    async onLogoutClick(): Promise<void> {
+    onClose() {
+      this.isLogoutModalVisible = false;
+    },
+
+    async onProceed(): Promise<void> {
       try {
         // Logout from account
         await Store.$account.logout();
