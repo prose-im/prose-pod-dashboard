@@ -42,7 +42,7 @@
             "c-base-identity-badge__server-separator",
             "c-base-identity-badge--light"
           ]`
-        ) 
+        )
           | |
 
         base-space
@@ -58,9 +58,11 @@
     .c-base-identity-badge__details.u-ellipsis(
       v-if="apiVersion"
     )
-      span 
+      span
         | Pod
+
       base-space
+
       span.c-base-identity-badge--light
         | {{ apiVersion }}
 
@@ -68,13 +70,17 @@
         v-if="serverVersion"
       )
         base-space
-        span 
+
+        span
           |  &#32;+&#32;
+
         base-space
 
-        span 
+        span
           | Server
+
         base-space
+
         span.c-base-identity-badge--light
           | {{ serverVersion }}
 </template>
@@ -84,16 +90,11 @@
      ********************************************************************** -->
 
 <script>
+// PROJECT: STORE
 import store from "@/store";
 
 export default {
   name: "BaseIdentityBadge",
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
 
   computed: {
     logo() {
@@ -114,16 +115,20 @@ export default {
 
     apiVersion() {
       const podVersion = store.$globalConfig.getPodVersion();
+
       if (podVersion && podVersion.api.tag === "local") {
-        // Show more detailed information if the API isn’t running a released version.
+        // Show more detailed information if the API isn’t running a released \
+        //   version.
         return podVersion.api.commit_short ?? podVersion.api.version;
-      } else {
-        return podVersion && podVersion.api.tag;
       }
+
+      return podVersion && podVersion.api.tag;
     },
 
     serverVersion() {
-      // TODO: Implement once [Add a route which returns Prosody's version · Issue #143 · prose-im/prose-pod-api](https://github.com/prose-im/prose-pod-api/issues/143) is fixed.
+      // TODO: Implement once [Add a route which returns Prosody's version · \
+      //   Issue #143 · prose-im/prose-pod-api](https://github.com/prose-im/\
+      //   prose-pod-api/issues/143) is fixed.
       return null;
     }
   },
@@ -206,6 +211,7 @@ $c: ".c-base-identity-badge";
   }
 
   // --> WEIGHTS <--
+
   &--extra-light {
     font-weight: $font-weight-extra-light;
   }

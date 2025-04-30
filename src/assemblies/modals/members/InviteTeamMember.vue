@@ -60,7 +60,7 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
-// TYPES
+// PROJECT: API
 import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 
 //Store

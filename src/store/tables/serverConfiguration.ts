@@ -12,18 +12,16 @@
 import { defineStore } from "pinia";
 import mitt from "mitt";
 
-// PROJECT: BROKER
+// PROJECT: API
 import APIServerConfig, {
   DEFAULT_SERVER_CONFIG,
   FileStorageRetention,
   MessageArchiveRetention
 } from "@/api/providers/serverConfig";
+import { ServerConfig } from "@/api/providers/serverConfig";
 
 // PROJECT: STORE
-import store from "@/store/index";
-
-// TYPES
-import { ServerConfig } from "@/api/providers/serverConfig";
+import store from "@/store";
 
 /* *************************************************************************
  * INTERFACES
@@ -64,11 +62,13 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     getSettings: function () {
       return (): ServerConfigUi => {
         const serverConfig = this.value;
+
         return {
           messaging: {
             archiveEnabled: serverConfig.message_archive_enabled,
             messageRetentionTime: serverConfig.message_archive_retention
           },
+
           files: {
             fileUploadEnabled: serverConfig.file_upload_allowed,
             encryption: serverConfig.file_storage_encryption_scheme,
@@ -94,7 +94,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value = serverConfig;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when loading the global configuration:",
           JSON.stringify(error, null, 2)
@@ -109,7 +109,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.message_archive_enabled = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'Message archive enabled':",
           JSON.stringify(error, null, 2)
@@ -126,7 +126,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.message_archive_retention = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'Message archive retention':",
           JSON.stringify(error, null, 2)
@@ -141,7 +141,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.file_upload_allowed = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'File upload allowed':",
           JSON.stringify(error, null, 2)
@@ -158,7 +158,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.file_storage_encryption_scheme = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'File storage encryption scheme':",
           JSON.stringify(error, null, 2)
@@ -175,7 +175,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.file_storage_retention = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'File storage retention':",
           JSON.stringify(error, null, 2)
@@ -190,7 +190,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value = { ...this.value, ...defaultValue };
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when resetting the 'Messaging' configuration:",
           JSON.stringify(error, null, 2)
@@ -206,7 +206,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value.message_archive_retention = defaultValue;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when resetting 'Message archive retention':",
           JSON.stringify(error, null, 2)
@@ -221,7 +221,7 @@ const $serverConfiguration = defineStore("serverConfiguration", {
         this.$patch(() => {
           this.value = { ...this.value, ...defaultValue };
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when resetting the 'Files' configuration:",
           JSON.stringify(error, null, 2)

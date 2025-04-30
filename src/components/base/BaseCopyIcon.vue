@@ -104,6 +104,7 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     height: 16px;
     display: flex;
     align-items: center;
+
     p {
       margin-left: 5.5px;
       width: fit-content;
@@ -126,8 +127,9 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     transform: scale(0);
     animation: popUp 1s linear;
     animation-fill-mode: forwards;
-    //visibility: hidden;
   }
+
+  // --> KEYFRAMES <--
 
   @keyframes popDown {
     100% {

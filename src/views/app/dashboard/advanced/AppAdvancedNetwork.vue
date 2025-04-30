@@ -13,32 +13,30 @@
   base-subsection(
     v-model="config"
     @update="onFederationUpdate"
-    ref="federationSubsection"
-    title="Server Federation"
     :items="federationItems"
     :restore-option="true"
     :restore-action="onGlobalFederationRestore"
     :restore-description="restoreDescription"
+    ref="federationSubsection"
+    title="Server Federation"
   )
 
   base-subsection(
-    title="Network Setup Tools"
     :items="toolsItems"
+    title="Network Setup Tools"
   )
 
-<!-- Modals -->
+<!-- MODALS -->
 
 dns-setup(
   v-if="activeModal === 'dnsInstructions'"
   @close="toggleDnsInstructionsModalVisible"
-  @proceed=""
   :visibility="dnsInstructionsModalVisibility"
 )
 
 configuration-checker(
   v-if="activeModal === 'networkCheck'"
   @close="toggleNetworkCheckModalVisible"
-  @proceed=""
   :visibility="networkCheckModalVisibility"
 )
 
@@ -66,18 +64,22 @@ enum Modals {
   ServerWhitelist = "serverWhitelist"
 }
 
-// PROJECT: COMPONENTS
+// PROJECT: API
 import {
   AnyNetworkCheckStatus,
   DnsRecordStatus,
   PortReachabilityStatus
 } from "@/api/providers/networkConfig";
+
+// PROJECT: ASSEMBLIES
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
 import ServerWhitelist from "@/assemblies/modals/advanced/ServerWhitelist.vue";
+
+// PROJECT: COMPONENTS
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
 export default {
@@ -92,6 +94,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       activeModal: null as Modals | null,
 
       dnsInstructionsModalVisibility: false,
@@ -114,6 +117,7 @@ export default {
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
           type: "toggle"
         },
+
         {
           subtitle: "Friendly servers whitelist",
           restoreSubtitle: true,
@@ -124,6 +128,7 @@ export default {
           tags: [],
           type: "button",
           action: this.onShowServerWhitelist,
+
           typeProps: {
             label: "Edit servers..."
           }
@@ -143,24 +148,24 @@ export default {
 
     networkCheckIssues() {
       const results = store.$settingsNetwork.networkCheckResults;
+
       let issues: string[] = [];
 
-      // NOTE(RemiBardon): This isn’t great, I know. I should have kept the
-      //   event IDs somewhere instead of using an object with 3 properties.
-      //   That was just migration and I didn’t want to break too much stuff.
       for (const [key, value] of results.dns.entries()) {
-        if (isIssue(value.status)) {
-          issues.push(checkIdToIssue("dns", key) ?? key);
+        if (this.isIssue(value.status)) {
+          issues.push(this.checkIdToIssue("dns", key) ?? key);
         }
       }
+
       for (const [key, value] of results.ports.entries()) {
-        if (isIssue(value.status)) {
-          issues.push(checkIdToIssue("ports", key) ?? key);
+        if (this.isIssue(value.status)) {
+          issues.push(this.checkIdToIssue("ports", key) ?? key);
         }
       }
+
       for (const [key, value] of results.ip.entries()) {
-        if (isIssue(value.status)) {
-          issues.push(checkIdToIssue("ip", key) ?? key);
+        if (this.isIssue(value.status)) {
+          issues.push(this.checkIdToIssue("ip", key) ?? key);
         }
       }
 
@@ -175,6 +180,7 @@ export default {
             "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
           type: "button",
           action: this.onShowDnsInstructions,
+
           typeProps: {
             label: "Show DNS instructions...",
             size: "mid-medium"
@@ -190,6 +196,7 @@ export default {
           firstTag: "Issues",
           tags: this.networkCheckIssues,
           type: "button",
+
           typeProps: {
             label: "Start network check...",
             size: "mid-medium"
@@ -228,6 +235,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     toggleDnsInstructionsModalVisible() {
       if (this.activeModal === "dnsInstructions") {
         this.activeModal = null;
@@ -252,7 +260,76 @@ export default {
       }
     },
 
+    isIssue(status: AnyNetworkCheckStatus) {
+      switch (status) {
+        case DnsRecordStatus.Invalid:
+        case PortReachabilityStatus.Closed: {
+          return true;
+        }
+
+        default: {
+          return false;
+        }
+      }
+    },
+
+    checkIdToIssue(
+      type: "dns" | "ip" | "ports",
+      checkId: string
+    ): string | null {
+      switch (`${type}/${checkId}`) {
+        case "dns/IPv4": {
+          return "A record missing";
+        }
+
+        case "dns/IPv6": {
+          return "AAAA record missing";
+        }
+
+        case "dns/SRV-c2s": {
+          return "SRV record missing (c2s)";
+        }
+
+        case "dns/SRV-s2s": {
+          return "SRV record missing (s2s)";
+        }
+
+        case "ports/TCP-c2s": {
+          return "c2s port closed";
+        }
+
+        case "ports/TCP-s2s": {
+          return "s2s port closed";
+        }
+
+        case "ports/TCP-HTTPS": {
+          return "HTTPS port closed";
+        }
+
+        case "ip/IPv4-c2s": {
+          return "IPv4 not working (c2s)";
+        }
+
+        case "ip/IPv6-c2s": {
+          return "IPv6 not working (c2s)";
+        }
+
+        case "ip/IPv4-s2s": {
+          return "IPv4 not working (s2s)";
+        }
+
+        case "ip/IPv6-s2s": {
+          return "IPv6 not working (s2s)";
+        }
+
+        default: {
+          return null;
+        }
+      }
+    },
+
     // --> EVENT LISTENERS <--
+
     onShowDnsInstructions() {
       this.toggleDnsInstructionsModalVisible();
     },
@@ -285,46 +362,4 @@ export default {
     }
   }
 };
-
-function isIssue(status: AnyNetworkCheckStatus) {
-  switch (status) {
-    case DnsRecordStatus.Invalid:
-    case PortReachabilityStatus.Closed:
-      return true;
-    default:
-      return false;
-  }
-}
-
-function checkIdToIssue(
-  type: "dns" | "ip" | "ports",
-  checkId: string
-): string | null {
-  switch (`${type}/${checkId}`) {
-    case "dns/IPv4":
-      return "A record missing";
-    case "dns/IPv6":
-      return "AAAA record missing";
-    case "dns/SRV-c2s":
-      return "SRV record missing (c2s)";
-    case "dns/SRV-s2s":
-      return "SRV record missing (s2s)";
-    case "ports/TCP-c2s":
-      return "c2s port closed";
-    case "ports/TCP-s2s":
-      return "s2s port closed";
-    case "ports/TCP-HTTPS":
-      return "HTTPS port closed";
-    case "ip/IPv4-c2s":
-      return "IPv4 not working (c2s)";
-    case "ip/IPv6-c2s":
-      return "IPv6 not working (c2s)";
-    case "ip/IPv4-s2s":
-      return "IPv4 not working (s2s)";
-    case "ip/IPv6-s2s":
-      return "IPv6 not working (s2s)";
-    default:
-      return null;
-  }
-}
 </script>

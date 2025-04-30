@@ -11,7 +11,6 @@
 <template lang="pug">
 base-modal(
   @close="onClose"
-  @confirm="$emit('proceed')"
   @load="onLoad"
   @reload="onLoad"
   :reload="true"
@@ -60,10 +59,9 @@ import {
 } from "@/api/providers/networkConfig";
 import AdvancedNetworkCheckBlock from "@/components/advanced/network/AdvancedNetworkCheckBlock.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
-// TYPES
 export default {
   name: "ConfigurationChecker",
 
@@ -78,7 +76,7 @@ export default {
     }
   },
 
-  emits: ["close", "proceed"],
+  emits: ["close"],
 
   data() {
     return {

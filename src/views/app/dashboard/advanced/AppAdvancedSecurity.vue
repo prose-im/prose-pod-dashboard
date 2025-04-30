@@ -13,18 +13,18 @@
   base-subsection(
     v-model="config.accountSecurity"
     @update="onSecurityUpdate"
-    title="Account Security"
     :items="accountItems"
+    title="Account Security"
   )
 
   base-subsection(
     v-model="config.networkEncryption"
     @update="onEncryptionUpdate"
-    title="Network Encryption"
     :items="networkItems"
     :restore-option="true"
     :restore-action="onGlobalRestore"
     :restore-description="restoreDescription"
+    title="Network Encryption"
   )
 </template>
 
@@ -33,8 +33,10 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// STORE
+// PROJECT: API
 import { TlsProfile } from "@/api/providers/serverConfig";
+
+// PROJECT: STORES
 import store from "@/store";
 import {
   NetworkEncryptionUiState,
@@ -68,20 +70,25 @@ export default {
             "Minimum SSL/TLS version and cipher suite (encryption strength)",
           description:
             "Accepting older versions of SSL/TLS let older user devices and servers connect to your server, but is also considered much less secure. It is recommended to configure the minimum version to Intermediate",
+
           restoreSubtitle: true,
           restoreAction: this.onRestoreTlsProfile,
           type: "select",
+
           typeProps: {
             minWidth: "170px",
+
             options: [
               {
                 label: "Modern (Most Secure)",
                 value: TlsProfile.Modern
               },
+
               {
                 label: "Intermediate",
                 value: TlsProfile.Intermediate
               },
+
               {
                 label: "Old (Most Compatible)",
                 value: TlsProfile.Old
@@ -105,6 +112,7 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
+
     onSecurityUpdate(
       newValue: AccountSecurityUiState[keyof AccountSecurityUiState],
       changedKey: keyof AccountSecurityUiState
@@ -112,7 +120,8 @@ export default {
       if (this.config.accountSecurity[changedKey] !== newValue) {
         switch (changedKey) {
           case "require2FA": {
-            // store.$serverConfiguration.todo();
+            // TODO
+
             break;
           }
         }
@@ -127,6 +136,7 @@ export default {
         switch (changedKey) {
           case "tlsProfile": {
             store.$settingsSecurity.updateTlsProfile(newValue as TlsProfile);
+
             break;
           }
         }

@@ -15,14 +15,14 @@
 
   form-field(
     v-model="fieldValue"
+    v-bind="$attrs"
     @change="onChange"
-    ref="formField"
     :type="type"
+    :placeholder="placeholder"
+    :autofocus="autofocus"
+    ref="formField"
     size="mid-large"
     align="left"
-    :placeholder="placeholder"
-    v-bind="$attrs"
-    :autofocus="autofocus"
   )
 </template>
 
@@ -31,7 +31,8 @@
      ********************************************************************** -->
 
 <script lang="ts">
-import FormField from "../form/FormField.vue";
+// PROJECT: COMPONENTS
+import FormField from "@/components/form/FormField.vue";
 
 export default {
   name: "BaseModalInputBlock",
@@ -79,7 +80,7 @@ export default {
 
   watch: {
     autofocus: {
-      handler(value) {
+      handler() {
         // Update value in the state
         this.focusFieldFromParent();
       }
@@ -88,13 +89,15 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
+
     onChange(value: string | number): void {
       this.$emit("change", value);
     },
 
     // --> EXTERNALS <--
+
     focusFieldFromParent(): void {
-      // call the focus method on the component
+      // Call the focus method on the component
       (
         this.$refs.formField as InstanceType<typeof FormField>
       ).focusFieldFromParent();

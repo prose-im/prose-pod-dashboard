@@ -9,7 +9,9 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.v-start-init
+base-topography(
+  class="v-start-init"
+)
   init-sidebar(
     :items="items"
     :step="currentStep"
@@ -86,12 +88,6 @@ export default {
 $c: ".v-start-init";
 
 #{$c} {
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
-    url("/images/components/base/BaseTopography.svg");
-  background-size: 35%;
   height: 100%;
   width: 100%;
   overflow: hidden;

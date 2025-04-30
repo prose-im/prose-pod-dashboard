@@ -30,11 +30,9 @@ div(
       ********************************************************************** -->
 
 <script lang="ts">
-// INSTANCES
-const TEXTUAL_INITIALS_NORMALIZE_REGEX = /\p{Diacritic}/gu;
-
 // CONSTANTS
 const SIZE_TO_FONT_SIZE_RATIO = 0.5;
+
 const TEXTUAL_PALETTE_COLORS = [
   "df74c9",
   "05cd8f",
@@ -58,6 +56,9 @@ const TEXTUAL_PALETTE_COLORS = [
   "2ba032"
 ];
 
+// INSTANCES
+const TEXTUAL_INITIALS_NORMALIZE_REGEX = /\p{Diacritic}/gu;
+
 export default {
   name: "BaseAvatar",
 
@@ -67,7 +68,7 @@ export default {
       default: "34px"
     },
 
-    //TODO: make required
+    // TODO: make this required
     avatarContentType: {
       type: String,
       default: "image/png"
@@ -103,8 +104,7 @@ export default {
       let backgroundImage = "";
 
       if (this.avatarContentType && this.avatarData64) {
-        // Generate avatar URL from data and MIME type?
-        console.log("datatype", this.avatarContentType);
+        // Generate avatar URL from data and MIME type
         return (backgroundImage = `url(data:${this.avatarContentType};base64,${this.avatarData64})`);
       }
 
@@ -160,8 +160,6 @@ export default {
       return undefined;
     }
   },
-
-  watch: {},
 
   methods: {
     normalizeTextualInitials(initials?: string): string | void {

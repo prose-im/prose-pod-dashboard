@@ -15,7 +15,7 @@
       .c-sidebar-footer__avatar
         base-avatar(
           :avatar-data-64="avatar"
-          :placeholder-data="nickname" 
+          :placeholder-data="nickname"
         )
 
       .c-sidebar-footer__center
@@ -35,6 +35,7 @@
         | Logout
 
   <!-- MODALS -->
+
   base-modal(
     v-if="isLogoutModalVisible"
     @close="onClose"
@@ -113,9 +114,6 @@ export default {
           name: "start.login",
           query: { action: "logout" }
         });
-
-        // Acknowledge logout success
-        // BaseAlert.info("Logged out", "Logged out of your dashboard");
       } catch (_) {
         BaseAlert.error("Could not log out", "Try again later");
       }

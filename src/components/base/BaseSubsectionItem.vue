@@ -19,18 +19,20 @@ div(
     .c-base-subsection-item__subtitle
       base-icon(
         v-if="item.subtitleLeftIcon"
-        class="c-base-subsection-item__subtitle--left-icon"
         :name="item.subtitleLeftIcon"
+        class="c-base-subsection-item__subtitle--left-icon"
         size="14px"
       )
 
       <!-- Subtitle if restore possible -->
+
       base-tooltip(
         v-if="item.restoreSubtitle"
         tooltip="Click to reset"
         align="right"
       )
         h3(
+          @click="onSubtitleRestoreClick"
           :class=`[
             "c-base-subsection-item__subtitle--text",
             "c-base-subsection-item__subtitle--restore",
@@ -38,7 +40,6 @@ div(
               "c-base-subsection-item__subtitle--restore--disabled": item.disabled,
             }
           ]`
-          @click="onSubtitleRestoreClick"
         )
           | {{ item.subtitle }}
 
@@ -50,6 +51,7 @@ div(
           )
 
       <!-- Subtitle if NO restore available -->
+
       h3.c-base-subsection-item__subtitle--text(
         v-else
       )
@@ -86,6 +88,7 @@ div(
 
   .c-base-subsection-item__right
     <!-- OPTIONAL ELEMENT -->
+
     p(
       v-if="item.slot === 'text'"
       class="c-base-subsection-item__slot"
@@ -94,7 +97,7 @@ div(
 
     base-avatar(
       v-if="item.slot === 'avatar'"
-      :avatar-data-64="calculatedValue?.base64" 
+      :avatar-data-64="calculatedValue?.base64"
       :avatar-content-type= "calculatedValue?.type"
       :placeholder-data="avatarName"
       :class=`[
@@ -107,20 +110,21 @@ div(
     )
 
     <!-- INTERACTIVE ELEMENT -->
+
     form-toggle(
       v-if="type === 'toggle'"
       v-model="calculatedValue"
-      :disabled="item.disabled"
       @update:modelValue="onUpdateValue"
+      :disabled="item.disabled"
     )
 
     base-button(
       v-if="type === 'button'"
+      @click="$emit('click')"
       :disabled="item.disabled"
       :size="item.typeProps?.size || 'medium'"
       :min-width="item.typeProps?.minWidth"
       :tint="buttonColor"
-      @click="$emit('click')"
     )
       | {{item.typeProps?.label}}
 
@@ -128,6 +132,7 @@ div(
       form-select(
         v-if="(type === 'select') || type === 'doubleSelect'"
         v-model="calculatedValue"
+        @update:modelValue="onUpdateValue"
         :color-preview="colorSquare"
         :disabled="item.disabled"
         :align="item.typeProps?.align"
@@ -137,13 +142,12 @@ div(
         :min-width="item.typeProps?.minWidth"
         :search="false"
         position="bottom"
-        @update:modelValue="onUpdateValue"
       )
 
       form-select(
         v-if="type === 'doubleSelect'"
         v-model="stateSecondSelect"
-        class="c-base-subsection-item__double-select"
+        @update:modelValue="onUpdateExtraSelect"
         :disabled="item.disabled"
         :search="false"
         :size="item.typeProps?.size || 'mid-medium'"
@@ -152,17 +156,18 @@ div(
         :position="item.typeProps?.position"
         :options="item.typeProps?.secondOptions"
         position="bottom"
-        @update:modelValue="onUpdateExtraSelect"
+        class="c-base-subsection-item__double-select"
       )
 
       <!-- MODALS -->
+
       base-modal(
         v-if="isResetModalVisible"
         @close="onClose"
         @confirm="onProceed"
         :visible="resetModalVisibility"
-        position="center"
         :title="restoreTitle"
+        position="center"
         button-color="red"
         button-label="Reset now"
       )
@@ -225,6 +230,7 @@ export default {
 
     slotName: {
       type: Function,
+
       default: () => {
         return;
       }
@@ -236,6 +242,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       state: null,
 
       stateSecondSelect: null as string | null,
@@ -268,18 +275,23 @@ export default {
         case "bw": {
           return "white";
         }
+
         case "bwPurple": {
           return "purple";
         }
+
         case "redBackground": {
           return "red";
         }
+
         case "redShell": {
           return "red";
         }
+
         case "greyBackground": {
           return "black";
         }
+
         default: {
           return "white";
         }
@@ -320,6 +332,7 @@ export default {
           this.changeColorSquare();
         } else {
           const valueArray: string[] = Object.values(newValue);
+
           this.changeSecondSelectState(valueArray);
         }
       }
@@ -332,6 +345,7 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
+
     onUpdateValue(newValue: boolean | string): void {
       if (this.type === "doubleSelect") {
         this.$emit("update", newValue, this.index, 0);
@@ -354,6 +368,7 @@ export default {
     },
 
     // --> HELPERS <--
+
     changeColorSquare() {
       if (
         typeof this.modelValue === "string" &&
@@ -378,6 +393,7 @@ export default {
     onProceed() {
       this.item.restoreAction();
       this.toggleResetModalVisible();
+
       this.$emit("showSucess");
     }
   }
@@ -539,7 +555,8 @@ $c: ".c-base-subsection-item";
     background-color: rgba($color-base-grey-light, 0.12);
   }
 
-  // <!-- MEDIA QUERIES -->
+  // --> MEDIA QUERIES <--
+
   @media (max-width: 922px) {
     #{$c}__right {
       flex-wrap: wrap;

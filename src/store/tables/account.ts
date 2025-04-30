@@ -14,9 +14,11 @@ import { defineStore } from "pinia";
 // PROJECT: API
 import Api from "@/api";
 import APIAuth from "@/api/providers/auth";
-import store from "..";
 import { Avatar, MemberRole } from "@/api/providers/members";
 import { BareJid } from "@/api/providers/global";
+
+// PROJECT: STORE
+import store from "@/store";
 
 /* *************************************************************************
  * INTERFACES
@@ -74,7 +76,6 @@ const $account = defineStore("account", {
 
       // Save session token
       this.setSessionToken(token);
-
       this.setSessionJid(username);
 
       this.loadUserInformation();
@@ -87,9 +88,11 @@ const $account = defineStore("account", {
 
     async loadUserInformation() {
       const jid = this.session?.jid;
+
       if (jid === null) {
         return;
       }
+
       const user = await store.$teamMembers.loadMemberById(jid);
 
       if (user) {

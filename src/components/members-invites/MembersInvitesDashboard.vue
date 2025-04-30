@@ -20,50 +20,54 @@
 
   .c-members-invites-dashboard__content
     <!-- HEADERS -->
+
     members-invites-row(
       :user-data="{}"
       :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
     )
-    
+
     .c-members-invites-dashboard__scroll(
       v-if="!isMembersLoading"
     )
       <!-- INVITATIONS -->
+
       members-invites-row(
         v-if="pageNumber === 1"
         v-for="(invite, index) in invites"
         :user-data="invite"
         :actions-enabled="actionsMenuEnabled"
       )
-      
+
       <!-- MEMBERS -->
+
       members-invites-row(
         v-for="(user, index) in members"
-        class="c-members-invites-dashboard__users"
         :key="user.jid"
         :user-data="user"
         :actions-enabled="actionsMenuEnabled"
+        class="c-members-invites-dashboard__users"
         @menuAction="onMenuAction"
       )
-      
+
       span.c-members-invites-dashboard__failed-search(
         v-if="searchNotFound"
       )
         | No members found
 
-    base-spiner(
+    base-spinner(
       v-else
     )
 
   base-navigation-footer(
     v-if="!searchTerm"
     @navFooterUpdate="onChangePage"
-    listing="users"
     :page="pageNumber"
     :total="memberTotal"
+    listing="users"
   )
 
-<!-- Modals -->
+<!-- MODALS -->
+
 invite-team-member(
   v-if="activeModal === 'invite'"
   @close="toggleInviteModalVisible"
@@ -90,6 +94,23 @@ delete-member(
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: COMPONENTS
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
+import SearchBar from "@/components/search/SearchBar.vue";
+
+// PROJECT: ASSEMBLIES
+import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
+import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
+import EditRole from "@/assemblies/modals/members/EditRole.vue";
+
+// PROJECT: STORE
+import store from "@/store";
+
+// PROJECT: API
+import { MemberRole } from "@/api/providers/members";
+import APIInvitations from "@/api/providers/invitations";
+
 // ENUMERATIONS
 enum Modals {
   // Invite Team Member Modal
@@ -99,19 +120,6 @@ enum Modals {
   //delete Member Modal
   DeleteMember = "deleteMember"
 }
-
-// PROJECT: COMPONENTS
-import BaseAlert from "@/components/base/BaseAlert.vue";
-import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
-import EditRole from "@/assemblies/modals/members/EditRole.vue";
-import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
-import MembersInvitesRow from "@/components/members-invites/MembersInvitesRow.vue";
-import SearchBar from "@/components/search/SearchBar.vue";
-
-// PROJECT: STORE
-import store from "@/store";
-import { MemberRole } from "@/api/providers/members";
-import APIInvitations from "@/api/providers/invitations";
 
 export default {
   name: "MembersInvitesDashboard",
@@ -133,18 +141,16 @@ export default {
 
   data() {
     return {
-      activeModal: null as null | Modals,
-
       // --> STATES <--
+
       isMembersLoading: false,
       isInvitesLoading: false,
-
-      // --> STATE <--
 
       inviteModalVisibility: false,
       editRoleModalVisibility: false,
       deleteMemberModalVisibility: false,
 
+      activeModal: null as null | Modals,
       userToUpdate: null as object | null,
 
       searchTerm: "",
@@ -155,7 +161,6 @@ export default {
 
   computed: {
     members() {
-      console.log("members", store.$teamMembers.getAllMembers());
       return store.$teamMembers.getAllMembers();
     },
 
@@ -169,8 +174,8 @@ export default {
       return this.searchTerm && this.members.length === 0;
     },
 
-    //TODO revisit this
     invites() {
+      // TODO: revisit this
       return this.searchTerm
         ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
         : store.$teamMembers.getFilteredInviteList();
@@ -251,25 +256,34 @@ export default {
 
   methods: {
     // <-- HELPERS -->
+
     async toggleInviteModalVisible() {
-      //TODO so many cases?
+      // TODO: so many cases?
       if (this.activeModal !== "invite") {
         const canInviteMembers = await APIInvitations.canInviteMember();
+
         switch (canInviteMembers) {
-          case "forbidden":
+          case "forbidden": {
             return BaseAlert.error("You cannot do that");
-          case "missing-notifier-config":
+          }
+
+          case "missing-notifier-config": {
             return BaseAlert.error(
               "The Prose Pod API is missing configuration",
               "Add `[notifier.email]` in your `Prose.toml` configuration file."
             );
-          case false:
+          }
+
+          case false: {
             return BaseAlert.error(
               "You cannot do that",
               "…but that might just be a bug."
             );
-          case true:
+          }
+
+          case true: {
             return (this.activeModal = Modals.Invite);
+          }
         }
       }
 
@@ -299,22 +313,19 @@ export default {
 
       if (type === "forth") {
         this.pageNumber += 1;
+
         await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
       } else if (type === "back") {
         if (this.pageNumber === 1) {
           return;
-        } else {
-          this.pageNumber -= 1;
-          await store.$teamMembers.loadActiveMembersByPage(
-            true,
-            this.pageNumber
-          );
         }
+
+        this.pageNumber -= 1;
+
+        await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
       }
 
       this.isMembersLoading = false;
-
-      return;
     },
 
     onMenuAction(action: string, user: object) {
@@ -327,15 +338,13 @@ export default {
 
         case "Change role": {
           this.toggleEditRoleModalVisible();
+
           break;
         }
 
         case "Delete member": {
           this.toggleDeleteMemberModalVisible();
-          break;
-        }
 
-        default: {
           break;
         }
       }
@@ -344,6 +353,7 @@ export default {
     async onSearchTermChange() {
       if (!this.searchTerm) {
         await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
+
         this.isMembersLoading = false;
       } else {
         await store.$teamMembers.loadActiveMembersByPage(
@@ -351,6 +361,7 @@ export default {
           1,
           this.searchTerm
         );
+
         this.isMembersLoading = false;
       }
     }

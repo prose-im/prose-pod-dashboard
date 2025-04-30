@@ -52,7 +52,7 @@ $animate-toast-translate-vertical: 40px;
   // --> DELAYS <--
 
   &--delayed {
-    animation-delay: 400ms; //200?
+    animation-delay: 400ms;
   }
 
   // --> ANIMATIONS <--
@@ -293,7 +293,6 @@ $animate-toast-translate-vertical: 40px;
 
   to {
     opacity: 1;
-    // width: 43%;
     transform: translateX(0);
   }
 }
@@ -301,13 +300,11 @@ $animate-toast-translate-vertical: 40px;
 @keyframes slideOut {
   from {
     opacity: 1;
-    // width: 43%;
     transform: translateX(0);
   }
 
   to {
     opacity: 0.5;
-    // width: 0%;
     transform: translateX(20%);
   }
 }
@@ -315,13 +312,11 @@ $animate-toast-translate-vertical: 40px;
 @keyframes slideOutLeft {
   from {
     opacity: 1;
-    // width: 43%;
     transform: translateX(0);
   }
 
   to {
     opacity: 0.5;
-    // width: 0%;
     transform: translateX(-60%);
   }
 }

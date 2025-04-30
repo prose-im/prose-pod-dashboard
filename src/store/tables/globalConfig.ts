@@ -11,7 +11,7 @@
 // NPM
 import { defineStore } from "pinia";
 
-// PROJECT: UTILITIES
+// PROJECT: API
 import APIServerConfig, {
   DEFAULT_SERVER_CONFIG,
   ServerConfig
@@ -35,8 +35,6 @@ interface GlobalConfig {
 const LOCAL_STATES = {
   informationLoaded: false
 };
-
-// const INFORMATION_AVAILABILITY_DEFAULT = Availability.Available;
 
 /* *************************************************************************
  * TABLE
@@ -74,20 +72,19 @@ const $globalConfig = defineStore("globalConfig", {
     async loadGlobalConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.informationLoaded === false || reload === true) {
-        // Update stored config
+        // Update stored configuration
         // Notice: this is a cross-store operation, for convenience.
-
         const podVersion = await APIMisc.getPodVersion();
+
         this.podVersion = podVersion;
 
         try {
-          const serverConfig = await APIServerConfig.getServerConfig();
-          this.serverConfig = serverConfig;
-        } catch (e: any) {
-          if (e.status === 401) {
+          this.serverConfig = await APIServerConfig.getServerConfig();
+        } catch (error: any) {
+          if (error.status === 401) {
             console.log("Server config cannot be loaded: Not authenticated.");
           } else {
-            console.error("Error loading Server config:", e);
+            console.error("Error loading Server config:", error);
           }
         }
       }
@@ -99,6 +96,7 @@ const $globalConfig = defineStore("globalConfig", {
     async performFactoryReset(): Promise<void> {
       const confirmation =
         await APIAdministration.getFactoryResetConfirmation();
+
       await APIAdministration.factoryReset(confirmation);
     }
   }

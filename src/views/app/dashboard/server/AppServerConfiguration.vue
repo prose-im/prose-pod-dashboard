@@ -13,21 +13,21 @@
   base-subsection(
     v-model="config.messaging"
     @update="onMessagingUpdate"
-    title="Messaging"
     :items="messagingItems"
     :restore-option="true"
     :restore-action="onMessagingRestore"
     :restore-description="restoreMessagingDescription"
+    title="Messaging"
   )
 
   base-subsection(
     v-model="config.files"
     @update="onFileUpdate"
-    title="Files"
     :items="filesItems"
     :restore-option="true"
     :restore-action="onFileRestore"
     :restore-description="restoreFilesDescription"
+    title="Files"
   )
 </template>
 
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       restoreMessagingDescription: [
         `Allow message archiving`,
         "Message archive retention time"
@@ -79,19 +80,24 @@ export default {
           subtitle: "Message archive retention time",
           description:
             "Messages from the archive can be automatically expunged after some time. This is a good privacy practice, as it can be considered unsafe to retain all past messages in storage.",
+
           restoreSubtitle: true,
           restoreAction: this.onRestoreMessageArchiveRetention,
+
           type: "select",
+
           typeProps: {
             options: [
               {
                 label: "Keep forever",
                 value: "infinite"
               },
+
               {
                 label: "1 year",
                 value: "P1Y"
               },
+
               {
                 label: "2 years",
                 value: "P2Y"
@@ -113,14 +119,17 @@ export default {
           subtitle: "File storage encryption",
           description:
             "Files are encrypted when stored on the server. Only the file recipients can decrypt the files. It is heavily recommended to keep file storage encryption enabled.",
+
           type: "select",
           disabled: true,
+
           typeProps: {
             options: [
               {
                 label: "Encrypted (AES-256)",
                 value: "AES-256"
               },
+
               {
                 label: "Not encrypted",
                 value: "Not Encrypted"
@@ -133,17 +142,21 @@ export default {
           subtitle: "Files retention time",
           description:
             "Files can be automatically removed from the server after a certain time, in order to free some space. Most of old files are never accessed again, therefore it is recommended to enable this policy.",
+
           type: "select",
+
           typeProps: {
             options: [
               {
                 label: "Keep forever",
                 value: "infinite"
               },
+
               {
                 label: "1 year",
                 value: "P1Y"
               },
+
               {
                 label: "2 years",
                 value: "P2Y"
@@ -178,12 +191,15 @@ export default {
             if (typeof newValue === "boolean") {
               store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
             }
+
             break;
           }
+
           case MessagingKey.RetentionTime: {
             if (typeof newValue === "string") {
               store.$serverConfiguration.changeMessageRetentionTime(newValue);
             }
+
             break;
           }
         }
@@ -200,26 +216,26 @@ export default {
             if (typeof newValue === "boolean") {
               store.$serverConfiguration.toggleFileUploadEnabled(newValue);
             }
+
             break;
           }
+
           case "encryption": {
             if (typeof newValue === "string") {
               store.$serverConfiguration.changeFileEncryption(newValue);
             }
+
             break;
           }
+
           case "fileRetentionTime": {
             if (typeof newValue === "string") {
               store.$serverConfiguration.changeFileRetentionTime(newValue);
             }
-            break;
-          }
-          default: {
+
             break;
           }
         }
-      } else {
-        return;
       }
     },
 

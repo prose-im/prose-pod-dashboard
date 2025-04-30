@@ -12,6 +12,7 @@
 import mitt from "mitt";
 import { defineStore } from "pinia";
 
+// PROJECT: API
 import APINetworkConfig, {
   DnsSetupStep,
   IpConnectivityStatus,
@@ -20,8 +21,10 @@ import APINetworkConfig, {
   CheckResultData
 } from "@/api/providers/networkConfig";
 import APIServerConfig from "@/api/providers/serverConfig";
-import store from "@/store/index";
 import { Hostname } from "@/api/providers/global";
+
+// PROJECT: STORE
+import store from "@/store";
 
 /* *************************************************************************
  * INSTANCES
@@ -175,10 +178,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
-        } catch (e: any) {
+        } catch (error: any) {
           this.states.dnsSteps.instructionsFailed = true;
 
-          console.error("recordError", e.response);
+          console.error("recordError", error.response);
         }
       }
     },
@@ -187,17 +190,26 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
     async checkNetworkConfigurationOnce() {
       const results = await APINetworkConfig.checkAllOnce();
+
       for (const { event, id, data } of results) {
         switch (event) {
-          case "dns-record-check-result":
+          case "dns-record-check-result": {
             this.networkCheckResults.dns.set(id, data);
+
             break;
-          case "ip-connectivity-check-result":
+          }
+
+          case "ip-connectivity-check-result": {
             this.networkCheckResults.ip.set(id, data);
+
             break;
-          case "port-reachability-check-result":
+          }
+
+          case "port-reachability-check-result": {
             this.networkCheckResults.ports.set(id, data);
+
             break;
+          }
         }
       }
     },
@@ -209,28 +221,39 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       }
 
       const abortController = new AbortController();
+
       this.runningNetworkChecks = {
         promise: APINetworkConfig.checkAll(
           ({ event, id, data }) => {
             switch (event) {
-              case "dns-record-check-result":
+              case "dns-record-check-result": {
                 return this.networkCheckResults.dns.set(id, data);
-              case "ip-connectivity-check-result":
+              }
+
+              case "ip-connectivity-check-result": {
                 return this.networkCheckResults.ip.set(id, data);
-              case "port-reachability-check-result":
+              }
+
+              case "port-reachability-check-result": {
                 return this.networkCheckResults.ports.set(id, data);
+              }
             }
           },
+
           () => {
             this.runningNetworkChecks = null;
           },
+
           abortController.signal
         ),
+
         abortController
       };
     },
+
     stopNetworkChecks() {
       this.runningNetworkChecks?.abortController.abort();
+
       this.runningNetworkChecks = null;
     }
   }

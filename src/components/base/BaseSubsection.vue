@@ -25,12 +25,12 @@
 
     .c-base-subsection__restore(
       v-if="restoreOption"
+      @click="toggleResetModal"
       :class=`[
         {
           "c-base-subsection__restore--disabled": isRestoreDisabled
         }
       ]`
-      @click="toggleResetModal"
     )
       base-icon(
         class="c-base-subsection__restore--icon"
@@ -57,15 +57,16 @@
   )
 
   <!-- MODALS -->
+
   base-modal(
     v-if="isResetModalVisible"
     @close="onClose"
     @confirm="onProceed"
     :visible="resetModalVisibility"
-    position="center"
     :title="restoreTitle"
-    button-color="red"
     :button-label="restoreButton"
+    position="center"
+    button-color="red"
   )
     .c-base-subsection__modal
       h4
@@ -81,6 +82,7 @@
           | {{ description}}
 
   <!-- Tooltip Notification -->
+
   transition(
     enter-active-class="u-animate u-animate--scale-up u-animate--fast"
     leave-active-class="u-animate u-animate--scale-down u-animate--fast"
@@ -97,7 +99,7 @@
 <script lang="ts">
 import type { PropType } from "vue";
 
-//INTERFACES
+// INTERFACES
 interface Item {
   subtitle: string;
   restoreSubtitle?: boolean;
@@ -159,6 +161,7 @@ export default {
 
     restoreAction: {
       type: Function,
+
       default: () => {
         return;
       }
@@ -222,6 +225,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     updateValue(
       newValue: boolean | string,
       index: number,
@@ -231,24 +235,23 @@ export default {
       const keys = Object.keys(this.modelValue);
 
       if (element === 0 || element === 1) {
-        //Get the modified subsectionItem
-        const key1 = keys[index];
+        // Get the modified subsectionItem
+        const keyFirst = keys[index];
 
-        //Get the modified key from the modified subsectionItem
-        const key2 = Object.keys(this.modelValue[key1])[element];
+        // Get the modified key from the modified subsectionItem
+        const keySecond = Object.keys(this.modelValue[keyFirst])[element];
 
-        //Ask for update on parent
-        this.$emit("update", newValue, key1, key2);
+        // Ask for update on parent
+        this.$emit("update", newValue, keyFirst, keySecond);
       } else {
-        //Get the modified subsectionItem
+        // Get the modified subsectionItem
         const key = keys[index];
 
-        //Ask for update on parent
+        // Ask for update on parent
         this.$emit("update", newValue, key);
       }
     },
 
-    //TO DO verify with V
     makeSucessBannerVisible() {
       if (this.showSucessBanner === false) {
         this.showSucessBanner = true;
@@ -260,10 +263,12 @@ export default {
       } else {
         if (this.timer) {
           clearTimeout(this.timer);
+
           this.timer = null;
         }
 
         this.showSucessBanner = false;
+
         setTimeout(() => {
           this.makeSucessBannerVisible();
         }, 100);
@@ -274,12 +279,11 @@ export default {
       this.isResetModalVisible = !this.isResetModalVisible;
     },
 
-    // EVENT LISTENERS
+    // --> EVENT LISTENERS <--
+
     onProceed() {
       this.restoreAction();
-
       this.toggleResetModal();
-
       this.makeSucessBannerVisible();
     },
 

@@ -9,8 +9,8 @@
    ********************************************************************** -->
 
 <template lang="pug">
-.c-base-spiner
-  span.c-base-spiner__loader
+.c-base-spinner
+  span.c-base-spinner__loader
 </template>
 
 <!-- **********************************************************************
@@ -19,7 +19,7 @@
 
 <script lang="ts">
 export default {
-  name: "BaseSpiner"
+  name: "BaseSpinner"
 };
 </script>
 
@@ -28,7 +28,7 @@ export default {
   ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-base-spiner";
+$c: ".c-base-spinner";
 
 #{$c} {
   #{$c}__loader {
@@ -52,6 +52,8 @@ $c: ".c-base-spiner";
     border: 4px solid $color-base-purple-normal;
     animation: prixClipFix 2s linear infinite;
   }
+
+  // --> KEYFRAMES <--
 
   @keyframes rotate {
     100% {

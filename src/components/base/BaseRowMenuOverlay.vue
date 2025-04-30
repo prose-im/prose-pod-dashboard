@@ -26,9 +26,9 @@ teleport(
       )
         li(
           v-for="(option, index) in options"
+          @click="onDropDownClick"
           @mouseenter="onOptionMouseEnter(index)"
           @mouseleave="onOptionMouseLeave(index)"
-          @click="onDropDownClick"
           :class=`[
             "c-base-row-menu__option",
             {

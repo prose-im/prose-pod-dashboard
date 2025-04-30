@@ -9,7 +9,9 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.v-start-login
+base-topography(
+  class="v-start-login"
+)
   .v-start-login__header
     base-identity-badge
 
@@ -103,12 +105,6 @@ export default {
 $c: ".v-start-login";
 
 #{$c} {
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
-    url("/images/components/base/BaseTopography.svg");
-  background-size: 35%;
   height: 100%;
   width: 100%;
   overflow: hidden;

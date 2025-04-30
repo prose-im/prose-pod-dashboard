@@ -53,20 +53,20 @@ transition(
 
     .c-base-modal-container__footer
       base-button(
+        @click="onClose"
         size="large"
         tint="grey"
-        @click="onClose"
       )
         | {{ abortButtonText }}
 
       base-button(
         v-if="buttonColor !== 'grey'"
         @click="onConfirm"
-        size="large"
-        class="c-base-modal-container__footer--extra-button"
         :disabled="disabled"
         :loading="loading"
         :tint="buttonColor"
+        size="large"
+        class="c-base-modal-container__footer--extra-button"
       )
         span(
           :class=`[
@@ -80,7 +80,6 @@ transition(
         span.c-base-modal-container__loader(
           v-if="loading"
         )
-
 </template>
 
 <!-- **********************************************************************
@@ -180,8 +179,6 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     onClose(event: Event) {
       this.$emit("closeModal", event);
@@ -275,7 +272,7 @@ $c: ".c-base-modal-container";
     }
   }
 
-  //<!-- POSITIONS -->
+  // --> POSITIONS <--
 
   &--center {
     max-width: 550px;
@@ -297,7 +294,7 @@ $c: ".c-base-modal-container";
     }
   }
 
-  //<!-- DISPLAYS -->
+  // --> DISPLAYS <--
 
   &--flex {
     display: flex;
@@ -308,12 +305,14 @@ $c: ".c-base-modal-container";
     visibility: hidden;
   }
 
-  //<!-- COLORS -->
+  // --> COLORS <--
+
   &--red {
     color: $color-base-red-normal;
   }
 
-  //<!-- LOADER -->
+  // --> LOADER <--
+
   #{$c}__loader {
     position: absolute !important;
     top: 40%;
@@ -335,6 +334,8 @@ $c: ".c-base-modal-container";
     border: 2px solid #fff;
     animation: prixClipFix 2s linear infinite;
   }
+
+  // --> KEYFRAMES <--
 
   @keyframes rotate {
     100% {

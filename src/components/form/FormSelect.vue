@@ -37,8 +37,8 @@ div(
       span(
         :class=`[
           "c-form-select__value",
-          "u-ellipsis",
           "c-form-select__value--menu",
+          "u-ellipsis",
           {
             "c-form-select__value--empty": !value,
           }
@@ -67,8 +67,6 @@ div(
   )
     ul.c-form-select__options(
       ref="options"
-      :class=`[
-      ]`
     )
       li(
         v-for="(option, index) in options"
@@ -115,6 +113,11 @@ export interface Option {
   disabled?: boolean;
 }
 
+export interface Icon {
+  component: object;
+  properties: (value: string) => object;
+}
+
 // CONSTANTS
 const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
   medium: {
@@ -137,11 +140,6 @@ const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
     arrow: "10px"
   }
 };
-
-export interface Icon {
-  component: object;
-  properties: (value: string) => object;
-}
 
 export default {
   name: "FormSelect",

@@ -24,9 +24,7 @@ div(
   .c-form-select-accordion__field(
     @click="onFieldClick"
   )
-    .c-form-select-accordion__inner(
-
-    )
+    .c-form-select-accordion__inner
       component(
         v-if="icon && value"
         v-bind="icon.properties(value)"
@@ -43,7 +41,7 @@ div(
           }
         ]`
       )
-        | {{ placeholder || "" }}
+        | {{ (placeholder || "") }}
 
       base-icon(
         :size="arrowSize"
@@ -56,16 +54,15 @@ div(
     :class=`[
       "c-form-select-accordion__dropdown",
     ]`
-
   )
     ul.c-form-select-accordion__options(
       ref="options"
     )
       li(
         v-for="(option, index) in filteredOptions"
+        @click="onDropDownClick"
         @mouseenter="onOptionMouseEnter(index)"
         @mouseleave="onOptionMouseLeave(index)"
-        @click="onDropDownClick"
         :class=`[
           "c-form-select-accordion__option",
           {
@@ -77,16 +74,17 @@ div(
       )
         router-link(
           :to="option.link"
-          class="c-form-select-accordion__link"
           @click="onOptionClick(option)"
+          class="c-form-select-accordion__link"
         )
           base-icon(
             v-if="option.icon"
-            fill="#000000"
             :name="option.icon"
+            fill="#000000"
             size="11px"
             class="c-form-select-accordion__link--icon"
           )
+
           span.c-form-select-accordion__value.u-ellipsis
             | {{ option.value }}
 </template>
@@ -104,6 +102,11 @@ export interface Option {
   value: string;
   label: string;
   disabled?: boolean;
+}
+
+export interface Icon {
+  component: object;
+  properties: (value: string) => object;
 }
 
 // CONSTANTS
@@ -128,11 +131,6 @@ const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
     arrow: "10px"
   }
 };
-
-export interface Icon {
-  component: object;
-  properties: (value: string) => object;
-}
 
 export default {
   name: "FormSelectAccordion",
@@ -210,6 +208,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       value: "",
       searchQuery: "",
 
@@ -292,6 +291,7 @@ export default {
 
     onHotkeyEscape(event: Event): void {
       this.eventOverrides(event);
+
       // Hide dropdown selector
       this.hideDropdown();
     },

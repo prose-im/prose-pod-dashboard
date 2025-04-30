@@ -4,9 +4,9 @@
  * Copyright 2024, Prose Foundation
  */
 
-// *************************************************************************
-//  * IMPORTS
-//  * *************************************************************************
+/* *************************************************************************
+ * IMPORTS
+ * ************************************************************************* */
 
 // NPM
 import { App } from "vue";
@@ -25,20 +25,20 @@ import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCu
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 import StartLogin from "@/views/app/start/StartLogin.vue";
+import StartInit from "@/views/app/start/StartInit.vue";
 import BrokenAPI from "@/views/app/placeholders/BrokenAPI.vue";
 import InvitationAccept from "@/views/app/invitations/InvitationAccept.vue";
 import InvitationReject from "@/views/app/invitations/InvitationReject.vue";
 
-// PROJECT: STORES
+// PROJECT: STORE
 import Store from "@/store";
-import StartInit from "@/views/app/start/StartInit.vue";
 
 // PROJECT: API
 import APIInit from "@/api/providers/init";
 
-// /**************************************************************************
-//  * ROUTER
-//  * ************************************************************************* */
+/* *************************************************************************
+ * ROUTER
+ * ************************************************************************* */
 
 class Router {
   private readonly __router: VueRouter;

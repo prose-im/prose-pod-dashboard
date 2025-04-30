@@ -32,6 +32,7 @@ export default {
       type: Array,
       required: true
     },
+
     disclosureListClass: {
       type: String,
       default: null
@@ -41,6 +42,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       category: ""
     };
   },
@@ -50,48 +52,51 @@ export default {
       get() {
         if (!this.category) {
           const route = this.$route;
+
           let activeCategory = "";
 
           switch (route.path) {
             case "/team/members": {
               activeCategory = "Members & Invites";
+
               break;
             }
 
             case "/server/configuration": {
               activeCategory = "Configuration";
+
               break;
             }
 
             case "/customization/workspace": {
               activeCategory = "Workspace";
+
               break;
             }
 
             case "/advanced/security": {
               activeCategory = "Security & Encryption";
+
               break;
             }
 
             case "/advanced/network": {
               activeCategory = "Network Setup";
+
               break;
             }
 
             case "/advanced/backup": {
               activeCategory = "Backup & Reset";
-              break;
-            }
 
-            default: {
               break;
             }
           }
 
           return activeCategory;
-        } else {
-          return this.category;
         }
+
+        return this.category;
       },
 
       set(value: string) {

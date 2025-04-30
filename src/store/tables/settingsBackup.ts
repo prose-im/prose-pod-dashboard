@@ -11,7 +11,9 @@
 // NPM
 import { defineStore } from "pinia";
 import mitt from "mitt";
-import store from "@/store/index";
+
+// PROJECT: STORE
+import store from "@/store";
 
 /* *************************************************************************
  * INTERFACES

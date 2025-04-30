@@ -9,32 +9,33 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-search-bar
-    .c-search-bar__content
-      .c-search-bar__left
-        base-icon(
-          size="14px"
-          name="magnifying.glass"
-          fill="#949eb1"
-          class="c-search-bar__magnifying"
-        )
-        form-field(
-          v-model="term"
-          @change="onInputChange"
-          :disabled="disabled"
-          :placeholder="'Search for' + ' ' + placeholderText"
-          type="text"
-          align="left"
-          class="c-search-bar__field"
-        )
+.c-search-bar
+  .c-search-bar__content
+    .c-search-bar__left
+      base-icon(
+        size="14px"
+        name="magnifying.glass"
+        fill="#949eb1"
+        class="c-search-bar__magnifying"
+      )
 
-      .c-search-bar__right
-        base-button(
-          tint="purple"
-          size="large"
-          @click="clickHandle"
-        )
-          | {{ buttonLabel }}
+      form-field(
+        v-model="term"
+        @change="onInputChange"
+        :disabled="disabled"
+        :placeholder="'Search for ' + placeholderText"
+        type="text"
+        align="left"
+        class="c-search-bar__field"
+      )
+
+    .c-search-bar__right
+      base-button(
+        tint="purple"
+        size="large"
+        @click="clickHandle"
+      )
+        | {{ buttonLabel }}
 </template>
 
 <!-- **********************************************************************

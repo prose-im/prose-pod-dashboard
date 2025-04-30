@@ -11,8 +11,10 @@
 // NPM
 import { defineStore } from "pinia";
 
-// PROJECT: UTILITIES
-import store from "@/store/index";
+// PROJECT: STORE
+import store from "@/store";
+
+// PROJECT: API
 import APIServerConfig, {
   DEFAULT_SERVER_CONFIG,
   TlsProfile
@@ -84,12 +86,13 @@ const $settingsSecurity = defineStore("settingsSecurity", {
             accountSecurity: {
               require2FA: response.mfa_required
             },
+
             networkEncryption: {
               tlsProfile: response.tls_profile
             }
           };
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when loading the global configuration:",
           JSON.stringify(error, null, 2)
@@ -104,7 +107,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
         this.$patch(() => {
           this.value.networkEncryption.tlsProfile = value;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting 'TLS profile':",
           JSON.stringify(error, null, 2)
@@ -119,7 +122,7 @@ const $settingsSecurity = defineStore("settingsSecurity", {
         this.$patch(() => {
           this.value.networkEncryption.tlsProfile = defaultValue;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when resetting 'TLS profile':",
           JSON.stringify(error, null, 2)

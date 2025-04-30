@@ -12,19 +12,20 @@
   .v-app-customization-workspace
     base-subsection(
       v-model="config.workspaceProfile"
+      :items="profileItems"
       ref="customizationSubsection"
       title="Workspace Profile"
-      :items="profileItems"
     )
 
     base-subsection(
       v-model="config.appearance"
-      title="Apps Appearance"
-      :items="appearanceItems"
       @update="onAppearanceUpdate"
+      :items="appearanceItems"
+      title="Apps Appearance"
     )
 
-  <!-- Modals -->
+  <!-- MODALS -->
+
   edit-name(
     v-if="activeModal === 'editName'"
     @close="toggleEditNameModalVisible"
@@ -67,7 +68,7 @@ import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
 import EditName from "@/assemblies/modals/customization/EditName.vue";
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
 // ENUMERATIONS
@@ -193,34 +194,44 @@ export default {
           subtitle: "Name for workspace",
           description:
             "The name of your workspace, as seen by server users as well as other servers on the network. It is recommended to enter the name of your company or organization.",
+
           type: "button",
           action: this.toggleEditNameModalVisible,
+
           typeProps: {
             label: "Edit name...",
             size: "medium"
           },
+
           slot: "text"
         },
+
         {
           subtitle: "Icon for workspace",
           description:
             "Upload a logo for your workspace. This will be visible next to your workspace name in various spots of the Prose app. Other servers on the network will see it as well.",
+
           type: "button",
           action: this.toggleEditLogoModalVisible,
+
           typeProps: {
             label: "Edit logo...",
             size: "medium"
           },
+
           slot: "avatar",
           slotName: store.$globalConfig.getDomain
         },
+
         {
           subtitle: "Server details card",
           description:
             "Configure extra details about your server, which is useful to other servers. This is especially useful if someone wants to obtain eg. the website of your organization and other details.",
+
           type: "button",
           disabled: true,
           action: this.toggleEditDetailCardModalVisible,
+
           typeProps: {
             label: "Edit details...",
             size: "medium"
@@ -234,6 +245,7 @@ export default {
           description:
             "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
           type: "select",
+
           typeProps: {
             options: ACCENT_COLORS.map(color => {
               return {
@@ -242,6 +254,7 @@ export default {
                 value: color.hex
               };
             }),
+
             align: "left",
             position: "top"
           }
@@ -275,6 +288,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     toggleEditNameModalVisible() {
       if (this.activeModal === "editName") {
         this.activeModal = null;
@@ -300,6 +314,7 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
+
     onAppearanceUpdate(newValue: string, changedKey: AppearanceKey) {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
@@ -309,16 +324,11 @@ export default {
             } else {
               store.$customizationWorkspace.setWorkspaceAccentColor(newValue);
             }
-            break;
-          }
 
-          default: {
             break;
           }
         }
       }
-
-      return;
     },
 
     onShowSuccess() {

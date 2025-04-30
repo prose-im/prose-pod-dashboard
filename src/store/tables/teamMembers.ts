@@ -9,6 +9,9 @@
  * ************************************************************************* */
 
 // NPM
+import { defineStore } from "pinia";
+
+// PROJECT: API
 import APITeamMembers, {
   Member,
   MemberRole,
@@ -19,7 +22,6 @@ import APIInvitations, {
   Invitation,
   InvitationId
 } from "@/api/providers/invitations";
-import { defineStore } from "pinia";
 import { BareJid, EmailAddress, JidLocalPart } from "@/api/providers/global";
 
 /* *************************************************************************
@@ -70,6 +72,7 @@ const $teamMembers = defineStore("teamMembers", {
 
   actions: {
     // <-- ACTIVE MEMBERS -->
+
     async loadActiveMembersByPage(
       reload = false,
       page = 1,
@@ -77,8 +80,7 @@ const $teamMembers = defineStore("teamMembers", {
     ): Promise<void> {
       // Load channels? (or reload)
       if (LOCAL_STATES.loaded === false || reload === true) {
-        // Load all Members (non enriched)
-
+        // Load all members (non enriched)
         if (!searchTerm) {
           const response = await APITeamMembers.getMembersByPage(page);
 
@@ -92,7 +94,7 @@ const $teamMembers = defineStore("teamMembers", {
           this.members = new Map(response.map(member => [member.jid, member]));
         }
 
-        // Create a JID Array to ask enrichment
+        // Create a JID array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
 
         // Enrich members
@@ -100,13 +102,17 @@ const $teamMembers = defineStore("teamMembers", {
           setTimeout(resolve, 5000);
 
           const eventSource = APITeamMembers.enrichMembersStream(jidsToEnrich);
+
           eventSource.addEventListener("enriched-member", event => {
             this.members.set(event.lastEventId, JSON.parse(event.data));
           });
+
           eventSource.addEventListener("end", () => {
             eventSource.close();
+
             resolve();
           });
+
           eventSource.onerror = error => {
             console.error("Error when enriching members:", error);
           };
@@ -123,6 +129,7 @@ const $teamMembers = defineStore("teamMembers", {
 
     updateRoleLocally(jid: BareJid, newValue: MemberRole) {
       const member = this.members.get(jid);
+
       if (member) {
         member.role = newValue;
       }
@@ -154,17 +161,17 @@ const $teamMembers = defineStore("teamMembers", {
     },
 
     getFilteredInviteList(filter?: string) {
-      /** Searching bar filter */
+      // Searching bar filter
       if (!filter) {
         return this.invitedMembers;
-      } else {
-        // Loop through all invited members
-        const response = this.invitedMembers.filter(member => {
-          return member.contact.email_address.includes(filter);
-        });
-
-        return response;
       }
+
+      // Loop through all invited members
+      const response = this.invitedMembers.filter(member => {
+        return member.contact.email_address.includes(filter);
+      });
+
+      return response;
     },
 
     async sendInvitation(

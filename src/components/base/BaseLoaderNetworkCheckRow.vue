@@ -8,25 +8,27 @@
      TEMPLATE
      ********************************************************************** -->
 <template lang="pug">
-.c-base-loader-network-check-row(
-  class="c-base-loader-network-check-row--flex"
-)
+.c-base-loader-network-check-row.c-base-loader-network-check-row--flex
   base-pulse-icon(
     class="c-base-loader-network-check-row__icon"
   )
 
-  .c-base-loader-network-check-row__right(
-    :class=`[
-      "c-base-loader-network-check-row--flex",
-    ]`
-  )
-    .c-base-loader-network-check-row__loading(
-      class="c-base-loader-network-check-row__animated"
-    )
+  .c-base-loader-network-check-row__right.c-base-loader-network-check-row--flex
+    .c-base-loader-network-check-row__loading.c-base-loader-network-check-row__animated
 
     p.c-base-loader-network-check-row__status
       | Pending
 </template>
+
+<!-- **********************************************************************
+      SCRIPT
+      ********************************************************************** -->
+
+<script lang="ts">
+export default {
+  name: "BaseLoaderNetworkCheckRow"
+};
+</script>
 
 <!-- **********************************************************************
      STYLE

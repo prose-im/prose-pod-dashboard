@@ -36,7 +36,7 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
 export default {

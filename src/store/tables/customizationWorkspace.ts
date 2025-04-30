@@ -11,7 +11,7 @@
 // NPM
 import { defineStore } from "pinia";
 
-// PROJECT: UTILITIES
+// PROJECT: API
 import APIWorkspace, {
   WorkspaceIcon,
   WorkspaceName
@@ -47,6 +47,7 @@ interface CustomizationWorkspaceConfig {
 const LOCAL_STATES = {
   configLoaded: false
 };
+
 // TODO: Use `ACCENT_COLORS` from `AppCustomizationWorkspace.vue`.
 const DEFAULT_ACCENT_COLOR = "#2490F0";
 
@@ -95,20 +96,20 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     async loadWorkspaceConfig(reload = false): Promise<void> {
       // Load information? (or reload)
       if (LOCAL_STATES.configLoaded === false || reload === true) {
-        // Load globalConfig configuration
-
+        // Load global configuration
         try {
           const workspace = await APIWorkspace.getWorkspace();
 
           this.$patch(() => {
             this.appearance.color =
               workspace.accent_color ?? DEFAULT_ACCENT_COLOR;
+
             this.workspaceProfile = {
               name: workspace.name,
               logo: workspace.icon
             };
           });
-        } catch (error: any) {
+        } catch (error) {
           console.error(
             "Error when loading the Workspace:",
             JSON.stringify(error, null, 2)
@@ -124,7 +125,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         this.$patch(() => {
           this.workspaceProfile.name = workspaceName;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting the Workspace name:",
           JSON.stringify(error, null, 2)
@@ -139,7 +140,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         this.$patch(() => {
           this.workspaceProfile.logo = workspaceIcon;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting the Workspace icon:",
           JSON.stringify(error, null, 2)
@@ -156,7 +157,7 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
         this.$patch(() => {
           this.appearance.color = workspaceAccentColor ?? DEFAULT_ACCENT_COLOR;
         });
-      } catch (error: any) {
+      } catch (error) {
         console.error(
           "Error when setting the Workspace accent color:",
           JSON.stringify(error, null, 2)

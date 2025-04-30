@@ -11,7 +11,7 @@
 <template lang="pug">
 .c-base-notification
   p
-    | Sucess
+    | Success
 
   base-icon(
     class="c-base-notification__icon"
@@ -26,12 +26,6 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-
-// STORE
-
-// PACKAGES
-
 export default {
   name: "BaseNotification",
 
@@ -40,21 +34,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-
-  emits: [],
-
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  methods: {
-    // --> HELPERS <--
-    // --> EVENT LISTENERS <--
   }
 };
 </script>

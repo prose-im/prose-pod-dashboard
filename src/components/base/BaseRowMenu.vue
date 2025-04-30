@@ -24,9 +24,9 @@ div(
     )
       li(
         v-for="(option, index) in options"
+        @click="onDropDownClick"
         @mouseenter="onOptionMouseEnter(index)"
         @mouseleave="onOptionMouseLeave(index)"
-        @click="onDropDownClick"
         :class=`[
           "c-base-row-menu__option",
           {
@@ -36,12 +36,12 @@ div(
         ]`
       )
         .c-base-row-menu__link(
+          @click="onOptionClick(option)"
           :class=`[
             {
               ["c-base-row-menu__link--" + option.color]: option.color
             }
           ]`
-          @click="onOptionClick(option)"
         )
           span.c-base-row-menu__value.u-ellipsis
             | {{ option?.value }}
@@ -93,6 +93,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       hoveredIndex: -1,
 
       isVisible: true,
@@ -303,6 +304,7 @@ $options-border-radius: 6px;
   }
 
   // --> BOOLEANS <--
+
   &--disabled {
     cursor: not-allowed;
 

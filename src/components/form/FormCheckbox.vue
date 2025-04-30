@@ -23,8 +23,8 @@ div(
     @change="onInputChange"
     :name="name"
     :checked="modelValue"
-    class="c-form-checkbox__input"
     type="checkbox"
+    class="c-form-checkbox__input"
   )
 
   label.c-form-checkbox__label(
@@ -301,6 +301,7 @@ $c: ".c-form-checkbox";
   }
 
   // --> COLORS <--
+
   &--black {
     color: $color-text-primary;
   }

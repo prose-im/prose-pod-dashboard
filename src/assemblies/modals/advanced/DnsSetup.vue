@@ -103,7 +103,7 @@ export default {
     }
   },
 
-  emits: ["close", "proceed"],
+  emits: ["close"],
 
   data() {
     return {

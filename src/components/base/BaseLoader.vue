@@ -48,10 +48,12 @@ $c: ".c-base-loader";
     border-radius: 7px;
     background: linear-gradient(90deg, #0001 33%, #0005 50%, #0001 66%) #f2f2f2;
     background-size: 300% 100%;
-    animation: l1 1s infinite linear;
+    animation: loader 1s infinite linear;
   }
 
-  @keyframes l1 {
+  // --> KEYFRAMES <--
+
+  @keyframes loader {
     0% {
       background-position: right;
     }

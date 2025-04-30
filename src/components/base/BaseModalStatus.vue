@@ -8,25 +8,25 @@
      TEMPLATE
      *************************************************************** -->
 <template lang="pug">
-  .c-base-modal-status
-    base-pulse-icon(
-      v-if="status === 'pending'"
-      class="c-base-modal-status__icon"
-    )
+.c-base-modal-status
+  base-pulse-icon(
+    v-if="status === 'pending'"
+    class="c-base-modal-status__icon"
+  )
 
-    base-icon(
-      v-else
-      :name="iconName"
-      :fill="color"
-      class="c-base-modal-status__icon"
-    )
+  base-icon(
+    v-else
+    :name="iconName"
+    :fill="color"
+    class="c-base-modal-status__icon"
+  )
 
-    p(
-      :style=`{
-        color: color,
-      }`
-    )
-      | {{ label }}
+  p(
+    :style=`{
+      color: color,
+    }`
+  )
+    | {{ label }}
 </template>
 
 <!-- **********************************************************************
@@ -34,13 +34,16 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { PropType } from "vue";
+
+// PROJECT: API
 import {
   DnsRecordStatus,
   IpConnectivityStatus,
   PortReachabilityStatus,
   AnyNetworkCheckStatus
 } from "@/api/providers/networkConfig";
-import { PropType } from "vue";
 
 export default {
   name: "BaseModalStatus",
@@ -92,9 +95,11 @@ export default {
         case IpConnectivityStatus.Failure: {
           return "Warning";
         }
-      }
 
-      return null;
+        default: {
+          return null;
+        }
+      }
     }
   }
 };

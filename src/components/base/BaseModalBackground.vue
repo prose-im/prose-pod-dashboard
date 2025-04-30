@@ -10,10 +10,10 @@
 
 <template lang="pug">
 .c-base-modal-background(
+  @click.self="onClickAway"
   :class=`[
     "c-base-modal-background--" + position
   ]`
-  @click.self="onClickAway"
 )
   slot
 </template>
@@ -53,8 +53,6 @@ export default {
 
 <style lang="scss">
 $c: ".c-base-modal-background";
-
-// VARIABLES
 
 #{$c} {
   background-color: rgba($color-base-grey-normal, 0.4);

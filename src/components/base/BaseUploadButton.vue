@@ -11,26 +11,26 @@
 <template lang="pug">
 .c-base-upload-button
   base-button(
-    tint="white"
     :disabled="disabled"
+    tint="white"
   )
     | {{ label }}
 
   input(
     @change="onChange"
+    :accept="accept"
+    :disabled="disabled"
+    :style=`{
+      width: width
+    }`
     :class=`[
       "c-base-upload-button__input",
       {
         "c-base-upload-button__input--disabled": disabled
       }
     ]`
-    :accept="accept"
     type="file"
-    :disabled="disabled"
     ref="fileInput"
-    :style=`{
-      width: width
-    }`
   )
 </template>
 

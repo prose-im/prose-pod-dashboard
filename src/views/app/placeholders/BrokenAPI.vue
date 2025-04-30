@@ -9,7 +9,9 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.v-broken-api
+base-topography(
+  class="v-broken-api"
+)
   .v-broken-api__content
     h1
       | Sorry, we're experiencing technical problems
@@ -18,7 +20,7 @@
       | Please try again later
 
     base-button(
-      @click="onRetry"
+      @click="onRetryClick"
       class="v-broken-api__button"
       size="medium"
       tint="purple"
@@ -36,9 +38,9 @@ export default {
   name: "BrokenAPI",
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
 
-    onRetry() {
+    onRetryClick() {
       this.$router.push({
         name: "app"
       });
@@ -60,12 +62,6 @@ $c: ".v-broken-api";
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
-    url("/images/components/base/BaseTopography.svg");
-  background-size: 35%;
   text-align: center;
 
   h1 {

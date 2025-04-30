@@ -140,8 +140,8 @@ export default {
     visible(newVisibility, oldVisibility) {
       setTimeout(() => (this.loaded = newVisibility), 10);
 
-      // If the visibility has changed and is true,
-      // the baseModal can load its contents
+      // If the visibility has changed and is true, the modal can load its \
+      //   contents
       if (newVisibility === true && newVisibility !== oldVisibility) {
         this.$emit("load");
       }

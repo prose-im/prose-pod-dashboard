@@ -9,9 +9,9 @@
     ********************************************************************** -->
 
 <template lang="pug">
-  .c-base-pulse-icon
-    .c-base-pulse-icon__inner
-    .c-base-pulse-icon__outer
+.c-base-pulse-icon
+  .c-base-pulse-icon__inner
+  .c-base-pulse-icon__outer
 </template>
 
 <!-- **********************************************************************
@@ -69,6 +69,8 @@ $c: ".c-base-pulse-icon";
     animation: 1.5s ease-out infinite pulse;
   }
 }
+
+// --> KEYFRAMES <--
 
 @keyframes pulse {
   0% {

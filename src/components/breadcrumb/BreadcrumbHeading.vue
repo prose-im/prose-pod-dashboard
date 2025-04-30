@@ -13,22 +13,22 @@
   nav.c-breadcrumb-heading__nav
     ul.c-breadcrumb-heading__list
       li(
+        v-for="(crumb, index) in breadcrumbs"
+        :key="index"
         class=`[
           "c-breadcrumb-heading__list-element"
         ]`
-        v-for="(crumb, index) in breadcrumbs"
-        :key="index"
       )
         p
           | {{ crumb }}
 
         base-icon(
-          v-if="index !== breadcrumbs.length -1"
-          class="c-breadcrumb-heading__icon"
+          v-if="index !== (breadcrumbs.length - 1)"
           name="chevron.right"
           size="11px"
           width="6.35px"
           fill="#949eb1"
+          class="c-breadcrumb-heading__icon"
         )
 </template>
 
@@ -53,6 +53,7 @@ export default {
 
       const route = this.$route || "/team/members";
       const matchedRoutes = route.path.split("/");
+
       matchedRoutes.shift();
 
       matchedRoutes.forEach((label, index) => {
@@ -60,18 +61,25 @@ export default {
           switch (label) {
             case "team": {
               breadcrumbs.push("Team Members");
+
               break;
             }
+
             case "server": {
               breadcrumbs.push("Server Features");
+
               break;
             }
+
             case "advanced": {
               breadcrumbs.push("Advanced Settings");
+
               break;
             }
+
             default: {
               breadcrumbs.push(this.capitalizeFirst(label));
+
               break;
             }
           }
@@ -79,22 +87,31 @@ export default {
           switch (label) {
             case "members": {
               breadcrumbs.push("Members & Invites");
+
               break;
             }
+
             case "security": {
               breadcrumbs.push("Security & Encryption");
+
               break;
             }
+
             case "network": {
               breadcrumbs.push("Network Setup");
+
               break;
             }
+
             case "backup": {
               breadcrumbs.push("Backup & Reset");
+
               break;
             }
+
             default: {
               breadcrumbs.push(this.capitalizeFirst(label));
+
               break;
             }
           }
@@ -107,6 +124,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     capitalizeFirst(word: string) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }

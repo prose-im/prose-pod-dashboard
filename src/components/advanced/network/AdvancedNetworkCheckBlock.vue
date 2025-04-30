@@ -42,11 +42,12 @@
       )
         base-icon(
           :name="getIconName(status)"
-          class="c-advanced-network-check-block__icon"
           :fill="colorCode(status)"
+          class="c-advanced-network-check-block__icon"
           size="14.5px"
         )
         p {{ description }}
+
       p {{ getStatusDisplay(status) }}
 </template>
 
@@ -55,6 +56,10 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { PropType } from "vue";
+
+// PROJECT: API
 import {
   AnyNetworkCheckStatus,
   DnsRecordStatus,
@@ -62,7 +67,6 @@ import {
   PortReachabilityStatus,
   CheckResultData
 } from "@/api/providers/networkConfig";
-import { PropType } from "vue";
 
 export default {
   name: "AdvancedNetworkCheckBlock",
@@ -94,12 +98,6 @@ export default {
       >,
       required: true
     }
-  },
-
-  data() {
-    return {
-      // --> STATE <--
-    };
   },
 
   computed: {
@@ -143,9 +141,11 @@ export default {
         case DnsRecordStatus.PartiallyValid: {
           return isString ? "orange" : "#fc8227";
         }
-      }
 
-      return null;
+        default: {
+          return null;
+        }
+      }
     },
 
     getIconName(status: AnyNetworkCheckStatus) {
@@ -177,9 +177,11 @@ export default {
         case DnsRecordStatus.PartiallyValid: {
           return "exclamationmark.circle.fill";
         }
-      }
 
-      return null;
+        default: {
+          return null;
+        }
+      }
     },
 
     getStatusDisplay(status: AnyNetworkCheckStatus) {
@@ -199,9 +201,11 @@ export default {
         case DnsRecordStatus.Valid: {
           return "Record is valid";
         }
+
         case DnsRecordStatus.Invalid: {
           return "Record is not valid";
         }
+
         case DnsRecordStatus.PartiallyValid: {
           return "Record is partially valid";
         }
@@ -209,6 +213,7 @@ export default {
         case PortReachabilityStatus.Open: {
           return "Port is open";
         }
+
         case PortReachabilityStatus.Closed: {
           return "Port is closed";
         }
@@ -216,12 +221,15 @@ export default {
         case IpConnectivityStatus.Success: {
           return "Connectivity is OK";
         }
+
         case IpConnectivityStatus.Failure: {
           return "No address available";
         }
-      }
 
-      return null;
+        default: {
+          return null;
+        }
+      }
     }
   }
 };
@@ -312,7 +320,8 @@ $c: ".c-advanced-network-check-block";
     align-items: center;
   }
 
-  //<!-- COLORS -->
+  // --> COLORS <--
+
   &--blue {
     color: $color-base-blue-normal;
 

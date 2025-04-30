@@ -26,6 +26,7 @@ div(
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: API
 import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 
 export default {
@@ -77,6 +78,7 @@ $badge-padding-inline: 7px;
   border-radius: 5px;
 
   // --> SIZES <--
+
   &--long {
     text-align: center;
     min-width: 36px;
@@ -86,6 +88,7 @@ $badge-padding-inline: 7px;
   }
 
   // --> BOOLEANS <--
+
   &--admin {
     background-color: $color-base-blue-normal;
   }

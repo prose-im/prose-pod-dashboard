@@ -13,27 +13,27 @@
   base-subsection(
     v-model="config"
     @update="onBackupUpdate"
-    title="Backup Settings"
     :items="backupItems"
+    title="Backup Settings"
   )
 
   base-subsection(
-    title="Export Data"
     :items="exportItems"
+    title="Export Data"
   )
 
   base-subsection(
-    title="Danger Zone"
     :items="dangerItems"
-    sup="tm"
+    title="Danger Zone"
     title-color="red"
+    sup="tm"
   )
 
-<!-- Modals -->
+<!-- MODALS -->
+
 restore-backup(
   v-if="activeModal === 'restore'"
   @close="toggleRestoreModalVisible"
-  @proceed=""
   :visibility="restoreModalVisibility"
 )
 
@@ -49,11 +49,11 @@ factory-reset(
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
+// PROJECT: ASSEMBLIES
 import FactoryReset from "@/assemblies/modals/advanced/FactoryReset.vue";
 import RestoreBackup from "@/assemblies/modals/advanced/RestoreBackup.vue";
 
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
 // ENUMERATIONS
@@ -78,6 +78,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       activeModal: null as string | null,
 
       restoreModalVisibility: false,
@@ -90,27 +91,32 @@ export default {
             "The settings of your Prose Pod are backed up periodically and can be restored if you make a mistake, or if you want to transfer your Pod settings to a new server.",
           type: "doubleSelect",
           disabled: true,
+
           typeProps: {
             options: [
               {
                 label: "Daily",
                 value: "P1D"
               },
+
               {
                 label: "Weekly",
                 value: "P1W"
               }
             ],
+
             secondOptions: [
               {
                 label: "at 1am",
                 value: "01"
               },
+
               {
                 label: "at 2am",
                 value: "02"
               }
             ],
+
             size: "medium",
             minWidth: "94px"
           }
@@ -122,27 +128,32 @@ export default {
             "All your Prose Pod user data gets backed up periodically and can be restored to a new server anytime. Note that user data backups can be quite heavy depending on your workspace size.",
           type: "doubleSelect",
           disabled: true,
+
           typeProps: {
             options: [
               {
                 label: "Daily",
                 value: "P1D"
               },
+
               {
                 label: "Weekly",
                 value: "P1W"
               }
             ],
+
             secondOptions: [
               {
                 label: "at 1am",
                 value: "01"
               },
+
               {
                 label: "at 2am",
                 value: "02"
               }
             ],
+
             size: "medium",
             minWidth: "94px"
           }
@@ -157,6 +168,7 @@ export default {
           type: "button",
           disabled: true,
           color: "bwPurple",
+
           typeProps: {
             label: "Download backup",
             size: "mid-medium"
@@ -172,6 +184,7 @@ export default {
           type: "button",
           disabled: true,
           action: this.toggleRestoreModalVisible,
+
           typeProps: {
             label: "Restore from backup…",
             size: "mid-medium"
@@ -185,6 +198,7 @@ export default {
           type: "button",
           action: this.toggleResetModalVisible,
           color: "redShell",
+
           typeProps: {
             label: "Start factory reset…",
             size: "mid-medium"
@@ -219,6 +233,7 @@ export default {
 
   methods: {
     // --> HELPERS <--
+
     toggleRestoreModalVisible() {
       if (this.activeModal === "restore") {
         this.activeModal = null;
@@ -246,14 +261,12 @@ export default {
         switch (changedKey) {
           case "podBackup": {
             /// TODO
-            // console.log("call to store for podBackup", changedSubKey);
-            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+
             break;
           }
           case "userDataBackup": {
             /// TODO
-            // console.log("call to store for userDataBackup", changedSubKey);
-            // store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+
             break;
           }
         }

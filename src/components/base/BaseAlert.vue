@@ -19,12 +19,7 @@ transition(
     @mouseleave="onMouseLeave"
     :class=`[
       "c-base-alert",
-      "c-base-alert--" + level,
-      {
-        "c-base-alert--with-toolbar": hasToolbar,
-        "c-base-alert--with-sidebar": hasSidebar,
-        "c-base-alert--with-inbox-details": hasInboxDetails
-      }
+      "c-base-alert--" + level
     ]`
   )
     .c-base-alert__inner
@@ -206,18 +201,6 @@ export default {
           return "#000000";
         }
       }
-    },
-
-    hasToolbar(): boolean {
-      return false; //this.session.interface.toolbar.mounted || false;
-    },
-
-    hasSidebar(): boolean {
-      return false; //this.session.interface.sidebar.mounted || false;
-    },
-
-    hasInboxDetails(): boolean {
-      return false; //this.session.interface.inboxDetails.mounted || false;
     },
 
     session(): typeof Store.$session {
@@ -453,20 +436,6 @@ $alert-padding-sides: 12px;
     #{$c}__text-title {
       color: $color-base-green-normal;
     }
-  }
-
-  // --> BOOLEANS <--
-
-  &--with-toolbar {
-    margin-block-start: $size-layout-view-topbar-height;
-  }
-
-  &--with-sidebar {
-    padding-inline-start: ($alert-padding-sides + $size-sidebar-width);
-  }
-
-  &--with-inbox-details {
-    padding-inline-end: ($alert-padding-sides + $size-inbox-details-width);
   }
 }
 </style>

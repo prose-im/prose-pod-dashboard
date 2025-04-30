@@ -12,34 +12,34 @@
 .c-base-navigation-footer
   .c-base-navigation-footer__content
     base-button(
+      @click="$emit('navFooterUpdate', 'back')"
       :disabled="page === 1"
       size="mid-medium"
       tint="white"
-      :square="true"
-      @click="$emit('navFooterUpdate', 'back')"
+      square
     )
       base-icon(
+        :stroke="arrowColor"
         name="arrow.left"
         size="10px"
         width="11px"
-        :stroke="arrowColor"
       )
 
     p
       | {{ from || 'x' }} to {{ to || 'y' }} out of {{ total }} total {{ listing }}
 
     base-button(
+      @click="$emit('navFooterUpdate', 'forth')"
       :disabled="!notLastPage"
       size="mid-medium"
       tint="white"
-      :square="true"
-      @click="$emit('navFooterUpdate', 'forth')"
+      square
     )
       base-icon(
+        :stroke="arrowColor"
         name="arrow.right"
         size="10px"
         width="11px"
-        :stroke="arrowColor"
       )
 </template>
 
@@ -48,6 +48,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: API
 import { PAGE_SIZE } from "@/api/providers/members";
 
 export default {
@@ -88,9 +89,9 @@ export default {
     arrowColor() {
       if (this.page !== 1 && this.notLastPage) {
         return "#000000";
-      } else {
-        return "#495462";
       }
+
+      return "#495462";
     }
   }
 };

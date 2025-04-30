@@ -9,14 +9,14 @@
  ********************************************************************** -->
 
 <template lang="pug">
-  div(
-    :class=`[
-      "c-base-coming-soon",
-      "c-base-coming-soon--" + size,
-    ]`
-  )
-    p
-      | {{ text }}
+div(
+  :class=`[
+    "c-base-coming-soon",
+    "c-base-coming-soon--" + size,
+  ]`
+)
+  p
+    | {{ text }}
   </template>
 
 <!-- **********************************************************************
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       label: "Coming Soon"
     };
   },
@@ -57,17 +58,19 @@ export default {
       switch (this.cases) {
         case "lower": {
           comingSoon = "Coming soon";
+
           break;
         }
+
         case "upper": {
           comingSoon = this.label.toUpperCase();
+
           break;
         }
+
         case "mix": {
           comingSoon = this.label;
-          break;
-        }
-        default: {
+
           break;
         }
       }
@@ -110,6 +113,7 @@ $badge-padding-inline: 7px;
   }
 
   // --> SIZES <--
+
   &--long {
     text-align: center;
     min-width: 36px;

@@ -45,11 +45,13 @@ base-modal(
      ********************************************************************** -->
 
 <script lang="ts">
-// STORE
+// PROJECT: STORE
 import store from "@/store";
 
-// TYPES
+// PROJECT: API
 import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
+
+// PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {

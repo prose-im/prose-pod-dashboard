@@ -9,14 +9,16 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.v-invitation-accept
+base-topography(
+  class="v-invitation-accept"
+)
   init-sidebar(
     :items="items"
     :step="currentStep"
   )
 
   .v-invitation-accept__content
-    h3 
+    h3
       | 👋 Welcome to Prose!
 
     p.v-invitation-accept__subtitle
@@ -27,20 +29,15 @@
       @changeStep="onSubmit"
       :secondary-input="password"
       :form-visible="currentStep === 1"
-      class="v-invitation-accept__form"
-      
+      :tips="tip"
       placeholder="How should people call you?"
       type="text"
-
       secondary-placeholder="Password"
       secondary-type="password"
-
       button-label="Create my account"
-      :tips="tip"
       form-type="double"
+      class="v-invitation-accept__form"
     )
-
-
 </template>
 
 <!-- **********************************************************************
@@ -48,13 +45,18 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import InitForm from "@/components/init/InitForm.vue";
 import InitSidebar from "@/components/init/InitSidebar.vue";
+
+// PROJECT: API
 import APIInvitations, {
   InvitationTokenType,
   InvitationBasicDetails
 } from "@/api/providers/invitations";
+
+// PROJECT: STORE
 import Store from "@/store";
 
 export default {
@@ -76,6 +78,7 @@ export default {
     return {
       nickname: "",
       password: "",
+
       invitationDetails: null as InvitationBasicDetails | null,
       invitationExpired: null as boolean | null,
 
@@ -105,9 +108,9 @@ export default {
         this.token,
         InvitationTokenType.Accept
       );
-    } catch (e: any) {
-      console.error(e);
+    } catch (_) {
       this.invitationExpired = true;
+
       this.$router.push({
         name: "invitations.reject"
       });
@@ -122,6 +125,7 @@ export default {
           "This invitation has probably expired"
         );
       }
+
       if (!this.nickname || !this.password) {
         return BaseAlert.error("All fields are required");
       }
@@ -131,8 +135,7 @@ export default {
           nickname: this.nickname,
           password: this.password
         });
-      } catch (e: any) {
-        console.error(e);
+      } catch (_) {
         return BaseAlert.error(
           "Something went wrong",
           "We couldn’t accept this invitation"
@@ -140,10 +143,12 @@ export default {
       }
 
       await Store.$account.login(this.invitationDetails.jid, this.password);
+
       BaseAlert.success(
         "Account created successfully",
         "Redirecting you to the Dashboard…"
       );
+
       setTimeout(
         () =>
           this.$router.push({
@@ -167,13 +172,6 @@ $c: ".v-invitation-accept";
   display: flex;
   height: 100%;
   width: 100%;
-  overflow: hidden;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
-    ),
-    url("/images/components/base/BaseTopography.svg");
-  background-size: 35%;
   overflow: auto;
 
   h1 {

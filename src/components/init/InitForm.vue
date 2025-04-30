@@ -24,45 +24,45 @@
         @submit.prevent="onSubmit"
         :class=`[
           {
-            "c-init-form__field-block--flex" : formType === 'single',
-            "c-init-form__field-block--block" : formType !== 'single'
+            "c-init-form__field-block--flex": (formType === 'single'),
+            "c-init-form__field-block--block": (formType !== 'single')
           }
         ]`
       )
         form-field(
           v-model="input"
+          @keyup.enter="onKeyupFirstInput"
+          :placeholder="placeholder"
+          :type="type"
           ref="firstFormField"
-          class="c-init-form__field"
           autofocus
           align="left"
-          :placeholder="placeholder"
           size="ultra-large"
-          :type="type"
-          @keyup.enter="onKeyupFirstInput"
+          class="c-init-form__field"
         )
 
         form-field(
           v-if="secondaryType"
           v-model="secondInput"
+          @keyup.enter="onKeyupSecondInput"
+          :placeholder="secondaryPlaceholder"
+          :type="secondaryType"
           ref="secondFormField"
           align="left"
-          class="c-init-form__field"
-          :placeholder="secondaryPlaceholder"
           size="ultra-large"
-          :type="secondaryType"
-          @keyup.enter="onKeyupSecondInput"
+          class="c-init-form__field"
         )
 
         form-field(
           v-if="tertiaryType"
           v-model="thirdInput"
+          @keyup.enter="onSubmit"
+          :placeholder="tertiaryPlaceholder"
+          :type="tertiaryType"
           ref="thirdFormField"
           align="left"
-          class="c-init-form__field"
-          :placeholder="tertiaryPlaceholder"
           size="ultra-large"
-          :type="tertiaryType"
-          @keyup.enter="onSubmit"
+          class="c-init-form__field"
         )
 
         base-button(
@@ -94,6 +94,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: COMPONENTS
 import FormField from "@/components/form/FormField.vue";
 import InitTips from "@/components/init/InitTips.vue";
 
@@ -120,43 +121,52 @@ export default {
       default: false
     },
 
-    ///First input
+    // First input
+
     modelValue: {
       type: String,
       default: ""
     },
+
     placeholder: {
       type: String,
       default: ""
     },
+
     type: {
       type: String,
       default: "text"
     },
 
-    ///Second input
+    // Second input
+
     secondaryInput: {
       type: String,
       default: ""
     },
+
     secondaryPlaceholder: {
       type: String,
       default: ""
     },
+
     secondaryType: {
       type: String,
       default: ""
     },
 
-    ///Third input
+    // Third input
+
     tertiaryInput: {
       type: String,
       default: ""
     },
+
     tertiaryPlaceholder: {
       type: String,
       default: ""
     },
+
     tertiaryType: {
       type: String,
       default: ""
@@ -178,6 +188,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       firstInputValidated: false,
 
       loaded: false
@@ -189,6 +200,7 @@ export default {
       get() {
         return this.modelValue;
       },
+
       set(value: string) {
         this.$emit("update:modelValue", value);
       }
@@ -198,6 +210,7 @@ export default {
       get() {
         return this.secondaryInput;
       },
+
       set(value: string) {
         this.$emit("updateSecondInput", value);
       }
@@ -207,6 +220,7 @@ export default {
       get() {
         return this.tertiaryInput;
       },
+
       set(value: string) {
         this.$emit("updateThirdInput", value);
       }
@@ -215,7 +229,7 @@ export default {
 
   watch: {
     formVisible: {
-      handler(newVisibility, oldVisibility) {
+      handler(newVisibility) {
         setTimeout(() => (this.loaded = newVisibility), 10);
       },
 
@@ -226,27 +240,30 @@ export default {
   methods: {
     onSubmit() {
       this.firstInputValidated = false;
+
       this.$emit("changeStep");
     },
 
-    // Focus on second input if there's more than 2 inputs
     onKeyupFirstInput() {
+      // Focus on second input if there's more than 2 inputs
       if (this.formType !== "single" && this.input) {
         (
           this.$refs.firstFormField as InstanceType<typeof FormField>
         ).unfocusFieldFromParent();
+
         (
           this.$refs.secondFormField as InstanceType<typeof FormField>
         ).focusFieldFromParent();
       }
     },
 
-    // Focus on third input if there's 3 inputs
     onKeyupSecondInput() {
+      // Focus on third input if there's 3 inputs
       if (this.formType !== "single" && this.input) {
         (
           this.$refs.secondFormField as InstanceType<typeof FormField>
         ).unfocusFieldFromParent();
+
         (
           this.$refs.thirdFormField as InstanceType<typeof FormField>
         ).focusFieldFromParent();
