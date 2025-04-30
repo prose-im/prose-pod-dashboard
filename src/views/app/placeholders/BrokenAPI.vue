@@ -11,9 +11,9 @@
 <template lang="pug">
 .v-broken-api
   .v-broken-api__content
-    h1 
-      | Sorry, we're experiencing technical problems 
-      
+    h1
+      | Sorry, we're experiencing technical problems
+
     span.v-broken-api__subtitle
       | Please try again later
 
@@ -36,6 +36,8 @@ export default {
   name: "BrokenAPI",
 
   methods: {
+    // --> HELPERS <--
+
     onRetry() {
       this.$router.push({
         name: "app"

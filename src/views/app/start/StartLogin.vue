@@ -52,6 +52,7 @@ export default {
   },
 
   created() {
+    // Pop alert if we just got logged-out?
     if (this.$route.query.action === "logout") {
       BaseAlert.info("Logged out", "Logged out of your dashboard");
     }
@@ -69,8 +70,8 @@ export default {
           // Login to account
           await Store.$account.login(form.jid, form.password);
 
-          // Reload global config after a successful log in since some
-          // data needs authentication and couldn’t be queried earlier.
+          // Reload global config after a successful log in since some \
+          //   data needs authentication and couldn’t be queried earlier.
           Store.$globalConfig.loadGlobalConfig(true);
 
           // Redirect to dashboard
@@ -102,18 +103,18 @@ export default {
 $c: ".v-start-login";
 
 #{$c} {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: linear-gradient(
       rgba(255, 255, 255, 0.98),
       rgba(255, 255, 255, 0.98)
     ),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   #{$c}__header {
     position: absolute;

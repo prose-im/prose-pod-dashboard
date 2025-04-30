@@ -42,8 +42,10 @@ export default {
 
   mounted() {
     (async () => {
+      // Automatically initialize server configuration (if not initialized)
       if (!(await APIInit.isPodConfigInitialized())) {
         const podDomain = (await APIServerConfig.getServerConfig()).domain;
+
         await APIInit.initPodConfig({
           address: { hostname: podDomain },
           dashboard_url: window.location.origin
@@ -66,26 +68,14 @@ $c: ".v-app-base";
   width: 100%;
   display: flex;
 
-  //TODO: check with V
   #{$c}__sidebar {
     flex: 0 0 auto;
-    max-width: 22%;
+    max-width: 300px;
   }
 
   #{$c}__content {
     overflow: hidden;
     flex: 1 1 0;
   }
-}
-
-body {
-  margin: 0;
-  height: 100%;
-  max-width: 100vw;
-  overflow: clip;
-}
-
-html {
-  height: 100%;
 }
 </style>

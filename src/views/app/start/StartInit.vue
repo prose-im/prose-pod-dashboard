@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       // --> STATES <--
+
       currentStep: null as number | null,
 
       isFormLoading: false,
@@ -51,11 +52,13 @@ export default {
           description: "Setup server domain",
           icon: "world"
         },
+
         {
           value: "Server name",
           description: "Customize your server",
           icon: "wand"
         },
+
         {
           value: "Admin account",
           description: "Create your account",
@@ -67,6 +70,7 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
+
     onUpdateStep(newStep: number) {
       this.currentStep = newStep;
     }
@@ -82,15 +86,15 @@ export default {
 $c: ".v-start-init";
 
 #{$c} {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
   background: linear-gradient(
       rgba(255, 255, 255, 0.98),
       rgba(255, 255, 255, 0.98)
     ),
     url("/images/components/base/BaseTopography.svg");
   background-size: 35%;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
 }
 </style>
