@@ -12,43 +12,50 @@
   transition(
     enter-active-class="u-animate u-animate--scale-up u-animate--semifast"
   )
-    .c-base-copy-icon__copied(
-      v-if="isCopied"
-      :class=`[
-        "c-base-copy-icon__content",
-        "c-base-copy-icon--flex",
-      ]`
-    )
-      .c-base-copy-icon__unit
-        base-icon(
-          name="checkmark.circle.fill"
-          fill="#05c02b"
-          size="11px"
-          width="10px"
-        )
+    .c-base-copy-icon__content
+      .c-base-copy-icon__copied(
+        :class=`[
+          "c-base-copy-icon__content",
+          "c-base-copy-icon--flex",
+          {
+            "c-base-copy-icon--hidden" : !isCopied,
+            "c-base-copy-icon--visible" : isCopied
+          }
+        ]`
+      )
+        .c-base-copy-icon__unit
+          base-icon(
+            name="checkmark.circle.fill"
+            fill="#05c02b"
+            size="11px"
+            width="10px"
+          )
 
-      .c-base-copy-icon__unit
-        p
-          | Copied
+        .c-base-copy-icon__unit
+          p
+            | Copied
 
-    .c-base-copy-icon__copy(
-      v-else
-      :class=`[
-        "c-base-copy-icon__content",
-        "c-base-copy-icon--flex",
-      ]`
-    )
-      .c-base-copy-icon__unit
-        base-icon(
-          name="copy"
-          fill="#2490f0"
-          size="11px"
-          width="10px"
-        )
+      .c-base-copy-icon__copy(
+        :class=`[
+          "c-base-copy-icon__content",
+          "c-base-copy-icon--flex",
+          {
+            "c-base-copy-icon--hidden" : isCopied,
+            "c-base-copy-icon--visible" : !isCopied
+          }
+        ]`
+      )
+        .c-base-copy-icon__unit
+          base-icon(
+            name="copy"
+            fill="#2490f0"
+            size="11px"
+            width="10px"
+          )
 
-      .c-base-copy-icon__unit
-        p
-          | Copy
+        .c-base-copy-icon__unit
+          p
+            | Copy
 </template>
 
 <!-- **********************************************************************
@@ -106,6 +113,32 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
   &--flex {
     display: flex;
     align-items: center;
+  }
+
+  &--hidden {
+    transform: scale(0);
+    animation: popDown 1s linear;
+    animation-fill-mode: forwards;
+    //visibility: hidden;
+  }
+
+  &--visible {
+    transform: scale(0);
+    animation: popUp 1s linear;
+    animation-fill-mode: forwards;
+    //visibility: hidden;
+  }
+
+  @keyframes popDown {
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes popUp {
+    100% {
+      transform: scale(1);
+    }
   }
 }
 </style>
