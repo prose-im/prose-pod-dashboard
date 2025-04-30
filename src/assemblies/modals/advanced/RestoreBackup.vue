@@ -13,10 +13,10 @@ base-modal(
   @close="onClose"
   @confirm="onProceed"
   :visible="visibility"
+  :flex-container="true"
   title="Restore this Pod from backup"
   button-color="red"
   button-label="Restore This Backup"
-  :flex-container="true"
 )
   .a-restore-backup
     .a-restore-backup__top
@@ -29,14 +29,15 @@ base-modal(
         )
           .a-restore-backup__subblock
             .a-restore-backup__subblock--content
-
               .a-restore-backup__step(
                 class="a-restore-backup--flex"
               )
                 p
                   | 1️⃣  Please upload a&nbsp;
+
                 p.a-restore-backup--blue
                   | .settings.backup
+
                 p
                   | &nbsp;file:
 
@@ -73,8 +74,10 @@ base-modal(
               )
                 p
                   | 2️⃣  Please upload a&nbsp;
+
                 p.a-restore-backup--blue
                   | .data.backup
+
                 p
                   | &nbsp;archive:
 
@@ -143,6 +146,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       dataLossConfirmed: false,
 
       password: "",
@@ -155,10 +159,6 @@ export default {
     };
   },
 
-  computed: {},
-
-  watch: {},
-
   methods: {
     // --> EVENT LISTENERS <--
 
@@ -170,11 +170,12 @@ export default {
 
         if (fileType !== "jpeg") {
           BaseAlert.error("Please choose a .settings.backup file");
+
           return;
-        } else {
-          this.settingsBackupFile = file;
-          this.settingsBackupFileName = file.name;
         }
+
+        this.settingsBackupFile = file;
+        this.settingsBackupFileName = file.name;
       }
     },
 
@@ -185,13 +186,13 @@ export default {
         const fileType = file.type.split("/")[1];
 
         if (fileType !== "jpeg") {
-          // if (fileType !== "data.backup") {
           BaseAlert.error("Please choose a .data.backup file");
+
           return;
-        } else {
-          this.dataBackupFile = file;
-          this.dataBackupFileName = file.name;
         }
+
+        this.dataBackupFile = file;
+        this.dataBackupFileName = file.name;
       }
     },
 

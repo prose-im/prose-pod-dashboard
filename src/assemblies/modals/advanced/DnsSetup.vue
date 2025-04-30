@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024–2025, Prose Foundation
+* Copyright 2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -35,10 +35,10 @@ base-modal(
     template(
       v-for="(step, index) in steps"
     )
-
       .a-dns-setup__step
         span
           | {{ numberEmoji(index) }} &nbsp;Add those records to&nbsp;
+
         span.a-dns-setup--semibold
           | {{ step.purpose }}:
 
@@ -68,8 +68,10 @@ base-modal(
       ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
+// PROJECT: API
 import { AnyDnsRecord, DnsSetupStep } from "@/api/providers/networkConfig";
+
+// PROJECT: COMPONENTS
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
 
 // PROJECT: STORE
@@ -108,14 +110,16 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       reload: true
     };
   },
 
   computed: {
     domain() {
-      const dom = store.$globalConfig.getDomain();
-      return typeof dom === "string" ? dom : "Unavailable";
+      const domain = store.$globalConfig.getDomain();
+
+      return typeof domain === "string" ? domain : "Unavailable";
     },
 
     steps() {
@@ -123,39 +127,50 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // --> EVENT LISTENERS <--
+
     onLoad() {
       store.$settingsNetwork.loadDnsInstructions(true);
+    },
+
+    // --> HELPERS <--
+
+    stepRecordsType<RecordType extends AnyDnsRecord>(
+      records: AnyDnsRecord[],
+      types: string[]
+    ): records is RecordType[] {
+      return records.every(record => types.includes(record.type));
     },
 
     numberEmoji(n: number): string {
       return NUMBER_EMOJIS[n] ?? n.toString();
     },
+
     stepTableColumns(step: DnsSetupStep): string[] {
-      if (stepRecordsType(step.records, ["A", "AAAA"])) {
+      if (this.stepRecordsType(step.records, ["A", "AAAA"])) {
         return ["Hostname", "Type", "TTL", "Value"];
-      } else if (stepRecordsType(step.records, ["SRV"])) {
+      }
+
+      if (this.stepRecordsType(step.records, ["SRV"])) {
         return ["Hostname", "Type", "TTL", "Prio.", "Weight", "Port", "Target"];
-      } else {
-        console.error("DNS setup step records are mixed:", step);
-        // NOTE: This should never happen, but if it does return an empty array.
-        return [];
       }
+
+      return [];
     },
+
     stepTableClass(step: DnsSetupStep): "ip" | "srv" | null {
-      if (stepRecordsType(step.records, ["A", "AAAA"])) {
+      if (this.stepRecordsType(step.records, ["A", "AAAA"])) {
         return "ip";
-      } else if (stepRecordsType(step.records, ["SRV"])) {
-        return "srv";
-      } else {
-        console.error("DNS setup step records are mixed:", step);
-        // NOTE: This should never happen, but if it does return `null`.
-        return null;
       }
+
+      if (this.stepRecordsType(step.records, ["SRV"])) {
+        return "srv";
+      }
+
+      return null;
     },
+
     recordTableValues(record: AnyDnsRecord): string[] {
       switch (record.type) {
         case "A":
@@ -167,6 +182,7 @@ export default {
             record.value
           ];
         }
+
         case "SRV": {
           return [
             record.hostname,
@@ -182,19 +198,6 @@ export default {
     }
   }
 };
-
-function stepRecordsType<RecordType extends AnyDnsRecord>(
-  records: AnyDnsRecord[],
-  types: string[]
-): records is RecordType[] {
-  return records.every(record => types.includes(record.type));
-}
-// function dnsRecordType<RecordType extends AnyDnsRecord>(
-//   record: AnyDnsRecord,
-//   types: string[]
-// ): record is RecordType {
-//   return types.includes(record.type);
-// }
 </script>
 
 <!-- **********************************************************************
@@ -295,7 +298,7 @@ $c: ".a-dns-setup";
     margin-bottom: 19px;
   }
 
-  //<!-- WEIGHTS -->
+  // --> WEIGHTS <--
 
   &--semibold {
     font-weight: $font-weight-mid;

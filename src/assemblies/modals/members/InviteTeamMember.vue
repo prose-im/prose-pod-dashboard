@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024–2025, Prose Foundation
+ * Copyright 2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -20,10 +20,10 @@ base-modal(
   .a-invite-team-member
     base-modal-input-block(
       v-model="inviteEmail"
+      @change="onChange"
       type="email"
       label="Email to Invite"
       placeholder="Enter e-mail address to invite..."
-      @change="onChange"
       autofocus
     )
 
@@ -39,11 +39,11 @@ base-modal(
 
     form-select(
       v-model="inviteRole"
+      :options="roleOptions"
       class="a-invite-team-member__select"
       position="bottom"
       min-width="200px"
       align="left"
-      :options="roleOptions"
     )
 
     base-modal-information(
@@ -63,7 +63,7 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 // PROJECT: API
 import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
 
-//Store
+// PROJECT: STORE
 import store from "@/store";
 
 export default {
@@ -81,6 +81,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       inviteEmail: "",
       inviteUserName: "",
 
@@ -91,6 +92,7 @@ export default {
           label: RolesDisplayStrings[MemberRole.Member],
           value: MemberRole.Member
         },
+
         {
           label: RolesDisplayStrings[MemberRole.Admin],
           value: MemberRole.Admin
@@ -99,12 +101,9 @@ export default {
     };
   },
 
-  computed: {},
-
-  watch: {},
-
   methods: {
     // --> EVENT LISTENERS <--
+
     async onSendInvite(): Promise<void> {
       // Check if all fields have been filled
       if (!this.inviteEmail || !this.inviteUserName) {
@@ -112,36 +111,35 @@ export default {
           "Cannot send the invitation",
           "Please complete all the fields"
         );
+
         return;
-      } else {
-        try {
-          // Send invitation
-          await store.$teamMembers.sendInvitation(
-            this.inviteUserName,
-            this.inviteRole,
-            this.inviteEmail
+      }
+
+      try {
+        // Send invitation
+        await store.$teamMembers.sendInvitation(
+          this.inviteUserName,
+          this.inviteRole,
+          this.inviteEmail
+        );
+
+        // Reload invite list
+        await store.$teamMembers.loadInvitedMembers(true);
+
+        // Let user know the invitaion was sent
+        BaseAlert.success("An invitation has been sent", "");
+
+        //Reset values and close modal
+        this.onClose();
+      } catch (error: any) {
+        // If member has already been invited
+        if (error.status === 409) {
+          BaseAlert.warning(
+            "This username is already in use",
+            "Please choose a different username"
           );
-
-          // Reload invite list
-          await store.$teamMembers.loadInvitedMembers(true);
-
-          // Let user know the invitaion was sent
-          BaseAlert.success("An invitation has been sent", "");
-
-          //Reset values and close modal
-          this.onClose();
-        } catch (error: any) {
-          console.error("Invite Error", error.message);
-
-          // If member has already been invited
-          if (error.status === 409) {
-            BaseAlert.warning(
-              "This username is already in use",
-              "Please choose a different username"
-            );
-          } else {
-            BaseAlert.error("Something went wrong", error.message);
-          }
+        } else {
+          BaseAlert.error("Something went wrong", error.message);
         }
       }
     },

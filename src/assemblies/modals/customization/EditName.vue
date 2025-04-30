@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       newName: ""
     };
   },
@@ -66,10 +67,8 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
 
     onProceed() {
       if (!this.newName) {
@@ -81,14 +80,16 @@ export default {
 
       // Reinitialize variables + close modal
       this.newName = "";
+
       this.$emit("close");
 
-      //Make success Notitification Visible
+      // Make success notitification visible
       this.$emit("showSuccess");
     },
 
     onClose() {
       this.newName = "";
+
       this.$emit("close");
     }
   }

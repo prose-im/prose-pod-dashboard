@@ -1,7 +1,7 @@
 /*
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024–2025, Prose Foundation
+ * Copyright 2025, Prose Foundation
  */
 
 /* *************************************************************************
@@ -15,9 +15,13 @@ import { EventSource } from "extended-eventsource";
 // PROJECT: COMMONS
 import CONFIG from "@/commons/config";
 
-// PROJECT: STORES
-import store from "@/store";
+// PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
+
+// PROJECT: STORE
+import store from "@/store";
+
+// PROJECT: ROUTER
 import router from "@/router";
 
 /* *************************************************************************

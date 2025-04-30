@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024–2025, Prose Foundation
+* Copyright 2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
@@ -79,9 +79,11 @@ base-modal(
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
-import store from "@/store";
+// NPM
 import { PropType } from "vue";
+
+// PROJECT: STORE
+import store from "@/store";
 
 export default {
   name: "FactoryReset",
@@ -112,8 +114,6 @@ export default {
     };
   },
 
-  computed: {},
-
   methods: {
     // --> HELPERS <--
 
@@ -122,6 +122,7 @@ export default {
     },
 
     // --> EVENT LISTENER <--
+
     onAddNewDomain() {
       this.whitelist.push(this.newDomain);
 
@@ -137,8 +138,6 @@ export default {
     },
 
     onLoad() {
-      //TODO: store.$globalConfig.getServerConfig();
-
       if (this.whitelist.length === 0) {
         this.whitelist = [...this.serverList];
       }
@@ -148,7 +147,7 @@ export default {
       if (this.serverList !== this.whitelist) {
         store.$settingsNetwork.updateServerWhitelist(this.whitelist);
 
-        //Make success Notitification Visible
+        // Make success notitification visible
         this.$emit("showSuccess");
       }
 

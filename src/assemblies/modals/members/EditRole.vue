@@ -1,7 +1,7 @@
 <!--
  * This file is part of prose-pod-dashboard
  *
- * Copyright 2024–2025, Prose Foundation
+ * Copyright 2025, Prose Foundation
  -->
 
 <!-- **********************************************************************
@@ -74,6 +74,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       isSelectOpen: false,
 
       newRole: null as MemberRole | null,
@@ -83,6 +84,7 @@ export default {
           label: RolesDisplayStrings[MemberRole.Member],
           value: MemberRole.Member
         },
+
         {
           label: RolesDisplayStrings[MemberRole.Admin],
           value: MemberRole.Admin
@@ -107,10 +109,9 @@ export default {
     }
   },
 
-  watch: {},
-
   methods: {
     // --> HELPERS <--
+
     toggleSelectOpen() {
       this.isSelectOpen = !this.isSelectOpen;
     },
@@ -120,8 +121,9 @@ export default {
     },
 
     // --> EVENT LISTENERS <--
+
     async onProceed() {
-      // update only if Role has changed
+      // Update only if role has changed
       if (this.newRole && this.user.role !== this.newRole) {
         try {
           await store.$teamMembers.updateRoleByMemberId(
@@ -138,14 +140,14 @@ export default {
 
           // Close modal
           this.onClose();
-        } catch (e: any) {
-          if (e.response.data.message.includes("own")) {
+        } catch (error: any) {
+          if (error.response.data.message.includes("own") === true) {
             BaseAlert.error(
               "You cannot change your own role",
               "Please ask an admin to change your role"
             );
           } else {
-            BaseAlert.error(e.response.data.message);
+            BaseAlert.error(error.response.data.message);
           }
         }
       } else {

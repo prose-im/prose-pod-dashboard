@@ -17,7 +17,7 @@
       sidebar-accordion(
         :items="items"
       )
-      
+
     sidebar-footer(
       :nickname="userData.nickname"
       :admin="userData.role"
@@ -34,6 +34,8 @@
 import SidebarAccordion from "@/components/sidebar/SidebarAccordion.vue";
 import SidebarFooter from "@/components/sidebar/SidebarFooter.vue";
 import SidebarHeader from "@/components/sidebar/SidebarHeader.vue";
+
+// PROJECT: STORE
 import store from "@/store";
 
 export default {
@@ -58,6 +60,7 @@ export default {
       items: [
         {
           value: "Team Members",
+
           subcategories: [
             {
               icon: "two.people",
@@ -68,6 +71,7 @@ export default {
         },
         {
           value: "Server Features",
+
           subcategories: [
             {
               icon: "gearshape",
@@ -78,6 +82,7 @@ export default {
         },
         {
           value: "Customization",
+
           subcategories: [
             {
               icon: "stack",
@@ -88,17 +93,20 @@ export default {
         },
         {
           value: "Advanced Settings",
+
           subcategories: [
             {
               icon: "key",
               value: "Security & Encryption",
               link: "/advanced/security"
             },
+
             {
               icon: "world",
               value: "Network Setup",
               link: "/advanced/network"
             },
+
             {
               icon: "archive",
               value: "Backup & Reset",
@@ -114,12 +122,6 @@ export default {
     userData() {
       return store.$account.getUserSessionData();
     }
-  },
-
-  watch: {},
-
-  methods: {
-    // --> HELPERS <--
   }
 };
 </script>

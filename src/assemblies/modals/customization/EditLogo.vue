@@ -52,15 +52,15 @@ base-modal(
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { fileToBase64 } from "file64";
+import { readAndCompressImage } from "browser-image-resizer";
+
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // PROJECT: STORE
 import store from "@/store";
-
-// PACKAGES
-import { fileToBase64 } from "file64";
-import { readAndCompressImage } from "browser-image-resizer";
 
 // TYPES
 export type ImageUrl = string | ArrayBuffer | null;
@@ -80,25 +80,21 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       chosenImageType: "",
-
-      imageUrl: null as ImageUrl,
-
-      image: "" as string | ArrayBuffer,
-
-      imageLoading: false,
-
       domain: "",
 
-      proceedDisabled: true,
+      imageUrl: null as ImageUrl,
+      image: "" as string | ArrayBuffer,
+      recreatedImage: "" as string | ArrayBuffer,
 
-      recreatedImage: "" as string | ArrayBuffer
+      imageLoading: false,
+      proceedDisabled: true
     };
   },
 
   computed: {
     currentImage() {
-      console.log(store.$customizationWorkspace.getWorkspaceLogo());
       return store.$customizationWorkspace.getWorkspaceLogo();
     },
 
@@ -118,7 +114,8 @@ export default {
   },
 
   methods: {
-    // --> HELPERS <--
+    // --> EVENT LISTENERS <--
+
     onPickFile() {
       (this.$refs.fileInput as HTMLInputElement).click();
     },
@@ -129,6 +126,7 @@ export default {
       this.imageLoading = true;
 
       const files = (event.target as HTMLInputElement).files || [];
+
       let file = files[0] as File | null;
 
       if (file) {
@@ -142,6 +140,7 @@ export default {
             "Please choose an image in the right format",
             "Accepted formats: .jpeg, .png, .gif, .webp"
           );
+
           return;
         }
 
@@ -149,13 +148,15 @@ export default {
 
         // Show image preview
         const fileReader = new FileReader();
+
         fileReader.addEventListener("load", () => {
           if (!fileReader.result) {
             BaseAlert.error("An error occurred");
+
             return;
-          } else {
-            this.imageUrl = fileReader.result;
           }
+
+          this.imageUrl = fileReader.result;
         });
 
         fileReader.readAsDataURL(file);
@@ -174,7 +175,7 @@ export default {
         }
 
         if (file) {
-          // Encode to base64
+          // Encode to Base64
           let encodedResult = await fileToBase64(resizedImage);
 
           this.image = encodedResult.split(",")[1];
@@ -188,10 +189,9 @@ export default {
       }
     },
 
-    // --> EVENT LISTENERS <--
     async onProceed() {
-      if (this.image && typeof this.image === "string") {
-        try {
+      try {
+        if (this.image && typeof this.image === "string") {
           await store.$customizationWorkspace.updateWorkspaceIcon({
             base64: this.image,
             type: this.chosenImageType
@@ -200,12 +200,12 @@ export default {
           // Reinitialize variables + close modal
           this.onClose();
 
-          //Make success Notitification Visible
+          // Make success notitification visible
           this.$emit("showSuccess");
-        } catch (e) {
-          console.error("logo load error", e);
+        } else {
+          throw new Error("No image");
         }
-      } else {
+      } catch (_) {
         BaseAlert.error(
           "Could not change your logo",
           "Please upload a valid image"

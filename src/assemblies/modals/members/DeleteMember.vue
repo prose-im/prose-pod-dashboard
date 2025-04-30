@@ -10,14 +10,14 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose"
+  @confirm="onProceed"
   :visible="visibility"
   position="center"
   title="Delete member"
   button-color="red"
   title-color="red"
   button-label="Delete member"
-  @close="onClose"
-  @confirm="onProceed"
 )
   .a-delete-member
     span
@@ -75,19 +75,7 @@ export default {
 
   emits: ["close", "proceed"],
 
-  data() {
-    return {
-      // --> STATE <--
-    };
-  },
-
-  computed: {},
-
-  watch: {},
-
   methods: {
-    // --> HELPERS <--
-
     // --> EVENT LISTENERS <--
 
     onClose() {
@@ -108,14 +96,14 @@ export default {
           "Succesfully removed",
           `${this.jid} has been removed from the team`
         );
-      } catch (e: any) {
-        if (e.response.data.message.includes("self-remove")) {
+      } catch (error: any) {
+        if (error.response.data.message.includes("self-remove") === true) {
           BaseAlert.error(
             "You cannot remove yourself from the team",
             "Please ask an admin to remove you"
           );
         } else {
-          BaseAlert.error("Something went wrong", e.response.data.message);
+          BaseAlert.error("Something went wrong", error.response.data.message);
         }
       }
     }
@@ -145,7 +133,8 @@ $c: ".a-delete-member";
     font-weight: $font-weight-regular;
   }
 
-  // STYLES
+  // --> STYLES <--
+
   &--red {
     color: $color-base-red-normal;
   }

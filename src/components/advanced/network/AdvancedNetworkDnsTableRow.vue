@@ -1,7 +1,7 @@
 <!--
 * This file is part of prose-pod-dashboard
 *
-* Copyright 2024–2025, Prose Foundation
+* Copyright 2025, Prose Foundation
 -->
 
 <!-- **********************************************************************
