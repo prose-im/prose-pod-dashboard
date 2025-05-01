@@ -1,12 +1,12 @@
 <!--
- * This file is part of prose-pod-dashboard
- *
- * Copyright 2024, Prose Foundation
- -->
+* This file is part of prose-pod-dashboard
+*
+* Copyright 2024, Prose Foundation
+-->
 
 <!-- **********************************************************************
-    TEMPLATE
-    ********************************************************************** -->
+TEMPLATE
+********************************************************************** -->
 
 <template lang="pug">
 .c-members-invites-row(
@@ -209,6 +209,7 @@ import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
 import store from "@/store";
+import { PropType } from "vue";
 
 export default {
   name: "MembersInvitesRow",
@@ -223,9 +224,8 @@ export default {
       default: false
     },
 
-    /** `Member | EnrichedMember | Invitation` */
     userData: {
-      type: Object,
+      type: Object as PropType<Member | EnrichedMember | Invitation>,
       required: true
     },
 
@@ -264,12 +264,8 @@ export default {
   },
 
   computed: {
-    user() {
-      return this.userData as Member | EnrichedMember | Invitation;
-    },
-
     userStatus() {
-      switch ((this.user as EnrichedMember | undefined)?.online) {
+      switch ((this.userData as EnrichedMember | undefined)?.online) {
         case true: {
           return "Active";
         }
@@ -285,13 +281,10 @@ export default {
     },
 
     userStatusDetail() {
-      if ((this.user as Invitation | undefined)?.invitation_id !== undefined) {
-        return "Invited";
-      } else if (
-        (this.user as EnrichedMember | undefined)?.online &&
-        this.userData.os
+      if (
+        (this.userData as Invitation | undefined)?.invitation_id !== undefined
       ) {
-        return "Prose " + this.userData.os;
+        return "Invited";
       } else {
         return null;
       }
@@ -302,13 +295,15 @@ export default {
     // --> EVENT LISTENERS <--
 
     onActionOnMember(): void {
-      this.userData.invitation_id
+      this.userData && (this.userData as Invitation).invitation_id
         ? this.onCancelInvite()
         : this.toggleMenuOpen();
     },
 
     onCancelInvite() {
-      store.$teamMembers.cancelInvitation(this.userData.invitation_id);
+      store.$teamMembers.cancelInvitation(
+        (this.userData as Invitation).invitation_id
+      );
     },
 
     toggleMenuOpen() {
