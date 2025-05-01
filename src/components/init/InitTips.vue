@@ -39,7 +39,6 @@
         br(
           v-if="sentence[0] === 'br'"
         )
-
 </template>
 
 <!-- **********************************************************************
@@ -50,23 +49,11 @@
 export default {
   name: "InitTips",
 
-  components: {},
-
   props: {
     tips: {
       type: Object,
       required: true
     }
-  },
-
-  data() {
-    return {
-      // --> STATES <--
-    };
-  },
-
-  methods: {
-    // --> EVENT LISTENERS <--
   }
 };
 </script>
@@ -129,18 +116,13 @@ $c: ".c-init-tips";
     }
 
     > li:before {
-      content: counter(li) "."; /* Use the counter as content */
-      counter-increment: li; /* Increment the counter by 1 */
-      /* Position and style the number */
+      content: counter(li) ".";
+      counter-increment: li;
       position: absolute;
       margin-block-start: -4px;
       margin-inline-start: -26px;
-      -moz-box-sizing: border-box;
-      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       width: 2em;
-      /* Some space between the number and the content in browsers that support
-         generated content but not positioning it (Camino 2 is one example) */
       padding: 4px;
       font-size: ($font-size-baseline + 2px);
       font-weight: $font-weight-bolder;
@@ -153,7 +135,6 @@ $c: ".c-init-tips";
     }
   }
 
-  //--> STYLE <--
   #{$c}__bold {
     font-weight: $font-weight-medium;
   }

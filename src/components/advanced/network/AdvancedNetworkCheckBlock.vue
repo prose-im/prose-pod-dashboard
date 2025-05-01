@@ -111,7 +111,8 @@ export default {
   },
 
   methods: {
-    // <-- HELPERS -->
+    // --> HELPERS <--
+
     colorCode(status: AnyNetworkCheckStatus, isString = false) {
       switch (status) {
         case DnsRecordStatus.Queued:

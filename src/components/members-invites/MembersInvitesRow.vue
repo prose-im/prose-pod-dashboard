@@ -19,7 +19,7 @@
       "c-members-invites-row__checkbox",
       "c-members-invites-row--hidden"
     ]`
-    :disabled="true"
+    disabled
   )
 
   <!-- 2nd column -->
@@ -50,11 +50,11 @@
   .c-members-invites-row__parameters
     base-button(
       @click="onActionOnMember"
+      :disabled="!actionsEnabled"
       class="c-members-invites-row--hidden"
       size="medium"
       tint="white"
-      :square="true"
-      :disabled="!actionsEnabled"
+      square
     )
       base-icon(
         v-if="!userData.invitation_id"
@@ -72,9 +72,9 @@
     base-row-menu(
       v-if="isMenuOpen"
       v-click-away="onMenuClickAway"
-      class="c-members-invites-row__parameters--menu"
       @menu-action="onMenuAction"
       :options="menuOptions"
+      class="c-members-invites-row__parameters--menu"
     )
 
 .c-members-invites-row(
@@ -88,14 +88,14 @@
     <!--  1st column -->
     form-checkbox(
       class="c-members-invites-row__checkbox"
-      :disabled="true"
+      disabled
     )
 
     <!-- 2nd column -->
     base-avatar(
-      class="c-members-invites-row__avatar"
       :avatar-data-64="userData.avatar"
       :placeholder-data="userData.nickname"
+      class="c-members-invites-row__avatar"
     )
 
     <!-- 3rd column -->
@@ -167,10 +167,10 @@
     .c-members-invites-row__parameters
       base-button(
         @click="onActionOnMember"
+        :disabled="!actionsEnabled"
         size="medium"
         tint="white"
-        :square="true"
-        :disabled="!actionsEnabled"
+        square
       )
         base-icon(
           v-if="!userData.invitation_id"
@@ -199,9 +199,11 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: COMPONENTS
+// PROJECT: API
 import { Invitation } from "@/api/providers/invitations";
 import { Member, EnrichedMember } from "@/api/providers/members";
+
+// PROJECT: COMPONENTS
 import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
@@ -237,16 +239,21 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       isMenuOpen: false,
+
+      // --> DATA <--
 
       menuOptions: [
         {
           value: "Security settings",
           disabled: true
         },
+
         {
           value: "Change role"
         },
+
         {
           value: "Delete member",
           color: "red"
@@ -262,12 +269,17 @@ export default {
 
     userStatus() {
       switch ((this.user as EnrichedMember | undefined)?.online) {
-        case true:
+        case true: {
           return "Active";
-        case false:
+        }
+
+        case false: {
           return "Inactive";
-        default:
+        }
+
+        default: {
           return null;
+        }
       }
     },
 
@@ -286,7 +298,8 @@ export default {
   },
 
   methods: {
-    // <-- EVENT LISTENERS -->
+    // --> EVENT LISTENERS <--
+
     onActionOnMember(): void {
       this.userData.invitation_id
         ? this.onCancelInvite()
@@ -334,7 +347,6 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__avatar {
-    //border: 1px solid blue;
     margin-right: 10px;
     min-width: 34px;
     max-width: 41px;
@@ -342,7 +354,6 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__user {
-    //border: 1px solid blue;
     min-width: 100px;
     max-width: 220px;
     margin-inline-end: 10px;
@@ -357,7 +368,6 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__badge {
-    //border: 1px solid blue;
     margin-right: 10px;
     max-width: 90px;
     flex: 1 1 0;
@@ -370,7 +380,6 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__status {
-    //border: 1px solid blue;
     min-width: 50px;
     max-width: 15%;
     margin-right: 10px;
@@ -378,7 +387,6 @@ $c: ".c-members-invites-row";
   }
 
   #{$c}__encryption {
-    //border: 1px solid blue;
     flex: 1 1 0;
     margin-right: 10px;
     min-width: 66px;
@@ -432,7 +440,8 @@ $c: ".c-members-invites-row";
     }
   }
 
-  //STYLE
+  // --> STYLE <--
+
   &--main {
     color: $color-text-primary;
     font-weight: $font-weight-medium;
@@ -460,14 +469,14 @@ $c: ".c-members-invites-row";
     margin-block-start: 11px;
   }
 
-  //<!-- COLORS -->
+  // --> COLORS <--
 
   &--yellow {
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
   }
 
-  //<!-- INVISIBLE MANAGEMENT -->
+  // --> INVISIBLE MANAGEMENT <--
 
   &--hidden {
     visibility: hidden;
@@ -477,6 +486,8 @@ $c: ".c-members-invites-row";
   &--none {
     display: none;
   }
+
+  // --> MEDIA QUERIES <--
 
   @media (max-width: 768px) {
     #{$c}__parameters {

@@ -55,13 +55,12 @@ export default {
       type: Boolean,
       default: false
     },
+
     stringRepr: {
       type: String,
       default: ""
     }
   },
-
-  emits: [],
 
   data() {
     return {
@@ -72,10 +71,6 @@ export default {
       timer: null as ReturnType<typeof setTimeout> | null
     };
   },
-
-  computed: {},
-
-  watch: {},
 
   methods: {
     // --> HELPERS <--

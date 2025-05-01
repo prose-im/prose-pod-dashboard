@@ -51,8 +51,8 @@ export default {
     breadcrumbs() {
       let breadcrumbs: string[] = [];
 
-      const route = this.$route || "/team/members";
-      const matchedRoutes = route.path.split("/");
+      const route = this.$route || "/team/members",
+        matchedRoutes = route.path.split("/");
 
       matchedRoutes.shift();
 

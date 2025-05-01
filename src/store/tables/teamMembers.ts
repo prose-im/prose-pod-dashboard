@@ -71,7 +71,7 @@ const $teamMembers = defineStore("teamMembers", {
   },
 
   actions: {
-    // <-- ACTIVE MEMBERS -->
+    // --> ACTIVE MEMBERS <--
 
     async loadActiveMembersByPage(
       reload = false,
@@ -147,7 +147,7 @@ const $teamMembers = defineStore("teamMembers", {
       return await APITeamMembers.deleteMember(jid);
     },
 
-    // <-- INVITES -->
+    // --> INVITES <--
 
     async loadInvitedMembers(reload = false): Promise<void> {
       // Load channels? (or reload)

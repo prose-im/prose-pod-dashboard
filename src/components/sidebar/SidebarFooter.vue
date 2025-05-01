@@ -83,6 +83,8 @@ export default {
 
   data() {
     return {
+      // --> STATE <--
+
       isLogoutModalVisible: false,
       LogoutModalVisibility: false
     };
@@ -96,6 +98,7 @@ export default {
 
   methods: {
     // --> EVENT LISTENERS <--
+
     onLogoutClick() {
       this.isLogoutModalVisible = true;
     },

@@ -11,9 +11,13 @@
 <template lang="pug">
 .c-init-success
   h3 Congratulations!
+
   br
+
   p Your server has been setup
+
   br
+
   p You will be redirected to the Dashboard
 
   span.c-init-success__loader
@@ -24,6 +28,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: COMPONENTS
 import BaseLoader from "@/components/base/BaseLoader.vue";
 
 export default {
@@ -39,6 +44,7 @@ export default {
         this.$router.push({
           name: "app"
         }),
+
       3000
     );
   }
@@ -85,6 +91,8 @@ $c: ".c-init-success";
   }
 }
 
+//--> KEYFRAMES <--
+
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
@@ -95,15 +103,19 @@ $c: ".c-init-success";
   0% {
     clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
   }
+
   25% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
   }
+
   50% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
   }
+
   75% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
   }
+
   100% {
     clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
   }

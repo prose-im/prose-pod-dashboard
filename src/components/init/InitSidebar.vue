@@ -15,7 +15,7 @@
     name="logo"
     size="21px"
     width="85px"
-    :rectangular="true"
+    rectangular
   )
 
   .c-init-sidebar__frames
@@ -40,15 +40,15 @@
       class="c-init-sidebar__success"
     )
       base-icon(
+        :fill="step === 4 ? '#05C02B' : '#49546299'"
         class="c-init-sidebar__success-icon"
         name="checkmark.circle.empty"
         size="20px"
-        :fill="step === 4 ? '#05C02B' : '#49546299'"
       )
 
     .c-init-sidebar__highlighter(
       :class=`[
-          "c-init-sidebar__highlighter--" + step
+        "c-init-sidebar__highlighter--" + step
       ]`
     )
 
@@ -77,12 +77,6 @@ export default {
       type: Number,
       default: null
     }
-  },
-
-  data() {
-    return {
-      // --> STATE <--
-    };
   },
 
   computed: {
@@ -197,6 +191,8 @@ $c: ".c-init-sidebar";
     top: 50px;
     margin-inline-start: 30px;
   }
+
+  // --> MEDIA QUERIES <--
 
   @media (max-width: 768px) {
     width: fit-content;

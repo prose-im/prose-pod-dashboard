@@ -255,7 +255,7 @@ export default {
   },
 
   methods: {
-    // <-- HELPERS -->
+    // --> HELPERS <--
 
     async toggleInviteModalVisible() {
       // TODO: so many cases?

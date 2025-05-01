@@ -10,7 +10,6 @@
 
 <template lang="pug">
 .c-init-page
-
   .c-init-page__content(
     v-if="currentStep !== 4"
   )
@@ -25,13 +24,15 @@
       v-model="organization.domain"
       @change-step="updateStep('domain')"
       :form-visible="currentStep === 1"
-      placeholder=" Ex: hello.com"
       :tips="tipDomain"
+      placeholder=" Ex: hello.com"
     )
       span
         | First, what's your&#32;
+
       span.c-init-page__bold
         | organization domain name
+
       span
         | ?
 
@@ -40,43 +41,43 @@
       v-model="organization.server"
       @change-step="updateStep('server')"
       :form-visible="currentStep === 2"
-      placeholder=" Ex: MyCompanyName"
       :tips="tipServer"
+      placeholder=" Ex: MyCompanyName"
     )
       span
         | Now, give a&#32;
+
       span.c-init-page__bold
         | name to your server
+
       span
         | ! You will be able to customize all the rest later.
 
     init-form(
       v-if="currentStep === 3"
-      @change-step="updateStep('admin')"
-      form-type="triple"
-
       v-model="organization.adminUsername"
-      placeholder="Username"
-      type="text"
-
-      :secondary-input="organization.adminPassword"
+      @change-step="updateStep('admin')"
       @update-second-input="onUpdateSecondInput"
-      secondary-placeholder="Password"
-      secondary-type="password"
-
-      :tertiary-input="organization.adminNickname"
       @update-third-input="onUpdateThirdInput"
-      tertiary-placeholder="Nickname"
-      tertiary-type="text"
-
-      button-label="Create my account and Finish now"
+      :secondary-input="organization.adminPassword"
+      :tertiary-input="organization.adminNickname"
       :form-visible="currentStep === 3"
       :tips="tipAdmin"
+      form-type="triple"
+      placeholder="Username"
+      type="text"
+      secondary-placeholder="Password"
+      secondary-type="password"
+      tertiary-placeholder="Nickname"
+      tertiary-type="text"
+      button-label="Create my account and Finish now"
     )
       span
         | Finish by creating your&#32;
+
       span.c-init-page__bold
         | administrator account
+
       span
         | . You'll be able to invite team members later."
 
@@ -84,7 +85,6 @@
     v-if="currentStep === 4"
   )
     init-success
-
 </template>
 
 <!-- **********************************************************************
@@ -92,16 +92,21 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import isValidDomain from "is-valid-domain";
+
+// PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import BaseIcon from "../base/BaseIcon.vue";
+import BaseIcon from "@/components/base/BaseIcon.vue";
 import InitForm from "@/components/init/InitForm.vue";
 import InitTips from "@/components/init/InitTips.vue";
 import InitSuccess from "@/components/init/InitSuccess.vue";
 
+// PROJECT: API
 import APIInit from "@/api/providers/init";
 
+// PROJECT: STORE
 import Store from "@/store";
-import isValidDomain from "is-valid-domain";
 
 export default {
   name: "InitPage",
@@ -113,13 +118,12 @@ export default {
     InitSuccess
   },
 
-  props: {},
-
   emits: ["updateStep"],
 
   data() {
     return {
       // --> STATE <--
+
       currentStep: 1 as number | null,
 
       organization: {
@@ -129,6 +133,8 @@ export default {
         adminPassword: "",
         adminNickname: ""
       },
+
+      // --> DATA <--
 
       tipDomain: {
         1: [
@@ -141,6 +147,7 @@ export default {
           ["Prose can co-exist with your email and website ", false],
           ["on the same domain", true]
         ],
+
         2: [
           ["You will be able to setup required ", false],
           ["DNS records ", true],
@@ -160,6 +167,7 @@ export default {
           ["organization name", true],
           [".", false]
         ],
+
         2: [
           ["You will be able to setup required ", false],
           ["DNS records ", true],
@@ -180,6 +188,7 @@ export default {
             false
           ]
         ],
+
         2: [
           ["You will be able to ", false],
           ["invite more administrators ", true],
@@ -189,23 +198,22 @@ export default {
     };
   },
 
-  computed: {},
-
   watch: {
-    //TODO: verify if impossible with mounted
+    // TODO: verify if impossible with mounted
     currentStep: {
       async handler() {
         await this.initializeCurrentStep();
 
         this.$emit("updateStep", this.currentStep);
       },
+
       immediate: true,
       once: true
     }
   },
 
   methods: {
-    /// HELPERS
+    // --> HELPERS <--
 
     async initializeCurrentStep() {
       let currentStep = 1;
@@ -241,6 +249,7 @@ export default {
                   } catch (error) {
                     return BaseAlert.error("Error:", error);
                   }
+
                   this.currentStep += 1;
                 } else {
                   return BaseAlert.error(
@@ -251,8 +260,10 @@ export default {
               } else {
                 BaseAlert.error("Please enter a domain name");
               }
+
               break;
             }
+
             case "server": {
               if (this.organization.server) {
                 try {
@@ -261,12 +272,15 @@ export default {
                 } catch (error) {
                   return BaseAlert.error("Error:", error);
                 }
+
                 this.currentStep += 1;
               } else {
                 BaseAlert.error("Please enter a name for your server");
               }
+
               break;
             }
+
             case "admin": {
               if (
                 this.organization.adminUsername &&
@@ -279,6 +293,7 @@ export default {
                     password: this.organization.adminPassword,
                     nickname: this.organization.adminNickname
                   });
+
                   await Store.$account.login(
                     admin.jid,
                     this.organization.adminPassword
@@ -286,14 +301,14 @@ export default {
                 } catch (error) {
                   return BaseAlert.error("Error:", error);
                 }
+
                 this.currentStep += 1;
               } else {
                 BaseAlert.error("Please fill all fields");
               }
+
               break;
             }
-            default:
-              break;
           }
         }
 
@@ -301,10 +316,12 @@ export default {
       }
     },
 
-    /// EVENT LISTENERS
+    // --> EVENT LISTENERS <--
+
     onUpdateSecondInput(value: string) {
       this.organization.adminPassword = value;
     },
+
     onUpdateThirdInput(value: string) {
       this.organization.adminNickname = value;
     }
@@ -350,10 +367,11 @@ $c: ".c-init-page";
     margin-block-start: 150px;
   }
 
-  //--> STYLES <--
   #{$c}__bold {
     font-weight: $font-weight-medium;
   }
+
+  //--> MEDIA QUERIES <--
 
   @media (max-width: 768px) {
     width: fit-content;

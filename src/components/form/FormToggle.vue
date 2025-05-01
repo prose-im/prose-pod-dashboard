@@ -82,6 +82,8 @@ export default {
   },
 
   methods: {
+    // --> HELPERS <--
+
     updateValue(enabled: boolean): void {
       this.$emit("update:modelValue", enabled);
       this.$emit("change", enabled);
