@@ -14,7 +14,8 @@
     .c-sidebar-footer__left
       .c-sidebar-footer__avatar
         base-avatar(
-          :avatar-data-64="avatar"
+          :avatar-data-64="avatar.base64"
+          :avatar-content-type="avatar.type"
           :placeholder-data="nickname"
         )
 
@@ -56,10 +57,12 @@
 
 <script lang="ts">
 // PROJECT: COMPONENTS
+import { Avatar } from "@/api/providers/members";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // PROJECT: STORES
 import Store from "@/store";
+import { PropType } from "vue";
 
 export default {
   name: "SidebarAccordion",
@@ -71,7 +74,7 @@ export default {
     },
 
     avatar: {
-      type: String,
+      type: Object as PropType<Avatar>,
       default: null
     },
 

@@ -93,7 +93,8 @@
 
     <!-- 2nd column -->
     base-avatar(
-      :avatar-data-64="userData.avatar"
+      :avatar-data-64="userData.avatar?.base64"
+      :avatar-content-type="userData.avatar?.type"
       :placeholder-data="userData.nickname"
       class="c-members-invites-row__avatar"
     )
