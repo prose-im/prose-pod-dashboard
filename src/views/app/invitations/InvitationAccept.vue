@@ -76,6 +76,8 @@ export default {
 
   data() {
     return {
+      // --> STATE <--
+
       nickname: "",
       password: "",
 
@@ -83,6 +85,8 @@ export default {
       invitationExpired: null as boolean | null,
 
       currentStep: 1,
+
+      // --> DATA <--
 
       items: [
         {

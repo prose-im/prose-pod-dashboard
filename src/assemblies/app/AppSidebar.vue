@@ -56,7 +56,8 @@ export default {
 
   data() {
     return {
-      // --> STATE <--
+      // --> DATA <--
+
       items: [
         {
           value: "Team Members",
@@ -69,6 +70,7 @@ export default {
             }
           ]
         },
+
         {
           value: "Server Features",
 
@@ -80,6 +82,7 @@ export default {
             }
           ]
         },
+
         {
           value: "Customization",
 
@@ -91,6 +94,7 @@ export default {
             }
           ]
         },
+
         {
           value: "Advanced Settings",
 

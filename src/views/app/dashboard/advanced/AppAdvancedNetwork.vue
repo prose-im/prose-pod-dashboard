@@ -103,6 +103,8 @@ export default {
 
       whitelistTags: [] as string[],
 
+      // --> DATA <--
+
       restoreDescription: [
         "Authorizations for other servers to connect with this server",
         "Your server whitelist"

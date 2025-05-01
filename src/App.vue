@@ -10,9 +10,6 @@
 
 <template lang="pug">
   #app(
-    @contextmenu.prevent
-    @dragover.prevent
-    @drop.prevent.stop
     class="s-app"
   )
     base-alert
@@ -52,11 +49,5 @@ $c: ".s-app";
   overflow: clip;
   position: absolute;
   inset: 0;
-
-  // --> BOOLEANS <--
-
-  &--translucent {
-    background-color: transparent;
-  }
 }
 </style>

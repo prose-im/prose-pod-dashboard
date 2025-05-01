@@ -121,7 +121,7 @@ export default {
       this.addingDomain = !this.addingDomain;
     },
 
-    // --> EVENT LISTENER <--
+    // --> EVENT LISTENERS <--
 
     onAddNewDomain() {
       this.whitelist.push(this.newDomain);

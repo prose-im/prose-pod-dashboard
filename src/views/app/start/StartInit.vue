@@ -48,6 +48,8 @@ export default {
 
       isFormLoading: false,
 
+      // --> DATA <--
+
       items: [
         {
           value: "Domain name",

@@ -9,7 +9,7 @@
     <script type="module" src="/src/main.ts" defer async></script>
 
     <style>
-      .v-content {
+      #loader {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -21,28 +21,20 @@
   <body>
     <div id="runtime">
       <div id="loader">
-        <div class="v-content">
-          <video
-            height="80"
-            width="200"
-            class="c-inbox-file-preview__viewer c-inbox-file-preview__viewer--video"
-            autoplay=""
-            loop=""
-          >
-            <source
-              src="/videos/loader/logo-av1.webm"
-              type="video/webm;codecs=av1"
-            />
-            <source
-              src="/videos/loader/logo-vp9.webm"
-              type="video/webm;codecs=vp9"
-            />
-            <source
-              src="/videos/loader/logo-hvc1.mp4"
-              type="video/webm;codecs=hvc1"
-            />
-          </video>
-        </div>
+        <video height="80" width="200" autoplay loop>
+          <source
+            src="/videos/loader/logo-av1.webm"
+            type="video/webm;codecs=av1"
+          />
+          <source
+            src="/videos/loader/logo-vp9.webm"
+            type="video/webm;codecs=vp9"
+          />
+          <source
+            src="/videos/loader/logo-hvc1.mp4"
+            type="video/webm;codecs=hvc1"
+          />
+        </video>
       </div>
     </div>
   </body>

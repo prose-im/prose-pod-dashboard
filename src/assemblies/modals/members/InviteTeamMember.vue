@@ -87,6 +87,8 @@ export default {
 
       inviteRole: MemberRole.Member,
 
+      // --> DATA <--
+
       roleOptions: [
         {
           label: ROLES_DISPLAY_STRINGS[MemberRole.Member],
@@ -129,7 +131,7 @@ export default {
         // Let user know the invitaion was sent
         BaseAlert.success("An invitation has been sent", "");
 
-        //Reset values and close modal
+        // Reset values and close modal
         this.onClose();
       } catch (error: any) {
         // If member has already been invited

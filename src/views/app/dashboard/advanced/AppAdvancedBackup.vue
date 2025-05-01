@@ -84,6 +84,8 @@ export default {
       restoreModalVisibility: false,
       resetModalVisibility: false,
 
+      // --> DATA <--
+
       backupItems: [
         {
           subtitle: "Automatic backup of Pod settings",

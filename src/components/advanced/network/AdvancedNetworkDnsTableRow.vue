@@ -18,7 +18,6 @@
     ]`
   )
     div(
-      ref="rowText"
       :class=`[
         "c-advanced-network-dns-table-row__slot",
         "c-advanced-network-dns-table-row--flex",
@@ -26,16 +25,17 @@
           "u-select": !header
         }
       ]`
+      ref="rowText"
     )
       slot
 
     .c-advanced-network-dns-table-row__icon(
+      @click="copyRow"
       :class=`[
         {
           "c-advanced-network-dns-table-row__icon--hidden":header
         }
       ]`
-      @click="copyRow"
     )
       base-copy-icon(
         :isCopied="copied"

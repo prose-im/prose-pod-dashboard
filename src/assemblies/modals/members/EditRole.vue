@@ -79,6 +79,8 @@ export default {
 
       newRole: null as MemberRole | null,
 
+      // --> DATA <--
+
       roleOptions: [
         {
           label: ROLES_DISPLAY_STRINGS[MemberRole.Member],
@@ -98,9 +100,9 @@ export default {
       get() {
         if (!this.newRole) {
           return this.user.role;
-        } else {
-          return this.newRole;
         }
+
+        return this.newRole;
       },
 
       set(value: MemberRole) {

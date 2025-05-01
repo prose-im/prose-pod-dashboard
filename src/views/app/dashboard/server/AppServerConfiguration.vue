@@ -56,7 +56,7 @@ export default {
 
   data() {
     return {
-      // --> STATE <--
+      // --> DATA <--
 
       restoreMessagingDescription: [
         `Allow message archiving`,

@@ -60,6 +60,8 @@ export default {
 
   data() {
     return {
+      // --> STATE <--
+
       invitationCancelled: null as boolean | null
     };
   },

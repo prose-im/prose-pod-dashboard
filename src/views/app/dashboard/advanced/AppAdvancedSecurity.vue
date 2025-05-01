@@ -48,7 +48,7 @@ export default {
 
   data() {
     return {
-      // --> STATE <--
+      // --> DATA <--
 
       restoreDescription: [
         "Minimum SSL/TLS version and cipher suite (encryption strength)"

@@ -94,6 +94,7 @@ export default {
         Object.values(DnsRecordStatus)
       );
     },
+
     portBlockStatus() {
       return this.highestValue(
         Array.from(this.portCheckResults.values()).map(
@@ -103,6 +104,7 @@ export default {
         Object.values(PortReachabilityStatus)
       );
     },
+
     ipBlockStatus() {
       return this.highestValue(
         Array.from(this.ipCheckResults.values()).map(

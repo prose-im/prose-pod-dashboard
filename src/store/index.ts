@@ -14,14 +14,14 @@ import { Pinia, createPinia } from "pinia";
 import { createPersistedState } from "pinia-plugin-persistedstate";
 
 // PROJECT: STORE
-import $account from "./tables/account";
-import $customizationWorkspace from "./tables/customizationWorkspace";
-import $globalConfig from "./tables/globalConfig";
-import $serverConfiguration from "./tables/serverConfiguration";
-import $settingsBackup from "./tables/settingsBackup";
+import $account from "@/store/tables/account";
+import $customizationWorkspace from "@/store/tables/customizationWorkspace";
+import $globalConfig from "@/store/tables/globalConfig";
+import $serverConfiguration from "@/store/tables/serverConfiguration";
+import $settingsBackup from "@/store/tables/settingsBackup";
 import $settingsNetwork from "@/store/tables/settingsNetwork";
-import $settingsSecurity from "./tables/settingsSecurity";
-import $teamMembers from "./tables/teamMembers";
+import $settingsSecurity from "@/store/tables/settingsSecurity";
+import $teamMembers from "@/store/tables/teamMembers";
 import $session from "@/store/tables/settingsNetwork";
 
 // PROJECT: API

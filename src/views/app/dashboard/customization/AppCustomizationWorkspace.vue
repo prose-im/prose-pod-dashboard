@@ -179,15 +179,17 @@ export default {
 
       activeModal: null as Modals | null,
 
+      editNameVisibility: false,
+      editLogoVisibility: false,
+      EditDetailCardVisibility: false,
+
+      // --> DATA <--
+
       modalList: {
         editName: "editName",
         editLogo: "editLogo",
         editDetailCard: "editDetailCard"
       },
-
-      editNameVisibility: false,
-      editLogoVisibility: false,
-      EditDetailCardVisibility: false,
 
       profileItems: [
         {
