@@ -66,6 +66,9 @@ import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
 // PROJECT: STORE
 import store from "@/store";
 
+// PROJECT: COMMONS
+import { ErrorWithMessageAndStatus } from "@/commons/errors";
+
 export default {
   name: "InviteTeamMember",
 
@@ -133,15 +136,17 @@ export default {
 
         // Reset values and close modal
         this.onClose();
-      } catch (error: any) {
+      } catch (error) {
+        const typedError = error as ErrorWithMessageAndStatus;
+
         // If member has already been invited
-        if (error.status === 409) {
+        if (typedError.status === 409) {
           BaseAlert.warning(
             "This username is already in use",
             "Please choose a different username"
           );
         } else {
-          BaseAlert.error("Something went wrong", error.message);
+          BaseAlert.error("Something went wrong", typedError.message);
         }
       }
     },

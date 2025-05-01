@@ -58,6 +58,9 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 // PROJECT: STORE
 import store from "@/store";
 
+// PROJECT: COMMONS
+import { ErrorFromResponse } from "@/commons/errors";
+
 export default {
   name: "DeleteMember",
 
@@ -96,14 +99,19 @@ export default {
           "Succesfully removed",
           `${this.jid} has been removed from the team`
         );
-      } catch (error: any) {
-        if (error.response.data.message.includes("self-remove") === true) {
+      } catch (error) {
+        const typedError = error as ErrorFromResponse;
+
+        if (typedError.response.data.message.includes("self-remove") === true) {
           BaseAlert.error(
             "You cannot remove yourself from the team",
             "Please ask an admin to remove you"
           );
         } else {
-          BaseAlert.error("Something went wrong", error.response.data.message);
+          BaseAlert.error(
+            "Something went wrong",
+            typedError.response.data.message
+          );
         }
       }
     }

@@ -19,6 +19,9 @@ import APIServerConfig, {
 import APIMisc, { PodComponentsVersions } from "@/api/providers/misc";
 import APIAdministration from "@/api/providers/administration";
 
+// PROJECT: COMMONS
+import { ErrorWithMessageAndStatus } from "@/commons/errors";
+
 /* *************************************************************************
  * INTERFACES
  * ************************************************************************* */
@@ -80,11 +83,13 @@ const $globalConfig = defineStore("globalConfig", {
 
         try {
           this.serverConfig = await APIServerConfig.getServerConfig();
-        } catch (error: any) {
-          if (error.status === 401) {
+        } catch (error) {
+          const typedError = error as ErrorWithMessageAndStatus;
+
+          if (typedError.status === 401) {
             console.log("Server config cannot be loaded: Not authenticated.");
           } else {
-            console.error("Error loading Server config:", error);
+            console.error("Error loading Server config:", typedError);
           }
         }
       }

@@ -109,7 +109,7 @@ interface Item {
   disabled?: boolean;
   typeProps?: object;
   slot?: "avatar" | "text";
-  slotName?: any;
+  slotName?: string;
   size?: string;
 }
 

@@ -54,6 +54,9 @@ import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
+// PROJECT: COMMONS
+import { ErrorFromResponse } from "@/commons/errors";
+
 export default {
   name: "EditRole",
 
@@ -142,14 +145,16 @@ export default {
 
           // Close modal
           this.onClose();
-        } catch (error: any) {
-          if (error.response.data.message.includes("own") === true) {
+        } catch (error) {
+          const typedError = error as ErrorFromResponse;
+
+          if (typedError.response.data.message.includes("own") === true) {
             BaseAlert.error(
               "You cannot change your own role",
               "Please ask an admin to change your role"
             );
           } else {
-            BaseAlert.error(error.response.data.message);
+            BaseAlert.error(typedError.response.data.message);
           }
         }
       } else {

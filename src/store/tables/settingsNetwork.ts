@@ -26,6 +26,9 @@ import { Hostname } from "@/api/providers/global";
 // PROJECT: STORE
 import store from "@/store";
 
+// PROJECT: COMMONS
+import { ErrorFromResponse } from "@/commons/errors";
+
 /* *************************************************************************
  * INSTANCES
  * ************************************************************************* */
@@ -178,10 +181,12 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
           this.states.dnsSteps.instructionsLoading = false;
           this.states.dnsSteps.instructionsLoaded = true;
-        } catch (error: any) {
+        } catch (error) {
+          const typedError = error as ErrorFromResponse;
+
           this.states.dnsSteps.instructionsFailed = true;
 
-          console.error("recordError", error.response);
+          console.error("recordError", typedError.response);
         }
       }
     },

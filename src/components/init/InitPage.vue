@@ -10,7 +10,7 @@
 
 <template lang="pug">
 .c-init-page
-  
+
   .c-init-page__content(
     v-if="currentStep !== 4"
   )
@@ -238,8 +238,8 @@ export default {
                   // Initialize server if domain is valid
                   try {
                     await APIInit.initServer(this.organization.domain);
-                  } catch (e: any) {
-                    return BaseAlert.error("Error:", e);
+                  } catch (error) {
+                    return BaseAlert.error("Error:", error);
                   }
                   this.currentStep += 1;
                 } else {
@@ -258,8 +258,8 @@ export default {
                 try {
                   // Initialize workspace
                   await APIInit.initWorkspace(this.organization.server);
-                } catch (e: any) {
-                  return BaseAlert.error("Error:", e);
+                } catch (error) {
+                  return BaseAlert.error("Error:", error);
                 }
                 this.currentStep += 1;
               } else {
@@ -283,8 +283,8 @@ export default {
                     admin.jid,
                     this.organization.adminPassword
                   );
-                } catch (e: any) {
-                  return BaseAlert.error("Error:", e);
+                } catch (error) {
+                  return BaseAlert.error("Error:", error);
                 }
                 this.currentStep += 1;
               } else {
