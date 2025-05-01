@@ -220,11 +220,12 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     startNetworkChecks() {
+      // Pre-emptively stop already-running checks?
       if (this.runningNetworkChecks !== null) {
-        // TODO: Reset timeout.
-        return;
+        this.stopNetworkChecks();
       }
 
+      // Start new checks
       const abortController = new AbortController();
 
       this.runningNetworkChecks = {

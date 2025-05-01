@@ -129,8 +129,10 @@ export default {
 
       await store.$globalConfig.performFactoryReset();
 
-      // TODO: do not change location like that!
-      setTimeout(() => (window.location.href = "/"), 50);
+      // Redirect to initialization page
+      await this.$router.push({
+        name: "start.init"
+      });
     }
   }
 };
