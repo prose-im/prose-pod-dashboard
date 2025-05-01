@@ -10,15 +10,15 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { Url } from "./global";
-import { Member } from "./members";
+import { Url } from "@/api/providers/global";
+import { Member } from "@/api/providers/members";
 import APIPodConfig, {
   DashboardUrl,
   InitPodConfigRequest,
   PodConfig
-} from "./podConfig";
-import { ServerConfig } from "./serverConfig";
-import { Workspace } from "./workspace";
+} from "@/api/providers/podConfig";
+import { ServerConfig } from "@/api/providers/serverConfig";
+import { Workspace } from "@/api/providers/workspace";
 
 /* *************************************************************************
  * INTERFACES
@@ -34,22 +34,9 @@ export interface InitFirstAccountRequest {
  * API
  * ************************************************************************* */
 
-async function resource_exists(path: string) {
-  return (
-    (
-      await Api.client.head(path, {
-        headers: {
-          "If-Match": "*"
-        },
-        validateStatus: status => [204, 412].includes(status)
-      })
-    ).status === 204
-  );
-}
-
 class APIInit {
   async isPodInitialized(): Promise<boolean> {
-    // NOTE: We don’t check for `isPodConfigInitialized` because
+    // Notice: we don’t check for `isPodConfigInitialized` because
     //   this doesn’t happen during the initialization process
     //   (it happens when the Dashboard loads).
     return (
@@ -62,21 +49,23 @@ class APIInit {
   async initWorkspace(name: string): Promise<Workspace> {
     return (await Api.client.put("/v1/workspace", { name })).data;
   }
+
   async isWorkspaceInitialized(): Promise<boolean> {
-    return resource_exists("/v1/workspace");
+    return this.__resourceExists("/v1/workspace");
   }
 
   async initServer(domain: string): Promise<ServerConfig> {
     return (await Api.client.put("/v1/server/config", { domain })).data;
   }
+
   async isServerInitialized(): Promise<boolean> {
-    return resource_exists("/v1/server/config");
+    return this.__resourceExists("/v1/server/config");
   }
 
-  /** Note: Requires the server to be initialized. */
   async createFirstAccount(data: InitFirstAccountRequest): Promise<Member> {
     return (await Api.client.put("/v1/init/first-account", data)).data;
   }
+
   async isFirstAccountCreated(): Promise<boolean> {
     return (await Api.client.head("/v1/init/first-account")).status === 200;
   }
@@ -84,12 +73,26 @@ class APIInit {
   async initPodConfig(data: InitPodConfigRequest): Promise<PodConfig> {
     return APIPodConfig.initPodConfig(data);
   }
+
   async isPodConfigInitialized(): Promise<boolean> {
-    return resource_exists("/v1/pod/config");
+    return this.__resourceExists("/v1/pod/config");
   }
-  /** Note: Requires the Pod configuration to be initialized. */
+
   async initDashboardUrl(url: Url): Promise<DashboardUrl> {
     return APIPodConfig.setDashboardUrl(url);
+  }
+
+  private async __resourceExists(path: string) {
+    return (
+      (
+        await Api.client.head(path, {
+          headers: {
+            "If-Match": "*"
+          },
+          validateStatus: status => [204, 412].includes(status)
+        })
+      ).status === 204
+    );
   }
 }
 

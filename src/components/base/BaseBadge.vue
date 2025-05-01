@@ -27,7 +27,7 @@ div(
 
 <script lang="ts">
 // PROJECT: API
-import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
+import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
 
 export default {
   name: "BaseBadge",
@@ -47,8 +47,8 @@ export default {
   computed: {
     label() {
       return this.admin === MemberRole.Admin
-        ? RolesDisplayStrings[MemberRole.Admin]
-        : RolesDisplayStrings[MemberRole.Member];
+        ? ROLES_DISPLAY_STRINGS[MemberRole.Admin]
+        : ROLES_DISPLAY_STRINGS[MemberRole.Member];
     }
   }
 };

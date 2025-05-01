@@ -49,7 +49,7 @@ base-modal(
 import store from "@/store";
 
 // PROJECT: API
-import { MemberRole, RolesDisplayStrings } from "@/api/providers/members";
+import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
 
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
@@ -81,12 +81,12 @@ export default {
 
       roleOptions: [
         {
-          label: RolesDisplayStrings[MemberRole.Member],
+          label: ROLES_DISPLAY_STRINGS[MemberRole.Member],
           value: MemberRole.Member
         },
 
         {
-          label: RolesDisplayStrings[MemberRole.Admin],
+          label: ROLES_DISPLAY_STRINGS[MemberRole.Admin],
           value: MemberRole.Admin
         }
       ]

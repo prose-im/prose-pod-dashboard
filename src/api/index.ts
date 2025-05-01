@@ -30,13 +30,14 @@ import router from "@/router";
 
 const HTTP_TIMEOUT = 30000; // 30 seconds
 
+const BASE_URL = CONFIG.api.endpoint.local;
+
 /* *************************************************************************
  * STORE
  * ************************************************************************* */
 
 class API {
   public readonly client: AxiosInstance;
-  public static BASE_URL = `${CONFIG.api.endpoint.local}`;
 
   private token: string | null = null;
 
@@ -48,54 +49,46 @@ class API {
   }
 
   addInterceptor() {
-    if (!this.token) {
-      return;
-    }
+    const self = this;
 
     this.client.interceptors.response.use(
       function (response) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
+        // Success responses
         return response;
       },
+
       async function (error: AxiosError) {
-        console.log(error);
+        // Only trigger interceptor if we are logged-in
+        // Notice: check if the error response status is 401 before logging out
+        if (self.token && error.response) {
+          switch (error.response.status) {
+            case 401: {
+              try {
+                // Logout from account
+                await store.$account.logout();
 
-        // Check if the error response status is 401 before logging out
-        if (error.response) {
-          if (error.response.status === 401) {
-            try {
-              // Logout from account
-              await store.$account.logout();
+                // Redirect to login page
+                router
+                  .instance()
+                  .push({ name: "start.login", query: { action: "logout" } });
+              } catch (e) {
+                BaseAlert.error("Could not log out", "Maybe try again?");
+              }
 
-              // Redirect to login page
-              router
-                .instance()
-                .push({ name: "start.login", query: { action: "logout" } })
-                .catch(err => {
-                  // Handle redundant navigation error
-                  console.error("error reroute:", err);
-                });
-            } catch (e) {
-              console.error("router error", e);
-              BaseAlert.error("Could not log out", "Maybe try again?");
+              break;
             }
-          } else if (error.response.status === 500) {
-            setTimeout(() => console.log("error 500", error.response), 5000);
 
-            if (error.response.statusText === "Internal Server Error") {
-              router
-                .instance()
-                .push("/error")
-                .catch(err => {
-                  // Handle redundant navigation error
-                  console.error("error reroute:", err);
-                });
+            case 500: {
+              if (error.response.statusText === "Internal Server Error") {
+                router.instance().push("/error");
+              }
+
+              break;
             }
           }
         }
-        // Handle other errors globally if needed
 
+        // Handle other errors globally if needed
         return Promise.reject(error);
       }
     );
@@ -103,12 +96,13 @@ class API {
 
   authenticate(token: string | null): void {
     this.token = token;
+
     // Assign token to common authorization
     this.__setCommonHeader("Authorization", `Bearer ${token}`);
   }
 
   eventSource(route: string): EventSource {
-    return new EventSource(`${API.BASE_URL}${route}`, {
+    return new EventSource(`${BASE_URL}${route}`, {
       headers: this.token ? { Authorization: `Bearer ${this.token}` } : {},
       disableRetry: true
     });
@@ -116,11 +110,12 @@ class API {
 
   private __createClient(): AxiosInstance {
     return axios.create({
-      baseURL: API.BASE_URL,
+      baseURL: BASE_URL,
       timeout: HTTP_TIMEOUT,
-      // NOTE: Some routes accept primitive JSON types,
-      //   but Axios doesn’t mark it as JSON by default.
-      //   This sets a default value for the `Content-Type` header.
+
+      // Notice: some routes accept primitive JSON types, but Axios doesn’t \
+      //   mark it as JSON by default. This sets a default value for the \
+      //   `Content-Type` header.
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"

@@ -10,7 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { Hostname, Ipv4, Ipv6 } from "./global";
+import { Hostname, Ipv4, Ipv6 } from "@/api/providers/global";
 
 /* *************************************************************************
  * INTERFACES
@@ -22,12 +22,14 @@ export interface DnsRecordA {
   ttl: number;
   value: Ipv4;
 }
+
 export interface DnsRecordAAAA {
   hostname: Hostname;
   type: "AAAA";
   ttl: number;
   value: Ipv6;
 }
+
 export interface DnsRecordSRV {
   hostname: Hostname;
   type: "SRV";
@@ -37,37 +39,18 @@ export interface DnsRecordSRV {
   port: number;
   target: string;
 }
+
 export interface DnsRecordStringRepr {
   string_repr: string;
 }
 
 export interface DnsSetupStep {
-  /** The purpose of this step. Note that it always starts with a lowercase letter. */
   purpose: string;
   records: AnyDnsRecordWithStringRepr[];
 }
+
 interface GetDnsRecordsResponse {
   steps: DnsSetupStep[];
-}
-
-export enum DnsRecordStatus {
-  Queued = "QUEUED",
-  Valid = "VALID",
-  PartiallyValid = "PARTIALLY_VALID",
-  Checking = "CHECKING",
-  Invalid = "INVALID"
-}
-export enum PortReachabilityStatus {
-  Queued = "QUEUED",
-  Open = "OPEN",
-  Checking = "CHECKING",
-  Closed = "CLOSED"
-}
-export enum IpConnectivityStatus {
-  Queued = "QUEUED",
-  Success = "SUCCESS",
-  Checking = "CHECKING",
-  Failure = "FAILURE"
 }
 
 export interface CheckResultData<Status extends AnyNetworkCheckStatus> {
@@ -80,15 +63,43 @@ export interface DnsRecordCheckResult {
   event: "dns-record-check-result";
   data: CheckResultData<DnsRecordStatus>;
 }
+
 export interface PortReachabilityCheckResult {
   id: string;
   event: "port-reachability-check-result";
   data: CheckResultData<PortReachabilityStatus>;
 }
+
 export interface IpConnectivityCheckResult {
   id: string;
   event: "ip-connectivity-check-result";
   data: CheckResultData<IpConnectivityStatus>;
+}
+
+/* *************************************************************************
+ * ENUMERATIONS
+ * ************************************************************************* */
+
+export enum DnsRecordStatus {
+  Queued = "QUEUED",
+  Valid = "VALID",
+  PartiallyValid = "PARTIALLY_VALID",
+  Checking = "CHECKING",
+  Invalid = "INVALID"
+}
+
+export enum PortReachabilityStatus {
+  Queued = "QUEUED",
+  Open = "OPEN",
+  Checking = "CHECKING",
+  Closed = "CLOSED"
+}
+
+export enum IpConnectivityStatus {
+  Queued = "QUEUED",
+  Success = "SUCCESS",
+  Checking = "CHECKING",
+  Failure = "FAILURE"
 }
 
 /* *************************************************************************
@@ -106,6 +117,12 @@ export type AnyNetworkCheckStatus =
   | DnsRecordStatus
   | PortReachabilityStatus
   | IpConnectivityStatus;
+
+/* *************************************************************************
+ * CONSTANTS
+ * ************************************************************************* */
+
+const CHECK_TIMEOUT_DEFAULT = 5 * 60 * 1_000; // 5 minutes
 
 /* *************************************************************************
  * API
@@ -129,21 +146,23 @@ class APINetworkConfig {
     ) => void,
     onClose: () => void,
     abortSignal: AbortSignal,
-    /** Default value: 5 minutes. */
-    timeoutMillis = 5 * 60 * 1_000
+    timeout = CHECK_TIMEOUT_DEFAULT
   ): Promise<void> {
     return new Promise<void>(resolve => {
-      function end(message: string, timeout = null as NodeJS.Timeout | null) {
+      function end(_: string, timeout = null as NodeJS.Timeout | null) {
         return () => {
           clearTimeout(timeout ?? undefined);
+
           eventSource.close();
+
           resolve();
           onClose();
         };
       }
-      const timeout = setTimeout(
+
+      const timeoutDelay = setTimeout(
         end("Network checks timed out."),
-        timeoutMillis
+        timeout
       );
 
       const eventSource = Api.eventSource("/v1/network/checks");
@@ -156,6 +175,7 @@ class APINetworkConfig {
           data: JSON.parse(event.data)
         });
       });
+
       eventSource.addEventListener("port-reachability-check-result", event => {
         onMessage({
           event: "port-reachability-check-result",
@@ -163,6 +183,7 @@ class APINetworkConfig {
           data: JSON.parse(event.data)
         });
       });
+
       eventSource.addEventListener("ip-connectivity-check-result", event => {
         onMessage({
           event: "ip-connectivity-check-result",
@@ -174,17 +195,20 @@ class APINetworkConfig {
       // Stream management
       eventSource.addEventListener(
         "end",
-        end("Server asked to close the network checks stream.", timeout)
+        end("Server asked to close the network checks stream.", timeoutDelay)
       );
+
       eventSource.onerror = error => {
         console.error("Error when enriching members:", error);
       };
+
       abortSignal.addEventListener(
         "abort",
-        end("Network checks stream aborted.", timeout)
+        end("Network checks stream aborted.", timeoutDelay)
       );
     });
   }
+
   async checkAllOnce(): Promise<AnyNetworkCheckResult[]> {
     return (await Api.client.get("/v1/network/checks")).data;
   }
@@ -192,9 +216,11 @@ class APINetworkConfig {
   async checkDnsRecordsOnce(): Promise<DnsRecordCheckResult[]> {
     return (await Api.client.get("/v1/network/checks/dns")).data;
   }
+
   async checkPortsReachabilityOnce(): Promise<PortReachabilityCheckResult[]> {
     return (await Api.client.get("/v1/network/checks/ports")).data;
   }
+
   async checkIpConnectivityOnce(): Promise<IpConnectivityCheckResult[]> {
     return (await Api.client.get("/v1/network/checks/ip")).data;
   }

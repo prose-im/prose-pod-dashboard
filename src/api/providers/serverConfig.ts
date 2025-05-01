@@ -10,7 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { DurationDateLike, Hostname } from "./global";
+import { DurationDateLike, Hostname } from "@/api/providers/global";
 
 /* *************************************************************************
  * INTERFACES
@@ -40,6 +40,7 @@ export interface ServerConfig {
 
 export type MessageArchiveRetention = DurationDateLike | "infinite";
 export type FileStorageRetention = DurationDateLike | "infinite";
+
 export enum TlsProfile {
   Modern = "modern",
   Intermediate = "intermediate",
@@ -80,6 +81,8 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
  * ************************************************************************* */
 
 class APIServerConfig {
+  /** CONFIGURATION **/
+
   async initServerConfig(domain: Hostname): Promise<ServerConfig> {
     return (await Api.client.put(`${SERVER_CONFIG_PREFIX}`, { domain })).data;
   }
@@ -101,10 +104,12 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getFileUploadAllowed(): Promise<boolean> {
     return (await Api.client.get(`${SERVER_CONFIG_PREFIX}/file-upload-allowed`))
       .data;
   }
+
   async resetFileUploadAllowed(): Promise<boolean> {
     return (
       await Api.client.delete(`${SERVER_CONFIG_PREFIX}/file-upload-allowed`)
@@ -130,11 +135,13 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getFileStorageRetention(): Promise<FileStorageRetention> {
     return (
       await Api.client.get(`${SERVER_CONFIG_PREFIX}/file-storage-retention`)
     ).data;
   }
+
   async resetFileStorageRetention(): Promise<FileStorageRetention> {
     return (
       await Api.client.delete(`${SERVER_CONFIG_PREFIX}/file-storage-retention`)
@@ -155,11 +162,13 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getMessageArchiveEnabled(): Promise<boolean> {
     return (
       await Api.client.get(`${SERVER_CONFIG_PREFIX}/message-archive-enabled`)
     ).data;
   }
+
   async resetMessageArchiveEnabled(): Promise<boolean> {
     return (
       await Api.client.delete(`${SERVER_CONFIG_PREFIX}/message-archive-enabled`)
@@ -176,11 +185,13 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getMessageArchiveRetention(): Promise<MessageArchiveRetention> {
     return (
       await Api.client.get(`${SERVER_CONFIG_PREFIX}/message-archive-retention`)
     ).data;
   }
+
   async resetMessageArchiveRetention(): Promise<MessageArchiveRetention> {
     return (
       await Api.client.delete(
@@ -205,6 +216,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getPushNotificationWithBody(): Promise<boolean> {
     return (
       await Api.client.get(
@@ -212,6 +224,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async resetPushNotificationWithBody(): Promise<boolean> {
     return (
       await Api.client.delete(
@@ -228,6 +241,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getPushNotificationWithSender(): Promise<boolean> {
     return (
       await Api.client.get(
@@ -235,6 +249,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async resetPushNotificationWithSender(): Promise<boolean> {
     return (
       await Api.client.delete(
@@ -256,9 +271,11 @@ class APIServerConfig {
       await Api.client.put(`${SERVER_CONFIG_PREFIX}/tls-profile`, newValue)
     ).data;
   }
+
   async getTlsProfile(): Promise<TlsProfile> {
     return (await Api.client.get(`${SERVER_CONFIG_PREFIX}/tls-profile`)).data;
   }
+
   async resetTlsProfile(): Promise<TlsProfile> {
     return (await Api.client.delete(`${SERVER_CONFIG_PREFIX}/tls-profile`))
       .data;
@@ -280,10 +297,12 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getFederationEnabled(): Promise<boolean> {
     return (await Api.client.get(`${SERVER_CONFIG_PREFIX}/federation-enabled`))
       .data;
   }
+
   async resetFederationEnabled(): Promise<boolean> {
     return (
       await Api.client.delete(`${SERVER_CONFIG_PREFIX}/federation-enabled`)
@@ -298,6 +317,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getFederationWhitelistEnabled(): Promise<boolean> {
     return (
       await Api.client.get(
@@ -305,6 +325,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async resetFederationWhitelistEnabled(): Promise<boolean> {
     return (
       await Api.client.delete(
@@ -323,6 +344,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async getFederationFriendlyServers(): Promise<Hostname[]> {
     return (
       await Api.client.get(
@@ -330,6 +352,7 @@ class APIServerConfig {
       )
     ).data;
   }
+
   async resetFederationFriendlyServers(): Promise<Hostname[]> {
     return (
       await Api.client.delete(

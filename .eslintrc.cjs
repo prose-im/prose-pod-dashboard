@@ -20,5 +20,13 @@ module.exports = {
   ],
 
   plugins: ["@typescript-eslint"],
-  rules: {}
+
+  rules: {
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        allowedNames: ["self"]
+      }
+    ]
+  }
 };

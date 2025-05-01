@@ -8,10 +8,12 @@
  * IMPORTS
  * ************************************************************************* */
 
+// NPM
+import { EventSource } from "extended-eventsource";
+
 // PROJECT: API
 import Api from "@/api";
-import { BareJid, Mime } from "./global";
-import { EventSource } from "extended-eventsource";
+import { BareJid, Mime } from "@/api/providers/global";
 
 /* *************************************************************************
  * ENUMERATIONS
@@ -48,9 +50,10 @@ export interface EnrichMembersResponse {
 /* *************************************************************************
  * CONSTANTS
  * ************************************************************************* */
+
 export const PAGE_SIZE = 20;
 
-export const RolesDisplayStrings = {
+export const ROLES_DISPLAY_STRINGS = {
   [MemberRole.Member]: "Member",
   [MemberRole.Admin]: "Admin"
 };
@@ -119,9 +122,12 @@ class APITeamMembers {
       })
     ).data;
   }
+
   enrichMembersStream(jids: BareJid[]): EventSource {
     const queryString = new URLSearchParams();
+
     jids.forEach(jid => queryString.append("jids", jid));
+
     return Api.eventSource(`/v1/enrich-members?${queryString}`);
   }
 }

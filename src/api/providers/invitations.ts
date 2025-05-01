@@ -17,8 +17,8 @@ import {
   Password,
   Timestamp,
   Uuid
-} from "./global";
-import { MemberRole } from "./members";
+} from "@/api/providers/global";
+import { MemberRole } from "@/api/providers/members";
 
 /* *************************************************************************
  * ENUMERATIONS
@@ -27,11 +27,13 @@ import { MemberRole } from "./members";
 export enum InvitationChannel {
   Email = "email"
 }
+
 export enum InvitationStatus {
   ToSend = "TO_SEND",
   Sent = "SENT",
   SendFailed = "SEND_FAILED"
 }
+
 export enum InvitationTokenType {
   Accept = "accept",
   Reject = "reject"
@@ -55,6 +57,7 @@ export interface Invitation {
   contact: InvitationContact;
   accept_token_expires_at: Timestamp;
 }
+
 export interface InvitationBasicDetails {
   jid: BareJid;
   pre_assigned_role: MemberRole;
@@ -70,7 +73,6 @@ export interface AcceptInvitationRequest {
  * ************************************************************************* */
 
 export type InvitationId = number;
-/** Note: This could become a union type in the future. */
 export type InvitationContact = InvitationContactEmail;
 export type InvitationAcceptToken = Uuid;
 export type InvitationRejectToken = Uuid;
@@ -89,26 +91,37 @@ class APIInvitations {
   async canInviteMember(): Promise<
     boolean | "forbidden" | "missing-notifier-config"
   > {
-    const res = await Api.client.head("/v1/invitations", {
+    const response = await Api.client.head("/v1/invitations", {
       validateStatus: status => [204, 403, 412].includes(status)
     });
-    switch (res.status) {
-      case 403:
+
+    switch (response.status) {
+      case 403: {
         return "forbidden";
-      case 412:
+      }
+
+      case 412: {
         return "missing-notifier-config";
-      case 204:
+      }
+
+      case 204: {
         return true;
-      default:
+      }
+
+      default: {
         return false;
+      }
     }
   }
+
   async inviteMember(invitation: InviteMemberRequest): Promise<Invitation> {
     return (await Api.client.post("/v1/invitations", invitation)).data;
   }
+
   async getAllInvitations(): Promise<Invitation[]> {
     return (await Api.client.get("/v1/invitations")).data;
   }
+
   async getInvitation(invitationId: InvitationId): Promise<Invitation | null> {
     return (
       (await Api.client.get(`/v1/invitations/${invitationId}`)).data ?? null
@@ -120,6 +133,7 @@ class APIInvitations {
   async resendInvitation(invitationId: InvitationId): Promise<void> {
     await Api.client.post(`/v1/invitations/${invitationId}/resend`);
   }
+
   async cancelInvitation(invitationId: InvitationId): Promise<void> {
     await Api.client.delete(`/v1/invitations/${invitationId}`);
   }
@@ -136,6 +150,7 @@ class APIInvitations {
       )
     ).data;
   }
+
   async acceptInvitation(
     acceptToken: InvitationAcceptToken,
     request: AcceptInvitationRequest
@@ -146,6 +161,7 @@ class APIInvitations {
       { headers: { Authorization: null } }
     );
   }
+
   async rejectInvitation(rejectToken: InvitationRejectToken): Promise<void> {
     await Api.client.put(`/v1/invitation-tokens/${rejectToken}/reject`, null, {
       headers: { Authorization: null }

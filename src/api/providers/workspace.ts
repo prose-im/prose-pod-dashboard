@@ -10,8 +10,8 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { CssColor } from "./global";
-import { Avatar } from "./members";
+import { CssColor } from "@/api/providers/global";
+import { Avatar } from "@/api/providers/members";
 
 /* *************************************************************************
  * INTERFACES
@@ -33,7 +33,6 @@ interface WorkspacePatchRequest {
  * ************************************************************************* */
 
 export type WorkspaceName = string;
-/** A Base64-encoded image. */
 export type WorkspaceIcon = Avatar;
 
 /* *************************************************************************

@@ -42,6 +42,7 @@ class APIAdministration {
   async getFactoryResetConfirmation(): Promise<FactoryResetConfirmation> {
     return (await Api.client.delete("/")).data;
   }
+
   async factoryReset(confirmation: FactoryResetConfirmation): Promise<void> {
     return (await Api.client.delete("/", { data: confirmation })).data;
   }
