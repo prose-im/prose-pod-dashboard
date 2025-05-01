@@ -42,11 +42,11 @@
 
       members-invites-row(
         v-for="(user, index) in members"
+        @menu-action="onMenuAction"
         :key="user.jid"
         :user-data="user"
         :actions-enabled="actionsMenuEnabled"
         class="c-members-invites-dashboard__users"
-        @menuAction="onMenuAction"
       )
 
       span.c-members-invites-dashboard__failed-search(
@@ -60,7 +60,7 @@
 
   base-navigation-footer(
     v-if="!searchTerm"
-    @navFooterUpdate="onChangePage"
+    @nav-footer-update="onChangePage"
     :page="pageNumber"
     :total="memberTotal"
     listing="users"

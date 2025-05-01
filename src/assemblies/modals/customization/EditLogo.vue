@@ -37,7 +37,7 @@ base-modal(
 
       .a-edit-logo__upload--left
         base-upload-button(
-          @filePicked="onFilePicked"
+          @file-picked="onFilePicked"
           accept="image/*"
           label="Upload image..."
           width="117px"

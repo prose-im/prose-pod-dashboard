@@ -19,12 +19,12 @@ teleport(
       v-hotkey="hotkeys"
     )
       base-modal-background(
-        @closeModal="onClose"
+        @close-modal="onClose"
         :position="position"
       )
         base-modal-container(
-          @closeModal="onClose"
-          @confirmAction="onConfirm"
+          @close-modal="onClose"
+          @confirm-action="onConfirm"
           @reload="onReload"
           :container-visible="loaded"
           :position="position"

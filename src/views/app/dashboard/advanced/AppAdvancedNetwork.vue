@@ -43,7 +43,7 @@ configuration-checker(
 server-whitelist(
   v-if="activeModal === 'serverWhitelist'"
   @close="toggleServerWhitelistModalVisible"
-  @showSuccess="onShowSuccess"
+  @show-success="onShowSuccess"
   :server-list="whitelist"
   :visibility="serverWhitelistModalVisibility"
 )

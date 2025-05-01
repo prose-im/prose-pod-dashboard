@@ -26,7 +26,7 @@ base-topography(
 
     init-form(
       v-model="nickname"
-      @changeStep="onSubmit"
+      @change-step="onSubmit"
       :secondary-input="password"
       :form-visible="currentStep === 1"
       :tips="tip"

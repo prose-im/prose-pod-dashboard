@@ -31,9 +31,9 @@
 
     .c-search-bar__right
       base-button(
+        @click="clickHandle"
         tint="purple"
         size="large"
-        @click="clickHandle"
       )
         | {{ buttonLabel }}
 </template>

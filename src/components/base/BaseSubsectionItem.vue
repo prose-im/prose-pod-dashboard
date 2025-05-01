@@ -237,7 +237,7 @@ export default {
     }
   },
 
-  emits: ["update", "click", "showSucess"],
+  emits: ["update", "click", "showSuccess"],
 
   data() {
     return {
@@ -353,12 +353,12 @@ export default {
         this.$emit("update", newValue, this.index);
       }
 
-      this.$emit("showSucess");
+      this.$emit("showSuccess");
     },
 
     onUpdateExtraSelect(newValue: boolean | string): void {
       this.$emit("update", newValue, this.index, 1);
-      this.$emit("showSucess");
+      this.$emit("showSuccess");
     },
 
     onSubtitleRestoreClick() {
@@ -394,7 +394,7 @@ export default {
       this.item.restoreAction();
       this.toggleResetModalVisible();
 
-      this.$emit("showSucess");
+      this.$emit("showSuccess");
     }
   }
 };

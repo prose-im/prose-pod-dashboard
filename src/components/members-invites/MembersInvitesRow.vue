@@ -29,7 +29,7 @@
       "c-members-invites-row--hidden"
     ]`
   )
-  
+
   <!-- 3rd column -->
   .c-members-invites-row__user
     p {{ tableHeaders[0] }}
@@ -73,8 +73,8 @@
       v-if="isMenuOpen"
       v-click-away="onMenuClickAway"
       class="c-members-invites-row__parameters--menu"
+      @menu-action="onMenuAction"
       :options="menuOptions"
-      @menuAction="onMenuAction"
     )
 
 .c-members-invites-row(
@@ -188,9 +188,9 @@
       base-row-menu(
         v-if="isMenuOpen"
         v-click-away="onMenuClickAway"
-        class="c-members-invites-row__parameters--menu"
+        @menu-action="onMenuAction"
         :options="menuOptions"
-        @menuAction="onMenuAction"
+        class="c-members-invites-row__parameters--menu"
       )
 </template>
 

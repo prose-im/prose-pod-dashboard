@@ -29,14 +29,14 @@
   edit-name(
     v-if="activeModal === 'editName'"
     @close="toggleEditNameModalVisible"
-    @showSuccess="onShowSuccess"
+    @show-success="onShowSuccess"
     :visibility="editNameVisibility"
   )
 
   edit-logo(
     v-if="activeModal === 'editLogo'"
     @close="toggleEditLogoModalVisible"
-    @showSuccess="onShowSuccess"
+    @show-success="onShowSuccess"
     :visibility="editLogoVisibility"
   )
 

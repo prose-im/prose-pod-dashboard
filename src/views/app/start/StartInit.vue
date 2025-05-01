@@ -19,7 +19,7 @@ base-topography(
 
   init-page(
     class="v-start-init__page"
-    @updateStep="onUpdateStep"
+    @update-step="onUpdateStep"
   )
 </template>
 

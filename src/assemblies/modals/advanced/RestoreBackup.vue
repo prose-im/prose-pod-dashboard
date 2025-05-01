@@ -42,7 +42,7 @@ base-modal(
                   | &nbsp;file:
 
               base-upload-button(
-                @filePicked="onSettingsFilePicked"
+                @file-picked="onSettingsFilePicked"
                 accept=".settings.backup"
                 label="Choose settings backup..."
                 width="168px"
@@ -82,7 +82,7 @@ base-modal(
                   | &nbsp;archive:
 
               base-upload-button(
-                @filePicked="onDataFilePicked"
+                @file-picked="onDataFilePicked"
                 :disabled="!settingsBackupFile"
                 accept=".data.backup"
                 label="Choose data backup..."

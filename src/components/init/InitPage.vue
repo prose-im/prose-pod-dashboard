@@ -23,7 +23,7 @@
     init-form(
       v-if="currentStep === 1"
       v-model="organization.domain"
-      @changeStep="updateStep('domain')"
+      @change-step="updateStep('domain')"
       :form-visible="currentStep === 1"
       placeholder=" Ex: hello.com"
       :tips="tipDomain"
@@ -38,7 +38,7 @@
     init-form(
       v-if="currentStep === 2"
       v-model="organization.server"
-      @changeStep="updateStep('server')"
+      @change-step="updateStep('server')"
       :form-visible="currentStep === 2"
       placeholder=" Ex: MyCompanyName"
       :tips="tipServer"
@@ -52,7 +52,7 @@
 
     init-form(
       v-if="currentStep === 3"
-      @changeStep="updateStep('admin')"
+      @change-step="updateStep('admin')"
       form-type="triple"
 
       v-model="organization.adminUsername"
@@ -60,12 +60,12 @@
       type="text"
 
       :secondary-input="organization.adminPassword"
-      @updateSecondInput="onUpdateSecondInput"
+      @update-second-input="onUpdateSecondInput"
       secondary-placeholder="Password"
       secondary-type="password"
 
       :tertiary-input="organization.adminNickname"
-      @updateThirdInput="onUpdateThirdInput"
+      @update-third-input="onUpdateThirdInput"
       tertiary-placeholder="Nickname"
       tertiary-type="text"
 
