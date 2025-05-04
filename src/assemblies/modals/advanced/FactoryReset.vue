@@ -13,6 +13,8 @@ base-modal(
   @close="$emit('close')"
   @confirm="onProceed"
   :visible="visibility"
+  :loading="isResetting"
+  :disabled="isResetting"
   :flex-container="true"
   title="Factory reset this Pod"
   title-color="red"
@@ -29,6 +31,7 @@ base-modal(
 
       base-modal-input-block(
         v-model="password"
+        :disabled="isResetting"
         label="Password verification"
         placeholder="Enter your account password..."
         type="password"
@@ -46,6 +49,7 @@ base-modal(
 
       form-checkbox(
         v-model="acceptsDataLoss"
+        :disabled="isResetting"
         size="mid"
         bold="semibold"
         label-color="red"
@@ -91,6 +95,8 @@ export default {
         hasDownloadedBackup: false,
         acceptsDataLoss: false,
 
+        isResetting: false,
+
         password: ""
       };
     },
@@ -116,23 +122,41 @@ export default {
         return BaseAlert.error("Internal error: Can’t find your JID");
       }
 
+      // Mark as loading
+      this.isResetting = true;
+
       const jid = store.$account.$state.session.jid;
 
+      // Verify password (by performing a log-in)
+      // TODO: this should be moved to 'performFactoryReset()'! this is by no \
+      //   means secure, API-side.
       try {
         await APIAuth.login(jid, this.password);
-      } catch (_) {
-        return BaseAlert.error("Invalid password");
+
+        // Reset state
+        Object.assign(this.$data, this.initialState());
+
+        // Run factory reset
+        await store.$globalConfig.performFactoryReset();
+
+        // Alert that we are done
+        BaseAlert.success(
+          "Factory reset complete",
+          "Your Pod needs to be set up again"
+        );
+
+        // Redirect to initialization page
+        await this.$router.push({
+          name: "start.init"
+        });
+      } catch (error) {
+        this.isResetting = false;
+
+        BaseAlert.error(
+          "Could not run factory reset",
+          "Did you enter an incorrect password?"
+        );
       }
-
-      // Reset state
-      Object.assign(this.$data, this.initialState());
-
-      await store.$globalConfig.performFactoryReset();
-
-      // Redirect to initialization page
-      await this.$router.push({
-        name: "start.init"
-      });
     }
   }
 };
