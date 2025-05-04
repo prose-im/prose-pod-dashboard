@@ -186,7 +186,6 @@ $c: ".a-factory-reset";
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  margin-inline: 48px;
 
   #{$c}__disclaimer {
     margin-top: 4px;

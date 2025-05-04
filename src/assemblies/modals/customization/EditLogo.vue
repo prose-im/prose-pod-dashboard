@@ -233,8 +233,6 @@ export default {
 $c: ".a-edit-logo";
 
 #{$c} {
-  margin-inline: 48px;
-
   h4 {
     color: $color-text-secondary;
     margin-top: 0;

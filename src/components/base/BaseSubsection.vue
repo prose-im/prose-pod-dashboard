@@ -317,7 +317,7 @@ $c: ".c-base-subsection";
 
     h2 {
       font-size: $font-size-baseline + 6px;
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-bolder;
       padding-left: 10px;
       margin-block: 0;
       margin-inline-end: 10px;

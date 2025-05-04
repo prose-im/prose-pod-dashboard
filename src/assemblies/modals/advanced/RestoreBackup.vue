@@ -250,7 +250,6 @@ $c: ".a-restore-backup";
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  margin-inline: 48px;
 
   #{$c}__block {
     border-radius: 7px;

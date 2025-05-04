@@ -209,7 +209,6 @@ export default {
 $c: ".a-dns-setup";
 
 #{$c} {
-  margin-inline: 48px;
   font-weight: $font-weight-light;
 
   #{$c}__step {

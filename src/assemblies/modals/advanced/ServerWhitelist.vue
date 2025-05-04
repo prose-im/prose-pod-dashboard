@@ -171,7 +171,6 @@ $c: ".a-server-whitelist";
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  margin-inline: 48px;
 
   #{$c}__top {
     margin-block-end: 31px;

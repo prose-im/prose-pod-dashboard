@@ -180,8 +180,6 @@ export default {
 $c: ".a-invite-team-member";
 
 #{$c} {
-  margin-inline: 48px;
-
   h4 {
     color: $color-text-secondary;
     margin-top: 0;

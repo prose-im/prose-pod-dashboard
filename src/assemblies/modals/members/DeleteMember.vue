@@ -128,7 +128,6 @@ $c: ".a-delete-member";
 
 #{$c} {
   text-align: center;
-  margin-inline: 48px;
   font-size: ($font-size-baseline + 2px);
   line-height: 30px;
   font-weight: $font-weight-light;

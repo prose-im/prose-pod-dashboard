@@ -209,7 +209,7 @@ export default {
 $c: ".c-base-modal-container";
 
 // VARIABLES
-$inner-padding-inline: 32px;
+$inner-padding-inline: 34px;
 
 #{$c} {
   max-width: 750px;
@@ -259,6 +259,7 @@ $inner-padding-inline: 32px;
     font-size: ($font-size-baseline + 1px);
     line-height: ($font-size-baseline + 5px);
     overflow: auto;
+    padding-inline: $inner-padding-inline;
     padding-block: 30px;
     border-block: 1px solid $color-border-secondary;
     flex: 1 1 0;
@@ -293,7 +294,6 @@ $inner-padding-inline: 32px;
 
     #{$c}__body {
       overflow: initial;
-      padding-inline: $inner-padding-inline;
     }
   }
 

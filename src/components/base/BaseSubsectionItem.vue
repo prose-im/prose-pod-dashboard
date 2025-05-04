@@ -513,12 +513,18 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  // <!-- SIMPLE COLORS -->
+  &:nth-child(even) {
+    background-color: $color-base-purple-ultra-light;
+  }
+
+  // --> SIMPLE COLORS <--
+
   &--grey {
     color: $color-text-secondary;
   }
 
-  // <!-- THEME COLORS -->
+  // --> THEME COLORS <--
+
   &--bw {
     #{$c}__taglist {
       color: $color-base-blue-normal;
@@ -551,7 +557,7 @@ $c: ".c-base-subsection-item";
   }
 
   &--greyBackground {
-    background-color: rgba($color-base-grey-light, 0.12);
+    background-color: rgba($color-base-grey-light, 0.3);
   }
 
   // --> MEDIA QUERIES <--
