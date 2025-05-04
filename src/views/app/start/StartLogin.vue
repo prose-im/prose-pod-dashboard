@@ -107,6 +107,7 @@ $c: ".v-start-login";
 #{$c} {
   height: 100%;
   width: 100%;
+  padding-inline: 10px;
   overflow: hidden;
   display: flex;
   align-items: center;
