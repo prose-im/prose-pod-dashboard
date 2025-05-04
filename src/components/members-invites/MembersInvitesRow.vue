@@ -443,18 +443,16 @@ $c: ".c-members-invites-row";
     font-weight: $font-weight-light;
     font-size: ($font-size-baseline - 1px);
     line-height: ($font-size-baseline + 1px);
-    margin-block: 0;
+    margin-block: 3px 0;
   }
 
   &--header {
     color: $color-text-secondary;
     font-size: ($font-size-baseline - 0px);
     font-weight: $font-weight-mid;
+    line-height: 13px;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
-
-    line-height: 13px;
-    margin-block-start: 11px;
   }
 
   // --> COLORS <--

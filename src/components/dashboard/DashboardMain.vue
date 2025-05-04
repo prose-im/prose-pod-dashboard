@@ -60,7 +60,7 @@ $c: ".c-dashboard-main";
     flex-direction: column;
     padding-top: 50px;
     padding-inline: 100px;
-    max-width: 918px;
+    max-width: 1040px;
     width: 100%;
   }
 

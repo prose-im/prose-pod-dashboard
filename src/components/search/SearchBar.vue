@@ -12,22 +12,23 @@
 .c-search-bar
   .c-search-bar__content
     .c-search-bar__left
-      base-icon(
-        size="14px"
-        name="magnifying.glass"
-        fill="#949eb1"
-        class="c-search-bar__magnifying"
-      )
+      .c-search-bar__field
+        base-icon(
+          size="14px"
+          name="magnifying.glass"
+          fill="#949eb1"
+          class="c-search-bar__field-icon"
+        )
 
-      form-field(
-        v-model="term"
-        @change="onInputChange"
-        :disabled="disabled"
-        :placeholder="'Search for ' + placeholderText"
-        type="text"
-        align="left"
-        class="c-search-bar__field"
-      )
+        form-field(
+          v-model="term"
+          @change="onInputChange"
+          :disabled="disabled"
+          :placeholder="'Search for ' + placeholderText"
+          type="text"
+          align="left"
+          class="c-search-bar__field-input"
+        )
 
     .c-search-bar__right
       base-button(
@@ -106,27 +107,33 @@ $c: ".c-search-bar";
   #{$c}__content {
     display: flex;
     justify-content: space-between;
+    column-gap: 14px;
     padding: 22px 29px;
   }
 
   #{$c}__left {
-    position: relative;
-  }
-
-  #{$c}__magnifying {
-    position: absolute;
-    left: 21px;
-    top: 35.5%;
-    z-index: 10;
-  }
-
-  #{$c}__field {
-    position: relative;
-    z-index: 0;
+    flex: 1;
   }
 
   #{$c}__right {
     display: flex;
+    flex: 0 1 auto;
+  }
+
+  #{$c}__field {
+    max-width: 440px;
+    position: relative;
+
+    #{$c}__field-icon {
+      position: absolute;
+      left: 21px;
+      top: 35.5%;
+      z-index: 10;
+    }
+
+    #{$c}__field-input {
+      z-index: 0;
+    }
   }
 }
 </style>
