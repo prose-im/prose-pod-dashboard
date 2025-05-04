@@ -27,7 +27,7 @@ base-modal(
     .a-edit-logo__upload
       base-avatar(
         :avatar-content-type="previewImageType"
-        :avatar-data-64="previewImageData"
+        :avatar-data-base64="previewImageData"
         :placeholder-data="domain"
         class="a-edit-logo__upload--avatar"
         size="60px"

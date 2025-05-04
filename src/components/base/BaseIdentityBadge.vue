@@ -12,7 +12,7 @@
 .c-base-identity-badge
   base-avatar(
     :avatar-content-type="logo?.type"
-    :avatar-data-64="logo?.base64"
+    :avatar-data-base64="logo?.base64"
     :placeholder-data="placeholderName"
     class="c-base-identity-badge__icon"
     type="image"

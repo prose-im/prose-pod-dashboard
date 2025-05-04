@@ -97,7 +97,7 @@ div(
 
     base-avatar(
       v-if="item.slot === 'avatar'"
-      :avatar-data-64="calculatedValue?.base64"
+      :avatar-data-base64="calculatedValue?.base64"
       :avatar-content-type= "calculatedValue?.type"
       :placeholder-data="avatarName"
       :class=`[
@@ -259,10 +259,9 @@ export default {
       get() {
         if (this.type !== "doubleSelect") {
           return this.modelValue;
-        } else {
-          const valueArray = Object.values(this.modelValue);
-          return valueArray[0];
         }
+
+        return Object.values(this.modelValue)[0];
       },
 
       set() {
