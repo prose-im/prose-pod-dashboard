@@ -73,6 +73,7 @@ $c: ".c-init-tips";
     border-right: 1px solid $color-border-primary;
     width: 100%;
     max-width: 90px;
+    padding-block-start: 4px;
   }
 
   #{$c}__logo {
@@ -96,7 +97,7 @@ $c: ".c-init-tips";
   }
 
   #{$c}__list {
-    font-size: ($font-size-baseline + 2px);
+    font-size: ($font-size-baseline + 1.5px);
     font-weight: $font-weight-light;
     line-height: ($font-size-baseline + 10px);
     text-align: left;

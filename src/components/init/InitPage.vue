@@ -64,11 +64,11 @@
       :form-visible="currentStep === 3"
       :tips="tipAdmin"
       form-type="triple"
-      placeholder="Username"
+      placeholder="Username (eg. john.doe)"
       type="text"
       secondary-placeholder="Password"
       secondary-type="password"
-      tertiary-placeholder="Nickname"
+      tertiary-placeholder="Full name (eg. John Doe)"
       tertiary-type="text"
       button-label="Create my account and Finish now"
     )
@@ -258,7 +258,10 @@ export default {
                   );
                 }
               } else {
-                BaseAlert.error("Please enter a domain name");
+                BaseAlert.error(
+                  "Please enter a domain name",
+                  "You may enter a domain like: my-company.com"
+                );
               }
 
               break;
@@ -275,7 +278,10 @@ export default {
 
                 this.currentStep += 1;
               } else {
-                BaseAlert.error("Please enter a name for your server");
+                BaseAlert.error(
+                  "Please enter a name for your server",
+                  "You may enter a name like: My Company"
+                );
               }
 
               break;
@@ -304,7 +310,10 @@ export default {
 
                 this.currentStep += 1;
               } else {
-                BaseAlert.error("Please fill all fields");
+                BaseAlert.error(
+                  "Please fill all fields",
+                  "Enter your username and password"
+                );
               }
 
               break;

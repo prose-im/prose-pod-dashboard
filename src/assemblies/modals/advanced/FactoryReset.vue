@@ -24,9 +24,9 @@ base-modal(
   .a-factory-reset
     .a-factory-reset__top
       base-modal-disclaimer(
-        class="a-factory-reset__disclaimer"
+        :description="disclaimerDescription"
         warning="Read this first:  Performing a factory reset will wipe all data."
-        description="As soon as you run the factory reset, all data stored on this server will be wiped. In other words, this data will be permanently lost. The Pod will restart and show the configuration form that is visible on the first start.Please export a full backup first, that is, of your Pod settings and all user data. Store those backups in a safe place, as you might need them in the future to restore this server."
+        class="a-factory-reset__disclaimer"
       )
 
       base-modal-input-block(
@@ -84,7 +84,18 @@ export default {
   emits: ["close"],
 
   data() {
-    return this.initialState();
+    return {
+      // --> STATE <--
+
+      ...this.initialState(),
+
+      // --> DATA <--
+
+      disclaimerDescription: [
+        "As soon as you run the factory reset, all data stored on this server will be wiped. In other words, this data will be permanently lost. The Pod will restart and show the configuration form that is visible on the first start.",
+        "Please export a full backup first, that is, of your Pod settings and all user data. Store those backups in a safe place, as you might need them in the future to restore this server."
+      ]
+    };
   },
 
   methods: {
@@ -131,6 +142,7 @@ export default {
       // TODO: this should be moved to 'performFactoryReset()'! this is by no \
       //   means secure, API-side.
       try {
+        // TODO: this is not throwing if password is invalid
         await APIAuth.login(jid, this.password);
 
         // Reset state
