@@ -342,8 +342,7 @@ $c: ".c-members-invites-row";
   #{$c}__checkbox {
     min-width: 24px;
     max-width: 46px;
-    flex: 1 1 0;
-    //border: 1px solid blue;
+    flex: 1;
     margin-right: 10px;
   }
 
@@ -351,7 +350,7 @@ $c: ".c-members-invites-row";
     margin-right: 10px;
     min-width: 34px;
     max-width: 41px;
-    flex: 1 1 0;
+    flex: 0 0 auto;
   }
 
   #{$c}__user {
@@ -359,7 +358,7 @@ $c: ".c-members-invites-row";
     max-width: 220px;
     margin-inline-end: 10px;
     margin-block: 0;
-    flex: 1 1 0;
+    flex: 1;
 
     p {
       overflow: hidden;
@@ -371,7 +370,7 @@ $c: ".c-members-invites-row";
   #{$c}__badge {
     margin-right: 10px;
     max-width: 90px;
-    flex: 1 1 0;
+    flex: 1;
     min-width: 56px;
 
     p {
@@ -384,11 +383,11 @@ $c: ".c-members-invites-row";
     min-width: 50px;
     max-width: 15%;
     margin-right: 10px;
-    flex: 1 1 0;
+    flex: 1;
   }
 
   #{$c}__encryption {
-    flex: 1 1 0;
+    flex: 1;
     margin-right: 10px;
     min-width: 66px;
 
