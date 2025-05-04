@@ -14,7 +14,13 @@
     v-if="currentStep !== 4"
   )
     h1
-      | 👋 Welcome to Prose!
+      | 👋
+
+      base-space(
+        :repeat="2"
+      )
+
+      | Welcome to Prose!
 
     p.c-init-page__subtitle
       | Let's get your server set up. It will take less than 5 minutes.
@@ -25,6 +31,7 @@
       @change-step="updateStep('domain')"
       :form-visible="currentStep === 1"
       :tips="tipDomain"
+      :loading="loading"
       placeholder=" Ex: hello.com"
     )
       span
@@ -42,6 +49,7 @@
       @change-step="updateStep('server')"
       :form-visible="currentStep === 2"
       :tips="tipServer"
+      :loading="loading"
       placeholder=" Ex: MyCompanyName"
     )
       span
@@ -63,6 +71,7 @@
       :tertiary-input="organization.adminNickname"
       :form-visible="currentStep === 3"
       :tips="tipAdmin"
+      :loading="loading"
       form-type="triple"
       placeholder="Username (eg. john.doe)"
       type="text"
@@ -79,7 +88,7 @@
         | administrator account
 
       span
-        | . You'll be able to invite team members later."
+        | . You'll be able to invite team members later.
 
   .c-init-page__success(
     v-if="currentStep === 4"
@@ -125,6 +134,8 @@ export default {
       // --> STATE <--
 
       currentStep: 1 as number | null,
+
+      loading: false,
 
       organization: {
         domain: "",
@@ -234,7 +245,10 @@ export default {
     },
 
     async updateStep(stepName: string) {
-      if (this.currentStep) {
+      if (this.currentStep && this.loading !== true) {
+        // Mark as loading
+        this.loading = true;
+
         if (this.currentStep < 4) {
           switch (stepName) {
             case "domain": {
@@ -321,6 +335,9 @@ export default {
           }
         }
 
+        // Not loading anymore
+        this.loading = false;
+
         this.$emit("updateStep", this.currentStep);
       }
     },
@@ -360,12 +377,13 @@ $c: ".c-init-page";
 
   h1 {
     font-size: ($font-size-page + 8px);
-    font-weight: $font-weight-medium;
-    margin-block: 0 17px;
+    font-weight: $font-weight-bolder;
+    margin-block: 0 15px;
   }
 
   #{$c}__subtitle {
-    font-size: ($font-size-page + 3px);
+    font-size: ($font-size-page + 2px);
+    line-height: ($font-size-page + 10px);
     font-weight: $font-weight-light;
     margin-block: 0 108px;
     color: $color-base-grey-normal;

@@ -10,15 +10,18 @@
 
 <template lang="pug">
 .c-init-success
-  h3 Congratulations!
+  h3
+    | 🎉
 
-  br
+    base-space(
+      :repeat="2"
+    )
 
-  p Your server has been setup
+    | Congratulations!
 
-  br
-
-  p You will be redirected to the Dashboard
+  .c-init-success__text
+    p Your server has been setup!
+    p You will be redirected to the Dashboard now...
 
   span.c-init-success__loader
 </template>
@@ -30,6 +33,9 @@
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseLoader from "@/components/base/BaseLoader.vue";
+
+// CONSTANTS
+const REDIRECT_WAIT_DELAY = 3000; // 3 seconds
 
 export default {
   name: "InitSuccess",
@@ -45,7 +51,7 @@ export default {
           name: "app"
         }),
 
-      3000
+      REDIRECT_WAIT_DELAY
     );
   }
 };
@@ -63,31 +69,43 @@ $c: ".c-init-success";
 
   h3 {
     font-size: ($font-size-baseline + 10px);
+    margin: 0;
   }
 
-  p {
-    font-size: ($font-size-baseline + 6px);
+  #{$c}__text {
+    margin-block-start: 52px;
+
+    p {
+      color: $color-text-primary;
+      font-size: ($font-size-baseline + 5px);
+      margin-block: 0 20px;
+
+      &:last-child {
+        color: $color-text-secondary;
+        margin-block-end: 0;
+      }
+    }
   }
 
   #{$c}__loader {
-    width: 48px;
-    height: 48px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     position: relative;
     animation: rotate 1s linear infinite;
     display: block;
     margin-inline: auto;
-    margin-block-start: 100px;
-  }
+    margin-block-start: 86px;
 
-  #{$c}__loader::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    inset: 0px;
-    border-radius: 50%;
-    border: 5px solid $color-base-purple-normal;
-    animation: prixClipFix 3s linear infinite;
+    &::before {
+      content: "";
+      box-sizing: border-box;
+      position: absolute;
+      inset: 0px;
+      border-radius: 50%;
+      border: 3.5px solid $color-base-purple-normal;
+      animation: prixClipFix 3s linear infinite;
+    }
   }
 }
 

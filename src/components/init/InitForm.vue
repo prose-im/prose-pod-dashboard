@@ -32,6 +32,7 @@
         form-field(
           v-model="input"
           @keyup.enter="onKeyupFirstInput"
+          :disabled="loading"
           :placeholder="placeholder"
           :type="type"
           ref="firstFormField"
@@ -45,6 +46,7 @@
           v-if="secondaryType"
           v-model="secondInput"
           @keyup.enter="onKeyupSecondInput"
+          :disabled="loading"
           :placeholder="secondaryPlaceholder"
           :type="secondaryType"
           ref="secondFormField"
@@ -57,6 +59,7 @@
           v-if="tertiaryType"
           v-model="thirdInput"
           @keyup.enter="onSubmit"
+          :disabled="loading"
           :placeholder="tertiaryPlaceholder"
           :type="tertiaryType"
           ref="thirdFormField"
@@ -67,6 +70,8 @@
 
         base-button(
           @click="onSubmit"
+          :disabled="loading"
+          :loading="loading"
           class="c-init-form__button"
           tint="purple"
           size="ultra-large"
@@ -117,6 +122,11 @@ export default {
     },
 
     formVisible: {
+      type: Boolean,
+      default: false
+    },
+
+    loading: {
       type: Boolean,
       default: false
     },
@@ -290,12 +300,10 @@ $c: ".c-init-form";
   margin-inline: 10px;
 
   #{$c}__upper {
-    max-width: 560px;
-    width: 100%;
     margin-inline: 10px;
 
     #{$c}__label {
-      font-size: ($font-size-page + 3px);
+      font-size: ($font-size-page + 2.5px);
       margin-block: 0 35px;
       font-weight: $font-weight-light;
       line-height: 24px;
@@ -303,6 +311,9 @@ $c: ".c-init-form";
   }
 
   #{$c}__field-block {
+    max-width: 560px;
+    margin-inline: auto;
+
     &--flex {
       display: flex;
     }

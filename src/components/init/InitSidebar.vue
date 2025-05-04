@@ -26,7 +26,7 @@
         base-icon(
           :name="item.icon"
           :fill="index === step - 1 ? '#000000' : '#49546299'"
-          size="20px"
+          size="19px"
         )
 
       .c-init-sidebar__text
@@ -40,10 +40,10 @@
       class="c-init-sidebar__success"
     )
       base-icon(
-        :fill="step === 4 ? '#05C02B' : '#49546299'"
         class="c-init-sidebar__success-icon"
         name="checkmark.circle.empty"
-        size="20px"
+        fill="#05C02B"
+        size="18px"
       )
 
     .c-init-sidebar__highlighter(
@@ -98,6 +98,10 @@ export default {
 <style lang="scss">
 $c: ".c-init-sidebar";
 
+// VARIABLES
+$frame-height: 64px;
+$frame-spacing: 11px;
+
 #{$c} {
   max-width: 320px;
   padding-inline: 22px;
@@ -106,7 +110,7 @@ $c: ".c-init-sidebar";
   background-color: $color-white;
 
   #{$c}__logo {
-    margin-block: 40px 69px;
+    margin-block: 40px 56px;
     margin-inline-start: 12px;
   }
 
@@ -115,9 +119,11 @@ $c: ".c-init-sidebar";
   }
 
   #{$c}__frame {
-    padding: 11px;
+    height: $frame-height;
+    padding: $frame-spacing;
     display: flex;
-    margin-block-end: 10px;
+    margin-block-end: $frame-spacing;
+    box-sizing: border-box;
     z-index: 10;
     position: relative;
   }
@@ -125,22 +131,23 @@ $c: ".c-init-sidebar";
   #{$c}__icon-frame {
     position: relative;
     z-index: 10;
-    padding: 11px;
     background-color: $color-background-primary;
     border: 1px solid $color-border-primary;
     border-radius: 8px;
     height: 42px;
     width: 42px;
-    box-sizing: border-box;
-    text-align: center;
     margin-inline-end: 18px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   #{$c}__title {
     display: flex;
     font-size: $font-size-page;
-    font-weight: $font-weight-mid;
-    margin-block: 0 7px;
+    font-weight: $font-weight-medium;
+    margin-block: 0 6px;
   }
 
   #{$c}__description {
@@ -154,7 +161,8 @@ $c: ".c-init-sidebar";
   }
 
   #{$c}__success {
-    margin-inline-start: 11px;
+    margin-block-start: (2 * $frame-spacing);
+    margin-inline-start: $frame-spacing;
   }
 
   #{$c}__highlighter {
@@ -166,17 +174,21 @@ $c: ".c-init-sidebar";
     width: 100%;
     max-width: 350px;
     margin-inline-start: 10px;
-    top: 0px;
-    left: -11px;
+    left: -$frame-spacing;
     z-index: 5;
     transition: top 200ms ease-in-out;
+    box-shadow: inset 0 1.5px 0 0 rgba($color-white, 0.9);
+
+    &--1 {
+      top: 0;
+    }
 
     &--2 {
-      top: (75px);
+      top: ($frame-height + $frame-spacing);
     }
 
     &--3 {
-      top: (150px);
+      top: (2 * ($frame-height + $frame-spacing));
     }
 
     &--4 {
