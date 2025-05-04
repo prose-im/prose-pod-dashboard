@@ -32,8 +32,8 @@ $c: ".c-base-topography";
 
 #{$c} {
   background: linear-gradient(
-      rgba(255, 255, 255, 0.98),
-      rgba(255, 255, 255, 0.98)
+      rgba(255, 255, 255, 0.975),
+      rgba(255, 255, 255, 0.975)
     ),
     url("/images/components/base/BaseTopography/pattern.svg");
 }

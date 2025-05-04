@@ -202,6 +202,9 @@ export default {
 <style lang="scss">
 $c: ".c-base-modal-container";
 
+// VARIABLES
+$inner-padding-inline: 32px;
+
 #{$c} {
   max-width: 750px;
   background-color: $color-white;
@@ -217,16 +220,15 @@ $c: ".c-base-modal-container";
     flex-direction: column;
     justify-content: flex-end;
     flex: 1 1 0;
-    max-height: 110px;
-    min-height: 60px;
+    max-height: 114.5px;
 
     #{$c}__title {
       font-weight: $font-weight-bolder;
       font-size: ($font-size-page + 6px);
       display: flex;
       justify-content: space-between;
-      padding-inline: 48px;
-      padding-bottom: 27.5px;
+      padding-inline: $inner-padding-inline;
+      padding-bottom: 20px;
 
       #{$c}__reload {
         font-size: ($font-size-page - 2.5px);
@@ -251,9 +253,8 @@ $c: ".c-base-modal-container";
     font-size: ($font-size-baseline + 1px);
     line-height: ($font-size-baseline + 5px);
     overflow: auto;
-    padding-top: 35.5px;
-    padding-bottom: 26.5px;
-    border-block: 1px solid $color-border-primary;
+    padding-block: 30px;
+    border-block: 1px solid $color-border-secondary;
     flex: 1 1 0;
   }
 
@@ -262,9 +263,8 @@ $c: ".c-base-modal-container";
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 48px;
-    height: 100px;
-    min-height: 70px;
+    padding-right: $inner-padding-inline;
+    min-height: 90px;
 
     &--extra-button {
       margin-left: 12px;
@@ -277,20 +277,17 @@ $c: ".c-base-modal-container";
   &--center {
     max-width: 550px;
     min-width: 40%;
-    border-radius: 14px;
+    border-radius: 9px;
     height: fit-content;
 
     #{$c}__title {
-      min-height: 0;
-      height: 9.5%;
-      padding-block-start: 27.5px;
+      padding-top: 30px;
       flex: 1 1 auto;
     }
 
     #{$c}__body {
       overflow: initial;
-      padding-block: 35.5px;
-      padding-inline: 48px;
+      padding-inline: $inner-padding-inline;
     }
   }
 

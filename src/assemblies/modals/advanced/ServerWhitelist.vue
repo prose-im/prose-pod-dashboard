@@ -41,6 +41,7 @@ base-modal(
         label="Enter the domain to add"
         placeholder="Enter a domain..."
         type="text"
+        autofocus
       )
 
       base-button(

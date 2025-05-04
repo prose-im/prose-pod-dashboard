@@ -8,9 +8,6 @@
  * UTILITIES > ANIMATIONS
  * **************************************************************************/
 
-// VARIABLES
-$animate-toast-translate-vertical: 40px;
-
 .u-animate {
   animation-duration: 0.2s;
   animation-fill-mode: both;
@@ -136,7 +133,7 @@ $animate-toast-translate-vertical: 40px;
 @keyframes fadeInUpSmall {
   from {
     opacity: 0;
-    transform: translateY($animate-toast-translate-vertical);
+    transform: translateY(4px);
   }
 
   to {
@@ -148,7 +145,7 @@ $animate-toast-translate-vertical: 40px;
 @keyframes fadeInDownSmall {
   from {
     opacity: 0;
-    transform: translateY(-$animate-toast-translate-vertical);
+    transform: translateY(-4px);
   }
 
   to {
@@ -175,7 +172,7 @@ $animate-toast-translate-vertical: 40px;
 
   to {
     opacity: 0;
-    transform: translateY(-$animate-toast-translate-vertical);
+    transform: translateY(-4px);
   }
 }
 
@@ -187,7 +184,7 @@ $animate-toast-translate-vertical: 40px;
 
   to {
     opacity: 0;
-    transform: translateY($animate-toast-translate-vertical);
+    transform: translateY(4px);
   }
 }
 
