@@ -129,9 +129,14 @@
           v-if="userStatus || userStatusDetail"
           class="c-members-invites-row--main"
         )
-          | {{ userStatus }}
+          template(
+            v-if="userStatus"
+          )
+            | {{ userStatus }}
 
-          .c-members-invites-row--submain
+          .c-members-invites-row--submain(
+            v-if="userStatusDetail"
+          )
             | {{ userStatusDetail }}
 
         base-loader(

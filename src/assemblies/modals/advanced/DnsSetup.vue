@@ -15,6 +15,7 @@ base-modal(
   :visible="visibility"
   title="DNS setup instructions"
   button-label="Add custom Emoji"
+  button-icon="checkmark.circle.empty"
 )
   .a-dns-setup
     base-modal-input-block(

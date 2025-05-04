@@ -39,12 +39,6 @@
     @show-success="onShowSuccess"
     :visibility="editLogoVisibility"
   )
-
-  edit-detail-card(
-    v-if="activeModal === 'editDetailCard'"
-    @close="toggleEditDetailCardModalVisible"
-    :visibility="isEditDetailCardVisible"
-  )
 </template>
 
 <!-- **********************************************************************
@@ -57,13 +51,10 @@ enum Modals {
   // Edit Workspace Name Modal
   EditName = "editName",
   // Company's Logo Modal
-  EditLogo = "editLogo",
-  //Edit company's Detail Card Modal
-  EditDetailCard = "editDetailCard"
+  EditLogo = "editLogo"
 }
 
 // PROJECT: COMPONENTS
-import EditDetailCard from "@/assemblies/modals/customization/EditDetailCard.vue";
 import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
 import EditName from "@/assemblies/modals/customization/EditName.vue";
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
@@ -168,7 +159,6 @@ export default {
   name: "AppCustomizationWorkspace",
 
   components: {
-    EditDetailCard,
     EditLogo,
     EditName
   },
@@ -181,14 +171,12 @@ export default {
 
       editNameVisibility: false,
       editLogoVisibility: false,
-      EditDetailCardVisibility: false,
 
       // --> DATA <--
 
       modalList: {
         editName: "editName",
-        editLogo: "editLogo",
-        editDetailCard: "editDetailCard"
+        editLogo: "editLogo"
       },
 
       profileItems: [
@@ -232,7 +220,6 @@ export default {
 
           type: "button",
           disabled: true,
-          action: this.toggleEditDetailCardModalVisible,
 
           typeProps: {
             label: "Edit details...",
@@ -304,14 +291,6 @@ export default {
         this.activeModal = null;
       } else {
         this.activeModal = Modals.EditLogo;
-      }
-    },
-
-    toggleEditDetailCardModalVisible() {
-      if (this.activeModal === "editDetailCard") {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.EditDetailCard;
       }
     },
 

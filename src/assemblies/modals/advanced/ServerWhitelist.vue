@@ -17,6 +17,7 @@ base-modal(
   title="Set a server whitelist"
   button-color="purple"
   button-label="Save the server whitelist"
+  button-icon="checkmark.circle.empty"
 )
   .a-server-whitelist
     .a-server-whitelist__top

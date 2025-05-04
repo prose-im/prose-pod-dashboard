@@ -14,19 +14,19 @@ base-topography(
 )
   .v-broken-api__content
     h1
-      | Sorry, we're experiencing technical problems
+      | Sorry, your Prose Pod is unreachable at the moment.
 
     span.v-broken-api__subtitle
-      | Please try again later
+      | Please try again later!
 
     base-button(
       @click="onRetryClick"
       class="v-broken-api__button"
-      size="medium"
-      tint="purple"
+      tint="red"
+      size="large"
+      icon="restore"
     )
-      p
-        | Go back home
+      | Try loading again
 </template>
 
 <!-- **********************************************************************

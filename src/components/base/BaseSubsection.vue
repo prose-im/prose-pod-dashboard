@@ -65,6 +65,7 @@
     :visible="resetModalVisibility"
     :title="restoreTitle"
     :button-label="restoreButton"
+    button-icon="restore"
     position="center"
     button-color="red"
   )

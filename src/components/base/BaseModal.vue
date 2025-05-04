@@ -32,6 +32,7 @@ teleport(
           :title-color="titleColor"
           :button-color="buttonColor"
           :button-label="buttonLabel"
+          :button-icon="buttonIcon"
           :flex-body="flexContainer"
           :disabled="disabled"
           :loading="loading"
@@ -67,6 +68,11 @@ export default {
     buttonLabel: {
       type: String,
       default: ""
+    },
+
+    buttonIcon: {
+      type: String,
+      default: null
     },
 
     disabled: {

@@ -16,6 +16,7 @@ base-modal(
   title="Invite a team member"
   button-color="purple"
   button-label="Invite Team Member"
+  button-icon="checkmark.circle.empty"
 )
   .a-invite-team-member
     base-modal-input-block(

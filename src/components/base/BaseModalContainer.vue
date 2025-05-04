@@ -65,6 +65,7 @@ transition(
         :disabled="disabled"
         :loading="loading"
         :tint="buttonColor"
+        :icon="buttonIcon"
         size="large"
         class="c-base-modal-container__footer--extra-button"
       )
@@ -117,6 +118,11 @@ export default {
     buttonLabel: {
       type: String,
       default: ""
+    },
+
+    buttonIcon: {
+      type: String,
+      default: null
     },
 
     containerVisible: {
