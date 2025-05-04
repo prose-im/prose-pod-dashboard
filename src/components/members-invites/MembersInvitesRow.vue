@@ -94,7 +94,7 @@
     <!-- 2nd column -->
     base-avatar(
       :avatar-content-type="userData.avatar?.type"
-      :avatar-data-base64="userData.avatar?.data"
+      :avatar-data-base64="userData.avatar?.base64"
       :placeholder-data="userData.nickname"
       class="c-members-invites-row__avatar"
     )
