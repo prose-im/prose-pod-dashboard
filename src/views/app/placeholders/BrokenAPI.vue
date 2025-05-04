@@ -64,6 +64,11 @@ $c: ".v-broken-api";
   overflow: hidden;
   text-align: center;
 
+  #{$c}__content {
+    max-width: 30em;
+    margin: 5em auto;
+  }
+
   h1 {
     font-size: ($font-size-page + 3px);
     font-weight: $font-weight-medium;
@@ -74,13 +79,11 @@ $c: ".v-broken-api";
     display: block;
     font-size: ($font-size-page + 3px);
     font-weight: $font-weight-light;
-    margin-block: 0 108px;
     color: $color-base-grey-normal;
   }
 
-  #{$c}__content {
-    max-width: 30em;
-    margin: 5em auto;
+  #{$c}__button {
+    margin-top: 68px;
   }
 }
 </style>
