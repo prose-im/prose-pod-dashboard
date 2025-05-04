@@ -155,14 +155,8 @@
         ]`
       )
         base-mfa-badge(
-          v-if="userData.mfa"
+          :enabled="userData.mfa"
         )
-
-        p(
-          v-else
-          class="c-members-invites-row__soon"
-        )
-          | Coming soon
 
     <!-- 7th column -->
     .c-members-invites-row__parameters
@@ -413,12 +407,6 @@ $c: ".c-members-invites-row";
     &--light {
       font-weight: $font-weight-light;
     }
-  }
-
-  #{$c}__soon {
-    font-size: ($font-size-baseline - 1.5px);
-    color: $color-base-grey-normal;
-    width: max-content;
   }
 
   #{$c}__parameters {
