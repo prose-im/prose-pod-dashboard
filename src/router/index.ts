@@ -26,7 +26,7 @@ import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfig
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 import StartLogin from "@/views/app/start/StartLogin.vue";
 import StartInit from "@/views/app/start/StartInit.vue";
-import BrokenAPI from "@/views/app/placeholders/BrokenAPI.vue";
+import PlaceholderError from "@/views/app/placeholders/PlaceholderError.vue";
 import InvitationAccept from "@/views/app/invitations/InvitationAccept.vue";
 import InvitationReject from "@/views/app/invitations/InvitationReject.vue";
 
@@ -161,7 +161,7 @@ class Router {
         {
           path: "/error",
           name: "error",
-          component: BrokenAPI,
+          component: PlaceholderError,
           props: true
         }
       ]

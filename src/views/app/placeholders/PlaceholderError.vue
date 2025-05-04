@@ -10,18 +10,18 @@
 
 <template lang="pug">
 base-topography(
-  class="v-broken-api"
+  class="v-placeholder-error"
 )
-  .v-broken-api__content
+  .v-placeholder-error__content
     h1
       | Sorry, your Prose Pod is unreachable at the moment.
 
-    span.v-broken-api__subtitle
+    span.v-placeholder-error__subtitle
       | Please try again later!
 
     base-button(
       @click="onRetryClick"
-      class="v-broken-api__button"
+      class="v-placeholder-error__button"
       tint="red"
       size="large"
       icon="restore"
@@ -35,7 +35,7 @@ base-topography(
 
 <script lang="ts">
 export default {
-  name: "BrokenAPI",
+  name: "PlaceholderError",
 
   methods: {
     // --> EVENT LISTENERS <--
@@ -54,7 +54,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".v-broken-api";
+$c: ".v-placeholder-error";
 
 #{$c} {
   height: 100%;
