@@ -56,6 +56,7 @@
 
     base-spinner(
       v-else
+      class="c-members-invites-dashboard__spinner"
     )
 
   base-navigation-footer(
@@ -407,6 +408,10 @@ $c: ".c-members-invites-dashboard";
       &:nth-child(even) {
         background-color: $color-base-purple-ultra-light;
       }
+    }
+
+    #{$c}__spinner {
+      margin: 60px auto 40px;
     }
   }
 }
