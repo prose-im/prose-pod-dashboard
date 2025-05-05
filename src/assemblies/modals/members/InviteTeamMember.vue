@@ -133,7 +133,10 @@ export default {
         await store.$teamMembers.loadInvitedMembers(true);
 
         // Let user know the invitaion was sent
-        BaseAlert.success("An invitation has been sent", "");
+        BaseAlert.success(
+          "An invitation has been sent",
+          "An email has been delivered to the invitee"
+        );
 
         // Reset values and close modal
         this.onClose();
@@ -147,7 +150,10 @@ export default {
             "Please choose a different username"
           );
         } else {
-          BaseAlert.error("Something went wrong", typedError.message);
+          BaseAlert.error(
+            "Something went wrong",
+            typedError.message || "Unknown reason"
+          );
         }
       }
     },

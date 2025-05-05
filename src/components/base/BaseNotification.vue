@@ -9,16 +9,21 @@
   ********************************************************************** -->
 
 <template lang="pug">
-.c-base-notification
-  p
-    | Success
-
-  base-icon(
-    class="c-base-notification__icon"
-    name="checkmark.circle.fill"
-    fill="#05c02b"
-    size="12px"
+transition(
+  enter-active-class="u-animate u-animate--fade-in-up-small u-animate--superfast"
+  leave-active-class="u-animate u-animate--fade-out u-animate--fast"
+)
+  .c-base-notification(
+    v-if="visible"
   )
+    slot
+
+    base-icon(
+      class="c-base-notification__icon"
+      name="checkmark.circle.fill"
+      fill="#05c02b"
+      size="12px"
+    )
 </template>
 
 <!-- **********************************************************************
@@ -30,7 +35,7 @@ export default {
   name: "BaseNotification",
 
   props: {
-    visibility: {
+    visible: {
       type: Boolean,
       default: false
     }
@@ -46,14 +51,10 @@ export default {
 $c: ".c-base-notification";
 
 #{$c} {
-  position: fixed;
+  color: $color-base-green-normal;
+  font-size: $font-size-baseline;
   display: flex;
   align-items: center;
-  top: 5%;
-  right: 15%;
-  padding-right: 10px;
-  font-size: $font-size-baseline;
-  color: $color-base-green-normal;
 
   #{$c}__icon {
     padding-left: 4px;

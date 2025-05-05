@@ -154,7 +154,10 @@ export default {
               "Please ask an admin to change your role"
             );
           } else {
-            BaseAlert.error(typedError.response.data.message);
+            BaseAlert.error(
+              "Could not edit role",
+              typedError.response.data.message || "Unknown reason"
+            );
           }
         }
       } else {

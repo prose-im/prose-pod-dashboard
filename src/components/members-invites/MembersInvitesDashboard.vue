@@ -264,7 +264,10 @@ export default {
 
         switch (canInviteMembers) {
           case "forbidden": {
-            return BaseAlert.error("You cannot do that");
+            return BaseAlert.error(
+              "You cannot do that",
+              "Forbidden to invite members"
+            );
           }
 
           case "missing-notifier-config": {
@@ -277,7 +280,7 @@ export default {
           case false: {
             return BaseAlert.error(
               "You cannot do that",
-              "…but that might just be a bug."
+              "…but that might just be a bug!"
             );
           }
 

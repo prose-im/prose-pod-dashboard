@@ -174,8 +174,11 @@ export default {
       if (file) {
         const fileType = file.type.split("/")[1];
 
-        if (fileType !== "jpeg") {
-          BaseAlert.error("Please choose a .settings.backup file");
+        if (fileType !== "backup") {
+          BaseAlert.error(
+            "Not a backup file!",
+            "Please choose a .settings.backup file"
+          );
 
           return;
         }
@@ -191,8 +194,11 @@ export default {
       if (file) {
         const fileType = file.type.split("/")[1];
 
-        if (fileType !== "jpeg") {
-          BaseAlert.error("Please choose a .data.backup file");
+        if (fileType !== "backup") {
+          BaseAlert.error(
+            "Not a backup file!",
+            "Please choose a .data.backup file"
+          );
 
           return;
         }
@@ -207,11 +213,12 @@ export default {
     onProceed() {
       // Check if the whole form was filled
       if (!this.settingsBackupFile || !this.dataBackupFile) {
-        BaseAlert.error("Please upload your backup files");
+        BaseAlert.error("No backup file", "Please upload your backup files");
       } else if (!this.password) {
-        BaseAlert.error("Please enter your password");
+        BaseAlert.error("No password", "Please enter your password");
       } else if (!this.dataLossConfirmed) {
         BaseAlert.error(
+          "Please accept conditions",
           "Please confirm that you have read and accept all the conditions"
         );
       } else {

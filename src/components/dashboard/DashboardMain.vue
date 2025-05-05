@@ -58,15 +58,19 @@ $c: ".c-dashboard-main";
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
-    padding-inline: 100px;
+    margin-top: 50px;
+    margin-inline: 100px;
     max-width: 1040px;
     width: 100%;
+    position: relative;
+
+    > * {
+      margin-inline: 12px;
+    }
   }
 
-  #{$c}__breadcrumb,
   #{$c}__background {
-    margin-inline: 12px;
+    padding-block-end: 40px;
   }
 }
 </style>

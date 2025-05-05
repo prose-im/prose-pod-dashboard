@@ -84,13 +84,11 @@
 
   <!-- Tooltip Notification -->
 
-  transition(
-    enter-active-class="u-animate u-animate--scale-up u-animate--fast"
-    leave-active-class="u-animate u-animate--scale-down u-animate--fast"
+  base-notification(
+    :visible="showSuccessBanner"
+    class="c-base-subsection__notification"
   )
-    base-notification(
-      v-if="showSuccessBanner"
-    )
+    | Changes saved
 </template>
 
 <!-- **********************************************************************
@@ -254,6 +252,14 @@ export default {
     },
 
     makeSucessBannerVisible() {
+      // Clear any previously-set timer
+      if (this.timer) {
+        clearTimeout(this.timer);
+
+        this.timer = null;
+      }
+
+      // Show banner for first time, or show it again?
       if (this.showSuccessBanner === false) {
         this.showSuccessBanner = true;
 
@@ -262,17 +268,15 @@ export default {
           this.timer = null;
         }, 3000);
       } else {
-        if (this.timer) {
-          clearTimeout(this.timer);
-
-          this.timer = null;
-        }
-
+        // Hide success banner
         this.showSuccessBanner = false;
 
-        setTimeout(() => {
-          this.makeSucessBannerVisible();
-        }, 100);
+        // Show it again!
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.makeSucessBannerVisible();
+          }, 500);
+        });
       }
     },
 
@@ -302,9 +306,12 @@ export default {
 <style lang="scss">
 $c: ".c-base-subsection";
 
+// VARIABLES
+$margin-inline: 38px;
+
 #{$c} {
   margin-top: 34.5px;
-  margin-inline: 38px;
+  margin-inline: $margin-inline;
 
   #{$c}__title {
     display: flex;
@@ -382,6 +389,12 @@ $c: ".c-base-subsection";
     &:nth-child(even) {
       background-color: $color-base-purple-ultra-light;
     }
+  }
+
+  #{$c}__notification {
+    position: absolute;
+    top: 16px;
+    right: $margin-inline;
   }
 
   @media (max-width: 768px) {

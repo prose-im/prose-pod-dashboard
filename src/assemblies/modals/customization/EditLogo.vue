@@ -151,7 +151,7 @@ export default {
 
         fileReader.addEventListener("load", () => {
           if (!fileReader.result) {
-            BaseAlert.error("An error occurred");
+            BaseAlert.error("An error occurred", "Mind try again?");
 
             return;
           }

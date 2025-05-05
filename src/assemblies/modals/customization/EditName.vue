@@ -72,7 +72,11 @@ export default {
 
     onProceed() {
       if (!this.newName) {
-        BaseAlert.error("Please enter a name for your workspace");
+        BaseAlert.error(
+          "No workspace name",
+          "Please enter a name for your workspace"
+        );
+
         return;
       }
 
