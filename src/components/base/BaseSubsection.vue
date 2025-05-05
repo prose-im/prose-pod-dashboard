@@ -313,6 +313,10 @@ $margin-inline: 38px;
   margin-top: 34.5px;
   margin-inline: $margin-inline;
 
+  &:last-child {
+    margin-block-end: 50px;
+  }
+
   #{$c}__title {
     display: flex;
     justify-content: space-between;

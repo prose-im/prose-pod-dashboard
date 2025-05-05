@@ -68,9 +68,5 @@ $c: ".c-dashboard-main";
       margin-inline: 12px;
     }
   }
-
-  #{$c}__background {
-    padding-block-end: 40px;
-  }
 }
 </style>

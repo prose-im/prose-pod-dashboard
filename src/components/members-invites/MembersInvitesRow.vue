@@ -100,7 +100,13 @@ TEMPLATE
     )
 
     <!-- 3rd column -->
-    .c-members-invites-row__user
+    .c-members-invites-row__user(
+      :class=`[
+        {
+          "c-members-invites-row__user--emphasis" : userData.invitation_id
+        }
+      ]`
+    )
       p(
         v-if="userData.nickname"
         class="c-members-invites-row--main"
@@ -111,14 +117,18 @@ TEMPLATE
         v-else-if="!userData.invitation_id"
       )
 
-      p.c-members-invites-row--submain(
+      p(
         :title="userData.jid"
+        :class=`[
+          "c-members-invites-row--submain"
+        ]`
       )
         | {{ userData.jid }}
 
     <!-- 4th column -->
     .c-members-invites-row__badge
       base-badge(
+        v-if="!userData.invitation_id"
         :admin="userData.role ?? userData.pre_assigned_role"
         size="long"
       )
@@ -145,13 +155,7 @@ TEMPLATE
         )
 
     <!-- 6th column -->
-    .c-members-invites-row__encryption(
-      :class=`[
-        {
-          "c-members-invites-row__encryption--hidden" : userData.invitation_id
-        }
-      ]`
-    )
+    .c-members-invites-row__encryption
       .c-members-invites-row__encryption--block(
         :class=`[
           {
@@ -328,6 +332,7 @@ export default {
 $c: ".c-members-invites-row";
 
 #{$c} {
+  border-block-end: 1px solid $color-border-secondary;
   display: flex;
   align-items: center;
   padding-inline: 29px;
@@ -353,6 +358,15 @@ $c: ".c-members-invites-row";
     margin-inline-end: 10px;
     margin-block: 0;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+
+    &--emphasis {
+      > * {
+        font-weight: $font-weight-regular;
+      }
+    }
 
     p {
       overflow: hidden;
@@ -363,9 +377,9 @@ $c: ".c-members-invites-row";
 
   #{$c}__badge {
     margin-right: 10px;
+    min-width: 56px;
     max-width: 90px;
     flex: 1;
-    min-width: 56px;
 
     p {
       margin: 0;
@@ -399,19 +413,10 @@ $c: ".c-members-invites-row";
     &--icon {
       margin-right: 6.5px;
     }
-
-    &--hidden {
-      max-width: 222px;
-    }
-
-    &--light {
-      font-weight: $font-weight-light;
-    }
   }
 
   #{$c}__parameters {
     position: relative;
-    width: 100px;
     display: flex;
     justify-content: end;
 
@@ -443,7 +448,7 @@ $c: ".c-members-invites-row";
     font-weight: $font-weight-light;
     font-size: ($font-size-baseline - 1px);
     line-height: ($font-size-baseline + 1px);
-    margin-block: 3px 0;
+    margin-block: 0;
   }
 
   &--header {
