@@ -93,8 +93,8 @@ TEMPLATE
 
     <!-- 2nd column -->
     base-avatar(
-      :avatar-data-64="userData.avatar?.base64"
       :avatar-content-type="userData.avatar?.type"
+      :avatar-data-base64="userData.avatar?.base64"
       :placeholder-data="userData.nickname"
       class="c-members-invites-row__avatar"
     )
@@ -129,9 +129,14 @@ TEMPLATE
           v-if="userStatus || userStatusDetail"
           class="c-members-invites-row--main"
         )
-          | {{ userStatus }}
+          template(
+            v-if="userStatus"
+          )
+            | {{ userStatus }}
 
-          .c-members-invites-row--submain
+          .c-members-invites-row--submain(
+            v-if="userStatusDetail"
+          )
             | {{ userStatusDetail }}
 
         base-loader(
@@ -155,14 +160,8 @@ TEMPLATE
         ]`
       )
         base-mfa-badge(
-          v-if="userData.mfa"
+          :enabled="userData.mfa"
         )
-
-        p(
-          v-else
-          class="c-members-invites-row__soon"
-        )
-          | Coming soon
 
     <!-- 7th column -->
     .c-members-invites-row__parameters
@@ -337,8 +336,7 @@ $c: ".c-members-invites-row";
   #{$c}__checkbox {
     min-width: 24px;
     max-width: 46px;
-    flex: 1 1 0;
-    //border: 1px solid blue;
+    flex: 1;
     margin-right: 10px;
   }
 
@@ -346,7 +344,7 @@ $c: ".c-members-invites-row";
     margin-right: 10px;
     min-width: 34px;
     max-width: 41px;
-    flex: 1 1 0;
+    flex: 0 0 auto;
   }
 
   #{$c}__user {
@@ -354,7 +352,7 @@ $c: ".c-members-invites-row";
     max-width: 220px;
     margin-inline-end: 10px;
     margin-block: 0;
-    flex: 1 1 0;
+    flex: 1;
 
     p {
       overflow: hidden;
@@ -366,7 +364,7 @@ $c: ".c-members-invites-row";
   #{$c}__badge {
     margin-right: 10px;
     max-width: 90px;
-    flex: 1 1 0;
+    flex: 1;
     min-width: 56px;
 
     p {
@@ -379,11 +377,11 @@ $c: ".c-members-invites-row";
     min-width: 50px;
     max-width: 15%;
     margin-right: 10px;
-    flex: 1 1 0;
+    flex: 1;
   }
 
   #{$c}__encryption {
-    flex: 1 1 0;
+    flex: 1;
     margin-right: 10px;
     min-width: 66px;
 
@@ -409,12 +407,6 @@ $c: ".c-members-invites-row";
     &--light {
       font-weight: $font-weight-light;
     }
-  }
-
-  #{$c}__soon {
-    font-size: ($font-size-baseline - 1.5px);
-    color: $color-base-grey-normal;
-    width: max-content;
   }
 
   #{$c}__parameters {
@@ -451,18 +443,16 @@ $c: ".c-members-invites-row";
     font-weight: $font-weight-light;
     font-size: ($font-size-baseline - 1px);
     line-height: ($font-size-baseline + 1px);
-    margin-block: 0;
+    margin-block: 3px 0;
   }
 
   &--header {
     color: $color-text-secondary;
     font-size: ($font-size-baseline - 0px);
     font-weight: $font-weight-mid;
+    line-height: 13px;
     border-block: 1px solid $color-border-primary;
     padding-block: 0;
-
-    line-height: 13px;
-    margin-block-start: 11px;
   }
 
   // --> COLORS <--

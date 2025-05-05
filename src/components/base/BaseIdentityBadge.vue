@@ -12,12 +12,12 @@
 .c-base-identity-badge
   base-avatar(
     :avatar-content-type="logo?.type"
-    :avatar-data-64="logo?.base64"
+    :avatar-data-base64="logo?.base64"
     :placeholder-data="placeholderName"
     class="c-base-identity-badge__icon"
     type="image"
-    border-radius="22px"
-    size="44px"
+    border-radius="50%"
+    size="40px"
   )
 
   .c-base-identity-badge__server
@@ -32,20 +32,10 @@
       )
         | {{ name }}
 
-      base-space
-
       .c-base-identity-badge__server-domain(
         v-if="domain"
       )
-        span(
-          :class=`[
-            "c-base-identity-badge__server-separator",
-            "c-base-identity-badge--light"
-          ]`
-        )
-          | |
-
-        base-space
+        span.c-base-identity-badge__server-separator
 
         span(
           :class=`[
@@ -133,9 +123,11 @@ export default {
     }
   },
 
-  mounted() {
-    store.$customizationWorkspace.loadWorkspaceConfig();
-    store.$globalConfig.loadGlobalConfig();
+  async mounted() {
+    await Promise.all([
+      store.$customizationWorkspace.loadWorkspaceConfig(),
+      store.$globalConfig.loadGlobalConfig()
+    ]);
   }
 };
 </script>
@@ -151,8 +143,9 @@ $c: ".c-base-identity-badge";
   display: flex;
   background-color: $color-white;
   align-items: center;
+  min-width: 180px;
   padding-inline-start: 6px;
-  padding-inline-end: 31px;
+  padding-inline-end: 9px;
   padding-block: 6px;
   margin-top: 28px;
   margin-left: -6.5px;
@@ -183,6 +176,7 @@ $c: ".c-base-identity-badge";
       display: flex;
       overflow: hidden;
       text-overflow: ellipsis;
+      align-items: center;
     }
 
     &-name {
@@ -192,13 +186,19 @@ $c: ".c-base-identity-badge";
     }
 
     &-separator {
-      color: $color-base-grey-light;
-      font-size: $font-size-baseline - 1px;
+      background-color: $color-base-grey-light;
+      width: 1px;
+      height: ($font-size-baseline - 1px);
+      margin-inline: 5px;
+      margin-block-end: -1.5px;
+      flex: 0 0 auto;
     }
 
     &-description {
       color: $color-text-secondary;
-      font-size: $font-size-baseline - 2px;
+      font-size: ($font-size-baseline - 2px);
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     p {

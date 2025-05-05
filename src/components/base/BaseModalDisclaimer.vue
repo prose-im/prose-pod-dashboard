@@ -12,7 +12,7 @@
 .c-base-modal-disclaimer
   .c-base-modal-disclaimer__warning
     base-icon(
-      class="c-base-modal-disclaimer--icon"
+      class="c-base-modal-disclaimer__icon"
       name="exclamationmark.triangle.fill"
       fill="#dd2f2f"
       height="14px"
@@ -22,9 +22,14 @@
     p
       | {{ warning }}
 
-  .c-base-modal-disclaimer__description
-    p
-      | {{ description }}
+  .c-base-modal-disclaimer__description(
+    v-if="description.length > 0"
+  )
+    p(
+      v-for="(line, index) in description"
+      :key="'line_' + index"
+    )
+      | {{ line }}
   </template>
 
 <!-- **********************************************************************
@@ -42,8 +47,8 @@ export default {
     },
 
     description: {
-      type: String,
-      default: ""
+      type: Array,
+      default: () => []
     }
   }
 };
@@ -58,7 +63,7 @@ $c: ".c-base-modal-disclaimer";
 
 #{$c} {
   background-color: rgba($color-base-red-normal, 0.06);
-  padding: 10px 19px 10.5px 21px;
+  padding: 11px 22px;
   border-radius: 5px;
   white-space: pre-wrap;
 
@@ -70,22 +75,26 @@ $c: ".c-base-modal-disclaimer";
     display: flex;
     align-items: center;
 
-    &--icon {
-      margin-right: 6px;
+    #{$c}__icon {
+      margin-right: 8px;
     }
   }
 
   #{$c}__description {
     font-weight: $font-weight-light;
-    font-size: ($font-size-baseline);
+    font-size: $font-size-baseline;
+
+    p {
+      margin-block-end: 12px;
+
+      &:last-child {
+        margin-block-end: 0;
+      }
+    }
   }
 
   p {
     margin: 0;
-  }
-
-  &--icon {
-    margin-right: 13px;
   }
 }
 </style>

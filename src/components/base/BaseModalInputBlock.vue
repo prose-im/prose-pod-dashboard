@@ -20,6 +20,7 @@
     :type="type"
     :placeholder="placeholder"
     :autofocus="autofocus"
+    :disabled="disabled"
     ref="formField"
     size="mid-large"
     align="left"
@@ -59,6 +60,11 @@ export default {
     },
 
     autofocus: {
+      type: Boolean,
+      default: false
+    },
+
+    disabled: {
       type: Boolean,
       default: false
     }

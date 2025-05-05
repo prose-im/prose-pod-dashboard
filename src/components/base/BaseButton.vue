@@ -82,15 +82,15 @@ const AVAILABLE_SIZES: { [size: string]: { icon: string } } = {
   },
 
   large: {
-    icon: "16px"
+    icon: "15px"
   },
 
   "mid-large": {
-    icon: "17px"
+    icon: "16px"
   },
 
   "ultra-large": {
-    icon: "18px"
+    icon: "17px"
   }
 };
 
@@ -121,11 +121,7 @@ export default {
       default: "medium",
 
       validator(x: string) {
-        const sizes = Object.keys(AVAILABLE_SIZES);
-
-        sizes.push("custom");
-
-        return sizes.includes(x);
+        return Object.keys(AVAILABLE_SIZES).includes(x);
       }
     },
 

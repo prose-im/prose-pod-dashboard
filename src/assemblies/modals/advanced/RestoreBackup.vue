@@ -111,8 +111,8 @@ base-modal(
       )
 
       base-modal-disclaimer(
+        :description="disclaimerDescription"
         warning="Beware!  Restoring a backup may result in data loss."
-        description="Whenever you hit restore, your server will be erased, similarly to doing a factory reset. \nOnce cleaned up, the settings will be restored. Then, the data archive will be imported."
       )
 
     form-checkbox(
@@ -155,7 +155,13 @@ export default {
       settingsBackupFileName: "",
 
       dataBackupFile: null as File | null,
-      dataBackupFileName: ""
+      dataBackupFileName: "",
+
+      // --> DATA <--
+
+      disclaimerDescription: [
+        "Whenever you hit restore, your server will be erased, similarly to doing a factory reset. Once cleaned up, the settings will be restored. Then, the data archive will be imported."
+      ]
     };
   },
 
@@ -244,7 +250,6 @@ $c: ".a-restore-backup";
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  margin-inline: 48px;
 
   #{$c}__block {
     border-radius: 7px;

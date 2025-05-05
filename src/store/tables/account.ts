@@ -58,7 +58,8 @@ const $account = defineStore("account", {
         return {
           jid: this.session?.jid,
           nickname: this.session?.nickname,
-          role: this.session?.role
+          role: this.session?.role,
+          avatar: this.session?.avatar
         };
       };
     },
@@ -78,6 +79,7 @@ const $account = defineStore("account", {
       this.setSessionToken(token);
       this.setSessionJid(username);
 
+      // Load user information
       this.loadUserInformation();
     },
 
@@ -87,21 +89,20 @@ const $account = defineStore("account", {
     },
 
     async loadUserInformation() {
-      const jid = this.session?.jid;
+      const jid = this.session?.jid || null;
 
-      if (jid === null) {
-        return;
-      }
+      // Proceed loading?
+      if (jid !== null) {
+        const user = await store.$teamMembers.loadMemberById(jid);
 
-      const user = await store.$teamMembers.loadMemberById(jid);
-
-      if (user) {
-        // Update user session data
-        this.$patch(() => {
-          this.session.nickname = user.nickname;
-          this.session.role = user.role;
-          this.session.avatar = user.avatar;
-        });
+        if (user) {
+          // Update user session data
+          this.$patch(() => {
+            this.session.nickname = user.nickname;
+            this.session.role = user.role;
+            this.session.avatar = user.avatar || null;
+          });
+        }
       }
     },
 

@@ -97,7 +97,7 @@ div(
 
     base-avatar(
       v-if="item.slot === 'avatar'"
-      :avatar-data-64="calculatedValue?.base64"
+      :avatar-data-base64="calculatedValue?.base64"
       :avatar-content-type= "calculatedValue?.type"
       :placeholder-data="avatarName"
       :class=`[
@@ -259,10 +259,9 @@ export default {
       get() {
         if (this.type !== "doubleSelect") {
           return this.modelValue;
-        } else {
-          const valueArray = Object.values(this.modelValue);
-          return valueArray[0];
         }
+
+        return Object.values(this.modelValue)[0];
       },
 
       set() {
@@ -514,12 +513,18 @@ $c: ".c-base-subsection-item";
     }
   }
 
-  // <!-- SIMPLE COLORS -->
+  &:nth-child(even) {
+    background-color: $color-base-purple-ultra-light;
+  }
+
+  // --> SIMPLE COLORS <--
+
   &--grey {
     color: $color-text-secondary;
   }
 
-  // <!-- THEME COLORS -->
+  // --> THEME COLORS <--
+
   &--bw {
     #{$c}__taglist {
       color: $color-base-blue-normal;
@@ -552,7 +557,7 @@ $c: ".c-base-subsection-item";
   }
 
   &--greyBackground {
-    background-color: rgba($color-base-grey-light, 0.12);
+    background-color: rgba($color-base-grey-light, 0.3);
   }
 
   // --> MEDIA QUERIES <--

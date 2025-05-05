@@ -14,7 +14,13 @@
     v-if="currentStep !== 4"
   )
     h1
-      | 👋 Welcome to Prose!
+      | 👋
+
+      base-space(
+        :repeat="2"
+      )
+
+      | Welcome to Prose!
 
     p.c-init-page__subtitle
       | Let's get your server set up. It will take less than 5 minutes.
@@ -25,6 +31,7 @@
       @change-step="updateStep('domain')"
       :form-visible="currentStep === 1"
       :tips="tipDomain"
+      :loading="loading"
       placeholder=" Ex: hello.com"
     )
       span
@@ -42,6 +49,7 @@
       @change-step="updateStep('server')"
       :form-visible="currentStep === 2"
       :tips="tipServer"
+      :loading="loading"
       placeholder=" Ex: MyCompanyName"
     )
       span
@@ -63,12 +71,13 @@
       :tertiary-input="organization.adminNickname"
       :form-visible="currentStep === 3"
       :tips="tipAdmin"
+      :loading="loading"
       form-type="triple"
-      placeholder="Username"
+      placeholder="Username (eg. john.doe)"
       type="text"
       secondary-placeholder="Password"
       secondary-type="password"
-      tertiary-placeholder="Nickname"
+      tertiary-placeholder="Full name (eg. John Doe)"
       tertiary-type="text"
       button-label="Create my account and Finish now"
     )
@@ -79,7 +88,7 @@
         | administrator account
 
       span
-        | . You'll be able to invite team members later."
+        | . You'll be able to invite team members later.
 
   .c-init-page__success(
     v-if="currentStep === 4"
@@ -125,6 +134,8 @@ export default {
       // --> STATE <--
 
       currentStep: 1 as number | null,
+
+      loading: false,
 
       organization: {
         domain: "",
@@ -234,7 +245,10 @@ export default {
     },
 
     async updateStep(stepName: string) {
-      if (this.currentStep) {
+      if (this.currentStep && this.loading !== true) {
+        // Mark as loading
+        this.loading = true;
+
         if (this.currentStep < 4) {
           switch (stepName) {
             case "domain": {
@@ -258,7 +272,10 @@ export default {
                   );
                 }
               } else {
-                BaseAlert.error("Please enter a domain name");
+                BaseAlert.error(
+                  "Please enter a domain name",
+                  "You may enter a domain like: my-company.com"
+                );
               }
 
               break;
@@ -275,7 +292,10 @@ export default {
 
                 this.currentStep += 1;
               } else {
-                BaseAlert.error("Please enter a name for your server");
+                BaseAlert.error(
+                  "Please enter a name for your server",
+                  "You may enter a name like: My Company"
+                );
               }
 
               break;
@@ -304,13 +324,19 @@ export default {
 
                 this.currentStep += 1;
               } else {
-                BaseAlert.error("Please fill all fields");
+                BaseAlert.error(
+                  "Please fill all fields",
+                  "Enter your username and password"
+                );
               }
 
               break;
             }
           }
         }
+
+        // Not loading anymore
+        this.loading = false;
 
         this.$emit("updateStep", this.currentStep);
       }
@@ -351,12 +377,13 @@ $c: ".c-init-page";
 
   h1 {
     font-size: ($font-size-page + 8px);
-    font-weight: $font-weight-medium;
-    margin-block: 0 17px;
+    font-weight: $font-weight-bolder;
+    margin-block: 0 15px;
   }
 
   #{$c}__subtitle {
-    font-size: ($font-size-page + 3px);
+    font-size: ($font-size-page + 2px);
+    line-height: ($font-size-page + 10px);
     font-weight: $font-weight-light;
     margin-block: 0 108px;
     color: $color-base-grey-normal;

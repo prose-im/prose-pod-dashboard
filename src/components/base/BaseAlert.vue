@@ -44,7 +44,6 @@ transition(
         @click="onCloseClick"
         class="c-base-alert__close"
         icon="xmark"
-        context="grey"
         size="12px"
         auto-width
         auto-height

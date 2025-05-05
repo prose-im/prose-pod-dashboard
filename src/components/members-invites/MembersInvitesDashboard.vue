@@ -389,6 +389,7 @@ $c: ".c-members-invites-dashboard";
 
     #{$c}__scroll {
       min-height: 142px;
+      padding-bottom: 25px;
       overflow: auto;
       flex: 1 1 0;
 

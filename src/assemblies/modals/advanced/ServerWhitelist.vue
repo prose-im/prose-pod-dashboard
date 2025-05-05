@@ -17,6 +17,7 @@ base-modal(
   title="Set a server whitelist"
   button-color="purple"
   button-label="Save the server whitelist"
+  button-icon="checkmark.circle.empty"
 )
   .a-server-whitelist
     .a-server-whitelist__top
@@ -41,6 +42,7 @@ base-modal(
         label="Enter the domain to add"
         placeholder="Enter a domain..."
         type="text"
+        autofocus
       )
 
       base-button(
@@ -169,7 +171,6 @@ $c: ".a-server-whitelist";
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
-  margin-inline: 48px;
 
   #{$c}__top {
     margin-block-end: 31px;

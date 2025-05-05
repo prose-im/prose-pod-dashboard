@@ -16,6 +16,7 @@ base-modal(
   title="Invite a team member"
   button-color="purple"
   button-label="Invite Team Member"
+  button-icon="checkmark.circle.empty"
 )
   .a-invite-team-member
     base-modal-input-block(
@@ -179,8 +180,6 @@ export default {
 $c: ".a-invite-team-member";
 
 #{$c} {
-  margin-inline: 48px;
-
   h4 {
     color: $color-text-secondary;
     margin-top: 0;

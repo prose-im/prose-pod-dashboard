@@ -74,7 +74,7 @@ export default {
       default: "image/png"
     },
 
-    avatarData64: {
+    avatarDataBase64: {
       type: String,
       default: null
     },
@@ -103,9 +103,9 @@ export default {
     backgroundImage(): string | void {
       let backgroundImage = "";
 
-      if (this.avatarContentType && this.avatarData64) {
+      if (this.avatarContentType && this.avatarDataBase64) {
         // Generate avatar URL from data and MIME type
-        return (backgroundImage = `url(data:${this.avatarContentType};base64,${this.avatarData64})`);
+        return (backgroundImage = `url(data:${this.avatarContentType};base64,${this.avatarDataBase64})`);
       }
 
       return backgroundImage;

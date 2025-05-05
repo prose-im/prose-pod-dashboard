@@ -104,7 +104,6 @@ export default {
 $c: ".a-edit-name";
 
 #{$c} {
-  margin-inline: 48px;
   margin-block-end: 30px;
 }
 </style>

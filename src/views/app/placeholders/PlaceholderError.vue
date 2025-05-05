@@ -10,23 +10,23 @@
 
 <template lang="pug">
 base-topography(
-  class="v-broken-api"
+  class="v-placeholder-error"
 )
-  .v-broken-api__content
+  .v-placeholder-error__content
     h1
-      | Sorry, we're experiencing technical problems
+      | Sorry, your Prose Pod is unreachable at the moment.
 
-    span.v-broken-api__subtitle
-      | Please try again later
+    span.v-placeholder-error__subtitle
+      | Please try again later!
 
     base-button(
       @click="onRetryClick"
-      class="v-broken-api__button"
-      size="medium"
-      tint="purple"
+      class="v-placeholder-error__button"
+      tint="red"
+      size="large"
+      icon="restore"
     )
-      p
-        | Go back home
+      | Try loading again
 </template>
 
 <!-- **********************************************************************
@@ -35,7 +35,7 @@ base-topography(
 
 <script lang="ts">
 export default {
-  name: "BrokenAPI",
+  name: "PlaceholderError",
 
   methods: {
     // --> EVENT LISTENERS <--
@@ -54,7 +54,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".v-broken-api";
+$c: ".v-placeholder-error";
 
 #{$c} {
   height: 100%;
@@ -63,6 +63,11 @@ $c: ".v-broken-api";
   align-items: center;
   overflow: hidden;
   text-align: center;
+
+  #{$c}__content {
+    max-width: 30em;
+    margin: 5em auto;
+  }
 
   h1 {
     font-size: ($font-size-page + 3px);
@@ -74,13 +79,11 @@ $c: ".v-broken-api";
     display: block;
     font-size: ($font-size-page + 3px);
     font-weight: $font-weight-light;
-    margin-block: 0 108px;
     color: $color-base-grey-normal;
   }
 
-  #{$c}__content {
-    max-width: 30em;
-    margin: 5em auto;
+  #{$c}__button {
+    margin-top: 68px;
   }
 }
 </style>

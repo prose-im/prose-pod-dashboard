@@ -88,7 +88,7 @@ export default {
       default: "white",
 
       validator(x: string) {
-        return ["transparent", "white", "grey", "dark"].includes(x);
+        return ["transparent", "white", "dark"].includes(x);
       }
     },
 
@@ -231,7 +231,6 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
 
     &#{$c}--transparent,
     &#{$c}--white,
-    &#{$c}--grey,
     &#{$c}--dark {
       &#{$c}--translucent {
         > #{$c}__inner {
@@ -249,12 +248,6 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     &#{$c}--white {
       > #{$c}__inner {
         background-color: $color-base-grey-light;
-      }
-    }
-
-    &#{$c}--grey {
-      > #{$c}__inner {
-        background-color: rgba($color-base-blue-ultra-dark, 0.4);
       }
     }
 
@@ -294,13 +287,6 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
       }
     }
 
-    &#{$c}--grey {
-      > #{$c}__inner {
-        outline-color: $color-border-secondary;
-        box-shadow: $inner-bordered-box-shadow-sizes $color-border-primary;
-      }
-    }
-
     &#{$c}--dark {
       > #{$c}__inner {
         outline-color: rgba($color-black, 0.1);
@@ -335,7 +321,6 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
 
   &--transparent,
   &--white,
-  &--grey,
   &--dark {
     &#{$c}--translucent {
       > #{$c}__inner {
@@ -351,8 +336,7 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
   }
 
   &--transparent,
-  &--white,
-  &--grey {
+  &--white {
     #{$c}__icon,
     #{$c}__dropdown {
       fill: rgba($color-base-blue-ultra-dark, 0.4);
@@ -371,23 +355,11 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
   &--white {
     > #{$c}__inner {
       &:hover {
-        background-color: darken($color-base-grey-light, 1%);
+        background-color: rgba($color-base-grey-light, 0.35);
       }
 
       &:active {
-        background-color: darken($color-base-grey-light, 4%);
-      }
-    }
-  }
-
-  &--grey {
-    > #{$c}__inner {
-      &:hover {
-        background-color: darken($color-base-grey-light, 4%);
-      }
-
-      &:active {
-        background-color: darken($color-base-grey-light, 8%);
+        background-color: rgba($color-base-grey-light, 0.5);
       }
     }
   }
