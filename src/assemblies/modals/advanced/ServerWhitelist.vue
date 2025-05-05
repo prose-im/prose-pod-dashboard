@@ -145,9 +145,9 @@ export default {
       }
     },
 
-    onProceed() {
+    async onProceed() {
       if (this.serverList !== this.whitelist) {
-        store.$settingsNetwork.updateServerWhitelist(this.whitelist);
+        await store.$settingsNetwork.updateServerWhitelist(this.whitelist);
 
         // Make success notitification visible
         this.$emit("showSuccess");

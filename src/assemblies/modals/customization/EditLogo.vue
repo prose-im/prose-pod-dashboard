@@ -22,7 +22,7 @@ base-modal(
 )
   .a-edit-logo
     h4
-      | New icon
+      | Workspace icon
 
     .a-edit-logo__upload
       base-avatar(
@@ -39,12 +39,12 @@ base-modal(
         base-upload-button(
           @file-picked="onFilePicked"
           accept="image/*"
-          label="Upload image..."
+          label="Select an image..."
           width="117px"
         )
 
         p
-          | (Formats: .jpeg, .png, .gif, .webp)
+          | (Formats: .jpeg, .png, .gif)
 </template>
 
 <!-- **********************************************************************
@@ -138,7 +138,7 @@ export default {
         ) {
           BaseAlert.error(
             "Please choose an image in the right format",
-            "Accepted formats: .jpeg, .png, .gif, .webp"
+            "Accepted formats: .jpeg, .png, .gif"
           );
 
           return;
