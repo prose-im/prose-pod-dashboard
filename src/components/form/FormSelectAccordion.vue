@@ -120,15 +120,15 @@ const AVAILABLE_SIZES: { [size: string]: { arrow: string } } = {
   },
 
   large: {
-    arrow: "9px"
+    arrow: "10px"
   },
 
   "mid-large": {
-    arrow: "9px"
+    arrow: "12px"
   },
 
   "ultra-large": {
-    arrow: "10px"
+    arrow: "14px"
   }
 };
 
