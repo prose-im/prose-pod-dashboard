@@ -97,26 +97,30 @@ const $teamMembers = defineStore("teamMembers", {
         // Create a JID array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
 
-        // Enrich members
-        await new Promise<void>(resolve => {
-          setTimeout(resolve, 5000);
+        //Enrich members only if there's any members to enrich
+        if (jidsToEnrich.length > 0) {
+          // Enrich members
+          await new Promise<void>(resolve => {
+            setTimeout(resolve, 5000);
 
-          const eventSource = APITeamMembers.enrichMembersStream(jidsToEnrich);
+            const eventSource =
+              APITeamMembers.enrichMembersStream(jidsToEnrich);
 
-          eventSource.addEventListener("enriched-member", event => {
-            this.members.set(event.lastEventId, JSON.parse(event.data));
+            eventSource.addEventListener("enriched-member", event => {
+              this.members.set(event.lastEventId, JSON.parse(event.data));
+            });
+
+            eventSource.addEventListener("end", () => {
+              eventSource.close();
+
+              resolve();
+            });
+
+            eventSource.onerror = error => {
+              console.error("Error when enriching members:", error);
+            };
           });
-
-          eventSource.addEventListener("end", () => {
-            eventSource.close();
-
-            resolve();
-          });
-
-          eventSource.onerror = error => {
-            console.error("Error when enriching members:", error);
-          };
-        });
+        }
 
         // Mark as loaded
         LOCAL_STATES.loaded = true;
