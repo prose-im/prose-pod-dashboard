@@ -50,10 +50,9 @@ div(
 
   field(
     v-else
-    v-model="value" 
-    :name="name" 
-    :rules="rules" 
-    :type="type" 
+    v-model="value"
+    :name="name"
+    :rules="rules"
     v-slot="{ field }"
   )
     input(
@@ -65,6 +64,10 @@ div(
       @focus="onFieldFocus"
       @blur="onFieldBlur"
       @contextmenu.stop
+      :type="type"
+      :autocomplete="autocomplete"
+      :disabled="disabled"
+      :placeholder="placeholder"
       :class=`[
         "c-form-field__inner",
         "c-form-field__inner--input",
@@ -72,9 +75,6 @@ div(
           [fieldClass]: fieldClass
         }
       ]`
-      :autocomplete="autocomplete"
-      :disabled="disabled"
-      :placeholder="placeholder"
       ref="field"
     )
 </template>
