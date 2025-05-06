@@ -132,10 +132,13 @@ export default {
       const domainValidated = isValidDomain(this.newDomain);
 
       if (domainValidated) {
-        this.whitelist.push(this.newDomain);
-
-        this.addingDomain = false;
-        this.newDomain = "";
+        if (this.whitelist.includes(this.newDomain)) {
+          BaseAlert.error("This domain is already in your whitelist");
+        } else {
+          this.whitelist.push(this.newDomain);
+          this.addingDomain = false;
+          this.newDomain = "";
+        }
       } else {
         BaseAlert.error("Please enter a valid domain");
       }
