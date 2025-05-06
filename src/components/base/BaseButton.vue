@@ -35,6 +35,7 @@ div(
         "c-base-button__inner--square":square
       }
     ]`
+    ref="buttonInstance"
   )
     template(
       v-if="$slots.custom"
@@ -198,6 +199,10 @@ export default {
     onInnerClick(event: Event): void {
       // Re-emit click event
       this.$emit("click", event);
+    },
+
+    getInstance() {
+      return this.$refs.buttonInstance;
     }
   }
 };
