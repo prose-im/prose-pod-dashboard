@@ -22,6 +22,7 @@ base-modal(
       v-model="domain"
       :disabled="true"
       label="Domain name"
+      name="domainName"
       placeholder="prose.org"
       type="text"
     )

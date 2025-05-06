@@ -24,6 +24,7 @@ base-modal(
       @change="onChange"
       type="email"
       label="Email to Invite"
+      name="email"
       placeholder="Enter e-mail address to invite..."
       autofocus
     )

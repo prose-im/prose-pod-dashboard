@@ -33,6 +33,7 @@ base-modal(
         v-model="password"
         :disabled="isResetting"
         label="Password verification"
+        name="password"
         placeholder="Enter your account password..."
         type="password"
       )

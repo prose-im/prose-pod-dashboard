@@ -22,6 +22,7 @@ base-modal(
     base-modal-input-block(
       v-model="newName"
       :label="label"
+      name="workspaceName"
       placeholder="ex: Big Project"
       type="text"
       autofocus

@@ -40,6 +40,7 @@ base-modal(
         v-if="addingDomain"
         v-model="newDomain"
         label="Enter the domain to add"
+        name="domain"
         placeholder="Enter a domain..."
         type="text"
         autofocus

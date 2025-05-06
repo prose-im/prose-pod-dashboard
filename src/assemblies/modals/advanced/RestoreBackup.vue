@@ -106,6 +106,7 @@ base-modal(
         v-model="password"
         class="a-restore-backup__input-block"
         label="Password verification"
+        name="password"
         placeholder="Enter your account password..."
         type="password"
       )
