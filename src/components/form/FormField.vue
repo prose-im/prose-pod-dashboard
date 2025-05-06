@@ -48,7 +48,7 @@ div(
     ref="field"
   )
 
-  input(
+  field(
     v-else
     @keypress.stop
     @keydown.stop="onFieldKeyDown"
@@ -57,12 +57,6 @@ div(
     @focus="onFieldFocus"
     @blur="onFieldBlur"
     @contextmenu.stop
-    :type="type"
-    :name="name"
-    :value="value"
-    :placeholder="placeholder"
-    :disabled="disabled"
-    :autocomplete="autocomplete"
     :class=`[
       "c-form-field__inner",
       "c-form-field__inner--input",
@@ -70,6 +64,13 @@ div(
         [fieldClass]: fieldClass
       }
     ]`
+    :autocomplete="autocomplete"
+    :disabled="disabled"
+    :name="name"
+    :placeholder="placeholder"
+    :rules="rules" 
+    :type="type"
+    :value="value"
     ref="field"
   )
 </template>
@@ -82,8 +83,14 @@ div(
 // NPM
 import { codes as keyCodes } from "keycode";
 
+import { Field } from "vee-validate";
+
 export default {
   name: "FormField",
+
+  components: {
+    Field
+  },
 
   props: {
     modelValue: {
@@ -142,7 +149,7 @@ export default {
 
     name: {
       type: String,
-      default: null
+      default: "null"
     },
 
     placeholder: {
@@ -183,6 +190,13 @@ export default {
     fieldClass: {
       type: String,
       default: null
+    },
+
+    rules: {
+      type: Function,
+      default: () => {
+        return null;
+      }
     }
   },
 
