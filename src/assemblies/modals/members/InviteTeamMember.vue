@@ -21,7 +21,7 @@ base-modal(
   vee-form.a-invite-team-member(
     v-slot="{ errors, meta }"
     ref="veeForm"
-  )    
+  )
     base-modal-input-block(
       v-model="inviteEmail"
       @change="onChange"
@@ -29,7 +29,7 @@ base-modal(
       label="Email to Invite"
       name="email"
       placeholder="Enter e-mail address to invite..."
-      :rules="{email: true}" 
+      :rules="{email: true}"
       autofocus
     )
 
@@ -174,7 +174,10 @@ export default {
           await store.$teamMembers.loadInvitedMembers(true);
 
           // Let user know the invitation was sent
-          BaseAlert.success("An invitation has been sent", "");
+          BaseAlert.success(
+            "An invitation has been sent",
+            "An email has been delivered to the invitee"
+          );
 
           // Reset values and close modal
           this.onClose();
@@ -188,11 +191,17 @@ export default {
               "Please choose a different username"
             );
           } else {
-            BaseAlert.error("Something went wrong", typedError.message);
+            BaseAlert.error(
+              "Something went wrong",
+              typedError.message || "Unknown reason"
+            );
           }
         }
       } else {
-        BaseAlert.error("Please enter a valid email");
+        BaseAlert.error(
+          "Information is invalid!",
+          "Make sure that the email you entered is valid."
+        );
       }
     }
   }
