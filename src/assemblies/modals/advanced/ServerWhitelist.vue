@@ -86,6 +86,8 @@ import { PropType } from "vue";
 
 // PROJECT: STORE
 import store from "@/store";
+import isValidDomain from "is-valid-domain";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {
   name: "FactoryReset",
@@ -126,10 +128,16 @@ export default {
     // --> EVENT LISTENERS <--
 
     onAddNewDomain() {
-      this.whitelist.push(this.newDomain);
+      const domainValidated = isValidDomain(this.newDomain);
 
-      this.addingDomain = false;
-      this.newDomain = "";
+      if (domainValidated) {
+        this.whitelist.push(this.newDomain);
+
+        this.addingDomain = false;
+        this.newDomain = "";
+      } else {
+        BaseAlert.error("Please enter a valid domain");
+      }
     },
 
     onClose() {
