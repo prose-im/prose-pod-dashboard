@@ -17,14 +17,17 @@
     v-model="fieldValue"
     v-bind="$attrs"
     @change="onChange"
-    :type="type"
-    :placeholder="placeholder"
     :autofocus="autofocus"
     :disabled="disabled"
+    :name="name"
+    :placeholder="placeholder"
+    :type="type"
     ref="formField"
     size="mid-large"
     align="left"
   )
+
+  slot
 </template>
 
 <!-- **********************************************************************
@@ -44,7 +47,22 @@ export default {
       required: true
     },
 
+    autofocus: {
+      type: Boolean,
+      default: false
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
     label: {
+      type: String,
+      required: true
+    },
+
+    name: {
       type: String,
       required: true
     },
@@ -57,16 +75,6 @@ export default {
     type: {
       type: String,
       default: "text"
-    },
-
-    autofocus: {
-      type: Boolean,
-      default: false
-    },
-
-    disabled: {
-      type: Boolean,
-      default: false
     }
   },
 
