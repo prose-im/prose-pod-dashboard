@@ -16,6 +16,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.15.0",
     "axios": "1.7.7",
     "browser-image-resizer": "^2.4.1",
     "extended-eventsource": "^2.1.0",
