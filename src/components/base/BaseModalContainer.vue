@@ -63,10 +63,11 @@ transition(
         v-if="buttonColor !== 'grey'"
         @click="onConfirm"
         :disabled="disabled"
+        :icon="buttonIcon"
         :loading="loading"
         :tint="buttonColor"
-        :icon="buttonIcon"
         size="large"
+        type="submit"
         class="c-base-modal-container__footer--extra-button"
       )
         span(
