@@ -24,41 +24,64 @@ base-modal(
       h3
         | Currently approved servers:
 
-      p(
+      span(
         v-if="whitelist.length === 0"
       )
         | No server approved
 
-      p(
+      .a-server-whitelist__servers(
         v-else
         v-for="(server, index) in whitelist"
       )
-        | {{ server }}
+        span
+          | {{ server }}
+        
+        form-checkbox(
+          v-if="activeAction === 'remove'"
+          v-model="domainsToRemove[index]"
+          :id="index"
+          :value="index"
+          class="c-members-invites-row__checkbox"
+        )
 
-    .a-server-whitelist__add
-      base-modal-input-block(
-        v-if="addingDomain"
-        v-model="newDomain"
-        label="Enter the domain to add"
-        name="domain"
-        placeholder="Enter a domain..."
-        type="text"
-        autofocus
-      )
 
-      base-button(
-        v-if="!addingDomain"
-        @click="toggleButtonLabel"
-        class="a-server-whitelist__button"
-        size="medium"
-        tint="purple"
+    .a-server-whitelist__options
+      <!-- Initial position buttons -->
+      .a-server-whitelist__initial(
+        v-if="!activeAction"
       )
-        p
-          | Add a new domain
+        base-button(
+          @click="activateAddDomain"
+          class="a-server-whitelist__button"
+          size="medium"
+          tint="purple"
+        )
+          p
+            | Add a new domain
 
-      .a-server-whitelist__buttons(
-        v-else
+        base-button(
+          @click="activateRemoveDomain"
+          :disabled="!removeDomainButtonActive"
+          class="a-server-whitelist__button--remove"
+          size="medium"
+          tint="red"
+        )
+          p
+            | Remove a domain
+
+      <!-- Adding domain active -->
+      .a-server-whitelist__add(
+        v-else-if="activeAction === 'add'"
       )
+        base-modal-input-block(
+          v-model="newDomain"
+          label="Enter the domain to add"
+          name="domain"
+          placeholder="Enter a domain..."
+          type="text"
+          autofocus
+        )
+
         base-button(
           @click="onAddNewDomain"
           class="a-server-whitelist__button"
@@ -69,7 +92,29 @@ base-modal(
             | Add domain
 
         base-button(
-          @click="toggleButtonLabel"
+          @click="resetActiveAction"
+          class="a-server-whitelist__button"
+          size="medium"
+        )
+          p
+            | Cancel
+      
+      <!-- ARemoving domain active -->
+      .a-server-whitelist__remove(
+        v-else-if="activeAction = 'remove'"
+      )
+        base-button(
+          @click="onRemoveDomain"
+          :disabled="!domainsSelected"
+          class="a-server-whitelist__button"
+          size="medium"
+          tint="red"
+        )
+          p
+            | Remove domain(s)
+
+        base-button(
+          @click="resetActiveAction"
           class="a-server-whitelist__button"
           size="medium"
         )
@@ -110,8 +155,9 @@ export default {
   data() {
     return {
       // --> STATE <--
+      activeAction: null as null | string,
 
-      addingDomain: false,
+      domainsToRemove: [],
 
       newDomain: "",
 
@@ -119,11 +165,29 @@ export default {
     };
   },
 
+  computed: {
+    removeDomainButtonActive() {
+      return this.whitelist.length > 0;
+    },
+
+    domainsSelected() {
+      return this.domainsToRemove.some(element => element === true);
+    }
+  },
+
   methods: {
     // --> HELPERS <--
 
-    toggleButtonLabel() {
-      this.addingDomain = !this.addingDomain;
+    activateAddDomain() {
+      this.activeAction = "add";
+    },
+
+    activateRemoveDomain() {
+      this.activeAction = "remove";
+    },
+
+    resetActiveAction() {
+      this.activeAction = null;
     },
 
     // --> EVENT LISTENERS <--
@@ -136,7 +200,8 @@ export default {
           BaseAlert.error("This domain is already in your whitelist");
         } else {
           this.whitelist.push(this.newDomain);
-          this.addingDomain = false;
+
+          this.resetActiveAction();
           this.newDomain = "";
         }
       } else {
@@ -144,8 +209,18 @@ export default {
       }
     },
 
+    onRemoveDomain() {
+      const newWhiteList = this.whitelist.filter((_, index) => {
+        return !this.domainsToRemove[index];
+      });
+
+      this.whitelist = newWhiteList;
+
+      this.resetActiveAction();
+    },
+
     onClose() {
-      this.addingDomain = false;
+      this.activeAction = null;
       this.newDomain = "";
 
       this.$emit("close");
@@ -186,19 +261,26 @@ $c: ".a-server-whitelist";
 
   #{$c}__top {
     margin-block-end: 31px;
+
+    #{$c}__servers {
+      max-width: 50%;
+      display: flex;
+      justify-content: space-between;
+      margin-block-end: 5px;
+    }
   }
 
-  #{$c}__add {
+  #{$c}__options {
     p {
       margin: 0;
     }
 
-    #{$c}__buttons {
+    #{$c}__flex {
       display: flex;
+    }
 
-      #{$c}__button {
-        margin-inline-end: 15px;
-      }
+    #{$c}__button {
+      margin-inline-end: 15px;
     }
   }
 }
