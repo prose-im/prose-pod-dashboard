@@ -88,7 +88,7 @@
     enter-active-class="u-animate u-animate--scale-up u-animate--fast"
     leave-active-class="u-animate u-animate--scale-down u-animate--fast"
   )
-    base-notification(
+    base-success-notification(
       v-if="showSuccessBanner"
     )
 </template>

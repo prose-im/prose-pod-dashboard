@@ -9,12 +9,12 @@
   ********************************************************************** -->
 
 <template lang="pug">
-.c-base-notification
+.c-base-success-notification
   p
     | Success
 
   base-icon(
-    class="c-base-notification__icon"
+    class="c-base-success-notification__icon"
     name="checkmark.circle.fill"
     fill="#05c02b"
     size="12px"
@@ -43,7 +43,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-base-notification";
+$c: ".c-base-success-notification";
 
 #{$c} {
   position: fixed;
