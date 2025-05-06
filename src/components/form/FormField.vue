@@ -50,30 +50,39 @@ div(
 
   field(
     v-else
-    @keypress.stop
-    @keydown.stop="onFieldKeyDown"
-    @keyup.stop="onFieldKeyUp"
-    @input="onFieldInput"
-    @focus="onFieldFocus"
-    @blur="onFieldBlur"
-    @contextmenu.stop
-    :class=`[
-      "c-form-field__inner",
-      "c-form-field__inner--input",
-      {
-        [fieldClass]: fieldClass
-      }
-    ]`
-    :autocomplete="autocomplete"
-    :disabled="disabled"
-    :name="name"
-    :placeholder="placeholder"
-    :rules="rules" 
-    :type="type"
-    :value="value"
-    ref="field"
+    v-model="value" 
+    :type="type" 
+    :name="name" 
+    v-slot="{ field }"
   )
+    input(
+      v-bind="field"
+      @keypress.stop
+      @keydown.stop="onFieldKeyDown"
+      @keyup.stop="onFieldKeyUp"
+      @input="onFieldInput"
+      @focus="onFieldFocus"
+      @blur="onFieldBlur"
+      @contextmenu.stop
+      :class=`[
+        "c-form-field__inner",
+        "c-form-field__inner--input",
+        {
+          [fieldClass]: fieldClass
+        }
+      ]`
+      :autocomplete="autocomplete"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :rules="rules" 
+      ref="field"
+    )
 </template>
+<!--       
+      :name="name"
+      :value="value"
+      :type="type"
+       -->
 
 <!-- **********************************************************************
      SCRIPT
