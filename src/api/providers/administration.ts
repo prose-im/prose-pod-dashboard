@@ -39,8 +39,10 @@ export interface VersionInfo {
  * ************************************************************************* */
 
 class APIAdministration {
-  async getFactoryResetConfirmation(): Promise<FactoryResetConfirmation> {
-    return (await Api.client.delete("/")).data;
+  async getFactoryResetConfirmation(
+    password: string
+  ): Promise<FactoryResetConfirmation> {
+    return (await Api.client.delete("/", { data: { password } })).data;
   }
 
   async factoryReset(confirmation: FactoryResetConfirmation): Promise<void> {

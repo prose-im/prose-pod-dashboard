@@ -261,7 +261,10 @@ export default {
                   try {
                     await APIInit.initServer(this.organization.domain);
                   } catch (error) {
-                    return BaseAlert.error("Error:", error);
+                    return BaseAlert.error(
+                      "Could not initialize server",
+                      error || "Unknown reason"
+                    );
                   }
 
                   this.currentStep += 1;
@@ -287,7 +290,10 @@ export default {
                   // Initialize workspace
                   await APIInit.initWorkspace(this.organization.server);
                 } catch (error) {
-                  return BaseAlert.error("Error:", error);
+                  return BaseAlert.error(
+                    "Could not initialize workspace",
+                    error || "Unknown reason"
+                  );
                 }
 
                 this.currentStep += 1;
@@ -319,7 +325,10 @@ export default {
                     this.organization.adminPassword
                   );
                 } catch (error) {
-                  return BaseAlert.error("Error:", error);
+                  return BaseAlert.error(
+                    "Could not create first account",
+                    error || "Unknown reason"
+                  );
                 }
 
                 this.currentStep += 1;

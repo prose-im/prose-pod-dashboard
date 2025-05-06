@@ -131,7 +131,10 @@ export default {
       }
 
       if (!this.nickname || !this.password) {
-        return BaseAlert.error("All fields are required");
+        return BaseAlert.error(
+          "All fields are required",
+          "Please enter nickname and password"
+        );
       }
 
       try {

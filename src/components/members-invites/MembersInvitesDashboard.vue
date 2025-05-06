@@ -56,6 +56,7 @@
 
     base-spinner(
       v-else
+      class="c-members-invites-dashboard__spinner"
     )
 
   base-navigation-footer(
@@ -264,7 +265,10 @@ export default {
 
         switch (canInviteMembers) {
           case "forbidden": {
-            return BaseAlert.error("You cannot do that");
+            return BaseAlert.error(
+              "You cannot do that",
+              "Forbidden to invite members"
+            );
           }
 
           case "missing-notifier-config": {
@@ -277,7 +281,7 @@ export default {
           case false: {
             return BaseAlert.error(
               "You cannot do that",
-              "…but that might just be a bug."
+              "…but that might just be a bug!"
             );
           }
 
@@ -404,6 +408,10 @@ $c: ".c-members-invites-dashboard";
       &:nth-child(even) {
         background-color: $color-base-purple-ultra-light;
       }
+    }
+
+    #{$c}__spinner {
+      margin: 60px auto 40px;
     }
   }
 }

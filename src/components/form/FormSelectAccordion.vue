@@ -460,6 +460,7 @@ $sizes: (
 
   #{$c}__dropdown {
     overflow: hidden;
+    padding-block-end: 6px;
 
     a {
       border-radius: 7px;

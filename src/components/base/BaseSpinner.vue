@@ -32,12 +32,9 @@ $c: ".c-base-spinner";
 
 #{$c} {
   #{$c}__loader {
-    position: absolute !important;
-    top: 60%;
-    left: 60%;
     display: block;
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     position: relative;
     animation: rotate 1s linear infinite;
@@ -49,7 +46,7 @@ $c: ".c-base-spinner";
     position: absolute;
     inset: 0px;
     border-radius: 50%;
-    border: 4px solid $color-base-purple-normal;
+    border: 3.5px solid $color-base-purple-normal;
     animation: prixClipFix 2s linear infinite;
   }
 

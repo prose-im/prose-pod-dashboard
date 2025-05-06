@@ -66,9 +66,6 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
-// PROJECT: API
-import APIAuth from "@/api/providers/auth";
-
 // PROJECT: STORE
 import store from "@/store";
 
@@ -88,7 +85,12 @@ export default {
     return {
       // --> STATE <--
 
-      ...this.initialState(),
+      hasDownloadedBackup: false,
+      acceptsDataLoss: false,
+
+      isResetting: false,
+
+      password: "",
 
       // --> DATA <--
 
@@ -100,19 +102,6 @@ export default {
   },
 
   methods: {
-    // --> HELPERS <--
-
-    initialState() {
-      return {
-        hasDownloadedBackup: false,
-        acceptsDataLoss: false,
-
-        isResetting: false,
-
-        password: ""
-      };
-    },
-
     // --> EVENT LISTENERS <--
 
     async onProceed() {
@@ -121,36 +110,26 @@ export default {
       //   #131 · prose-im/prose-pod-api](https://github.com/prose-im/\
       //   prose-pod-api/issues/131) is fixed.
       if (!this.password) {
-        return BaseAlert.error("Please enter your password");
+        return BaseAlert.error(
+          "Please enter your password",
+          "We need to make sure that it's you!"
+        );
       }
 
       if (!this.acceptsDataLoss) {
         return BaseAlert.error(
-          "Please confirm that you have read and do accept all the conditions"
+          "Please accept all conditions",
+          "Confirm that you are aware that all data will be erased"
         );
-      }
-
-      if (!store.$account.$state.session.jid) {
-        return BaseAlert.error("Internal error: Can’t find your JID");
       }
 
       // Mark as loading
       this.isResetting = true;
 
-      const jid = store.$account.$state.session.jid;
-
       // Verify password (by performing a log-in)
-      // TODO: this should be moved to 'performFactoryReset()'! this is by no \
-      //   means secure, API-side.
       try {
-        // TODO: this is not throwing if password is invalid
-        await APIAuth.login(jid, this.password);
-
-        // Reset state
-        Object.assign(this.$data, this.initialState());
-
         // Run factory reset
-        await store.$globalConfig.performFactoryReset();
+        await store.$globalConfig.performFactoryReset(this.password);
 
         // Alert that we are done
         BaseAlert.success(

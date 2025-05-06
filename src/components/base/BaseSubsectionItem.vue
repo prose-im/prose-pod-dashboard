@@ -389,8 +389,9 @@ export default {
       this.toggleResetModalVisible();
     },
 
-    onProceed() {
-      this.item.restoreAction();
+    async onProceed() {
+      await this.item.restoreAction();
+
       this.toggleResetModalVisible();
 
       this.$emit("showSuccess");

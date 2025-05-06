@@ -98,9 +98,10 @@ const $globalConfig = defineStore("globalConfig", {
       LOCAL_STATES.informationLoaded = true;
     },
 
-    async performFactoryReset(): Promise<void> {
-      const confirmation =
-        await APIAdministration.getFactoryResetConfirmation();
+    async performFactoryReset(password: string): Promise<void> {
+      const confirmation = await APIAdministration.getFactoryResetConfirmation(
+        password
+      );
 
       await APIAdministration.factoryReset(confirmation);
     }

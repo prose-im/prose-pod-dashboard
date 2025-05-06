@@ -71,13 +71,17 @@ export default {
   methods: {
     // --> EVENT LISTENERS <--
 
-    onProceed() {
+    async onProceed() {
       if (!this.newName) {
-        BaseAlert.error("Please enter a name for your workspace");
+        BaseAlert.error(
+          "No workspace name",
+          "Please enter a name for your workspace"
+        );
+
         return;
       }
 
-      store.$customizationWorkspace.updateWorkspaceName(this.newName);
+      await store.$customizationWorkspace.updateWorkspaceName(this.newName);
 
       // Reinitialize variables + close modal
       this.newName = "";

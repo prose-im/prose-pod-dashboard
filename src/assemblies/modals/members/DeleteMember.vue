@@ -110,7 +110,7 @@ export default {
         } else {
           BaseAlert.error(
             "Something went wrong",
-            typedError.response.data.message
+            typedError.response.data.message || "Unknown error"
           );
         }
       }
