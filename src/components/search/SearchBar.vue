@@ -33,6 +33,7 @@
     .c-search-bar__right
       base-button(
         @click="clickHandle"
+        :icon="buttonIcon"
         tint="purple"
         size="large"
       )
@@ -56,6 +57,11 @@ export default {
     buttonLabel: {
       type: String,
       required: true
+    },
+
+    buttonIcon: {
+      type: String,
+      default: null
     },
 
     clickHandle: {

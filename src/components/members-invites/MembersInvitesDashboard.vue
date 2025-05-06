@@ -16,6 +16,7 @@
     :click-handle="toggleInviteModalVisible"
     :disabled="searchBarDisabled"
     placeholder-text="team members..."
+    button-icon="plus.circle"
   )
 
   .c-members-invites-dashboard__content
