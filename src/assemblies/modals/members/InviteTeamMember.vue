@@ -11,7 +11,7 @@
 <template lang="pug">
 base-modal(
   @close="onClose"
-  @confirm="onSubmit"
+  @confirm="onSendInvite"
   :visible="visibility"
   title="Invite a team member"
   button-color="purple"
@@ -20,10 +20,8 @@ base-modal(
 )
   vee-form.a-invite-team-member(
     v-slot="{ errors, meta }"
-    @submit="onSendInvite"
-    :validation-schema="simpleSchema"
     ref="veeForm"
-  )
+  )    
     base-modal-input-block(
       v-model="inviteEmail"
       @change="onChange"
@@ -31,6 +29,7 @@ base-modal(
       label="Email to Invite"
       name="email"
       placeholder="Enter e-mail address to invite..."
+      :rules="{email: true}" 
       autofocus
     )
 
@@ -64,14 +63,6 @@ base-modal(
       class="a-invite-team-member__info"
       text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
     )
-
-    base-button(
-      size="large"
-      type="submit"
-      class="a-invite-team-member__display-none"
-      ref="ghostButton"
-    )
-      | test
 </template>
 
 <!-- **********************************************************************
@@ -81,7 +72,7 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import { FormContext, Form as VeeForm } from "vee-validate";
+import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: API
 import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
@@ -91,7 +82,6 @@ import store from "@/store";
 
 // PROJECT: COMMONS
 import { ErrorWithMessageAndStatus } from "@/commons/errors";
-import BaseButton from "@/components/base/BaseButton.vue";
 
 // INTERFACES
 export interface InviteForm {
@@ -136,39 +126,12 @@ export default {
           label: ROLES_DISPLAY_STRINGS[MemberRole.Admin],
           value: MemberRole.Admin
         }
-      ],
-
-      simpleSchema: {
-        email(value: string) {
-          // if the field is empty
-          if (!value) {
-            return "This field is required";
-          }
-
-          // if the field is not a valid email
-          const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-          if (!regex.test(value)) {
-            return "This field must be a valid email";
-          }
-
-          // All is good
-          return true;
-        }
-      }
+      ]
     };
   },
 
   methods: {
     // --> EVENT LISTENERS <--
-
-    onSubmit() {
-      //Click on ghost button
-      (this.$refs.ghostButton as InstanceType<typeof BaseButton>)
-        .getInstance()
-        .click();
-
-      console.log(this.$refs.veeForm);
-    },
 
     onChange(value: string) {
       // Auto fill nickname from e-mail
@@ -187,68 +150,50 @@ export default {
       this.$emit("close", true);
     },
 
-    async onSendInvite(values: InviteForm, { resetForm }: FormContext) {
-      console.log("hey hey hi hi");
-      console.log("resetForm", resetForm);
-      console.log(JSON.stringify(values, null, 2));
-
-      // Check if all fields have been filled
-      if (!values.email || !values.username) {
-        BaseAlert.error(
-          "Cannot send the invitation",
-          "Please complete all the fields"
-        );
-
-        return;
-      }
-
-      try {
-        // Send invitation
-        await store.$teamMembers.sendInvitation(
-          values.username,
-          this.inviteRole,
-          values.email
-        );
-
-        // Reload invite list
-        await store.$teamMembers.loadInvitedMembers(true);
-
-        // Let user know the invitation was sent
-        BaseAlert.success("An invitation has been sent", "");
-
-        // Reset values and close modal
-        this.onClose();
-
-        resetForm();
-      } catch (error) {
-        const typedError = error as ErrorWithMessageAndStatus;
-
-        // If member has already been invited
-        if (typedError.status === 409) {
-          BaseAlert.warning(
-            "This username is already in use",
-            "Please choose a different username"
+    async onSendInvite() {
+      if ((this.$refs.veeForm as InstanceType<typeof VeeForm>).meta.valid) {
+        // Check if all fields have been filled
+        if (!this.inviteEmail || !this.inviteUserName) {
+          BaseAlert.error(
+            "Cannot send the invitation",
+            "Please complete all the fields"
           );
-        } else {
-          BaseAlert.error("Something went wrong", typedError.message);
+
+          return;
         }
-      }
-    },
 
-    validateEmail(value: string) {
-      // if the field is empty
-      if (!value) {
-        return "This field is required";
-      }
+        try {
+          // Send invitation
+          await store.$teamMembers.sendInvitation(
+            this.inviteUserName,
+            this.inviteRole,
+            this.inviteEmail
+          );
 
-      // if the field is not a valid email
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return "This field must be a valid email";
-      }
+          // Reload invite list
+          await store.$teamMembers.loadInvitedMembers(true);
 
-      // All is good
-      return true;
+          // Let user know the invitation was sent
+          BaseAlert.success("An invitation has been sent", "");
+
+          // Reset values and close modal
+          this.onClose();
+        } catch (error) {
+          const typedError = error as ErrorWithMessageAndStatus;
+
+          // If member has already been invited
+          if (typedError.status === 409) {
+            BaseAlert.warning(
+              "This username is already in use",
+              "Please choose a different username"
+            );
+          } else {
+            BaseAlert.error("Something went wrong", typedError.message);
+          }
+        }
+      } else {
+        BaseAlert.error("Please enter a valid email");
+      }
     }
   }
 };

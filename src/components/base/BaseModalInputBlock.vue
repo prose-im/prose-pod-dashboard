@@ -22,9 +22,10 @@
     :name="name"
     :placeholder="placeholder"
     :type="type"
-    ref="formField"
-    size="mid-large"
+    :rules="rules"
+    ref="formField" 
     align="left"
+    size="mid-large"
   )
 
   slot
@@ -75,6 +76,11 @@ export default {
     type: {
       type: String,
       default: "text"
+    },
+
+    rules: {
+      type: Object,
+      default: () => ({})
     }
   },
 

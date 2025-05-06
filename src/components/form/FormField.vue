@@ -51,8 +51,9 @@ div(
   field(
     v-else
     v-model="value" 
-    :type="type" 
     :name="name" 
+    :rules="rules" 
+    :type="type" 
     v-slot="{ field }"
   )
     input(
@@ -74,15 +75,9 @@ div(
       :autocomplete="autocomplete"
       :disabled="disabled"
       :placeholder="placeholder"
-      :rules="rules" 
       ref="field"
     )
 </template>
-<!--       
-      :name="name"
-      :value="value"
-      :type="type"
-       -->
 
 <!-- **********************************************************************
      SCRIPT
@@ -92,7 +87,11 @@ div(
 // NPM
 import { codes as keyCodes } from "keycode";
 
-import { Field } from "vee-validate";
+import { defineRule, Field } from "vee-validate";
+
+import { email } from "@vee-validate/rules";
+
+defineRule("email", email);
 
 export default {
   name: "FormField",
@@ -202,10 +201,8 @@ export default {
     },
 
     rules: {
-      type: Function,
-      default: () => {
-        return null;
-      }
+      type: Object,
+      default: () => ({})
     }
   },
 
