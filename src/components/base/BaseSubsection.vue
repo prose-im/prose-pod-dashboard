@@ -84,7 +84,7 @@
 
   <!-- Tooltip Notification -->
 
-  base-notification(
+  base-success-notification(
     :visible="showSuccessBanner"
     class="c-base-subsection__notification"
   )

@@ -13,13 +13,13 @@ transition(
   enter-active-class="u-animate u-animate--fade-in-up-small u-animate--superfast"
   leave-active-class="u-animate u-animate--fade-out u-animate--fast"
 )
-  .c-base-notification(
+  .c-base-success-notification(
     v-if="visible"
   )
     slot
 
     base-icon(
-      class="c-base-notification__icon"
+      class="c-base-success-notification__icon"
       name="checkmark.circle.fill"
       fill="#05c02b"
       size="12px"
@@ -32,7 +32,7 @@ transition(
 
 <script lang="ts">
 export default {
-  name: "BaseNotification",
+  name: "BaseSuccessNotification",
 
   props: {
     visible: {
@@ -48,7 +48,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-base-notification";
+$c: ".c-base-success-notification";
 
 #{$c} {
   color: $color-base-green-normal;
