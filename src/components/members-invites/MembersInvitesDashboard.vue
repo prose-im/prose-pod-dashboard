@@ -35,6 +35,7 @@
       members-invites-row(
         v-if="pageNumber === 1"
         v-for="(invite, index) in invites"
+        @cancel-invite-request="onCancelInviteRequest"
         :user-data="invite"
         :actions-enabled="actionsMenuEnabled"
       )
@@ -76,18 +77,25 @@ invite-team-member(
   :visibility="inviteModalVisibility"
 )
 
+cancel-invite(
+  v-if="activeModal === 'cancelInvite'"
+  @close="toggleCancelInviteModalVisible"
+  :invite="inviteToDelete"
+  :visibility="cancelInviteModalVisibility"
+)
+
 edit-role(
   v-if="activeModal === 'editRole'"
   @close="toggleEditRoleModalVisible"
-  :visibility="editRoleModalVisibility"
   :user="userToUpdate"
+  :visibility="editRoleModalVisibility"
 )
 
 delete-member(
   v-if="activeModal === 'deleteMember'"
   @close="toggleDeleteMemberModalVisible"
-  :visibility="deleteMemberModalVisibility"
   :jid="userToUpdate?.jid"
+  :visibility="deleteMemberModalVisibility"
 )
 </template>
 
@@ -103,6 +111,7 @@ import SearchBar from "@/components/search/SearchBar.vue";
 
 // PROJECT: ASSEMBLIES
 import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
+import CancelInvite from "@/assemblies/modals/members/CancelInvite.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
 
@@ -117,6 +126,8 @@ import APIInvitations from "@/api/providers/invitations";
 enum Modals {
   // Invite Team Member Modal
   Invite = "invite",
+  // Invite Team Member Modal
+  CancelInvite = "cancelInvite",
   // Edit Role Member Modal
   EditRole = "editRole",
   //delete Member Modal
@@ -127,6 +138,7 @@ export default {
   name: "MembersInvitesDashboard",
 
   components: {
+    CancelInvite,
     DeleteMember,
     EditRole,
     InviteTeamMember,
@@ -149,11 +161,13 @@ export default {
       isInvitesLoading: false,
 
       inviteModalVisibility: false,
+      cancelInviteModalVisibility: false,
       editRoleModalVisibility: false,
       deleteMemberModalVisibility: false,
 
       activeModal: null as null | Modals,
       userToUpdate: null as object | null,
+      inviteToDelete: null as object | null,
 
       searchTerm: "",
 
@@ -195,15 +209,30 @@ export default {
   watch: {
     activeModal(newActiveModal) {
       this.inviteModalVisibility = false;
+      this.cancelInviteModalVisibility = false;
       this.editRoleModalVisibility = false;
       this.deleteMemberModalVisibility = false;
 
-      if (newActiveModal === "invite") {
-        setTimeout(() => (this.inviteModalVisibility = true), 10);
-      } else if (newActiveModal === "editRole") {
-        setTimeout(() => (this.editRoleModalVisibility = true), 10);
-      } else if (newActiveModal === "deleteMember") {
-        setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
+      switch (newActiveModal) {
+        case "invite": {
+          setTimeout(() => (this.inviteModalVisibility = true), 10);
+          break;
+        }
+        case "cancelInvite": {
+          setTimeout(() => (this.cancelInviteModalVisibility = true), 10);
+          break;
+        }
+        case "editRole": {
+          setTimeout(() => (this.editRoleModalVisibility = true), 10);
+          break;
+        }
+        case "deleteMember": {
+          setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
+          break;
+        }
+        default: {
+          break;
+        }
       }
     },
 
@@ -295,6 +324,15 @@ export default {
       this.activeModal = null;
     },
 
+    toggleCancelInviteModalVisible() {
+      if (this.activeModal !== "cancelInvite") {
+        this.activeModal = Modals.CancelInvite;
+      } else {
+        this.activeModal = null;
+        this.inviteToDelete = null;
+      }
+    },
+
     toggleDeleteMemberModalVisible() {
       if (this.activeModal === "deleteMember") {
         this.activeModal = null;
@@ -352,6 +390,26 @@ export default {
 
           break;
         }
+      }
+    },
+
+    async onCancelInviteRequest(inviteId: number, jid: string) {
+      const canInviteMembers = await APIInvitations.canInviteMember();
+
+      if (canInviteMembers === true) {
+        this.inviteToDelete = {
+          id: inviteId,
+          jid
+        };
+
+        console.log("inviteToDelete =", this.inviteToDelete);
+
+        this.toggleCancelInviteModalVisible();
+      } else {
+        return BaseAlert.error(
+          "You cannot do that",
+          "Ask an admin to do this task"
+        );
       }
     },
 

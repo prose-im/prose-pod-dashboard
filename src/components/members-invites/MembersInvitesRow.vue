@@ -238,7 +238,7 @@ export default {
     }
   },
 
-  emits: ["menuAction"],
+  emits: ["menuAction", "cancelInviteRequest"],
 
   data() {
     return {
@@ -304,8 +304,10 @@ export default {
     },
 
     onCancelInvite() {
-      store.$teamMembers.cancelInvitation(
-        (this.userData as Invitation).invitation_id
+      this.$emit(
+        "cancelInviteRequest",
+        (this.userData as Invitation).invitation_id,
+        (this.userData as Invitation).jid
       );
     },
 
