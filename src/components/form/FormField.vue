@@ -89,9 +89,12 @@ import { codes as keyCodes } from "keycode";
 
 import { defineRule, Field } from "vee-validate";
 
-import { email } from "@vee-validate/rules";
+import { alpha_spaces, email, max, required } from "@vee-validate/rules";
 
+defineRule("required", required);
 defineRule("email", email);
+defineRule("alpha_spaces", alpha_spaces);
+defineRule("max", max);
 
 export default {
   name: "FormField",
