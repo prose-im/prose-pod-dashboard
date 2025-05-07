@@ -73,10 +73,10 @@
       @update-third-input="onUpdateThirdInput"
       :secondary-input="organization.adminPassword"
       :tertiary-input="organization.adminNickname"
-      :errorMessages="['Field required', 'Field required', 'Field required']"
+      :errorMessages="[stepThreeErrors]"
       :form-visible="currentStep === 3"
       :loading="loading"
-      :rules="[{required: true}, {required: true}, {required: true}]"
+      :rules="stepThreeRules"
       :tips="tipAdmin"
       form-type="triple"
       placeholder="Username (eg. john.doe)"
@@ -152,6 +152,12 @@ export default {
       },
 
       // --> DATA <--
+      stepThreeErrors: ["Field required", "Field required", "Field required"],
+      stepThreeRules: [
+        { alpha_spaces: true, required: true },
+        { min: 8, required: true },
+        { required: true }
+      ],
 
       tipDomain: {
         1: [
