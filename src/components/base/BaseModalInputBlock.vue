@@ -28,7 +28,12 @@
     size="mid-large"
   )
 
-  slot
+  form-input-error-message(
+    v-if="displayError"
+    class="c-base-modal-input-block__error"
+  )
+    span 
+      | {{ errorMessage }}
 </template>
 
 <!-- **********************************************************************
@@ -58,6 +63,16 @@ export default {
       default: false
     },
 
+    displayError: {
+      type: Boolean,
+      default: false
+    },
+
+    errorMessage: {
+      type: String,
+      default: "Invalid input"
+    },
+
     label: {
       type: String,
       required: true
@@ -73,14 +88,14 @@ export default {
       default: ""
     },
 
-    type: {
-      type: String,
-      default: "text"
-    },
-
     rules: {
       type: Object,
       default: () => ({})
+    },
+
+    type: {
+      type: String,
+      default: "text"
     }
   },
 
@@ -142,6 +157,11 @@ $c: ".c-base-modal-input-block";
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
+  }
+
+  #{$c}__error {
+    margin-inline-start: 10px;
+    margin-block-start: 10px;
   }
 }
 </style>
