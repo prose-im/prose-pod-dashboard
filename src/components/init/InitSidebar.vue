@@ -179,6 +179,7 @@ $frame-spacing: 11px;
     transition: top 200ms ease-in-out;
     box-shadow: inset 0 1.5px 0 0 rgba($color-white, 0.9);
 
+    &--null,
     &--1 {
       top: 0;
     }
