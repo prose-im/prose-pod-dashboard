@@ -20,7 +20,8 @@
       .c-init-form__label
         slot
 
-      form.c-init-form__field-block(
+      vee-form.c-init-form__field-block(
+        v-slot="{ errors, meta }"
         @submit.prevent="onSubmit"
         :class=`[
           {
@@ -28,12 +29,17 @@
             "c-init-form__field-block--block": (formType !== 'single')
           }
         ]`
+        ref="veeFormInstance"
       )
         form-field(
           v-model="input"
           @keyup.enter="onKeyupFirstInput"
           :disabled="loading"
+          :display-error="errors?.first && meta.touched"
+          :error-message="errorMessages[0]"
+          name="first"
           :placeholder="placeholder"
+          :rules="rules[0]"
           :type="type"
           ref="firstFormField"
           autofocus
@@ -47,7 +53,10 @@
           v-model="secondInput"
           @keyup.enter="onKeyupSecondInput"
           :disabled="loading"
+          :display-error="errors?.second && meta.touched"
+          name="second"
           :placeholder="secondaryPlaceholder"
+          :rules="rules[1]"
           :type="secondaryType"
           ref="secondFormField"
           align="left"
@@ -60,7 +69,10 @@
           v-model="thirdInput"
           @keyup.enter="onSubmit"
           :disabled="loading"
+          :display-error="errors?.third && meta.touched"
+          name="third"
           :placeholder="tertiaryPlaceholder"
+          :rules="rules[2]"
           :type="tertiaryType"
           ref="thirdFormField"
           align="left"
@@ -103,11 +115,15 @@
 import FormField from "@/components/form/FormField.vue";
 import InitTips from "@/components/init/InitTips.vue";
 
+// PROJECT: VEE-VALIDATE
+import { Form as VeeForm } from "vee-validate";
+
 export default {
   name: "InitPage",
 
   components: {
-    InitTips
+    InitTips,
+    VeeForm
   },
 
   props: {
@@ -129,6 +145,16 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+
+    rules: {
+      type: Array,
+      default: () => []
+    },
+
+    errorMessages: {
+      type: Array,
+      default: () => []
     },
 
     // First input

@@ -29,9 +29,11 @@
       v-if="currentStep === 1"
       v-model="organization.domain"
       @change-step="updateStep('domain')"
+      :errorMessages="['Field required']"
       :form-visible="currentStep === 1"
-      :tips="tipDomain"
       :loading="loading"
+      :rules="[{required: true}]"
+      :tips="tipDomain"
       placeholder=" Ex: hello.com"
     )
       span
@@ -47,9 +49,11 @@
       v-if="currentStep === 2"
       v-model="organization.server"
       @change-step="updateStep('server')"
+      :errorMessages="['Field required']"
       :form-visible="currentStep === 2"
-      :tips="tipServer"
       :loading="loading"
+      :rules="[{required: true}]"
+      :tips="tipServer"
       placeholder=" Ex: MyCompanyName"
     )
       span
@@ -69,9 +73,11 @@
       @update-third-input="onUpdateThirdInput"
       :secondary-input="organization.adminPassword"
       :tertiary-input="organization.adminNickname"
+      :errorMessages="['Field required', 'Field required', 'Field required']"
       :form-visible="currentStep === 3"
-      :tips="tipAdmin"
       :loading="loading"
+      :rules="[{required: true}, {required: true}, {required: true}]"
+      :tips="tipAdmin"
       form-type="triple"
       placeholder="Username (eg. john.doe)"
       type="text"
@@ -269,6 +275,8 @@ export default {
 
                   this.currentStep += 1;
                 } else {
+                  this.loading = false;
+
                   return BaseAlert.error(
                     "Invalid domain name",
                     "Please enter a valid domain name"
