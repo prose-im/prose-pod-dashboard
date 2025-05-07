@@ -19,6 +19,8 @@
     @change="onChange"
     :autofocus="autofocus"
     :disabled="disabled"
+    :display-error="displayError"
+    :error-message="errorMessage"
     :name="name"
     :placeholder="placeholder"
     :type="type"
@@ -28,12 +30,7 @@
     size="mid-large"
   )
 
-  form-input-error-message(
-    v-if="displayError"
-    class="c-base-modal-input-block__error"
-  )
-    span 
-      | {{ errorMessage }}
+
 </template>
 
 <!-- **********************************************************************
@@ -157,11 +154,6 @@ $c: ".c-base-modal-input-block";
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
-  }
-
-  #{$c}__error {
-    margin-inline-start: 10px;
-    margin-block-start: 10px;
   }
 }
 </style>
