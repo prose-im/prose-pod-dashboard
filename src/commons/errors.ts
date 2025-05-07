@@ -17,6 +17,7 @@ interface ErrorFromResponse {
   response: {
     data: {
       message: string;
+      error: string;
     };
   };
 }
