@@ -67,13 +67,13 @@ export default {
   props: {
     invite: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "proceed"],
@@ -102,8 +102,8 @@ export default {
 
         BaseAlert.error("Something went wrong", typedError);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
