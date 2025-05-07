@@ -46,7 +46,7 @@ base-modal(
 
 
     .a-server-whitelist__options
-      <!-- Initial position buttons -->
+      <!-- Initial option buttons -->
       .a-server-whitelist__initial(
         v-if="!activeAction"
       )
@@ -70,11 +70,17 @@ base-modal(
             | Remove a domain
 
       <!-- Adding domain active -->
-      .a-server-whitelist__add(
+      vee-form.a-server-whitelist__add(
         v-else-if="activeAction === 'add'"
+        v-slot="{ errors, meta }"
+        @submit="onAddNewDomain"
+        ref="veeFormInstance"
       )
         base-modal-input-block(
           v-model="newDomain"
+          :display-error="errors?.domain && meta.touched"
+          :rules="{required: true}"
+          error-message="This field is required"
           label="Enter the domain to add"
           name="domain"
           placeholder="Enter a domain..."
@@ -83,10 +89,11 @@ base-modal(
         )
 
         base-button(
-          @click="onAddNewDomain"
+          :disabled="!newDomain"
           class="a-server-whitelist__button"
           size="medium"
           tint="purple"
+          type="submit"
         )
           p
             | Add domain
@@ -130,6 +137,9 @@ base-modal(
 // NPM
 import { PropType } from "vue";
 
+// PROJECT: VEE-VALIDATE
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: STORE
 import store from "@/store";
 import isValidDomain from "is-valid-domain";
@@ -137,6 +147,10 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 
 export default {
   name: "FactoryReset",
+
+  components: {
+    VeeForm
+  },
 
   props: {
     serverList: {
@@ -193,19 +207,23 @@ export default {
     // --> EVENT LISTENERS <--
 
     onAddNewDomain() {
-      const domainValidated = isValidDomain(this.newDomain);
+      if (
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
+      ) {
+        const domainValidated = isValidDomain(this.newDomain);
 
-      if (domainValidated) {
-        if (this.whitelist.includes(this.newDomain)) {
-          BaseAlert.error("This domain is already in your whitelist");
+        if (domainValidated) {
+          if (this.whitelist.includes(this.newDomain)) {
+            BaseAlert.error("This domain is already in your whitelist");
+          } else {
+            this.whitelist.push(this.newDomain);
+
+            this.resetActiveAction();
+            this.newDomain = "";
+          }
         } else {
-          this.whitelist.push(this.newDomain);
-
-          this.resetActiveAction();
-          this.newDomain = "";
+          BaseAlert.error("Please enter a valid domain");
         }
-      } else {
-        BaseAlert.error("Please enter a valid domain");
       }
     },
 

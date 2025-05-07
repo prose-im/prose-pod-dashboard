@@ -13,15 +13,22 @@ base-modal(
   @close="onClose"
   @confirm="onProceed"
   :visible="visibility"
+  :disabled="!newName"
   position="center"
   title="Change your workspace name"
   button-color="purple"
   button-label="Change name"
 )
-  .a-edit-name
+  vee-form.a-edit-name(
+    v-slot="{ errors, meta }"
+    ref="veeFormInstance"
+  )
     base-modal-input-block(
       v-model="newName"
+      :display-error="errors?.workspaceName && meta.touched"
       :label="label"
+      :rules="{required: true, max: 100}"
+      error-message="This field is required"
       name="workspaceName"
       placeholder="ex: Big Project"
       type="text"
@@ -37,11 +44,18 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
+// PROJECT: VEE-VALIDATE
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: STORE
 import store from "@/store";
 
 export default {
   name: "EditName",
+
+  components: {
+    VeeForm
+  },
 
   props: {
     visibility: {
@@ -72,24 +86,32 @@ export default {
     // --> EVENT LISTENERS <--
 
     async onProceed() {
-      if (!this.newName) {
-        BaseAlert.error(
-          "No workspace name",
-          "Please enter a name for your workspace"
-        );
+      console.log(
+        "errors",
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).errors
+      );
+      if (
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
+      ) {
+        if (!this.newName) {
+          BaseAlert.error(
+            "No workspace name",
+            "Please enter a name for your workspace"
+          );
 
-        return;
+          return;
+        }
+
+        await store.$customizationWorkspace.updateWorkspaceName(this.newName);
+
+        // Reinitialize variables + close modal
+        this.newName = "";
+
+        this.$emit("close");
+
+        // Make success notitification visible
+        this.$emit("showSuccess");
       }
-
-      await store.$customizationWorkspace.updateWorkspaceName(this.newName);
-
-      // Reinitialize variables + close modal
-      this.newName = "";
-
-      this.$emit("close");
-
-      // Make success notitification visible
-      this.$emit("showSuccess");
     },
 
     onClose() {

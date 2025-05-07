@@ -20,27 +20,26 @@ base-modal(
 )
   vee-form.a-invite-team-member(
     v-slot="{ errors, meta }"
-    ref="veeForm"
+    ref="veeFormInstance"
   )
     base-modal-input-block(
       v-model="inviteEmail"
       @change="onChange"
-      type="email"
+      :display-error="errors?.email && meta.touched"
+      :rules="{email: true, required: true}"
+      error-message="Please enter a valid email"
       label="Email to Invite"
       name="email"
       placeholder="Enter e-mail address to invite..."
-      :rules="{email: true}"
+      type="email"
       autofocus
     )
 
-      form-input-error-message(
-        v-if="errors?.email"
-        class="a-invite-team-member__input-error"
-      )
-        | Please enter a valid email
-
     base-modal-input-block(
       v-model="inviteUserName"
+      :display-error="errors?.username && meta.touched"
+      :rules="{ alpha_spaces: true, required: true}"
+      error-message="This field is required"
       label="Username"
       name="username"
       placeholder="Enter an username for user..."
@@ -72,6 +71,8 @@ base-modal(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
+
+// PROJECT: VEE-VALIDATE
 import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: API
@@ -151,7 +152,13 @@ export default {
     },
 
     async onSendInvite() {
-      if ((this.$refs.veeForm as InstanceType<typeof VeeForm>).meta.valid) {
+      console.log(
+        "errors",
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).errors
+      );
+      if (
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
+      ) {
         // Check if all fields have been filled
         if (!this.inviteEmail || !this.inviteUserName) {
           BaseAlert.error(
@@ -216,11 +223,6 @@ export default {
 $c: ".a-invite-team-member";
 
 #{$c} {
-  #{$c}__input-error {
-    margin-inline-start: 10px;
-    margin-block-start: 10px;
-  }
-
   h4 {
     color: $color-text-secondary;
     margin-top: 0;

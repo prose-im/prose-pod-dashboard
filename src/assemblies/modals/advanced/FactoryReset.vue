@@ -14,7 +14,7 @@ base-modal(
   @confirm="onProceed"
   :visible="visibility"
   :loading="isResetting"
-  :disabled="isResetting"
+  :disabled="isResetting || !password"
   :flex-container="true"
   title="Factory reset this Pod"
   title-color="red"
@@ -22,7 +22,10 @@ base-modal(
   button-label="Run Factory Reset"
 )
   .a-factory-reset
-    .a-factory-reset__top
+    vee-form.a-factory-reset__top(
+      v-slot="{ errors, meta }"
+      ref="veeFormInstance"
+    )
       base-modal-disclaimer(
         :description="disclaimerDescription"
         warning="Read this first:  Performing a factory reset will wipe all data."
@@ -32,10 +35,14 @@ base-modal(
       base-modal-input-block(
         v-model="password"
         :disabled="isResetting"
+        :display-error="errors?.password && meta.touched"
+        :rules="{required: true}"
+        error-message="This field is required"
         label="Password verification"
         name="password"
         placeholder="Enter your account password..."
         type="password"
+        autofocus
       )
 
     .a-factory-reset__confirm
@@ -66,11 +73,18 @@ base-modal(
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 
+// PROJECT: VEE-VALIDATE
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: STORE
 import store from "@/store";
 
 export default {
   name: "FactoryReset",
+
+  components: {
+    VeeForm
+  },
 
   props: {
     visibility: {
@@ -109,45 +123,49 @@ export default {
       // FIXME: Check `hasDownloadedBackup` once [Export full backup · Issue \
       //   #131 · prose-im/prose-pod-api](https://github.com/prose-im/\
       //   prose-pod-api/issues/131) is fixed.
-      if (!this.password) {
-        return BaseAlert.error(
-          "Please enter your password",
-          "We need to make sure that it's you!"
-        );
-      }
+      if (
+        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
+      ) {
+        if (!this.password) {
+          return BaseAlert.error(
+            "Please enter your password",
+            "We need to make sure that it's you!"
+          );
+        }
 
-      if (!this.acceptsDataLoss) {
-        return BaseAlert.error(
-          "Please accept all conditions",
-          "Confirm that you are aware that all data will be erased"
-        );
-      }
+        if (!this.acceptsDataLoss) {
+          return BaseAlert.error(
+            "Please accept all conditions",
+            "Confirm that you are aware that all data will be erased"
+          );
+        }
 
-      // Mark as loading
-      this.isResetting = true;
+        // Mark as loading
+        this.isResetting = true;
 
-      // Verify password (by performing a log-in)
-      try {
-        // Run factory reset
-        await store.$globalConfig.performFactoryReset(this.password);
+        // Verify password (by performing a log-in)
+        try {
+          // Run factory reset
+          await store.$globalConfig.performFactoryReset(this.password);
 
-        // Alert that we are done
-        BaseAlert.success(
-          "Factory reset complete",
-          "Your Pod needs to be set up again"
-        );
+          // Alert that we are done
+          BaseAlert.success(
+            "Factory reset complete",
+            "Your Pod needs to be set up again"
+          );
 
-        // Redirect to initialization page
-        await this.$router.push({
-          name: "start.init"
-        });
-      } catch (error) {
-        this.isResetting = false;
+          // Redirect to initialization page
+          await this.$router.push({
+            name: "start.init"
+          });
+        } catch (error) {
+          this.isResetting = false;
 
-        BaseAlert.error(
-          "Could not run factory reset",
-          "Did you enter an incorrect password?"
-        );
+          BaseAlert.error(
+            "Could not run factory reset",
+            "Did you enter an incorrect password?"
+          );
+        }
       }
     }
   }
