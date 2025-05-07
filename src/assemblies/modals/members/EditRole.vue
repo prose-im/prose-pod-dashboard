@@ -148,7 +148,7 @@ export default {
         } catch (error) {
           const typedError = error as ErrorFromResponse;
 
-          if (typedError.response.data.message.includes("own") === true) {
+          if (typedError.response.data.error === "cannot_change_own_role") {
             BaseAlert.error(
               "You cannot change your own role",
               "Please ask an admin to change your role"

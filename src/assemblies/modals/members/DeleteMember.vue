@@ -102,7 +102,7 @@ export default {
       } catch (error) {
         const typedError = error as ErrorFromResponse;
 
-        if (typedError.response.data.message.includes("self-remove") === true) {
+        if (typedError.response.data.error === "cannot_remove_self") {
           BaseAlert.error(
             "You cannot remove yourself from the team",
             "Please ask an admin to remove you"
