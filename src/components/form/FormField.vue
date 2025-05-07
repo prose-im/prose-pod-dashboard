@@ -55,28 +55,36 @@ div(
     :rules="rules"
     v-slot="{ field }"
   )
-    input(
-      v-bind="field"
-      @keypress.stop
-      @keydown.stop="onFieldKeyDown"
-      @keyup.stop="onFieldKeyUp"
-      @input="onFieldInput"
-      @focus="onFieldFocus"
-      @blur="onFieldBlur"
-      @contextmenu.stop
-      :type="type"
-      :autocomplete="autocomplete"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :class=`[
-        "c-form-field__inner",
-        "c-form-field__inner--input",
-        {
-          [fieldClass]: fieldClass
-        }
-      ]`
-      ref="field"
-    )
+    .c-form-field__core
+      input(
+        v-bind="field"
+        @keypress.stop
+        @keydown.stop="onFieldKeyDown"
+        @keyup.stop="onFieldKeyUp"
+        @input="onFieldInput"
+        @focus="onFieldFocus"
+        @blur="onFieldBlur"
+        @contextmenu.stop
+        :type="type"
+        :autocomplete="autocomplete"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        :class=`[
+          "c-form-field__inner",
+          "c-form-field__inner--input",
+          {
+            [fieldClass]: fieldClass
+          }
+        ]`
+        ref="field"
+      )
+
+      form-input-error-message(
+        v-if="displayError"
+        class="c-form-field__error"
+      )
+        span 
+          | {{ errorMessage }}
 </template>
 
 <!-- **********************************************************************
@@ -156,6 +164,16 @@ export default {
       validator(x: string): boolean {
         return ["top", "bottom"].includes(x);
       }
+    },
+
+    displayError: {
+      type: Boolean,
+      default: false
+    },
+
+    errorMessage: {
+      type: String,
+      default: "Invalid input"
     },
 
     name: {
@@ -377,6 +395,15 @@ $c: ".c-form-field";
 
 #{$c} {
   position: relative;
+
+  #{$c}__core {
+    flex: 1 1 auto;
+  }
+
+  #{$c}__error {
+    margin-inline-start: 10px;
+    margin-block-start: 10px;
+  }
 
   #{$c}__inner {
     background-color: $color-white;
