@@ -47,7 +47,6 @@
     v-model="myVal[index]"
     @click="item.action"
     @update="updateValue"
-    @show-success="makeSucessBannerVisible"
     :key="item.subtitle"
     :item="item"
     :type="item.type"

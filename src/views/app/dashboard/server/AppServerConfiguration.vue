@@ -17,6 +17,7 @@
     :restore-option="true"
     :restore-action="onMessagingRestore"
     :restore-description="restoreMessagingDescription"
+    ref="messagingSubsection"
     title="Messaging"
   )
 
@@ -27,6 +28,7 @@
     :restore-option="true"
     :restore-action="onFileRestore"
     :restore-description="restoreFilesDescription"
+    ref="filesSubsection"
     title="Files"
   )
 </template>
@@ -37,6 +39,8 @@
 
 <script lang="ts">
 // PROJECT: STORE
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import store from "@/store";
 
 // ENUMERATIONS
@@ -179,9 +183,19 @@ export default {
   },
 
   methods: {
+    // --> HELPERSS <--
+    showSucces() {
+      (
+        this.$refs.messagingSubsection as InstanceType<typeof BaseSubsection>
+      ).makeSucessBannerVisible();
+    },
+
     // --> EVENT LISTENERS <--
 
-    onMessagingUpdate(newValue: boolean | string, changedKey: MessagingKey) {
+    async onMessagingUpdate(
+      newValue: boolean | string,
+      changedKey: MessagingKey
+    ) {
       if (
         this.config.messaging[changedKey] !== undefined &&
         this.config.messaging[changedKey] !== newValue
@@ -189,7 +203,18 @@ export default {
         switch (changedKey) {
           case MessagingKey.Archive: {
             if (typeof newValue === "boolean") {
-              store.$serverConfiguration.toggleMessageArchiveEnabled(newValue);
+              try {
+                await store.$serverConfiguration.toggleMessageArchiveEnabled(
+                  newValue
+                );
+
+                this.showSucces();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
@@ -197,7 +222,18 @@ export default {
 
           case MessagingKey.RetentionTime: {
             if (typeof newValue === "string") {
-              store.$serverConfiguration.changeMessageRetentionTime(newValue);
+              try {
+                await store.$serverConfiguration.changeMessageRetentionTime(
+                  newValue
+                );
+
+                this.showSucces();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
@@ -206,7 +242,7 @@ export default {
       }
     },
 
-    onFileUpdate(newValue: boolean | string, changedKey: FileKey) {
+    async onFileUpdate(newValue: boolean | string, changedKey: FileKey) {
       if (
         this.config.files[changedKey] !== undefined &&
         this.config.files[changedKey] !== newValue
@@ -214,7 +250,18 @@ export default {
         switch (changedKey) {
           case "fileUploadEnabled": {
             if (typeof newValue === "boolean") {
-              store.$serverConfiguration.toggleFileUploadEnabled(newValue);
+              try {
+                await store.$serverConfiguration.toggleFileUploadEnabled(
+                  newValue
+                );
+
+                this.showSucces();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
@@ -222,7 +269,16 @@ export default {
 
           case "encryption": {
             if (typeof newValue === "string") {
-              store.$serverConfiguration.changeFileEncryption(newValue);
+              try {
+                await store.$serverConfiguration.changeFileEncryption(newValue);
+
+                this.showSucces();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
@@ -230,7 +286,18 @@ export default {
 
           case "fileRetentionTime": {
             if (typeof newValue === "string") {
-              store.$serverConfiguration.changeFileRetentionTime(newValue);
+              try {
+                await store.$serverConfiguration.changeFileRetentionTime(
+                  newValue
+                );
+
+                this.showSucces();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
@@ -239,16 +306,28 @@ export default {
       }
     },
 
-    onMessagingRestore() {
-      store.$serverConfiguration.restoreMessagingConfig();
+    async onMessagingRestore() {
+      try {
+        await store.$serverConfiguration.restoreMessagingConfig();
+      } catch (e) {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     },
 
-    onFileRestore() {
-      store.$serverConfiguration.restoreFileConfig();
+    async onFileRestore() {
+      try {
+        await store.$serverConfiguration.restoreFileConfig();
+      } catch (e) {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     },
 
-    onRestoreMessageArchiveRetention() {
-      store.$serverConfiguration.restoreMessageArchiveRetention();
+    async onRestoreMessageArchiveRetention() {
+      try {
+        await store.$serverConfiguration.restoreMessageArchiveRetention();
+      } catch (e) {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     }
   }
 };

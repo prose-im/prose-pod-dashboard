@@ -57,6 +57,7 @@ enum Modals {
 // PROJECT: COMPONENTS
 import EditLogo from "@/assemblies/modals/customization/EditLogo.vue";
 import EditName from "@/assemblies/modals/customization/EditName.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // PROJECT: STORE
@@ -296,20 +297,44 @@ export default {
 
     // --> EVENT LISTENERS <--
 
-    onAppearanceUpdate(newValue: string, changedKey: AppearanceKey) {
+    async onAppearanceUpdate(newValue: string, changedKey: AppearanceKey) {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
           case "color": {
             if (newValue === "Default Color") {
-              store.$customizationWorkspace.setWorkspaceAccentColor(null);
+              try {
+                await store.$customizationWorkspace.setWorkspaceAccentColor(
+                  null
+                );
+
+                this.onShowSuccess();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             } else {
-              store.$customizationWorkspace.setWorkspaceAccentColor(newValue);
+              try {
+                await store.$customizationWorkspace.setWorkspaceAccentColor(
+                  newValue
+                );
+
+                this.onShowSuccess();
+              } catch (e) {
+                BaseAlert.error(
+                  "Something went wrong",
+                  "Please try again later"
+                );
+              }
             }
 
             break;
           }
         }
       }
+
+      return;
     },
 
     onShowSuccess() {

@@ -75,6 +75,7 @@ import {
 import ConfigurationChecker from "@/assemblies/modals/advanced/ConfigurationChecker.vue";
 import DnsSetup from "@/assemblies/modals/advanced/DnsSetup.vue";
 import ServerWhitelist from "@/assemblies/modals/advanced/ServerWhitelist.vue";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 
 // PROJECT: COMPONENTS
 import BaseSubsection from "@/components/base/BaseSubsection.vue";
@@ -340,8 +341,14 @@ export default {
       this.toggleServerWhitelistModalVisible();
     },
 
-    onFederationUpdate(newValue: boolean) {
-      store.$settingsNetwork.updateFederationEnabled(newValue);
+    async onFederationUpdate(newValue: boolean) {
+      try {
+        await store.$settingsNetwork.updateFederationEnabled(newValue);
+
+        this.onShowSuccess();
+      } catch (e) {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     },
 
     onRestoreFederationEnabled() {

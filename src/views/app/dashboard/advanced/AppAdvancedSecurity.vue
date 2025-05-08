@@ -14,6 +14,7 @@
     v-model="config.accountSecurity"
     @update="onSecurityUpdate"
     :items="accountItems"
+    ref="accountSecuritySubsection"
     title="Account Security"
   )
 
@@ -24,6 +25,7 @@
     :restore-option="true"
     :restore-action="onGlobalRestore"
     :restore-description="restoreDescription"
+    ref="networkEncryptionSubsection"
     title="Network Encryption"
   )
 </template>
@@ -35,6 +37,8 @@
 <script lang="ts">
 // PROJECT: API
 import { TlsProfile } from "@/api/providers/serverConfig";
+import BaseAlert from "@/components/base/BaseAlert.vue";
+import BaseSubsection from "@/components/base/BaseSubsection.vue";
 
 // PROJECT: STORES
 import store from "@/store";
@@ -111,9 +115,19 @@ export default {
   },
 
   methods: {
+    // --> HELPERS <--
+
+    showSuccess() {
+      (
+        this.$refs.networkEncryptionSubsection as InstanceType<
+          typeof BaseSubsection
+        >
+      ).makeSucessBannerVisible();
+    },
+
     // --> EVENT LISTENERS <--
 
-    onSecurityUpdate(
+    async onSecurityUpdate(
       newValue: AccountSecurityUiState[keyof AccountSecurityUiState],
       changedKey: keyof AccountSecurityUiState
     ) {
@@ -128,14 +142,22 @@ export default {
       }
     },
 
-    onEncryptionUpdate(
+    async onEncryptionUpdate(
       newValue: NetworkEncryptionUiState[keyof NetworkEncryptionUiState],
       changedKey: keyof NetworkEncryptionUiState
     ) {
       if (this.config.networkEncryption[changedKey] !== newValue) {
         switch (changedKey) {
           case "tlsProfile": {
-            store.$settingsSecurity.updateTlsProfile(newValue as TlsProfile);
+            try {
+              await store.$settingsSecurity.updateTlsProfile(
+                newValue as TlsProfile
+              );
+
+              this.showSuccess();
+            } catch (e) {
+              BaseAlert.error("Something went wrong", "Please try again later");
+            }
 
             break;
           }
@@ -143,8 +165,12 @@ export default {
       }
     },
 
-    onRestoreTlsProfile() {
-      store.$settingsSecurity.resetTlsProfile();
+    async onRestoreTlsProfile() {
+      try {
+        await store.$settingsSecurity.resetTlsProfile();
+      } catch (e) {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     },
 
     onGlobalRestore() {
