@@ -250,11 +250,6 @@ export default {
 
       menuOptions: [
         {
-          value: "Security settings",
-          disabled: true
-        },
-
-        {
           value: "Change role"
         },
 
