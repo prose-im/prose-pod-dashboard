@@ -12,8 +12,9 @@
 base-modal(
   @close="onClose"
   @confirm="onProceed"
-  :visible="visibility"
   :disabled="!newName"
+  :loading="sendingRequest"
+  :visible="visibility"
   position="center"
   title="Change your workspace name"
   button-color="purple"

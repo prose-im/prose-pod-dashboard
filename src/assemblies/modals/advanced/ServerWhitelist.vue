@@ -13,6 +13,7 @@ base-modal(
   @close="$emit('close')"
   @confirm="onProceed"
   @load="onLoad"
+  :loading="sendingRequest"
   :visible="visibility"
   title="Set a server whitelist"
   button-color="purple"
@@ -174,6 +175,8 @@ export default {
       domainsToRemove: [],
 
       newDomain: "",
+
+      sendingRequest: false,
 
       whitelist: [] as string[]
     };

@@ -13,7 +13,7 @@ base-modal(
   @close="onClose"
   @confirm="onProceed"
   :disabled="proceedDisabled"
-  :loading="imageLoading"
+  :loading="sendingRequest"
   :visible="visibility"
   position="center"
   title="Select new icon"
@@ -89,7 +89,8 @@ export default {
       recreatedImage: "" as string | ArrayBuffer,
 
       imageLoading: false,
-      proceedDisabled: true
+      proceedDisabled: true,
+      sendingRequest: false
     };
   },
 
@@ -192,12 +193,16 @@ export default {
     async onProceed() {
       try {
         if (this.image && typeof this.image === "string") {
+          this.sendingRequest = true;
+
           await store.$customizationWorkspace.updateWorkspaceIcon({
             base64: this.image,
             type: this.chosenImageType
           });
 
           // Reinitialize variables + close modal
+          this.sendingRequest = false;
+
           this.onClose();
 
           // Make success notitification visible
