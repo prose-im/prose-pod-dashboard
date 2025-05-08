@@ -73,7 +73,7 @@ transition(
         span(
           :class=`[
             {
-              "c-base-modal-container--hidden": loading && disabled
+              "c-base-modal-container--hidden": loading 
             }
           ]`
         )

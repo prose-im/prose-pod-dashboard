@@ -12,7 +12,7 @@
 base-modal(
   @close="onClose"
   @confirm="onProceed"
-  :disabled="!newName"
+  :disabled="!newName || sendingRequest"
   :loading="sendingRequest"
   :visible="visibility"
   position="center"

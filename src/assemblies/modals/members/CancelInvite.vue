@@ -12,6 +12,8 @@
 base-modal(
   @close="onClose"
   @confirm="onProceed"
+  :disabled="sendingRequest"
+  :loading="sendingRequest"
   :visible="visibility"
   position="center"
   title="Delete member"
@@ -78,6 +80,13 @@ export default {
 
   emits: ["close", "proceed"],
 
+  data() {
+    return {
+      // --> STATE <--
+      sendingRequest: false
+    };
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
 
@@ -88,6 +97,9 @@ export default {
 
     async onProceed() {
       try {
+        // Update loading status
+        this.sendingRequest = true;
+
         await store.$teamMembers.cancelInvitation(this.invite.id);
 
         // Close modal
@@ -101,6 +113,9 @@ export default {
         const typedError = error as ErrorFromResponse;
 
         BaseAlert.error("Something went wrong", typedError);
+
+        // Update loading status
+        this.sendingRequest = false;
       }
     }
   }

@@ -13,6 +13,7 @@ base-modal(
   @close="$emit('close')"
   @confirm="onProceed"
   @load="onLoad"
+  :disabled="sendingRequest"
   :loading="sendingRequest"
   :visible="visibility"
   title="Set a server whitelist"
@@ -256,19 +257,22 @@ export default {
     async onProceed() {
       if (this.serverList !== this.whitelist) {
         try {
+          // Update loading status
           this.sendingRequest = true;
 
           await store.$settingsNetwork.updateServerWhitelist(this.whitelist);
 
           // Reinitialize variables + close modal
           this.sendingRequest = false;
-
           this.onClose();
 
           // Make success notitification visible
           this.$emit("showSuccess");
         } catch (e) {
           BaseAlert.error("Something went wrong", "Please try again later");
+
+          // Update loading status
+          this.sendingRequest = false;
         }
       } else {
         this.onClose();

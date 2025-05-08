@@ -10,13 +10,16 @@
 
 <template lang="pug">
 base-modal(
+  @close="onClose"
+  @confirm="onProceed"
+  :disabled="sendingRequest"
+  :loading="sendingRequest"
   :visible="visibility"
   position="center"
   title="Change member's role"
   button-color="purple"
   button-label="Update role"
-  @close="onClose"
-  @confirm="onProceed"
+
 )
   .a-edit-role
     .a-edit-role__content(
@@ -82,6 +85,8 @@ export default {
 
       newRole: null as MemberRole | null,
 
+      sendingRequest: false,
+
       // --> DATA <--
 
       roleOptions: [
@@ -131,6 +136,9 @@ export default {
       // Update only if role has changed
       if (this.newRole && this.user.role !== this.newRole) {
         try {
+          // Update loading status
+          this.sendingRequest = true;
+
           await store.$teamMembers.updateRoleByMemberId(
             this.user.jid,
             this.newRole
@@ -147,6 +155,9 @@ export default {
           this.onClose();
         } catch (error) {
           const typedError = error as ErrorFromResponse;
+
+          // Update loading status
+          this.sendingRequest = false;
 
           if (typedError.response.data.error === "cannot_change_own_role") {
             BaseAlert.error(

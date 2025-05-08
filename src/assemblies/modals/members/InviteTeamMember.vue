@@ -12,6 +12,8 @@
 base-modal(
   @close="onClose"
   @confirm="onSendInvite"
+  :disabled="!inviteUserName || sendingRequest"
+  :loading="sendingRequest"
   :visible="visibility"
   title="Invite a team member"
   button-color="purple"
@@ -112,8 +114,9 @@ export default {
 
       inviteEmail: "",
       inviteUserName: "",
-
       inviteRole: MemberRole.Member,
+
+      sendingRequest: false,
 
       // --> DATA <--
 
@@ -152,10 +155,6 @@ export default {
     },
 
     async onSendInvite() {
-      console.log(
-        "errors",
-        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).errors
-      );
       if (
         (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
       ) {
@@ -170,6 +169,9 @@ export default {
         }
 
         try {
+          // Update loading status
+          this.sendingRequest = true;
+
           // Send invitation
           await store.$teamMembers.sendInvitation(
             this.inviteUserName,
@@ -190,6 +192,9 @@ export default {
           this.onClose();
         } catch (error) {
           const typedError = error as ErrorWithMessageAndStatus;
+
+          // Update loading status
+          this.sendingRequest = false;
 
           // If member has already been invited
           if (typedError.status === 409) {

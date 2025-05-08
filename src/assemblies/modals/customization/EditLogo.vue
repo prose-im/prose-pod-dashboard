@@ -193,7 +193,9 @@ export default {
     async onProceed() {
       try {
         if (this.image && typeof this.image === "string") {
+          // Update loading status
           this.sendingRequest = true;
+          this.proceedDisabled = true;
 
           await store.$customizationWorkspace.updateWorkspaceIcon({
             base64: this.image,
@@ -201,8 +203,6 @@ export default {
           });
 
           // Reinitialize variables + close modal
-          this.sendingRequest = false;
-
           this.onClose();
 
           // Make success notitification visible
@@ -215,6 +215,9 @@ export default {
           "Could not change your logo",
           "Please upload a valid image"
         );
+
+        // Update loading status
+        this.sendingRequest = false;
       }
     },
 
