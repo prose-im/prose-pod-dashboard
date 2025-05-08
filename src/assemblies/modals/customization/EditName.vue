@@ -71,7 +71,11 @@ export default {
     return {
       // --> STATE <--
 
-      newName: ""
+      newName: "",
+      cancelRequested: false,
+      sendingRequest: false,
+
+      formInstance: this.$refs.veeFormInstance as InstanceType<typeof VeeForm>
     };
   },
 
@@ -103,15 +107,22 @@ export default {
           return;
         }
 
-        await store.$customizationWorkspace.updateWorkspaceName(this.newName);
+        try {
+          this.sendingRequest = true;
 
-        // Reinitialize variables + close modal
-        this.newName = "";
+          await store.$customizationWorkspace.updateWorkspaceName(this.newName);
 
-        this.$emit("close");
+          // Reinitialize variables + close modal
+          this.newName = "";
+          this.sendingRequest = false;
 
-        // Make success notitification visible
-        this.$emit("showSuccess");
+          this.$emit("close");
+
+          // Make success notitification visible
+          this.$emit("showSuccess");
+        } catch (e) {
+          BaseAlert.error("Something went wrong", "Please try again later");
+        }
       }
     },
 

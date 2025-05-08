@@ -255,13 +255,24 @@ export default {
 
     async onProceed() {
       if (this.serverList !== this.whitelist) {
-        await store.$settingsNetwork.updateServerWhitelist(this.whitelist);
+        try {
+          this.sendingRequest = true;
 
-        // Make success notitification visible
-        this.$emit("showSuccess");
+          await store.$settingsNetwork.updateServerWhitelist(this.whitelist);
+
+          // Reinitialize variables + close modal
+          this.sendingRequest = false;
+
+          this.onClose();
+
+          // Make success notitification visible
+          this.$emit("showSuccess");
+        } catch (e) {
+          BaseAlert.error("Something went wrong", "Please try again later");
+        }
+      } else {
+        this.onClose();
       }
-
-      this.onClose();
     }
   }
 };
