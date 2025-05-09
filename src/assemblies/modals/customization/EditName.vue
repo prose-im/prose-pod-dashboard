@@ -108,6 +108,7 @@ export default {
         }
 
         try {
+          // Update loading status
           this.sendingRequest = true;
 
           await store.$customizationWorkspace.updateWorkspaceName(this.newName);
@@ -122,6 +123,9 @@ export default {
           this.$emit("showSuccess");
         } catch (e) {
           BaseAlert.error("Something went wrong", "Please try again later");
+
+          // Update loading status
+          this.sendingRequest = false;
         }
       }
     },

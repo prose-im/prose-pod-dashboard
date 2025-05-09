@@ -218,6 +218,7 @@ export default {
 
         // Update loading status
         this.sendingRequest = false;
+        this.proceedDisabled = false;
       }
     },
 
