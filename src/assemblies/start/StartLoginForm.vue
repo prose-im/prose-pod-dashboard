@@ -15,30 +15,38 @@
     size="large"
   )
 
-  form.a-start-login-form__inner(
-    @submit.prevent="onSubmit"
+  vee-form.a-start-login-form__inner(
+    v-slot="{ errors, meta }"
+    @submit="onSubmit"
+    ref="veeFormInstance"
   )
     form-field(
       v-model="form.jid"
       :disabled="loading"
+      :display-error="errors?.jid && meta.touched"
       :loading="loading"
+      :rules="{email:true, required: true}"
       class="a-start-login-form__field"
-      type="email"
+      error-message="Your address is required"
       name="jid"
       placeholder="Enter your Prose admin address…"
       size="ultra-large"
+      type="email"
       autofocus
     )
 
     form-field(
       v-model="form.password"
       :disabled="loading"
+      :display-error="errors?.password && meta.touched"
       :loading="loading"
+      :rules="{required: true}"
       class="a-start-login-form__field"
-      type="password"
+      error-message="Please enter your password"
       name="password"
       placeholder="Enter your password…"
       size="ultra-large"
+      type="password"
     )
 
     base-button(
@@ -57,6 +65,9 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// PROJECT: VEE-VALIDATE
+import { Form as VeeForm } from "vee-validate";
+
 // INTERFACES
 export interface StateForm {
   jid: string;
@@ -65,6 +76,10 @@ export interface StateForm {
 
 export default {
   name: "StartLoginForm",
+
+  components: {
+    VeeForm
+  },
 
   props: {
     loading: {
