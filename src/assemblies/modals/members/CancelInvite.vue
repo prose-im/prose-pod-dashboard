@@ -16,10 +16,10 @@ base-modal(
   :loading="sendingRequest"
   :visible="visibility"
   position="center"
-  title="Delete member"
+  title="Cancel invitation"
   button-color="red"
   title-color="red"
-  button-label="Delete member"
+  button-label="Cancel invitation"
 )
   .a-cancel-invite
     span
