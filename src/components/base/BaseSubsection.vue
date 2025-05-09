@@ -61,8 +61,10 @@
     v-if="isResetModalVisible"
     @close="onClose"
     @confirm="onProceed"
-    :visible="resetModalVisibility"
+    :disabled="sendingRequest"
+    :loading="sendingRequest"
     :title="restoreTitle"
+    :visible="resetModalVisibility"
     :button-label="restoreButton"
     button-icon="restore"
     position="center"
@@ -173,6 +175,7 @@ export default {
       timer: null as ReturnType<typeof setTimeout> | null,
 
       showSuccessBanner: false,
+      sendingRequest: false,
 
       isResetModalVisible: false,
       resetModalVisibility: false
@@ -285,10 +288,18 @@ export default {
 
     // --> EVENT LISTENERS <--
 
-    onProceed() {
-      this.restoreAction();
+    async onProceed() {
+      console.log("aha");
+
+      // Update loading status
+      this.sendingRequest = true;
+
+      await this.restoreAction();
       this.toggleResetModal();
       this.makeSucessBannerVisible();
+
+      // Update loading status
+      this.sendingRequest = false;
     },
 
     onClose() {
