@@ -28,7 +28,7 @@
     )
 
     .c-members-invites-dashboard__scroll(
-      v-if="!isMembersLoading"
+      v-if="!isMembersLoading && memberTotal"
     )
       <!-- INVITATIONS -->
 
@@ -56,10 +56,17 @@
       )
         | No members found
 
+    span.c-members-invites-dashboard__failed-api(
+      v-else-if="!memberTotal"
+    )
+      | No members here, invite some 👥
+      
     base-spinner(
       v-else
       class="c-members-invites-dashboard__spinner"
     )
+
+
 
   base-navigation-footer(
     v-if="!searchTerm"
@@ -183,7 +190,7 @@ export default {
     memberTotal() {
       const memberTotal = Number(store.$teamMembers.getMemberTotal());
 
-      return memberTotal ? memberTotal : 1;
+      return memberTotal ? memberTotal : 0;
     },
 
     searchNotFound() {
@@ -467,6 +474,17 @@ $c: ".c-members-invites-dashboard";
       &:nth-child(even) {
         background-color: $color-base-purple-ultra-light;
       }
+    }
+
+    #{$c}__failed-api {
+      font-size: ($font-size-baseline + 4px);
+      font-weight: $font-weight-mid;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-block: 25px;
+      background-color: darken($color-base-purple-ultra-light, 1.2%);
     }
 
     #{$c}__spinner {
