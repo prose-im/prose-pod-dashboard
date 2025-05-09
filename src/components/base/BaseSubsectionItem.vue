@@ -265,7 +265,7 @@ export default {
       },
 
       set() {
-        console.log("change Calculated");
+        //console.log("change Calculated");
       }
     },
 

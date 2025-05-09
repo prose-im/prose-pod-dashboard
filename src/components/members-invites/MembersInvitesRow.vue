@@ -211,7 +211,6 @@ import { Member, EnrichedMember } from "@/api/providers/members";
 import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
-import store from "@/store";
 import { PropType } from "vue";
 
 export default {
