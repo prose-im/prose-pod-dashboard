@@ -165,11 +165,13 @@ div(
         v-if="isResetModalVisible"
         @close="onClose"
         @confirm="onProceed"
-        :visible="resetModalVisibility"
+        :disabled="sendingRequest"
+        :loading="sendingRequest"
         :title="restoreTitle"
-        position="center"
+        :visible="resetModalVisibility"
         button-color="red"
         button-label="Reset now"
+        position="center"
       )
         p
           | {{ restoreText }}
@@ -244,13 +246,14 @@ export default {
       // --> STATE <--
 
       state: null,
-
       stateSecondSelect: null as string | null,
 
       colorSquare: null as string | null,
 
       isResetModalVisible: false,
-      resetModalVisibility: false
+      resetModalVisibility: false,
+
+      sendingRequest: false
     };
   },
 
@@ -351,13 +354,10 @@ export default {
       } else {
         this.$emit("update", newValue, this.index);
       }
-
-      this.$emit("showSuccess");
     },
 
     onUpdateExtraSelect(newValue: boolean | string): void {
       this.$emit("update", newValue, this.index, 1);
-      this.$emit("showSuccess");
     },
 
     onSubtitleRestoreClick() {
@@ -390,9 +390,15 @@ export default {
     },
 
     async onProceed() {
+      // Update loading status
+      this.sendingRequest = true;
+
       await this.item.restoreAction();
 
       this.toggleResetModalVisible();
+
+      // Update loading status
+      this.sendingRequest = false;
 
       this.$emit("showSuccess");
     }
