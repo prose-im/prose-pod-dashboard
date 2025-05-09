@@ -9,16 +9,24 @@
   ********************************************************************** -->
 
 <template lang="pug">
-.c-input-error-message
-  base-icon(
-    class="c-input-error-message__icon"
-    name="exclamationmark.triangle.fill"
-    fill="#dd2f2f"
-    size="12px"
-  )
+.c-input-error-message(
+  :class=`[
+    {
+      "c-input-error-message__visible" :visibility
+    }
+  ]`
+)
 
-  span
-    slot
+  .c-input-error-message__content
+    base-icon(
+      class="c-input-error-message__icon"
+      name="exclamationmark.triangle.fill"
+      fill="#dd2f2f"
+      size="12px"
+    )
+
+    span
+      slot
 </template>
 
 <!-- **********************************************************************
@@ -46,14 +54,39 @@ export default {
 $c: ".c-input-error-message";
 
 #{$c} {
-  display: flex;
-  align-items: center;
-  padding-right: 10px;
-  font-size: $font-size-baseline;
-  color: $color-base-red-normal;
+  animation: appear 200ms linear;
 
-  #{$c}__icon {
-    padding-inline-end: 4px;
+  #{$c}__content {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+    font-size: $font-size-baseline;
+    color: $color-base-red-normal;
+
+    #{$c}__icon {
+      padding-inline-end: 4px;
+    }
+  }
+
+  // --> KEYFRAMES <--
+
+  @keyframes appear {
+    0% {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+
+    89% {
+      opacity: 0;
+    }
+
+    90% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
   }
 }
 </style>
