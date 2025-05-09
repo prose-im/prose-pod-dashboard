@@ -46,6 +46,7 @@
     v-for="(item, index) in items"
     v-model="myVal[index]"
     @click="item.action"
+    @show-success="makeSucessBannerVisible"
     @update="updateValue"
     :key="item.subtitle"
     :item="item"
