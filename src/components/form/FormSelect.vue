@@ -17,7 +17,7 @@ div(
     "c-form-select--" + position,
     {
       "c-form-select--visible": visible && !disabled,
-      "c-form-select--disabled": disabled,
+      "c-form-select--disabled": disabled || !valueLabel,
       "c-form-select--loading": loading
     }
   ]`
@@ -44,7 +44,7 @@ div(
           }
         ]`
       )
-        | {{ valueLabel || placeholder || "" }}
+        | {{ valueLabel || placeholder || "No value" }}
 
       base-icon(
         :size="arrowSize"
