@@ -12,6 +12,8 @@
 base-modal(
   @close="onClose"
   @confirm="onProceed"
+  :disabled="sendingRequest"
+  :loading="sendingRequest"
   :visible="visibility"
   position="center"
   title="Delete member"
@@ -78,6 +80,14 @@ export default {
 
   emits: ["close", "proceed"],
 
+  data() {
+    return {
+      // --> STATE <--
+
+      sendingRequest: false
+    };
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
 
@@ -88,6 +98,9 @@ export default {
 
     async onProceed() {
       try {
+        // Update loading status
+        this.sendingRequest = true;
+
         await store.$teamMembers.deleteMemberById(this.jid);
 
         store.$teamMembers.deleteMemberLocally(this.jid);
@@ -101,6 +114,9 @@ export default {
         );
       } catch (error) {
         const typedError = error as ErrorFromResponse;
+
+        // Update loading status
+        this.sendingRequest = false;
 
         if (typedError.response.data.error === "cannot_remove_self") {
           BaseAlert.error(
