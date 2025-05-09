@@ -72,7 +72,6 @@ export default {
       // --> STATE <--
 
       newName: "",
-      cancelRequested: false,
       sendingRequest: false,
 
       formInstance: this.$refs.veeFormInstance as InstanceType<typeof VeeForm>
