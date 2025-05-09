@@ -122,7 +122,11 @@ const $settingsNetwork = defineStore("settingsNetwork", {
       const response = store.$globalConfig.getServerConfig();
 
       this.$patch(() => {
-        this.federation.whitelist = [...response.federation_friendly_servers];
+        response.federation_friendly_servers
+          ? (this.federation.whitelist = [
+              ...response.federation_friendly_servers
+            ])
+          : "";
         this.federation.federationEnabled = response.federation_enabled;
       });
     },

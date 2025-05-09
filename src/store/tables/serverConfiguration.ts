@@ -103,84 +103,49 @@ const $serverConfiguration = defineStore("serverConfiguration", {
     },
 
     async toggleMessageArchiveEnabled(activated: boolean) {
-      try {
-        const value = await APIServerConfig.setMessageArchiveEnabled(activated);
+      const value = await APIServerConfig.setMessageArchiveEnabled(activated);
 
-        this.$patch(() => {
-          this.value.message_archive_enabled = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'Message archive enabled':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.message_archive_enabled = value;
+      });
     },
 
     async changeMessageRetentionTime(
       newTime: MessageArchiveRetention
     ): Promise<void> {
-      try {
-        const value = await APIServerConfig.setMessageArchiveRetention(newTime);
+      const value = await APIServerConfig.setMessageArchiveRetention(newTime);
 
-        this.$patch(() => {
-          this.value.message_archive_retention = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'Message archive retention':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.message_archive_retention = value;
+      });
     },
 
     async toggleFileUploadEnabled(allowed: boolean): Promise<void> {
-      try {
-        const value = await APIServerConfig.setFileUploadAllowed(allowed);
+      const value = await APIServerConfig.setFileUploadAllowed(allowed);
 
-        this.$patch(() => {
-          this.value.file_upload_allowed = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'File upload allowed':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.file_upload_allowed = value;
+      });
     },
 
     async changeFileEncryption(newEncryptionScheme: string): Promise<void> {
-      try {
-        const value = await APIServerConfig.setFileStorageEncryptionScheme(
-          newEncryptionScheme
-        );
+      const value = await APIServerConfig.setFileStorageEncryptionScheme(
+        newEncryptionScheme
+      );
 
-        this.$patch(() => {
-          this.value.file_storage_encryption_scheme = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'File storage encryption scheme':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.file_storage_encryption_scheme = value;
+      });
     },
 
     async changeFileRetentionTime(
       newTime: FileStorageRetention
     ): Promise<void> {
-      try {
-        const value = await APIServerConfig.setFileStorageRetention(newTime);
+      const value = await APIServerConfig.setFileStorageRetention(newTime);
 
-        this.$patch(() => {
-          this.value.file_storage_retention = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'File storage retention':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.file_storage_retention = value;
+      });
     },
 
     async restoreMessagingConfig(): Promise<void> {

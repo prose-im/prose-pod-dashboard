@@ -101,18 +101,11 @@ const $settingsSecurity = defineStore("settingsSecurity", {
     },
 
     async updateTlsProfile(newTlsProfile: TlsProfile) {
-      try {
-        const value = await APIServerConfig.setTlsProfile(newTlsProfile);
+      const value = await APIServerConfig.setTlsProfile(newTlsProfile);
 
-        this.$patch(() => {
-          this.value.networkEncryption.tlsProfile = value;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting 'TLS profile':",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.value.networkEncryption.tlsProfile = value;
+      });
     },
 
     async resetTlsProfile() {

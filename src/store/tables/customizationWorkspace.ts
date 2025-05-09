@@ -119,50 +119,29 @@ const $customizationWorkspace = defineStore("customizationWorkspace", {
     },
 
     async updateWorkspaceName(newName: string): Promise<void> {
-      try {
-        const workspaceName = await APIWorkspace.setWorkspaceName(newName);
+      const workspaceName = await APIWorkspace.setWorkspaceName(newName);
 
-        this.$patch(() => {
-          this.workspaceProfile.name = workspaceName;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting the Workspace name:",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.workspaceProfile.name = workspaceName;
+      });
     },
 
     async updateWorkspaceIcon(newIcon: WorkspaceIcon | null): Promise<void> {
-      try {
-        const workspaceIcon = await APIWorkspace.setWorkspaceIcon(newIcon);
+      const workspaceIcon = await APIWorkspace.setWorkspaceIcon(newIcon);
 
-        this.$patch(() => {
-          this.workspaceProfile.logo = workspaceIcon;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting the Workspace icon:",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.workspaceProfile.logo = workspaceIcon;
+      });
     },
 
     async setWorkspaceAccentColor(newColor: CssColor | null): Promise<void> {
-      try {
-        const workspaceAccentColor = await APIWorkspace.setWorkspaceAccentColor(
-          newColor
-        );
+      const workspaceAccentColor = await APIWorkspace.setWorkspaceAccentColor(
+        newColor
+      );
 
-        this.$patch(() => {
-          this.appearance.color = workspaceAccentColor ?? DEFAULT_ACCENT_COLOR;
-        });
-      } catch (error) {
-        console.error(
-          "Error when setting the Workspace accent color:",
-          JSON.stringify(error, null, 2)
-        );
-      }
+      this.$patch(() => {
+        this.appearance.color = workspaceAccentColor ?? DEFAULT_ACCENT_COLOR;
+      });
     }
   }
 });
