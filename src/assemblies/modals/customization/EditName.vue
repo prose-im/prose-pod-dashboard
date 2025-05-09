@@ -114,7 +114,6 @@ export default {
 
           // Reinitialize variables + close modal
           this.newName = "";
-          this.sendingRequest = false;
 
           this.$emit("close");
 
