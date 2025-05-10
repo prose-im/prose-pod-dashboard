@@ -16,7 +16,8 @@ transition(
   .c-base-modal-container(
     v-if="containerVisible"
     :class=`[
-      "c-base-modal-container--" + position
+      "c-base-modal-container--" + position,
+      "c-base-modal-container--" + size
     ]`
   )
     .c-base-modal-container__upper
@@ -163,6 +164,15 @@ export default {
     reloadText: {
       type: String,
       default: ""
+    },
+
+    size: {
+      type: String,
+      default: "medium",
+
+      validator(x: string) {
+        return ["medium", "large"].includes(x);
+      }
     }
   },
 
@@ -295,6 +305,30 @@ $inner-padding-inline: 34px;
 
     #{$c}__body {
       overflow: initial;
+    }
+  }
+
+  // --> SIZES <--
+  &--large {
+    max-width: 950px;
+    min-width: 60%;
+    min-height: 80%;
+    max-height: 950px;
+    border-radius: 9px;
+    margin: 20px;
+
+    #{$c}__upper {
+      display: none;
+    }
+
+    #{$c}__body {
+      display: flex;
+      justify-content: center;
+      margin-block-start: 200px;
+      border-block: none;
+    }
+
+    #{$c}__footer {
     }
   }
 

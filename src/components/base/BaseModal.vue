@@ -26,18 +26,19 @@ teleport(
           @close-modal="onClose"
           @confirm-action="onConfirm"
           @reload="onReload"
-          :container-visible="loaded"
-          :position="position"
-          :title="title"
-          :title-color="titleColor"
           :button-color="buttonColor"
           :button-label="buttonLabel"
           :button-icon="buttonIcon"
-          :flex-body="flexContainer"
+          :container-visible="loaded"
           :disabled="disabled"
+          :flex-body="flexContainer"
           :loading="loading"
+          :position="position"
           :reload="reload"
           :reload-text="reloadText"
+          :size="size"
+          :title="title"
+          :title-color="titleColor"
         )
           slot
 </template>
@@ -107,6 +108,15 @@ export default {
     reloadText: {
       type: String,
       default: ""
+    },
+
+    size: {
+      type: String,
+      default: "medium",
+
+      validator(x: string) {
+        return ["medium", "large"].includes(x);
+      }
     },
 
     titleColor: {

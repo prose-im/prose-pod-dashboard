@@ -65,9 +65,7 @@
       v-else
       class="c-members-invites-dashboard__spinner"
     )
-
-
-
+    
   base-navigation-footer(
     v-if="!searchTerm"
     @nav-footer-update="onChangePage"
@@ -77,6 +75,11 @@
   )
 
 <!-- MODALS -->
+welcome-first-use(
+  v-if="activeModal === 'welcome'"
+  @close="toggleWelcomeModalVisible"
+  :visibility="welcomeModalVisibility"
+)
 
 invite-team-member(
   v-if="activeModal === 'invite'"
@@ -121,6 +124,7 @@ import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import CancelInvite from "@/assemblies/modals/members/CancelInvite.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
+import WelcomeFirstUse from "@/assemblies/modals/WelcomeFirstUse.vue";
 
 // PROJECT: STORE
 import store from "@/store";
@@ -138,7 +142,9 @@ enum Modals {
   // Edit Role Member Modal
   EditRole = "editRole",
   //delete Member Modal
-  DeleteMember = "deleteMember"
+  DeleteMember = "deleteMember",
+  //delete Member Modal
+  WelcomeFirstUse = "welcome"
 }
 
 export default {
@@ -150,7 +156,8 @@ export default {
     EditRole,
     InviteTeamMember,
     MembersInvitesRow,
-    SearchBar
+    SearchBar,
+    WelcomeFirstUse
   },
 
   props: {
@@ -171,6 +178,7 @@ export default {
       cancelInviteModalVisibility: false,
       editRoleModalVisibility: false,
       deleteMemberModalVisibility: false,
+      welcomeModalVisibility: false,
 
       activeModal: null as null | Modals,
       userToUpdate: null as object | null,
@@ -219,6 +227,7 @@ export default {
       this.cancelInviteModalVisibility = false;
       this.editRoleModalVisibility = false;
       this.deleteMemberModalVisibility = false;
+      this.welcomeModalVisibility = false;
 
       switch (newActiveModal) {
         case "invite": {
@@ -235,6 +244,10 @@ export default {
         }
         case "deleteMember": {
           setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
+          break;
+        }
+        case "welcome": {
+          setTimeout(() => (this.welcomeModalVisibility = true), 10);
           break;
         }
         default: {
@@ -288,6 +301,10 @@ export default {
         );
       } finally {
         this.isInvitesLoading = false;
+
+        //TODO: Review this
+
+        this.toggleWelcomeModalVisible();
       }
     }
   },
@@ -353,6 +370,14 @@ export default {
         this.activeModal = null;
       } else {
         this.activeModal = Modals.EditRole;
+      }
+    },
+
+    toggleWelcomeModalVisible() {
+      if (this.activeModal === "welcome") {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.WelcomeFirstUse;
       }
     },
 
