@@ -73,7 +73,7 @@
       @update-third-input="onUpdateThirdInput"
       :secondary-input="organization.adminPassword"
       :tertiary-input="organization.adminNickname"
-      :errorMessages="[stepThreeErrors]"
+      :errorMessages="stepThreeErrors"
       :form-visible="currentStep === 3"
       :loading="loading"
       :rules="stepThreeRules"
@@ -130,7 +130,7 @@ export default {
     BaseIcon,
     InitForm,
     InitTips,
-    InitSuccess,
+    InitSuccess
   },
 
   emits: ["updateStep"],
@@ -148,7 +148,7 @@ export default {
         server: "",
         adminUsername: "",
         adminPassword: "",
-        adminNickname: "",
+        adminNickname: ""
       },
 
       // --> DATA <--
@@ -156,7 +156,7 @@ export default {
       stepThreeRules: [
         { alpha_spaces: true, required: true },
         { min: 8, required: true },
-        { required: true },
+        { required: true }
       ],
 
       tipDomain: {
@@ -168,7 +168,7 @@ export default {
           [" here.", false],
           ["br"],
           ["Prose can co-exist with your email and website ", false],
-          ["on the same domain", true],
+          ["on the same domain", true]
         ],
 
         2: [
@@ -176,8 +176,8 @@ export default {
           ["DNS records ", true],
           ["once signed up.", false],
           ["br"],
-          ["We will provide records to setup in your DNS manager.", false],
-        ],
+          ["We will provide records to setup in your DNS manager.", false]
+        ]
       },
 
       tipServer: {
@@ -188,7 +188,7 @@ export default {
           ["br"],
           ["It is recommended to use your ", false],
           ["organization name", true],
-          [".", false],
+          [".", false]
         ],
 
         2: [
@@ -196,8 +196,8 @@ export default {
           ["DNS records ", true],
           ["once signed up.", false],
           ["br"],
-          ["We will provide records to setup in your DNS manager.", false],
-        ],
+          ["We will provide records to setup in your DNS manager.", false]
+        ]
       },
 
       tipAdmin: {
@@ -208,16 +208,16 @@ export default {
           ["br"],
           [
             "You will be able to customize your identity or modify your password then.",
-            false,
-          ],
+            false
+          ]
         ],
 
         2: [
           ["You will be able to ", false],
           ["invite more administrators ", true],
-          ["or other team members once signed up.", false],
-        ],
-      },
+          ["or other team members once signed up.", false]
+        ]
+      }
     };
   },
 
@@ -231,8 +231,8 @@ export default {
       },
 
       immediate: true,
-      once: true,
-    },
+      once: true
+    }
   },
 
   methods: {
@@ -331,10 +331,13 @@ export default {
                   const admin = await APIInit.createFirstAccount({
                     username: this.organization.adminUsername,
                     password: this.organization.adminPassword,
-                    nickname: this.organization.adminNickname,
+                    nickname: this.organization.adminNickname
                   });
 
-                  await Store.$account.login(admin.jid, this.organization.adminPassword);
+                  await Store.$account.login(
+                    admin.jid,
+                    this.organization.adminPassword
+                  );
                 } catch (error) {
                   return BaseAlert.error(
                     "Could not create first account",
@@ -370,8 +373,8 @@ export default {
 
     onUpdateThirdInput(value: string) {
       this.organization.adminNickname = value;
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -20,6 +20,8 @@
       .c-init-form__label
         slot
 
+      p {{ errorMessages }}
+
       vee-form.c-init-form__field-block(
         v-slot="{ errors, meta }"
         @submit.prevent="onSubmit"
@@ -36,7 +38,7 @@
           @keyup.enter="onKeyupFirstInput"
           :disabled="loading"
           :display-error="errors?.first && meta.touched"
-          :error-message="errorMessages[0][0]"
+          :error-message="errorMessages[0]"
           name="first"
           :placeholder="placeholder"
           :rules="rules[0]"
@@ -54,7 +56,7 @@
           @keyup.enter="onKeyupSecondInput"
           :disabled="loading"
           :display-error="errors?.second && meta.touched"
-          :error-message="errorMessages[0][1]"
+          :error-message="errorMessages[1]"
           name="second"
           :placeholder="secondaryPlaceholder"
           :rules="rules[1]"
@@ -71,7 +73,7 @@
           @keyup.enter="onSubmit"
           :disabled="loading"
           :display-error="errors?.third && meta.touched"
-          :error-message="errorMessages[0][2]"
+          :error-message="errorMessages[2]"
           name="third"
           :placeholder="tertiaryPlaceholder"
           :rules="rules[2]"
