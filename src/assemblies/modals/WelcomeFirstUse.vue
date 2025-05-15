@@ -103,19 +103,19 @@ export default {
   name: "WelcomeFirstUse",
 
   components: {
-    AdvancedNetworkDnsTableRow,
+    AdvancedNetworkDnsTableRow
   },
 
   props: {
     checks: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
 
     visibility: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   emits: ["close", "onboardingAction"],
@@ -130,15 +130,15 @@ export default {
         {
           main: "Configure your DNS records",
           submain: "This allows people to connect to your Prose server.",
-          button: "Configure Dns",
+          button: "Configure Dns"
         },
 
         {
           main: "Invite your first member",
           submain: "Bring all your team with you on your Prose server.",
-          button: "Invite my first member",
-        },
-      ],
+          button: "Invite my first member"
+        }
+      ]
     };
   },
 
@@ -149,7 +149,7 @@ export default {
 
     buttonText() {
       return this.steps[this.currentStep - 1].button;
-    },
+    }
   },
 
   methods: {
@@ -159,9 +159,12 @@ export default {
     onButtonClick() {
       this.$emit("close");
       console.log(this.checks);
-      this.$emit("onboardingAction", Object.keys(this.checks)[this.currentStep - 1]);
-    },
-  },
+      this.$emit(
+        "onboardingAction",
+        Object.keys(this.checks)[this.currentStep - 1]
+      );
+    }
+  }
 };
 </script>
 

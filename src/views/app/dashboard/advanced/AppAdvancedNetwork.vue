@@ -61,14 +61,14 @@ enum Modals {
   // Network Checker Modal
   NetworkCheck = "networkCheck",
   //Edit whitelist servers Modal
-  ServerWhitelist = "serverWhitelist",
+  ServerWhitelist = "serverWhitelist"
 }
 
 // PROJECT: API
 import {
   AnyNetworkCheckStatus,
   DnsRecordStatus,
-  PortReachabilityStatus,
+  PortReachabilityStatus
 } from "@/api/providers/networkConfig";
 
 // PROJECT: ASSEMBLIES
@@ -89,7 +89,7 @@ export default {
   components: {
     ConfigurationChecker,
     DnsSetup,
-    ServerWhitelist,
+    ServerWhitelist
   },
 
   data() {
@@ -108,7 +108,7 @@ export default {
 
       restoreDescription: [
         "Authorizations for other servers to connect with this server",
-        "Your server whitelist",
+        "Your server whitelist"
       ],
 
       federationItems: [
@@ -118,7 +118,7 @@ export default {
           restoreAction: this.onRestoreFederationEnabled,
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
-          type: "toggle",
+          type: "toggle"
         },
 
         {
@@ -133,10 +133,10 @@ export default {
           action: this.onShowServerWhitelist,
 
           typeProps: {
-            label: "Edit servers...",
-          },
-        },
-      ],
+            label: "Edit servers..."
+          }
+        }
+      ]
     };
   },
 
@@ -186,8 +186,8 @@ export default {
 
           typeProps: {
             label: "Show DNS instructions...",
-            size: "mid-medium",
-          },
+            size: "mid-medium"
+          }
         },
 
         {
@@ -202,11 +202,11 @@ export default {
 
           typeProps: {
             label: "Start network check...",
-            size: "mid-medium",
-          },
-        },
+            size: "mid-medium"
+          }
+        }
       ];
-    },
+    }
   },
 
   watch: {
@@ -226,7 +226,7 @@ export default {
 
     whitelist(newValue) {
       this.federationItems[1]["tags"] = newValue;
-    },
+    }
   },
 
   mounted() {
@@ -241,7 +241,7 @@ export default {
 
     return Promise.all([
       store.$settingsNetwork.loadFederationConfiguration(),
-      store.$settingsNetwork.checkNetworkConfigurationOnce(),
+      store.$settingsNetwork.checkNetworkConfigurationOnce()
     ]);
   },
 
@@ -285,7 +285,10 @@ export default {
       }
     },
 
-    checkIdToIssue(type: "dns" | "ip" | "ports", checkId: string): string | null {
+    checkIdToIssue(
+      type: "dns" | "ip" | "ports",
+      checkId: string
+    ): string | null {
       switch (`${type}/${checkId}`) {
         case "dns/IPv4": {
           return "A record missing";
@@ -371,10 +374,10 @@ export default {
     },
 
     onShowSuccess() {
-      (this.$refs.federationSubsection as InstanceType<
-        typeof BaseSubsection
-      >).makeSucessBannerVisible();
-    },
-  },
+      (
+        this.$refs.federationSubsection as InstanceType<typeof BaseSubsection>
+      ).makeSucessBannerVisible();
+    }
+  }
 };
 </script>

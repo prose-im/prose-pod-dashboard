@@ -33,9 +33,9 @@ interface AccountSession {
   avatar: Avatar | null;
 }
 
-export interface OnboardingChecks{
-  all_dns_checks_passed_once: boolean | null, 
-  at_least_one_invitation_sent: boolean | null
+export interface OnboardingChecks {
+  all_dns_checks_passed_once: boolean | null;
+  at_least_one_invitation_sent: boolean | null;
 }
 
 /* *************************************************************************
@@ -102,7 +102,7 @@ const $account = defineStore("account", {
     },
 
     async loadUserInformation() {
-      const jid = this.session?.jid || null; 
+      const jid = this.session?.jid || null;
 
       // Proceed loading?
       if (jid !== null) {
@@ -137,7 +137,7 @@ const $account = defineStore("account", {
     },
 
     async loadOnboardingStatus() {
-      const status = await APIInit.getOnboardingStatus()
+      const status = await APIInit.getOnboardingStatus();
 
       // Update status
       this.$patch(() => {

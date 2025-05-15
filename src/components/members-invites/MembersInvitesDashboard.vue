@@ -147,7 +147,7 @@ enum Modals {
   //delete Member Modal
   DeleteMember = "deleteMember",
   //delete Member Modal
-  WelcomeFirstUse = "welcome",
+  WelcomeFirstUse = "welcome"
 }
 
 export default {
@@ -160,14 +160,14 @@ export default {
     InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
-    WelcomeFirstUse,
+    WelcomeFirstUse
   },
 
   props: {
     label: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   data() {
@@ -190,7 +190,7 @@ export default {
 
       searchTerm: "",
 
-      pageNumber: 1,
+      pageNumber: 1
     };
   },
 
@@ -222,7 +222,7 @@ export default {
 
     actionsMenuEnabled() {
       return store.$account.getUserRole() === MemberRole.Admin;
-    },
+    }
   },
 
   watch: {
@@ -270,7 +270,7 @@ export default {
           clearTimeout(timeout);
         }
       }, 500);
-    },
+    }
   },
 
   async mounted() {
@@ -292,7 +292,10 @@ export default {
       }
     } catch (_) {
       console.log(_);
-      BaseAlert.error("Could not log in", "Check your credentials and try again");
+      BaseAlert.error(
+        "Could not log in",
+        "Check your credentials and try again"
+      );
     }
 
     if (this.isMembersLoading !== true) {
@@ -303,7 +306,10 @@ export default {
         // Load already accepted members
         store.$teamMembers.loadActiveMembersByPage(true);
       } catch (_) {
-        BaseAlert.error("Could not log in", "Check your credentials and try again");
+        BaseAlert.error(
+          "Could not log in",
+          "Check your credentials and try again"
+        );
       } finally {
         this.isMembersLoading = false;
       }
@@ -317,7 +323,10 @@ export default {
         // Load invited members
         store.$teamMembers.loadInvitedMembers();
       } catch (_) {
-        BaseAlert.error("Could not log in", "Check your credentials and try again");
+        BaseAlert.error(
+          "Could not log in",
+          "Check your credentials and try again"
+        );
       } finally {
         this.isInvitesLoading = false;
       }
@@ -334,7 +343,10 @@ export default {
 
         switch (canInviteMembers) {
           case "forbidden": {
-            return BaseAlert.error("You cannot do that", "Forbidden to invite members");
+            return BaseAlert.error(
+              "You cannot do that",
+              "Forbidden to invite members"
+            );
           }
 
           case "missing-notifier-config": {
@@ -443,12 +455,15 @@ export default {
       if (canInviteMembers === true) {
         this.inviteToDelete = {
           id: inviteId,
-          jid,
+          jid
         };
 
         this.toggleCancelInviteModalVisible();
       } else {
-        return BaseAlert.error("You cannot do that", "Ask an admin to do this task");
+        return BaseAlert.error(
+          "You cannot do that",
+          "Ask an admin to do this task"
+        );
       }
     },
 
@@ -458,7 +473,11 @@ export default {
 
         this.isMembersLoading = false;
       } else {
-        await store.$teamMembers.loadActiveMembersByPage(true, 1, this.searchTerm);
+        await store.$teamMembers.loadActiveMembersByPage(
+          true,
+          1,
+          this.searchTerm
+        );
 
         this.isMembersLoading = false;
       }
@@ -469,7 +488,7 @@ export default {
         case "all_dns_checks_passed_once":
           await this.$router.push({
             name: "app.advanced.network",
-            query: { action: "onboard" },
+            query: { action: "onboard" }
           });
 
           break;
@@ -479,8 +498,8 @@ export default {
         default:
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
