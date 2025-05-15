@@ -157,8 +157,10 @@ export default {
 
     // --> HELPERS <--
     onButtonClick() {
+      // close this modal
       this.$emit("close");
-      console.log(this.checks);
+
+      // ask for next action
       this.$emit(
         "onboardingAction",
         Object.keys(this.checks)[this.currentStep - 1]

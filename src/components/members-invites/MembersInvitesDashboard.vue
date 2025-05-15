@@ -279,11 +279,6 @@ export default {
 
       this.onboardingStatus = store.$account.getOnboardingStatus();
 
-      setTimeout(() => {
-        console.log("onboarding", this.onboardingStatus);
-      }, 5000);
-      //TODO: Review this
-
       if (
         !this.onboardingStatus.all_dns_checks_passed_once ||
         !this.onboardingStatus.at_least_one_invitation_sent

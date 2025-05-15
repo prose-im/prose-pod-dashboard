@@ -87,7 +87,7 @@ const $globalConfig = defineStore("globalConfig", {
           const typedError = error as ErrorWithMessageAndStatus;
 
           if (typedError.status === 401) {
-            console.log("Server config cannot be loaded: Not authenticated.");
+            console.log("Not authenticated");
           } else {
             console.error("Error loading Server config:", typedError);
           }

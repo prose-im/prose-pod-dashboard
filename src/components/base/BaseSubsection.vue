@@ -290,8 +290,6 @@ export default {
     // --> EVENT LISTENERS <--
 
     async onProceed() {
-      console.log("aha");
-
       // Update loading status
       this.sendingRequest = true;
 

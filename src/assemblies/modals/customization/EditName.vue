@@ -90,10 +90,6 @@ export default {
     // --> EVENT LISTENERS <--
 
     async onProceed() {
-      console.log(
-        "errors",
-        (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).errors
-      );
       if (
         (this.$refs.veeFormInstance as InstanceType<typeof VeeForm>).meta.valid
       ) {
