@@ -19,6 +19,7 @@ import APIPodConfig, {
 } from "@/api/providers/podConfig";
 import { ServerConfig } from "@/api/providers/serverConfig";
 import { Workspace } from "@/api/providers/workspace";
+import { OnboardingChecks } from "@/store/tables/account";
 
 /* *************************************************************************
  * INTERFACES
@@ -80,6 +81,10 @@ class APIInit {
 
   async initDashboardUrl(url: Url): Promise<DashboardUrl> {
     return APIPodConfig.setDashboardUrl(url);
+  }
+
+  async getOnboardingStatus(): Promise<OnboardingChecks> {
+    return (await Api.client.get("/v1/onboarding-steps")).data;
   }
 
   private async __resourceExists(path: string) {

@@ -11,26 +11,84 @@
 <template lang="pug">
   base-modal(
     @close="$emit('close')"
-    @load="onLoad"
     :visible="visibility"
     button-label="Add custom Emoji"
     button-icon="checkmark.circle.empty"
     position="center"
     size="large"
+    title=""
   )
     .a-welcome-first-use
-      h3.a-welcome-first-use
-        | Welcome to your Prose pod
+      .a-welcome-first-use__top
+        .a-welcome-first-use__header
 
-      span.a-welcome-first-use--semibold
-        | Please finish the next steps to start using your Pod:
+          h3
+            | 👋 Welcome to Prose!
 
-      ul
-        li
-          | Know if the DNS records have been configured once
-        li
-          | Invite some members to your pod
+          span
+            | Let's&nbsp;
 
+          span.a-welcome-first-use--medium
+            | finish setting up&nbsp;
+
+          span
+            | your server. Please follow the next steps:
+
+        .a-welcome-first-use__list
+          ul
+            li(
+              v-for="(step, index ) in steps"
+              :class=`[
+                {
+                  "a-welcome-first-use__active" : (index + 1) === currentStep
+                }
+              ]`
+            )
+              .a-welcome-first-use__list--left
+                .a-welcome-first-use__number
+                  | {{ index + 1 }}
+
+                .a-welcome-first-use__text
+                  .a-welcome-first-use__list--main
+                    | {{ step.main }}
+
+                  .a-welcome-first-use__list--submain
+                    | {{step.submain }}
+
+              .a-welcome-first-use__done(
+                v-if="(index + 1) < currentStep "
+              )
+                base-icon(
+                  class="a-welcome-first-use__done--icon"
+                  name="checkmark.circle.empty"
+                  fill="#05c02b"
+                  size="12px"
+                )
+
+                span 
+                  | Done
+                
+        img.a-welcome-first-use__img(
+          src="/images/components/welcome/welcome.illustration.webp"
+        )
+
+      .a-welcome-first-use__bottom
+        span(
+          @click="$emit('close')"
+          class="a-server-whitelist__ignore"
+        )
+          | Ignore this for now
+
+        base-button(
+          @click="onButtonClick"
+          class="a-server-whitelist__button"
+          size="medium"
+          tint="purple"
+        )
+          span
+            | {{ buttonText }}
+
+      .a-welcome-first-use__line
   </template>
 
 <!-- **********************************************************************
@@ -38,135 +96,72 @@
         ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: API
-import { AnyDnsRecord, DnsSetupStep } from "@/api/providers/networkConfig";
-
 // PROJECT: COMPONENTS
 import AdvancedNetworkDnsTableRow from "@/components/advanced/network/AdvancedNetworkDnsTableRow.vue";
-
-// PROJECT: STORE
-import store from "@/store";
-
-// CONSTANTS
-const NUMBER_EMOJIS = [
-  "1️⃣",
-  "2️⃣",
-  "3️⃣",
-  "4️⃣",
-  "5️⃣",
-  "6️⃣",
-  "7️⃣",
-  "8️⃣",
-  "9️⃣",
-  "🔟"
-];
 
 export default {
   name: "WelcomeFirstUse",
 
   components: {
-    AdvancedNetworkDnsTableRow
+    AdvancedNetworkDnsTableRow,
   },
 
   props: {
+    checks: {
+      type: Object,
+      default: () => ({}),
+    },
+
     visibility: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
-  emits: ["close"],
+  emits: ["close", "onboardingAction"],
 
   data() {
     return {
       // --> STATE <--
 
-      reload: true
+      reload: true,
+
+      steps: [
+        {
+          main: "Configure your DNS records",
+          submain: "This allows people to connect to your Prose server.",
+          button: "Configure Dns",
+        },
+
+        {
+          main: "Invite your first member",
+          submain: "Bring all your team with you on your Prose server.",
+          button: "Invite my first member",
+        },
+      ],
     };
   },
 
   computed: {
-    domain() {
-      const domain = store.$globalConfig.getDomain();
-
-      return typeof domain === "string" ? domain : "Unavailable";
+    currentStep() {
+      return 1; //this.checks?.all_dns_checks_passed_once ? 2 : 1;
     },
 
-    steps() {
-      return store.$settingsNetwork.getDnsInstructions();
-    }
+    buttonText() {
+      return this.steps[this.currentStep - 1].button;
+    },
   },
 
   methods: {
     // --> EVENT LISTENERS <--
 
-    onLoad() {
-      store.$settingsNetwork.loadDnsInstructions(true);
-    },
-
     // --> HELPERS <--
-
-    stepRecordsType<RecordType extends AnyDnsRecord>(
-      records: AnyDnsRecord[],
-      types: string[]
-    ): records is RecordType[] {
-      return records.every(record => types.includes(record.type));
+    onButtonClick() {
+      this.$emit("close");
+      console.log(this.checks);
+      this.$emit("onboardingAction", Object.keys(this.checks)[this.currentStep - 1]);
     },
-
-    numberEmoji(n: number): string {
-      return NUMBER_EMOJIS[n] ?? n.toString();
-    },
-
-    stepTableColumns(step: DnsSetupStep): string[] {
-      if (this.stepRecordsType(step.records, ["A", "AAAA"])) {
-        return ["Hostname", "Type", "TTL", "Value"];
-      }
-
-      if (this.stepRecordsType(step.records, ["SRV"])) {
-        return ["Hostname", "Type", "TTL", "Prio.", "Weight", "Port", "Target"];
-      }
-
-      return [];
-    },
-
-    stepTableClass(step: DnsSetupStep): "ip" | "srv" | null {
-      if (this.stepRecordsType(step.records, ["A", "AAAA"])) {
-        return "ip";
-      }
-
-      if (this.stepRecordsType(step.records, ["SRV"])) {
-        return "srv";
-      }
-
-      return null;
-    },
-
-    recordTableValues(record: AnyDnsRecord): string[] {
-      switch (record.type) {
-        case "A":
-        case "AAAA": {
-          return [
-            record.hostname,
-            record.type,
-            record.ttl.toString(),
-            record.value
-          ];
-        }
-
-        case "SRV": {
-          return [
-            record.hostname,
-            record.type,
-            record.ttl.toString(),
-            record.priority.toString(),
-            record.weight.toString(),
-            record.port.toString(),
-            record.target
-          ];
-        }
-      }
-    }
-  }
+  },
 };
 </script>
 
@@ -178,99 +173,151 @@ export default {
 $c: ".a-welcome-first-use";
 
 #{$c} {
+  position: relative;
   font-weight: $font-weight-light;
+  width: 100%;
 
-  #{$c}__step {
-    margin-top: 0;
-    margin-bottom: 16px;
-    margin-left: 10.5px;
-  }
-
-  #{$c}__table {
-    border: 1px solid $color-border-primary;
-    margin-bottom: 27px;
-    font-weight: $font-weight-light;
-
-    &--ip--row {
-      p:first-child {
-        min-width: 74px;
-        max-width: (74px + 35px);
-        width: fit-content;
-        flex: 1 1 0;
-        font-weight: $font-weight-medium;
-        margin-right: 6.5%;
-      }
-
-      p:nth-child(2) {
-        min-width: 30px;
-      }
-
-      p:nth-child(3) {
-        margin-left: 4%;
-      }
-
-      p:nth-child(4) {
-        margin-left: 5%;
-        flex: 1 1 0;
-      }
+  #{$c}__top {
+    h3 {
+      color: $color-text-primary;
+      font-weight: $font-weight-bolder;
+      font-size: ($font-size-baseline + 6px);
+      margin-block: 0 17px;
     }
 
-    &--srv--row {
-      p:first-child {
-        min-width: 74px;
-        max-width: (74px + 35px);
-        width: fit-content;
-        flex: 1 1 0;
-        font-weight: $font-weight-medium;
-      }
+    text-align: center;
+    font-size: ($font-size-baseline + 3px);
+    color: $color-text-tertiary;
+    font-weight: $font-weight-medium;
+    padding-inline: 40px;
+    padding-block-start: 44px;
 
-      p:nth-child(2) {
-        min-width: 24px;
-        margin-left: 7%;
-      }
-
-      p:nth-child(3) {
-        min-width: 27px;
-        margin-left: 6.5%;
-      }
-
-      p:nth-child(4) {
-        min-width: 23px;
-        margin-left: 4%;
-      }
-
-      p:nth-child(5) {
-        min-width: 35px;
-        margin-left: 3%;
-      }
-
-      p:nth-child(6) {
-        min-width: 24px;
-        margin-left: 5%;
-      }
-
-      p:nth-child(7) {
-        margin-left: 4.5%;
-        min-width: 74px;
-        max-width: (74px + 30px);
-        flex: 1 1 0;
-      }
+    #{$c}__header {
+      margin-block-end: 46px;
     }
   }
 
-  h3 {
-    font-weight: $font-weight-bolder;
-    font-size: ($font-size-baseline + 4px);
-    padding-left: 10px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid $color-border-secondary;
-    margin-bottom: 19px;
+  #{$c}__list {
+    display: flex;
+    justify-content: center;
+    text-align: left;
+    margin-block-end: 40px;
+
+    ul {
+      padding: 0;
+      margin: 0;
+      width: 98%;
+      max-width: 560px;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 6px;
+        padding: 12px 36px;
+        position: relative;
+        z-index: $index-foreground-primary;
+      }
+    }
+
+    #{$c}__number {
+      display: flex;
+      align-items: center;
+      background-color: $color-white;
+      justify-content: center;
+      border: 1px $color-border-primary solid;
+      border-radius: 20px;
+      width: 22px;
+      height: 22px;
+      color: $color-base-grey-normal;
+      font-size: ($font-size-page - 4px);
+      font-weight: $font-weight-mid;
+      margin-inline-end: 14px;
+    }
+
+    &--left {
+      display: flex;
+    }
+    &--main {
+      color: $color-base-grey-normal;
+      font-size: ($font-size-page);
+      font-weight: $font-weight-medium;
+      margin-block-end: 7px;
+    }
+
+    &--submain {
+      color: $color-text-tertiary;
+      font-size: ($font-size-page - 2px);
+      font-weight: $font-weight-mid;
+    }
+
+    #{$c}__done {
+      display: flex;
+      align-items: center;
+      color: $color-base-green-normal;
+      font-size: ($font-size-page - 1px);
+      font-weight: $font-weight-medium;
+
+      &--icon {
+        margin-inline-end: 5px;
+      }
+    }
+  }
+
+  #{$c}__img {
+    height: 225px;
+    border-radius: 6px;
+  }
+
+  #{$c}__line {
+    position: absolute;
+    border: 1px $color-border-primary solid;
+    height: 300px;
+    width: 0;
+    left: 92px;
+    top: 160px;
+    z-index: $index-foreground-quaternary;
+  }
+
+  #{$c}__bottom {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 83px;
+    background-color: rgba($color-white, 0.8);
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: calc(100% - 83px);
+    width: 100%;
+    z-index: $index-foreground-primary;
+    padding-inline: 40px;
+    font-weight: $font-weight-mid;
+    font-size: ($font-size-baseline - 1px);
+    cursor: pointer;
+  }
+
+  #{$c}__active {
+    background-color: $color-white;
+    z-index: $index-foreground-secondary;
+    border: 1px $color-border-primary solid;
+
+    #{$c}__list {
+      &--main {
+        color: $color-base-blue-normal;
+      }
+
+      &--submain {
+        color: $color-text-secondary;
+      }
+    }
   }
 
   // --> WEIGHTS <--
 
-  &--semibold {
-    font-weight: $font-weight-mid;
+  &--medium {
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
   }
 
   &--bold {

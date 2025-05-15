@@ -54,7 +54,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
 
     buttonColor: {
@@ -63,32 +63,32 @@ export default {
 
       validator(x: string) {
         return ["grey", "purple", "red"].includes(x);
-      }
+      },
     },
 
     buttonLabel: {
       type: String,
-      default: ""
+      default: "",
     },
 
     buttonIcon: {
       type: String,
-      default: null
+      default: null,
     },
 
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     flexContainer: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     position: {
@@ -97,17 +97,17 @@ export default {
 
       validator(x: string) {
         return ["center", "left"].includes(x);
-      }
+      },
     },
 
     reload: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     reloadText: {
       type: String,
-      default: ""
+      default: "",
     },
 
     size: {
@@ -116,7 +116,7 @@ export default {
 
       validator(x: string) {
         return ["medium", "large"].includes(x);
-      }
+      },
     },
 
     titleColor: {
@@ -125,13 +125,13 @@ export default {
 
       validator(x: string) {
         return ["black", "red"].includes(x);
-      }
+      },
     },
 
     visible: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   emits: ["close", "confirm", "load", "reload"],
@@ -140,16 +140,16 @@ export default {
     return {
       // --> STATE <--
 
-      loaded: false
+      loaded: false,
     };
   },
 
   computed: {
     hotkeys(): { [name: string]: () => void } {
       return {
-        escape: this.onClose
+        escape: this.onClose,
       };
-    }
+    },
   },
 
   watch: {
@@ -161,7 +161,7 @@ export default {
       if (newVisibility === true && newVisibility !== oldVisibility) {
         this.$emit("load");
       }
-    }
+    },
   },
 
   methods: {
@@ -177,8 +177,8 @@ export default {
 
     onReload() {
       this.$emit("reload");
-    }
-  }
+    },
+  },
 };
 </script>
 

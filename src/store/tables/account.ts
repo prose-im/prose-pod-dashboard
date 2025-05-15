@@ -14,6 +14,7 @@ import { defineStore } from "pinia";
 // PROJECT: API
 import Api from "@/api";
 import APIAuth from "@/api/providers/auth";
+import APIInit from "@/api/providers/init";
 import { Avatar, MemberRole } from "@/api/providers/members";
 import { BareJid } from "@/api/providers/global";
 
@@ -32,6 +33,11 @@ interface AccountSession {
   avatar: Avatar | null;
 }
 
+export interface OnboardingChecks{
+  all_dns_checks_passed_once: boolean | null, 
+  at_least_one_invitation_sent: boolean | null
+}
+
 /* *************************************************************************
  * TABLE
  * ************************************************************************* */
@@ -42,11 +48,18 @@ const $account = defineStore("account", {
 
   state: () => {
     return {
-      session: {} as AccountSession
+      session: {} as AccountSession,
+      onboardingStatus: {} as OnboardingChecks
     };
   },
 
   getters: {
+    getOnboardingStatus: function () {
+      return (): OnboardingChecks => {
+        return this.onboardingStatus;
+      };
+    },
+
     getSessionToken: function () {
       return (): string | null => {
         return this.session?.token;
@@ -89,7 +102,7 @@ const $account = defineStore("account", {
     },
 
     async loadUserInformation() {
-      const jid = this.session?.jid || null;
+      const jid = this.session?.jid || null; 
 
       // Proceed loading?
       if (jid !== null) {
@@ -120,6 +133,15 @@ const $account = defineStore("account", {
       // Update jid
       this.$patch(() => {
         this.session.jid = jid;
+      });
+    },
+
+    async loadOnboardingStatus() {
+      const status = await APIInit.getOnboardingStatus()
+
+      // Update status
+      this.$patch(() => {
+        this.onboardingStatus = status;
       });
     }
   }
