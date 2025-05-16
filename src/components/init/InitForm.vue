@@ -19,9 +19,7 @@
     )
       .c-init-form__label
         slot
-
-      p {{ errorMessages }}
-
+        
       vee-form.c-init-form__field-block(
         v-slot="{ errors, meta }"
         @submit.prevent="onSubmit"
