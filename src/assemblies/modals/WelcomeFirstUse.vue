@@ -21,15 +21,18 @@
     .a-welcome-first-use
       .a-welcome-first-use__top
         .a-welcome-first-use__header
-
           h3
-            | 👋 Welcome to Prose!
+            | 👋 &nbsp;Welcome to Prose!
 
           span
-            | Let's&nbsp;
+            | Let's
+
+          base-space
 
           span.a-welcome-first-use--medium
-            | finish setting up&nbsp;
+            | finish setting up
+          
+            base-space
 
           span
             | your server. Please follow the next steps:
@@ -82,7 +85,7 @@
         base-button(
           @click="onButtonClick"
           class="a-server-whitelist__button"
-          size="medium"
+          size="large"
           tint="purple"
         )
           span
@@ -130,7 +133,7 @@ export default {
         {
           main: "Configure your DNS records",
           submain: "This allows people to connect to your Prose server.",
-          button: "Configure Dns"
+          button: "Configure DNS"
         },
 
         {
@@ -144,7 +147,7 @@ export default {
 
   computed: {
     currentStep() {
-      return 1; //this.checks?.all_dns_checks_passed_once ? 2 : 1;
+      return this.checks?.all_dns_checks_passed_once ? 2 : 1;
     },
 
     buttonText() {
@@ -193,7 +196,7 @@ $c: ".a-welcome-first-use";
     text-align: center;
     font-size: ($font-size-baseline + 3px);
     color: $color-text-tertiary;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-mid;
     padding-inline: 40px;
     padding-block-start: 44px;
 
@@ -227,13 +230,14 @@ $c: ".a-welcome-first-use";
 
     #{$c}__number {
       display: flex;
+      flex: none;
       align-items: center;
       background-color: $color-white;
       justify-content: center;
       border: 1px $color-border-primary solid;
       border-radius: 20px;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       color: $color-base-grey-normal;
       font-size: ($font-size-page - 4px);
       font-weight: $font-weight-mid;
@@ -262,6 +266,7 @@ $c: ".a-welcome-first-use";
       color: $color-base-green-normal;
       font-size: ($font-size-page - 1px);
       font-weight: $font-weight-medium;
+      margin-inline-start: 10px;
 
       &--icon {
         margin-inline-end: 5px;
@@ -270,13 +275,14 @@ $c: ".a-welcome-first-use";
   }
 
   #{$c}__img {
-    height: 225px;
+    width: 100%;
+    max-height: 225px;
     border-radius: 6px;
   }
 
   #{$c}__line {
     position: absolute;
-    border: 1px $color-border-primary solid;
+    border: 0.5px $color-border-primary solid;
     height: 300px;
     width: 0;
     left: 92px;
@@ -316,6 +322,13 @@ $c: ".a-welcome-first-use";
         color: $color-text-secondary;
       }
     }
+
+    #{$c}__number {
+      color: $color-white;
+      font-weight: $font-weight-bolder;
+      background-color: $color-base-blue-normal;
+      border: 1px $color-base-blue-normal solid;
+    }
   }
 
   // --> WEIGHTS <--
@@ -336,6 +349,22 @@ $c: ".a-welcome-first-use";
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 500px) {
+    li {
+      padding: 12px 20px !important;
+    }
+
+    #{$c}__line {
+      left: 75px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    #{$c}__line {
+      top: 180px;
     }
   }
 }
