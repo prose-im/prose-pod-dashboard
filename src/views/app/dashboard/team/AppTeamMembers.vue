@@ -43,5 +43,6 @@ $c: ".v-app-team-members";
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: center;
 }
 </style>

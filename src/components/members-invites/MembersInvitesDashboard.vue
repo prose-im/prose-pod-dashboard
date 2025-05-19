@@ -10,69 +10,98 @@
 
 <template lang="pug">
 .c-members-invites-dashboard
-  search-bar(
-    v-model="searchTerm"
-    :button-label="label"
-    :click-handle="toggleInviteModalVisible"
-    :disabled="searchBarDisabled"
-    placeholder-text="team members..."
-    button-icon="plus.circle"
+  <!--  -->
+  <!-- NORMAL DASHBOARD -->
+  <!--  -->
+  .c-members-invites-dashboard__content(
+    v-if="memberTotal"
   )
-
-  .c-members-invites-dashboard__content
-    <!-- HEADERS -->
-
-    members-invites-row(
-      :user-data="{}"
-      :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
+    search-bar(
+      v-model="searchTerm"
+      :button-label="label"
+      :click-handle="toggleInviteModalVisible"
+      :disabled="searchBarDisabled"
+      placeholder-text="team members..."
+      button-icon="plus.circle"
     )
 
-    .c-members-invites-dashboard__scroll(
-      v-if="!isMembersLoading && memberTotal"
-    )
-      <!-- INVITATIONS -->
+    .c-members-invites-dashboard__content
+      <!-- HEADERS -->
 
       members-invites-row(
-        v-if="pageNumber === 1"
-        v-for="(invite, index) in invites"
-        @cancel-invite-request="onCancelInviteRequest"
-        :user-data="invite"
-        :actions-enabled="actionsMenuEnabled"
+        :user-data="{}"
+        :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
       )
 
-      <!-- MEMBERS -->
+      .c-members-invites-dashboard__scroll(
+        v-if="!isMembersLoading"
+      )
+        <!-- INVITATIONS -->
 
-      members-invites-row(
-        v-for="(user, index) in members"
-        @menu-action="onMenuAction"
-        :key="user.jid"
-        :user-data="user"
-        :actions-enabled="actionsMenuEnabled"
-        class="c-members-invites-dashboard__users"
+        members-invites-row(
+          v-if="pageNumber === 1"
+          v-for="(invite, index) in invites"
+          @cancel-invite-request="onCancelInviteRequest"
+          :user-data="invite"
+          :actions-enabled="actionsMenuEnabled"
+        )
+
+        <!-- MEMBERS -->
+
+        members-invites-row(
+          v-for="(user, index) in members"
+          @menu-action="onMenuAction"
+          :key="user.jid"
+          :user-data="user"
+          :actions-enabled="actionsMenuEnabled"
+          class="c-members-invites-dashboard__users"
+        )
+
+        span.c-members-invites-dashboard__failed-search(
+          v-if="searchNotFound"
+        )
+          | No members found
+
+      <!-- MEMBER LOADING SPINNER -->   
+      base-spinner(
+        v-if="searchTerm && isMembersLoading"
+        class="c-members-invites-dashboard__spinner"
       )
 
-      span.c-members-invites-dashboard__failed-search(
-        v-if="searchNotFound"
-      )
-        | No members found
-
-    span.c-members-invites-dashboard__failed-api(
-      v-else-if="!memberTotal"
+    base-navigation-footer(
+      v-if="!searchTerm"
+      @nav-footer-update="onChangePage"
+      :page="pageNumber"
+      :total="memberTotal"
+      listing="users"
     )
-      | No members here, invite some 👥
-      
-    base-spinner(
-      v-else
-      class="c-members-invites-dashboard__spinner"
+
+  <!--  -->
+  <!-- EMPRTY DASHBOARD -->
+  <!--  -->
+  .c-members-invites-dashboard__empty(
+    v-else-if="!isMembersLoading && !memberTotal"
+  )
+    img(
+      src="/images/components/illustrations/empty.members.webp"
     )
     
-  base-navigation-footer(
-    v-if="!searchTerm"
-    @nav-footer-update="onChangePage"
-    :page="pageNumber"
-    :total="memberTotal"
-    listing="users"
-  )
+    span.c-members-invites-dashboard__title
+      |Looking a bit empty around here
+
+    span.c-members-invites-dashboard__subtitle
+      |It looks like you're all alone in your workspace, get started by inviting your team members.
+
+    base-button(
+      @click="toggleInviteModalVisible"
+      class="a-server-whitelist__button"
+      size="large"
+      tint="purple"
+    )
+      span
+        | Invite People
+    
+
 
 <!-- MODALS -->
 welcome-first-use(
@@ -465,9 +494,10 @@ export default {
     async onSearchTermChange() {
       if (!this.searchTerm) {
         await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
-
+        console.log("loadign members");
         this.isMembersLoading = false;
       } else {
+        console.log("loadign members 2");
         await store.$teamMembers.loadActiveMembersByPage(
           true,
           1,
@@ -548,6 +578,37 @@ $c: ".c-members-invites-dashboard";
 
     #{$c}__spinner {
       margin: 60px auto 40px;
+    }
+  }
+
+  #{$c}__empty {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    max-width: 341px;
+    margin-inline: auto;
+    margin-block-end: 100px;
+
+    img {
+      display: flex;
+      margin-inline: auto;
+      width: 100%;
+    }
+
+    #{$c}__title {
+      display: block;
+      font-size: ($font-size-baseline + 4px);
+      margin-block-end: 12px;
+    }
+
+    #{$c}__subtitle {
+      color: $color-base-grey-normal;
+      display: block;
+      font-size: ($font-size-baseline - 1px);
+      margin-block-end: 26px;
     }
   }
 }
