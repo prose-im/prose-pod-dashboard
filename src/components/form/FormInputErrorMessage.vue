@@ -54,7 +54,7 @@ export default {
 $c: ".c-input-error-message";
 
 #{$c} {
-  animation: appear 200ms linear;
+  animation: appear 250ms linear;
 
   #{$c}__content {
     display: flex;
