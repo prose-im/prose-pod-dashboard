@@ -20,50 +20,55 @@ base-modal(
   button-label="Invite Team Member"
   button-icon="checkmark.circle.empty"
 )
-  vee-form.a-invite-team-member(
-    v-slot="{ errors, meta }"
-    ref="veeFormInstance"
-  )
-    base-modal-input-block(
-      v-model="inviteEmail"
-      @change="onChange"
-      :display-error="errors?.email && meta.touched"
-      :rules="{email: true, required: true}"
-      error-message="Please enter a valid email"
-      label="Email to Invite"
-      name="email"
-      placeholder="Enter e-mail address to invite..."
-      type="email"
-      autofocus
+  .a-invite-team-member
+    img(
+      src="/images/components/illustrations/invite.member.webp"
     )
 
-    base-modal-input-block(
-      v-model="inviteUserName"
-      :display-error="errors?.username && meta.touched"
-      :rules="{ alpha_spaces: true, required: true}"
-      error-message="This field is required"
-      label="Username"
-      name="username"
-      placeholder="Enter an username for user..."
-      type="text"
+    vee-form(
+      v-slot="{ errors, meta }"
+      ref="veeFormInstance"
     )
+      base-modal-input-block(
+        v-model="inviteEmail"
+        @change="onChange"
+        :display-error="errors?.email && meta.touched"
+        :rules="{email: true, required: true}"
+        error-message="Please enter a valid email"
+        label="Email to Invite"
+        name="email"
+        placeholder="Enter e-mail address to invite..."
+        type="email"
+        autofocus
+      )
 
-    h4
-      | User role
+      base-modal-input-block(
+        v-model="inviteUserName"
+        :display-error="errors?.username && meta.touched"
+        :rules="{ alpha_spaces: true, required: true}"
+        error-message="This field is required"
+        label="Username"
+        name="username"
+        placeholder="Enter an username for user..."
+        type="text"
+      )
 
-    form-select(
-      v-model="inviteRole"
-      :options="roleOptions"
-      class="a-invite-team-member__select"
-      position="bottom"
-      min-width="200px"
-      align="left"
-    )
+      h4
+        | User role
 
-    base-modal-information(
-      class="a-invite-team-member__info"
-      text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
-    )
+      form-select(
+        v-model="inviteRole"
+        :options="roleOptions"
+        class="a-invite-team-member__select"
+        position="bottom"
+        min-width="200px"
+        align="left"
+      )
+
+      base-modal-information(
+        class="a-invite-team-member__info"
+        text="An email will be sent, so that the invited team member can setup their Prose account and download the Prose app within minutes."
+      )
 </template>
 
 <!-- **********************************************************************
@@ -234,6 +239,13 @@ $c: ".a-invite-team-member";
     margin-bottom: 11px;
     margin-left: 8px;
     font-weight: $font-weight-medium;
+  }
+
+  img {
+    display: flex;
+    max-width: 62%;
+    margin-inline: auto;
+    margin-block: 10px 30px;
   }
 
   #{$c}__select {

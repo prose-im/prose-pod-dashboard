@@ -22,28 +22,33 @@ base-modal(
   button-label="Run Factory Reset"
 )
   .a-factory-reset
-    vee-form.a-factory-reset__top(
-      v-slot="{ errors, meta }"
-      ref="veeFormInstance"
-    )
-      base-modal-disclaimer(
-        :description="disclaimerDescription"
-        warning="Read this first:  Performing a factory reset will wipe all data."
-        class="a-factory-reset__disclaimer"
+    .a-factory-reset__top
+      img(
+        src="/images/components/illustrations/factory.reset.webp"
       )
 
-      base-modal-input-block(
-        v-model="password"
-        :disabled="isResetting"
-        :display-error="errors?.password && meta.touched"
-        :rules="{required: true}"
-        error-message="This field is required"
-        label="Password verification"
-        name="password"
-        placeholder="Enter your account password..."
-        type="password"
-        autofocus
+      vee-form(
+        v-slot="{ errors, meta }"
+        ref="veeFormInstance"
       )
+        base-modal-disclaimer(
+          :description="disclaimerDescription"
+          warning="Read this first:  Performing a factory reset will wipe all data."
+          class="a-factory-reset__disclaimer"
+        )
+
+        base-modal-input-block(
+          v-model="password"
+          :disabled="isResetting"
+          :display-error="errors?.password && meta.touched"
+          :rules="{required: true}"
+          error-message="This field is required"
+          label="Password verification"
+          name="password"
+          placeholder="Enter your account password..."
+          type="password"
+          autofocus
+        )
 
     .a-factory-reset__confirm
       form-checkbox(
@@ -184,6 +189,13 @@ $c: ".a-factory-reset";
   flex-direction: column;
   flex: 1;
   justify-content: space-between;
+
+  img {
+    max-width: 70%;
+    display: flex;
+    margin-inline: auto;
+    margin-block: 10px;
+  }
 
   #{$c}__disclaimer {
     margin-top: 4px;
