@@ -26,7 +26,7 @@
       )
 
     p
-      | {{ from || 'x' }} to {{ to || 'y' }} out of {{ total }} total {{ listing }}
+      | {{ from }} to {{ to }} out of {{ total }} total {{ listing }}
 
     base-button(
       @click="$emit('navFooterUpdate', 'forth')"
@@ -75,7 +75,7 @@ export default {
 
   computed: {
     from() {
-      return 1 + PAGE_SIZE * (this.page - 1);
+      return !this.total ? 0 : 1 + PAGE_SIZE * (this.page - 1);
     },
 
     to() {
