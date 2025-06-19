@@ -28,6 +28,7 @@ base-topography(
       v-model="nickname"
       @change-step="onSubmit"
       :secondary-input="password"
+      @update-second-input="onUpdateSecondInput"
       :form-visible="currentStep === 1"
       :tips="tip"
       placeholder="How should people call you?"
@@ -163,6 +164,12 @@ export default {
           }),
         2_000
       );
+    },
+
+    // --> EVENT LISTENERS <--
+
+    onUpdateSecondInput(value: string) {
+      this.password = value;
     }
   }
 };

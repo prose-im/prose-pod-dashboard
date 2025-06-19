@@ -141,13 +141,13 @@ class Router {
         // --> INVITATIONS <--
 
         {
-          path: "/invitations/accept",
+          path: "/invitations/accept/:token",
           name: "invitations.accept",
           component: InvitationAccept as object,
           props: true
         },
         {
-          path: "/invitations/reject",
+          path: "/invitations/reject/:token",
           name: "invitations.reject",
           component: InvitationReject as object,
           props: true
