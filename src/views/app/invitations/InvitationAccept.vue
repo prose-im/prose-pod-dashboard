@@ -24,7 +24,7 @@ base-topography(
       | 👋 Welcome to Prose!
 
     p.v-invitation-accept__subtitle
-      | Let's create your account.
+      | Let’s create your account.
 
     init-form(
       v-model="nickname"
