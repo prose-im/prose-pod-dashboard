@@ -17,7 +17,9 @@ base-topography(
     :step="currentStep"
   )
 
-  .v-invitation-accept__content
+  .v-invitation-accept__content(
+    v-if="!invitationExpired"
+  )
     h3
       | 👋 Welcome to Prose!
 
@@ -39,6 +41,15 @@ base-topography(
       form-type="double"
       class="v-invitation-accept__form"
     )
+
+  .v-invitation-accept__content(
+    v-else
+  )
+    h1
+      | ✋ This invitation has expired
+
+    p.v-invitation-reject__subtitle
+      | Please contact the server admin to get a new one.
 </template>
 
 <!-- **********************************************************************
@@ -115,10 +126,6 @@ export default {
       );
     } catch (_) {
       this.invitationExpired = true;
-
-      this.$router.push({
-        name: "invitations.reject"
-      });
     }
   },
 
