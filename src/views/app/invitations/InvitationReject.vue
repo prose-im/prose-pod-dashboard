@@ -19,7 +19,7 @@ base-topography(
       | Cancelling this invitation…
 
     p.v-invitation-reject__subtitle
-      | You have rejected this invitation
+      | All the data associated with you will be erased.
 
   .v-invitation-reject__content(
     v-else-if="invitationCancelled === true"
