@@ -34,10 +34,10 @@ base-topography(
     v-else
   )
     h1
-      | ✋ This invitation has expired
+      | Something went wrong
 
     p.v-invitation-reject__subtitle
-      | Please contact the server Admin to get a new invite
+      | We could not cancel this invitation. Please contact the server admin.
 </template>
 
 <!-- **********************************************************************
@@ -45,7 +45,6 @@ base-topography(
      ********************************************************************** -->
 
 <script lang="ts">
-import BaseAlert from "@/components/base/BaseAlert.vue";
 import APIInvitations from "@/api/providers/invitations";
 
 export default {
@@ -69,14 +68,8 @@ export default {
   async mounted() {
     try {
       await APIInvitations.rejectInvitation(this.token);
-
       this.invitationCancelled = true;
     } catch (_) {
-      BaseAlert.error(
-        "Something went wrong",
-        "We could not cancel this invitation"
-      );
-
       this.invitationCancelled = false;
     }
   }
