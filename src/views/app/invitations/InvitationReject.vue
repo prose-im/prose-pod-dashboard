@@ -25,10 +25,10 @@ base-topography(
     v-else-if="invitationCancelled === true"
   )
     h1
-      | This invitation was cancelled by the person who send it
+      | 👋 Bye
 
     p.v-invitation-reject__subtitle
-      | Please contact the server Admin to get a new invite
+      | Unless you accepted this invitation before, all the data associated with you has been erased.
 
   .v-invitation-reject__content(
     v-else
