@@ -27,30 +27,10 @@
 
     init-form(
       v-if="currentStep === 1"
-      v-model="organization.domain"
-      @change-step="updateStep('domain')"
-      :errorMessages="['Field required', '']"
-      :form-visible="currentStep === 1"
-      :loading="loading"
-      :rules="[{required: true}]"
-      :tips="tipDomain"
-      placeholder=" Ex: hello.com"
-    )
-      span
-        | First, what's your&#32;
-
-      span.c-init-page__bold
-        | organization domain name
-
-      span
-        | ?
-
-    init-form(
-      v-if="currentStep === 2"
       v-model="organization.server"
       @change-step="updateStep('server')"
       :errorMessages="['Field required']"
-      :form-visible="currentStep === 2"
+      :form-visible="currentStep === 1"
       :loading="loading"
       :rules="[{required: true}]"
       :tips="tipServer"
@@ -66,7 +46,7 @@
         | ! You will be able to customize all the rest later.
 
     init-form(
-      v-if="currentStep === 3"
+      v-if="currentStep === 2"
       v-model="organization.adminUsername"
       @change-step="updateStep('admin')"
       @update-second-input="onUpdateSecondInput"
@@ -74,7 +54,7 @@
       :secondary-input="organization.adminPassword"
       :tertiary-input="organization.adminNickname"
       :errorMessages="stepThreeErrors"
-      :form-visible="currentStep === 3"
+      :form-visible="currentStep === 2"
       :loading="loading"
       :rules="stepThreeRules"
       :tips="tipAdmin"
@@ -97,7 +77,7 @@
         | . You'll be able to invite team members later.
 
   .c-init-page__success(
-    v-if="currentStep === 4"
+    v-if="currentStep === 3"
   )
     init-success
 </template>
@@ -107,9 +87,6 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// NPM
-import isValidDomain from "is-valid-domain";
-
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
@@ -144,7 +121,6 @@ export default {
       loading: false,
 
       organization: {
-        domain: "",
         server: "",
         adminUsername: "",
         adminPassword: "",
@@ -158,27 +134,6 @@ export default {
         { min: 8, required: true },
         { required: true }
       ],
-
-      tipDomain: {
-        1: [
-          ["If your team members emails are ", false],
-          ["name@company.com", true],
-          [", then enter ", false],
-          ["company.com", true],
-          [" here.", false],
-          ["br"],
-          ["Prose can co-exist with your email and website ", false],
-          ["on the same domain", true]
-        ],
-
-        2: [
-          ["You will be able to setup required ", false],
-          ["DNS records ", true],
-          ["once signed up.", false],
-          ["br"],
-          ["We will provide records to setup in your DNS manager.", false]
-        ]
-      },
 
       tipServer: {
         1: [
@@ -241,15 +196,11 @@ export default {
     async initializeCurrentStep() {
       let currentStep = 1;
 
-      if (await APIInit.isServerInitialized()) {
+      if (await APIInit.isWorkspaceInitialized()) {
         currentStep += 1;
 
-        if (await APIInit.isWorkspaceInitialized()) {
+        if (await APIInit.isFirstAccountCreated()) {
           currentStep += 1;
-
-          if (await APIInit.isFirstAccountCreated()) {
-            currentStep += 1;
-          }
         }
       }
 
@@ -263,41 +214,6 @@ export default {
 
         if (this.currentStep < 4) {
           switch (stepName) {
-            case "domain": {
-              if (this.organization.domain) {
-                // Validate the domain
-                const domainValidated = isValidDomain(this.organization.domain);
-
-                if (domainValidated) {
-                  // Initialize server if domain is valid
-                  try {
-                    await APIInit.initServer(this.organization.domain);
-                  } catch (error) {
-                    return BaseAlert.error(
-                      "Could not initialize server",
-                      error || "Unknown reason"
-                    );
-                  }
-
-                  this.currentStep += 1;
-                } else {
-                  this.loading = false;
-
-                  return BaseAlert.error(
-                    "Invalid domain name",
-                    "Please enter a valid domain name"
-                  );
-                }
-              } else {
-                BaseAlert.error(
-                  "Please enter a domain name",
-                  "You may enter a domain like: my-company.com"
-                );
-              }
-
-              break;
-            }
-
             case "server": {
               if (this.organization.server) {
                 try {

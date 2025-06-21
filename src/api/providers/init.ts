@@ -17,7 +17,6 @@ import APIPodConfig, {
   InitPodConfigRequest,
   PodConfig
 } from "@/api/providers/podConfig";
-import { ServerConfig } from "@/api/providers/serverConfig";
 import { Workspace } from "@/api/providers/workspace";
 import { OnboardingChecks } from "@/store/tables/account";
 
@@ -41,7 +40,6 @@ class APIInit {
     //   this doesn’t happen during the initialization process
     //   (it happens when the Dashboard loads).
     return (
-      (await this.isServerInitialized()) &&
       (await this.isWorkspaceInitialized()) &&
       (await this.isFirstAccountCreated())
     );
@@ -53,14 +51,6 @@ class APIInit {
 
   async isWorkspaceInitialized(): Promise<boolean> {
     return this.__resourceExists("/v1/workspace");
-  }
-
-  async initServer(domain: string): Promise<ServerConfig> {
-    return (await Api.client.put("/v1/server/config", { domain })).data;
-  }
-
-  async isServerInitialized(): Promise<boolean> {
-    return this.__resourceExists("/v1/server/config");
   }
 
   async createFirstAccount(data: InitFirstAccountRequest): Promise<Member> {

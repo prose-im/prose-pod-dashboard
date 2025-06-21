@@ -83,9 +83,6 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
 class APIServerConfig {
   /** CONFIGURATION **/
 
-  async initServerConfig(domain: Hostname): Promise<ServerConfig> {
-    return (await Api.client.put(`${SERVER_CONFIG_PREFIX}`, { domain })).data;
-  }
   async getServerConfig(): Promise<ServerConfig> {
     return (await Api.client.get(`${SERVER_CONFIG_PREFIX}`)).data;
   }
