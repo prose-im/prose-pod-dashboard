@@ -10,13 +10,7 @@
 
 // PROJECT: API
 import Api from "@/api";
-import { Url } from "@/api/providers/global";
 import { Member } from "@/api/providers/members";
-import APIPodConfig, {
-  DashboardUrl,
-  InitPodConfigRequest,
-  PodConfig
-} from "@/api/providers/podConfig";
 import { Workspace } from "@/api/providers/workspace";
 import { OnboardingChecks } from "@/store/tables/account";
 
@@ -59,18 +53,6 @@ class APIInit {
 
   async isFirstAccountCreated(): Promise<boolean> {
     return (await Api.client.head("/v1/init/first-account")).status === 200;
-  }
-
-  async initPodConfig(data: InitPodConfigRequest): Promise<PodConfig> {
-    return APIPodConfig.initPodConfig(data);
-  }
-
-  async isPodConfigInitialized(): Promise<boolean> {
-    return this.__resourceExists("/v1/pod/config");
-  }
-
-  async initDashboardUrl(url: Url): Promise<DashboardUrl> {
-    return APIPodConfig.setDashboardUrl(url);
   }
 
   async getOnboardingStatus(): Promise<OnboardingChecks> {
