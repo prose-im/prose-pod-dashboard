@@ -1,6 +1,6 @@
 # prose-pod-dashboard
 
-[![Test and Build](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/test.yml)
+[![Test and Lint](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/test.yml) [![Build and Release](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/build.yml/badge.svg)](https://github.com/prose-im/prose-pod-dashboard/actions/workflows/build.yml) [![GitHub Release](https://img.shields.io/github/v/release/prose-im/prose-pod-dashboard.svg)](https://github.com/prose-im/prose-pod-dashboard/releases)
 
 **Prose Pod dashboard. Web interface used to administer a Prose Pod server.**
 

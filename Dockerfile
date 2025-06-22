@@ -1,15 +1,8 @@
-# syntax=docker/dockerfile:1.7-labs
+FROM nginx:1.27-alpine-slim AS web
 
-FROM node:24-alpine3.21 AS build
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
-RUN NODE_ENV=production npm run build
+RUN rm -rf /etc/nginx/ /var/www/
 
+COPY ./env/nginx /etc/nginx/
+COPY ./dist /var/www/
 
-FROM nginx:1.27.5-alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 3030
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080/tcp
