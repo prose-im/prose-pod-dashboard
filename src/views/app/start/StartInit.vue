@@ -52,12 +52,6 @@ export default {
 
       items: [
         {
-          value: "Domain name",
-          description: "Setup server domain",
-          icon: "world"
-        },
-
-        {
           value: "Server name",
           description: "Customize your server",
           icon: "wand"
