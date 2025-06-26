@@ -158,16 +158,24 @@ export default {
         return ["Hostname", "Type", "TTL", "Prio.", "Weight", "Port", "Target"];
       }
 
+      if (this.stepRecordsType(step.records, ["CNAME"])) {
+        return ["Hostname", "Type", "TTL", "Target"];
+      }
+
       return [];
     },
 
-    stepTableClass(step: DnsSetupStep): "ip" | "srv" | null {
+    stepTableClass(step: DnsSetupStep): "ip" | "srv" | "cname" | null {
       if (this.stepRecordsType(step.records, ["A", "AAAA"])) {
         return "ip";
       }
 
       if (this.stepRecordsType(step.records, ["SRV"])) {
         return "srv";
+      }
+
+      if (this.stepRecordsType(step.records, ["CNAME"])) {
+        return "cname";
       }
 
       return null;
@@ -193,6 +201,15 @@ export default {
             record.priority.toString(),
             record.weight.toString(),
             record.port.toString(),
+            record.target
+          ];
+        }
+
+        case "CNAME": {
+          return [
+            record.hostname,
+            record.type,
+            record.ttl.toString(),
             record.target
           ];
         }
@@ -223,7 +240,8 @@ $c: ".a-dns-setup";
     margin-bottom: 27px;
     font-weight: $font-weight-light;
 
-    &--ip--row {
+    &--ip--row,
+    &--cname--row {
       p:first-child {
         min-width: 74px;
         max-width: (74px + 35px);
@@ -234,7 +252,7 @@ $c: ".a-dns-setup";
       }
 
       p:nth-child(2) {
-        min-width: 30px;
+        min-width: 40px;
       }
 
       p:nth-child(3) {

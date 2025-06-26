@@ -306,6 +306,14 @@ export default {
           return "SRV record missing (s2s)";
         }
 
+        case "dns/CNAME-web-app": {
+          return "CNAME record missing (web app)";
+        }
+
+        case "dns/CNAME-dashboard": {
+          return "CNAME record missing (dashboard)";
+        }
+
         case "ports/TCP-c2s": {
           return "c2s port closed";
         }

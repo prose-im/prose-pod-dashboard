@@ -40,6 +40,13 @@ export interface DnsRecordSRV {
   target: string;
 }
 
+export interface DnsRecordCNAME {
+  hostname: Hostname;
+  type: "CNAME";
+  ttl: number;
+  target: string;
+}
+
 export interface DnsRecordStringRepr {
   string_repr: string;
 }
@@ -106,7 +113,11 @@ export enum IpConnectivityStatus {
  * TYPES
  * ************************************************************************* */
 
-export type AnyDnsRecord = DnsRecordA | DnsRecordAAAA | DnsRecordSRV;
+export type AnyDnsRecord =
+  | DnsRecordA
+  | DnsRecordAAAA
+  | DnsRecordSRV
+  | DnsRecordCNAME;
 export type AnyDnsRecordWithStringRepr = AnyDnsRecord & DnsRecordStringRepr;
 
 export type AnyNetworkCheckResult =
