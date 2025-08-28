@@ -21,6 +21,8 @@ base-topography(
 
     base-button(
       @click="onRetryClick"
+      :disabled="pending"
+      :loading="pending"
       class="v-placeholder-error__button"
       tint="red"
       size="large"
@@ -37,11 +39,21 @@ base-topography(
 export default {
   name: "PlaceholderError",
 
+  data() {
+    return {
+      // --> STATE <--
+
+      pending: false
+    };
+  },
+
   methods: {
     // --> EVENT LISTENERS <--
 
-    onRetryClick() {
-      this.$router.push({
+    async onRetryClick() {
+      this.pending = true;
+
+      await this.$router.push({
         name: "app"
       });
     }
