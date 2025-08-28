@@ -114,7 +114,7 @@ TEMPLATE
         | {{ userData.nickname }}
 
       base-loader(
-        v-else-if="!userData.invitation_id"
+        v-else-if="!userData.enriched && !userData.invitation_id"
       )
 
       p(
@@ -150,7 +150,7 @@ TEMPLATE
             | {{ userStatusDetail }}
 
         base-loader(
-          v-else-if="!userData.invitation_id"
+          v-else-if="!userData.enriched && !userData.invitation_id"
           width="50px"
         )
 

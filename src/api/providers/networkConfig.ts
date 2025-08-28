@@ -210,7 +210,7 @@ class APINetworkConfig {
       );
 
       eventSource.onerror = error => {
-        console.error("Error when enriching members:", error);
+        console.error("Error on network checks stream:", error);
       };
 
       abortSignal.addEventListener(

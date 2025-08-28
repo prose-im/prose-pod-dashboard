@@ -91,23 +91,34 @@ const $teamMembers = defineStore("teamMembers", {
           );
         } else {
           const response = await APITeamMembers.getSearchedMembers(searchTerm);
+
           this.members = new Map(response.map(member => [member.jid, member]));
         }
 
         // Create a JID array to ask enrichment
         const jidsToEnrich: BareJid[] = Array.from(this.members.keys());
 
-        //Enrich members only if there's any members to enrich
+        // Enrich members only if there's any members to enrich
         if (jidsToEnrich.length > 0) {
           // Enrich members
           await new Promise<void>(resolve => {
-            setTimeout(resolve, 5000);
-
             const eventSource =
               APITeamMembers.enrichMembersStream(jidsToEnrich);
 
             eventSource.addEventListener("enriched-member", event => {
-              this.members.set(event.lastEventId, JSON.parse(event.data));
+              const enrichData = JSON.parse(event.data);
+
+              // Mark as enriched (this stops loading indicator)
+              enrichData.enriched = true;
+
+              // No nickname? Extract from JID
+              // Notice: this happens when the user has not yet defined a \
+              //   first name or last name.
+              if (!enrichData.nickname) {
+                enrichData.nickname = enrichData.jid.split("@")[0] || null;
+              }
+
+              this.members.set(event.lastEventId, enrichData);
             });
 
             eventSource.addEventListener("end", () => {
@@ -115,10 +126,6 @@ const $teamMembers = defineStore("teamMembers", {
 
               resolve();
             });
-
-            eventSource.onerror = error => {
-              console.error("Error when enriching members:", error);
-            };
           });
         }
 
