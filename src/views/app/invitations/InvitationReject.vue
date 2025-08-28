@@ -16,28 +16,25 @@ base-topography(
     v-if="invitationCancelled === null"
   )
     h1
-      | Cancelling this invitation…
-
-    p.v-invitation-reject__subtitle
-      | All the data associated with you will be erased.
+      | Rejecting this invitation…
 
   .v-invitation-reject__content(
     v-else-if="invitationCancelled === true"
   )
     h1
-      | 👋 Bye
+      | 😢 Invitation rejected
 
     p.v-invitation-reject__subtitle
-      | Unless you accepted this invitation before, all the data associated with you has been erased.
+      | Unless you accepted this invitation before, this invitation has been erased.
 
   .v-invitation-reject__content(
     v-else
   )
     h1
-      | Something went wrong
+      | Invalid invitation
 
     p.v-invitation-reject__subtitle
-      | We could not cancel this invitation. Please contact the server admin.
+      | We could not reject this invitation. Please contact the server admin.
 </template>
 
 <!-- **********************************************************************
@@ -68,6 +65,7 @@ export default {
   async mounted() {
     try {
       await APIInvitations.rejectInvitation(this.token);
+
       this.invitationCancelled = true;
     } catch (_) {
       this.invitationCancelled = false;
@@ -92,20 +90,21 @@ $c: ".v-invitation-reject";
   text-align: center;
 
   h1 {
-    font-size: ($font-size-page + 3px);
+    font-size: ($font-size-page + 12px);
+    line-height: ($font-size-page + 16px);
     font-weight: $font-weight-medium;
     margin-block: 0 17px;
   }
 
   #{$c}__subtitle {
     font-size: ($font-size-page + 3px);
+    line-height: ($font-size-page + 6px);
     font-weight: $font-weight-light;
     margin-block: 0 108px;
     color: $color-base-grey-normal;
   }
 
   #{$c}__content {
-    max-width: 30em;
     margin: 5em auto;
   }
 }

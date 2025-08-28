@@ -20,7 +20,7 @@ base-topography(
   .v-invitation-accept__content(
     v-if="!invitationExpired"
   )
-    h3
+    h1
       | 👋 Welcome to Prose!
 
     p.v-invitation-accept__subtitle
@@ -32,6 +32,7 @@ base-topography(
       :secondary-input="password"
       @update-second-input="onUpdateSecondInput"
       :form-visible="currentStep === 1"
+      :loading="pending"
       :tips="tip"
       placeholder="How should people call you?"
       type="text"
@@ -98,6 +99,8 @@ export default {
 
       currentStep: 1,
 
+      pending: false,
+
       // --> DATA <--
 
       items: [
@@ -132,45 +135,52 @@ export default {
   methods: {
     async onSubmit() {
       if (!this.invitationDetails) {
-        return BaseAlert.error(
+        BaseAlert.error(
           "Something went wrong",
           "This invitation has probably expired"
         );
-      }
-
-      if (!this.nickname || !this.password) {
-        return BaseAlert.error(
+      } else if (!this.nickname || !this.password) {
+        BaseAlert.error(
           "All fields are required",
           "Please enter nickname and password"
         );
+      } else if (this.pending !== true) {
+        try {
+          // Mark as pending
+          this.pending = true;
+
+          // Accept invitation
+          await APIInvitations.acceptInvitation(this.token, {
+            nickname: this.nickname,
+            password: this.password
+          });
+
+          // Login
+          await Store.$account.login(this.invitationDetails.jid, this.password);
+        } catch (_) {
+          BaseAlert.error(
+            "Something went wrong",
+            "We couldn’t accept this invitation"
+          );
+
+          // Not pending anymore
+          this.pending = false;
+        } finally {
+          BaseAlert.success(
+            "Account created successfully",
+            "Redirecting you to the Dashboard…"
+          );
+
+          // Redirect to dashboard (after some time)
+          setTimeout(
+            () =>
+              this.$router.push({
+                name: "app"
+              }),
+            1_000
+          );
+        }
       }
-
-      try {
-        await APIInvitations.acceptInvitation(this.token, {
-          nickname: this.nickname,
-          password: this.password
-        });
-      } catch (_) {
-        return BaseAlert.error(
-          "Something went wrong",
-          "We couldn’t accept this invitation"
-        );
-      }
-
-      await Store.$account.login(this.invitationDetails.jid, this.password);
-
-      BaseAlert.success(
-        "Account created successfully",
-        "Redirecting you to the Dashboard…"
-      );
-
-      setTimeout(
-        () =>
-          this.$router.push({
-            name: "app"
-          }),
-        2_000
-      );
     },
 
     // --> EVENT LISTENERS <--
@@ -196,13 +206,15 @@ $c: ".v-invitation-accept";
   overflow: auto;
 
   h1 {
-    font-size: ($font-size-page + 3px);
+    font-size: ($font-size-page + 12px);
+    line-height: ($font-size-page + 16px);
     font-weight: $font-weight-medium;
     margin-block: 0 17px;
   }
 
   #{$c}__subtitle {
     font-size: ($font-size-page + 3px);
+    line-height: ($font-size-page + 6px);
     font-weight: $font-weight-light;
     margin-block: 0 108px;
     color: $color-base-grey-normal;
@@ -217,7 +229,7 @@ $c: ".v-invitation-accept";
   }
 
   #{$c}__form {
-    max-width: 650px;
+    max-width: 440px;
   }
 
   #{$c}__field {
