@@ -99,7 +99,7 @@ $c: ".c-init-tips";
   #{$c}__list {
     font-size: ($font-size-baseline + 1.5px);
     font-weight: $font-weight-light;
-    line-height: ($font-size-baseline + 10px);
+    line-height: ($font-size-baseline + 8px);
     text-align: left;
     padding-block-end: 64px;
     padding-inline-start: 54px;

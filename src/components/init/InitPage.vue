@@ -11,7 +11,7 @@
 <template lang="pug">
 .c-init-page
   .c-init-page__content(
-    v-if="currentStep !== 4"
+    v-if="currentStep === 1 || currentStep === 2"
   )
     h1
       | 👋
@@ -37,16 +37,23 @@
       placeholder=" Ex: MyCompanyName"
     )
       span
-        | Now, give a&#32;
+        | Now, give a
+
+      base-space
 
       span.c-init-page__bold
         | name to your server
 
       span
-        | ! You will be able to customize all the rest later.
+        | !
+
+      base-space
+
+      span
+        | You will be able to customize all the rest later.
 
     init-form(
-      v-if="currentStep === 2"
+      v-else-if="currentStep === 2"
       v-model="organization.adminUsername"
       @change-step="updateStep('admin')"
       @update-second-input="onUpdateSecondInput"
@@ -68,16 +75,23 @@
       button-label="Create my account and Finish now"
     )
       span
-        | Finish by creating your&#32;
+        | Finish by creating your
+
+      base-space
 
       span.c-init-page__bold
         | administrator account
 
       span
-        | . You'll be able to invite team members later.
+        | .
+
+      base-space
+
+      span
+        | You'll be able to invite team members later.
 
   .c-init-page__success(
-    v-if="currentStep === 3"
+    v-else-if="currentStep === 3"
   )
     init-success
 </template>

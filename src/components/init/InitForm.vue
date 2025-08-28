@@ -340,7 +340,7 @@ $c: ".c-init-form";
   }
 
   #{$c}__field-block {
-    max-width: 560px;
+    max-width: 460px;
     margin-inline: auto;
 
     &--flex {
