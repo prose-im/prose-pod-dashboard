@@ -287,11 +287,11 @@ export default {
       if (this.formType !== "single" && this.input) {
         (
           this.$refs.firstFormField as InstanceType<typeof FormField>
-        ).unfocusFieldFromParent();
+        )?.unfocusFieldFromParent();
 
         (
           this.$refs.secondFormField as InstanceType<typeof FormField>
-        ).focusFieldFromParent();
+        )?.focusFieldFromParent();
       }
     },
 
@@ -300,11 +300,11 @@ export default {
       if (this.formType !== "single" && this.input) {
         (
           this.$refs.secondFormField as InstanceType<typeof FormField>
-        ).unfocusFieldFromParent();
+        )?.unfocusFieldFromParent();
 
         (
           this.$refs.thirdFormField as InstanceType<typeof FormField>
-        ).focusFieldFromParent();
+        )?.focusFieldFromParent();
       }
     }
   }
@@ -328,6 +328,7 @@ $c: ".c-init-form";
   margin-inline: 10px;
 
   #{$c}__upper {
+    width: 100%;
     margin-inline: 10px;
 
     #{$c}__label {
