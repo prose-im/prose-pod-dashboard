@@ -21,7 +21,7 @@ transition(
     base-icon(
       class="c-base-success-notification__icon"
       name="checkmark.circle.fill"
-      fill="#05c02b"
+      fill="#ffffff"
       size="12px"
     )
 </template>
@@ -51,13 +51,16 @@ export default {
 $c: ".c-base-success-notification";
 
 #{$c} {
-  color: $color-base-green-normal;
+  background-color: darken($color-base-green-normal, 2%);
+  color: $color-text-reverse;
   font-size: $font-size-baseline;
+  padding: 7px 11px;
   display: flex;
   align-items: center;
+  border-radius: 6px;
 
   #{$c}__icon {
-    padding-left: 4px;
+    padding-left: 6px;
   }
 }
 </style>

@@ -30,7 +30,7 @@ div(
       .c-form-select__color-preview(
         v-if="colorPreview"
         :style=`{
-          backgroundColor:colorPreview,
+          backgroundColor: colorPreview,
         }`
       )
 

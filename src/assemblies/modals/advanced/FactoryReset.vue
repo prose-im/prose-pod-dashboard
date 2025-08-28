@@ -29,6 +29,7 @@ base-modal(
 
       vee-form(
         v-slot="{ errors, meta }"
+        @submit="onProceed"
         ref="veeFormInstance"
       )
         base-modal-disclaimer(
@@ -191,14 +192,14 @@ $c: ".a-factory-reset";
   justify-content: space-between;
 
   img {
-    max-width: 70%;
+    max-width: 260px;
     display: flex;
     margin-inline: auto;
     margin-block: 10px;
   }
 
   #{$c}__disclaimer {
-    margin-top: 4px;
+    margin-top: 20px;
     margin-bottom: 31px;
   }
 

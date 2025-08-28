@@ -16,7 +16,7 @@ base-modal(
   :loading="sendingRequest"
   :visible="visibility"
   position="center"
-  title="Change member's role"
+  title="Change role of member"
   button-color="purple"
   button-label="Update role"
 

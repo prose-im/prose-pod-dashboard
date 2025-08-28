@@ -91,7 +91,10 @@ div(
 
     p(
       v-if="item.slot === 'text'"
-      class="c-base-subsection-item__slot"
+      :class=`[
+        "c-base-subsection-item__slot",
+        "c-base-subsection-item__slot--text"
+      ]`
     )
       | {{ calculatedValue }}
 
@@ -374,6 +377,8 @@ export default {
         this.modelValue.startsWith("#")
       ) {
         this.colorSquare = this.modelValue;
+      } else {
+        this.colorSquare = null;
       }
     },
 
@@ -492,13 +497,16 @@ $c: ".c-base-subsection-item";
   }
 
   #{$c}__slot {
-    font-size: ($font-size-baseline - 4px);
-    font-weight: $font-weight-medium;
     margin-inline-end: 10px;
     margin-block: 0;
     min-width: 40px;
     text-align: center;
     overflow: clip;
+
+    &--text {
+      font-size: ($font-size-baseline - 1px);
+      font-weight: $font-weight-medium;
+    }
 
     &--avatar {
       outline: 1px solid $color-border-primary;

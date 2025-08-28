@@ -43,12 +43,11 @@
     @confirm="onProceed"
     :visible="LogoutModalVisibility"
     position="center"
-    title="Log out"
-    button-color="purple"
-    button-label="Log out"
+    title="Log out?"
+    button-color="red"
+    button-label="Log out now"
   )
-    p
-      | Are you sure to log out?
+    | Log out? You will need to log in again to access your dashboard.
 </template>
 
 <!-- **********************************************************************

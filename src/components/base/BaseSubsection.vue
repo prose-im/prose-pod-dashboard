@@ -405,8 +405,9 @@ $margin-inline: 38px;
   }
 
   #{$c}__notification {
+    font-weight: $font-weight-medium;
     position: absolute;
-    top: 16px;
+    top: 8px;
     right: $margin-inline;
   }
 
@@ -416,8 +417,6 @@ $margin-inline: 38px;
 }
 
 #{$c}__modal {
-  text-align: justify;
-
   h4 {
     margin-block: 0 30px;
   }

@@ -106,7 +106,7 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
     align-items: center;
 
     p {
-      margin-left: 5.5px;
+      margin-left: 4px;
       width: fit-content;
     }
   }
@@ -118,14 +118,13 @@ $inner-bordered-box-shadow-sizes: inset 0 -1px 0px 0;
 
   &--hidden {
     transform: scale(0);
-    animation: popDown 1s linear;
+    animation: popDown 100ms linear;
     animation-fill-mode: forwards;
-    //visibility: hidden;
   }
 
   &--visible {
     transform: scale(0);
-    animation: popUp 1s linear;
+    animation: popUp 100ms linear;
     animation-fill-mode: forwards;
   }
 

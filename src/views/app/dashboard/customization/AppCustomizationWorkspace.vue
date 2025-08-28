@@ -71,88 +71,88 @@ enum AppearanceKey {
 // CONSTANTS
 const ACCENT_COLORS = [
   {
-    name: "Medium Blue",
-    hex: "#2490F0"
-  },
-
-  {
-    name: "Dark Blue",
-    hex: "#1C293B"
+    name: "Default color",
+    value: ""
   },
 
   {
     name: "Red",
-    hex: "#E51E0F"
+    value: "#E51E0F"
   },
 
   {
     name: "Pink",
-    hex: "#F11D64"
+    value: "#F11D64"
   },
 
   {
     name: "Purple",
-    hex: "#B520CF"
+    value: "#B520CF"
   },
 
   {
     name: "Dark Purple",
-    hex: "#682AD5"
+    value: "#682AD5"
   },
 
   {
     name: "Indigo",
-    hex: "#2943D1"
+    value: "#2943D1"
+  },
+
+  {
+    name: "Medium Blue",
+    value: "#2490F0"
+  },
+
+  {
+    name: "Dark Blue",
+    value: "#1C293B"
   },
 
   {
     name: "Cyan",
-    hex: "#01A2B4"
+    value: "#01A2B4"
   },
 
   {
     name: "Teal",
-    hex: "#00947C"
+    value: "#00947C"
   },
 
   {
     name: "Green",
-    hex: "#28A52D"
+    value: "#28A52D"
   },
 
   {
     name: "Amber",
-    hex: "#E1AE01"
+    value: "#E1AE01"
   },
 
   {
     name: "Orange",
-    hex: "#EC6800"
+    value: "#EC6800"
   },
 
   {
     name: "Dark Orange",
-    hex: "#E45300"
+    value: "#E45300"
   },
 
   {
     name: "Brown",
-    hex: "#924B32"
+    value: "#924B32"
   },
 
   {
     name: "Grey",
-    hex: "#7A7A7A"
+    value: "#7A7A7A"
   },
 
   {
     name: "Black",
-    hex: "#2A2A2A"
-  },
-
-  {
-    name: "Default color",
-    hex: "#478ee9"
+    value: "#2A2A2A"
   }
 ];
 
@@ -239,9 +239,9 @@ export default {
           typeProps: {
             options: ACCENT_COLORS.map(color => {
               return {
-                colorPreview: color.hex,
+                colorPreview: color.value || null,
                 label: color.name,
-                value: color.hex
+                value: color.value
               };
             }),
 

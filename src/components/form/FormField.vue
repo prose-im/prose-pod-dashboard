@@ -83,7 +83,7 @@ div(
         v-if="displayError"
         class="c-form-field__error"
       )
-        span 
+        span
           | {{ errorMessage }}
 </template>
 
@@ -403,7 +403,7 @@ $c: ".c-form-field";
 
   #{$c}__error {
     margin-inline-start: 10px;
-    margin-block-start: 10px;
+    margin-block-start: 6px;
   }
 
   #{$c}__inner {

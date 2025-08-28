@@ -271,7 +271,7 @@ $inner-padding-inline: 34px;
     line-height: ($font-size-baseline + 5px);
     overflow: auto;
     padding-inline: $inner-padding-inline;
-    padding-block: 30px;
+    padding-block: 24px;
     border-block: 1px solid $color-border-secondary;
     flex: 1 1 0;
   }

@@ -425,7 +425,7 @@ $c: ".c-members-invites-row";
       z-index: $index-foreground-tertiary;
       position: absolute;
       top: 0%;
-      right: -30%;
+      right: -100%;
     }
   }
 

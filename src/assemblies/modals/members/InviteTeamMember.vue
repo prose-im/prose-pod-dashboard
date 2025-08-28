@@ -27,6 +27,7 @@ base-modal(
 
     vee-form(
       v-slot="{ errors, meta }"
+      @submit="onSendInvite"
       ref="veeFormInstance"
     )
       base-modal-input-block(
@@ -243,7 +244,7 @@ $c: ".a-invite-team-member";
 
   img {
     display: flex;
-    max-width: 62%;
+    max-width: 260px;
     margin-inline: auto;
     margin-block: 10px 30px;
   }

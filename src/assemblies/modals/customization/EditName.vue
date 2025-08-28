@@ -22,6 +22,7 @@ base-modal(
 )
   vee-form.a-edit-name(
     v-slot="{ errors, meta }"
+    @submit="onProceed"
     ref="veeFormInstance"
   )
     base-modal-input-block(
@@ -132,15 +133,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".a-edit-name";
-
-#{$c} {
-  margin-block-end: 30px;
-}
-</style>

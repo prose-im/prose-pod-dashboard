@@ -25,12 +25,10 @@
     :placeholder="placeholder"
     :type="type"
     :rules="rules"
-    ref="formField" 
+    ref="formField"
     align="left"
     size="mid-large"
   )
-
-
 </template>
 
 <!-- **********************************************************************
