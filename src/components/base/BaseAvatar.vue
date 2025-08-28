@@ -68,10 +68,9 @@ export default {
       default: "34px"
     },
 
-    // TODO: make this required
     avatarContentType: {
       type: String,
-      default: "image/png"
+      default: null
     },
 
     avatarDataBase64: {

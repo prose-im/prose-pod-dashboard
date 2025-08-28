@@ -177,7 +177,6 @@ export default {
   },
 
   watch: {
-    // TODO: verify if impossible with mounted
     currentStep: {
       async handler() {
         await this.initializeCurrentStep();

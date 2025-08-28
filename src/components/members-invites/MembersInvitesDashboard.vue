@@ -10,9 +10,7 @@
 
 <template lang="pug">
 .c-members-invites-dashboard
-  <!--  -->
   <!-- NORMAL DASHBOARD -->
-  <!--  -->
   .c-members-invites-dashboard__content(
     v-if="memberTotal"
   )
@@ -76,9 +74,7 @@
       listing="users"
     )
 
-  <!--  -->
   <!-- EMPRTY DASHBOARD -->
-  <!--  -->
   .c-members-invites-dashboard__empty(
     v-else-if="!isMembersLoading && !memberTotal"
   )
@@ -87,10 +83,10 @@
     )
 
     span.c-members-invites-dashboard__title
-      |Looking a bit empty around here
+      | Looking a bit empty around here
 
     span.c-members-invites-dashboard__subtitle
-      |It looks like you're all alone in your workspace, get started by inviting your team members.
+      | It looks like you're all alone in your workspace, get started by inviting your team members.
 
     base-button(
       @click="toggleInviteModalVisible"
@@ -100,8 +96,6 @@
     )
       span
         | Invite People
-
-
 
 <!-- MODALS -->
 welcome-first-use(
@@ -239,10 +233,9 @@ export default {
     },
 
     invites() {
-      // TODO: revisit this
-      return this.searchTerm
-        ? store.$teamMembers.getFilteredInviteList(this.searchTerm)
-        : store.$teamMembers.getFilteredInviteList();
+      return store.$teamMembers.getFilteredInviteList(
+        this.searchTerm || undefined
+      );
     },
 
     searchBarDisabled() {
@@ -360,39 +353,46 @@ export default {
     // --> HELPERS <--
 
     async toggleInviteModalVisible() {
-      // TODO: so many cases?
       if (this.activeModal !== "invite") {
         const canInviteMembers = await APIInvitations.canInviteMember();
 
         switch (canInviteMembers) {
           case "forbidden": {
-            return BaseAlert.error(
+            BaseAlert.error(
               "You cannot do that",
               "Forbidden to invite members"
             );
+
+            break;
           }
 
           case "missing-notifier-config": {
-            return BaseAlert.error(
+            BaseAlert.error(
               "The Prose Pod API is missing configuration",
               "Add `[notifier.email]` in your `Prose.toml` configuration file."
             );
+
+            break;
           }
 
           case false: {
-            return BaseAlert.error(
+            BaseAlert.error(
               "You cannot do that",
               "…but that might just be a bug!"
             );
+
+            break;
           }
 
           case true: {
-            return (this.activeModal = Modals.Invite);
+            this.activeModal = Modals.Invite;
+
+            break;
           }
         }
+      } else {
+        this.activeModal = null;
       }
-
-      this.activeModal = null;
     },
 
     toggleCancelInviteModalVisible() {
@@ -604,6 +604,7 @@ $c: ".c-members-invites-dashboard";
     #{$c}__title {
       display: block;
       font-size: ($font-size-baseline + 4px);
+      font-weight: $font-weight-medium;
       margin-block-end: 12px;
     }
 

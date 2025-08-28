@@ -190,7 +190,10 @@ const $settingsNetwork = defineStore("settingsNetwork", {
 
           this.states.dnsSteps.instructionsFailed = true;
 
-          console.error("recordError", typedError.response);
+          console.error(
+            "Failed loading DNS instructions:",
+            typedError.response
+          );
         }
       }
     },

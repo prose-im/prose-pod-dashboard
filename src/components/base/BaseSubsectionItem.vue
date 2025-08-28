@@ -101,7 +101,7 @@ div(
     base-avatar(
       v-if="item.slot === 'avatar'"
       :avatar-data-base64="calculatedValue?.base64"
-      :avatar-content-type= "calculatedValue?.type"
+      :avatar-content-type="calculatedValue?.type"
       :placeholder-data="avatarName"
       :class=`[
         "c-base-subsection-item__slot",
@@ -268,10 +268,6 @@ export default {
         }
 
         return Object.values(this.modelValue)[0];
-      },
-
-      set() {
-        //console.log("change Calculated");
       }
     },
 

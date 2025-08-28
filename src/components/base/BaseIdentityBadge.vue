@@ -55,24 +55,6 @@
 
       span.c-base-identity-badge--light
         | {{ apiVersion }}
-
-      template(
-        v-if="serverVersion"
-      )
-        base-space
-
-        span
-          |  &#32;+&#32;
-
-        base-space
-
-        span
-          | Server
-
-        base-space
-
-        span.c-base-identity-badge--light
-          | {{ serverVersion }}
 </template>
 
 <!-- **********************************************************************
@@ -113,13 +95,6 @@ export default {
       }
 
       return podVersion && podVersion.api.tag;
-    },
-
-    serverVersion() {
-      // TODO: Implement once [Add a route which returns Prosody's version · \
-      //   Issue #143 · prose-im/prose-pod-api](https://github.com/prose-im/\
-      //   prose-pod-api/issues/143) is fixed.
-      return null;
     }
   },
 

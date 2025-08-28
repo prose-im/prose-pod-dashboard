@@ -134,7 +134,7 @@ export default {
       if (this.config.accountSecurity[changedKey] !== newValue) {
         switch (changedKey) {
           case "require2FA": {
-            // TODO
+            // TODO: implement this
 
             break;
           }

@@ -197,7 +197,7 @@ export default {
       changedKey: MessagingKey
     ) {
       if (
-        this.config.messaging[changedKey] !== undefined && /// TODO?: If not authenticated
+        this.config.messaging[changedKey] !== undefined &&
         this.config.messaging[changedKey] !== newValue
       ) {
         switch (changedKey) {

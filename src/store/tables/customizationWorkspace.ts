@@ -48,8 +48,7 @@ const LOCAL_STATES = {
   configLoaded: false
 };
 
-// TODO: Use `ACCENT_COLORS` from `AppCustomizationWorkspace.vue`.
-const DEFAULT_ACCENT_COLOR = "#2490F0";
+const DEFAULT_ACCENT_COLOR = "";
 
 /* *************************************************************************
  * TABLE
