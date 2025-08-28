@@ -8,6 +8,9 @@
  * IMPORTS
  * ************************************************************************* */
 
+// NPM
+import { AxiosRequestConfig } from "axios";
+
 // PROJECT: API
 import Api from "@/api";
 
@@ -42,7 +45,22 @@ class APIAdministration {
   async getFactoryResetConfirmation(
     password: string
   ): Promise<FactoryResetConfirmation> {
-    return (await Api.client.delete("/", { data: { password } })).data;
+    // Important: do not validate status so that interceptor for 401 does \
+    //   not trigger and log out user when an invalid password is provided.
+    const parameters: AxiosRequestConfig = {
+      data: { password },
+      validateStatus: null
+    };
+
+    // Execute query
+    const response = await Api.client.delete("/", parameters);
+
+    // Validate status code
+    if (response.status !== 202) {
+      throw new Error(`Invalid confirmation status: ${response.status}`);
+    }
+
+    return response.data;
   }
 
   async factoryReset(confirmation: FactoryResetConfirmation): Promise<void> {

@@ -126,7 +126,7 @@ export default {
 
     async onProceed() {
       // Check if the whole form was filled
-      // FIXME: Check `hasDownloadedBackup` once [Export full backup · Issue \
+      // TODO: Check `hasDownloadedBackup` once [Export full backup · Issue \
       //   #131 · prose-im/prose-pod-api](https://github.com/prose-im/\
       //   prose-pod-api/issues/131) is fixed.
       if (

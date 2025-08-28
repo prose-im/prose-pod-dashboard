@@ -99,10 +99,12 @@ const $globalConfig = defineStore("globalConfig", {
     },
 
     async performFactoryReset(password: string): Promise<void> {
+      // Acquire confirmation
       const confirmation = await APIAdministration.getFactoryResetConfirmation(
         password
       );
 
+      // Proceed factory reset
       await APIAdministration.factoryReset(confirmation);
     }
   }
