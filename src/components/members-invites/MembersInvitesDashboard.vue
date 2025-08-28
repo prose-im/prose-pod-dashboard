@@ -62,7 +62,7 @@
         )
           | No members found
 
-      <!-- MEMBER LOADING SPINNER -->   
+      <!-- MEMBER LOADING SPINNER -->
       base-spinner(
         v-if="searchTerm && isMembersLoading"
         class="c-members-invites-dashboard__spinner"
@@ -85,7 +85,7 @@
     img(
       src="/images/components/illustrations/empty.members.webp"
     )
-    
+
     span.c-members-invites-dashboard__title
       |Looking a bit empty around here
 
@@ -100,7 +100,7 @@
     )
       span
         | Invite People
-    
+
 
 
 <!-- MODALS -->
@@ -315,7 +315,6 @@ export default {
         this.toggleWelcomeModalVisible();
       }
     } catch (_) {
-      console.log(_);
       BaseAlert.error(
         "Could not log in",
         "Check your credentials and try again"
@@ -492,18 +491,22 @@ export default {
     },
 
     async onSearchTermChange() {
-      if (!this.searchTerm) {
-        await store.$teamMembers.loadActiveMembersByPage(true, this.pageNumber);
-        console.log("loadign members");
-        this.isMembersLoading = false;
-      } else {
-        console.log("loadign members 2");
-        await store.$teamMembers.loadActiveMembersByPage(
-          true,
-          1,
-          this.searchTerm
-        );
-
+      try {
+        if (!this.searchTerm) {
+          await store.$teamMembers.loadActiveMembersByPage(
+            true,
+            this.pageNumber
+          );
+        } else {
+          await store.$teamMembers.loadActiveMembersByPage(
+            true,
+            1,
+            this.searchTerm
+          );
+        }
+      } catch (error) {
+        console.error("Could not load members page", error);
+      } finally {
         this.isMembersLoading = false;
       }
     },

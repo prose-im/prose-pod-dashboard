@@ -121,10 +121,13 @@ const $teamMembers = defineStore("teamMembers", {
               this.members.set(event.lastEventId, enrichData);
             });
 
-            eventSource.addEventListener("end", () => {
-              eventSource.close();
+            // Treat end and error alike (resolve)
+            ["end", "error"].forEach(eventName => {
+              eventSource.addEventListener(eventName, () => {
+                eventSource.close();
 
-              resolve();
+                resolve();
+              });
             });
           });
         }
