@@ -19,10 +19,10 @@
     )
       .c-init-form__label
         slot
-        
+
       vee-form.c-init-form__field-block(
         v-slot="{ errors, meta }"
-        @submit.prevent="onSubmit"
+        @submit="onSubmit"
         :class=`[
           {
             "c-init-form__field-block--flex": (formType === 'single'),
