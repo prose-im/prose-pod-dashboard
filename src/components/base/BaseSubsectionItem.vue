@@ -268,6 +268,10 @@ export default {
         }
 
         return Object.values(this.modelValue)[0];
+      },
+
+      set() {
+        // Nothing done here (read-only value)
       }
     },
 
