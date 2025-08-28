@@ -169,7 +169,7 @@ $options-border-radius: 6px;
   }
 
   #{$c}__options {
-    border: 1px solid darken($color-base-grey-ultra-light, 3%);
+    border: 1px solid darken-color($color-base-grey-ultra-light, 3%);
     max-height: 240px;
     padding: 4px;
     overflow-x: hidden;
@@ -203,7 +203,7 @@ $options-border-radius: 6px;
         #{$c}__link {
           #{$c}__value {
             cursor: pointer;
-            background-color: darken($color-base-purple-ultra-light, 1%);
+            background-color: darken-color($color-base-purple-ultra-light, 1%);
           }
 
           &--red {
@@ -214,7 +214,10 @@ $options-border-radius: 6px;
 
           &:active {
             #{$c}__value {
-              background-color: darken($color-base-purple-ultra-light, 3%);
+              background-color: darken-color(
+                $color-base-purple-ultra-light,
+                3%
+              );
             }
 
             &#{$c}__link--red {

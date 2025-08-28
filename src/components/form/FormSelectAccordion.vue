@@ -512,14 +512,14 @@ $sizes: (
           }
 
           &:active {
-            background-color: darken($color-base-grey-ultra-light, 2%);
+            background-color: darken-color($color-base-grey-ultra-light, 2%);
           }
         }
       }
 
       &--selected {
         a {
-          background-color: darken($color-background-primary, 3%);
+          background-color: darken-color($color-background-primary, 3%);
 
           #{$c}__value {
             color: $color-text-primary;
@@ -540,7 +540,7 @@ $sizes: (
 
         &#{$c}__option--hovered {
           a {
-            background-color: darken($color-background-primary, 1%);
+            background-color: darken-color($color-background-primary, 1%);
           }
         }
       }

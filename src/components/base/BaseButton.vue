@@ -305,11 +305,11 @@ $size-ultra-large-padding-sides: 45.5px;
       background-color: $color-base-purple-normal;
 
       &:hover {
-        background-color: lighten($color-base-purple-normal, 6%);
+        background-color: lighten-color($color-base-purple-normal, 6%);
       }
 
       &:active {
-        background-color: lighten($color-base-purple-normal, 2%);
+        background-color: lighten-color($color-base-purple-normal, 2%);
       }
     }
   }
@@ -361,11 +361,11 @@ $size-ultra-large-padding-sides: 45.5px;
       background-color: $color-base-red-normal;
 
       &:hover {
-        background-color: lighten($color-base-red-normal, 6%);
+        background-color: lighten-color($color-base-red-normal, 6%);
       }
 
       &:active {
-        background-color: lighten($color-base-red-normal, 2%);
+        background-color: lighten-color($color-base-red-normal, 2%);
       }
     }
   }
@@ -376,11 +376,11 @@ $size-ultra-large-padding-sides: 45.5px;
       color: $color-text-reverse;
 
       &:hover {
-        background-color: lighten($color-black, 18%);
+        background-color: lighten-color($color-black, 18%);
       }
 
       &:active {
-        background-color: lighten($color-black, 10%);
+        background-color: lighten-color($color-black, 10%);
       }
     }
   }
@@ -517,7 +517,7 @@ $size-ultra-large-padding-sides: 45.5px;
     opacity: 0.5;
 
     #{$c}__inner {
-      background-color: darken($color-base-grey-ultra-light, 4%);
+      background-color: darken-color($color-base-grey-ultra-light, 4%);
     }
 
     &#{$c}--purple {

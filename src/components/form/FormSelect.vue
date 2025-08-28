@@ -608,14 +608,14 @@ $sizes: (
           }
 
           &:active {
-            background-color: darken($color-base-grey-ultra-light, 1%);
+            background-color: darken-color($color-base-grey-ultra-light, 1%);
           }
         }
       }
 
       &--selected {
         a {
-          background-color: darken($color-background-primary, 3%);
+          background-color: darken-color($color-background-primary, 3%);
         }
 
         &#{$c}__option--hovered {
@@ -649,7 +649,7 @@ $sizes: (
 
         &#{$c}__option--hovered {
           a {
-            background-color: darken($color-background-primary, 1%);
+            background-color: darken-color($color-background-primary, 1%);
           }
         }
       }
@@ -788,7 +788,7 @@ $sizes: (
     }
 
     #{$c}__field {
-      background-color: darken($color-base-grey-ultra-light, 1%);
+      background-color: darken-color($color-base-grey-ultra-light, 1%);
 
       #{$c}__value {
         opacity: 0.4;

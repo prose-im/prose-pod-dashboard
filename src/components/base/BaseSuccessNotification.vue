@@ -51,7 +51,7 @@ export default {
 $c: ".c-base-success-notification";
 
 #{$c} {
-  background-color: darken($color-base-green-normal, 2%);
+  background-color: darken-color($color-base-green-normal, 2%);
   color: $color-text-reverse;
   font-size: $font-size-baseline;
   padding: 7px 11px;

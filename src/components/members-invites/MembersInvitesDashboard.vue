@@ -576,7 +576,7 @@ $c: ".c-members-invites-dashboard";
       justify-content: center;
       align-items: center;
       padding-block: 25px;
-      background-color: darken($color-base-purple-ultra-light, 1.2%);
+      background-color: darken-color($color-base-purple-ultra-light, 1.2%);
     }
 
     #{$c}__spinner {

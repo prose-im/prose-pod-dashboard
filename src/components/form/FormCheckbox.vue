@@ -174,8 +174,8 @@ $c: ".c-form-checkbox";
     &:hover {
       &:checked {
         &:before {
-          border-color: darken($color-base-purple-normal, 8%);
-          background: darken($color-base-purple-normal, 8%);
+          border-color: darken-color($color-base-purple-normal, 8%);
+          background: darken-color($color-base-purple-normal, 8%);
         }
       }
 
@@ -190,14 +190,14 @@ $c: ".c-form-checkbox";
     &:active {
       &:checked {
         &:before {
-          border-color: darken($color-base-purple-normal, 14%);
-          background: darken($color-base-purple-normal, 14%);
+          border-color: darken-color($color-base-purple-normal, 14%);
+          background: darken-color($color-base-purple-normal, 14%);
         }
       }
 
       &:not(:checked) {
         &:before {
-          border-color: darken($color-base-purple-normal, 8%);
+          border-color: darken-color($color-base-purple-normal, 8%);
         }
       }
     }
