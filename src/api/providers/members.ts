@@ -51,7 +51,7 @@ export interface EnrichMembersResponse {
  * CONSTANTS
  * ************************************************************************* */
 
-export const PAGE_SIZE = 20;
+export const PAGE_SIZE = 40;
 
 export const ROLES_DISPLAY_STRINGS = {
   [MemberRole.Member]: "Member",

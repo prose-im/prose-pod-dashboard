@@ -28,7 +28,7 @@
 
       members-invites-row(
         :user-data="{}"
-        :table-headers="['User', 'Role', 'Status', 'Two-Factor']"
+        :table-headers="['User', 'Role', 'Status']"
       )
 
       .c-members-invites-dashboard__scroll(

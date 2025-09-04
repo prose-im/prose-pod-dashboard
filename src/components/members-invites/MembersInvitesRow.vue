@@ -13,7 +13,7 @@ TEMPLATE
   v-if="tableHeaders"
   class="c-members-invites-row--header"
 )
-  <!--  1st column -->
+  <!-- 1st column -->
   form-checkbox(
     :class=`[
       "c-members-invites-row__checkbox",
@@ -43,10 +43,6 @@ TEMPLATE
     p {{ tableHeaders[2] }}
 
   <!-- 6th column -->
-  .c-members-invites-row__encryption
-    p {{ tableHeaders[3] }}
-
-  <!-- 7th column -->
   .c-members-invites-row__parameters
     base-button(
       @click="onActionOnMember"
@@ -81,7 +77,7 @@ TEMPLATE
   v-else
   :class=`[
     {
-      "c-members-invites-row--yellow" : (userData.invitation_id)
+      "c-members-invites-row--box-yellow" : (userData.invitation_id)
     }
   ]`
 )
@@ -135,39 +131,23 @@ TEMPLATE
 
     <!-- 5th column -->
     .c-members-invites-row__status
-        p(
-          v-if="userStatus || userStatusDetail"
-          class="c-members-invites-row--main"
-        )
-          template(
-            v-if="userStatus"
-          )
-            | {{ userStatus }}
-
-          .c-members-invites-row--submain(
-            v-if="userStatusDetail"
-          )
-            | {{ userStatusDetail }}
-
-        base-loader(
-          v-else-if="!userData.enriched && !userData.invitation_id"
-          width="50px"
-        )
-
-    <!-- 6th column -->
-    .c-members-invites-row__encryption
-      .c-members-invites-row__encryption--block(
+      p(
+        v-if="userStatus"
         :class=`[
+          "c-members-invites-row--" + userStatus.level,
           {
-            "c-members-invites-row--hidden" : userData.invitation_id
+            ["c-members-invites-row--" + userStatus.color]: userStatus.color
           }
         ]`
       )
-        base-mfa-badge(
-          :enabled="userData.mfa"
-        )
+        | {{ userStatus.label }}
 
-    <!-- 7th column -->
+      base-loader(
+        v-else-if="!userData.enriched && !userData.invitation_id"
+        width="50px"
+      )
+
+    <!-- 6th column -->
     .c-members-invites-row__parameters
       base-button(
         @click="onActionOnMember"
@@ -262,29 +242,36 @@ export default {
 
   computed: {
     userStatus() {
-      switch ((this.userData as EnrichedMember | undefined)?.online) {
-        case true: {
-          return "Active";
-        }
-
-        case false: {
-          return "Inactive";
-        }
-
-        default: {
-          return null;
-        }
-      }
-    },
-
-    userStatusDetail() {
+      // Invited member?
       if (
         (this.userData as Invitation | undefined)?.invitation_id !== undefined
       ) {
-        return "Invited";
-      } else {
-        return null;
+        return {
+          label: "Invited",
+          level: "submain"
+        };
       }
+
+      // Regular member
+      switch ((this.userData as EnrichedMember | undefined)?.online) {
+        case true: {
+          return {
+            label: "Online",
+            color: "text-green",
+            level: "main"
+          };
+        }
+
+        case false: {
+          return {
+            label: "Inactive",
+            color: "text-secondary",
+            level: "main"
+          };
+        }
+      }
+
+      return null;
     }
   },
 
@@ -350,7 +337,7 @@ $c: ".c-members-invites-row";
 
   #{$c}__user {
     min-width: 100px;
-    max-width: 220px;
+    max-width: 280px;
     margin-inline-end: 10px;
     margin-block: 0;
     flex: 1;
@@ -374,7 +361,7 @@ $c: ".c-members-invites-row";
   #{$c}__badge {
     margin-right: 10px;
     min-width: 56px;
-    max-width: 90px;
+    max-width: 120px;
     flex: 1;
 
     p {
@@ -385,30 +372,8 @@ $c: ".c-members-invites-row";
 
   #{$c}__status {
     min-width: 50px;
-    max-width: 15%;
     margin-right: 10px;
     flex: 1;
-  }
-
-  #{$c}__encryption {
-    flex: 1;
-    margin-right: 10px;
-    min-width: 66px;
-
-    p {
-      margin: 0;
-    }
-
-    &--block {
-      display: flex;
-      align-items: center;
-      font-size: ($font-size-baseline - 2px);
-      color: $color-base-green-normal;
-    }
-
-    &--icon {
-      margin-right: 6.5px;
-    }
   }
 
   #{$c}__parameters {
@@ -458,9 +423,17 @@ $c: ".c-members-invites-row";
 
   // --> COLORS <--
 
-  &--yellow {
+  &--box-yellow {
     background-color: $color-base-yellow-light;
     padding-block: 11.5px;
+  }
+
+  &--text-green {
+    color: $color-base-green-normal;
+  }
+
+  &--text-secondary {
+    color: $color-text-secondary;
   }
 
   // --> INVISIBLE MANAGEMENT <--
