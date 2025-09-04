@@ -51,7 +51,6 @@ enum MessagingKey {
 
 enum FileKey {
   UploadEnabled = "fileUploadEnabled",
-  Encryption = "encryption",
   RetentionTime = "fileRetentionTime"
 }
 
@@ -69,7 +68,7 @@ export default {
 
       restoreFilesDescription: [
         `File upload & share persmissions`,
-        "File storage encryption and retention time"
+        `File retention time`
       ],
 
       messagingItems: [
@@ -120,32 +119,12 @@ export default {
         },
 
         {
-          subtitle: "File storage encryption",
-          description:
-            "Files are encrypted when stored on the server. Only the file recipients can decrypt the files. It is heavily recommended to keep file storage encryption enabled.",
-
-          type: "select",
-          disabled: true,
-
-          typeProps: {
-            options: [
-              {
-                label: "Encrypted (AES-256)",
-                value: "AES-256"
-              },
-
-              {
-                label: "Not encrypted",
-                value: "Not Encrypted"
-              }
-            ]
-          }
-        },
-
-        {
           subtitle: "Files retention time",
           description:
             "Files can be automatically removed from the server after a certain time, in order to free some space. Most of old files are never accessed again, therefore it is recommended to enable this policy.",
+
+          restoreSubtitle: true,
+          restoreAction: this.onRestoreFileStorageRetention,
 
           type: "select",
 
@@ -183,7 +162,8 @@ export default {
   },
 
   methods: {
-    // --> HELPERSS <--
+    // --> HELPERS <--
+
     showSucces() {
       (
         this.$refs.messagingSubsection as InstanceType<typeof BaseSubsection>
@@ -209,7 +189,7 @@ export default {
                 );
 
                 this.showSucces();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"
@@ -228,7 +208,7 @@ export default {
                 );
 
                 this.showSucces();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"
@@ -256,24 +236,7 @@ export default {
                 );
 
                 this.showSucces();
-              } catch (e) {
-                BaseAlert.error(
-                  "Something went wrong",
-                  "Please try again later"
-                );
-              }
-            }
-
-            break;
-          }
-
-          case "encryption": {
-            if (typeof newValue === "string") {
-              try {
-                await store.$serverConfiguration.changeFileEncryption(newValue);
-
-                this.showSucces();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"
@@ -292,7 +255,7 @@ export default {
                 );
 
                 this.showSucces();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"
@@ -309,7 +272,7 @@ export default {
     async onMessagingRestore() {
       try {
         await store.$serverConfiguration.restoreMessagingConfig();
-      } catch (e) {
+      } catch {
         BaseAlert.error("Something went wrong", "Please try again later");
       }
     },
@@ -317,7 +280,7 @@ export default {
     async onFileRestore() {
       try {
         await store.$serverConfiguration.restoreFileConfig();
-      } catch (e) {
+      } catch {
         BaseAlert.error("Something went wrong", "Please try again later");
       }
     },
@@ -325,7 +288,15 @@ export default {
     async onRestoreMessageArchiveRetention() {
       try {
         await store.$serverConfiguration.restoreMessageArchiveRetention();
-      } catch (e) {
+      } catch {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
+    },
+
+    async onRestoreFileStorageRetention() {
+      try {
+        await store.$serverConfiguration.restoreFileStorageRetention();
+      } catch {
         BaseAlert.error("Something went wrong", "Please try again later");
       }
     }

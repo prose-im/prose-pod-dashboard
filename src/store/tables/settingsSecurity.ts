@@ -25,16 +25,17 @@ import APIServerConfig, {
  * ************************************************************************* */
 
 export interface SecurityAndEncryptionUiState {
-  accountSecurity: AccountSecurityUiState;
   networkEncryption: NetworkEncryptionUiState;
-}
-
-export interface AccountSecurityUiState {
-  require2FA: boolean;
+  pushNotification: PushNotificationnUiState;
 }
 
 export interface NetworkEncryptionUiState {
   tlsProfile: TlsProfile;
+}
+
+export interface PushNotificationnUiState {
+  withBody: boolean;
+  withSender: boolean;
 }
 
 /* *************************************************************************
@@ -47,12 +48,13 @@ export interface NetworkEncryptionUiState {
  *   It should use `undefined` and UI placeholders instead.
  */
 const DEFAULT_SECURITY_AND_ENCRYPTION_UI_STATE: SecurityAndEncryptionUiState = {
-  accountSecurity: {
-    require2FA: DEFAULT_SERVER_CONFIG.mfa_required
-  },
-
   networkEncryption: {
     tlsProfile: DEFAULT_SERVER_CONFIG.tls_profile
+  },
+
+  pushNotification: {
+    withBody: DEFAULT_SERVER_CONFIG.push_notification_with_body,
+    withSender: DEFAULT_SERVER_CONFIG.push_notification_with_sender
   }
 };
 
@@ -83,12 +85,13 @@ const $settingsSecurity = defineStore("settingsSecurity", {
 
         this.$patch(() => {
           this.value = {
-            accountSecurity: {
-              require2FA: response.mfa_required
-            },
-
             networkEncryption: {
               tlsProfile: response.tls_profile
+            },
+
+            pushNotification: {
+              withBody: response.push_notification_with_body,
+              withSender: response.push_notification_with_sender
             }
           };
         });
@@ -118,6 +121,43 @@ const $settingsSecurity = defineStore("settingsSecurity", {
       } catch (error) {
         console.error(
           "Error when resetting 'TLS profile':",
+          JSON.stringify(error, null, 2)
+        );
+      }
+    },
+
+    async updatePushNotificationWithBody(newValue: boolean) {
+      const value = await APIServerConfig.setPushNotificationWithBody(newValue);
+
+      this.$patch(() => {
+        this.value.pushNotification.withBody = value;
+      });
+    },
+
+    async updatePushNotificationWithSender(newValue: boolean) {
+      const value = await APIServerConfig.setPushNotificationWithSender(
+        newValue
+      );
+
+      this.$patch(() => {
+        this.value.pushNotification.withSender = value;
+      });
+    },
+
+    async restorePushNotificationConfig(): Promise<void> {
+      try {
+        const defaultValue =
+          await APIServerConfig.resetPushNotificationsConfig();
+
+        this.$patch(() => {
+          this.value.pushNotification.withBody =
+            defaultValue.push_notification_with_body;
+          this.value.pushNotification.withSender =
+            defaultValue.push_notification_with_sender;
+        });
+      } catch (error) {
+        console.error(
+          "Error when resetting the 'Push Notification' configuration:",
           JSON.stringify(error, null, 2)
         );
       }

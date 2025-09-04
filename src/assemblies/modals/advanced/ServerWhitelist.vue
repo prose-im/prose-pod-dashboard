@@ -29,7 +29,15 @@ base-modal(
       span(
         v-if="whitelist.length === 0"
       )
-        | No server approved
+        template(
+          v-if="whitelistEnabled"
+        )
+          | No server is approved (add domains to allow).
+
+        template(
+          v-else
+        )
+          | All servers are approved (add domains to restrict).
 
       .a-server-whitelist__servers(
         v-else
@@ -37,7 +45,7 @@ base-modal(
       )
         span
           | {{ server }}
-        
+
         form-checkbox(
           v-if="activeAction === 'remove'"
           v-model="domainsToRemove[index]"
@@ -107,7 +115,7 @@ base-modal(
         )
           p
             | Cancel
-      
+
       <!-- ARemoving domain active -->
       .a-server-whitelist__remove(
         v-else-if="activeAction = 'remove'"
@@ -190,6 +198,10 @@ export default {
 
     domainsSelected() {
       return this.domainsToRemove.some(element => element === true);
+    },
+
+    whitelistEnabled() {
+      return store.$settingsNetwork.federation.whitelistEnabled;
     }
   },
 
@@ -264,11 +276,12 @@ export default {
 
           // Reinitialize variables + close modal
           this.sendingRequest = false;
+
           this.onClose();
 
           // Make success notitification visible
           this.$emit("showSuccess");
-        } catch (e) {
+        } catch {
           BaseAlert.error("Something went wrong", "Please try again later");
 
           // Update loading status

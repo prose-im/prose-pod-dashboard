@@ -60,7 +60,7 @@ enum Modals {
   DnsInstructions = "dnsInstructions",
   // Network Checker Modal
   NetworkCheck = "networkCheck",
-  //Edit whitelist servers Modal
+  // Edit whitelist servers Modal
   ServerWhitelist = "serverWhitelist"
 }
 
@@ -108,7 +108,7 @@ export default {
 
       restoreDescription: [
         "Authorizations for other servers to connect with this server",
-        "Your server whitelist"
+        "Friendly servers whitelist"
       ],
 
       federationItems: [
@@ -116,8 +116,10 @@ export default {
           subtitle: "Allow other servers to connect with this server",
           restoreSubtitle: true,
           restoreAction: this.onRestoreFederationEnabled,
+
           description:
             "Allowing other servers to connect will enable federation. This lets users from other Prose workspaces connect with users in this workspace. For more safety, whitelist friendly servers.",
+
           type: "toggle"
         },
 
@@ -125,8 +127,10 @@ export default {
           subtitle: "Friendly servers whitelist",
           restoreSubtitle: true,
           restoreAction: this.onRestoreFederationWhitelist,
+
           description:
             "If a whitelist is defined, then other servers will not be allowed to connect to this server, except whitelisted ones. It is recommended to whitelist servers you typically work with, ie. other teams.",
+
           firstTag: "Allowed",
           tags: [],
           type: "button",
@@ -179,8 +183,10 @@ export default {
       return [
         {
           subtitle: "DNS setup instructions",
+
           description:
             "The accent color is the dominant color that all Prose apps connected to this server will use for UI elements such as active buttons and contextual menus.",
+
           type: "button",
           action: this.onShowDnsInstructions,
 
@@ -192,8 +198,10 @@ export default {
 
         {
           subtitle: "Network configuration checker",
+
           description:
             "Experiencing issues? Check your server network configuration for possible misconfigurations. This tool checks for your DNS setup, open ports, IPv4/IPv6 and possibly filtered network traffic.",
+
           color: "greyBackground",
           action: this.toggleNetworkCheckModalVisible,
           firstTag: "Issues",
@@ -363,7 +371,7 @@ export default {
         await store.$settingsNetwork.updateFederationEnabled(newValue);
 
         this.onShowSuccess();
-      } catch (e) {
+      } catch {
         BaseAlert.error("Something went wrong", "Please try again later");
       }
     },

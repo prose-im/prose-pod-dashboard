@@ -44,6 +44,7 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     return {
       federation: {
         federationEnabled: true,
+        whitelistEnabled: false,
         whitelist: [] as Hostname[]
       },
 
@@ -127,6 +128,9 @@ const $settingsNetwork = defineStore("settingsNetwork", {
               ...response.federation_friendly_servers
             ])
           : "";
+        this.federation.whitelistEnabled =
+          response.federation_whitelist_enabled;
+
         this.federation.federationEnabled = response.federation_enabled;
       });
     },
@@ -150,21 +154,40 @@ const $settingsNetwork = defineStore("settingsNetwork", {
     },
 
     async updateServerWhitelist(newWhitelist: Hostname[]) {
-      const response = await APIServerConfig.setFederationFriendlyServers(
-        newWhitelist
-      );
+      // Set friendly servers
+      const responseServers =
+        await APIServerConfig.setFederationFriendlyServers(newWhitelist);
 
       this.$patch(() => {
-        this.federation.whitelist = response;
+        this.federation.whitelist = responseServers;
+      });
+
+      // Enable or disable whitelist
+      const responseWhitelist =
+        await APIServerConfig.setFederationWhitelistEnabled(
+          newWhitelist.length > 0 ? true : false
+        );
+
+      this.$patch(() => {
+        this.federation.whitelistEnabled = responseWhitelist;
       });
     },
 
     async restoreFederationWhitelist() {
-      const defaultValue =
+      // Reset friendly servers
+      const defaultValueServers =
         await APIServerConfig.resetFederationFriendlyServers();
 
       this.$patch(() => {
-        this.federation.whitelist = defaultValue;
+        this.federation.whitelist = defaultValueServers;
+      });
+
+      // Also reset whitelist enabled/disabled to default
+      const defaultValueWhitelist =
+        await APIServerConfig.resetFederationWhitelistEnabled();
+
+      this.$patch(() => {
+        this.federation.whitelistEnabled = defaultValueWhitelist;
       });
     },
 

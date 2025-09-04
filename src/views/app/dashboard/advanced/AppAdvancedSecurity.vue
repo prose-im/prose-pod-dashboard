@@ -11,22 +11,25 @@
 <template lang="pug">
 .v-app-advanced-security
   base-subsection(
-    v-model="config.accountSecurity"
-    @update="onSecurityUpdate"
-    :items="accountItems"
-    ref="accountSecuritySubsection"
-    title="Account Security"
-  )
-
-  base-subsection(
     v-model="config.networkEncryption"
     @update="onEncryptionUpdate"
     :items="networkItems"
     :restore-option="true"
-    :restore-action="onGlobalRestore"
-    :restore-description="restoreDescription"
+    :restore-action="onEncryptionRestore"
+    :restore-description="restoreNetworkDescription"
     ref="networkEncryptionSubsection"
     title="Network Encryption"
+  )
+
+  base-subsection(
+    v-model="config.pushNotification"
+    @update="onPushUpdate"
+    :items="pushItems"
+    :restore-option="true"
+    :restore-action="onPushRestore"
+    :restore-description="restorePushDescription"
+    ref="pushNotificationSubsection"
+    title="Push Notifications Privacy"
   )
 </template>
 
@@ -44,7 +47,7 @@ import BaseSubsection from "@/components/base/BaseSubsection.vue";
 import store from "@/store";
 import {
   NetworkEncryptionUiState,
-  AccountSecurityUiState
+  PushNotificationnUiState
 } from "@/store/tables/settingsSecurity";
 
 export default {
@@ -54,18 +57,13 @@ export default {
     return {
       // --> DATA <--
 
-      restoreDescription: [
+      restoreNetworkDescription: [
         "Minimum SSL/TLS version and cipher suite (encryption strength)"
       ],
 
-      accountItems: [
-        {
-          subtitle: "Require Two Factor on all accounts",
-          description:
-            "All accounts member of this workspace must have Two Factor authentication enabled. Users will not be able to disable 2FA, although they can change their 2FA token anytime.",
-          type: "toggle",
-          disabled: true
-        }
+      restorePushDescription: [
+        "Include message sender in push notifications",
+        "Include message body in push notifications"
       ],
 
       networkItems: [
@@ -100,6 +98,22 @@ export default {
             ]
           }
         }
+      ],
+
+      pushItems: [
+        {
+          subtitle: "Include message sender in push notifications",
+          description:
+            "Including message sender in push notifications might reveal data coming from your server on third-party platforms such as APNS (iOS) and FCM (Android).",
+          type: "toggle"
+        },
+
+        {
+          subtitle: "Include message body in push notifications",
+          description:
+            "Including message body in push notifications will share the content of sent and received messages to third-party platforms such as APNS (iOS) and FCM (Android). Disable if you need total privacy for all your team members, at the expense of user experience.",
+          type: "toggle"
+        }
       ]
     };
   },
@@ -127,21 +141,6 @@ export default {
 
     // --> EVENT LISTENERS <--
 
-    async onSecurityUpdate(
-      newValue: AccountSecurityUiState[keyof AccountSecurityUiState],
-      changedKey: keyof AccountSecurityUiState
-    ) {
-      if (this.config.accountSecurity[changedKey] !== newValue) {
-        switch (changedKey) {
-          case "require2FA": {
-            // TODO: implement this
-
-            break;
-          }
-        }
-      }
-    },
-
     async onEncryptionUpdate(
       newValue: NetworkEncryptionUiState[keyof NetworkEncryptionUiState],
       changedKey: keyof NetworkEncryptionUiState
@@ -155,7 +154,7 @@ export default {
               );
 
               this.showSuccess();
-            } catch (e) {
+            } catch {
               BaseAlert.error("Something went wrong", "Please try again later");
             }
 
@@ -165,16 +164,65 @@ export default {
       }
     },
 
-    async onRestoreTlsProfile() {
+    async onPushUpdate(
+      newValue: PushNotificationnUiState[keyof PushNotificationnUiState],
+      changedKey: keyof PushNotificationnUiState
+    ) {
+      if (this.config.pushNotification[changedKey] !== newValue) {
+        switch (changedKey) {
+          case "withBody": {
+            try {
+              await store.$settingsSecurity.updatePushNotificationWithBody(
+                newValue as boolean
+              );
+
+              this.showSuccess();
+            } catch {
+              BaseAlert.error("Something went wrong", "Please try again later");
+            }
+
+            break;
+          }
+
+          case "withSender": {
+            try {
+              await store.$settingsSecurity.updatePushNotificationWithSender(
+                newValue as boolean
+              );
+
+              this.showSuccess();
+            } catch {
+              BaseAlert.error("Something went wrong", "Please try again later");
+            }
+
+            break;
+          }
+        }
+      }
+    },
+
+    async onPushRestore() {
       try {
-        await store.$settingsSecurity.resetTlsProfile();
-      } catch (e) {
+        await store.$settingsSecurity.restorePushNotificationConfig();
+      } catch {
         BaseAlert.error("Something went wrong", "Please try again later");
       }
     },
 
-    onGlobalRestore() {
-      this.onRestoreTlsProfile();
+    async onEncryptionRestore() {
+      try {
+        await this.onRestoreTlsProfile();
+      } catch {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
+    },
+
+    async onRestoreTlsProfile() {
+      try {
+        await store.$settingsSecurity.resetTlsProfile();
+      } catch {
+        BaseAlert.error("Something went wrong", "Please try again later");
+      }
     }
   }
 };

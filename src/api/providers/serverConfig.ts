@@ -21,9 +21,7 @@ export interface ServerConfig {
   message_archive_enabled: boolean;
   message_archive_retention: MessageArchiveRetention;
   file_upload_allowed: boolean;
-  file_storage_encryption_scheme: string;
   file_storage_retention: FileStorageRetention;
-  mfa_required: boolean;
   tls_profile: TlsProfile;
   federation_enabled: boolean;
   federation_whitelist_enabled: boolean;
@@ -63,9 +61,7 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
   message_archive_enabled: true,
   message_archive_retention: "infinite",
   file_upload_allowed: true,
-  file_storage_encryption_scheme: "AES-256",
   file_storage_retention: "infinite",
-  mfa_required: true,
   tls_profile: TlsProfile.Modern,
   federation_enabled: false,
   federation_whitelist_enabled: false,
@@ -110,15 +106,6 @@ class APIServerConfig {
   async resetFileUploadAllowed(): Promise<boolean> {
     return (
       await Api.client.delete(`${SERVER_CONFIG_PREFIX}/file-upload-allowed`)
-    ).data;
-  }
-
-  async setFileStorageEncryptionScheme(newValue: string): Promise<string> {
-    return (
-      await Api.client.put(
-        `${SERVER_CONFIG_PREFIX}/file-storage-encryption-scheme`,
-        newValue
-      )
     ).data;
   }
 

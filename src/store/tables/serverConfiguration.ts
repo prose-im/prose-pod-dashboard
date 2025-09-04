@@ -39,7 +39,6 @@ interface MessagingConfig {
 
 interface FilesConfig {
   fileUploadEnabled: boolean;
-  encryption: string;
   fileRetentionTime: string;
 }
 
@@ -71,7 +70,6 @@ const $serverConfiguration = defineStore("serverConfiguration", {
 
           files: {
             fileUploadEnabled: serverConfig.file_upload_allowed,
-            encryption: serverConfig.file_storage_encryption_scheme,
             fileRetentionTime: serverConfig.file_storage_retention
           }
         };
@@ -128,16 +126,6 @@ const $serverConfiguration = defineStore("serverConfiguration", {
       });
     },
 
-    async changeFileEncryption(newEncryptionScheme: string): Promise<void> {
-      const value = await APIServerConfig.setFileStorageEncryptionScheme(
-        newEncryptionScheme
-      );
-
-      this.$patch(() => {
-        this.value.file_storage_encryption_scheme = value;
-      });
-    },
-
     async changeFileRetentionTime(
       newTime: FileStorageRetention
     ): Promise<void> {
@@ -170,6 +158,21 @@ const $serverConfiguration = defineStore("serverConfiguration", {
 
         this.$patch(() => {
           this.value.message_archive_retention = defaultValue;
+        });
+      } catch (error) {
+        console.error(
+          "Error when resetting 'Message archive retention':",
+          JSON.stringify(error, null, 2)
+        );
+      }
+    },
+
+    async restoreFileStorageRetention(): Promise<void> {
+      try {
+        const defaultValue = await APIServerConfig.resetFileStorageRetention();
+
+        this.$patch(() => {
+          this.value.file_storage_retention = defaultValue;
         });
       } catch (error) {
         console.error(
