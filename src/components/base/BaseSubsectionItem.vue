@@ -68,7 +68,7 @@ div(
       v-if="item.tags"
     )
       p
-        | {{ item.firstTag + " : "}}
+        | {{ item.firstTag + ": "}}
 
       p(
         v-if="noTags"
