@@ -28,10 +28,10 @@ base-modal(
     base-modal-input-block(
       v-model="newName"
       :display-error="errors?.workspaceName && meta.touched"
-      :label="label"
       :rules="{required: true, max: 100}"
       error-message="This field is required"
       name="workspaceName"
+      label="New name for your workspace"
       placeholder="ex: Big Project"
       type="text"
       autofocus
@@ -77,14 +77,6 @@ export default {
 
       formInstance: this.$refs.veeFormInstance as InstanceType<typeof VeeForm>
     };
-  },
-
-  computed: {
-    label() {
-      const name = store.$customizationWorkspace.getWorkspaceName();
-
-      return `New name for ${name}`;
-    }
   },
 
   methods: {
