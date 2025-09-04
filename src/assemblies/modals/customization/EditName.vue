@@ -108,7 +108,7 @@ export default {
 
           // Make success notitification visible
           this.$emit("showSuccess");
-        } catch (e) {
+        } catch {
           BaseAlert.error("Something went wrong", "Please try again later");
 
           // Update loading status

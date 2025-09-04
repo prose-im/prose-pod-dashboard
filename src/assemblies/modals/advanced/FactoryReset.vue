@@ -164,7 +164,7 @@ export default {
           await this.$router.push({
             name: "start.init"
           });
-        } catch (error) {
+        } catch {
           this.isResetting = false;
 
           BaseAlert.error(

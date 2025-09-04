@@ -294,7 +294,7 @@ export default {
                 );
 
                 this.onShowSuccess();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"
@@ -307,7 +307,7 @@ export default {
                 );
 
                 this.onShowSuccess();
-              } catch (e) {
+              } catch {
                 BaseAlert.error(
                   "Something went wrong",
                   "Please try again later"

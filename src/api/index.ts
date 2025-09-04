@@ -71,7 +71,7 @@ class API {
                 router
                   .instance()
                   .push({ name: "start.login", query: { action: "logout" } });
-              } catch (e) {
+              } catch {
                 BaseAlert.error("Could not log out", "Maybe try again?");
               }
 
