@@ -212,20 +212,6 @@ export default {
 
           slot: "avatar",
           slotName: store.$globalConfig.getDomain
-        },
-
-        {
-          subtitle: "Server details card",
-          description:
-            "Configure extra details about your server, which is useful to other servers. This is especially useful if someone wants to obtain eg. the website of your organization and other details.",
-
-          type: "button",
-          disabled: true,
-
-          typeProps: {
-            label: "Edit details...",
-            size: "medium"
-          }
         }
       ],
 
