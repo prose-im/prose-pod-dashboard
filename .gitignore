@@ -16,7 +16,6 @@ config/local.json
 # Editor
 .nova
 .idea
-.vscode
 
 # macOS
 .DS_Store
