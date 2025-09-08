@@ -55,6 +55,24 @@
 
       span.c-base-identity-badge--light
         | {{ apiVersion }}
+
+      template(
+        v-if="serverVersion"
+      )
+        base-space
+
+        span
+          | +
+
+        base-space
+
+        span
+          | Server
+
+        base-space
+
+        span.c-base-identity-badge--light
+          | {{ serverVersion }}
 </template>
 
 <!-- **********************************************************************
@@ -86,15 +104,24 @@ export default {
     },
 
     apiVersion() {
-      const podVersion = store.$globalConfig.getPodVersion();
-
-      if (podVersion && podVersion.api.tag === "local") {
-        // Show more detailed information if the API isn’t running a released \
-        //   version.
-        return podVersion.api.commit_short ?? podVersion.api.version;
+      // Show more detailed information if the API isn’t running a released \
+      //   version?
+      if (this.podVersionData?.api?.tag === "local") {
+        return (
+          this.podVersionData.api.commit_short ??
+          this.podVersionData.api.version
+        );
       }
 
-      return podVersion && podVersion.api.tag;
+      return this.podVersionData?.api?.tag || null;
+    },
+
+    podVersionData() {
+      return store.$globalConfig.getPodVersion();
+    },
+
+    serverVersion() {
+      return this.podVersionData?.server?.tag || null;
     }
   },
 
