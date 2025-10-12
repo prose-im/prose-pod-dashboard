@@ -38,9 +38,6 @@ import BaseAlert from "@/components/base/BaseAlert.vue";
 // PROJECT: COMMONS
 import { ErrorFromResponse } from "@/commons/errors";
 
-// PROJECT: STORES
-import Store from "@/store";
-
 export default {
   name: "StartRecover",
 

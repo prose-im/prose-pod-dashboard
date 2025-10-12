@@ -16,6 +16,7 @@ export type Password = string;
 
 export type Timestamp = string;
 export type DurationDateLike = string;
+export type TimeToLive = number;
 
 export type Hostname = string;
 export type Ipv4 = string;
