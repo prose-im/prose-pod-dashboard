@@ -12,7 +12,7 @@
 base-topography(
   class="v-invitation-accept"
 )
-  init-sidebar(
+  start-init-sidebar(
     :items="items"
     :step="currentStep"
   )
@@ -26,7 +26,7 @@ base-topography(
     p.v-invitation-accept__subtitle
       | Let’s create your account.
 
-    init-form(
+    start-init-form(
       v-model="nickname"
       @change-step="onSubmit"
       :secondary-input="password"
@@ -60,8 +60,8 @@ base-topography(
 <script lang="ts">
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import InitForm from "@/components/init/InitForm.vue";
-import InitSidebar from "@/components/init/InitSidebar.vue";
+import StartInitForm from "@/components/start/StartInitForm.vue";
+import StartInitSidebar from "@/components/start/StartInitSidebar.vue";
 
 // PROJECT: API
 import APIInvitations, {
@@ -76,8 +76,8 @@ export default {
   name: "InvitationAccept",
 
   components: {
-    InitForm,
-    InitSidebar
+    StartInitForm,
+    StartInitSidebar
   },
 
   props: {

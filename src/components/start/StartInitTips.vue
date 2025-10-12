@@ -9,11 +9,11 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.c-init-tips
-  .c-init-tips__sidecard
-    .c-init-tips__logo
+.c-start-init-tips
+  .c-start-init-tips__sidecard
+    .c-start-init-tips__logo
       base-icon(
-        class="c-init-tips__icon"
+        class="c-start-init-tips__icon"
         name="stars"
         stroke="#ffffff"
         size="15px"
@@ -22,7 +22,7 @@
       p
         | Tips
 
-  ol.c-init-tips__list
+  ol.c-start-init-tips__list
     li(
       v-for="tip in tips"
     )
@@ -30,7 +30,7 @@
         v-for="sentence in tip"
         :class=`[
           {
-            "c-init-tips__bold": sentence[1]
+            "c-start-init-tips__bold": sentence[1]
           }
         ]`
       )
@@ -47,7 +47,7 @@
 
 <script lang="ts">
 export default {
-  name: "InitTips",
+  name: "StartInitTips",
 
   props: {
     tips: {
@@ -63,7 +63,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-init-tips";
+$c: ".c-start-init-tips";
 
 #{$c} {
   display: flex;

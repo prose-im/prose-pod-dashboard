@@ -12,12 +12,12 @@
 base-topography(
   class="v-start-init"
 )
-  init-sidebar(
+  start-init-sidebar(
     :items="items"
     :step="currentStep"
   )
 
-  init-page(
+  start-init-page(
     class="v-start-init__page"
     @update-step="onUpdateStep"
   )
@@ -29,15 +29,15 @@ base-topography(
 
 <script lang="ts">
 // PROJECT: COMPONENTS
-import InitSidebar from "@/components/init/InitSidebar.vue";
-import InitPage from "@/components/init/InitPage.vue";
+import StartInitSidebar from "@/components/start/StartInitSidebar.vue";
+import StartInitPage from "@/components/start/StartInitPage.vue";
 
 export default {
   name: "StartInit",
 
   components: {
-    InitPage,
-    InitSidebar
+    StartInitPage,
+    StartInitSidebar
   },
 
   data() {

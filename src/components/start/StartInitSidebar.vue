@@ -9,50 +9,50 @@
     ********************************************************************** -->
 
 <template lang="pug">
-.c-init-sidebar
+.c-start-init-sidebar
   base-icon(
-    class="c-init-sidebar__logo"
+    class="c-start-init-sidebar__logo"
     name="logo"
     size="21px"
     width="85px"
     rectangular
   )
 
-  .c-init-sidebar__frames
-    .c-init-sidebar__frame(
+  .c-start-init-sidebar__frames
+    .c-start-init-sidebar__frame(
       v-for="(item, index) in items"
     )
-      .c-init-sidebar__icon-frame
+      .c-start-init-sidebar__icon-frame
         base-icon(
           :name="item.icon"
           :fill="index === step - 1 ? '#000000' : '#49546299'"
           size="19px"
         )
 
-      .c-init-sidebar__text
-        p.c-init-sidebar__title
+      .c-start-init-sidebar__text
+        p.c-start-init-sidebar__title
           | {{ item.value }}
 
-        p.c-init-sidebar__description
+        p.c-start-init-sidebar__description
           | {{ item.description }}
 
-    .c-init-sidebar__icon-frame(
-      class="c-init-sidebar__success"
+    .c-start-init-sidebar__icon-frame(
+      class="c-start-init-sidebar__success"
     )
       base-icon(
-        class="c-init-sidebar__success-icon"
+        class="c-start-init-sidebar__success-icon"
         name="checkmark.circle.empty"
         fill="#05C02B"
         size="18px"
       )
 
-    .c-init-sidebar__highlighter(
+    .c-start-init-sidebar__highlighter(
       :class=`[
-        "c-init-sidebar__highlighter--" + step
+        "c-start-init-sidebar__highlighter--" + step
       ]`
     )
 
-    .c-init-sidebar__separator(
+    .c-start-init-sidebar__separator(
       :style=`{
         height: separatorHeight
       }`
@@ -65,7 +65,7 @@
 
 <script lang="ts">
 export default {
-  name: "InitSidebar",
+  name: "StartInitSidebar",
 
   props: {
     items: {
@@ -96,7 +96,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-init-sidebar";
+$c: ".c-start-init-sidebar";
 
 // VARIABLES
 $frame-height: 64px;

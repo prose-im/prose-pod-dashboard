@@ -9,24 +9,24 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.c-init-form
+.c-start-init-form
   transition(
     enter-active-class="u-animate u-animate--slide-in u-animate--fast u-animate-delayed"
     leave-active-class="u-animate u-animate--slide-out-left u-animate--superfast"
   )
-    .c-init-form__upper(
+    .c-start-init-form__upper(
       v-if="loaded"
     )
-      .c-init-form__label
+      .c-start-init-form__label
         slot
 
-      vee-form.c-init-form__field-block(
+      vee-form.c-start-init-form__field-block(
         v-slot="{ errors, meta }"
         @submit="onSubmit"
         :class=`[
           {
-            "c-init-form__field-block--flex": (formType === 'single'),
-            "c-init-form__field-block--block": (formType !== 'single')
+            "c-start-init-form__field-block--flex": (formType === 'single'),
+            "c-start-init-form__field-block--block": (formType !== 'single')
           }
         ]`
         ref="veeFormInstance"
@@ -45,7 +45,7 @@
           autofocus
           align="left"
           size="ultra-large"
-          class="c-init-form__field"
+          class="c-start-init-form__field"
         )
 
         form-field(
@@ -62,7 +62,7 @@
           ref="secondFormField"
           align="left"
           size="ultra-large"
-          class="c-init-form__field"
+          class="c-start-init-form__field"
         )
 
         form-field(
@@ -79,30 +79,30 @@
           ref="thirdFormField"
           align="left"
           size="ultra-large"
-          class="c-init-form__field"
+          class="c-start-init-form__field"
         )
 
         base-button(
           @click="onSubmit"
           :disabled="loading"
           :loading="loading"
-          class="c-init-form__button"
+          class="c-start-init-form__button"
           tint="purple"
           size="ultra-large"
           padding="32.5px 24.5px"
         )
-          .c-init-form__button--content
-            span.c-init-form__button--text
+          .c-start-init-form__button--content
+            span.c-start-init-form__button--text
               | {{ buttonLabel }}
 
             base-icon(
-              class="c-init-form__icon"
+              class="c-start-init-form__icon"
               name="arrow.right"
               stroke="#ffffff"
               size="15px"
             )
 
-  init-tips(
+  start-init-tips(
     v-if="formVisible"
     :tips="tips"
   )
@@ -118,13 +118,13 @@ import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: COMPONENTS
 import FormField from "@/components/form/FormField.vue";
-import InitTips from "@/components/init/InitTips.vue";
+import StartInitTips from "@/components/start/StartInitTips.vue";
 
 export default {
-  name: "InitPage",
+  name: "StartInitForm",
 
   components: {
-    InitTips,
+    StartInitTips,
     VeeForm
   },
 
@@ -316,7 +316,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-init-form";
+$c: ".c-start-init-form";
 
 #{$c} {
   display: flex;

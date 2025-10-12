@@ -9,7 +9,7 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.c-init-success
+.c-start-init-success
   h3
     | 🎉
 
@@ -19,11 +19,11 @@
 
     | Congratulations!
 
-  .c-init-success__text
+  .c-start-init-success__text
     p Your server has been setup!
     p You will be redirected to the Dashboard now...
 
-  span.c-init-success__loader
+  span.c-start-init-success__loader
 </template>
 
 <!-- **********************************************************************
@@ -38,7 +38,7 @@ import BaseLoader from "@/components/base/BaseLoader.vue";
 const REDIRECT_WAIT_DELAY = 3000; // 3 seconds
 
 export default {
-  name: "InitSuccess",
+  name: "StartInitSuccess",
 
   components: {
     BaseLoader
@@ -62,7 +62,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-init-success";
+$c: ".c-start-init-success";
 
 #{$c} {
   text-align: center;

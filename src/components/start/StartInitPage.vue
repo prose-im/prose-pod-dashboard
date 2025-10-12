@@ -9,8 +9,8 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.c-init-page
-  .c-init-page__content(
+.c-start-init-page
+  .c-start-init-page__content(
     v-if="currentStep === 1 || currentStep === 2"
   )
     h1
@@ -22,10 +22,10 @@
 
       | Welcome to Prose!
 
-    p.c-init-page__subtitle
+    p.c-start-init-page__subtitle
       | Let's get your server set up. It will take less than 5 minutes.
 
-    init-form(
+    start-init-form(
       v-if="currentStep === 1"
       v-model="organization.server"
       @change-step="updateStep('server')"
@@ -41,7 +41,7 @@
 
       base-space
 
-      span.c-init-page__bold
+      span.c-start-init-page__bold
         | name to your server
 
       span
@@ -52,7 +52,7 @@
       span
         | You will be able to customize all the rest later.
 
-    init-form(
+    start-init-form(
       v-else-if="currentStep === 2"
       v-model="organization.adminUsername"
       @change-step="updateStep('admin')"
@@ -79,7 +79,7 @@
 
       base-space
 
-      span.c-init-page__bold
+      span.c-start-init-page__bold
         | administrator account
 
       span
@@ -90,10 +90,10 @@
       span
         | You'll be able to invite team members later.
 
-  .c-init-page__success(
+  .c-start-init-page__success(
     v-else-if="currentStep === 3"
   )
-    init-success
+    start-init-success
 </template>
 
 <!-- **********************************************************************
@@ -104,9 +104,9 @@
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import BaseIcon from "@/components/base/BaseIcon.vue";
-import InitForm from "@/components/init/InitForm.vue";
-import InitTips from "@/components/init/InitTips.vue";
-import InitSuccess from "@/components/init/InitSuccess.vue";
+import StartInitForm from "@/components/start/StartInitForm.vue";
+import StartInitTips from "@/components/start/StartInitTips.vue";
+import StartInitSuccess from "@/components/start/StartInitSuccess.vue";
 
 // PROJECT: API
 import APIInit from "@/api/providers/init";
@@ -115,13 +115,13 @@ import APIInit from "@/api/providers/init";
 import Store from "@/store";
 
 export default {
-  name: "InitPage",
+  name: "StartInitPage",
 
   components: {
     BaseIcon,
-    InitForm,
-    InitTips,
-    InitSuccess
+    StartInitForm,
+    StartInitTips,
+    StartInitSuccess
   },
 
   emits: ["updateStep"],
@@ -312,7 +312,7 @@ export default {
      ********************************************************************** -->
 
 <style lang="scss">
-$c: ".c-init-page";
+$c: ".c-start-init-page";
 
 #{$c} {
   display: flex;
