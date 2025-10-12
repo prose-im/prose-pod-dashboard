@@ -9,28 +9,21 @@
      ********************************************************************** -->
 
 <template lang="pug">
-.a-start-recover-form
-  //- TODO: commonize this between recover and login
-
-  base-prose-logo(
-    class="a-start-recover-form__logo"
-    size="large"
-  )
-
-  vee-form.a-start-recover-form__inner(
+start-access-form(
+  @submit="onSubmit"
+  :loading="loading"
+  title="Change your account password"
+  submit-label="Change my account password"
+)
+  template(
     v-slot="{ errors, meta }"
-    @submit="onSubmit"
   )
-    h1.a-start-recover-form__title
-      | Change your account password
-
     form-field(
       v-model="form.password"
       :disabled="loading"
       :display-error="errors?.password && meta.touched"
       :loading="loading"
       :rules="{required: true}"
-      class="a-start-recover-form__field"
       error-message="Please enter a password"
       name="password"
       placeholder="Enter a new password…"
@@ -38,16 +31,6 @@
       type="password"
       autofocus
     )
-
-    base-button(
-      :disabled="loading"
-      :loading="loading"
-      class="a-start-recover-form__button"
-      size="ultra-large"
-      type="submit"
-      tint="purple"
-    )
-      | Change my account password
 </template>
 
 <!-- **********************************************************************
@@ -58,6 +41,9 @@
 // NPM
 import { Form as VeeForm } from "vee-validate";
 
+// PROJECT: COMPONENTS
+import StartAccessForm from "@/components/start/StartAccessForm.vue";
+
 // INTERFACES
 export interface StateForm {
   password: string;
@@ -67,7 +53,8 @@ export default {
   name: "StartRecoverForm",
 
   components: {
-    VeeForm
+    VeeForm,
+    StartAccessForm
   },
 
   props: {
@@ -100,51 +87,3 @@ export default {
   }
 };
 </script>
-
-<!-- **********************************************************************
-     STYLE
-     ********************************************************************** -->
-
-<style lang="scss">
-$c: ".a-start-recover-form";
-
-#{$c} {
-  width: 100%;
-
-  #{$c}__logo,
-  #{$c}__inner {
-    margin-inline: auto;
-  }
-
-  #{$c}__logo {
-    margin-block: 0;
-  }
-
-  #{$c}__inner {
-    margin-block-start: 55px;
-    max-width: 440px;
-
-    #{$c}__title {
-      color: $color-text-primary;
-      font-size: ($font-size-baseline + 9px);
-      line-height: ($font-size-baseline + 13px);
-      text-align: center;
-      margin-block-end: 28px;
-    }
-
-    #{$c}__field,
-    #{$c}__button {
-      width: 100%;
-      display: block;
-    }
-
-    #{$c}__field {
-      margin-block-end: 10px;
-    }
-
-    #{$c}__button {
-      margin-block-start: 30px;
-    }
-  }
-}
-</style>
