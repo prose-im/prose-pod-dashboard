@@ -134,6 +134,12 @@ edit-email(
   :jid="userToUpdate?.jid"
 )
 
+reset-password(
+  v-if="activeModal === modals.ResetPassword"
+  @close="toggleResetPasswordModalVisible"
+  :jid="userToUpdate?.jid"
+)
+
 delete-member(
   v-if="activeModal === modals.DeleteMember"
   @close="toggleDeleteMemberModalVisible"
@@ -158,6 +164,7 @@ import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
 import EditNickname from "@/assemblies/modals/members/EditNickname.vue";
 import EditEmail from "@/assemblies/modals/members/EditEmail.vue";
+import ResetPassword from "@/assemblies/modals/members/ResetPassword.vue";
 import WelcomeFirstUse from "@/assemblies/modals/WelcomeFirstUse.vue";
 
 // PROJECT: STORE
@@ -180,6 +187,8 @@ enum Modals {
   EditNickname = "editNickname",
   // Edit Email Modal
   EditEmail = "editEmail",
+  // Reset Password Modal
+  ResetPassword = "resetPassword",
   // Delete Member Modal
   DeleteMember = "deleteMember",
   // Welcome First Use Modal
@@ -195,6 +204,7 @@ export default {
     EditRole,
     EditNickname,
     EditEmail,
+    ResetPassword,
     InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
@@ -416,6 +426,14 @@ export default {
       }
     },
 
+    toggleResetPasswordModalVisible() {
+      if (this.activeModal === Modals.ResetPassword) {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.ResetPassword;
+      }
+    },
+
     toggleWelcomeModalVisible() {
       if (this.activeModal === Modals.WelcomeFirstUse) {
         this.activeModal = null;
@@ -458,6 +476,12 @@ export default {
 
         case "edit_email": {
           this.toggleEditEmailModalVisible();
+
+          break;
+        }
+
+        case "reset_password": {
+          this.toggleResetPasswordModalVisible();
 
           break;
         }

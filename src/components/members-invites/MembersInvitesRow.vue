@@ -258,12 +258,18 @@ export default {
         });
       }
 
-      // Only administrators can change roles and delete members
+      // Only administrators can change roles, delete members and reset \
+      //   passwords
       if (this.isSelfAdmin) {
         _options.push(
           {
             id: "change_role",
             value: "Change role"
+          },
+
+          {
+            id: "reset_password",
+            value: "Reset password"
           },
 
           {
