@@ -33,13 +33,17 @@ base-modal(
                 class="a-restore-backup--flex"
               )
                 p
-                  | 1️⃣  Please upload a&nbsp;
+                  | 1️⃣  Please upload a
+
+                base-space
 
                 p.a-restore-backup--blue
                   | .settings.backup
 
+                base-space
+
                 p
-                  | &nbsp;file:
+                  | file:
 
               base-upload-button(
                 @file-picked="onSettingsFilePicked"
@@ -73,13 +77,17 @@ base-modal(
                 class="a-restore-backup__step"
               )
                 p
-                  | 2️⃣  Please upload a&nbsp;
+                  | 2️⃣  Please upload a
+
+                base-space
 
                 p.a-restore-backup--blue
                   | .data.backup
 
+                base-space
+
                 p
-                  | &nbsp;archive:
+                  | archive:
 
               base-upload-button(
                 @file-picked="onDataFilePicked"

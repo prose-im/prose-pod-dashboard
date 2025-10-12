@@ -39,7 +39,15 @@ base-modal(
     )
       .a-dns-setup__step
         span
-          | {{ numberEmoji(index) }} &nbsp;Add those records to&nbsp;
+          | {{ numberEmoji(index) }}
+
+          base-space(
+            :repeat="2"
+          )
+
+          | Add those records to
+
+          base-space
 
         span.a-dns-setup--semibold
           | {{ step.purpose }}:

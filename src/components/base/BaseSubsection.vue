@@ -21,7 +21,11 @@
       span.c-base-subsection__sup(
         v-if="sup"
       )
-        | &nbsp; {{ sup.toUpperCase() }}
+        base-space(
+          :repeat="2"
+        )
+
+        | {{ sup.toUpperCase() }}
 
     .c-base-subsection__restore(
       v-if="restoreOption"

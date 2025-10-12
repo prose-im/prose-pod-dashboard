@@ -73,7 +73,9 @@ div(
       p(
         v-if="noTags"
       )
-        | &nbsp;None
+        base-space
+
+        | None
 
       p(
         v-else

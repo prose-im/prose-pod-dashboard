@@ -23,7 +23,9 @@ base-modal(
 )
   .a-cancel-invite
     span
-      | Are you sure you want to&nbsp;
+      | Are you sure you want to
+
+    base-space
 
     span(
       :class=`[
@@ -31,6 +33,8 @@ base-modal(
       ]`
     )
       | cancel
+
+    base-space
 
     span
       | the invitation to:
@@ -78,6 +82,7 @@ export default {
   data() {
     return {
       // --> STATE <--
+
       sendingRequest: false
     };
   },

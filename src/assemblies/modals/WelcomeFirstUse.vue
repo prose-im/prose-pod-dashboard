@@ -22,7 +22,13 @@
       .a-welcome-first-use__top
         .a-welcome-first-use__header
           h3
-            | 👋 &nbsp;Welcome to Prose!
+            | 👋
+
+            base-space(
+              :repeat="2"
+            )
+
+            | Welcome to Prose!
 
           span
             | Let's

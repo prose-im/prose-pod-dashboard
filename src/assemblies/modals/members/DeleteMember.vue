@@ -23,7 +23,9 @@ base-modal(
 )
   .a-delete-member
     span
-      | Are you sure you want to&nbsp;
+      | Are you sure you want to
+
+    base-space
 
     span(
       :class=`[
