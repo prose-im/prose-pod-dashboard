@@ -136,6 +136,10 @@ class APITeamMembers {
       .data;
   }
 
+  async requestMemberPasswordRecover(jid: BareJid): Promise<void> {
+    return await Api.client.delete(`/v1/members/${jid}/password`);
+  }
+
   /** ENRICHING **/
 
   async enrichMembers(jids: BareJid[]): Promise<EnrichMembersResponse> {

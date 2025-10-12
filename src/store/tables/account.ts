@@ -15,7 +15,7 @@ import { defineStore } from "pinia";
 import Api from "@/api";
 import APIAuth from "@/api/providers/auth";
 import APIInit from "@/api/providers/init";
-import { Avatar, MemberRole } from "@/api/providers/members";
+import APITeamMembers, { Avatar, MemberRole } from "@/api/providers/members";
 import { BareJid } from "@/api/providers/global";
 
 // PROJECT: STORE
@@ -99,6 +99,10 @@ const $account = defineStore("account", {
     async logout(): Promise<void> {
       // Clear session token
       this.setSessionToken(null);
+    },
+
+    async recover(username: string): Promise<void> {
+      await APITeamMembers.requestMemberPasswordRecover(username as BareJid);
     },
 
     async loadUserInformation() {

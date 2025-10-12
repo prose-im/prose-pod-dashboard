@@ -61,6 +61,50 @@ export default {
   },
 
   methods: {
+    // --> HELPERS <--
+
+    async proceedLogin(form: FormStateForm): Promise<void> {
+      try {
+        // Login to account
+        await Store.$account.login(form.jid, form.password);
+
+        // Reload global config after a successful log in since some \
+        //   data needs authentication and couldn’t be queried earlier.
+        Store.$globalConfig.loadGlobalConfig(true);
+
+        // Redirect to dashboard
+        await this.$router.push({
+          name: "app"
+        });
+
+        // Acknowledge login success
+        BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
+      } catch (_) {
+        BaseAlert.error(
+          "Could not log in",
+          "Check your credentials and try again"
+        );
+      }
+    },
+
+    async proceedRecover(form: FormStateForm): Promise<void> {
+      try {
+        // Request password recovery
+        await Store.$account.recover(form.jid);
+
+        // Acknowledge recover success
+        BaseAlert.info(
+          "Recovery requested",
+          "We sent you an email with a recovery link"
+        );
+      } catch (_) {
+        BaseAlert.error(
+          "Could not recover",
+          "Check that the provided address exists"
+        );
+      }
+    },
+
     // --> EVENT LISTENERS <--
 
     async onFormSubmit(form: FormStateForm): Promise<void> {
@@ -68,29 +112,23 @@ export default {
         // Mark as loading
         this.isFormLoading = true;
 
-        try {
-          // Login to account
-          await Store.$account.login(form.jid, form.password);
+        // Proceed action
+        switch (form.mode) {
+          case "login": {
+            await this.proceedLogin(form);
 
-          // Reload global config after a successful log in since some \
-          //   data needs authentication and couldn’t be queried earlier.
-          Store.$globalConfig.loadGlobalConfig(true);
+            break;
+          }
 
-          // Redirect to dashboard
-          await this.$router.push({
-            name: "app"
-          });
+          case "recover": {
+            await this.proceedRecover(form);
 
-          // Acknowledge login success
-          BaseAlert.success("Logged in", "Welcome to your Prose dashboard");
-        } catch (_) {
-          BaseAlert.error(
-            "Could not log in",
-            "Check your credentials and try again"
-          );
-        } finally {
-          this.isFormLoading = false;
+            break;
+          }
         }
+
+        // Mark as not loading
+        this.isFormLoading = false;
       }
     }
   }
