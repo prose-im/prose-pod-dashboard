@@ -14,21 +14,10 @@ TEMPLATE
   class="c-members-invites-row--header"
 )
   <!-- 1st column -->
-  form-checkbox(
-    :class=`[
-      "c-members-invites-row__checkbox",
-      "c-members-invites-row--hidden"
-    ]`
-    disabled
-  )
+  .c-members-invites-row__checkbox
 
   <!-- 2nd column -->
-  base-avatar(
-    :class=`[
-      "c-members-invites-row__avatar",
-      "c-members-invites-row--hidden"
-    ]`
-  )
+  .c-members-invites-row__avatar
 
   <!-- 3rd column -->
   .c-members-invites-row__user
@@ -44,34 +33,6 @@ TEMPLATE
 
   <!-- 6th column -->
   .c-members-invites-row__parameters
-    base-button(
-      @click="onActionOnMember"
-      :disabled="!actionsEnabled && !isSelfUser"
-      class="c-members-invites-row--hidden"
-      size="medium"
-      tint="white"
-      square
-    )
-      base-icon(
-        v-if="!userData.invitation_id"
-        fill="#495462"
-        name="gearshape.fill"
-        size="10px"
-      )
-
-      p(
-        v-else
-        class="c-members-invites-row__parameters--button"
-      )
-        | Cancel invite
-
-    base-row-menu(
-      v-if="isMenuOpen"
-      v-click-away="onMenuClickAway"
-      @menu-action="onMenuAction"
-      :options="menuOptions"
-      class="c-members-invites-row__parameters--menu"
-    )
 
 .c-members-invites-row(
   v-else
@@ -81,101 +42,117 @@ TEMPLATE
     }
   ]`
 )
-    <!--  1st column -->
-    form-checkbox(
-      class="c-members-invites-row__checkbox"
-      disabled
+  <!--  1st column -->
+  form-checkbox(
+    class="c-members-invites-row__checkbox"
+    disabled
+  )
+
+  <!-- 2nd column -->
+  base-avatar(
+    :avatar-content-type="userData.avatar?.type"
+    :avatar-data-base64="userData.avatar?.base64"
+    :placeholder-data="userData.nickname"
+    class="c-members-invites-row__avatar"
+  )
+
+  <!-- 3rd column -->
+  .c-members-invites-row__user(
+    :class=`[
+      {
+        "c-members-invites-row__user--emphasis" : userData.invitation_id
+      }
+    ]`
+  )
+    p(
+      v-if="userData.nickname"
+      class="c-members-invites-row--main"
+    )
+      | {{ userData.nickname }}
+
+    base-loader(
+      v-else-if="!userData.enriched && !userData.invitation_id"
     )
 
-    <!-- 2nd column -->
-    base-avatar(
-      :avatar-content-type="userData.avatar?.type"
-      :avatar-data-base64="userData.avatar?.base64"
-      :placeholder-data="userData.nickname"
-      class="c-members-invites-row__avatar"
-    )
-
-    <!-- 3rd column -->
-    .c-members-invites-row__user(
+    p(
+      :title="userData.jid"
       :class=`[
+        "c-members-invites-row--submain"
+      ]`
+    )
+      | {{ userData.jid }}
+
+  <!-- 4th column -->
+  .c-members-invites-row__badge
+    base-badge(
+      v-if="!userData.invitation_id"
+      :admin="userData.role ?? userData.pre_assigned_role"
+      size="long"
+    )
+
+  <!-- 5th column -->
+  .c-members-invites-row__status
+    p(
+      v-if="userStatus"
+      :class=`[
+        "c-members-invites-row--" + userStatus.level,
         {
-          "c-members-invites-row__user--emphasis" : userData.invitation_id
+          ["c-members-invites-row--" + userStatus.color]: userStatus.color
         }
       ]`
     )
-      p(
-        v-if="userData.nickname"
-        class="c-members-invites-row--main"
-      )
-        | {{ userData.nickname }}
+      | {{ userStatus.label }}
 
-      base-loader(
-        v-else-if="!userData.enriched && !userData.invitation_id"
-      )
+    base-loader(
+      v-else-if="!userData.enriched && !userData.invitation_id"
+      width="50px"
+    )
 
-      p(
-        :title="userData.jid"
-        :class=`[
-          "c-members-invites-row--submain"
-        ]`
-      )
-        | {{ userData.jid }}
-
-    <!-- 4th column -->
-    .c-members-invites-row__badge
-      base-badge(
-        v-if="!userData.invitation_id"
-        :admin="userData.role ?? userData.pre_assigned_role"
-        size="long"
+  <!-- 6th column -->
+  .c-members-invites-row__parameters
+    base-button(
+      v-if="!userData.invitation_id"
+      @click="onActionOnMember"
+      :disabled="!actionsEnabled && !isSelfUser"
+      size="medium"
+      tint="white"
+      square
+    )
+      base-icon(
+        fill="#495462"
+        name="gearshape.fill"
+        size="10px"
       )
 
-    <!-- 5th column -->
-    .c-members-invites-row__status
-      p(
-        v-if="userStatus"
-        :class=`[
-          "c-members-invites-row--" + userStatus.level,
-          {
-            ["c-members-invites-row--" + userStatus.color]: userStatus.color
-          }
-        ]`
-      )
-        | {{ userStatus.label }}
-
-      base-loader(
-        v-else-if="!userData.enriched && !userData.invitation_id"
-        width="50px"
-      )
-
-    <!-- 6th column -->
-    .c-members-invites-row__parameters
+    .c-members-invites-row__parameters-actions(
+      v-else
+    )
       base-button(
-        @click="onActionOnMember"
-        :disabled="!actionsEnabled && !isSelfUser"
+        @click="onResendInvite"
+        :disabled="!actionsEnabled"
         size="medium"
         tint="white"
+        class="c-members-invites-row__parameters-action"
         square
       )
-        base-icon(
-          v-if="!userData.invitation_id"
-          fill="#495462"
-          name="gearshape.fill"
-          size="10px"
-        )
+        | Resend
 
-        p(
-          v-else
-          class="c-members-invites-row__parameters--button"
-        )
-          | Cancel invite
-
-      base-row-menu(
-        v-if="isMenuOpen"
-        v-click-away="onMenuClickAway"
-        @menu-action="onMenuAction"
-        :options="menuOptions"
-        class="c-members-invites-row__parameters--menu"
+      base-button(
+        @click="onCancelInvite"
+        :disabled="!actionsEnabled"
+        size="medium"
+        tint="white"
+        class="c-members-invites-row__parameters-action"
       )
+        | Cancel
+
+    base-row-menu(
+      v-if="isMenuOpen"
+      v-click-away="onMenuClickAway"
+      @menu-action="onMenuAction"
+      :options="menuOptions"
+      class="c-members-invites-row__parameters-menu"
+    )
 </template>
 
 <!-- **********************************************************************
@@ -220,7 +197,7 @@ export default {
     }
   },
 
-  emits: ["menuAction", "cancelInviteRequest"],
+  emits: ["menuAction", "cancelInviteRequest", "resendInviteRequest"],
 
   data() {
     return {
@@ -322,24 +299,34 @@ export default {
   },
 
   methods: {
-    // --> EVENT LISTENERS <--
+    // --> HELPERS <--
 
-    onActionOnMember(): void {
-      this.userData && (this.userData as Invitation).invitation_id
-        ? this.onCancelInvite()
-        : this.toggleMenuOpen();
+    toggleMenuOpen() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
 
-    onCancelInvite() {
+    dispatchInviteRequest(
+      event: "resendInviteRequest" | "cancelInviteRequest"
+    ) {
       this.$emit(
-        "cancelInviteRequest",
+        event,
         (this.userData as Invitation).invitation_id,
         (this.userData as Invitation).jid
       );
     },
 
-    toggleMenuOpen() {
-      this.isMenuOpen = !this.isMenuOpen;
+    // --> EVENT LISTENERS <--
+
+    onActionOnMember(): void {
+      this.toggleMenuOpen();
+    },
+
+    onResendInvite() {
+      this.dispatchInviteRequest("resendInviteRequest");
+    },
+
+    onCancelInvite() {
+      this.dispatchInviteRequest("cancelInviteRequest");
     },
 
     onMenuAction(action: string) {
@@ -427,12 +414,19 @@ $c: ".c-members-invites-row";
     display: flex;
     justify-content: end;
 
-    &--button {
-      margin: 0;
-      padding-inline: 18px;
+    #{$c}__parameters-actions {
+      display: flex;
+      align-items: center;
+      column-gap: 4px;
+
+      #{$c}__parameters-action {
+        > * {
+          padding-inline: 14px;
+        }
+      }
     }
 
-    &--menu {
+    #{$c}__parameters-menu {
       z-index: $index-foreground-tertiary;
       position: absolute;
       top: 0%;

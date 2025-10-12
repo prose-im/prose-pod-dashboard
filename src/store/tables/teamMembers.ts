@@ -225,6 +225,10 @@ const $teamMembers = defineStore("teamMembers", {
       return await APIInvitations.inviteMember(invitation);
     },
 
+    async resendInvitation(invitationId: InvitationId): Promise<void> {
+      await APIInvitations.resendInvitation(invitationId);
+    },
+
     async cancelInvitation(invitationId: InvitationId): Promise<void> {
       await APIInvitations.cancelInvitation(invitationId);
 

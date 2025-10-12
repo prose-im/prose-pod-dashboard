@@ -40,6 +40,7 @@
           v-if="pageNumber === 1"
           v-for="(invite, index) in invites"
           @cancel-invite-request="onCancelInviteRequest"
+          @resend-invite-request="onResendInviteRequest"
           :user-data="invite"
           :actions-enabled="actionsMenuEnabled"
         )
@@ -112,7 +113,13 @@ invite-team-member(
 cancel-invite(
   v-if="activeModal === modals.CancelInvite"
   @close="onModalClose"
-  :invite="inviteToDelete"
+  :invite="inviteToManage"
+)
+
+resend-invite(
+  v-if="activeModal === modals.ResendInvite"
+  @close="onModalClose"
+  :invite="inviteToManage"
 )
 
 edit-role(
@@ -159,6 +166,7 @@ import SearchBar from "@/components/search/SearchBar.vue";
 // PROJECT: ASSEMBLIES
 import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import CancelInvite from "@/assemblies/modals/members/CancelInvite.vue";
+import ResendInvite from "@/assemblies/modals/members/ResendInvite.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
 import EditNickname from "@/assemblies/modals/members/EditNickname.vue";
@@ -178,8 +186,10 @@ import { OnboardingChecks } from "@/store/tables/account";
 enum Modals {
   // Invite Team Member Modal
   Invite = "invite",
-  // Invite Team Member Modal
+  // Cancel Invite Modal
   CancelInvite = "cancelInvite",
+  // Resend Invite Modal
+  ResendInvite = "resendInvite",
   // Edit Role Modal
   EditRole = "editRole",
   // Edit Nickname Modal
@@ -199,6 +209,7 @@ export default {
 
   components: {
     CancelInvite,
+    ResendInvite,
     DeleteMember,
     EditRole,
     EditNickname,
@@ -232,7 +243,7 @@ export default {
 
       activeModal: null as null | Modals,
       userToUpdate: null as object | null,
-      inviteToDelete: null as object | null,
+      inviteToManage: null as object | null,
 
       searchTerm: "",
 
@@ -377,6 +388,21 @@ export default {
       }
     },
 
+    async showManageInviteModal(inviteId: number, jid: string, modal: Modals) {
+      const canInviteMembers = await APIInvitations.canInviteMember();
+
+      if (canInviteMembers === true) {
+        this.inviteToManage = {
+          id: inviteId,
+          jid
+        };
+
+        this.activeModal = modal;
+      } else {
+        BaseAlert.error("You cannot do that", "Ask an admin to do this task");
+      }
+    },
+
     // --> EVENT LISTENERS <--
 
     async onChangePage(type: string) {
@@ -436,21 +462,11 @@ export default {
     },
 
     async onCancelInviteRequest(inviteId: number, jid: string) {
-      const canInviteMembers = await APIInvitations.canInviteMember();
+      await this.showManageInviteModal(inviteId, jid, Modals.CancelInvite);
+    },
 
-      if (canInviteMembers === true) {
-        this.inviteToDelete = {
-          id: inviteId,
-          jid
-        };
-
-        this.activeModal = Modals.CancelInvite;
-      } else {
-        return BaseAlert.error(
-          "You cannot do that",
-          "Ask an admin to do this task"
-        );
-      }
+    async onResendInviteRequest(inviteId: number, jid: string) {
+      await this.showManageInviteModal(inviteId, jid, Modals.ResendInvite);
     },
 
     async onSearchTermChange() {
