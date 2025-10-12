@@ -77,82 +77,82 @@ const ACCENT_COLORS = [
 
   {
     name: "Red",
-    value: "#E51E0F"
+    value: "#e51e0f"
   },
 
   {
     name: "Pink",
-    value: "#F11D64"
+    value: "#f11d64"
   },
 
   {
     name: "Purple",
-    value: "#B520CF"
+    value: "#b520cf"
   },
 
   {
     name: "Dark Purple",
-    value: "#682AD5"
+    value: "#682ad5"
   },
 
   {
     name: "Indigo",
-    value: "#2943D1"
+    value: "#2943d1"
   },
 
   {
     name: "Medium Blue",
-    value: "#2490F0"
+    value: "#2490f0"
   },
 
   {
     name: "Dark Blue",
-    value: "#1C293B"
+    value: "#1c293b"
   },
 
   {
     name: "Cyan",
-    value: "#01A2B4"
+    value: "#01a2b4"
   },
 
   {
     name: "Teal",
-    value: "#00947C"
+    value: "#00947c"
   },
 
   {
     name: "Green",
-    value: "#28A52D"
+    value: "#28a52d"
   },
 
   {
     name: "Amber",
-    value: "#E1AE01"
+    value: "#e1ae01"
   },
 
   {
     name: "Orange",
-    value: "#EC6800"
+    value: "#ec6800"
   },
 
   {
     name: "Dark Orange",
-    value: "#E45300"
+    value: "#e45300"
   },
 
   {
     name: "Brown",
-    value: "#924B32"
+    value: "#924b32"
   },
 
   {
     name: "Grey",
-    value: "#7A7A7A"
+    value: "#7a7a7a"
   },
 
   {
     name: "Black",
-    value: "#2A2A2A"
+    value: "#2a2a2a"
   }
 ];
 
@@ -287,32 +287,14 @@ export default {
       if (this.config.appearance[changedKey] !== newValue) {
         switch (changedKey) {
           case "color": {
-            if (newValue === "Default Color") {
-              try {
-                await store.$customizationWorkspace.setWorkspaceAccentColor(
-                  null
-                );
+            try {
+              await store.$customizationWorkspace.setWorkspaceAccentColor(
+                newValue || null
+              );
 
-                this.onShowSuccess();
-              } catch {
-                BaseAlert.error(
-                  "Something went wrong",
-                  "Please try again later"
-                );
-              }
-            } else {
-              try {
-                await store.$customizationWorkspace.setWorkspaceAccentColor(
-                  newValue
-                );
-
-                this.onShowSuccess();
-              } catch {
-                BaseAlert.error(
-                  "Something went wrong",
-                  "Please try again later"
-                );
-              }
+              this.onShowSuccess();
+            } catch {
+              BaseAlert.error("Something went wrong", "Please try again later");
             }
 
             break;
