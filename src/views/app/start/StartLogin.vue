@@ -54,9 +54,22 @@ export default {
   },
 
   created() {
-    // Pop alert if we just got logged-out?
-    if (this.$route.query.action === "logout") {
-      BaseAlert.info("Logged out", "Logged out of your dashboard");
+    // Pop alert if we just proceeded an action
+    switch (this.$route.query.action) {
+      case "logout": {
+        BaseAlert.info("Logged out", "Logged out of your dashboard");
+
+        break;
+      }
+
+      case "recover": {
+        BaseAlert.success(
+          "Password changed",
+          "You can now log back in to your account"
+        );
+
+        break;
+      }
     }
   },
 

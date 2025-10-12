@@ -25,6 +25,7 @@ import AppCustomizationWorkspace from "@/views/app/dashboard/customization/AppCu
 import AppServerConfiguration from "@/views/app/dashboard/server/AppServerConfiguration.vue";
 import AppTeamMembers from "@/views/app/dashboard/team/AppTeamMembers.vue";
 import StartLogin from "@/views/app/start/StartLogin.vue";
+import StartRecover from "@/views/app/start/StartRecover.vue";
 import StartInit from "@/views/app/start/StartInit.vue";
 import PlaceholderError from "@/views/app/placeholders/PlaceholderError.vue";
 import InvitationAccept from "@/views/app/invitations/InvitationAccept.vue";
@@ -56,7 +57,7 @@ class Router {
         {
           path: "/start/login/",
           name: "start.login",
-          component: StartLogin as object,
+          component: StartLogin,
 
           beforeEnter: async () => {
             await this.__guardPodInitialized();
@@ -71,9 +72,16 @@ class Router {
         },
 
         {
+          path: "/start/recover/:token",
+          name: "start.recover",
+          component: StartRecover,
+          props: true
+        },
+
+        {
           path: "/start/init/",
           name: "start.init",
-          component: StartInit as object
+          component: StartInit
         },
 
         // --> APP <--
@@ -81,7 +89,7 @@ class Router {
         {
           path: "/",
           name: "app",
-          component: AppBase as object,
+          component: AppBase,
 
           beforeEnter: async to => {
             await this.__guardPodInitialized();
@@ -103,37 +111,37 @@ class Router {
             {
               path: "/team/members",
               name: "app.members",
-              component: AppTeamMembers as object
+              component: AppTeamMembers
             },
 
             {
               path: "/server/configuration",
               name: "app.server",
-              component: AppServerConfiguration as object
+              component: AppServerConfiguration
             },
 
             {
               path: "/customization/workspace",
               name: "app.customization.workspace",
-              component: AppCustomizationWorkspace as object
+              component: AppCustomizationWorkspace
             },
 
             {
               path: "/advanced/security",
               name: "app.advanced.security",
-              component: AppAdvancedSecurity as object
+              component: AppAdvancedSecurity
             },
 
             {
               path: "/advanced/network",
               name: "app.advanced.network",
-              component: AppAdvancedNetwork as object
+              component: AppAdvancedNetwork
             },
 
             {
               path: "/advanced/backup",
               name: "app.advanced.backup",
-              component: AppAdvancedBackup as object
+              component: AppAdvancedBackup
             }
           ]
         },
@@ -143,13 +151,14 @@ class Router {
         {
           path: "/invitations/accept/:token",
           name: "invitations.accept",
-          component: InvitationAccept as object,
+          component: InvitationAccept,
           props: true
         },
+
         {
           path: "/invitations/reject/:token",
           name: "invitations.reject",
-          component: InvitationReject as object,
+          component: InvitationReject,
           props: true
         },
 
@@ -158,6 +167,7 @@ class Router {
         { path: "/:path(.*)*", redirect: "/" },
 
         // --> BROKEN API <--
+
         {
           path: "/error",
           name: "error",

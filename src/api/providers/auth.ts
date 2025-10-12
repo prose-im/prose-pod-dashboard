@@ -34,6 +34,15 @@ class APIAuth {
       })
     ).data;
   }
+
+  async setPasswordResetTokensUse(
+    token: string,
+    password: string
+  ): Promise<void> {
+    await Api.client.put(`/v1/password-reset-tokens/${token}/use`, {
+      password
+    });
+  }
 }
 
 /* *************************************************************************
