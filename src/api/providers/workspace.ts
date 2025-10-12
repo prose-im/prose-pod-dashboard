@@ -82,11 +82,11 @@ export class APIWorkspace {
   async setWorkspaceIcon(
     newIcon: WorkspaceIcon | null
   ): Promise<WorkspaceIcon | null> {
-    return (
-      await Api.client.put("/v1/workspace/icon", newIcon?.base64, {
-        headers: { "Content-Type": newIcon?.type }
-      })
-    ).data;
+    await Api.client.put("/v1/workspace/icon", newIcon?.base64, {
+      headers: { "Content-Type": "text/plain" }
+    });
+
+    return newIcon;
   }
 
   async getWorkspaceIcon(): Promise<WorkspaceIcon | null> {
