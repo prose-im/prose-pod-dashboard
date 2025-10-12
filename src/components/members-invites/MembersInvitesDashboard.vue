@@ -17,7 +17,7 @@
     search-bar(
       v-model="searchTerm"
       :button-label="label"
-      :click-handle="toggleInviteModalVisible"
+      :click-handle="showInviteModal"
       :disabled="searchBarDisabled"
       placeholder-text="team members..."
       button-icon="plus.circle"
@@ -89,60 +89,59 @@
       | It looks like you're all alone in your workspace, get started by inviting your team members.
 
     base-button(
-      @click="toggleInviteModalVisible"
+      @click="showInviteModal"
       class="a-server-whitelist__button"
       size="large"
       tint="purple"
     )
-      span
-        | Invite People
+      | Invite People
 
 <!-- MODALS -->
 welcome-first-use(
   v-if="activeModal === modals.WelcomeFirstUse"
-  @close="toggleWelcomeModalVisible"
-  @onboarding-action="handleOnboardingAction"
+  @close="onModalClose"
+  @onboarding-action="onOnboardingAction"
   :checks="onboardingStatus"
 )
 
 invite-team-member(
   v-if="activeModal === modals.Invite"
-  @close="toggleInviteModalVisible"
+  @close="onModalClose"
 )
 
 cancel-invite(
   v-if="activeModal === modals.CancelInvite"
-  @close="toggleCancelInviteModalVisible"
+  @close="onModalClose"
   :invite="inviteToDelete"
 )
 
 edit-role(
   v-if="activeModal === modals.EditRole"
-  @close="toggleEditRoleModalVisible"
+  @close="onModalClose"
   :user="userToUpdate"
 )
 
 edit-nickname(
   v-if="activeModal === modals.EditNickname"
-  @close="toggleEditNicknameModalVisible"
+  @close="onModalClose"
   :user="userToUpdate"
 )
 
 edit-email(
   v-if="activeModal === modals.EditEmail"
-  @close="toggleEditEmailModalVisible"
+  @close="onModalClose"
   :jid="userToUpdate?.jid"
 )
 
 reset-password(
   v-if="activeModal === modals.ResetPassword"
-  @close="toggleResetPasswordModalVisible"
+  @close="onModalClose"
   :jid="userToUpdate?.jid"
 )
 
 delete-member(
   v-if="activeModal === modals.DeleteMember"
-  @close="toggleDeleteMemberModalVisible"
+  @close="onModalClose"
   :jid="userToUpdate?.jid"
 )
 </template>
@@ -295,7 +294,7 @@ export default {
         !this.onboardingStatus.all_dns_checks_passed_once ||
         !this.onboardingStatus.at_least_one_invitation_sent
       ) {
-        this.toggleWelcomeModalVisible();
+        this.activeModal = Modals.WelcomeFirstUse;
       }
     } catch (_) {
       BaseAlert.error(
@@ -342,103 +341,39 @@ export default {
   methods: {
     // --> HELPERS <--
 
-    async toggleInviteModalVisible() {
-      if (this.activeModal !== Modals.Invite) {
-        const canInviteMembers = await APIInvitations.canInviteMember();
+    async showInviteModal() {
+      const canInviteMembers = await APIInvitations.canInviteMember();
 
-        switch (canInviteMembers) {
-          case "forbidden": {
-            BaseAlert.error(
-              "You cannot do that",
-              "Forbidden to invite members"
-            );
+      switch (canInviteMembers) {
+        case "forbidden": {
+          BaseAlert.error("You cannot do that", "Forbidden to invite members");
 
-            break;
-          }
-
-          case "missing-notifier-config": {
-            BaseAlert.error(
-              "The Prose Pod API is missing configuration",
-              "Add `[notifier.email]` in your `Prose.toml` configuration file."
-            );
-
-            break;
-          }
-
-          case false: {
-            BaseAlert.error(
-              "You cannot do that",
-              "…but that might just be a bug!"
-            );
-
-            break;
-          }
-
-          case true: {
-            this.activeModal = Modals.Invite;
-
-            break;
-          }
+          break;
         }
-      } else {
-        this.activeModal = null;
-      }
-    },
 
-    toggleCancelInviteModalVisible() {
-      if (this.activeModal !== Modals.CancelInvite) {
-        this.activeModal = Modals.CancelInvite;
-      } else {
-        this.activeModal = null;
-        this.inviteToDelete = null;
-      }
-    },
+        case "missing-notifier-config": {
+          BaseAlert.error(
+            "The Prose Pod API is missing configuration",
+            "Add `[notifier.email]` in your `Prose.toml` configuration file."
+          );
 
-    toggleDeleteMemberModalVisible() {
-      if (this.activeModal === Modals.DeleteMember) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.DeleteMember;
-      }
-    },
+          break;
+        }
 
-    toggleEditRoleModalVisible() {
-      if (this.activeModal === Modals.EditRole) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.EditRole;
-      }
-    },
+        case false: {
+          BaseAlert.error(
+            "You cannot do that",
+            "…but that might just be a bug!"
+          );
 
-    toggleEditNicknameModalVisible() {
-      if (this.activeModal === Modals.EditNickname) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.EditNickname;
-      }
-    },
+          break;
+        }
 
-    toggleEditEmailModalVisible() {
-      if (this.activeModal === Modals.EditEmail) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.EditEmail;
-      }
-    },
+        case true: {
+          this.activeModal = Modals.Invite;
 
-    toggleResetPasswordModalVisible() {
-      if (this.activeModal === Modals.ResetPassword) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.ResetPassword;
-      }
-    },
-
-    toggleWelcomeModalVisible() {
-      if (this.activeModal === Modals.WelcomeFirstUse) {
-        this.activeModal = null;
-      } else {
-        this.activeModal = Modals.WelcomeFirstUse;
+          break;
+        }
       }
     },
 
@@ -469,31 +404,31 @@ export default {
 
       switch (actionId) {
         case "edit_nickname": {
-          this.toggleEditNicknameModalVisible();
+          this.activeModal = Modals.EditNickname;
 
           break;
         }
 
         case "edit_email": {
-          this.toggleEditEmailModalVisible();
+          this.activeModal = Modals.EditEmail;
 
           break;
         }
 
         case "reset_password": {
-          this.toggleResetPasswordModalVisible();
+          this.activeModal = Modals.ResetPassword;
 
           break;
         }
 
         case "change_role": {
-          this.toggleEditRoleModalVisible();
+          this.activeModal = Modals.EditRole;
 
           break;
         }
 
         case "delete_member": {
-          this.toggleDeleteMemberModalVisible();
+          this.activeModal = Modals.DeleteMember;
 
           break;
         }
@@ -509,7 +444,7 @@ export default {
           jid
         };
 
-        this.toggleCancelInviteModalVisible();
+        this.activeModal = Modals.CancelInvite;
       } else {
         return BaseAlert.error(
           "You cannot do that",
@@ -539,7 +474,11 @@ export default {
       }
     },
 
-    async handleOnboardingAction(type: string) {
+    onModalClose() {
+      this.activeModal = null;
+    },
+
+    async onOnboardingAction(type: string) {
       switch (type) {
         case "all_dns_checks_passed_once": {
           await this.$router.push({
