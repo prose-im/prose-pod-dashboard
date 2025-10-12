@@ -187,13 +187,16 @@ export default {
           return "#dd2f2f";
         }
 
-        case "success": {
-          return "#05c02b";
+        case "warning": {
+          return "#fc8227";
         }
 
-        case "warning":
         case "info": {
-          return "#fc8227";
+          return "#2490f0";
+        }
+
+        case "success": {
+          return "#05c02b";
         }
 
         default: {
@@ -427,7 +430,7 @@ $alert-padding-sides: 12px;
 
   &--info {
     #{$c}__text-title {
-      color: $color-base-orange-normal;
+      color: $color-base-blue-normal;
     }
   }
 
