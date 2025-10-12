@@ -113,7 +113,7 @@ export default {
       default: "grey",
 
       validator(x: string) {
-        return ["grey", "purple", "red"].includes(x);
+        return ["grey", "purple", "red", "black"].includes(x);
       }
     },
 
