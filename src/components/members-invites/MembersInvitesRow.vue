@@ -46,7 +46,7 @@ TEMPLATE
   .c-members-invites-row__parameters
     base-button(
       @click="onActionOnMember"
-      :disabled="!actionsEnabled"
+      :disabled="!actionsEnabled && !isSelfUser"
       class="c-members-invites-row--hidden"
       size="medium"
       tint="white"
@@ -151,7 +151,7 @@ TEMPLATE
     .c-members-invites-row__parameters
       base-button(
         @click="onActionOnMember"
-        :disabled="!actionsEnabled"
+        :disabled="!actionsEnabled && !isSelfUser"
         size="medium"
         tint="white"
         square
@@ -183,15 +183,18 @@ TEMPLATE
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { PropType } from "vue";
+
 // PROJECT: API
 import { Invitation } from "@/api/providers/invitations";
-import { Member, EnrichedMember } from "@/api/providers/members";
+import { Member, EnrichedMember, MemberRole } from "@/api/providers/members";
 
 // PROJECT: COMPONENTS
 import BaseRowMenu from "@/components/base/BaseRowMenu.vue";
 
 // PROJECT: STORE
-import { PropType } from "vue";
+import store from "@/store";
 
 export default {
   name: "MembersInvitesRow",
@@ -223,36 +226,61 @@ export default {
     return {
       // --> STATE <--
 
-      isMenuOpen: false,
-
-      // --> DATA <--
-
-      menuOptions: [
-        {
-          id: "edit_nickname",
-          value: "Edit nickname"
-        },
-
-        {
-          id: "edit_email",
-          value: "Edit email"
-        },
-
-        {
-          id: "change_role",
-          value: "Change role"
-        },
-
-        {
-          id: "delete_member",
-          value: "Delete member",
-          color: "red"
-        }
-      ]
+      isMenuOpen: false
     };
   },
 
   computed: {
+    isSelfAdmin() {
+      return this.selfUserData.role === MemberRole.Admin;
+    },
+
+    isSelfUser() {
+      return this.selfUserData.jid === this.userData.jid;
+    },
+
+    menuOptions() {
+      const _options = [];
+
+      // Only the logged-in user can edit their own nickname
+      if (this.isSelfUser) {
+        _options.push({
+          id: "edit_nickname",
+          value: "Edit nickname"
+        });
+      }
+
+      // Administrators and self user can edit emails
+      if (this.isSelfUser || this.isSelfAdmin) {
+        _options.push({
+          id: "edit_email",
+          value: "Edit email"
+        });
+      }
+
+      // Only administrators can change roles and delete members
+      if (this.isSelfAdmin) {
+        _options.push(
+          {
+            id: "change_role",
+            value: "Change role"
+          },
+
+          {
+            id: "delete_member",
+            value: "Delete member",
+            color: "red"
+          }
+        );
+      }
+
+      return _options;
+    },
+
+    selfUserData() {
+      return store.$account.getUserSessionData();
+    },
+
     userStatus() {
       // Invited member?
       if (
