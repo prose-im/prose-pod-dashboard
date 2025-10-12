@@ -14,11 +14,11 @@ base-modal(
   @confirm="onSendInvite"
   :disabled="!inviteUserName || sendingRequest"
   :loading="sendingRequest"
-  :visible="visibility"
   title="Invite a team member"
   button-color="purple"
   button-label="Invite Team Member"
   button-icon="checkmark.circle.empty"
+  auto-visible
 )
   .a-invite-team-member
     img(
@@ -77,11 +77,11 @@ base-modal(
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-
-// PROJECT: VEE-VALIDATE
-import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: API
 import { MemberRole, ROLES_DISPLAY_STRINGS } from "@/api/providers/members";
@@ -103,13 +103,6 @@ export default {
 
   components: {
     VeeForm
-  },
-
-  props: {
-    visibility: {
-      type: Boolean,
-      default: false
-    }
   },
 
   emits: ["close"],

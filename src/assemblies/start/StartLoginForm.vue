@@ -65,7 +65,7 @@
      ********************************************************************** -->
 
 <script lang="ts">
-// PROJECT: VEE-VALIDATE
+// NPM
 import { Form as VeeForm } from "vee-validate";
 
 // INTERFACES

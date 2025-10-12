@@ -94,9 +94,7 @@ div(
 <script lang="ts">
 // NPM
 import { codes as keyCodes } from "keycode";
-
 import { defineRule, Field } from "vee-validate";
-
 import { alpha_spaces, email, max, min, required } from "@vee-validate/rules";
 
 defineRule("required", required);

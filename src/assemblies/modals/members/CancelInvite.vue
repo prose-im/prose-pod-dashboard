@@ -14,12 +14,12 @@ base-modal(
   @confirm="onProceed"
   :disabled="sendingRequest"
   :loading="sendingRequest"
-  :visible="visibility"
   position="center"
   title="Cancel invitation"
   button-color="red"
   title-color="red"
   button-label="Cancel invitation"
+  auto-visible
 )
   .a-cancel-invite
     span
@@ -30,7 +30,7 @@ base-modal(
         "a-cancel-invite--bolder"
       ]`
     )
-      | cancel 
+      | cancel
 
     span
       | the invitation to:
@@ -70,11 +70,6 @@ export default {
     invite: {
       type: Object,
       default: () => ({})
-    },
-
-    visibility: {
-      type: Boolean,
-      default: false
     }
   },
 

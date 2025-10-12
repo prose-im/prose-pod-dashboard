@@ -15,6 +15,8 @@ import { defineStore } from "pinia";
 import APITeamMembers, {
   Member,
   MemberRole,
+  MemberNickname,
+  MemberEmail,
   EnrichedMember
 } from "@/api/providers/members";
 import APIInvitations, {
@@ -141,6 +143,10 @@ const $teamMembers = defineStore("teamMembers", {
       return APITeamMembers.getMember(jid);
     },
 
+    acquireMemberEmailById(jid: BareJid) {
+      return APITeamMembers.getMemberEmailAddress(jid);
+    },
+
     updateRoleLocally(jid: BareJid, newValue: MemberRole) {
       const member = this.members.get(jid);
 
@@ -149,8 +155,24 @@ const $teamMembers = defineStore("teamMembers", {
       }
     },
 
+    updateNicknameLocally(jid: BareJid, newValue: MemberNickname) {
+      const member = this.members.get(jid) as EnrichedMember | null;
+
+      if (member) {
+        member.nickname = newValue;
+      }
+    },
+
     async updateRoleByMemberId(jid: BareJid, newRole: MemberRole) {
       return await APITeamMembers.setMemberRole(jid, newRole);
+    },
+
+    async updateNicknameByMemberId(jid: BareJid, newNickname: MemberNickname) {
+      return await APITeamMembers.setMemberNickname(jid, newNickname);
+    },
+
+    async updateEmailByMemberId(jid: BareJid, newEmail: MemberEmail) {
+      return await APITeamMembers.setMemberEmailAddress(jid, newEmail);
     },
 
     deleteMemberLocally(jid: BareJid) {

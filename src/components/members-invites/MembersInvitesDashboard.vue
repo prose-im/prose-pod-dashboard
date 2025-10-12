@@ -99,38 +99,45 @@
 
 <!-- MODALS -->
 welcome-first-use(
-  v-if="activeModal === 'welcome'"
+  v-if="activeModal === modals.WelcomeFirstUse"
   @close="toggleWelcomeModalVisible"
   @onboarding-action="handleOnboardingAction"
   :checks="onboardingStatus"
-  :visibility="welcomeModalVisibility"
 )
 
 invite-team-member(
-  v-if="activeModal === 'invite'"
+  v-if="activeModal === modals.Invite"
   @close="toggleInviteModalVisible"
-  :visibility="inviteModalVisibility"
 )
 
 cancel-invite(
-  v-if="activeModal === 'cancelInvite'"
+  v-if="activeModal === modals.CancelInvite"
   @close="toggleCancelInviteModalVisible"
   :invite="inviteToDelete"
-  :visibility="cancelInviteModalVisibility"
 )
 
 edit-role(
-  v-if="activeModal === 'editRole'"
+  v-if="activeModal === modals.EditRole"
   @close="toggleEditRoleModalVisible"
   :user="userToUpdate"
-  :visibility="editRoleModalVisibility"
+)
+
+edit-nickname(
+  v-if="activeModal === modals.EditNickname"
+  @close="toggleEditNicknameModalVisible"
+  :user="userToUpdate"
+)
+
+edit-email(
+  v-if="activeModal === modals.EditEmail"
+  @close="toggleEditEmailModalVisible"
+  :jid="userToUpdate?.jid"
 )
 
 delete-member(
-  v-if="activeModal === 'deleteMember'"
+  v-if="activeModal === modals.DeleteMember"
   @close="toggleDeleteMemberModalVisible"
   :jid="userToUpdate?.jid"
-  :visibility="deleteMemberModalVisibility"
 )
 </template>
 
@@ -149,6 +156,8 @@ import InviteTeamMember from "@/assemblies/modals/members/InviteTeamMember.vue";
 import CancelInvite from "@/assemblies/modals/members/CancelInvite.vue";
 import DeleteMember from "@/assemblies/modals/members/DeleteMember.vue";
 import EditRole from "@/assemblies/modals/members/EditRole.vue";
+import EditNickname from "@/assemblies/modals/members/EditNickname.vue";
+import EditEmail from "@/assemblies/modals/members/EditEmail.vue";
 import WelcomeFirstUse from "@/assemblies/modals/WelcomeFirstUse.vue";
 
 // PROJECT: STORE
@@ -165,11 +174,15 @@ enum Modals {
   Invite = "invite",
   // Invite Team Member Modal
   CancelInvite = "cancelInvite",
-  // Edit Role Member Modal
+  // Edit Role Modal
   EditRole = "editRole",
-  //delete Member Modal
+  // Edit Nickname Modal
+  EditNickname = "editNickname",
+  // Edit Email Modal
+  EditEmail = "editEmail",
+  // Delete Member Modal
   DeleteMember = "deleteMember",
-  //delete Member Modal
+  // Welcome First Use Modal
   WelcomeFirstUse = "welcome"
 }
 
@@ -180,6 +193,8 @@ export default {
     CancelInvite,
     DeleteMember,
     EditRole,
+    EditNickname,
+    EditEmail,
     InviteTeamMember,
     MembersInvitesRow,
     SearchBar,
@@ -195,17 +210,16 @@ export default {
 
   data() {
     return {
+      // --> DATA <--
+
+      modals: Modals,
+
       // --> STATES <--
+
       onboardingStatus: null as OnboardingChecks | null,
 
       isMembersLoading: false,
       isInvitesLoading: false,
-
-      inviteModalVisibility: false,
-      cancelInviteModalVisibility: false,
-      editRoleModalVisibility: false,
-      deleteMemberModalVisibility: false,
-      welcomeModalVisibility: false,
 
       activeModal: null as null | Modals,
       userToUpdate: null as object | null,
@@ -248,40 +262,6 @@ export default {
   },
 
   watch: {
-    activeModal(newActiveModal) {
-      this.inviteModalVisibility = false;
-      this.cancelInviteModalVisibility = false;
-      this.editRoleModalVisibility = false;
-      this.deleteMemberModalVisibility = false;
-      this.welcomeModalVisibility = false;
-
-      switch (newActiveModal) {
-        case "invite": {
-          setTimeout(() => (this.inviteModalVisibility = true), 10);
-          break;
-        }
-        case "cancelInvite": {
-          setTimeout(() => (this.cancelInviteModalVisibility = true), 10);
-          break;
-        }
-        case "editRole": {
-          setTimeout(() => (this.editRoleModalVisibility = true), 10);
-          break;
-        }
-        case "deleteMember": {
-          setTimeout(() => (this.deleteMemberModalVisibility = true), 10);
-          break;
-        }
-        case "welcome": {
-          setTimeout(() => (this.welcomeModalVisibility = true), 10);
-          break;
-        }
-        default: {
-          break;
-        }
-      }
-    },
-
     searchTerm(newTerm) {
       this.isMembersLoading = true;
 
@@ -353,7 +333,7 @@ export default {
     // --> HELPERS <--
 
     async toggleInviteModalVisible() {
-      if (this.activeModal !== "invite") {
+      if (this.activeModal !== Modals.Invite) {
         const canInviteMembers = await APIInvitations.canInviteMember();
 
         switch (canInviteMembers) {
@@ -396,7 +376,7 @@ export default {
     },
 
     toggleCancelInviteModalVisible() {
-      if (this.activeModal !== "cancelInvite") {
+      if (this.activeModal !== Modals.CancelInvite) {
         this.activeModal = Modals.CancelInvite;
       } else {
         this.activeModal = null;
@@ -405,7 +385,7 @@ export default {
     },
 
     toggleDeleteMemberModalVisible() {
-      if (this.activeModal === "deleteMember") {
+      if (this.activeModal === Modals.DeleteMember) {
         this.activeModal = null;
       } else {
         this.activeModal = Modals.DeleteMember;
@@ -413,15 +393,31 @@ export default {
     },
 
     toggleEditRoleModalVisible() {
-      if (this.activeModal === "editRole") {
+      if (this.activeModal === Modals.EditRole) {
         this.activeModal = null;
       } else {
         this.activeModal = Modals.EditRole;
       }
     },
 
+    toggleEditNicknameModalVisible() {
+      if (this.activeModal === Modals.EditNickname) {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.EditNickname;
+      }
+    },
+
+    toggleEditEmailModalVisible() {
+      if (this.activeModal === Modals.EditEmail) {
+        this.activeModal = null;
+      } else {
+        this.activeModal = Modals.EditEmail;
+      }
+    },
+
     toggleWelcomeModalVisible() {
-      if (this.activeModal === "welcome") {
+      if (this.activeModal === Modals.WelcomeFirstUse) {
         this.activeModal = null;
       } else {
         this.activeModal = Modals.WelcomeFirstUse;
@@ -450,21 +446,29 @@ export default {
       this.isMembersLoading = false;
     },
 
-    onMenuAction(action: string, user: object) {
+    onMenuAction(actionId: string, user: object) {
       this.userToUpdate = user;
 
-      switch (action) {
-        case "Security settings": {
+      switch (actionId) {
+        case "edit_nickname": {
+          this.toggleEditNicknameModalVisible();
+
           break;
         }
 
-        case "Change role": {
+        case "edit_email": {
+          this.toggleEditEmailModalVisible();
+
+          break;
+        }
+
+        case "change_role": {
           this.toggleEditRoleModalVisible();
 
           break;
         }
 
-        case "Delete member": {
+        case "delete_member": {
           this.toggleDeleteMemberModalVisible();
 
           break;
@@ -513,18 +517,20 @@ export default {
 
     async handleOnboardingAction(type: string) {
       switch (type) {
-        case "all_dns_checks_passed_once":
+        case "all_dns_checks_passed_once": {
           await this.$router.push({
             name: "app.advanced.network",
             query: { action: "onboard" }
           });
 
           break;
-        case "at_least_one_invitation_sent":
+        }
+
+        case "at_least_one_invitation_sent": {
           this.activeModal = Modals.Invite;
+
           break;
-        default:
-          break;
+        }
       }
     }
   }

@@ -146,8 +146,6 @@ base-modal(
 <script lang="ts">
 // NPM
 import { PropType } from "vue";
-
-// PROJECT: VEE-VALIDATE
 import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: STORE

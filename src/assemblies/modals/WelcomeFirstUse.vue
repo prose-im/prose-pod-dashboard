@@ -31,7 +31,7 @@
 
           span.a-welcome-first-use--medium
             | finish setting up
-          
+
             base-space
 
           span
@@ -68,9 +68,9 @@
                   size="12px"
                 )
 
-                span 
+                span
                   | Done
-                
+
         img.a-welcome-first-use__img(
           src="/images/components/welcome/welcome.illustration.webp"
         )
@@ -156,9 +156,8 @@ export default {
   },
 
   methods: {
-    // --> EVENT LISTENERS <--
-
     // --> HELPERS <--
+
     onButtonClick() {
       // close this modal
       this.$emit("close");

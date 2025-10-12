@@ -14,12 +14,11 @@ base-modal(
   @confirm="onProceed"
   :disabled="sendingRequest"
   :loading="sendingRequest"
-  :visible="visibility"
   position="center"
   title="Change role of member"
   button-color="purple"
   button-label="Update role"
-
+  auto-visible
 )
   .a-edit-role
     .a-edit-role__content(
@@ -35,10 +34,11 @@ base-modal(
       form-select(
         v-model="memberRole"
         v-click-away="closeSelectOpen"
+        :options="roleOptions"
+        :disabled="sendingRequest"
         class="a-edit-role__select"
         position="bottom"
         min-width="280px"
-        :options="roleOptions"
         @click="toggleSelectOpen"
       )
 </template>
@@ -67,11 +67,6 @@ export default {
     user: {
       type: Object,
       default: () => ({})
-    },
-
-    visibility: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -167,7 +162,7 @@ export default {
           } else {
             BaseAlert.error(
               "Could not edit role",
-              typedError.response.data.message || "Unknown reason"
+              typedError.response?.data?.message || "Unknown reason"
             );
           }
         }

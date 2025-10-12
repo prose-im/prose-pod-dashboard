@@ -128,6 +128,11 @@ export default {
       }
     },
 
+    autoVisible: {
+      type: Boolean,
+      default: false
+    },
+
     visible: {
       type: Boolean,
       default: false
@@ -154,17 +159,19 @@ export default {
 
   watch: {
     visible(newVisibility, oldVisibility) {
-      setTimeout(() => (this.loaded = newVisibility), 10);
+      this.triggerVisibleChange(newVisibility, oldVisibility);
+    }
+  },
 
-      // If the visibility has changed and is true, the modal can load its \
-      //   contents
-      if (newVisibility === true && newVisibility !== oldVisibility) {
-        this.$emit("load");
-      }
+  mounted() {
+    if (this.autoVisible === true) {
+      this.triggerVisibleChange();
     }
   },
 
   methods: {
+    // --> EVENT LISTENERS <--
+
     onClose(event: Event | null) {
       this.loaded = false;
 
@@ -177,6 +184,18 @@ export default {
 
     onReload() {
       this.$emit("reload");
+    },
+
+    // --> HELPERS <--
+
+    triggerVisibleChange(newVisibility = true, oldVisibility = false) {
+      setTimeout(() => (this.loaded = newVisibility), 10);
+
+      // If the visibility has changed and is true, the modal can load its \
+      //   contents
+      if (newVisibility === true && newVisibility !== oldVisibility) {
+        this.$emit("load");
+      }
     }
   }
 };

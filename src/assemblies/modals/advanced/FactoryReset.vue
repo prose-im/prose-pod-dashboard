@@ -76,11 +76,11 @@ base-modal(
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: COMPONENTS
 import BaseAlert from "@/components/base/BaseAlert.vue";
-
-// PROJECT: VEE-VALIDATE
-import { Form as VeeForm } from "vee-validate";
 
 // PROJECT: STORE
 import store from "@/store";

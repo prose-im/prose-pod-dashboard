@@ -14,12 +14,12 @@ base-modal(
   @confirm="onProceed"
   :disabled="sendingRequest"
   :loading="sendingRequest"
-  :visible="visibility"
   position="center"
   title="Delete member"
   button-color="red"
   title-color="red"
   button-label="Delete member"
+  auto-visible
 )
   .a-delete-member
     span
@@ -70,11 +70,6 @@ export default {
     jid: {
       type: String,
       default: null
-    },
-
-    visibility: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -126,7 +121,7 @@ export default {
         } else {
           BaseAlert.error(
             "Something went wrong",
-            typedError.response.data.message || "Unknown error"
+            typedError.response?.data?.message || "Unknown error"
           );
         }
       }

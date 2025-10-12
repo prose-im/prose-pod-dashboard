@@ -117,7 +117,7 @@ export default {
     },
 
     onOptionClick(event: HTMLButtonElement): void {
-      this.$emit("menuAction", event.value);
+      this.$emit("menuAction", event.id);
     }
   }
 };

@@ -229,10 +229,22 @@ export default {
 
       menuOptions: [
         {
+          id: "edit_nickname",
+          value: "Edit nickname"
+        },
+
+        {
+          id: "edit_email",
+          value: "Edit email"
+        },
+
+        {
+          id: "change_role",
           value: "Change role"
         },
 
         {
+          id: "delete_member",
           value: "Delete member",
           color: "red"
         }

@@ -68,6 +68,9 @@ export type EnrichedMember = Member & {
   avatar: Avatar | null;
 };
 
+export type MemberEmail = string;
+export type MemberNickname = string;
+
 export type searchedMembers = Member[];
 
 /* *************************************************************************
@@ -105,12 +108,32 @@ class APITeamMembers {
   async getMember(jid: BareJid): Promise<EnrichedMember | null> {
     return (await Api.client.get(`/v1/members/${jid}`)).data;
   }
+
   async deleteMember(jid: BareJid): Promise<void> {
     return await Api.client.delete(`/v1/members/${jid}`);
   }
 
   async setMemberRole(jid: BareJid, role: MemberRole): Promise<MemberRole> {
     return (await Api.client.put(`/v1/members/${jid}/role`, role)).data;
+  }
+
+  async setMemberNickname(
+    jid: BareJid,
+    nickname: MemberNickname
+  ): Promise<MemberNickname> {
+    return (await Api.client.put(`/v1/members/${jid}/nickname`, nickname)).data;
+  }
+
+  async getMemberEmailAddress(jid: BareJid): Promise<MemberEmail> {
+    return (await Api.client.get(`/v1/members/${jid}/email-address`)).data;
+  }
+
+  async setMemberEmailAddress(
+    jid: BareJid,
+    email: MemberEmail
+  ): Promise<MemberEmail> {
+    return (await Api.client.put(`/v1/members/${jid}/email-address`, email))
+      .data;
   }
 
   /** ENRICHING **/

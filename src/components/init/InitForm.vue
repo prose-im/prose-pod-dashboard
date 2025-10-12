@@ -113,12 +113,12 @@
      ********************************************************************** -->
 
 <script lang="ts">
+// NPM
+import { Form as VeeForm } from "vee-validate";
+
 // PROJECT: COMPONENTS
 import FormField from "@/components/form/FormField.vue";
 import InitTips from "@/components/init/InitTips.vue";
-
-// PROJECT: VEE-VALIDATE
-import { Form as VeeForm } from "vee-validate";
 
 export default {
   name: "InitPage",

@@ -392,14 +392,14 @@ $alert-padding-sides: 12px;
       #{$c}__text-title {
         font-size: ($font-size-baseline + 3px);
         font-weight: $font-weight-medium;
-        margin-block: 0 10px;
+        margin-block: 0;
         flex: 0 0 auto;
       }
 
       #{$c}__text-description {
         font-size: ($font-size-baseline + 1px);
         font-weight: $font-weight-light;
-        margin-block: 0;
+        margin-block: 10px 0;
         flex: 1;
         display: flex;
         align-items: center;
