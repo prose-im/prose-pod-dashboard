@@ -83,7 +83,7 @@ const $settingsBackup = defineStore("settingsBackup", {
       // Load Config? (or reload)
       await store.$globalConfig.loadGlobalConfig();
 
-      const response = await store.$globalConfig.getServerConfig();
+      const response = store.$globalConfig.getServerConfig();
 
       this.$patch(() => {
         this.podBackup.frequency = response.settings_backup_interval;

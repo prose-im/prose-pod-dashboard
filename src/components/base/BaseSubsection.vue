@@ -415,6 +415,8 @@ $margin-inline: 38px;
     right: $margin-inline;
   }
 
+  // --> MEDIA QUERIES <--
+
   @media (max-width: 768px) {
     margin-inline: 10px;
   }

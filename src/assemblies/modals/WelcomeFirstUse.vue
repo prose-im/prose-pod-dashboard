@@ -35,7 +35,7 @@
 
           base-space
 
-          span.a-welcome-first-use--medium
+          span.a-welcome-first-use__medium
             | finish setting up
 
             base-space
@@ -53,22 +53,22 @@
                 }
               ]`
             )
-              .a-welcome-first-use__list--left
+              .a-welcome-first-use__list-left
                 .a-welcome-first-use__number
                   | {{ index + 1 }}
 
                 .a-welcome-first-use__text
-                  .a-welcome-first-use__list--main
+                  .a-welcome-first-use__list-main
                     | {{ step.main }}
 
-                  .a-welcome-first-use__list--submain
+                  .a-welcome-first-use__list-submain
                     | {{step.submain }}
 
               .a-welcome-first-use__done(
                 v-if="(index + 1) < currentStep "
               )
                 base-icon(
-                  class="a-welcome-first-use__done--icon"
+                  class="a-welcome-first-use__done-icon"
                   name="checkmark.circle.empty"
                   fill="#05c02b"
                   size="12px"
@@ -249,17 +249,18 @@ $c: ".a-welcome-first-use";
       margin-inline-end: 14px;
     }
 
-    &--left {
+    #{$c}__list-left {
       display: flex;
     }
-    &--main {
+
+    #{$c}__list-main {
       color: $color-base-grey-normal;
       font-size: ($font-size-page);
       font-weight: $font-weight-medium;
       margin-block-end: 7px;
     }
 
-    &--submain {
+    #{$c}__list-submain {
       color: $color-text-tertiary;
       font-size: ($font-size-page - 2px);
       font-weight: $font-weight-mid;
@@ -273,7 +274,7 @@ $c: ".a-welcome-first-use";
       font-weight: $font-weight-medium;
       margin-inline-start: 10px;
 
-      &--icon {
+      #{$c}__done-icon {
         margin-inline-end: 5px;
       }
     }
@@ -319,11 +320,11 @@ $c: ".a-welcome-first-use";
     border: 1px $color-border-primary solid;
 
     #{$c}__list {
-      &--main {
+      #{$c}__list-main {
         color: $color-base-blue-normal;
       }
 
-      &--submain {
+      #{$c}__list-submain {
         color: $color-text-secondary;
       }
     }
@@ -338,16 +339,16 @@ $c: ".a-welcome-first-use";
 
   // --> WEIGHTS <--
 
-  &--medium {
+  #{$c}__medium {
     color: $color-text-primary;
     font-weight: $font-weight-medium;
   }
 
-  &--bold {
+  #{$c}__bold {
     font-weight: $font-weight-medium;
   }
 
-  &--link {
+  #{$c}__link {
     color: $color-base-blue-normal;
     font-weight: $font-weight-regular;
     cursor: pointer;
@@ -356,6 +357,8 @@ $c: ".a-welcome-first-use";
       text-decoration: underline;
     }
   }
+
+  // --> MEDIA QUERIES <--
 
   @media (max-width: 500px) {
     li {

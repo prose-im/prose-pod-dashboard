@@ -152,6 +152,8 @@ $c: ".a-app-sidebar";
     overflow-y: auto;
   }
 
+  // --> MEDIA QUERIES <--
+
   @media (max-width: 768px) {
     #{$c}__content {
       padding-inline: 16px;

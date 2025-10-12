@@ -350,7 +350,7 @@ $c: ".c-start-init-page";
     font-weight: $font-weight-medium;
   }
 
-  //--> MEDIA QUERIES <--
+  // --> MEDIA QUERIES <--
 
   @media (max-width: 768px) {
     width: fit-content;

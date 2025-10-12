@@ -25,19 +25,19 @@ base-modal(
           | Upload backups
 
         .a-restore-backup__block(
-          class="a-restore-backup--flex"
+          class="a-restore-backup__flex"
         )
           .a-restore-backup__subblock
-            .a-restore-backup__subblock--content
+            .a-restore-backup__subblock__subblock-content
               .a-restore-backup__step(
-                class="a-restore-backup--flex"
+                class="a-restore-backup__flex"
               )
                 p
                   | 1️⃣  Please upload a
 
                 base-space
 
-                p.a-restore-backup--blue
+                p.a-restore-backup__blue
                   | .settings.backup
 
                 base-space
@@ -59,7 +59,7 @@ base-modal(
                   | {{ settingsBackupFileName }}
 
                 base-icon(
-                  class="a-restore-backup__uploaded--icon"
+                  class="a-restore-backup__uploaded-icon"
                   name="checkmark.circle.fill"
                   fill="#05c02b"
                   size="12px"
@@ -68,12 +68,12 @@ base-modal(
           .a-restore-backup__subblock(
             :class=`[
               {
-                "a-restore-backup--opaque" : !settingsBackupFile
+                "a-restore-backup__opaque": !settingsBackupFile
               }
             ]`
           )
-            .a-restore-backup__subblock--content
-              .a-restore-backup--flex(
+            .a-restore-backup__subblock__subblock-content
+              .a-restore-backup__flex(
                 class="a-restore-backup__step"
               )
                 p
@@ -81,7 +81,7 @@ base-modal(
 
                 base-space
 
-                p.a-restore-backup--blue
+                p.a-restore-backup__blue
                   | .data.backup
 
                 base-space
@@ -104,7 +104,7 @@ base-modal(
                   | {{ dataBackupFileName }}
 
                 base-icon(
-                  class="a-restore-backup__uploaded--icon"
+                  class="a-restore-backup__uploaded-icon"
                   name="checkmark.circle.fill"
                   fill="#05c02b"
                   size="12px"
@@ -282,7 +282,7 @@ $c: ".a-restore-backup";
       margin-block: 0;
     }
 
-    &--content {
+    #{$c}__subblock-content {
       max-width: max-content;
       min-width: 151px;
       margin-inline: auto;
@@ -319,7 +319,7 @@ $c: ".a-restore-backup";
     justify-content: center;
     align-items: center;
 
-    &--icon {
+    #{$c}__uploaded-icon {
       margin-inline-start: 5px;
     }
   }
@@ -336,17 +336,17 @@ $c: ".a-restore-backup";
     margin-bottom: 38px;
   }
 
-  &--flex {
+  #{$c}__flex {
     display: flex;
     justify-content: center;
   }
 
-  &--blue {
+  #{$c}__blue {
     color: $color-base-purple-normal;
     font-weight: $font-weight-medium;
   }
 
-  &--opaque {
+  #{$c}__opaque {
     opacity: 0.4;
   }
 }

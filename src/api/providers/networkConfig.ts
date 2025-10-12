@@ -146,7 +146,7 @@ class APINetworkConfig {
     return (await Api.client.get("/v1/network/dns/records")).data;
   }
 
-  /* NETWORK CHECKS */
+  /* CHECKS */
 
   checkAll(
     onMessage: (

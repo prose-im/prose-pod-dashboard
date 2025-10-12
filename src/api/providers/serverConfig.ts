@@ -77,7 +77,7 @@ export const DEFAULT_SERVER_CONFIG: ServerConfig = {
  * ************************************************************************* */
 
 class APIServerConfig {
-  /** CONFIGURATION **/
+  /** BASE **/
 
   async getServerConfig(): Promise<ServerConfig> {
     return (await Api.client.get(`${SERVER_CONFIG_PREFIX}`)).data;

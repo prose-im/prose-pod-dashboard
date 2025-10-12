@@ -55,7 +55,7 @@ base-modal(
       .a-dns-setup__table
         advanced-network-dns-table-row(
           :header="true"
-          :class="`a-dns-setup__table--${stepTableClass(step)}--row`"
+          :class="`a-dns-setup__table--${stepTableClass(step)}-row`"
         )
           template(
             v-for="column in stepTableColumns(step)"
@@ -64,7 +64,7 @@ base-modal(
 
         advanced-network-dns-table-row(
           v-for="record in step.records"
-          :class="`a-dns-setup__table--${stepTableClass(step)}--row`"
+          :class="`a-dns-setup__table--${stepTableClass(step)}-row`"
           :stringRepr="`${record.string_repr}`"
         )
           template(
@@ -248,8 +248,8 @@ $c: ".a-dns-setup";
     margin-bottom: 27px;
     font-weight: $font-weight-light;
 
-    &--ip--row,
-    &--cname--row {
+    &--ip-row,
+    &--cname-row {
       p:first-child {
         min-width: 74px;
         max-width: (74px + 35px);
@@ -273,7 +273,7 @@ $c: ".a-dns-setup";
       }
     }
 
-    &--srv--row {
+    &--srv-row {
       p:first-child {
         min-width: 74px;
         max-width: (74px + 35px);

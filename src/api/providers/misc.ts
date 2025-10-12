@@ -39,6 +39,8 @@ export interface VersionInfo {
  * ************************************************************************* */
 
 class APIMisc {
+  /** BASE **/
+
   async getPodVersion(): Promise<PodComponentsVersions> {
     return (await Api.client.get("/pod/version")).data;
   }

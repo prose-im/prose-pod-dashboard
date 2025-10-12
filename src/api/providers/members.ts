@@ -78,6 +78,8 @@ export type searchedMembers = Member[];
  * ************************************************************************* */
 
 class APITeamMembers {
+  /** LIST **/
+
   async getAllMembers(): Promise<Member[]> {
     return (await Api.client.get("/v1/members")).data;
   }
@@ -104,6 +106,8 @@ class APITeamMembers {
 
     return data;
   }
+
+  /** MEMBER **/
 
   async getMember(jid: BareJid): Promise<EnrichedMember | null> {
     return (await Api.client.get(`/v1/members/${jid}`)).data;
@@ -140,7 +144,7 @@ class APITeamMembers {
     return await Api.client.delete(`/v1/members/${jid}/password`);
   }
 
-  /** ENRICHING **/
+  /** ENRICHMENT **/
 
   async enrichMembers(jids: BareJid[]): Promise<EnrichMembersResponse> {
     return (

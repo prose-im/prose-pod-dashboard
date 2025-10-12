@@ -41,6 +41,8 @@ export type LicenseKey = string;
  * ************************************************************************* */
 
 class APILicensing {
+  /** LICENSE **/
+
   async setLicense(licenseKey: LicenseKey): Promise<void> {
     await Api.client.put("/v1/licensing/license", licenseKey);
   }
@@ -48,6 +50,8 @@ class APILicensing {
   async getLicense(): Promise<License> {
     return (await Api.client.get("/v1/licensing/license")).data;
   }
+
+  /** STATUS **/
 
   async getStatus(): Promise<Status> {
     return (await Api.client.get("/v1/licensing/status")).data;

@@ -109,7 +109,7 @@ $c: ".c-start-init-success";
   }
 }
 
-//--> KEYFRAMES <--
+// --> KEYFRAMES <--
 
 @keyframes rotate {
   100% {

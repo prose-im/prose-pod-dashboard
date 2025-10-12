@@ -116,7 +116,7 @@ base-modal(
           p
             | Cancel
 
-      <!-- ARemoving domain active -->
+      <!-- Removing domain active -->
       .a-server-whitelist__remove(
         v-else-if="activeAction = 'remove'"
       )

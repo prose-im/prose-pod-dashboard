@@ -63,7 +63,6 @@ div(
         "c-form-select__dropdown--color": colorPreview
       }
     ]`
-
   )
     ul.c-form-select__options(
       ref="options"

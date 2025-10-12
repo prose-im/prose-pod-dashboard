@@ -25,7 +25,6 @@
 
     .c-members-invites-dashboard__content
       <!-- HEADERS -->
-
       members-invites-row(
         :user-data="{}"
         :table-headers="['User', 'Role', 'Status']"
@@ -35,7 +34,6 @@
         v-if="!isMembersLoading"
       )
         <!-- INVITATIONS -->
-
         members-invites-row(
           v-if="pageNumber === 1"
           v-for="(invite, index) in invites"
@@ -46,7 +44,6 @@
         )
 
         <!-- MEMBERS -->
-
         members-invites-row(
           v-for="(user, index) in members"
           @menu-action="onMenuAction"

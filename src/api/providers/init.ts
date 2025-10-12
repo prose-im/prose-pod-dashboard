@@ -29,6 +29,8 @@ export interface InitFirstAccountRequest {
  * ************************************************************************* */
 
 class APIInit {
+  /** BASE **/
+
   async isPodInitialized(): Promise<boolean> {
     // Notice: we don’t check for `isPodConfigInitialized` because
     //   this doesn’t happen during the initialization process
@@ -39,6 +41,8 @@ class APIInit {
     );
   }
 
+  /** WORKSPACE **/
+
   async initWorkspace(name: string): Promise<Workspace> {
     return (await Api.client.put("/v1/workspace", { name })).data;
   }
@@ -47,6 +51,8 @@ class APIInit {
     return this.__resourceExists("/v1/workspace");
   }
 
+  /** ACCOUNT **/
+
   async createFirstAccount(data: InitFirstAccountRequest): Promise<Member> {
     return (await Api.client.put("/v1/init/first-account", data)).data;
   }
@@ -54,6 +60,8 @@ class APIInit {
   async isFirstAccountCreated(): Promise<boolean> {
     return (await Api.client.head("/v1/init/first-account")).status === 200;
   }
+
+  /** ONBOARDING **/
 
   async getOnboardingStatus(): Promise<OnboardingChecks> {
     return (await Api.client.get("/v1/onboarding-steps")).data;

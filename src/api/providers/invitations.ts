@@ -88,6 +88,8 @@ type InviteMemberRequest = {
  * ************************************************************************* */
 
 class APIInvitations {
+  /** BASE **/
+
   async canInviteMember(): Promise<
     boolean | "forbidden" | "missing-notifier-config"
   > {
@@ -128,7 +130,7 @@ class APIInvitations {
     );
   }
 
-  /** INVITATION ACTIONS **/
+  /** ACTIONS **/
 
   async resendInvitation(invitationId: InvitationId): Promise<void> {
     await Api.client.post(`/v1/invitations/${invitationId}/resend`);
@@ -138,7 +140,7 @@ class APIInvitations {
     await Api.client.delete(`/v1/invitations/${invitationId}`);
   }
 
-  /** INVITATION LINK ACTIONS **/
+  /** LINK ACTIONS **/
 
   async getInvitationDetails(
     token: InvitationToken,

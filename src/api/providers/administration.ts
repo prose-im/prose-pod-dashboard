@@ -42,6 +42,8 @@ export interface VersionInfo {
  * ************************************************************************* */
 
 class APIAdministration {
+  /** FACTORY RESET **/
+
   async getFactoryResetConfirmation(
     password: string
   ): Promise<FactoryResetConfirmation> {

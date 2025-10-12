@@ -71,6 +71,8 @@ $c: ".c-base-loader-network-check-row";
     align-items: center;
   }
 
+  // --> KEYFRAMES <--
+
   @keyframes l1 {
     0% {
       background-position: right;

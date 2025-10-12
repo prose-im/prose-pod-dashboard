@@ -16,7 +16,6 @@
     }
   ]`
 )
-
   .c-input-error-message__content
     base-icon(
       class="c-input-error-message__icon"

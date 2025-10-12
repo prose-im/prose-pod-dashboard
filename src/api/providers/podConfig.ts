@@ -44,13 +44,13 @@ const POD_CONFIG_PREFIX = "/v1/pod/config";
  * ************************************************************************* */
 
 class APIPodConfig {
-  /** CONFIGURATION **/
+  /** BASE **/
 
   async getPodConfig(): Promise<PodConfig> {
     return (await Api.client.get(`${POD_CONFIG_PREFIX}`)).data;
   }
 
-  /** POD ADDRESS **/
+  /** ADDRESS **/
 
   async getPodAddress(): Promise<PodAddress> {
     return (await Api.client.get(`${POD_CONFIG_PREFIX}/address`)).data;

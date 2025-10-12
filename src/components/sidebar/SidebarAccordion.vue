@@ -117,6 +117,8 @@ $c: ".c-sidebar-accordion";
 #{$c} {
   margin-block-end: 45px;
 
+  // --> MEDIA QUERIES <--
+
   @media (max-width: 768px) {
     width: fit-content;
   }

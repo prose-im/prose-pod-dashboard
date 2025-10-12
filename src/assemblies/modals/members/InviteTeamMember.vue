@@ -254,7 +254,6 @@ $c: ".a-invite-team-member";
     margin-left: 9px;
   }
 
-  /// Displays
   #{$c}__display-none {
     display: none;
   }

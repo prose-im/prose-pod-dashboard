@@ -24,6 +24,8 @@ interface LoginResponse {
  * ************************************************************************* */
 
 class APIAuth {
+  /** SESSION **/
+
   async login(username: string, password: string): Promise<LoginResponse> {
     return (
       await Api.client.post("/v1/login", undefined, {
@@ -34,6 +36,8 @@ class APIAuth {
       })
     ).data;
   }
+
+  /** RESET **/
 
   async setPasswordResetTokensUse(
     token: string,
