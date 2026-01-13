@@ -144,7 +144,7 @@ export default {
       // --> DATA <--
       stepThreeErrors: ["Field required", "Field required", "Field required"],
       stepThreeRules: [
-        { alpha_spaces: true, required: true },
+        { xmpp_username: true, required: true },
         { min: 8, required: true },
         { required: true }
       ],

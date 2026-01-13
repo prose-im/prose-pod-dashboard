@@ -95,11 +95,25 @@ div(
 // NPM
 import { codes as keyCodes } from "keycode";
 import { defineRule, Field } from "vee-validate";
-import { alpha_spaces, email, max, min, required } from "@vee-validate/rules";
+import { not_one_of, email, max, min, required } from "@vee-validate/rules";
+
+/** See [XEP-0106: JID Escaping](https://xmpp.org/extensions/xep-0106.html). */
+const DISALLOWED_XMPP_NODE_CHARS = [
+  '"', // U+0022
+  "&", // U+0026
+  "'", // U+0027
+  "/", // U+002F
+  ":", // U+003A
+  "<", // U+003C
+  ">", // U+003E
+  "@" // U+0040
+];
 
 defineRule("required", required);
 defineRule("email", email);
-defineRule("alpha_spaces", alpha_spaces);
+defineRule("xmpp_username", (value: string) => {
+  return not_one_of(value, DISALLOWED_XMPP_NODE_CHARS);
+});
 defineRule("max", max);
 defineRule("min", min);
 
