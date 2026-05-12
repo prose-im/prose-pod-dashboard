@@ -16,6 +16,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
+    "@microsoft/fetch-event-source": "2.0.1",
     "@vee-validate/rules": "^4.15.0",
     "axios": "1.7.7",
     "browser-image-resizer": "^2.4.1",
