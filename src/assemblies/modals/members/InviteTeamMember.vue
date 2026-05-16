@@ -46,7 +46,7 @@ base-modal(
       base-modal-input-block(
         v-model="inviteUserName"
         :display-error="errors?.username && meta.touched"
-        :rules="{ alpha_spaces: true, required: true}"
+        :rules="{ xmpp_username: true, required: true}"
         error-message="This field is required"
         label="Username"
         name="username"
